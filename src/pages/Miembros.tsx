@@ -107,7 +107,7 @@ const LogoImage: React.FC<{ name: string; route: string }> = ({ name, route }) =
   if (hasError || !imgSrc) {
     return (
       <div className="text-center w-full">
-        <div className="text-base font-bold text-indigo-900 leading-tight">{name}</div>
+        <div className="text-base font-bold leading-tight" style={{ color: "var(--regu-gray-900)" }}>{name}</div>
       </div>
     );
   }
@@ -251,7 +251,7 @@ const Miembros: React.FC = () => {
         description="El Foro Latinoamericano de Entes Reguladores de Telecomunicaciones está conformado por 23 países 
         de Latinoamérica y Europa (Italia, Portugal y España)."
       />
-      <div className="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-b from-indigo-50/50 to-indigo-100/40">
+      <div className="w-full py-12 md:py-24 lg:py-32" style={{ background: "linear-gradient(to bottom, var(--regu-offwhite), var(--regu-gray-100))" }}>
         <div className="container px-4 md:px-6 mx-auto max-w-6xl">
 
         {/* Search and Filter Section for Entes Reguladores */}
@@ -262,22 +262,24 @@ const Miembros: React.FC = () => {
           variants={fadeIn}
           className="mb-8"
         >
-          <div className="bg-white/90 rounded-2xl p-6 shadow-md border border-indigo-200">
+          <div className="bg-white rounded-2xl p-6 shadow-md border" style={{ borderColor: "var(--regu-gray-100)", boxShadow: "0 4px 20px rgba(22, 61, 89, 0.06)" }}>
             <div className="flex flex-col md:flex-row gap-4 items-center">
               {/* Search Input */}
               <div className="flex-1 w-full md:w-auto relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-indigo-400" />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5" style={{ color: "var(--regu-gray-500)" }} />
                 <Input
                   type="text"
                   placeholder="Buscar por país o agencia..."
                   value={enteSearchTerm}
                   onChange={(e) => setEnteSearchTerm(e.target.value)}
-                  className="pl-10 pr-4 py-2.5 w-full border-indigo-200 focus:border-lime-500 focus:ring-lime-500"
+                  className="pl-10 pr-4 py-2.5 w-full rounded-lg border focus:ring-2 focus:ring-offset-0"
+                  style={{ borderColor: "var(--regu-gray-100)", color: "var(--regu-gray-900)" }}
                 />
                 {enteSearchTerm && (
                   <button
                     onClick={() => setEnteSearchTerm('')}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-indigo-400 hover:text-indigo-600"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 hover:opacity-80"
+                    style={{ color: "var(--regu-gray-500)" }}
                   >
                     <X className="w-4 h-4" />
                   </button>
@@ -289,7 +291,8 @@ const Miembros: React.FC = () => {
                 <select
                   value={selectedEnteCountry || ''}
                   onChange={(e) => setSelectedEnteCountry(e.target.value || null)}
-                  className="w-full md:w-48 px-4 py-2.5 border border-indigo-200 rounded-lg focus:border-lime-500 focus:ring-lime-500 text-indigo-900 bg-white"
+                  className="w-full md:w-48 px-4 py-2.5 border rounded-lg bg-white focus:ring-2 focus:ring-offset-0"
+                  style={{ borderColor: "var(--regu-gray-100)", color: "var(--regu-gray-900)" }}
                 >
                   <option value="">Todos los países</option>
                   {uniqueEnteCountries.map((country) => (
@@ -306,7 +309,8 @@ const Miembros: React.FC = () => {
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="mt-4 text-sm text-indigo-600"
+                className="mt-4 text-sm"
+                style={{ color: "var(--regu-blue)" }}
               >
                 {filteredEntesReguladores.length} {filteredEntesReguladores.length === 1 ? 'resultado encontrado' : 'resultados encontrados'}
               </motion.div>
@@ -321,9 +325,9 @@ const Miembros: React.FC = () => {
           variants={fadeIn}
           className="mb-12"
         >
-          <div className="bg-white/90 rounded-2xl p-8 shadow-md border border-indigo-200">
+          <div className="bg-white rounded-2xl p-8 shadow-md border" style={{ borderColor: "var(--regu-gray-100)", boxShadow: "0 4px 20px rgba(22, 61, 89, 0.06)" }}>
             {filteredEntesReguladores.length > 0 ? (
-              <div className="overflow-x-auto overflow-y-hidden scrollbar-thin" style={{ scrollbarWidth: 'thin', scrollbarColor: 'rgb(129 140 248) rgba(129, 140, 248, 0.1)', WebkitOverflowScrolling: 'touch' }}>
+              <div className="overflow-x-auto overflow-y-hidden scrollbar-thin" style={{ scrollbarWidth: "thin", scrollbarColor: "var(--regu-gray-500) rgba(22, 61, 89, 0.1)", WebkitOverflowScrolling: "touch" }}>
                 <div className="flex gap-8 items-center min-w-max pb-4 px-2">
                   {filteredEntesReguladores.map((ente, index) => (
                     <Link key={index} to={ente.route}>
@@ -333,17 +337,18 @@ const Miembros: React.FC = () => {
                         transition={{ duration: 0.4, delay: index * 0.03 }}
                         viewport={{ once: true }}
                         whileHover={{ scale: 1.05, y: -5 }}
-                        className="flex-shrink-0 flex flex-col items-center justify-center min-w-[200px] max-w-[250px] px-6 py-6 bg-indigo-50/50 rounded-xl border border-indigo-200 hover:border-green-500/50 transition-all cursor-pointer group"
+                        className="flex-shrink-0 flex flex-col items-center justify-center min-w-[200px] max-w-[250px] px-6 py-6 rounded-xl border transition-all cursor-pointer group"
+                        style={{ backgroundColor: "var(--regu-offwhite)", borderColor: "var(--regu-gray-100)" }}
                       >
-                        <div className="w-32 h-32 mb-3 flex items-center justify-center bg-white rounded-lg p-4 shadow-sm group-hover:shadow-md transition-shadow border border-indigo-100 relative">
+                        <div className="w-32 h-32 mb-3 flex items-center justify-center bg-white rounded-lg p-4 shadow-sm group-hover:shadow-md transition-shadow border relative" style={{ borderColor: "var(--regu-gray-100)" }}>
                           <LogoImage name={ente.name} route={ente.route} />
                         </div>
                         <div className="text-center">
                           {ente.fullName && (
-                            <p className="text-xs text-indigo-600 mb-1 leading-tight">{ente.fullName}</p>
+                            <p className="text-xs mb-1 leading-tight" style={{ color: "var(--regu-blue)" }}>{ente.fullName}</p>
                           )}
-                          <p className="text-xs text-indigo-700 font-medium mb-2">{ente.country}</p>
-                          <div className="text-xs text-green-600 font-medium flex items-center justify-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                          <p className="text-xs font-medium mb-2" style={{ color: "var(--regu-gray-700)" }}>{ente.country}</p>
+                          <div className="text-xs font-medium flex items-center justify-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity" style={{ color: "var(--regu-blue)" }}>
                             Ver más <ExternalLink className="w-3 h-3" />
                           </div>
                         </div>
@@ -354,15 +359,16 @@ const Miembros: React.FC = () => {
               </div>
             ) : (
               <div className="text-center py-12">
-                <Globe className="w-16 h-16 text-indigo-300 mx-auto mb-4" />
-                <p className="text-indigo-600 text-lg font-medium">No se encontraron resultados</p>
-                <p className="text-indigo-500 text-sm mt-2">Intenta con otros términos de búsqueda</p>
+                <Globe className="w-16 h-16 mx-auto mb-4" style={{ color: "var(--regu-gray-500)" }} />
+                <p className="text-lg font-medium" style={{ color: "var(--regu-gray-700)" }}>No se encontraron resultados</p>
+                <p className="text-sm mt-2" style={{ color: "var(--regu-gray-500)" }}>Intenta con otros términos de búsqueda</p>
                 <button
                   onClick={() => {
                     setEnteSearchTerm('');
                     setSelectedEnteCountry(null);
                   }}
-                  className="mt-4 text-lime-600 hover:text-lime-700 font-medium text-sm"
+                  className="mt-4 font-medium text-sm hover:opacity-90"
+                  style={{ color: "var(--regu-blue)" }}
                 >
                   Limpiar filtros
                 </button>
@@ -378,10 +384,10 @@ const Miembros: React.FC = () => {
           variants={fadeIn}
           className="text-center mb-12"
         >
-          <div className="inline-block rounded-full bg-indigo-100 border border-indigo-300 text-indigo-700 px-4 py-1 text-sm font-medium mb-4">
+          <div className="inline-block rounded-full border px-4 py-1 text-sm font-medium mb-4" style={{ backgroundColor: "rgba(68, 137, 198, 0.12)", borderColor: "var(--regu-blue)", color: "var(--regu-blue)" }}>
             Países Miembros
           </div>
-          <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-indigo-900 mb-6">
+          <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-6" style={{ color: "var(--regu-gray-900)" }}>
             Red de Cooperación Regional
           </h2>
         </motion.div>
@@ -397,7 +403,7 @@ const Miembros: React.FC = () => {
               whileHover={{ scale: 1.05 }}
               className="group cursor-pointer"
             >
-              <div className="rounded-xl bg-white/90 border border-indigo-200 p-6 text-center hover:border-green-500/50 transition-all h-full flex flex-col items-center justify-center shadow-sm hover:shadow-md">
+              <div className="rounded-xl bg-white border p-6 text-center transition-all h-full flex flex-col items-center justify-center shadow-sm hover:shadow-md" style={{ borderColor: "var(--regu-gray-100)" }}>
                 <div className="w-16 h-12 mb-3 rounded overflow-hidden shadow-lg group-hover:scale-110 transition-transform relative">
                   <img 
                     src={`https://flagcdn.com/w160/${country.code}.png`}
@@ -414,9 +420,9 @@ const Miembros: React.FC = () => {
                   />
                 </div>
                 <div className="hidden">
-                  <Globe className="w-8 h-8 text-green-500 mb-3" />
+                  <Globe className="w-8 h-8 mb-3" style={{ color: "var(--regu-blue)" }} />
                 </div>
-                <p className="text-sm font-medium text-indigo-900">{country.name}</p>
+                <p className="text-sm font-medium" style={{ color: "var(--regu-gray-900)" }}>{country.name}</p>
               </div>
             </motion.div>
           ))}
@@ -431,28 +437,29 @@ const Miembros: React.FC = () => {
           className="mb-12"
         >
           <div className="text-center mb-8">
-            <div className="inline-block rounded-full bg-green-100 border border-green-300 text-green-700 px-4 py-1 text-sm font-medium mb-4">
+            <div className="inline-block rounded-full border px-4 py-1 text-sm font-medium mb-4" style={{ backgroundColor: "rgba(68, 137, 198, 0.12)", borderColor: "var(--regu-blue)", color: "var(--regu-blue)" }}>
               Directorio
             </div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-indigo-900 mb-4">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4" style={{ color: "var(--regu-gray-900)" }}>
               Directorio por Autoridades
             </h2>
-            <p className="text-lg text-indigo-800 max-w-3xl mx-auto">
+            <p className="text-lg max-w-3xl mx-auto" style={{ color: "var(--regu-gray-700)" }}>
               Consulte aquí el directorio completo de la organización con información de contacto de cada país miembro.
             </p>
           </div>
 
           {/* Filtros y búsqueda */}
-          <div className="bg-white/90 rounded-2xl p-6 shadow-md border border-indigo-200 mb-8">
+          <div className="bg-white rounded-2xl p-6 shadow-md border mb-8" style={{ borderColor: "var(--regu-gray-100)", boxShadow: "0 4px 20px rgba(22, 61, 89, 0.06)" }}>
             <div className="flex flex-col md:flex-row gap-4 mb-6">
               <div className="flex-1 relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-indigo-400 w-5 h-5" />
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" style={{ color: "var(--regu-gray-500)" }} />
                 <Input
                   type="text"
                   placeholder="Buscar por país, nombre, cargo..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10 w-full border-indigo-200 focus:border-green-500 focus:ring-green-500"
+                  className="pl-10 w-full rounded-lg border focus:ring-2 focus:ring-offset-0"
+                  style={{ borderColor: "var(--regu-gray-100)", color: "var(--regu-gray-900)" }}
                 />
               </div>
               <div className="flex gap-2 flex-wrap">
@@ -460,11 +467,12 @@ const Miembros: React.FC = () => {
                   <button
                     key={country}
                     onClick={() => setSelectedCountry(selectedCountry === country ? null : country)}
-                    className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                    className="px-4 py-2 rounded-full text-sm font-medium transition-all"
+                    style={
                       selectedCountry === country
-                        ? 'bg-green-500 text-white shadow-md'
-                        : 'bg-indigo-100 text-indigo-700 hover:bg-indigo-200'
-                    }`}
+                        ? { backgroundColor: "var(--regu-blue)", color: "white", boxShadow: "0 2px 8px rgba(22, 61, 89, 0.15)" }
+                        : { backgroundColor: "var(--regu-gray-100)", color: "var(--regu-gray-700)" }
+                    }
                   >
                     {country}
                   </button>
@@ -474,10 +482,11 @@ const Miembros: React.FC = () => {
             
             {selectedCountry && (
               <div className="flex items-center gap-2 mb-4">
-                <span className="text-sm text-indigo-700">Filtro activo:</span>
+                <span className="text-sm" style={{ color: "var(--regu-gray-700)" }}>Filtro activo:</span>
                 <button
                   onClick={() => setSelectedCountry(null)}
-                  className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-green-100 text-green-700 text-sm font-medium hover:bg-green-200 transition-colors"
+                  className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm font-medium transition-colors"
+                  style={{ backgroundColor: "rgba(68, 137, 198, 0.12)", color: "var(--regu-blue)" }}
                 >
                   {selectedCountry}
                   <X className="w-4 h-4" />
@@ -498,40 +507,41 @@ const Miembros: React.FC = () => {
                   transition={{ duration: 0.3, delay: index * 0.03 }}
                   whileHover={{ y: -5, transition: { duration: 0.2 } }}
                 >
-                  <Card className="bg-white/90 border-indigo-200 h-full shadow-md hover:shadow-lg transition-all hover:border-green-500/50">
+                  <Card className="bg-white border h-full shadow-md hover:shadow-lg transition-all" style={{ borderColor: "var(--regu-gray-100)", boxShadow: "0 4px 20px rgba(22, 61, 89, 0.06)" }}>
                     <CardContent className="p-6">
                       <div className="flex items-start justify-between mb-4">
                         <div className="flex-1">
-                          <h3 className="text-xl font-bold text-indigo-900 mb-2">{item.pais}</h3>
+                          <h3 className="text-xl font-bold mb-2" style={{ color: "var(--regu-gray-900)" }}>{item.pais}</h3>
                         </div>
-                        <Globe className="w-5 h-5 text-green-600 flex-shrink-0 mt-1" />
+                        <Globe className="w-5 h-5 flex-shrink-0 mt-1" style={{ color: "var(--regu-blue)" }} />
                       </div>
                       
                       <div className="space-y-4">
                         <div>
                           <div className="flex items-center gap-2 mb-1">
-                            <User className="w-4 h-4 text-indigo-600" />
-                            <span className="text-xs font-semibold text-indigo-700 uppercase tracking-wide">Presidente</span>
+                            <User className="w-4 h-4" style={{ color: "var(--regu-blue)" }} />
+                            <span className="text-xs font-semibold uppercase tracking-wide" style={{ color: "var(--regu-gray-700)" }}>Presidente</span>
                           </div>
-                          <p className="text-sm text-indigo-900 font-medium pl-6">{item.presidente}</p>
+                          <p className="text-sm font-medium pl-6" style={{ color: "var(--regu-gray-900)" }}>{item.presidente}</p>
                         </div>
                         
                         <div>
                           <div className="flex items-center gap-2 mb-1">
-                            <User className="w-4 h-4 text-indigo-600" />
-                            <span className="text-xs font-semibold text-indigo-700 uppercase tracking-wide">Corresponsal</span>
+                            <User className="w-4 h-4" style={{ color: "var(--regu-blue)" }} />
+                            <span className="text-xs font-semibold uppercase tracking-wide" style={{ color: "var(--regu-gray-700)" }}>Corresponsal</span>
                           </div>
-                          <p className="text-sm text-indigo-900 font-medium pl-6">{item.corresponsal}</p>
+                          <p className="text-sm font-medium pl-6" style={{ color: "var(--regu-gray-900)" }}>{item.corresponsal}</p>
                         </div>
                         
                         <div>
                           <div className="flex items-center gap-2 mb-1">
-                            <Mail className="w-4 h-4 text-indigo-600" />
-                            <span className="text-xs font-semibold text-indigo-700 uppercase tracking-wide">Correo</span>
+                            <Mail className="w-4 h-4" style={{ color: "var(--regu-blue)" }} />
+                            <span className="text-xs font-semibold uppercase tracking-wide" style={{ color: "var(--regu-gray-700)" }}>Correo</span>
                           </div>
                           <a
                             href={`mailto:${item.correo}`}
-                            className="text-sm text-green-600 hover:text-green-700 font-medium pl-6 break-all transition-colors"
+                            className="text-sm font-medium pl-6 break-all transition-colors hover:opacity-90"
+                            style={{ color: "var(--regu-blue)" }}
                           >
                             {item.correo}
                           </a>
@@ -539,10 +549,10 @@ const Miembros: React.FC = () => {
                         
                         <div>
                           <div className="flex items-center gap-2 mb-1">
-                            <Briefcase className="w-4 h-4 text-indigo-600" />
-                            <span className="text-xs font-semibold text-indigo-700 uppercase tracking-wide">Cargo</span>
+                            <Briefcase className="w-4 h-4" style={{ color: "var(--regu-blue)" }} />
+                            <span className="text-xs font-semibold uppercase tracking-wide" style={{ color: "var(--regu-gray-700)" }}>Cargo</span>
                           </div>
-                          <p className="text-sm text-indigo-800 pl-6 leading-relaxed">{item.cargo}</p>
+                          <p className="text-sm pl-6 leading-relaxed" style={{ color: "var(--regu-gray-700)" }}>{item.cargo}</p>
                         </div>
                       </div>
                     </CardContent>
@@ -554,13 +564,14 @@ const Miembros: React.FC = () => {
 
           {filteredDirectorio.length === 0 && (
             <div className="text-center py-12">
-              <p className="text-lg text-indigo-700 mb-4">No se encontraron resultados</p>
+              <p className="text-lg mb-4 font-medium" style={{ color: "var(--regu-gray-700)" }}>No se encontraron resultados</p>
               <button
                 onClick={() => {
                   setSearchTerm('');
                   setSelectedCountry(null);
                 }}
-                className="text-green-600 hover:text-green-700 font-medium"
+                className="font-medium hover:opacity-90"
+                style={{ color: "var(--regu-blue)" }}
               >
                 Limpiar filtros
               </button>
@@ -573,10 +584,11 @@ const Miembros: React.FC = () => {
           whileInView="visible"
           viewport={{ once: true }}
           variants={fadeIn}
-          className="bg-white/90 border border-indigo-200 rounded-2xl p-8 shadow-md"
+          className="bg-white border rounded-2xl p-8 shadow-md"
+          style={{ borderColor: "var(--regu-gray-100)", boxShadow: "0 4px 20px rgba(22, 61, 89, 0.06)" }}
         >
-          <h2 className="text-2xl font-bold text-indigo-900 mb-4">Sobre los Miembros</h2>
-          <div className="space-y-4 text-indigo-800">
+          <h2 className="text-2xl font-bold mb-4" style={{ color: "var(--regu-gray-900)" }}>Sobre los Miembros</h2>
+          <div className="space-y-4" style={{ color: "var(--regu-gray-700)" }}>
             <p>
               Los países miembros de REGULATEL representan a los principales entes reguladores de 
               telecomunicaciones de América Latina. Cada miembro contribuye con su experiencia y 

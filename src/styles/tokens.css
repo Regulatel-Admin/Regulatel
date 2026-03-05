@@ -16,6 +16,7 @@
   --regu-offwhite: #FAFCF6;     /* Blanco roto */
   --regu-gray-100: #E6E7DF;      /* Gris claro (fondos suaves) */
   --regu-gray-500: #7E909E;     /* Gris azulado (texto secundario) */
+  --regu-gray-700: #4A5568;     /* Gris medio (etiquetas, texto secundario fuerte) */
   --regu-gray-900: #1C1C1C;     /* Gris oscuro (texto) */
 
   /* Acento editorial sección Noticias (estilo BEREC: etiquetas + "Leer más") */
