@@ -1,0 +1,54 @@
+import { Link } from "react-router-dom";
+import { Newspaper, Calendar, Hash, FileText, BookOpen } from "lucide-react";
+
+const cards = [
+  { to: "/admin/noticias", icon: Newspaper, title: "Noticias", desc: "Añadir, editar o eliminar noticias. Se publican en la sección Noticias." },
+  { to: "/admin/eventos", icon: Calendar, title: "Eventos", desc: "Gestionar eventos que aparecen en la home y en la sección Eventos." },
+  { to: "/admin/cifras", icon: Hash, title: "REGULATEL en cifras", desc: "Modificar los números (grupos de trabajo, países, etc.)." },
+  { to: "/admin/documentos", icon: FileText, title: "Documentos", desc: "Subir documentos y colocarlos en su sección correcta." },
+  { to: "/admin/revista", icon: BookOpen, title: "Revista Digital", desc: "Añadir ediciones de la revista digital." },
+];
+
+export default function AdminDashboard() {
+  return (
+    <div>
+      <h1
+        className="mb-2 text-2xl font-bold"
+        style={{ color: "var(--regu-gray-900)" }}
+      >
+        Panel de administración
+      </h1>
+      <p className="mb-8 text-sm" style={{ color: "var(--regu-gray-500)" }}>
+        Elige una sección para gestionar el contenido de la página.
+      </p>
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {cards.map(({ to, icon: Icon, title, desc }) => (
+          <Link
+            key={to}
+            to={to}
+            className="flex gap-4 rounded-xl border bg-white p-5 shadow-sm transition hover:shadow-md"
+            style={{ borderColor: "var(--regu-gray-100)" }}
+          >
+            <div
+              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg"
+              style={{
+                backgroundColor: "rgba(68, 137, 198, 0.12)",
+                color: "var(--regu-blue)",
+              }}
+            >
+              <Icon className="h-5 w-5" />
+            </div>
+            <div>
+              <h2 className="font-bold" style={{ color: "var(--regu-gray-900)" }}>
+                {title}
+              </h2>
+              <p className="mt-1 text-sm" style={{ color: "var(--regu-gray-500)" }}>
+                {desc}
+              </p>
+            </div>
+          </Link>
+        ))}
+      </div>
+    </div>
+  );
+}

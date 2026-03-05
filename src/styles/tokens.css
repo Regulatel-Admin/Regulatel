@@ -1,0 +1,274 @@
+/**
+ * Design tokens — colores institucionales REGULATEL.
+ * Base / institucional + neutros. Salmón solo para acento editorial puntual.
+ */
+
+:root {
+  /* ——— Paleta REGULATEL (HEX + RGB) ——— */
+  --regu-navy: #163D59;           /* Azul petróleo (principal) — RGB 22, 61, 89 */
+  --regu-navy-deep: #051329;     /* Azul noche (muy oscuro / footer) — RGB 5, 19, 41 */
+  --regu-lime: #C5DC0B;          /* Verde lima (acento 1) — RGB 197, 220, 11 */
+  --regu-lime-alt: #B5E014;      /* Verde lima (acento 2) — RGB 181, 224, 20 */
+  --regu-blue: #4489C6;          /* Azul medio (links/títulos) — RGB 68, 137, 198 */
+  --regu-teal: #33A4B4;          /* Turquesa (líneas/iconos) — RGB 51, 164, 180 */
+  --regu-salmon: #FC9187;        /* Salmón (acento editorial, usar con cuidado) — RGB 252, 145, 135 */
+  --regu-white: #FFFFFF;
+  --regu-offwhite: #FAFCF6;     /* Blanco roto */
+  --regu-gray-100: #E6E7DF;      /* Gris claro (fondos suaves) */
+  --regu-gray-500: #7E909E;     /* Gris azulado (texto secundario) */
+  --regu-gray-900: #1C1C1C;     /* Gris oscuro (texto) */
+
+  /* Acento editorial sección Noticias (estilo BEREC: etiquetas + "Leer más") */
+  --news-accent: #C4005A;
+
+  /* ——— Tokens de UI (mapeados a paleta REGULATEL) ——— */
+  --token-navy: var(--regu-navy);
+  --token-navy-deep: var(--regu-navy-deep);
+  --token-lime: var(--regu-lime);
+  --token-lime-alt: var(--regu-lime-alt);
+  --token-blue: var(--regu-blue);
+  --token-teal: var(--regu-teal);
+  --token-accent: var(--regu-lime);           /* CTAs, etiquetas, estado activo */
+  --token-accent-hover: var(--regu-lime-alt);
+  --token-surface: var(--regu-white);
+  --token-neutral-light: var(--regu-gray-100);
+  --token-text-primary: var(--regu-gray-900);
+  --token-text-secondary: var(--regu-gray-500);
+  --token-border: rgba(22, 61, 89, 0.14);
+  --token-page-bg: var(--regu-offwhite);
+
+  /* ——— Radius ——— */
+  --token-radius-card: 16px;
+  --token-radius-button: 10px;
+
+  /* ——— Shadows (navy 22,61,89) ——— */
+  --token-shadow-card: 0 10px 30px rgba(22, 61, 89, 0.12), 0 2px 6px rgba(22, 61, 89, 0.06);
+  --token-shadow-hover: 0 16px 40px rgba(22, 61, 89, 0.16), 0 6px 14px rgba(22, 61, 89, 0.08);
+
+  /* ——— Gradient hero (azul petróleo → azul medio → verde lima) ——— */
+  --token-gradient-hero: linear-gradient(90deg, #163D59 0%, #4489C6 45%, #C5DC0B 100%);
+  --hero-berec-min-height: 560px;
+  --hero-berec-padding-x: 24px;
+  /* Wrapper del bloque de cards: max-width idéntico a BEREC (~1200px) */
+  --hero-berec-cards-max-width: 1200px;
+  /* Separación entre headline y bloque de cards (BEREC: ~40px) */
+  --hero-berec-headline-margin-bottom: 40px;
+  /* Gap entre cards (BEREC: 24px) */
+  --hero-berec-cards-gap: 24px;
+  /* Gap entre fila 1 y fila 2 de cards */
+  --hero-berec-cards-row-gap: 24px;
+  /* Padding vertical del hero (top/bottom) para no verse apretado */
+  --hero-berec-padding-top: 48px;
+  --hero-berec-padding-bottom: 56px;
+  /* Headline: tamaño más protagonista como BEREC */
+  --hero-berec-hashtag-size: 1.75rem;
+  --hero-berec-title-size: clamp(2.25rem, 5vw, 3.5rem);
+
+  /* ——— Typography ——— */
+  --token-font-heading: "Montserrat", Arial, Helvetica, sans-serif;
+  --token-font-body: "Inter", Arial, Helvetica, sans-serif;
+  --token-font-size-base: 16px;
+  --base-font-size: 16px;
+  --token-line-height-base: 1.5;
+  /* Escalado global vía data-font (sm | md | lg) — control a- a a+ */
+  --font-scale: 1;
+  --token-heading-h2-size: 26px;
+  --token-heading-h3-size: 19px;
+  --token-nav-font-size: 13px;
+  --token-nav-font-weight: 700;
+  --token-nav-letter-spacing: 0.07em;
+
+  /* ——— Spacing (header / mega menu) ——— */
+  --token-header-padding-y: 20px;
+  /* Header 2-row BEREC spacing */
+  --header-padding-top: 20px;
+  --header-top-row-padding-bottom: 18px;
+  --header-nav-row-padding-top: 18px;
+  --header-nav-row-padding-bottom: 10px;
+  --header-nav-item-gap: 48px;
+  --header-separator: 1px solid rgba(22, 61, 89, 0.12);
+  /* Top bar */
+  --topbar-bg: var(--regu-white);
+  --topbar-border: 1px solid var(--regu-gray-100);
+  --topbar-padding-block: 11px;
+  --topbar-wrap-max: 1240px;
+  --topbar-wrap-padding-x: 24px;
+  --topbar-logo-height: 36px;
+  --topbar-search-height: 39px;
+  --topbar-search-bg: var(--regu-white);
+  --topbar-search-border: 1px solid rgba(22, 61, 89, 0.22);
+  --topbar-search-radius: 10px;
+  --topbar-search-placeholder: var(--regu-gray-500);
+  --topbar-search-focus-border: rgba(68, 137, 198, 0.7);
+  --topbar-search-focus-ring: 0 0 0 3px rgba(68, 137, 198, 0.15);
+  --topbar-subscribe-height: 39px;
+  --topbar-subscribe-radius: 12px;
+  --topbar-gap-logo-search: 20px;
+  --topbar-gap-search-search: 11px;
+  --topbar-gap-aaa-icons: 15px;
+  --topbar-gap-between-icons: 13px;
+  --topbar-gap-icons-subscribe: 17px;
+  --token-mega-padding: 24px;
+  --token-mega-gap: 16px;
+  --token-container-max: 1240px;
+  --token-gutter: 24px;
+
+  /* ——— Mega menu ——— */
+  --menu-label: 13px;
+  --mega-panel-bg: var(--regu-white);
+  --mega-panel-border-bottom: 1px solid rgba(22, 61, 89, 0.12);
+  --mega-wrapper-max: 1160px;
+  --mega-padding-y-top: 38px;
+  --mega-padding-y-bottom: 44px;
+  --mega-padding-x: 16px;
+  --mega-column-gap: 14px;
+  --mega-col-padding-inline: 12px;
+  --mega-col-divider: 1px solid var(--regu-gray-100);
+  --mega-divider: rgba(22, 61, 89, 0.10);
+  --mega-heading-size: 11px;
+  --mega-heading-weight: 700;
+  --mega-heading-spacing: 0.12em;
+  --mega-heading-color: var(--regu-blue);
+  --mega-heading-margin-bottom: 14px;
+  --mega-link-size: 13px;
+  --mega-link-weight: 600;
+  --mega-link-color: var(--regu-gray-900);
+  --mega-link-line-height: 28px;
+  --mega-link-hover-color: var(--regu-blue);
+  --mega-link-hover-underline-offset: 4px;
+  --mega-link-transition-ms: 140ms;
+  /* Nav active/hover underline bar */
+  --nav-underline-height: 2px;
+  --nav-underline-width: 48px;
+  --nav-underline-offset: 11px;
+  --nav-underline-color: var(--regu-lime);
+  /* Header scroll collapse (BEREC-like: TopBar se oculta al hacer scroll) */
+  --header-scroll-threshold: 32px;
+  --topbar-visible-height: 72px;
+  --topbar-collapse-duration: 180ms;
+}
+
+/* Tamaño de fuente global (a- a a+): small / medium / large — escala todo el sitio como BEREC */
+html[data-font="sm"] {
+  --base-font-size: 14px;
+  --font-scale: 0.875;
+  --token-font-size-base: 14px;
+  --token-heading-h2-size: 22.75px;
+  --token-heading-h3-size: 16.625px;
+  --token-nav-font-size: 11.375px;
+  --mega-heading-size: 9.625px;
+  --mega-link-size: 11.375px;
+  --mega-link-line-height: 24.5px;
+  --menu-label: 11.375px;
+}
+html[data-font="md"],
+html:not([data-font]) {
+  --base-font-size: 16px;
+  --font-scale: 1;
+  --token-font-size-base: 16px;
+  --token-heading-h2-size: 26px;
+  --token-heading-h3-size: 19px;
+  --token-nav-font-size: 13px;
+  --mega-heading-size: 11px;
+  --mega-link-size: 13px;
+  --mega-link-line-height: 28px;
+  --menu-label: 13px;
+}
+html[data-font="lg"] {
+  --base-font-size: 18px;
+  --font-scale: 1.125;
+  --token-font-size-base: 18px;
+  --token-heading-h2-size: 29.25px;
+  --token-heading-h3-size: 21.375px;
+  --token-nav-font-size: 14.625px;
+  --mega-heading-size: 12.375px;
+  --mega-link-size: 14.625px;
+  --mega-link-line-height: 31.5px;
+  --menu-label: 14.625px;
+}
+
+/* Header: tamaño de fuente fijo (no escalar con a-/a/a+) */
+.header-font-fixed {
+  --token-nav-font-size: 13px;
+  --mega-heading-size: 11px;
+  --mega-link-size: 13px;
+  --mega-link-line-height: 28px;
+  --menu-label: 13px;
+}
+
+/* Comité Ejecutivo: cards de logo (BEREC-style). Tamaños en rem para que escalen con a-/a/a+. */
+.logoCard {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  border: 1px solid #e8edf3;
+  border-radius: 1.125rem;
+  box-shadow: 0 2px 12px rgba(22, 61, 89, 0.06);
+  overflow: hidden;
+}
+.logoCard img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+/* xl: Presidente, Secretario — 220/180/160 (en rem) */
+.logoCard--xl {
+  width: 10rem;
+  height: 10rem;
+  padding: 1.125rem;
+}
+@media (min-width: 640px) {
+  .logoCard--xl {
+    width: 11.25rem;
+    height: 11.25rem;
+    padding: 1.25rem;
+  }
+}
+@media (min-width: 768px) {
+  .logoCard--xl {
+    width: 13.75rem;
+    height: 13.75rem;
+    padding: 1.375rem;
+  }
+}
+/* lg: Vicepresidentes — 200/170/150 */
+.logoCard--lg {
+  width: 9.375rem;
+  height: 9.375rem;
+  padding: 1rem;
+}
+@media (min-width: 640px) {
+  .logoCard--lg {
+    width: 10.625rem;
+    height: 10.625rem;
+    padding: 1.125rem;
+  }
+}
+@media (min-width: 768px) {
+  .logoCard--lg {
+    width: 12.5rem;
+    height: 12.5rem;
+    padding: 1.25rem;
+  }
+}
+/* md: Miembros del Comité — 190/160/140 (mín 8.75rem) */
+.logoCard--md {
+  width: 8.75rem;
+  height: 8.75rem;
+  padding: 1rem;
+}
+@media (min-width: 640px) {
+  .logoCard--md {
+    width: 10rem;
+    height: 10rem;
+    padding: 1.125rem;
+  }
+}
+@media (min-width: 768px) {
+  .logoCard--md {
+    width: 11.875rem;
+    height: 11.875rem;
+    padding: 1.25rem;
+  }
+}
