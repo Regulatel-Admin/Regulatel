@@ -3,6 +3,10 @@ export interface NavigationItemLink {
   href: string;
   description?: string;
   external?: boolean;
+  /** Si true, el enlace lleva a la pantalla de acceso restringido y muestra icono de candado */
+  restricted?: boolean;
+  /** Microtexto opcional bajo el label (ej: "Solo usuarios autorizados") */
+  subtitle?: string;
   todo?: string;
   children?: NavigationItemLink[];
 }
@@ -81,10 +85,11 @@ export const navigationItems: NavigationItem[] = [
           {
             label: "ASAMBLEAS",
             href: "/gestion?tipo=planes-actas",
+            subtitle: "Solo usuarios autorizados",
             children: [
-              { label: "Acta No. 28", href: "/gestion?tipo=planes-actas&id=acta-2023" },
-              { label: "Acta No. 27", href: "/gestion?tipo=planes-actas&id=acta-27" },
-              { label: "Acta No. 26", href: "/gestion?tipo=planes-actas&id=acta-2023" },
+              { label: "Acta No. 28", href: "/acceso-documentos?doc=acta-2023", restricted: true },
+              { label: "Acta No. 27", href: "/acceso-documentos?doc=acta-27", restricted: true },
+              { label: "Acta No. 26", href: "/acceso-documentos?doc=acta-2023", restricted: true },
             ],
           },
           {

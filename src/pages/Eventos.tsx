@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Search, Filter } from "lucide-react";
 import EventCard from "@/components/home/EventCard";
 import { useEvents } from "@/contexts/AdminDataContext";
+import { EVENTS_SEED } from "@/data/eventsSeed";
 import type { Event } from "@/types/event";
 import { normalizeEvent } from "@/types/event";
 
@@ -60,7 +61,16 @@ export default function Eventos() {
   const [searchParams] = useSearchParams();
   const qFromUrl = searchParams.get("q") ?? "";
   const tabFromUrl = searchParams.get("tab");
-  const events = useEvents();
+  const contextEvents = useEvents();
+  const events = useMemo(() => {
+    const count2025 = contextEvents.filter((e) => e.year === 2025).length;
+    if (count2025 >= 7) return contextEvents;
+    const seed2025 = EVENTS_SEED.filter(
+      (e) => new Date(e.startDate + "T12:00:00").getFullYear() === 2025
+    ).map(normalizeEvent);
+    const rest = contextEvents.filter((e) => e.year !== 2025);
+    return [...rest, ...seed2025].sort((a, b) => b.startDate.localeCompare(a.startDate));
+  }, [contextEvents]);
   const [segment, setSegment] = useState<Segment>(() => {
     if (tabFromUrl === "pasados") return "past";
     if (tabFromUrl === "todos") return "all";

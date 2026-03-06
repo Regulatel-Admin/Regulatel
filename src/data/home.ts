@@ -33,11 +33,84 @@ export const cifrasPorAno: Record<number, CifrasAnuales> = {
     paises: 23,
   },
   2025: {
-    gruposTrabajo: 9,
-    comitesEjecutivos: 2,
-    revistaDigital: 1,
     paises: 23,
+    gruposTrabajo: 8,
+    comitesEjecutivos: 10,
+    revistaDigital: 4,
   },
+};
+
+/** Configuración por año de cada tarjeta: título, subtítulo, fuente clicable. value se obtiene de cifrasPorAno/admin. */
+export interface CifraCardConfig {
+  key: keyof CifrasAnuales;
+  title: string;
+  subtitle: string;
+  sourceLabel: string;
+  sourceUrl: string;
+}
+
+export const cifrasCardsConfig: Record<number, CifraCardConfig[]> = {
+  2026: [
+    {
+      key: "gruposTrabajo",
+      title: "GRUPOS DE TRABAJO",
+      subtitle: "Equipos técnicos activos en agenda regional.",
+      sourceLabel: "Plan de trabajo y estructura",
+      sourceUrl: "/documents/Plan-Trabajo-REGULATEL-2026.pdf",
+    },
+    {
+      key: "comitesEjecutivos",
+      title: "COMITÉS EJECUTIVOS",
+      subtitle: "Instancias de coordinación institucional.",
+      sourceLabel: "Estructura y actas",
+      sourceUrl: "/gestion?tipo=planes-actas",
+    },
+    {
+      key: "revistaDigital",
+      title: "REVISTA DIGITAL",
+      subtitle: "Publicación periódica de avances.",
+      sourceLabel: "Revista Digital REGULATEL",
+      sourceUrl: "/gestion?tipo=revista",
+    },
+    {
+      key: "paises",
+      title: "PAÍSES MIEMBROS",
+      subtitle: "Miembros de REGULATEL en la región.",
+      sourceLabel: "Actas de Asamblea Plenaria",
+      sourceUrl: "/documents/Acta-27-Asamblea-Plenaria-Regulatel.pdf",
+    },
+  ],
+  2025: [
+    {
+      key: "paises",
+      title: "PAÍSES MIEMBROS",
+      subtitle: "Actualizado: 12/2025",
+      sourceLabel: "Acta 27ª Asamblea Plenaria",
+      sourceUrl: "/documents/Acta-27-Asamblea-Plenaria-Regulatel.pdf",
+    },
+    {
+      key: "gruposTrabajo",
+      title: "GRUPOS DE TRABAJO ACTIVOS",
+      subtitle: "Actualizado: 12/2025",
+      sourceLabel: "Plan de trabajo 2026",
+      sourceUrl: "/documents/Plan-Trabajo-REGULATEL-2026.pdf",
+    },
+    {
+      key: "comitesEjecutivos",
+      title: "COMITÉS EJECUTIVOS 2025",
+      subtitle: "Actualizado: 12/2025",
+      sourceLabel: "Balance Presidencia 2025",
+      /* TODO: Conectar PDF cuando esté disponible. Mientras tanto enlace a gestión. */
+      sourceUrl: "/gestion?tipo=planes-actas",
+    },
+    {
+      key: "revistaDigital",
+      title: "REVISTAS DIGITALES 2025",
+      subtitle: "Actualizado: 12/2025",
+      sourceLabel: "Revista Digital REGULATEL",
+      sourceUrl: "/gestion?tipo=revista",
+    },
+  ],
 };
 
 /** Años disponibles, orden descendente (más reciente primero) */
@@ -117,6 +190,18 @@ export const heroClean = {
     "Foro Latinoamericano de Entes Reguladores de Telecomunicaciones (creado en 1998).",
   primaryCta: { label: "EXPLORAR RECURSOS", href: "/recursos" },
   secondaryCta: { label: "VER PRÓXIMOS EVENTOS", href: "/eventos" },
+};
+
+/** Hero institucional/editorial: imagen de fondo + overlay + badge + título + descripción + 2 CTAs */
+export const heroInstitucional = {
+  coverImageUrl: "/images/foto-home-regulatel.png",
+  badge: "Presidencia 2026",
+  title: "Cooperación regulatoria para una transformación digital",
+  titleHighlight: "inclusiva y segura",
+  description:
+    "REGULATEL articula a los entes reguladores de telecomunicaciones de 23 países para promover la cooperación, el intercambio de experiencias y la armonización de políticas públicas en América Latina y Europa.",
+  primaryCta: { label: "Ver plan de trabajo 2026", href: "/gestion?tipo=planes-actas&id=plan-2026" },
+  secondaryCta: { label: "Acceder a documentos oficiales", href: "/gestion" },
 };
 
 /** Bullets de valor para el hero "Qué es REGULATEL" (above the fold) */

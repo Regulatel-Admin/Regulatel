@@ -19,11 +19,11 @@ export interface HomeHeroProProps {
   secondaryCta: { label: string; href: string };
 }
 
-const HERO_OVERLAY = "rgba(0, 0, 0, 0.35)";
+const HERO_OVERLAY = "rgba(0, 0, 0, 0.48)";
 
 /**
- * Hero limpio nivel BEREC: solo fondo + overlay + mensaje (eyebrow, título, subtítulo, bullets, 2 CTAs).
- * Sin cards; layout split: izquierda texto, derecha vacía. min-height 70vh.
+ * Hero limpio nivel BEREC: mapa como textura/editorial de fondo, texto protagonista.
+ * Mapa con opacidad reducida, blur sutil y brillo bajo para no competir con el copy.
  */
 export default function HomeHeroPro({
   coverImageUrl,
@@ -40,7 +40,7 @@ export default function HomeHeroPro({
       className="hero relative w-full overflow-hidden min-h-[70vh]"
       style={{ fontFamily: "var(--token-font-body)" }}
     >
-      {/* Background */}
+      {/* Background: gradiente base + mapa como textura editorial */}
       <div className="absolute inset-0">
         <div
           className="absolute inset-0 h-full w-full"
@@ -51,6 +51,11 @@ export default function HomeHeroPro({
           src={coverImageUrl}
           alt=""
           className="absolute inset-0 h-full w-full object-cover"
+          style={{
+            opacity: 0.42,
+            filter: "blur(1px) brightness(0.72) contrast(0.95)",
+            objectPosition: "38% 50%",
+          }}
           loading="eager"
           onError={(e) => {
             e.currentTarget.style.display = "none";
@@ -58,7 +63,7 @@ export default function HomeHeroPro({
         />
       </div>
 
-      {/* Overlay para legibilidad */}
+      {/* Overlay para legibilidad (más oscuro = fondo más limpio tipo BEREC) */}
       <div
         className="heroOverlay absolute inset-0 z-[1]"
         style={{ backgroundColor: HERO_OVERLAY }}

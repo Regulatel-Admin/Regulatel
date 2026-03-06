@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-import { Newspaper, Calendar, Hash, FileText, BookOpen } from "lucide-react";
+import { Newspaper, Calendar, Hash, FileText, BookOpen, Info } from "lucide-react";
+import { projectInfo } from "@/config/projectInfo";
 
 const cards = [
   { to: "/admin/noticias", icon: Newspaper, title: "Noticias", desc: "Añadir, editar o eliminar noticias. Se publican en la sección Noticias." },
@@ -49,6 +50,25 @@ export default function AdminDashboard() {
           </Link>
         ))}
       </div>
+
+      {/* Información del proyecto (uso interno, no público) */}
+      <section
+        className="mt-12 rounded-xl border bg-[var(--regu-offwhite)] p-5"
+        style={{ borderColor: "var(--regu-gray-100)" }}
+        aria-label="Información del proyecto"
+      >
+        <h2 className="mb-3 flex items-center gap-2 text-sm font-bold uppercase tracking-wide text-[var(--regu-gray-700)]">
+          <Info className="h-4 w-4" />
+          Información del proyecto
+        </h2>
+        <ul className="space-y-1 text-sm text-[var(--regu-gray-600)]">
+          <li><strong>Portal:</strong> {projectInfo.project}</li>
+          <li><strong>Versión inicial desarrollada por:</strong> {projectInfo.initialVersionBy}</li>
+          <li><strong>Cargo:</strong> {projectInfo.role}</li>
+          <li><strong>Correo institucional:</strong> {projectInfo.institutionalEmail}</li>
+          <li><strong>Año:</strong> {projectInfo.year}</li>
+        </ul>
+      </section>
     </div>
   );
 }

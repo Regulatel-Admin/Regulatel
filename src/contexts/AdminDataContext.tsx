@@ -15,19 +15,23 @@ import type { Event } from "@/types/event";
 import { getEventStatus, getEventYear, normalizeEvent, slugifyEventId } from "@/types/event";
 
 const KEY_NEWS = "regulatel_admin_news";
-/** Eventos: modelo Event[] (único source of truth). v2 para no mezclar con formato antiguo. */
-const KEY_EVENTS = "regulatel_admin_events_v2";
+/** Eventos: modelo Event[] (único source of truth). v3 = seed actualizado con 7 eventos 2025. */
+const KEY_EVENTS = "regulatel_admin_events_v3";
 const KEY_CIFRAS = "regulatel_admin_cifras";
 const KEY_CIFRAS_POR_ANO = "regulatel_admin_cifras_por_ano";
 
 function loadEvents(): Event[] {
   const raw = loadJson<unknown>(KEY_EVENTS, []);
-  if (!Array.isArray(raw) || raw.length === 0) return EVENTS_SEED.map(normalizeEvent);
+  const seed = EVENTS_SEED.map(normalizeEvent);
+  if (!Array.isArray(raw) || raw.length === 0) return seed;
   const isNewFormat = raw.every(
     (e: unknown) => e && typeof e === "object" && "startDate" in e && "id" in e
   );
-  if (!isNewFormat) return EVENTS_SEED.map(normalizeEvent);
-  return raw.map((e) => normalizeEvent(e as Event));
+  if (!isNewFormat) return seed;
+  const stored = raw.map((e) => normalizeEvent(e as Event));
+  const count2025 = stored.filter((e) => e.year === 2025).length;
+  if (count2025 < 7) return seed;
+  return stored;
 }
 
 /** Noticia creada/editada por el admin (compatible con listado y detalle) */

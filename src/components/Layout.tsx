@@ -1,3 +1,7 @@
+/**
+ * Portal REGULATEL – Layout principal (header, contenido, footer).
+ * Versión inicial desarrollada por Diego Cuervo (INDOTEL). 2026.
+ */
 import type { ReactNode } from "react";
 import { Link } from "react-router-dom";
 import HeaderMegaMenu from "@/components/layout/HeaderMegaMenu";

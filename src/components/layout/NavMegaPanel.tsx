@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ExternalLink } from "lucide-react";
+import { ExternalLink, Lock } from "lucide-react";
 import type { NavigationColumn, NavigationItemLink } from "@/data/navigation";
 
 interface NavMegaPanelProps {
@@ -48,6 +48,23 @@ function PanelLink({
     );
   }
 
+  if (link.restricted) {
+    return (
+      <span className="block">
+        <Link to={link.href} onClick={onLinkClick} className={baseClass} style={style}>
+          <Lock className="mr-1.5 inline-block h-3.5 w-3.5 shrink-0 opacity-85" aria-hidden />
+          {link.label}
+        </Link>
+        <span
+          className="mt-0.5 block text-xs"
+          style={{ color: "var(--regu-gray-500)", fontWeight: 500 }}
+        >
+          Acceso restringido
+        </span>
+      </span>
+    );
+  }
+
   return (
     <Link to={link.href} onClick={onLinkClick} className={baseClass} style={style}>
       {link.label}
@@ -87,10 +104,12 @@ export default function NavMegaPanel({
           display: "grid",
           gridTemplateColumns:
             columns.length === 3
-              ? "1.25fr 1fr 0.9fr"
-              : `repeat(${columns.length}, 1fr)`,
+              ? "1fr 1fr 1fr"
+              : columns.length === 2
+                ? "1fr 1fr"
+                : `repeat(${columns.length}, 1fr)`,
           columnGap: "var(--mega-column-gap)",
-          maxWidth: "var(--mega-wrapper-max)",
+          maxWidth: columns.length === 2 ? "720px" : "var(--mega-wrapper-max)",
           margin: "0 auto",
           paddingTop: "var(--mega-padding-y-top)",
           paddingBottom: "var(--mega-padding-y-bottom)",
@@ -126,6 +145,14 @@ export default function NavMegaPanel({
               {column.links.map((link) => (
                 <li key={link.label} style={{ margin: 0 }}>
                   <PanelLink link={link} onLinkClick={onLinkClick} />
+                  {link.subtitle && (
+                    <span
+                      className="mt-0.5 block text-xs"
+                      style={{ color: "var(--regu-gray-500)", fontWeight: 500 }}
+                    >
+                      {link.subtitle}
+                    </span>
+                  )}
                   {link.children?.length ? (
                     <ul
                       className="list-none pl-4"

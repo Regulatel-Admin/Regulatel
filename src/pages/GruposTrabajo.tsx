@@ -13,13 +13,16 @@ const fadeIn = {
   },
 };
 
+/** Variante de color institucional: primary (azul/navy) o accent (lima/teal) */
+type GrupoColorVariant = 'primary' | 'accent';
+
 interface GrupoTrabajo {
   title: string;
   description: string;
   coordinadores: string[];
   miembros: string[];
   icon: React.ElementType;
-  color: string;
+  color: GrupoColorVariant;
   imageUrl: string;
   termsUrl?: string;
 }
@@ -37,6 +40,7 @@ const GruposTrabajo: React.FC = () => {
     'mercados-digitales': '/grupos-trabajo/mercados-digitales.jpg',
     'innovacion-mejora-regulatoria': '/grupos-trabajo/innovacion-mejora-regulatoria.jpg',
     'paridad-sociedad-informacion': '/grupos-trabajo/paridad-sociedad-informacion.jpg',
+    'ciberseguridad': '/grupos-trabajo/ciberseguridad.jpg',
   };
 
   // Mapeo de URLs de términos de referencia (usando PDFs locales)
@@ -49,6 +53,7 @@ const GruposTrabajo: React.FC = () => {
     'mercados-digitales': '/documents/grupos-trabajo/terminos-referencia-mercados-digitales.pdf',
     'innovacion-mejora-regulatoria': '/documents/grupos-trabajo/terminos-referencia-innovacion-mejora-regulatoria.pdf',
     'paridad-sociedad-informacion': '/documents/grupos-trabajo/terminos-referencia-paridad-sociedad-informacion.pdf',
+    'ciberseguridad': '/documents/grupos-trabajo/TdR_CIberseguirdad_2026.pdf',
   };
 
   const grupos: GrupoTrabajo[] = [
@@ -58,7 +63,7 @@ const GruposTrabajo: React.FC = () => {
       coordinadores: ['OSIPTEL, Perú'],
       miembros: ['SUTEL, Costa Rica', 'ATT, Bolivia', 'INDOTEL, República Dominicana', 'CRC, Colombia'],
       icon: Shield,
-      color: 'green',
+      color: 'accent',
       imageUrl: gruposImages['proteccion-empoderamiento-usuarios'],
       termsUrl: gruposTerms['proteccion-empoderamiento-usuarios']
     },
@@ -68,7 +73,7 @@ const GruposTrabajo: React.FC = () => {
       coordinadores: ['CRC, Colombia'],
       miembros: ['ASEP, Panamá', 'ATT, Bolivia'],
       icon: Wifi,
-      color: 'indigo',
+      color: 'primary',
       imageUrl: gruposImages['cierre-brecha-calidad'],
       termsUrl: gruposTerms['cierre-brecha-calidad']
     },
@@ -78,7 +83,7 @@ const GruposTrabajo: React.FC = () => {
       coordinadores: ['CRT, México', 'SUTEL, Costa Rica'],
       miembros: ['INDOTEL, República Dominicana', 'ATT, Bolivia'],
       icon: BarChart3,
-      color: 'indigo',
+      color: 'primary',
       imageUrl: gruposImages['indicadores-telecomunicaciones-tic'],
       termsUrl: gruposTerms['indicadores-telecomunicaciones-tic']
     },
@@ -88,7 +93,7 @@ const GruposTrabajo: React.FC = () => {
       coordinadores: ['OSIPTEL, Perú'],
       miembros: ['ANATEL, Brasil', 'INDOTEL, República Dominicana'],
       icon: TrendingUp,
-      color: 'green',
+      color: 'accent',
       imageUrl: gruposImages['fortalecimiento-institucional'],
       termsUrl: gruposTerms['fortalecimiento-institucional']
     },
@@ -98,7 +103,7 @@ const GruposTrabajo: React.FC = () => {
       coordinadores: ['ENACOM, Argentina', 'ANATEL, Brasil'],
       miembros: ['ASEP, Panamá'],
       icon: Network,
-      color: 'indigo',
+      color: 'primary',
       imageUrl: gruposImages['asuntos-internet'],
       termsUrl: gruposTerms['asuntos-internet']
     },
@@ -108,7 +113,7 @@ const GruposTrabajo: React.FC = () => {
       coordinadores: ['CRC, Colombia', 'ANATEL, Brasil'],
       miembros: ['OSIPTEL, Perú (TBC)'],
       icon: Briefcase,
-      color: 'green',
+      color: 'accent',
       imageUrl: gruposImages['mercados-digitales'],
       termsUrl: gruposTerms['mercados-digitales']
     },
@@ -118,7 +123,7 @@ const GruposTrabajo: React.FC = () => {
       coordinadores: ['CRC, Colombia'],
       miembros: ['INDOTEL, República Dominicana', 'ENACOM, Argentina', 'ASEP, Panamá'],
       icon: Sparkles,
-      color: 'indigo',
+      color: 'primary',
       imageUrl: gruposImages['innovacion-mejora-regulatoria'],
       termsUrl: gruposTerms['innovacion-mejora-regulatoria']
     },
@@ -128,9 +133,19 @@ const GruposTrabajo: React.FC = () => {
       coordinadores: ['INDOTEL, República Dominicana', 'CONATEL, Paraguay'],
       miembros: ['ATT, Bolivia'],
       icon: Users,
-      color: 'green',
+      color: 'accent',
       imageUrl: gruposImages['paridad-sociedad-informacion'],
       termsUrl: gruposTerms['paridad-sociedad-informacion']
+    },
+    {
+      title: 'Ciberseguridad',
+      description: 'Impulsar el análisis regulatorio y la adopción de buenas prácticas que contribuyan al fortalecimiento de la seguridad digital en el sector de las telecomunicaciones a nivel regional.',
+      coordinadores: ['INDOTEL, República Dominicana'],
+      miembros: ['ANATEL, Brasil'],
+      icon: Shield,
+      color: 'primary',
+      imageUrl: gruposImages['ciberseguridad'],
+      termsUrl: gruposTerms['ciberseguridad']
     },
   ];
 
@@ -143,7 +158,12 @@ const GruposTrabajo: React.FC = () => {
         trabajan en temas específicos del sector de las telecomunicaciones, compartiendo experiencias 
         y desarrollando soluciones comunes."
       />
-      <div className="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-b from-indigo-50/50 to-indigo-100/40">
+      <div
+        className="w-full py-12 md:py-24 lg:py-32"
+        style={{
+          background: `linear-gradient(180deg, var(--regu-offwhite) 0%, var(--regu-gray-100) 100%)`,
+        }}
+      >
         <div className="container px-4 md:px-6 mx-auto max-w-6xl">
 
         <div className="space-y-8 mb-12">
@@ -156,7 +176,13 @@ const GruposTrabajo: React.FC = () => {
               viewport={{ once: true }}
               whileHover={{ y: -4 }}
             >
-              <Card className="bg-white/90 border-indigo-200 hover:border-green-500/50 transition-all shadow-md hover:shadow-lg group">
+              <Card
+                className="bg-white transition-all shadow-md hover:shadow-lg group"
+                style={{
+                  borderColor: 'var(--token-border)',
+                  borderWidth: '1px',
+                }}
+              >
                 <CardContent className="p-6 md:p-8">
                   <div className="flex flex-col md:flex-row gap-6">
                     {/* Imagen del grupo de trabajo */}
@@ -176,26 +202,26 @@ const GruposTrabajo: React.FC = () => {
                             }
                           }}
                         />
-                        <div className={`icon-fallback w-full h-full rounded-xl ${
-                          grupo.color === 'green' 
-                            ? 'bg-green-500/10' 
-                            : 'bg-indigo-500/10'
-                        } flex items-center justify-center hidden`}>
-                          <grupo.icon className={`w-16 h-16 ${
-                            grupo.color === 'green' 
-                              ? 'text-green-600' 
-                              : 'text-indigo-600'
-                          }`} />
+                        <div
+                          className="icon-fallback w-full h-full rounded-xl flex items-center justify-center hidden"
+                          style={{
+                            backgroundColor: grupo.color === 'accent' ? 'rgba(197, 220, 11, 0.12)' : 'rgba(68, 137, 198, 0.12)',
+                          }}
+                        >
+                          <grupo.icon
+                            className="w-16 h-16"
+                            style={{ color: grupo.color === 'accent' ? 'var(--regu-lime)' : 'var(--regu-blue)' }}
+                          />
                         </div>
                       </div>
                     </div>
 
                     {/* Contenido principal */}
                     <div className="flex-1 min-w-0">
-                      <h3 className="text-xl md:text-2xl font-bold text-indigo-900 mb-3 leading-tight">
+                      <h3 className="text-xl md:text-2xl font-bold mb-3 leading-tight" style={{ color: 'var(--regu-gray-900)' }}>
                         {grupo.title}
                       </h3>
-                      <p className="text-indigo-700 mb-6 leading-relaxed">
+                      <p className="mb-6 leading-relaxed" style={{ color: 'var(--regu-gray-700)' }}>
                         {grupo.description}
                       </p>
 
@@ -203,22 +229,14 @@ const GruposTrabajo: React.FC = () => {
                       <div className="grid md:grid-cols-2 gap-6 mb-6">
                         <div>
                           <div className="flex items-center gap-2 mb-2">
-                            <Briefcase className={`w-4 h-4 ${
-                              grupo.color === 'green' 
-                                ? 'text-green-600' 
-                                : 'text-indigo-600'
-                            }`} />
-                            <span className={`text-sm font-semibold uppercase tracking-wide ${
-                              grupo.color === 'green' 
-                                ? 'text-green-700' 
-                                : 'text-indigo-700'
-                            }`}>
+                            <Briefcase className="w-4 h-4" style={{ color: grupo.color === 'accent' ? 'var(--regu-teal)' : 'var(--regu-blue)' }} />
+                            <span className="text-sm font-semibold uppercase tracking-wide" style={{ color: 'var(--regu-gray-700)' }}>
                               Coordinadores
                             </span>
                           </div>
                           <div className="space-y-1">
                             {grupo.coordinadores.map((coord, idx) => (
-                              <p key={idx} className="text-sm text-indigo-900 font-medium">
+                              <p key={idx} className="text-sm font-medium" style={{ color: 'var(--regu-gray-900)' }}>
                                 {coord}
                               </p>
                             ))}
@@ -227,22 +245,14 @@ const GruposTrabajo: React.FC = () => {
 
                         <div>
                           <div className="flex items-center gap-2 mb-2">
-                            <Users className={`w-4 h-4 ${
-                              grupo.color === 'green' 
-                                ? 'text-green-600' 
-                                : 'text-indigo-600'
-                            }`} />
-                            <span className={`text-sm font-semibold uppercase tracking-wide ${
-                              grupo.color === 'green' 
-                                ? 'text-green-700' 
-                                : 'text-indigo-700'
-                            }`}>
+                            <Users className="w-4 h-4" style={{ color: grupo.color === 'accent' ? 'var(--regu-teal)' : 'var(--regu-blue)' }} />
+                            <span className="text-sm font-semibold uppercase tracking-wide" style={{ color: 'var(--regu-gray-700)' }}>
                               Miembros
                             </span>
                           </div>
                           <div className="space-y-1">
                             {grupo.miembros.map((miembro, idx) => (
-                              <p key={idx} className="text-sm text-indigo-900">
+                              <p key={idx} className="text-sm" style={{ color: 'var(--regu-gray-900)' }}>
                                 {miembro}
                               </p>
                             ))}
@@ -255,11 +265,8 @@ const GruposTrabajo: React.FC = () => {
                         <div className="flex gap-3 flex-wrap">
                           <button
                             onClick={() => setPreviewDoc({ url: grupo.termsUrl!, title: `Términos de Referencia - ${grupo.title}` })}
-                            className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors text-sm shadow-sm hover:shadow-md ${
-                              grupo.color === 'green'
-                                ? 'bg-indigo-500 text-white hover:bg-indigo-600'
-                                : 'bg-indigo-500 text-white hover:bg-indigo-600'
-                            }`}
+                            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors text-sm shadow-sm hover:opacity-90"
+                            style={{ backgroundColor: 'var(--regu-blue)', color: 'white' }}
                           >
                             <Eye className="w-4 h-4" />
                             Vista previa
@@ -267,11 +274,8 @@ const GruposTrabajo: React.FC = () => {
                           <a
                             href={grupo.termsUrl}
                             download
-                            className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors text-sm shadow-sm hover:shadow-md ${
-                              grupo.color === 'green'
-                                ? 'bg-green-500 text-white hover:bg-green-600'
-                                : 'bg-green-500 text-white hover:bg-green-600'
-                            }`}
+                            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors text-sm shadow-sm hover:opacity-90"
+                            style={{ backgroundColor: 'var(--regu-teal)', color: 'white' }}
                           >
                             <Download className="w-4 h-4" />
                             Descargar términos de referencia
@@ -291,10 +295,11 @@ const GruposTrabajo: React.FC = () => {
           whileInView="visible"
           viewport={{ once: true }}
           variants={fadeIn}
-          className="bg-white/90 border border-indigo-200 rounded-2xl p-8 shadow-md"
+          className="bg-white rounded-2xl p-8 shadow-md"
+          style={{ border: '1px solid var(--token-border)' }}
         >
-          <h2 className="text-2xl font-bold text-indigo-900 mb-4">Sobre los Grupos de Trabajo</h2>
-          <div className="space-y-4 text-indigo-800">
+          <h2 className="text-2xl font-bold mb-4" style={{ color: 'var(--regu-gray-900)' }}>Sobre los Grupos de Trabajo</h2>
+          <div className="space-y-4" style={{ color: 'var(--regu-gray-700)' }}>
             <p>
               Los grupos de trabajo de REGULATEL son espacios especializados de colaboración donde los 
               países miembros trabajan en temas específicos del sector de las telecomunicaciones, 
@@ -336,30 +341,38 @@ const GruposTrabajo: React.FC = () => {
               className="fixed inset-4 md:inset-8 lg:inset-12 z-50 flex flex-col bg-white rounded-2xl shadow-2xl overflow-hidden"
             >
               {/* Header del Modal */}
-              <div className="flex items-center justify-between p-4 md:p-6 border-b border-indigo-200 bg-gradient-to-r from-indigo-50 to-green-50">
+              <div
+                className="flex items-center justify-between p-4 md:p-6 border-b"
+                style={{ borderColor: 'var(--token-border)', background: 'var(--regu-offwhite)' }}
+              >
                 <div className="flex items-center gap-3 flex-1 min-w-0">
-                  <div className="w-10 h-10 rounded-full bg-indigo-500/20 flex items-center justify-center flex-shrink-0">
-                    <FileText className="w-5 h-5 text-indigo-600" />
+                  <div
+                    className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0"
+                    style={{ backgroundColor: 'rgba(68, 137, 198, 0.15)' }}
+                  >
+                    <FileText className="w-5 h-5" style={{ color: 'var(--regu-blue)' }} />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h3 className="text-lg md:text-xl font-bold text-indigo-900 truncate">
+                    <h3 className="text-lg md:text-xl font-bold truncate" style={{ color: 'var(--regu-gray-900)' }}>
                       {previewDoc.title}
                     </h3>
-                    <p className="text-sm text-indigo-600">Vista previa del documento</p>
+                    <p className="text-sm" style={{ color: 'var(--regu-gray-500)' }}>Vista previa del documento</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-2 flex-shrink-0">
                   <a
                     href={previewDoc.url}
                     download
-                    className="inline-flex items-center gap-2 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors font-medium shadow-md hover:shadow-lg text-sm md:text-base"
+                    className="inline-flex items-center gap-2 px-4 py-2 text-white rounded-lg hover:opacity-90 transition-opacity font-medium shadow-md hover:shadow-lg text-sm md:text-base"
+                    style={{ backgroundColor: 'var(--regu-blue)' }}
                   >
                     <Download className="w-4 h-4 md:w-5 md:h-5" />
                     <span className="hidden sm:inline">Descargar</span>
                   </a>
                   <button
                     onClick={() => setPreviewDoc(null)}
-                    className="w-10 h-10 rounded-lg bg-white hover:bg-indigo-100 text-indigo-600 hover:text-indigo-700 transition-colors flex items-center justify-center shadow-sm hover:shadow-md"
+                    className="w-10 h-10 rounded-lg flex items-center justify-center shadow-sm hover:opacity-80 transition-opacity"
+                    style={{ backgroundColor: 'var(--regu-gray-100)', color: 'var(--regu-gray-700)' }}
                     aria-label="Cerrar"
                   >
                     <X className="w-5 h-5" />
@@ -368,7 +381,7 @@ const GruposTrabajo: React.FC = () => {
               </div>
 
               {/* Contenido del PDF */}
-              <div className="flex-1 overflow-hidden bg-gray-100">
+              <div className="flex-1 overflow-hidden" style={{ backgroundColor: 'var(--regu-gray-100)' }}>
                 <iframe
                   src={`${previewDoc.url}#toolbar=1&navpanes=1&scrollbar=1`}
                   className="w-full h-full border-0"
@@ -378,14 +391,15 @@ const GruposTrabajo: React.FC = () => {
               </div>
 
               {/* Footer del Modal */}
-              <div className="p-4 border-t border-indigo-200 bg-indigo-50/50">
+              <div className="p-4 border-t" style={{ borderColor: 'var(--token-border)', backgroundColor: 'var(--regu-offwhite)' }}>
                 <div className="flex items-center justify-between flex-wrap gap-2">
-                  <p className="text-sm text-indigo-700">
+                  <p className="text-sm" style={{ color: 'var(--regu-gray-700)' }}>
                     <span className="font-medium">Nota:</span> Usa los controles del visor para navegar el documento
                   </p>
                   <button
                     onClick={() => window.open(previewDoc.url, '_blank')}
-                    className="inline-flex items-center gap-2 px-3 py-1.5 text-sm text-indigo-700 hover:text-indigo-900 hover:bg-white rounded-lg transition-colors"
+                    className="inline-flex items-center gap-2 px-3 py-1.5 text-sm rounded-lg transition-colors hover:opacity-90"
+                    style={{ color: 'var(--regu-blue)' }}
                   >
                     <Maximize2 className="w-4 h-4" />
                     Abrir en nueva pestaña

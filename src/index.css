@@ -210,12 +210,29 @@
   border-color: rgba(197, 220, 11, 0.35);
 }
 
-/* ——— Hero limpio (solo mensaje + CTAs) ——— */
+/* ——— Hero institucional (imagen + overlay gradiente + badge + título + CTAs). Altura sobria 73vh. ——— */
+.heroInstitucional {
+  min-height: 72vh;
+}
+@media (min-width: 768px) {
+  .heroInstitucional {
+    min-height: 73vh;
+  }
+}
+.heroInstitucionalPrimaryCta:hover {
+  filter: brightness(1.08);
+}
+.heroInstitucionalSecondaryCta:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-color: #fff;
+}
+
+/* ——— Hero anterior (mapa) ——— .hero / .heroOverlay / .heroContent conservados por si se reutiliza */
 .hero {
   min-height: 70vh;
 }
 .heroOverlay {
-  /* Overlay ya aplicado por inline style rgba(0,0,0,0.35) */
+  /* Overlay ya aplicado por inline style */
 }
 .heroContent {
   /* Contenedor del texto y CTAs; layout por Tailwind */
@@ -233,22 +250,23 @@
   border-radius: 0;
 }
 .quickLinksGrid .quickLinkTile:first-child {
-  border-radius: 0.75rem 0 0 0.75rem;
+  border-radius: 1rem 0 0 1rem;
 }
 @media (min-width: 768px) {
+  /* Corte diagonal sutil (flecha): más refinado, menos decorativo */
   .quickLinksGrid .quickLinkTile:first-child {
-    clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 0 100%);
+    clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 50%, calc(100% - 14px) 100%, 0 100%);
   }
   .quickLinksGrid .quickLinkTile:nth-child(2) {
-    clip-path: polygon(20px 0, 100% 0, 100% 100%, 20px 100%, 0 50%);
+    clip-path: polygon(14px 0, 100% 0, 100% 100%, 14px 100%, 0 50%);
   }
 }
 @media (max-width: 767px) {
   .quickLinksGrid .quickLinkTile:first-child {
-    border-radius: 0.75rem 0.75rem 0 0;
+    border-radius: 1rem 1rem 0 0;
   }
   .quickLinksGrid .quickLinkTile:last-child {
-    border-radius: 0 0 0.75rem 0.75rem;
+    border-radius: 0 0 1rem 1rem;
   }
   .quickLinksGrid .quickLinkTile:nth-child(2) {
     border-radius: 0;

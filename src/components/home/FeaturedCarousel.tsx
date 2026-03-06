@@ -87,8 +87,9 @@ export default function FeaturedCarousel({
 
   const slide = items[activeIndex];
   const isEventPast = slide.type === "eventos" && isSlideDatePast(slide.date);
-  const defaultCategoryLabel = slide.type === "eventos" ? (isEventPast ? "Pasado" : "EVENTOS") : "NOTICIAS";
+  const defaultCategoryLabel = slide.type === "eventos" ? (isEventPast ? "Pasado" : "PRÓXIMA") : "NOTICIAS";
   const categoryLabel = slide.categoryLabel ?? defaultCategoryLabel;
+  const showCumbreLabel = slide.type === "eventos";
 
   return (
     <section
@@ -124,13 +125,16 @@ export default function FeaturedCarousel({
         >
           <div className="flex flex-col gap-4 sm:flex-row sm:items-flex-start sm:justify-between">
             <div className="min-w-0 flex-1">
-              {/* Meta: fecha (año más visible) + categoría (Pasado chiquito si el evento ya pasó) */}
-              <div className="featuredCarouselMeta flex flex-wrap items-center gap-2">
+              {/* Meta: fecha · estado (PRÓXIMA/Pasado) · CUMBRE para eventos; fecha · NOTICIAS para noticias */}
+              <div className="featuredCarouselMeta flex flex-wrap items-center gap-x-2 gap-y-1">
                 <span
                   className="text-xs font-semibold uppercase tracking-[0.12em]"
                   style={{ color: "var(--news-accent)" }}
                 >
                   {slide.date}
+                </span>
+                <span className="text-xs font-semibold uppercase tracking-[0.08em]" style={{ color: "var(--regu-gray-700)" }}>
+                  ·
                 </span>
                 <span
                   className={isEventPast ? "text-[10px] font-medium uppercase tracking-wider opacity-90" : "text-xs font-semibold uppercase tracking-[0.12em]"}
@@ -138,6 +142,16 @@ export default function FeaturedCarousel({
                 >
                   {categoryLabel}
                 </span>
+                {showCumbreLabel && (
+                  <>
+                    <span className="text-xs font-semibold uppercase tracking-[0.08em]" style={{ color: "var(--regu-gray-700)" }}>
+                      ·
+                    </span>
+                    <span className="text-xs font-semibold uppercase tracking-[0.12em]" style={{ color: "var(--regu-blue)" }}>
+                      CUMBRE
+                    </span>
+                  </>
+                )}
               </div>
               {/* Título */}
               <h2

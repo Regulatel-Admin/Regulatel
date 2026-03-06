@@ -1,112 +1,128 @@
-# REGULATEL Website
+# Portal REGULATEL
 
-A modern, responsive website for the Foro Latinoamericano de Entes Reguladores de Telecomunicaciones (REGULATEL) built with React, TypeScript, Vite, and Tailwind CSS v4.
+Sitio web del Foro Latinoamericano de Entes Reguladores de Telecomunicaciones (REGULATEL). React, TypeScript, Vite, Tailwind CSS.
 
-## Features
+---
 
-- ✨ **Animated Components**: Rotating text animations and scroll-triggered effects
-- 🎨 **Modern UI**: Beautiful, responsive design with Tailwind CSS v4
-- 🚀 **Performance**: Optimized with Vite for fast development and production builds
-- 📱 **Responsive**: Fully responsive design for all device sizes
-- 🎭 **Animations**: Smooth animations powered by Framer Motion
-- 🌙 **Dark Theme**: Elegant dark theme with custom color palette
+## Portal REGULATEL – Entrega de código fuente
 
-## Tech Stack
+**Versión inicial desarrollada por:**  
+**Diego Cuervo**  
+Analista de Relaciones Internacionales – INDOTEL  
+Correo institucional: dcuervo@indotel.gob.do  
 
-- **React 18** - UI library
-- **TypeScript** - Type safety
-- **Vite** - Build tool and dev server
-- **Tailwind CSS v4** - Utility-first CSS framework
-- **Framer Motion** - Animation library
-- **Radix UI** - Accessible component primitives
-- **Lucide React** - Icon library
+**Alcance realizado:**
+- Conceptualización de la propuesta web
+- Estructura funcional y de navegación
+- Diseño y organización de secciones
+- Integración de contenidos institucionales
+- Preparación de versión fuente para revisión y despliegue
 
-## Getting Started
+**Pendiente por parte del equipo técnico:**
+- Revisión técnica final
+- Ajustes de infraestructura
+- Integración institucional
+- Publicación en dominio oficial
 
-### Prerequisites
+---
 
-- Node.js 18+ and npm (or yarn/pnpm)
+## Sección técnica
 
-### Installation
+### Stack
 
-1. Install dependencies:
+- **React 18** – Interfaz de usuario
+- **TypeScript** – Tipado estático
+- **Vite** – Build y servidor de desarrollo
+- **Tailwind CSS v4** – Estilos
+- **React Router** – Navegación
+- **Framer Motion** – Animaciones
+- **Lucide React** – Iconografía
+
+### Instalación
 
 ```bash
 npm install
 ```
 
-### Development
-
-Start the development server:
+### Ejecución en local
 
 ```bash
 npm run dev
 ```
 
-The application will be available at `http://localhost:5173`
+La aplicación queda disponible en `http://localhost:5173`.
 
-### Build
-
-Build for production:
+### Build de producción
 
 ```bash
 npm run build
 ```
 
-The production build will be in the `dist` directory.
+La salida se genera en la carpeta `dist/`.
 
-### Preview
-
-Preview the production build:
+### Vista previa del build
 
 ```bash
 npm run preview
 ```
 
-## Project Structure
+---
+
+## Estructura del proyecto
 
 ```
-webage/
+webage regulatel/
+├── public/                 # Assets estáticos (servidos en la raíz)
+│   ├── images/             # Imágenes del portal
+│   │   ├── logos/          # Logos de entes (INDOTEL, ANATEL, etc.)
+│   │   ├── homepage/       # Imágenes del home y slideshow
+│   │   ├── noticias/       # Imágenes de noticias
+│   │   ├── comite-ejecutivo/
+│   │   └── ...             # world-map-dots.jpg, foto-home-regulatel.png, etc.
+│   ├── documents/          # PDFs y documentos (planes, actas, revistas, TdR)
+│   │   ├── grupos-trabajo/ # Términos de referencia por grupo
+│   │   ├── convenios/
+│   │   └── cumbre-regulatel-asiet-comtelca/
+│   ├── grupos-trabajo/     # Imágenes por grupo de trabajo
+│   ├── flags/              # Banderas (buenas prácticas, etc.)
+│   └── videos/             # Vídeos institucionales
 ├── src/
-│   ├── components/
-│   │   └── ui/          # Reusable UI components (Button, Card, Input, Textarea)
-│   ├── lib/
-│   │   └── utils.ts     # Utility functions (cn helper)
-│   ├── App.tsx          # Main application component
-│   ├── main.tsx         # Application entry point
-│   └── index.css        # Global styles and Tailwind configuration
-├── index.html           # HTML template
-├── vite.config.ts       # Vite configuration
-├── tsconfig.json        # TypeScript configuration
-└── package.json         # Dependencies and scripts
+│   ├── components/         # Componentes reutilizables
+│   │   ├── home/           # Secciones del home
+│   │   ├── layout/         # Header, megamenú, footer
+│   │   └── ui/             # Componentes base (Button, Card, etc.)
+│   ├── pages/              # Páginas y rutas
+│   │   ├── admin/          # Panel de administración
+│   │   └── quienes-somos/
+│   ├── data/               # Datos estáticos (navegación, noticias, eventos seed)
+│   ├── config/             # Configuración (restrictedDocuments, projectInfo)
+│   ├── contexts/           # AdminDataContext, AuthContext
+│   ├── styles/             # tokens.css y estilos globales
+│   ├── lib/                # Utilidades y búsqueda
+│   ├── types/              # Tipos TypeScript (Event, etc.)
+│   ├── App.tsx             # Rutas principales
+│   ├── main.tsx            # Entrada de la aplicación
+│   └── index.css           # Estilos globales y Tailwind
+├── archive/                # Material de archivo (imágenes/PDFs sueltos de la raíz)
+│   └── legacy-assets/      # Assets movidos desde la raíz; no referenciados en código.
+│       # Si aún hay imágenes o PDFs en la raíz, moverlos aquí para mantener la raíz limpia.
+├── docs/                   # Documentación adicional (opcional)
+├── index.html
+├── package.json
+├── vite.config.ts
+├── tsconfig.json
+└── README.md
 ```
 
-## Key Components
+**Dónde está qué:**
+- **Logos:** `public/images/logos/` y `public/images/comite-ejecutivo/`
+- **Fondos del home / hero:** `public/images/foto-home-regulatel.png`, `public/images/world-map-dots.jpg`
+- **Imágenes de cumbres/eventos:** `public/images/cumbre-berec-*.jpg`, `public/images/noticias/`
+- **PDFs:** `public/documents/` (planes, actas, revistas, TdR en `documents/grupos-trabajo/`)
+- **Metadata del proyecto (autoría):** `src/config/projectInfo.ts` y panel Admin → Información del proyecto
 
-### RotatingText
-An animated text component that cycles through multiple text strings with smooth transitions and stagger effects.
+---
 
-### MagicText
-A scroll-triggered text animation that reveals words as you scroll through the section.
+## Licencia
 
-### RegulatelWebsite
-The main website component featuring:
-- Animated background with interactive dots
-- Responsive navigation with mobile menu
-- Multiple sections (Inicio, Autoridades, Miembros, Gestión, Eventos, Contacto)
-- Contact form
-- Footer with links
-
-## Customization
-
-### Colors
-
-The color scheme is defined in `src/index.css` using CSS variables. You can customize the theme by modifying the `:root` and `.dark` variables.
-
-### Components
-
-UI components are located in `src/components/ui/` and can be customized to match your design system.
-
-## License
-
-This project is created for REGULATEL.
+Proyecto desarrollado para REGULATEL.

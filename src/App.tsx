@@ -1,3 +1,7 @@
+/**
+ * Portal REGULATEL – Enrutado principal y layout.
+ * Versión inicial desarrollada por Diego Cuervo (INDOTEL). 2026.
+ */
 import { BrowserRouter as Router, Routes, Route, Outlet } from 'react-router-dom';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { AdminDataProvider } from '@/contexts/AdminDataContext';
@@ -28,6 +32,7 @@ import EnteRegulador from '@/pages/EnteRegulador';
 import TodoPlaceholder from '@/pages/TodoPlaceholder';
 import Search from '@/pages/Search';
 import BuscarDocumentos from '@/pages/BuscarDocumentos';
+import AccesoDocumentos from '@/pages/AccesoDocumentos';
 import MicrositioBuenasPracticas from '@/pages/MicrositioBuenasPracticas';
 import Subscribe from '@/pages/Subscribe';
 import QueSomos from '@/pages/quienes-somos/QueSomos';
@@ -58,6 +63,7 @@ function App() {
               <Route path="/reglamento" element={<Reglamento />} />
               <Route path="/search" element={<Search />} />
               <Route path="/buscar-documentos" element={<BuscarDocumentos />} />
+          <Route path="/acceso-documentos" element={<AccesoDocumentos />} />
           <Route path="/micrositio-buenas-practicas" element={<MicrositioBuenasPracticas />} />
           <Route path="/autoridades" element={<Autoridades />} />
               <Route path="/autoridades/:slug" element={<AutoridadDetalle />} />

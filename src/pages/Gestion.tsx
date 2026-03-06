@@ -12,7 +12,9 @@ import {
   Maximize2,
   BookOpen,
   Search,
+  Lock,
 } from "lucide-react";
+import { getRestrictedDocument } from "@/config/restrictedDocuments";
 import PageHero from "@/components/PageHero";
 import {
   gestionDocuments,
@@ -424,7 +426,9 @@ function DocCard({
   onPreview: () => void;
 }) {
   const isRevista = doc.category === "revista";
+  const isRestricted = getRestrictedDocument(doc.id) !== null;
   const Icon = isRevista ? BookOpen : doc.category === "planes-actas" ? Calendar : FileText;
+  const accessUrl = `/acceso-documentos?doc=${encodeURIComponent(doc.id)}`;
 
   return (
     <motion.div
@@ -458,42 +462,78 @@ function DocCard({
               )}
               <h3 className="text-base font-semibold leading-tight" style={{ color: "var(--regu-gray-900)" }}>
                 <Link
-                  to={deepLink}
+                  to={isRestricted ? accessUrl : deepLink}
                   className="hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2 rounded"
                   style={{ color: "inherit" }}
                 >
                   {doc.title}
                 </Link>
               </h3>
+              {isRestricted && (
+                <div className="mt-1.5 flex items-center gap-1.5">
+                  <Lock className="w-3.5 h-3.5 shrink-0 opacity-85" style={{ color: "var(--regu-gray-500)" }} aria-hidden />
+                  <span className="text-xs font-medium" style={{ color: "var(--regu-gray-500)" }}>
+                    Acceso restringido
+                  </span>
+                </div>
+              )}
             </div>
-            <Icon
-              className="w-5 h-5 flex-shrink-0"
-              style={{ color: "var(--regu-blue)" }}
-            />
+            <div className="flex items-center gap-1.5 flex-shrink-0">
+              {isRestricted && (
+                <Lock className="w-5 h-5" style={{ color: "var(--regu-gray-500)" }} aria-hidden />
+              )}
+              <Icon
+                className="w-5 h-5"
+                style={{ color: "var(--regu-blue)" }}
+              />
+            </div>
           </div>
           <div className="flex gap-2 mt-auto flex-wrap">
-            <button
-              onClick={onPreview}
-              className="inline-flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-white transition-colors hover:opacity-95"
-              style={{ backgroundColor: "var(--regu-blue)" }}
-            >
-              <Eye className="w-4 h-4" />
-              Vista previa
-            </button>
-            <a
-              href={doc.url}
-              download={!doc.url.startsWith("http")}
-              target={doc.url.startsWith("http") ? "_blank" : undefined}
-              rel={doc.url.startsWith("http") ? "noreferrer noopener" : undefined}
-              className="inline-flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium border transition-colors hover:bg-[var(--regu-offwhite)]"
-              style={{
-                borderColor: "var(--regu-blue)",
-                color: "var(--regu-blue)",
-              }}
-            >
-              <FileDown className="w-4 h-4" />
-              Descargar
-            </a>
+            {isRestricted ? (
+              <>
+                <Link
+                  to={accessUrl}
+                  className="inline-flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-white transition-colors hover:opacity-95"
+                  style={{ backgroundColor: "var(--regu-blue)" }}
+                >
+                  <Lock className="w-4 h-4" />
+                  Solicitar acceso
+                </Link>
+                <span
+                  className="inline-flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium border border-[var(--regu-gray-100)] cursor-not-allowed opacity-70"
+                  style={{ color: "var(--regu-gray-500)" }}
+                  title="Acceso restringido"
+                >
+                  <FileDown className="w-4 h-4" />
+                  Descargar
+                </span>
+              </>
+            ) : (
+              <>
+                <button
+                  onClick={onPreview}
+                  className="inline-flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-white transition-colors hover:opacity-95"
+                  style={{ backgroundColor: "var(--regu-blue)" }}
+                >
+                  <Eye className="w-4 h-4" />
+                  Vista previa
+                </button>
+                <a
+                  href={doc.url}
+                  download={!doc.url.startsWith("http")}
+                  target={doc.url.startsWith("http") ? "_blank" : undefined}
+                  rel={doc.url.startsWith("http") ? "noreferrer noopener" : undefined}
+                  className="inline-flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium border transition-colors hover:bg-[var(--regu-offwhite)]"
+                  style={{
+                    borderColor: "var(--regu-blue)",
+                    color: "var(--regu-blue)",
+                  }}
+                >
+                  <FileDown className="w-4 h-4" />
+                  Descargar
+                </a>
+              </>
+            )}
           </div>
         </CardContent>
       </Card>

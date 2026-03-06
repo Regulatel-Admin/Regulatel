@@ -1,12 +1,25 @@
 import { useState, useEffect, useRef } from "react";
 import { Users, Building2, BookOpen, Globe } from "lucide-react";
-import { getCifrasAnos, type CifrasAnuales } from "@/data/home";
+import {
+  getCifrasAnos,
+  cifrasCardsConfig,
+  type CifrasAnuales,
+  type CifraCardConfig,
+} from "@/data/home";
 import { useAdminData } from "@/contexts/AdminDataContext";
 
 const TITLE = "REGULATEL EN CIFRAS";
+const SUBTITLE = "Indicadores institucionales clave para seguimiento público.";
 const COUNT_DURATION_MS = 450;
 const FADE_OUT_MS = 120;
 const FADE_IN_MS = 220;
+
+const ICON_BY_KEY: Record<keyof CifrasAnuales, React.ComponentType<{ className?: string; style?: React.CSSProperties }>> = {
+  gruposTrabajo: Users,
+  comitesEjecutivos: Building2,
+  revistaDigital: BookOpen,
+  paises: Globe,
+};
 
 function easeOutCubic(t: number): number {
   return 1 - Math.pow(1 - t, 3);
@@ -21,7 +34,6 @@ function useCountUp(
   const [display, setDisplay] = useState(target);
   const prevTargetRef = useRef(target);
   const rafRef = useRef<number>(0);
-  const startRef = useRef(0);
 
   useEffect(() => {
     if (reduceMotion || target === prevTargetRef.current) {
@@ -40,7 +52,6 @@ function useCountUp(
       setDisplay(Math.round(start + (target - start) * eased));
       if (t < 1) rafRef.current = requestAnimationFrame(tick);
     };
-    startRef.current = performance.now();
     rafRef.current = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(rafRef.current);
   }, [target, key, durationMs, reduceMotion]);
@@ -60,38 +71,6 @@ function useReducedMotion(): boolean {
   return reduce;
 }
 
-const CARD_CONFIG: {
-  key: keyof CifrasAnuales;
-  label: string;
-  description: string;
-  icon: React.ComponentType<{ className?: string; style?: React.CSSProperties }>;
-}[] = [
-  {
-    key: "gruposTrabajo",
-    label: "GRUPOS DE TRABAJO",
-    description: "Equipos técnicos activos en agenda regional.",
-    icon: Users,
-  },
-  {
-    key: "comitesEjecutivos",
-    label: "COMITÉS EJECUTIVOS",
-    description: "Instancias de coordinación institucional.",
-    icon: Building2,
-  },
-  {
-    key: "revistaDigital",
-    label: "REVISTA DIGITAL",
-    description: "Publicación periódica de avances.",
-    icon: BookOpen,
-  },
-  {
-    key: "paises",
-    label: "PAÍSES",
-    description: "Miembros de REGULATEL en la región.",
-    icon: Globe,
-  },
-];
-
 export default function RegulatelEnCifras() {
   const { getCifrasForYear } = useAdminData();
   const anos = getCifrasAnos();
@@ -100,7 +79,8 @@ export default function RegulatelEnCifras() {
   const reduceMotion = useReducedMotion();
 
   const cifras = getCifrasForYear(selectedYear);
-  if (!cifras) return null;
+  const cardsConfig = cifrasCardsConfig[selectedYear];
+  if (!cifras || !cardsConfig?.length) return null;
 
   const handleYearChange = (year: number) => {
     if (year === selectedYear) return;
@@ -113,26 +93,34 @@ export default function RegulatelEnCifras() {
 
   return (
     <section
-      className="mx-auto w-full px-4 py-14 md:px-6"
-      style={{ fontFamily: "var(--token-font-body)", maxWidth: "var(--token-container-max)" }}
+      className="regulatelEnCifras mx-auto w-full px-4 pt-10 pb-16 md:px-6 md:pt-12 md:pb-20 lg:px-8"
+      style={{
+        fontFamily: "var(--token-font-body)",
+        maxWidth: "var(--token-container-max)",
+      }}
       aria-label={TITLE}
     >
-      <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
-        <h2
-          className="font-bold uppercase tracking-wide"
-          style={{
-            color: "var(--token-text-primary)",
-            fontSize: "var(--token-heading-h2-size)",
-          }}
-        >
-          {TITLE}
-        </h2>
+      {/* Header: título + subtítulo a la izquierda, selector de año integrado a la derecha */}
+      <div className="cifrasHeader mb-9 flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-end sm:justify-between sm:gap-6 md:mb-10">
+        <div className="min-w-0 flex-1">
+          <h2
+            className="text-xl font-bold uppercase tracking-tight text-[var(--regu-gray-900)] md:text-2xl"
+            style={{ fontFamily: "var(--token-font-heading)" }}
+          >
+            {TITLE}
+          </h2>
+          <p
+            className="mt-2 text-sm text-[var(--regu-gray-500)] md:text-base md:leading-relaxed"
+            style={{ fontFamily: "var(--token-font-body)" }}
+          >
+            {SUBTITLE}
+          </p>
+        </div>
 
         <div
           role="tablist"
           aria-label="Seleccionar año"
-          className="flex items-center gap-2"
-          style={{ gap: 8 }}
+          className="cifrasYearToggle flex shrink-0 items-center gap-2"
         >
           {anos.map((year, index) => {
             const isSelected = year === selectedYear;
@@ -155,15 +143,10 @@ export default function RegulatelEnCifras() {
                     handleYearChange(anos[index + 1]);
                   }
                 }}
-                className="rounded-full border transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2"
+                className="rounded-full px-4 py-2.5 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2"
                 style={{
-                  height: 34,
-                  padding: "6px 14px",
-                  borderColor: isSelected ? "#B7D400" : "transparent",
-                  backgroundColor: isSelected ? "#B7D400" : "#F3F5F7",
-                  color: isSelected ? "#0B1F2A" : "#2C3E50",
-                  fontWeight: 600,
-                  fontSize: "0.875rem",
+                  backgroundColor: isSelected ? "var(--regu-blue)" : "var(--regu-gray-100)",
+                  color: isSelected ? "#fff" : "var(--regu-gray-700)",
                 }}
               >
                 {year}
@@ -173,20 +156,21 @@ export default function RegulatelEnCifras() {
         </div>
       </div>
 
+      {/* Grid de 4 cards: limpio, institucional, BEREC */}
       <div
-        className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4"
+        className="cifrasGrid grid gap-5 sm:grid-cols-2 lg:grid-cols-4"
         style={{
           opacity: isTransitioning && !reduceMotion ? 0 : 1,
-          transition: reduceMotion ? "none" : `opacity ${isTransitioning ? FADE_OUT_MS : FADE_IN_MS}ms ease-out`,
+          transition:
+            reduceMotion ? "none" : `opacity ${isTransitioning ? FADE_OUT_MS : FADE_IN_MS}ms ease-out`,
         }}
       >
-        {CARD_CONFIG.map(({ key, label, description, icon: Icon }) => (
+        {cardsConfig.map((card) => (
           <CifraCard
-            key={key}
-            value={cifras[key]}
-            label={label}
-            description={description}
-            icon={Icon}
+            key={card.key}
+            value={cifras[card.key]}
+            config={card}
+            icon={ICON_BY_KEY[card.key]}
             reduceMotion={reduceMotion}
           />
         ))}
@@ -197,57 +181,80 @@ export default function RegulatelEnCifras() {
 
 function CifraCard({
   value,
-  label,
-  description,
+  config,
   icon: Icon,
   reduceMotion,
 }: {
   value: number;
-  label: string;
-  description: string;
+  config: CifraCardConfig;
   icon: React.ComponentType<{ className?: string; style?: React.CSSProperties }>;
   reduceMotion: boolean;
 }) {
-  const displayValue = useCountUp(value, label, COUNT_DURATION_MS, reduceMotion);
+  const displayValue = useCountUp(
+    value,
+    `${config.key}-${config.title}`,
+    COUNT_DURATION_MS,
+    reduceMotion
+  );
+
+  const isExternal = config.sourceUrl.startsWith("http");
 
   return (
     <article
-      className="relative overflow-hidden rounded-[18px] border bg-white transition-all duration-200 hover:-translate-y-0.5 motion-reduce:transition-none hover:shadow-[0_8px_24px_rgba(22,61,89,0.1)]"
+      className="cifraCard relative flex h-full flex-col overflow-hidden rounded-2xl border bg-white transition-shadow duration-200 hover:shadow-[0_6px_24px_rgba(22,61,89,0.08)]"
       style={{
-        borderColor: "rgba(22, 61, 89, 0.08)",
-        boxShadow: "0 2px 12px rgba(22, 61, 89, 0.06)",
+        borderColor: "rgba(22, 61, 89, 0.12)",
+        boxShadow: "0 4px 20px rgba(22, 61, 89, 0.05)",
       }}
     >
-      <div className="p-6">
+      <div className="flex h-full flex-1 flex-col p-6 md:p-7">
         <div className="flex justify-end">
           <Icon
-            className="w-6 h-6 flex-shrink-0"
+            className="h-6 w-6 flex-shrink-0 opacity-55"
             style={{ color: "var(--regu-gray-500)" }}
             aria-hidden
           />
         </div>
         <p
-          className="mt-2 font-bold tabular-nums"
+          className="mt-2 font-bold tabular-nums leading-none"
           style={{
-            fontSize: "clamp(2.5rem, 4vw, 3.5rem)",
-            lineHeight: 1.1,
-            color: "#B7D400",
+            fontSize: "clamp(2.25rem, 4vw, 3.25rem)",
+            color: "var(--regu-blue)",
           }}
         >
           {displayValue}
         </p>
         <h3
-          className="mt-3 font-bold uppercase tracking-wide"
+          className="mt-3.5 font-bold uppercase tracking-wide leading-tight text-[var(--regu-gray-900)]"
           style={{
-            color: "var(--token-text-primary)",
+            fontFamily: "var(--token-font-heading)",
             fontSize: "var(--token-heading-h3-size)",
           }}
         >
-          {label}
+          {config.title}
         </h3>
-        <p className="mt-1.5 text-sm leading-relaxed" style={{ color: "var(--token-text-secondary)" }}>
-          {description}
+        <p
+          className="mt-2 text-sm leading-relaxed text-[var(--regu-gray-500)]"
+          style={{ fontFamily: "var(--token-font-body)" }}
+        >
+          {config.subtitle}
         </p>
+        <div className="mt-4 flex-1 flex flex-col justify-end">
+          <a
+            href={config.sourceUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="cifraSourceLink inline-block text-sm font-medium text-[var(--regu-blue)] transition hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2"
+            style={{ fontFamily: "var(--token-font-body)" }}
+          >
+            Fuente: {config.sourceLabel}
+            {isExternal && (
+              <span className="ml-0.5 inline-block" aria-hidden>
+                ↗
+              </span>
+            )}
+          </a>
+        </div>
       </div>
     </article>
   );

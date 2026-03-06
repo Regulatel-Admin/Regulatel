@@ -48,17 +48,19 @@ export default function NewsSectionBerec({ news }: NewsSectionBerecProps) {
       className="newsSection mx-auto w-full max-w-[1280px] bg-white px-4 py-20 md:px-6 md:py-24 lg:px-8 lg:py-[110px]"
       style={{ fontFamily: "var(--token-font-body)" }}
     >
-      {/* Header: título izquierda, VER TODAS derecha — aire editorial */}
-      <div className="newsHeader mb-10 flex flex-wrap items-center justify-between gap-4 lg:mb-12">
-        <h2 className="newsSectionTitle text-3xl font-bold tracking-tight text-[var(--regu-gray-900)] md:text-4xl lg:text-[2.625rem]">
+      {/* Header: mismo grid 5+7 que el contenido para alinear VER TODAS con la columna derecha */}
+      <div className="newsHeader mb-10 grid grid-cols-1 gap-4 lg:mb-12 lg:grid-cols-12 lg:gap-x-16 lg:gap-y-0">
+        <h2 className="newsSectionTitle text-3xl font-bold tracking-tight text-[var(--regu-gray-900)] md:text-4xl lg:col-span-5 lg:text-[2.625rem]">
           Noticias
         </h2>
-        <Link
-          to="/noticias"
-          className="newsVerTodas text-xs font-semibold uppercase tracking-[0.14em] text-[var(--news-accent)] transition hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--news-accent)] focus-visible:ring-offset-2"
-        >
-          VER TODAS
-        </Link>
+        <div className="flex items-end justify-start lg:col-span-7 lg:justify-end">
+          <Link
+            to="/noticias"
+            className="newsVerTodas text-xs font-semibold uppercase tracking-[0.14em] text-[var(--news-accent)] transition hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--news-accent)] focus-visible:ring-offset-2"
+          >
+            VER TODAS
+          </Link>
+        </div>
       </div>
 
       {/* Grid 12 columnas: featured izquierda (5), lista derecha (7) — imagen NUNCA arriba en desktop */}
@@ -102,7 +104,10 @@ export default function NewsSectionBerec({ news }: NewsSectionBerecProps) {
             </div>
 
             {/* Título grande H3/H2 */}
-            <h3 className="mt-3 line-clamp-3 text-[1.625rem] font-bold leading-tight text-[var(--regu-gray-900)] lg:text-[1.875rem]">
+            <h3
+              className="mt-4 line-clamp-3 text-[1.625rem] font-bold text-[var(--regu-gray-900)] lg:text-[1.875rem]"
+              style={{ lineHeight: 1.2, maxWidth: "40rem" }}
+            >
               {featuredNews.title}
             </h3>
 
@@ -122,7 +127,7 @@ export default function NewsSectionBerec({ news }: NewsSectionBerecProps) {
               <div key={item.slug} className="newsItem">
                 <Link
                   to={`/noticias/${item.slug}`}
-                  className="block py-6 first:pt-0 lg:py-7"
+                  className="block py-5 first:pt-0 lg:py-6"
                 >
                   {/* Meta: FECHA + NOTICIAS */}
                   <div className="featuredMeta flex flex-wrap items-center gap-2">
@@ -134,18 +139,21 @@ export default function NewsSectionBerec({ news }: NewsSectionBerecProps) {
                     </span>
                   </div>
                   {/* Título 2 líneas máx */}
-                  <h4 className="mt-1.5 line-clamp-2 text-base font-bold leading-snug text-[var(--regu-gray-900)] lg:text-[1.125rem]">
+                  <h4 className="mt-2.5 line-clamp-2 text-base font-bold leading-snug text-[var(--regu-gray-900)] lg:text-[1.125rem]">
                     {item.title}
                   </h4>
                   {/* LEER MÁS > */}
-                  <span className="newsReadMore mt-2 inline-flex items-center gap-1 text-sm font-semibold uppercase tracking-[0.08em] text-[var(--news-accent)] transition hover:underline">
+                  <span className="newsReadMore mt-2.5 inline-flex items-center gap-1 text-sm font-semibold uppercase tracking-[0.08em] text-[var(--news-accent)] transition hover:underline">
                     LEER MÁS
                     <ChevronRight className="h-4 w-4" />
                   </span>
                 </Link>
-                {/* Divider fino gris claro, full width columna derecha */}
+                {/* Divider fino: mismo margen arriba/abajo, línea muy sutil */}
                 {index < listNews.length - 1 && (
-                  <div className="newsDivider h-px w-full bg-[#E6E8EF]" />
+                  <div
+                    className="newsDivider h-px w-full shrink-0"
+                    style={{ marginTop: "1rem", marginBottom: "1rem", backgroundColor: "rgba(22, 61, 89, 0.06)" }}
+                  />
                 )}
               </div>
             );
@@ -153,8 +161,11 @@ export default function NewsSectionBerec({ news }: NewsSectionBerecProps) {
         </div>
       </div>
 
-      {/* Fila de 3 botones outline — centrados desktop, columna móvil */}
-      <div className="newsCtas mt-16 flex flex-col items-stretch justify-center gap-4 sm:flex-row sm:flex-wrap sm:gap-6 lg:mt-20">
+      {/* Fila de 3 botones outline — integrada con borde sutil, mismo ancho lógico que el grid */}
+      <div
+        className="newsCtas flex flex-col items-stretch justify-center gap-4 pt-12 sm:flex-row sm:flex-wrap sm:gap-5 lg:pt-14"
+        style={{ borderTop: "1px solid rgba(22, 61, 89, 0.08)" }}
+      >
         <Link
           to="/noticias"
           className="inline-flex items-center justify-center rounded-lg border-2 px-6 py-3 text-xs font-bold uppercase tracking-[0.14em] text-[var(--news-accent)] transition hover:bg-[var(--news-accent)] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--news-accent)] focus-visible:ring-offset-2"

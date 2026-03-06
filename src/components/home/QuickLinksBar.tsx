@@ -29,7 +29,7 @@ export default function QuickLinksBar({
 }: QuickLinksBarProps) {
   return (
     <section
-      className="quickLinksBar w-full mt-0 mb-0 py-12 md:py-14"
+      className="quickLinksBar w-full mt-0 mb-0 pt-12 pb-6 md:pt-14 md:pb-8"
       style={{
         backgroundColor: "var(--regu-offwhite)",
         fontFamily: "var(--token-font-body)",
@@ -40,35 +40,49 @@ export default function QuickLinksBar({
         className="mx-auto w-full px-4 md:px-6"
         style={{ maxWidth: "1200px" }}
       >
-        <h2
-          className="mb-6 md:mb-8 text-left font-bold uppercase tracking-wider"
-          style={{
-            fontFamily: "var(--token-font-heading)",
-            fontSize: "var(--token-heading-h2-size)",
-            color: "var(--regu-gray-900)",
-          }}
-        >
-          {title}
-        </h2>
-
-        {/* Grid: sin gap para tiles pegados; en mobile se apilan */}
-        <div className="quickLinksGrid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 overflow-hidden rounded-xl border border-[var(--regu-gray-100)] shadow-[0_4px_20px_rgba(22,61,89,0.08)]">
-          {items.map((item, index) => (
-            <QuickLinkTile key={item.label} item={item} index={index} />
-          ))}
-        </div>
-
-        {seeMoreHref && (
-          <div className="mt-6 text-right">
+        {/* Encabezado: título + línea de apoyo + CTA integrado */}
+        <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-end sm:justify-between md:mb-8">
+          <div className="min-w-0 flex-1">
+            <h2
+              className="text-left font-bold uppercase tracking-wider"
+              style={{
+                fontFamily: "var(--token-font-heading)",
+                fontSize: "var(--token-heading-h2-size)",
+                color: "var(--regu-gray-900)",
+              }}
+            >
+              {title}
+            </h2>
+            <p
+              className="mt-1.5 text-sm text-[var(--regu-gray-500)]"
+              style={{ fontFamily: "var(--token-font-body)" }}
+            >
+              Accesos rápidos a herramientas, documentos y recursos clave de REGULATEL.
+            </p>
+          </div>
+          {seeMoreHref && (
             <Link
               to={seeMoreHref}
-              className="text-sm font-semibold transition-colors hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2 rounded"
+              className="quickLinksVerMas inline-flex shrink-0 items-center text-sm font-semibold transition-colors hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2 rounded"
               style={{ color: "var(--regu-blue)" }}
             >
               Ver más →
             </Link>
-          </div>
-        )}
+          )}
+        </div>
+
+        {/* Grid: bloque único con borde y sombra refinados */}
+        <div
+          className="quickLinksGrid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 overflow-hidden rounded-2xl border"
+          style={{
+            borderColor: "rgba(22, 61, 89, 0.12)",
+            boxShadow: "0 4px 20px rgba(22, 61, 89, 0.06)",
+          }}
+        >
+          {items.map((item, index) => (
+            <QuickLinkTile key={item.label} item={item} index={index} />
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -113,7 +127,7 @@ function QuickLinkTile({ item, index }: { item: QuickLinkItem; index: number }) 
   );
 
   const tileClass =
-    "quickLinkTile flex items-center justify-center h-[90px] md:h-[100px] min-h-[90px] px-4 md:px-5 cursor-pointer transition-all duration-200 hover:shadow-inner focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-inset";
+    "quickLinkTile flex items-center justify-center h-[90px] md:h-[100px] min-h-[90px] px-4 md:px-5 cursor-pointer transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-inset";
 
   const tileStyle: React.CSSProperties = {
     backgroundColor: bgBase,
@@ -124,12 +138,16 @@ function QuickLinkTile({ item, index }: { item: QuickLinkItem; index: number }) 
     style: tileStyle,
     "aria-label": item.subtitle ? `${item.label}: ${item.subtitle}` : item.label,
     onMouseEnter: (e: React.MouseEvent<HTMLElement>) => {
-      e.currentTarget.style.backgroundColor = bgHover;
-      e.currentTarget.style.boxShadow = "0 2px 12px rgba(22,61,89,0.12)";
+      const el = e.currentTarget;
+      el.style.backgroundColor = bgHover;
+      el.style.boxShadow = "0 4px 16px rgba(22,61,89,0.1)";
+      el.style.transform = "translateY(-1px)";
     },
     onMouseLeave: (e: React.MouseEvent<HTMLElement>) => {
-      e.currentTarget.style.backgroundColor = bgBase;
-      e.currentTarget.style.boxShadow = "none";
+      const el = e.currentTarget;
+      el.style.backgroundColor = bgBase;
+      el.style.boxShadow = "none";
+      el.style.transform = "translateY(0)";
     },
   };
 

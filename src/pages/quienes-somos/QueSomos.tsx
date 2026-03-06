@@ -5,6 +5,8 @@ import InstitutionalLayout, {
   InstitutionalH2,
 } from "@/components/institutional/InstitutionalLayout";
 
+const VIDEO_URL = "/videos/Video-pagina-web-REGULATEL.mp4";
+
 const fadeIn = {
   hidden: { opacity: 0, y: 16 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.4 } },
@@ -17,6 +19,42 @@ export default function QueSomos() {
       subtitle="QUIÉNES SOMOS"
       breadcrumb={[{ label: "Qué somos" }]}
     >
+      <InstitutionalSection>
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={fadeIn}
+          className="mb-10 md:mb-12"
+        >
+          <InstitutionalH2>Conoce REGULATEL</InstitutionalH2>
+          <p
+            className="mb-6 text-base md:text-lg leading-relaxed"
+            style={{ color: "var(--regu-gray-700)" }}
+          >
+            Te invitamos a ver este video institucional sobre el foro y su labor en la región.
+          </p>
+          <div
+            className="overflow-hidden rounded-2xl bg-[var(--regu-gray-900)] shadow-[0_20px_50px_rgba(22,61,89,0.15)]"
+            style={{
+              aspectRatio: "16/9",
+              maxWidth: "900px",
+            }}
+          >
+            <video
+              className="h-full w-full object-cover"
+              src={VIDEO_URL}
+              controls
+              playsInline
+              preload="metadata"
+              title="Video institucional REGULATEL"
+            >
+              <track kind="captions" />
+              Tu navegador no soporta la reproducción de video.
+            </video>
+          </div>
+        </motion.div>
+      </InstitutionalSection>
+
       <InstitutionalSection>
         <motion.div
           initial="hidden"
