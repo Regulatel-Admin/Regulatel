@@ -14,7 +14,7 @@ import {
   Search,
   Lock,
 } from "lucide-react";
-import { getRestrictedDocument } from "@/config/restrictedDocuments";
+import { getRestrictedDocument, isRestrictedUnlocked } from "@/config/restrictedDocuments";
 import PageHero from "@/components/PageHero";
 import {
   gestionDocuments,
@@ -426,7 +426,9 @@ function DocCard({
   onPreview: () => void;
 }) {
   const isRevista = doc.category === "revista";
-  const isRestricted = getRestrictedDocument(doc.id) !== null;
+  const isRestrictedDoc = getRestrictedDocument(doc.id) !== null;
+  const isUnlocked = isRestrictedDoc && isRestrictedUnlocked(doc.id);
+  const isRestricted = isRestrictedDoc && !isUnlocked;
   const Icon = isRevista ? BookOpen : doc.category === "planes-actas" ? Calendar : FileText;
   const accessUrl = `/acceso-documentos?doc=${encodeURIComponent(doc.id)}`;
 

@@ -32,6 +32,32 @@ export const RESTRICTED_DOCUMENTS: Record<string, RestrictedDocumentEntry> = {
   },
 };
 
+const STORAGE_KEY_UNLOCKED = "regulatel-restricted-unlocked";
+
+function getUnlockedIds(): string[] {
+  try {
+    const raw = sessionStorage.getItem(STORAGE_KEY_UNLOCKED);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw) as unknown;
+    return Array.isArray(parsed) ? parsed.filter((id) => typeof id === "string") : [];
+  } catch {
+    return [];
+  }
+}
+
+/** Marca un documento restringido como desbloqueado en esta sesión (tras contraseña correcta). */
+export function markRestrictedUnlocked(docId: string): void {
+  const ids = getUnlockedIds();
+  if (ids.includes(docId)) return;
+  ids.push(docId);
+  sessionStorage.setItem(STORAGE_KEY_UNLOCKED, JSON.stringify(ids));
+}
+
+/** Indica si el usuario desbloqueó este documento en la sesión actual. */
+export function isRestrictedUnlocked(docId: string): boolean {
+  return getUnlockedIds().includes(docId);
+}
+
 export function getRestrictedDocument(docId: string | null): RestrictedDocumentEntry | null {
   if (!docId) return null;
   return RESTRICTED_DOCUMENTS[docId] ?? null;

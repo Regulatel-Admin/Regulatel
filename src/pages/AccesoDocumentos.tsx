@@ -4,6 +4,7 @@ import { Lock, ArrowLeft } from "lucide-react";
 import {
   getRestrictedDocument,
   checkRestrictedPassword,
+  markRestrictedUnlocked,
 } from "@/config/restrictedDocuments";
 
 export default function AccesoDocumentos() {
@@ -30,6 +31,7 @@ export default function AccesoDocumentos() {
       return;
     }
     if (document) {
+      markRestrictedUnlocked(document.id);
       navigate(document.redirectUrl);
     } else {
       navigate("/gestion?tipo=planes-actas");
