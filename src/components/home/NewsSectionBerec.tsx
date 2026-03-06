@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { ChevronRight } from "lucide-react";
+import ImageCarousel from "@/components/ImageCarousel";
 
 export interface NewsItemBerec {
   slug: string;
@@ -8,6 +9,7 @@ export interface NewsItemBerec {
   dateFormatted: string;
   excerpt: string;
   imageUrl?: string;
+  additionalImages?: string[];
 }
 
 interface NewsSectionBerecProps {
@@ -68,29 +70,56 @@ export default function NewsSectionBerec({ news }: NewsSectionBerecProps) {
         {/* Columna izquierda — Featured (col-span-5 en desktop). Imagen SOLO aquí. */}
         <article className="featured col-span-12 min-w-0 lg:col-span-5">
           <Link to={`/noticias/${featuredNews.slug}`} className="block group">
-            {/* Imagen banner horizontal 16:9, radius 12–16px */}
+            {/* Imagen o carrusel 16:9 */}
             <div
-              className="featuredImage w-full overflow-hidden rounded-[16px] bg-[var(--regu-gray-100)]"
+              className="featuredImage relative w-full overflow-hidden rounded-[16px] bg-[var(--regu-gray-100)]"
               style={{ aspectRatio: "16/9" }}
             >
-              {featuredNews.imageUrl ? (
-                <img
-                  src={featuredNews.imageUrl}
-                  alt=""
-                  className="h-full w-full object-cover transition duration-200 group-hover:opacity-98"
-                  loading="eager"
-                  onError={(e) => {
-                    e.currentTarget.style.display = "none";
-                    const next = e.currentTarget.nextElementSibling;
-                    if (next) (next as HTMLElement).classList.remove("hidden");
-                  }}
-                />
-              ) : null}
-              <div
-                className={`h-full w-full ${featuredNews.imageUrl ? "hidden" : ""}`}
-                style={{ background: PLACEHOLDER_GRADIENT }}
-                aria-hidden
-              />
+              {(() => {
+                const allImages = [
+                  featuredNews.imageUrl,
+                  ...(featuredNews.additionalImages ?? []),
+                ].filter(Boolean) as string[];
+                if (allImages.length === 0) {
+                  return (
+                    <div
+                      className="h-full w-full"
+                      style={{ background: PLACEHOLDER_GRADIENT }}
+                      aria-hidden
+                    />
+                  );
+                }
+                if (allImages.length === 1) {
+                  return (
+                    <>
+                      <img
+                        src={allImages[0]}
+                        alt=""
+                        className="h-full w-full object-cover transition duration-200 group-hover:opacity-98"
+                        loading="eager"
+                        onError={(e) => {
+                          e.currentTarget.style.display = "none";
+                          const next = e.currentTarget.nextElementSibling;
+                          if (next) (next as HTMLElement).classList.remove("hidden");
+                        }}
+                      />
+                      <div
+                        className="hidden h-full w-full absolute inset-0"
+                        style={{ background: PLACEHOLDER_GRADIENT }}
+                        aria-hidden
+                      />
+                    </>
+                  );
+                }
+                return (
+                  <ImageCarousel
+                    images={allImages}
+                    variant="card"
+                    autoPlayMs={5000}
+                    className="!rounded-[16px] [&_img]:!object-cover"
+                  />
+                );
+              })()}
             </div>
 
             {/* Meta: FECHA (gris) + NOTICIAS (magenta uppercase) */}

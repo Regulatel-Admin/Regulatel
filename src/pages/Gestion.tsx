@@ -17,7 +17,6 @@ import {
 import { getRestrictedDocument, isRestrictedUnlocked } from "@/config/restrictedDocuments";
 import PageHero from "@/components/PageHero";
 import {
-  gestionDocuments,
   filterByTipo,
   GESTION_TIPO_VALUES,
   GESTION_TAB_LABELS,
@@ -25,6 +24,7 @@ import {
   type GestionTipo,
   type GestionDocument,
 } from "@/data/gestion";
+import { useMergedGestionDocuments } from "@/contexts/AdminDataContext";
 
 function normalizeSearch(t: string): string {
   return t
@@ -69,6 +69,7 @@ const fadeIn = {
 const SEARCH_DEBOUNCE_MS = 200;
 
 export default function Gestion() {
+  const allDocuments = useMergedGestionDocuments();
   const [searchParams, setSearchParams] = useSearchParams();
   const tipo = (searchParams.get("tipo") ?? "todo") as GestionTipo;
   const docId = searchParams.get("id") ?? null;
@@ -78,7 +79,7 @@ export default function Gestion() {
   const [searchInput, setSearchInput] = useState(searchQuery);
   const contentRef = useRef<HTMLDivElement>(null);
 
-  const filteredByTipo = filterByTipo(gestionDocuments, validTipo === "todo" ? null : validTipo);
+  const filteredByTipo = filterByTipo(allDocuments, validTipo === "todo" ? null : validTipo);
   const filtered = filterBySearch(filteredByTipo, searchQuery);
   const hasDocId = docId && filtered.some((d) => d.id === docId);
   /** Si hay ?id= y el doc existe, mostrar solo ese documento (enlace directo desde menú). */

@@ -165,14 +165,27 @@ function normalizeSearch(t: string): string {
 }
 
 /**
- * Busca documentos por título (y opcionalmente por categoría).
- * Usado en "Buscar documentos" para mostrar actas, revistas, etc. al escribir "acta", "actas", "revista", etc.
+ * Busca documentos por título/categoría/año en una lista dada.
+ * Usado en "Buscar documentos" con la lista estática o la lista fusionada (estático + admin).
  */
-export function searchDocuments(query: string): GestionDocument[] {
+export function searchDocumentsInList(docs: GestionDocument[], query: string): GestionDocument[] {
   const n = normalizeSearch(query);
   if (!n) return [];
-  return gestionDocuments.filter((d) => {
+  return docs.filter((d) => {
     const titleNorm = normalizeSearch(d.title);
-    return titleNorm.includes(n);
+    const yearStr = d.year ? normalizeSearch(d.year) : "";
+    const quarterStr = d.quarter ? normalizeSearch(d.quarter) : "";
+    const catNorm = normalizeSearch(d.category);
+    return (
+      titleNorm.includes(n) ||
+      yearStr.includes(n) ||
+      quarterStr.includes(n) ||
+      catNorm.includes(n)
+    );
   });
+}
+
+/** Busca en la lista estática (para compatibilidad). */
+export function searchDocuments(query: string): GestionDocument[] {
+  return searchDocumentsInList(gestionDocuments, query);
 }

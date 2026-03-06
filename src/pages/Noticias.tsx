@@ -1,6 +1,7 @@
 import { useState, useMemo, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
+import ImageCarousel from "@/components/ImageCarousel";
 import { noticiasData } from "./noticiasData";
 import { useAdminData } from "@/contexts/AdminDataContext";
 
@@ -13,6 +14,7 @@ export interface NewsListItem {
   category: string;
   excerpt: string;
   imageUrl: string;
+  additionalImages?: string[];
 }
 
 const CONTAINER_MAX = "1220px";
@@ -72,6 +74,7 @@ function Noticias() {
         category: n.category || "Noticias",
         excerpt: n.excerpt || "",
         imageUrl: n.imageUrl || "",
+        additionalImages: n.additionalImages ?? [],
       }));
     const merged = [...staticItems, ...adminItems];
     merged.sort((a, b) => (a.date > b.date ? -1 : 1));
@@ -322,30 +325,55 @@ function NewsItemRow({ item, isFeatured, dividerColor }: NewsItemRowProps) {
       <Link to={href} className="block group">
         <div className="flex flex-col md:flex-row gap-4 md:gap-6">
           <div
-            className="newsThumb flex-shrink-0 rounded-[12px] overflow-hidden bg-[var(--regu-gray-100)]"
+            className="newsThumb relative flex-shrink-0 rounded-[12px] overflow-hidden bg-[var(--regu-gray-100)]"
             style={{
               width: "100%",
               maxWidth: isFeatured ? 540 : 280,
               height: isFeatured ? 320 : 160,
             }}
           >
-            {item.imageUrl ? (
-              <img
-                src={item.imageUrl}
-                alt=""
-                className="w-full h-full object-cover"
-                onError={(e) => {
-                  e.currentTarget.style.display = "none";
-                  const next = e.currentTarget.nextElementSibling as HTMLElement;
-                  if (next) next.style.display = "block";
-                }}
-              />
-            ) : null}
-            <div
-              className="w-full h-full hidden"
-              style={{ background: "linear-gradient(135deg, var(--regu-gray-100) 0%, var(--regu-offwhite) 100%)" }}
-              aria-hidden
-            />
+            {(() => {
+              const allImages = [item.imageUrl, ...(item.additionalImages ?? [])].filter(Boolean);
+              if (allImages.length === 0) {
+                return (
+                  <div
+                    className="w-full h-full"
+                    style={{ background: "linear-gradient(135deg, var(--regu-gray-100) 0%, var(--regu-offwhite) 100%)" }}
+                    aria-hidden
+                  />
+                );
+              }
+              if (allImages.length === 1) {
+                return (
+                  <>
+                    <img
+                      src={allImages[0]}
+                      alt=""
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        e.currentTarget.style.display = "none";
+                        const next = e.currentTarget.nextElementSibling as HTMLElement;
+                        if (next) next.style.display = "block";
+                      }}
+                    />
+                    <div
+                      className="w-full h-full hidden absolute inset-0"
+                      style={{ background: "linear-gradient(135deg, var(--regu-gray-100) 0%, var(--regu-offwhite) 100%)" }}
+                      aria-hidden
+                    />
+                  </>
+                );
+              }
+              return (
+                <ImageCarousel
+                  images={allImages}
+                  variant="card"
+                  fillContainer
+                  autoPlayMs={5000}
+                  className="h-full w-full !rounded-[12px] [&_img]:!object-cover"
+                />
+              );
+            })()}
           </div>
 
           <div className="newsContent flex-1 min-w-0 flex flex-col justify-center">

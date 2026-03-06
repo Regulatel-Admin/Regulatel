@@ -11,9 +11,15 @@ const emptyItem: Omit<AdminNewsItem, "id" | "published"> = {
   category: "Noticias",
   excerpt: "",
   imageUrl: "",
+  additionalImages: [],
   content: "",
   author: "REGULATEL",
+  imageFileName: undefined,
+  additionalImageNames: undefined,
 };
+
+type ImageSlot = { url: string; name?: string };
+type FormState = Omit<AdminNewsItem, "id" | "published"> & { imageSlots: ImageSlot[] };
 
 function formatDate(s: string) {
   if (!s) return "";
@@ -25,14 +31,20 @@ function formatDate(s: string) {
   });
 }
 
+const initialFormState = (): FormState => ({
+  ...emptyItem,
+  date: new Date().toISOString().slice(0, 10),
+  imageSlots: [{ url: "" }],
+});
+
 export default function AdminNoticias() {
   const { adminNews, addNews, updateNews, deleteNews } = useAdminData();
   const [editingId, setEditingId] = useState<string | null>(null);
   const [adding, setAdding] = useState(false);
-  const [form, setForm] = useState(emptyItem);
+  const [form, setForm] = useState<FormState>(initialFormState);
 
   const resetForm = () => {
-    setForm({ ...emptyItem, date: new Date().toISOString().slice(0, 10) });
+    setForm(initialFormState());
     setEditingId(null);
     setAdding(false);
   };
@@ -40,8 +52,25 @@ export default function AdminNoticias() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const dateFormatted = formatDate(form.date);
+    const slots = form.imageSlots.filter((s) => s.url.trim());
+    const payload = {
+      slug: form.slug,
+      title: form.title,
+      date: form.date,
+      dateFormatted,
+      category: form.category,
+      excerpt: form.excerpt,
+      imageUrl: slots[0]?.url ?? "",
+      imageFileName: slots[0]?.url.startsWith("data:") ? slots[0].name : undefined,
+      additionalImages: slots.slice(1).map((s) => s.url),
+      additionalImageNames: slots.slice(1).map((s) => (s.url.startsWith("data:") ? s.name ?? undefined : undefined)),
+      content: form.content,
+      author: form.author,
+      link: form.link,
+      videoUrl: form.videoUrl,
+    };
     if (editingId) {
-      updateNews(editingId, { ...form, dateFormatted });
+      updateNews(editingId, payload);
     } else {
       const slug =
         form.slug ||
@@ -49,12 +78,18 @@ export default function AdminNoticias() {
           .toLowerCase()
           .replace(/\s+/g, "-")
           .replace(/[^a-z0-9-]/g, "");
-      addNews({ ...form, slug, dateFormatted });
+      addNews({ ...payload, slug });
     }
     resetForm();
   };
 
   const startEdit = (n: AdminNewsItem) => {
+    const urls = [n.imageUrl, ...(n.additionalImages ?? [])].filter(Boolean);
+    const names = [n.imageFileName, ...(n.additionalImageNames ?? [])];
+    const imageSlots: ImageSlot[] =
+      urls.length > 0
+        ? urls.map((url, i) => ({ url, name: names[i] }))
+        : [{ url: "" }];
     setForm({
       slug: n.slug,
       title: n.title,
@@ -63,10 +98,14 @@ export default function AdminNoticias() {
       category: n.category,
       excerpt: n.excerpt,
       imageUrl: n.imageUrl,
+      imageFileName: n.imageFileName,
+      additionalImages: n.additionalImages ?? [],
+      additionalImageNames: n.additionalImageNames ?? [],
       content: n.content,
       author: n.author,
       link: n.link,
       videoUrl: n.videoUrl,
+      imageSlots,
     });
     setEditingId(n.id);
     setAdding(false);
@@ -83,7 +122,7 @@ export default function AdminNoticias() {
           type="button"
           onClick={() => {
             setAdding(true);
-            setForm({ ...emptyItem, date: new Date().toISOString().slice(0, 10) });
+            setForm(initialFormState());
           }}
           className="mb-6 flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold text-white"
           style={{ backgroundColor: "var(--regu-blue)" }}
@@ -146,15 +185,89 @@ export default function AdminNoticias() {
               />
             </div>
             <div className="md:col-span-2">
-              <label className="mb-1 block text-sm font-medium" style={{ color: "var(--regu-gray-700)" }}>URL de imagen</label>
-              <input
-                type="text"
-                value={form.imageUrl}
-                onChange={(e) => setForm((f) => ({ ...f, imageUrl: e.target.value }))}
-                placeholder="/images/noticias/mi-foto.jpg"
-                className="w-full rounded-lg border px-3 py-2"
-                style={{ borderColor: "var(--regu-gray-100)" }}
-              />
+              <label className="mb-1 block text-sm font-medium" style={{ color: "var(--regu-gray-700)" }}>
+                Imágenes y enlaces
+              </label>
+              <p className="mb-2 text-xs leading-relaxed" style={{ color: "var(--regu-gray-500)" }}>
+                Puedes añadir varias imágenes: pega enlaces (URL que termine en .jpg, .png, .webp, etc.) o sube archivos. Todas se mostrarán en la noticia individual.
+              </p>
+              <div className="space-y-2">
+                {form.imageSlots.map((slot, i) => (
+                  <div key={i} className="flex flex-wrap items-center gap-2">
+                    {slot.url.startsWith("data:") ? (
+                      <span className="min-w-0 truncate rounded-lg border bg-[var(--regu-gray-50)] px-3 py-2 text-sm" style={{ borderColor: "var(--regu-gray-100)", color: "var(--regu-gray-800)" }} title={slot.name || "Archivo adjunto"}>
+                        {slot.name || "Archivo adjunto"}
+                      </span>
+                    ) : (
+                      <input
+                        type="text"
+                        value={slot.url}
+                        onChange={(e) =>
+                          setForm((f) => ({
+                            ...f,
+                            imageSlots: f.imageSlots.map((s, j) => (j === i ? { ...s, url: e.target.value } : s)),
+                          }))
+                        }
+                        placeholder="https://... o /images/noticias/foto.jpg"
+                        className="min-w-[200px] flex-1 rounded-lg border px-3 py-2 text-sm"
+                        style={{ borderColor: "var(--regu-gray-100)" }}
+                      />
+                    )}
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setForm((f) => ({
+                          ...f,
+                          imageSlots: f.imageSlots.filter((_, j) => j !== i),
+                        }))
+                      }
+                      className="rounded-lg px-2 py-1 text-xs font-medium hover:bg-red-50"
+                      style={{ color: "var(--regu-gray-500)" }}
+                    >
+                      Quitar
+                    </button>
+                  </div>
+                ))}
+              </div>
+              <div className="mt-2 flex flex-wrap items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => setForm((f) => ({ ...f, imageSlots: [...f.imageSlots, { url: "" }] }))}
+                  className="rounded-lg border px-3 py-1.5 text-sm font-medium"
+                  style={{ borderColor: "var(--regu-gray-200)", color: "var(--regu-gray-700)" }}
+                >
+                  Añadir enlace
+                </button>
+                <label className="cursor-pointer">
+                  <span
+                    className="inline-flex items-center gap-2 rounded-lg border px-3 py-1.5 text-sm font-medium transition-colors hover:bg-[var(--regu-gray-50)]"
+                    style={{ borderColor: "var(--regu-gray-200)", color: "var(--regu-gray-700)" }}
+                  >
+                    Subir imagen(es)
+                  </span>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    className="sr-only"
+                    onChange={(e) => {
+                      const files = e.target.files;
+                      if (!files?.length) return;
+                      Array.from(files).forEach((file) => {
+                        if (!file.type.startsWith("image/")) return;
+                        const reader = new FileReader();
+                        reader.onload = () => {
+                          setForm((f) => ({
+                            ...f,
+                            imageSlots: [...f.imageSlots, { url: reader.result as string, name: file.name }],
+                          }));
+                        };
+                        reader.readAsDataURL(file);
+                      });
+                    }}
+                  />
+                </label>
+              </div>
             </div>
             <div className="md:col-span-2">
               <label className="mb-1 block text-sm font-medium" style={{ color: "var(--regu-gray-700)" }}>Contenido (texto completo)</label>

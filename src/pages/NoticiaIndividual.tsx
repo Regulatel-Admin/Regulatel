@@ -10,6 +10,7 @@ import {
   Play,
   Share2,
 } from "lucide-react";
+import ImageCarousel from "@/components/ImageCarousel";
 import { noticiasData } from "./noticiasData";
 import { useAdminData } from "@/contexts/AdminDataContext";
 import type { NoticiaData } from "./noticiasData";
@@ -34,6 +35,8 @@ interface ArticlePayload {
   dateFormatted: string;
   category: string;
   imageUrl: string | null;
+  /** Imágenes adicionales (enlaces o adjuntos). Todas se muestran en la noticia. */
+  additionalImages?: string[];
   author?: string;
   excerpt?: string;
   content: string[];
@@ -50,6 +53,7 @@ function normalizeAdminNoticia(admin: {
   dateFormatted: string;
   category: string;
   imageUrl?: string | null;
+  additionalImages?: string[];
   author?: string;
   excerpt?: string;
   content?: string;
@@ -66,6 +70,7 @@ function normalizeAdminNoticia(admin: {
     dateFormatted: admin.dateFormatted,
     category: admin.category,
     imageUrl: admin.imageUrl ?? null,
+    additionalImages: admin.additionalImages ?? [],
     author: admin.author,
     excerpt: admin.excerpt,
     content: paragraphs,
@@ -615,11 +620,23 @@ function ArticleLayout({
     >
       <ArticleBreadcrumb title={payload.title} />
       <ArticleHeader payload={payload} />
-      {payload.imageUrl && (
-        <ArticleImage imageUrl={payload.imageUrl} />
-      )}
-      {/* Línea fina gris debajo de la imagen (réplica INDOTEL) */}
-      {payload.imageUrl && (
+      {(() => {
+        const allImages = [payload.imageUrl, ...(payload.additionalImages ?? [])].filter(Boolean) as string[];
+        if (allImages.length === 0) return null;
+        if (allImages.length === 1) return <ArticleImage imageUrl={allImages[0]} />;
+        return (
+          <ImageCarousel
+            images={allImages}
+            variant="article"
+            aspectRatio="auto"
+            slideHeight="70vh"
+            autoPlayMs={6000}
+            className="mb-0"
+          />
+        );
+      })()}
+      {/* Línea fina gris debajo de las imágenes (réplica INDOTEL) */}
+      {(payload.imageUrl || (payload.additionalImages?.length ?? 0) > 0) && (
         <hr
           className="my-4 border-0 border-t w-full"
           style={{ borderColor: "var(--regu-gray-200)" }}

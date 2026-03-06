@@ -4,13 +4,15 @@ import { motion, AnimatePresence } from "framer-motion";
 import { FileText, Calendar, Eye, FileDown, Download, X, Maximize2 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { resolveDocumentSearch } from "@/data/searchMaps";
-import { searchDocuments, type GestionDocument } from "@/data/gestion";
+import { searchDocumentsInList, type GestionDocument } from "@/data/gestion";
+import { useMergedGestionDocuments } from "@/contexts/AdminDataContext";
 
 export default function BuscarDocumentos() {
   const [searchParams] = useSearchParams();
   const q = searchParams.get("q") ?? "";
+  const mergedDocuments = useMergedGestionDocuments();
   const categoryResults = resolveDocumentSearch(q);
-  const docResults = searchDocuments(q);
+  const docResults = searchDocumentsInList(mergedDocuments, q);
   const [previewDoc, setPreviewDoc] = useState<{ url: string; title: string } | null>(null);
 
   return (

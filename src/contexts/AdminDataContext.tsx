@@ -13,8 +13,11 @@ import { homeNews } from "@/data/news";
 import { noticiasData } from "@/pages/noticiasData";
 import type { Event } from "@/types/event";
 import { getEventStatus, getEventYear, normalizeEvent, slugifyEventId } from "@/types/event";
+import type { GestionDocument } from "@/data/gestion";
+import { gestionDocuments } from "@/data/gestion";
 
 const KEY_NEWS = "regulatel_admin_news";
+const KEY_DOCUMENTS = "regulatel_admin_documents";
 /** Eventos: modelo Event[] (único source of truth). v3 = seed actualizado con 7 eventos 2025. */
 const KEY_EVENTS = "regulatel_admin_events_v3";
 const KEY_CIFRAS = "regulatel_admin_cifras";
@@ -44,6 +47,12 @@ export interface AdminNewsItem {
   category: string;
   excerpt: string;
   imageUrl: string;
+  /** Nombre del archivo cuando imageUrl es data URL (subida). */
+  imageFileName?: string;
+  /** Imágenes adicionales (enlaces o data URLs). Todas se muestran en la noticia individual. */
+  additionalImages?: string[];
+  /** Nombres de archivo para additionalImages cuando son subidas (mismo índice; undefined si es URL). */
+  additionalImageNames?: (string | undefined)[];
   content: string;
   author?: string;
   link?: string;
@@ -91,6 +100,12 @@ interface AdminDataContextValue {
   getCifrasForYear: (year: number) => CifrasAnuales;
   setCifrasForYear: (year: number, data: CifrasAnuales) => void;
   clearCifrasForYear: (year: number) => void;
+
+  /** Documentos añadidos por el admin. Se muestran en Gestión junto a los estáticos. */
+  adminDocuments: GestionDocument[];
+  addDocument: (item: Omit<GestionDocument, "id">) => void;
+  updateDocument: (id: string, item: Partial<Omit<GestionDocument, "id">>) => void;
+  deleteDocument: (id: string) => void;
 }
 
 const AdminDataContext = createContext<AdminDataContextValue | null>(null);
@@ -106,10 +121,17 @@ export function AdminDataProvider({ children }: { children: ReactNode }) {
   const [adminCifrasPorAno, setAdminCifrasPorAnoState] = useState<Record<number, CifrasAnuales>>(() =>
     loadJson<Record<number, CifrasAnuales>>(KEY_CIFRAS_POR_ANO, {})
   );
+  const [adminDocuments, setAdminDocumentsState] = useState<GestionDocument[]>(() =>
+    loadJson<GestionDocument[]>(KEY_DOCUMENTS, [])
+  );
 
   useEffect(() => {
     saveJson(KEY_NEWS, adminNews);
   }, [adminNews]);
+
+  useEffect(() => {
+    saveJson(KEY_DOCUMENTS, adminDocuments);
+  }, [adminDocuments]);
 
   useEffect(() => {
     saveJson(KEY_EVENTS, events);
@@ -237,6 +259,21 @@ export function AdminDataProvider({ children }: { children: ReactNode }) {
     });
   }, []);
 
+  const addDocument = useCallback((item: Omit<GestionDocument, "id">) => {
+    const id = "admin-doc-" + Date.now();
+    setAdminDocumentsState((prev) => [...prev, { ...item, id }]);
+  }, []);
+
+  const updateDocument = useCallback((id: string, item: Partial<Omit<GestionDocument, "id">>) => {
+    setAdminDocumentsState((prev) =>
+      prev.map((d) => (d.id === id ? { ...d, ...item } : d))
+    );
+  }, []);
+
+  const deleteDocument = useCallback((id: string) => {
+    setAdminDocumentsState((prev) => prev.filter((d) => d.id !== id));
+  }, []);
+
   return (
     <AdminDataContext.Provider
       value={{
@@ -257,6 +294,10 @@ export function AdminDataProvider({ children }: { children: ReactNode }) {
         getCifrasForYear,
         setCifrasForYear,
         clearCifrasForYear,
+        adminDocuments,
+        addDocument,
+        updateDocument,
+        deleteDocument,
       }}
     >
       {children}
@@ -278,6 +319,8 @@ export interface HomeNewsItemLike {
   dateFormatted: string;
   excerpt: string;
   imageUrl?: string;
+  /** Para carrusel cuando la noticia tiene varias imágenes. */
+  additionalImages?: string[];
 }
 
 /** Para que la home y noticias muestren estáticos + publicados por admin */
@@ -297,6 +340,7 @@ export function useMergedNews(): HomeNewsItemLike[] {
         dateFormatted: n.dateFormatted,
         excerpt: n.excerpt,
         imageUrl: n.imageUrl || undefined,
+        additionalImages: n.additionalImages || undefined,
       })) ?? [];
   const merged = [...staticWithImages, ...adminPart];
   merged.sort((a, b) => (a.date > b.date ? -1 : 1));
@@ -312,4 +356,11 @@ export function useEvents(): Event[] {
 export function useMergedCifras(): KPIItem[] {
   const ctx = useContext(AdminDataContext);
   return ctx?.adminCifras ?? statsKpis;
+}
+
+/** Documentos estáticos + los añadidos por el admin. Usar en Gestión y BuscarDocumentos. */
+export function useMergedGestionDocuments(): GestionDocument[] {
+  const ctx = useContext(AdminDataContext);
+  const admin = ctx?.adminDocuments ?? [];
+  return [...gestionDocuments, ...admin];
 }
