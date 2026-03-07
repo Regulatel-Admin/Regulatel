@@ -32,7 +32,7 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
       return;
     }
     if (req.method === "PUT") {
-      const auth = await ensureAdmin(req);
+      await ensureAdmin(req);
       const body = (await parseJsonBody(req)) as Record<string, unknown>;
       const year = typeof body.year === "number" ? body.year : parseInt(String(body.year), 10);
       if (!Number.isInteger(year) || year < 2000 || year > 2100) {
