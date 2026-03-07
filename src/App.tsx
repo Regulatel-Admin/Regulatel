@@ -14,6 +14,7 @@ import AdminEventos from '@/pages/admin/AdminEventos';
 import AdminCifras from '@/pages/admin/AdminCifras';
 import AdminDocumentos from '@/pages/admin/AdminDocumentos';
 import AdminRevista from '@/pages/admin/AdminRevista';
+import AdminUsuarios from '@/pages/admin/AdminUsuarios';
 import Home from '@/pages/Home';
 import Autoridades from '@/pages/Autoridades';
 import AutoridadDetalle from '@/pages/AutoridadDetalle';
@@ -54,6 +55,7 @@ function App() {
               <Route path="cifras" element={<AdminCifras />} />
               <Route path="documentos" element={<AdminDocumentos />} />
               <Route path="revista" element={<AdminRevista />} />
+              <Route path="usuarios" element={<AdminUsuarios />} />
             </Route>
             <Route element={<Layout><Outlet /></Layout>}>
               <Route path="/" element={<Home />} />

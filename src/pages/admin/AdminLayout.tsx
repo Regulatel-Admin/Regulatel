@@ -8,6 +8,7 @@ import {
   Hash,
   FileText,
   BookOpen,
+  Users,
   LogOut,
 } from "lucide-react";
 import { useEffect } from "react";
@@ -22,7 +23,7 @@ const nav = [
 ];
 
 export default function AdminLayout() {
-  const { isAdmin, isChecking, logout } = useAuth();
+  const { isAdmin, isChecking, canManageUsers, logout } = useAuth();
   const { contentSource, contentError } = useAdminData();
   const navigate = useNavigate();
 
@@ -64,6 +65,16 @@ export default function AdminLayout() {
                 {label}
               </Link>
             ))}
+            {canManageUsers && (
+              <Link
+                to="/admin/usuarios"
+                className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition"
+                style={{ color: "var(--regu-gray-900)" }}
+              >
+                <Users className="h-4 w-4" />
+                Usuarios y auditoría
+              </Link>
+            )}
           </nav>
           <div className="mt-auto border-t px-2 pt-4" style={{ borderColor: "var(--regu-gray-100)" }}>
             <Link

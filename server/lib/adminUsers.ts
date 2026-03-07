@@ -131,3 +131,25 @@ export async function createAdminUser(input: {
     )
   `;
 }
+
+export interface AdminUserPublic {
+  id: string;
+  name: string;
+  email: string;
+  username: string | null;
+  role: "admin" | "editor";
+  is_active: boolean;
+  last_login_at: string | null;
+  created_at: string;
+}
+
+export async function listAdminUsers(): Promise<AdminUserPublic[]> {
+  await ensureAdminAuthSchema();
+  const sql = getDb();
+  const rows = await sql<AdminUserPublic[]>`
+    SELECT id, name, email, username, role, is_active, last_login_at, created_at
+    FROM admin_users
+    ORDER BY created_at DESC
+  `;
+  return rows;
+}

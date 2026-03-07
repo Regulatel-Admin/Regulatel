@@ -1,5 +1,6 @@
 import type { IncomingMessage, ServerResponse } from "http";
 import { ensureAdmin } from "../server/lib/adminAuth.js";
+import { logAudit } from "../server/lib/auditLog.js";
 import { deleteFromBlob, isBlobConfigured, uploadToBlob } from "../server/lib/blob.js";
 import { parseJsonBody } from "../server/lib/parseBody.js";
 
@@ -27,7 +28,7 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
 
   try {
     if (req.method === "POST") {
-      await ensureAdmin(req);
+      const auth = await ensureAdmin(req);
       const body = (await parseJsonBody(req)) as Record<string, unknown>;
       const kind = body.kind === "document" ? "document" : "image";
       const folder =
@@ -50,12 +51,21 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
         fileName,
         dataUrl,
       });
+      await logAudit({
+        userId: auth.user.id,
+        userEmail: auth.user.email,
+        userName: auth.user.name,
+        action: "uploaded",
+        resourceType: "upload",
+        resourceId: uploaded.url,
+        details: { fileName, folder },
+      });
       sendJson(res, 201, uploaded);
       return;
     }
 
     if (req.method === "DELETE") {
-      await ensureAdmin(req);
+      const auth = await ensureAdmin(req);
       const body = (await parseJsonBody(req)) as Record<string, unknown>;
       const url = typeof body.url === "string" ? body.url : "";
       if (!url) {
@@ -63,6 +73,15 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
         return;
       }
       await deleteFromBlob(url);
+      await logAudit({
+        userId: auth.user.id,
+        userEmail: auth.user.email,
+        userName: auth.user.name,
+        action: "deleted",
+        resourceType: "upload",
+        resourceId: url,
+        details: {},
+      });
       res.statusCode = 204;
       res.end();
       return;

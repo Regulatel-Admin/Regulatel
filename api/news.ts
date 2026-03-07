@@ -1,6 +1,7 @@
 import type { IncomingMessage, ServerResponse } from "http";
 import { listNews, createNews } from "../server/lib/news.js";
 import { ensureAdmin } from "../server/lib/adminAuth.js";
+import { logAudit } from "../server/lib/auditLog.js";
 import { parseJsonBody } from "../server/lib/parseBody.js";
 import { isDbConfigured } from "../server/lib/db.js";
 
@@ -32,7 +33,7 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
       return;
     }
     if (req.method === "POST") {
-      await ensureAdmin(req);
+      const auth = await ensureAdmin(req);
       const body = (await parseJsonBody(req)) as Record<string, unknown>;
       const id = typeof body.id === "string" ? body.id : "admin-" + Date.now();
       const slug = typeof body.slug === "string" ? body.slug : "";
@@ -75,6 +76,15 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
         link,
         videoUrl,
         published,
+      });
+      await logAudit({
+        userId: auth.user.id,
+        userEmail: auth.user.email,
+        userName: auth.user.name,
+        action: "created",
+        resourceType: "news",
+        resourceId: item.id,
+        details: { title: item.title, slug: item.slug },
       });
       sendJson(res, 201, item);
       return;

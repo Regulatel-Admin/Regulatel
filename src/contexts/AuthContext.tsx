@@ -8,22 +8,35 @@ import {
 } from "react";
 import { api } from "@/lib/api";
 
+interface AdminUser {
+  id: string;
+  name: string;
+  email: string;
+  username: string | null;
+  role: "admin" | "editor";
+}
+
 interface AuthContextValue {
   isAdmin: boolean;
   isChecking: boolean;
   isConfigured: boolean;
   bootstrapRequired: boolean;
+  user: AdminUser | null;
+  canManageUsers: boolean;
   login: (username: string, password: string) => Promise<boolean>;
   logout: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null);
 
+const SUPER_ADMIN_EMAILS = ["dcuervo@indotel.gob.do", "aarango@indotel.gob.do", "aarango@indotel.gob"];
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [isAdmin, setIsAdmin] = useState(false);
   const [isChecking, setIsChecking] = useState(true);
   const [isConfigured, setIsConfigured] = useState(true);
   const [bootstrapRequired, setBootstrapRequired] = useState(false);
+  const [user, setUser] = useState<AdminUser | null>(null);
 
   useEffect(() => {
     void (async () => {
@@ -32,10 +45,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setIsAdmin(res.data.authenticated);
         setIsConfigured(res.data.configured);
         setBootstrapRequired(res.data.bootstrapRequired);
+        setUser(res.data.user ?? null);
       } else {
         setIsAdmin(false);
         setIsConfigured(false);
         setBootstrapRequired(false);
+        setUser(null);
       }
       setIsChecking(false);
     })();
@@ -45,17 +60,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const res = await api.admin.login({ username, password });
     if (!res.ok) return false;
     setIsAdmin(true);
+    const sessionRes = await api.admin.session();
+    if (sessionRes.ok && sessionRes.data.user) setUser(sessionRes.data.user);
     return true;
   }, []);
 
   const logout = useCallback(async () => {
     await api.admin.logout();
     setIsAdmin(false);
+    setUser(null);
   }, []);
+
+  const canManageUsers = Boolean(user?.email && SUPER_ADMIN_EMAILS.includes(user.email.toLowerCase()));
 
   return (
     <AuthContext.Provider
-      value={{ isAdmin, isChecking, isConfigured, bootstrapRequired, login, logout }}
+      value={{ isAdmin, isChecking, isConfigured, bootstrapRequired, user, canManageUsers, login, logout }}
     >
       {children}
     </AuthContext.Provider>

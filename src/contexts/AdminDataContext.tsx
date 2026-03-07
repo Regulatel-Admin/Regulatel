@@ -112,10 +112,11 @@ export function AdminDataProvider({ children }: { children: ReactNode }) {
   /** Neon = fuente activa. Si la API no está disponible, se usa legacy solo para lectura pública. */
   useEffect(() => {
     void (async () => {
-      const [newsRes, eventsRes, docsRes] = await Promise.all([
+      const [newsRes, eventsRes, docsRes, cifrasRes] = await Promise.all([
         api.news.list(),
         api.events.list(),
         api.documents.list(),
+        api.cifras.list(),
       ]);
       if (newsRes.ok && eventsRes.ok && docsRes.ok) {
         const newsItems = Array.isArray(newsRes.data) ? (newsRes.data as AdminNewsItem[]) : [];
@@ -124,6 +125,22 @@ export function AdminDataProvider({ children }: { children: ReactNode }) {
         setAdminNewsState(newsItems.map((n) => ({ ...n, published: n.published !== false })));
         setEventsState(eventItems.map((e) => normalizeEvent(e)));
         setAdminDocumentsState(docItems);
+        if (cifrasRes.ok && cifrasRes.data && typeof cifrasRes.data === "object") {
+          const raw = cifrasRes.data as Record<string, { gruposTrabajo: number; comitesEjecutivos: number; revistaDigital: number; paises: number }>;
+          const byYear: Record<number, CifrasAnuales> = {};
+          for (const [k, v] of Object.entries(raw)) {
+            const y = parseInt(k, 10);
+            if (!Number.isNaN(y) && v && typeof v.gruposTrabajo === "number") {
+              byYear[y] = {
+                gruposTrabajo: v.gruposTrabajo,
+                comitesEjecutivos: v.comitesEjecutivos,
+                revistaDigital: v.revistaDigital,
+                paises: v.paises,
+              };
+            }
+          }
+          setAdminCifrasPorAnoState(byYear);
+        }
         setContentSource("database");
         setContentError(null);
         return;
@@ -253,17 +270,29 @@ export function AdminDataProvider({ children }: { children: ReactNode }) {
     };
   }, [adminCifrasPorAno]);
 
-  const setCifrasForYear = useCallback((year: number, data: CifrasAnuales) => {
+  const setCifrasForYear = useCallback(async (year: number, data: CifrasAnuales) => {
     setAdminCifrasPorAnoState((prev) => ({ ...prev, [year]: data }));
-  }, []);
+    if (contentSource === "database") {
+      const res = await api.cifras.setForYear(year, data);
+      if (!res.ok) {
+        console.warn("No se pudieron guardar las cifras en la base de datos:", res.error);
+      }
+    }
+  }, [contentSource]);
 
-  const clearCifrasForYear = useCallback((year: number) => {
+  const clearCifrasForYear = useCallback(async (year: number) => {
+    if (contentSource === "database") {
+      const res = await api.cifras.clearYear(year);
+      if (!res.ok) {
+        console.warn("No se pudo restaurar el año en la base de datos:", res.error);
+      }
+    }
     setAdminCifrasPorAnoState((prev) => {
       const next = { ...prev };
       delete next[year];
       return next;
     });
-  }, []);
+  }, [contentSource]);
 
   const addDocument = useCallback(async (item: Omit<GestionDocument, "id">) => {
     const id = "admin-doc-" + Date.now();

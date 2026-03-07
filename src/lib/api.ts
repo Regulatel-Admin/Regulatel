@@ -46,6 +46,12 @@ export const api = {
     update: (id: string, body: unknown) => request<unknown>(`/api/events/${encodeURIComponent(id)}`, { method: "PATCH", body }),
     delete: (id: string) => request<void>(`/api/events/${encodeURIComponent(id)}`, { method: "DELETE" }),
   },
+  cifras: {
+    list: () => request<Record<number, { gruposTrabajo: number; comitesEjecutivos: number; revistaDigital: number; paises: number }>>("/api/cifras"),
+    setForYear: (year: number, data: { gruposTrabajo: number; comitesEjecutivos: number; revistaDigital: number; paises: number }) =>
+      request<unknown>("/api/cifras", { method: "PUT", body: { year, ...data } }),
+    clearYear: (year: number) => request<void>(`/api/cifras/${year}`, { method: "DELETE" }),
+  },
   documents: {
     list: () => request<unknown[]>("/api/documents"),
     create: (body: unknown) => request<unknown>("/api/documents", { method: "POST", body }),
@@ -74,5 +80,29 @@ export const api = {
     login: (body: unknown) =>
       request<{ authenticated: boolean }>("/api/admin/session", { method: "POST", body }),
     logout: () => request<void>("/api/admin/session", { method: "DELETE" }),
+    users: {
+      list: () => request<Array<{ id: string; name: string; email: string; username: string | null; role: string; is_active: boolean; last_login_at: string | null; created_at: string }>>("/api/admin/users"),
+      create: (body: { email: string; password: string; name?: string; role?: string }) =>
+        request<{ id: string; email: string; name: string; role: string }>("/api/admin/users", { method: "POST", body }),
+    },
+    audit: {
+      list: (params?: { limit?: number; offset?: number }) => {
+        const sp = new URLSearchParams();
+        if (params?.limit != null) sp.set("limit", String(params.limit));
+        if (params?.offset != null) sp.set("offset", String(params.offset));
+        const q = sp.toString();
+        return request<{ items: Array<{
+          id: string;
+          user_id: string;
+          user_email: string;
+          user_name: string | null;
+          action: string;
+          resource_type: string;
+          resource_id: string | null;
+          details: Record<string, unknown>;
+          created_at: string;
+        }> }>(`/api/admin/audit${q ? `?${q}` : ""}`);
+      },
+    },
   },
 };

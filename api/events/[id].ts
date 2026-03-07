@@ -1,6 +1,7 @@
 import type { IncomingMessage, ServerResponse } from "http";
 import { getEventById, updateEvent, deleteEvent } from "../../server/lib/events.js";
 import { ensureAdmin } from "../../server/lib/adminAuth.js";
+import { logAudit } from "../../server/lib/auditLog.js";
 import { parseJsonBody } from "../../server/lib/parseBody.js";
 import { isDbConfigured } from "../../server/lib/db.js";
 
@@ -43,7 +44,7 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
       return;
     }
     if (req.method === "PATCH") {
-      await ensureAdmin(req);
+      const auth = await ensureAdmin(req);
       const body = (await parseJsonBody(req)) as Record<string, unknown>;
       const item = await updateEvent(id, {
         title: typeof body.title === "string" ? body.title : undefined,
@@ -67,16 +68,34 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
         sendJson(res, 404, { error: "Not found" });
         return;
       }
+      await logAudit({
+        userId: auth.user.id,
+        userEmail: auth.user.email,
+        userName: auth.user.name,
+        action: "updated",
+        resourceType: "event",
+        resourceId: id,
+        details: { title: item.title },
+      });
       sendJson(res, 200, item);
       return;
     }
     if (req.method === "DELETE") {
-      await ensureAdmin(req);
+      const auth = await ensureAdmin(req);
       const ok = await deleteEvent(id);
       if (!ok) {
         sendJson(res, 404, { error: "Not found" });
         return;
       }
+      await logAudit({
+        userId: auth.user.id,
+        userEmail: auth.user.email,
+        userName: auth.user.name,
+        action: "deleted",
+        resourceType: "event",
+        resourceId: id,
+        details: {},
+      });
       res.statusCode = 204;
       res.end();
       return;

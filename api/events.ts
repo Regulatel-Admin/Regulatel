@@ -1,6 +1,7 @@
 import type { IncomingMessage, ServerResponse } from "http";
 import { listEvents, createEvent } from "../server/lib/events.js";
 import { ensureAdmin } from "../server/lib/adminAuth.js";
+import { logAudit } from "../server/lib/auditLog.js";
 import { parseJsonBody } from "../server/lib/parseBody.js";
 import { isDbConfigured } from "../server/lib/db.js";
 
@@ -42,7 +43,7 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
       return;
     }
     if (req.method === "POST") {
-      await ensureAdmin(req);
+      const auth = await ensureAdmin(req);
       const body = (await parseJsonBody(req)) as Record<string, unknown>;
       const title = typeof body.title === "string" ? body.title : "";
       const startDate = typeof body.startDate === "string" ? body.startDate : "";
@@ -68,6 +69,15 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
         imageFileName: typeof body.imageFileName === "string" ? body.imageFileName : undefined,
         imageMimeType: typeof body.imageMimeType === "string" ? body.imageMimeType : undefined,
         imageSize: typeof body.imageSize === "number" ? body.imageSize : undefined,
+      });
+      await logAudit({
+        userId: auth.user.id,
+        userEmail: auth.user.email,
+        userName: auth.user.name,
+        action: "created",
+        resourceType: "event",
+        resourceId: item.id,
+        details: { title: item.title },
       });
       sendJson(res, 201, item);
       return;

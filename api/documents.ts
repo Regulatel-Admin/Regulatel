@@ -1,6 +1,7 @@
 import type { IncomingMessage, ServerResponse } from "http";
 import { listDocuments, createDocument } from "../server/lib/documents.js";
 import { ensureAdmin } from "../server/lib/adminAuth.js";
+import { logAudit } from "../server/lib/auditLog.js";
 import { parseJsonBody } from "../server/lib/parseBody.js";
 import { isDbConfigured } from "../server/lib/db.js";
 
@@ -32,7 +33,7 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
       return;
     }
     if (req.method === "POST") {
-      await ensureAdmin(req);
+      const auth = await ensureAdmin(req);
       const body = (await parseJsonBody(req)) as Record<string, unknown>;
       const id = typeof body.id === "string" ? body.id : "admin-doc-" + Date.now();
       const title = typeof body.title === "string" ? body.title : "";
@@ -53,6 +54,15 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
         year,
         quarter,
         category,
+      });
+      await logAudit({
+        userId: auth.user.id,
+        userEmail: auth.user.email,
+        userName: auth.user.name,
+        action: "created",
+        resourceType: "document",
+        resourceId: item.id,
+        details: { title: item.title },
       });
       sendJson(res, 201, item);
       return;

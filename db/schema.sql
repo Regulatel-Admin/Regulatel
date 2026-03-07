@@ -75,6 +75,16 @@ CREATE TABLE IF NOT EXISTS documents (
 CREATE INDEX IF NOT EXISTS idx_documents_category ON documents(category);
 CREATE INDEX IF NOT EXISTS idx_documents_year ON documents(year);
 
+-- REGULATEL en cifras (por año): grupos de trabajo, comités, revista, países
+CREATE TABLE IF NOT EXISTS cifras (
+  year INTEGER PRIMARY KEY,
+  grupos_trabajo INTEGER NOT NULL DEFAULT 0,
+  comites_ejecutivos INTEGER NOT NULL DEFAULT 0,
+  revista_digital INTEGER NOT NULL DEFAULT 0,
+  paises INTEGER NOT NULL DEFAULT 0,
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
 -- Admin authentication
 CREATE TABLE IF NOT EXISTS admin_users (
   id TEXT PRIMARY KEY,
@@ -107,3 +117,20 @@ CREATE TABLE IF NOT EXISTS admin_sessions (
 
 CREATE INDEX IF NOT EXISTS idx_admin_sessions_user_id ON admin_sessions(user_id);
 CREATE INDEX IF NOT EXISTS idx_admin_sessions_expires_at ON admin_sessions(expires_at);
+
+-- Auditoría: quién hizo qué (crear, actualizar, eliminar, subir)
+CREATE TABLE IF NOT EXISTS admin_audit_log (
+  id TEXT PRIMARY KEY,
+  user_id TEXT NOT NULL,
+  user_email TEXT NOT NULL,
+  user_name TEXT,
+  action TEXT NOT NULL CHECK (action IN ('created', 'updated', 'deleted', 'uploaded')),
+  resource_type TEXT NOT NULL CHECK (resource_type IN ('news', 'event', 'document', 'upload', 'admin_user')),
+  resource_id TEXT,
+  details JSONB DEFAULT '{}',
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_audit_created_at ON admin_audit_log(created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_audit_user_id ON admin_audit_log(user_id);
+CREATE INDEX IF NOT EXISTS idx_audit_resource ON admin_audit_log(resource_type, resource_id);
