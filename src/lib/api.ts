@@ -65,8 +65,8 @@ export const api = {
   },
   documentAccess: {
     login: (body: { email: string; password: string }) =>
-      request<{ ok: boolean }>("/api/document-access/login", { method: "POST", body }),
-    session: () => request<{ ok: boolean }>("/api/document-access/session"),
+      request<{ ok: boolean }>("/api/document-access", { method: "POST", body }),
+    session: () => request<{ ok: boolean }>("/api/document-access"),
   },
   admin: {
     session: () =>
