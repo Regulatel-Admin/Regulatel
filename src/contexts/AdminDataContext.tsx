@@ -338,35 +338,46 @@ export interface HomeNewsItemLike {
   additionalImages?: string[];
 }
 
-/** Para que la home y noticias muestren estáticos + publicados por admin */
+/** Para que la home y noticias muestren siempre estáticos + los de la base de datos. Si un estático fue editado en admin (mismo slug en DB), se muestra solo la versión DB. */
 export function useMergedNews(): HomeNewsItemLike[] {
   const ctx = useContext(AdminDataContext);
-  if (ctx?.contentSource === "database") {
-    return (ctx.adminNews ?? [])
-      .filter((n) => n.published)
-      .map((n) => ({
-        slug: n.slug || n.id,
-        title: n.title,
-        date: n.date,
-        dateFormatted: n.dateFormatted,
-        excerpt: n.excerpt,
-        imageUrl: n.imageUrl || undefined,
-        additionalImages: n.additionalImages || undefined,
-      }))
-      .sort((a, b) => (a.date > b.date ? -1 : 1));
-  }
   const staticWithImages = homeNews.map((item) => {
     const full = noticiasData.find((n) => n.slug === item.slug);
     return { ...item, imageUrl: full?.imageUrl };
   });
-  return [...staticWithImages].sort((a, b) => (a.date > b.date ? -1 : 1));
+  if (ctx?.contentSource !== "database") {
+    return [...staticWithImages].sort((a, b) => (a.date > b.date ? -1 : 1));
+  }
+  const dbSlugs = new Set(
+    (ctx.adminNews ?? []).filter((n) => n.published).map((n) => (n.slug || n.id).toLowerCase())
+  );
+  const staticFiltered = staticWithImages.filter((item) => !dbSlugs.has(item.slug.toLowerCase()));
+  const dbItems = (ctx.adminNews ?? [])
+    .filter((n) => n.published)
+    .map((n) => ({
+      slug: n.slug || n.id,
+      title: n.title,
+      date: n.date,
+      dateFormatted: n.dateFormatted,
+      excerpt: n.excerpt,
+      imageUrl: n.imageUrl || undefined,
+      additionalImages: n.additionalImages || undefined,
+    }));
+  return [...staticFiltered, ...dbItems].sort((a, b) => (a.date > b.date ? -1 : 1));
 }
 
-/** Lista de eventos (source of truth desde Admin o seed). */
+/** Lista de eventos: siempre estáticos (seed) + los de la base de datos. Si un estático fue editado en admin (mismo id en DB), se muestra solo la versión DB. */
 export function useEvents(): Event[] {
   const ctx = useContext(AdminDataContext);
-  if (ctx?.contentSource === "database") return ctx.events;
-  return EVENTS_SEED.map(normalizeEvent);
+  const seedNormalized = EVENTS_SEED.map(normalizeEvent);
+  if (ctx?.contentSource !== "database") return seedNormalized;
+  const dbIds = new Set((ctx.events ?? []).map((e) => e.id));
+  const staticFiltered = seedNormalized.filter((e) => !dbIds.has(e.id));
+  return [...staticFiltered, ...(ctx.events ?? [])].sort((a, b) => {
+    const dA = a.startDate;
+    const dB = b.startDate;
+    return dA > dB ? -1 : dA < dB ? 1 : 0;
+  });
 }
 
 export function useMergedCifras(): KPIItem[] {
@@ -374,9 +385,11 @@ export function useMergedCifras(): KPIItem[] {
   return ctx?.adminCifras ?? statsKpis;
 }
 
-/** Documentos estáticos + los añadidos por el admin. Usar en Gestión y BuscarDocumentos. */
+/** Documentos estáticos + los añadidos por el admin. Si un estático fue editado (mismo id en DB), se muestra solo la versión DB. */
 export function useMergedGestionDocuments(): GestionDocument[] {
   const ctx = useContext(AdminDataContext);
-  if (ctx?.contentSource === "database") return ctx.adminDocuments ?? [];
-  return gestionDocuments;
+  if (ctx?.contentSource !== "database") return gestionDocuments;
+  const dbIds = new Set((ctx.adminDocuments ?? []).map((d) => d.id));
+  const staticFiltered = gestionDocuments.filter((d) => !dbIds.has(d.id));
+  return [...staticFiltered, ...(ctx.adminDocuments ?? [])];
 }

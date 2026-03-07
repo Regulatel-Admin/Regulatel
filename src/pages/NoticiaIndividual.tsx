@@ -668,8 +668,7 @@ export default function NoticiaIndividual() {
   const adminNoticia = adminNews.find(
     (n) => n.published && (n.slug === slug || n.id === slug)
   );
-  const noticiaStatic =
-    contentSource === "database" ? undefined : noticiasData.find((n) => n.slug === slug);
+  const noticiaStatic = noticiasData.find((n) => n.slug === slug);
 
   if (adminNoticia) {
     const payload = normalizeAdminNoticia(adminNoticia);
