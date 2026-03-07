@@ -1,6 +1,6 @@
 /**
  * Panel Admin: gestionar TODOS los eventos (crear / editar / eliminar / duplicar).
- * Source of truth: events en AdminDataContext (localStorage o seed).
+ * Source of truth: events en AdminDataContext (Neon / API).
  * Añadir nuevos eventos o URLs: usar el formulario "Nuevo evento" o editar una fila.
  */
 
@@ -8,7 +8,8 @@ import { useState, useMemo } from "react";
 import { useAdminData } from "@/contexts/AdminDataContext";
 import type { Event } from "@/types/event";
 import { getEventYear, slugifyEventId, EVENT_STATUS_LABEL } from "@/types/event";
-import { Pencil, Trash2, Plus, Copy, X } from "lucide-react";
+import { Pencil, Trash2, Plus, Copy, X, Image as ImageIcon } from "lucide-react";
+import { uploadAdminFile } from "@/lib/uploads";
 
 const emptyForm = {
   title: "",
@@ -21,6 +22,10 @@ const emptyForm = {
   isFeatured: false,
   description: "",
   tags: [] as string[],
+  imageUrl: "",
+  imageFileName: "",
+  imageMimeType: "",
+  imageSize: undefined as number | undefined,
 };
 
 function isValidUrl(s: string): boolean {
@@ -39,6 +44,8 @@ export default function AdminEventos() {
   const [adding, setAdding] = useState(false);
   const [form, setForm] = useState(emptyForm);
   const [urlError, setUrlError] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isUploadingImage, setIsUploadingImage] = useState(false);
 
   const sortedEvents = useMemo(
     () => [...events].sort((a, b) => b.startDate.localeCompare(a.startDate)),
@@ -64,6 +71,10 @@ export default function AdminEventos() {
       isFeatured: e.isFeatured,
       description: e.description ?? "",
       tags: e.tags ?? [],
+      imageUrl: e.imageUrl ?? "",
+      imageFileName: e.imageFileName ?? "",
+      imageMimeType: e.imageMimeType ?? "",
+      imageSize: e.imageSize,
     });
     setEditingId(e.id);
     setAdding(false);
@@ -75,9 +86,11 @@ export default function AdminEventos() {
     setEditingId(null);
     setForm(emptyForm);
     setUrlError(null);
+    setIsSubmitting(false);
+    setIsUploadingImage(false);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!form.startDate.trim()) return;
     if (form.registrationUrl.trim() && !isValidUrl(form.registrationUrl)) {
@@ -88,37 +101,58 @@ export default function AdminEventos() {
       setUrlError("URL de detalles debe ser http o https.");
       return;
     }
+    if (form.imageUrl.trim() && !isValidUrl(form.imageUrl)) {
+      setUrlError("La URL de imagen debe ser http o https.");
+      return;
+    }
     setUrlError(null);
     const year = getEventYear(form.startDate);
-    if (editingId) {
-      updateEvent(editingId, {
-        title: form.title,
-        organizer: form.organizer,
-        location: form.location,
-        startDate: form.startDate,
-        endDate: form.endDate.trim() || null,
-        registrationUrl: form.registrationUrl.trim() || null,
-        detailsUrl: form.detailsUrl.trim() || null,
-        isFeatured: form.isFeatured,
-        description: form.description.trim() || undefined,
-        tags: form.tags,
-      });
-    } else {
-      addEvent({
-        id: slugifyEventId(form.title, year),
-        title: form.title,
-        organizer: form.organizer,
-        location: form.location,
-        startDate: form.startDate,
-        endDate: form.endDate.trim() || null,
-        registrationUrl: form.registrationUrl.trim() || null,
-        detailsUrl: form.detailsUrl.trim() || null,
-        isFeatured: form.isFeatured,
-        description: form.description.trim() || undefined,
-        tags: form.tags,
-      });
+    setIsSubmitting(true);
+    try {
+      if (editingId) {
+        await updateEvent(editingId, {
+          title: form.title,
+          organizer: form.organizer,
+          location: form.location,
+          startDate: form.startDate,
+          endDate: form.endDate.trim() || null,
+          registrationUrl: form.registrationUrl.trim() || null,
+          detailsUrl: form.detailsUrl.trim() || null,
+          isFeatured: form.isFeatured,
+          description: form.description.trim() || undefined,
+          tags: form.tags,
+          imageUrl: form.imageUrl.trim() || undefined,
+          imageFileName: form.imageFileName || undefined,
+          imageMimeType: form.imageMimeType || undefined,
+          imageSize: form.imageSize,
+        });
+      } else {
+        await addEvent({
+          id: slugifyEventId(form.title, year),
+          title: form.title,
+          organizer: form.organizer,
+          location: form.location,
+          startDate: form.startDate,
+          endDate: form.endDate.trim() || null,
+          registrationUrl: form.registrationUrl.trim() || null,
+          detailsUrl: form.detailsUrl.trim() || null,
+          isFeatured: form.isFeatured,
+          description: form.description.trim() || undefined,
+          tags: form.tags,
+          imageUrl: form.imageUrl.trim() || undefined,
+          imageFileName: form.imageFileName || undefined,
+          imageMimeType: form.imageMimeType || undefined,
+          imageSize: form.imageSize,
+        });
+      }
+      closeModal();
+    } catch (error) {
+      setUrlError(
+        error instanceof Error ? error.message : "No se pudo guardar el evento."
+      );
+    } finally {
+      setIsSubmitting(false);
     }
-    closeModal();
   };
 
   return (
@@ -126,6 +160,9 @@ export default function AdminEventos() {
       <h1 className="mb-6 text-2xl font-bold" style={{ color: "var(--regu-gray-900)" }}>
         Eventos
       </h1>
+      {urlError && !adding && !editingId && (
+        <p className="mb-4 text-sm font-medium text-red-600">{urlError}</p>
+      )}
       <p className="mb-4 text-sm" style={{ color: "var(--regu-gray-600)" }}>
         Gestionar todos los eventos que se muestran en la página pública y en el slider. El botón &quot;Registrarse&quot; usa la URL de registro configurada aquí.
       </p>
@@ -264,6 +301,72 @@ export default function AdminEventos() {
                   style={{ borderColor: "var(--regu-gray-100)" }}
                 />
               </div>
+              <div className="space-y-2">
+                <label className="mb-1 block text-sm font-medium" style={{ color: "var(--regu-gray-700)" }}>
+                  Imagen del evento
+                </label>
+                <label
+                  className="flex cursor-pointer items-center gap-2 rounded-lg border border-dashed px-4 py-3 transition hover:bg-[var(--regu-gray-50)]"
+                  style={{ borderColor: "var(--regu-gray-200)" }}
+                >
+                  <ImageIcon className="h-5 w-5 shrink-0" style={{ color: "var(--regu-blue)" }} />
+                  <span className="text-sm font-medium" style={{ color: "var(--regu-gray-700)" }}>
+                    {isUploadingImage
+                      ? "Subiendo..."
+                      : form.imageFileName || "Subir imagen a Blob"}
+                  </span>
+                  <input
+                    type="file"
+                    accept="image/jpeg,image/png,image/webp"
+                    className="sr-only"
+                    onChange={async (e) => {
+                      const file = e.target.files?.[0];
+                      if (!file) return;
+                      setUrlError(null);
+                      setIsUploadingImage(true);
+                      try {
+                        const uploaded = await uploadAdminFile({
+                          file,
+                          kind: "image",
+                          folder: "events",
+                        });
+                        setForm((f) => ({
+                          ...f,
+                          imageUrl: uploaded.url,
+                          imageFileName: uploaded.fileName ?? "",
+                          imageMimeType: uploaded.mimeType ?? "",
+                          imageSize: uploaded.size,
+                        }));
+                      } catch (error) {
+                        setUrlError(
+                          error instanceof Error
+                            ? error.message
+                            : "No se pudo subir la imagen."
+                        );
+                      } finally {
+                        setIsUploadingImage(false);
+                        e.currentTarget.value = "";
+                      }
+                    }}
+                  />
+                </label>
+                <input
+                  type="url"
+                  value={form.imageUrl}
+                  onChange={(e) =>
+                    setForm((f) => ({
+                      ...f,
+                      imageUrl: e.target.value,
+                      imageFileName: "",
+                      imageMimeType: "",
+                      imageSize: undefined,
+                    }))
+                  }
+                  placeholder="https://... o URL pública de la imagen"
+                  className="w-full rounded-lg border px-3 py-2 text-sm"
+                  style={{ borderColor: "var(--regu-gray-100)" }}
+                />
+              </div>
               <div>
                 <label className="mb-1 block text-sm font-medium" style={{ color: "var(--regu-gray-700)" }}>
                   Descripción
@@ -291,10 +394,11 @@ export default function AdminEventos() {
               <div className="flex gap-2 pt-2">
                 <button
                   type="submit"
+                  disabled={isSubmitting || isUploadingImage}
                   className="rounded-xl px-4 py-2 text-sm font-semibold text-white"
-                  style={{ backgroundColor: "var(--regu-blue)" }}
+                  style={{ backgroundColor: "var(--regu-blue)", opacity: isSubmitting || isUploadingImage ? 0.7 : 1 }}
                 >
-                  {editingId ? "Guardar" : "Crear"}
+                  {isSubmitting ? "Guardando..." : editingId ? "Guardar" : "Crear"}
                 </button>
                 <button
                   type="button"
@@ -363,7 +467,19 @@ export default function AdminEventos() {
                     </button>
                     <button
                       type="button"
-                      onClick={() => duplicateEvent(ev.id)}
+                      onClick={() => {
+                        void (async () => {
+                          try {
+                            await duplicateEvent(ev.id);
+                          } catch (error) {
+                            setUrlError(
+                              error instanceof Error
+                                ? error.message
+                                : "No se pudo duplicar el evento."
+                            );
+                          }
+                        })();
+                      }}
                       className="rounded-lg p-2 transition hover:bg-slate-100"
                       aria-label="Duplicar"
                     >
@@ -371,7 +487,20 @@ export default function AdminEventos() {
                     </button>
                     <button
                       type="button"
-                      onClick={() => window.confirm("¿Eliminar este evento?") && deleteEvent(ev.id)}
+                      onClick={() => {
+                        if (!window.confirm("¿Eliminar este evento?")) return;
+                        void (async () => {
+                          try {
+                            await deleteEvent(ev.id);
+                          } catch (error) {
+                            setUrlError(
+                              error instanceof Error
+                                ? error.message
+                                : "No se pudo eliminar el evento."
+                            );
+                          }
+                        })();
+                      }}
                       className="rounded-lg p-2 transition hover:bg-red-50"
                       aria-label="Eliminar"
                     >
@@ -386,7 +515,7 @@ export default function AdminEventos() {
       </div>
       {events.length === 0 && (
         <p className="mt-4 text-sm" style={{ color: "var(--regu-gray-500)" }}>
-          No hay eventos. Añade uno con &quot;Nuevo evento&quot; o carga el seed por defecto (recarga la página sin datos en localStorage).
+          No hay eventos en la fuente activa. Añade uno con &quot;Nuevo evento&quot;.
         </p>
       )}
     </div>

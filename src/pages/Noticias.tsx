@@ -46,7 +46,7 @@ function extractYear(dateStr: string): string {
 }
 
 function Noticias() {
-  const { adminNews } = useAdminData();
+  const { adminNews, contentSource } = useAdminData();
   const [sidebarFilter, setSidebarFilter] = useState<SidebarFilter>("Todas");
   const [yearFilter, setYearFilter] = useState<string>("all");
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
@@ -55,6 +55,21 @@ function Noticias() {
   useEffect(() => setPage(1), [sidebarFilter, yearFilter]);
 
   const mergedList = useMemo(() => {
+    if (contentSource === "database") {
+      return (adminNews ?? [])
+        .filter((n) => n.published)
+        .map((n) => ({
+          slug: n.slug || n.id,
+          title: n.title,
+          date: n.date,
+          dateFormatted: n.dateFormatted,
+          category: n.category || "Noticias",
+          excerpt: n.excerpt || "",
+          imageUrl: n.imageUrl || "",
+          additionalImages: n.additionalImages ?? [],
+        }))
+        .sort((a, b) => (a.date > b.date ? -1 : 1));
+    }
     const staticItems: NewsListItem[] = noticiasData.map((n) => ({
       slug: n.slug,
       title: n.title,
@@ -64,22 +79,8 @@ function Noticias() {
       excerpt: n.excerpt,
       imageUrl: n.imageUrl,
     }));
-    const adminItems: NewsListItem[] = (adminNews ?? [])
-      .filter((n) => n.published)
-      .map((n) => ({
-        slug: n.slug || n.id,
-        title: n.title,
-        date: n.date,
-        dateFormatted: n.dateFormatted,
-        category: n.category || "Noticias",
-        excerpt: n.excerpt || "",
-        imageUrl: n.imageUrl || "",
-        additionalImages: n.additionalImages ?? [],
-      }));
-    const merged = [...staticItems, ...adminItems];
-    merged.sort((a, b) => (a.date > b.date ? -1 : 1));
-    return merged;
-  }, [adminNews]);
+    return [...staticItems].sort((a, b) => (a.date > b.date ? -1 : 1));
+  }, [adminNews, contentSource]);
 
   const yearOptions = useMemo(() => {
     const years = new Set(mergedList.map((n) => extractYear(n.date)).filter(Boolean));

@@ -12,6 +12,9 @@ export interface GestionDocument {
   id: string;
   title: string;
   url: string;
+  fileName?: string;
+  fileType?: string;
+  fileSize?: number;
   /** Año o trimestre para mostrar (ej. "2025", "Q4 2025") */
   year?: string;
   quarter?: string;

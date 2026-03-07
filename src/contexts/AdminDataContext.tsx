@@ -15,27 +15,11 @@ import type { Event } from "@/types/event";
 import { getEventStatus, getEventYear, normalizeEvent, slugifyEventId } from "@/types/event";
 import type { GestionDocument } from "@/data/gestion";
 import { gestionDocuments } from "@/data/gestion";
+import { api } from "@/lib/api";
+import type { UploadedFileMeta } from "@/types/uploads";
 
-const KEY_NEWS = "regulatel_admin_news";
-const KEY_DOCUMENTS = "regulatel_admin_documents";
-/** Eventos: modelo Event[] (único source of truth). v3 = seed actualizado con 7 eventos 2025. */
-const KEY_EVENTS = "regulatel_admin_events_v3";
 const KEY_CIFRAS = "regulatel_admin_cifras";
 const KEY_CIFRAS_POR_ANO = "regulatel_admin_cifras_por_ano";
-
-function loadEvents(): Event[] {
-  const raw = loadJson<unknown>(KEY_EVENTS, []);
-  const seed = EVENTS_SEED.map(normalizeEvent);
-  if (!Array.isArray(raw) || raw.length === 0) return seed;
-  const isNewFormat = raw.every(
-    (e: unknown) => e && typeof e === "object" && "startDate" in e && "id" in e
-  );
-  if (!isNewFormat) return seed;
-  const stored = raw.map((e) => normalizeEvent(e as Event));
-  const count2025 = stored.filter((e) => e.year === 2025).length;
-  if (count2025 < 7) return seed;
-  return stored;
-}
 
 /** Noticia creada/editada por el admin (compatible con listado y detalle) */
 export interface AdminNewsItem {
@@ -47,12 +31,12 @@ export interface AdminNewsItem {
   category: string;
   excerpt: string;
   imageUrl: string;
-  /** Nombre del archivo cuando imageUrl es data URL (subida). */
   imageFileName?: string;
-  /** Imágenes adicionales (enlaces o data URLs). Todas se muestran en la noticia individual. */
+  imageMimeType?: string;
+  imageSize?: number;
   additionalImages?: string[];
-  /** Nombres de archivo para additionalImages cuando son subidas (mismo índice; undefined si es URL). */
   additionalImageNames?: (string | undefined)[];
+  additionalImageMeta?: UploadedFileMeta[];
   content: string;
   author?: string;
   link?: string;
@@ -77,20 +61,22 @@ function saveJson(key: string, value: unknown) {
 }
 
 interface AdminDataContextValue {
+  contentSource: "database" | "legacy" | "loading";
+  contentError: string | null;
   adminNews: AdminNewsItem[];
   setAdminNews: (v: AdminNewsItem[] | ((prev: AdminNewsItem[]) => AdminNewsItem[])) => void;
-  addNews: (item: Omit<AdminNewsItem, "id" | "published">) => void;
-  updateNews: (id: string, item: Partial<AdminNewsItem>) => void;
-  deleteNews: (id: string) => void;
+  addNews: (item: Omit<AdminNewsItem, "id" | "published">) => Promise<void>;
+  updateNews: (id: string, item: Partial<AdminNewsItem>) => Promise<void>;
+  deleteNews: (id: string) => Promise<void>;
 
   /** Lista completa de eventos (source of truth). Gestionar en /admin/eventos. */
   events: Event[];
   setEvents: (v: Event[] | ((prev: Event[]) => Event[])) => void;
   /** status y year se derivan en el contexto si no se pasan. */
-  addEvent: (item: Omit<Event, "createdAt" | "updatedAt" | "status" | "year"> & { status?: Event["status"]; year?: number }) => void;
-  updateEvent: (id: string, item: Partial<Omit<Event, "id" | "createdAt">>) => void;
-  deleteEvent: (id: string) => void;
-  duplicateEvent: (id: string) => void;
+  addEvent: (item: Omit<Event, "createdAt" | "updatedAt" | "status" | "year"> & { status?: Event["status"]; year?: number }) => Promise<void>;
+  updateEvent: (id: string, item: Partial<Omit<Event, "id" | "createdAt">>) => Promise<void>;
+  deleteEvent: (id: string) => Promise<void>;
+  duplicateEvent: (id: string) => Promise<void>;
 
   adminCifras: KPIItem[] | null;
   setAdminCifras: (v: KPIItem[] | null | ((prev: KPIItem[] | null) => KPIItem[] | null)) => void;
@@ -103,39 +89,51 @@ interface AdminDataContextValue {
 
   /** Documentos añadidos por el admin. Se muestran en Gestión junto a los estáticos. */
   adminDocuments: GestionDocument[];
-  addDocument: (item: Omit<GestionDocument, "id">) => void;
-  updateDocument: (id: string, item: Partial<Omit<GestionDocument, "id">>) => void;
-  deleteDocument: (id: string) => void;
+  addDocument: (item: Omit<GestionDocument, "id">) => Promise<void>;
+  updateDocument: (id: string, item: Partial<Omit<GestionDocument, "id">>) => Promise<void>;
+  deleteDocument: (id: string) => Promise<void>;
 }
 
 const AdminDataContext = createContext<AdminDataContextValue | null>(null);
 
 export function AdminDataProvider({ children }: { children: ReactNode }) {
-  const [adminNews, setAdminNewsState] = useState<AdminNewsItem[]>(() =>
-    loadJson<AdminNewsItem[]>(KEY_NEWS, [])
-  );
-  const [events, setEventsState] = useState<Event[]>(() => loadEvents());
+  const [contentSource, setContentSource] = useState<"database" | "legacy" | "loading">("loading");
+  const [contentError, setContentError] = useState<string | null>(null);
+  const [adminNews, setAdminNewsState] = useState<AdminNewsItem[]>([]);
+  const [events, setEventsState] = useState<Event[]>([]);
   const [adminCifras, setAdminCifrasState] = useState<KPIItem[] | null>(() =>
     loadJson<KPIItem[] | null>(KEY_CIFRAS, null)
   );
   const [adminCifrasPorAno, setAdminCifrasPorAnoState] = useState<Record<number, CifrasAnuales>>(() =>
     loadJson<Record<number, CifrasAnuales>>(KEY_CIFRAS_POR_ANO, {})
   );
-  const [adminDocuments, setAdminDocumentsState] = useState<GestionDocument[]>(() =>
-    loadJson<GestionDocument[]>(KEY_DOCUMENTS, [])
-  );
+  const [adminDocuments, setAdminDocumentsState] = useState<GestionDocument[]>([]);
 
+  /** Neon = fuente activa. Si la API no está disponible, se usa legacy solo para lectura pública. */
   useEffect(() => {
-    saveJson(KEY_NEWS, adminNews);
-  }, [adminNews]);
-
-  useEffect(() => {
-    saveJson(KEY_DOCUMENTS, adminDocuments);
-  }, [adminDocuments]);
-
-  useEffect(() => {
-    saveJson(KEY_EVENTS, events);
-  }, [events]);
+    void (async () => {
+      const [newsRes, eventsRes, docsRes] = await Promise.all([
+        api.news.list(),
+        api.events.list(),
+        api.documents.list(),
+      ]);
+      if (newsRes.ok && eventsRes.ok && docsRes.ok) {
+        const newsItems = Array.isArray(newsRes.data) ? (newsRes.data as AdminNewsItem[]) : [];
+        const eventItems = Array.isArray(eventsRes.data) ? (eventsRes.data as Event[]) : [];
+        const docItems = Array.isArray(docsRes.data) ? (docsRes.data as GestionDocument[]) : [];
+        setAdminNewsState(newsItems.map((n) => ({ ...n, published: n.published !== false })));
+        setEventsState(eventItems.map((e) => normalizeEvent(e)));
+        setAdminDocumentsState(docItems);
+        setContentSource("database");
+        setContentError(null);
+        return;
+      }
+      setContentSource("legacy");
+      setContentError(
+        !newsRes.ok ? newsRes.error : !eventsRes.ok ? eventsRes.error : !docsRes.ok ? docsRes.error : "API no disponible"
+      );
+    })();
+  }, []);
 
   useEffect(() => {
     saveJson(KEY_CIFRAS, adminCifras);
@@ -153,23 +151,27 @@ export function AdminDataProvider({ children }: { children: ReactNode }) {
   );
 
   const addNews = useCallback(
-    (item: Omit<AdminNewsItem, "id" | "published">) => {
+    async (item: Omit<AdminNewsItem, "id" | "published">) => {
       const id = "admin-" + Date.now();
-      setAdminNewsState((prev) => [
-        ...prev,
-        { ...item, id, published: true },
-      ]);
+      const payload = { ...item, id, published: true };
+      const res = await api.news.create(payload);
+      if (!res.ok || !res.data) throw new Error(res.ok ? "No se pudo crear la noticia." : res.error);
+      setAdminNewsState((prev) => [...prev, res.data as AdminNewsItem]);
     },
     []
   );
 
-  const updateNews = useCallback((id: string, item: Partial<AdminNewsItem>) => {
+  const updateNews = useCallback(async (id: string, item: Partial<AdminNewsItem>) => {
+    const res = await api.news.update(id, item);
+    if (!res.ok || !res.data) throw new Error(res.ok ? "No se pudo actualizar la noticia." : res.error);
     setAdminNewsState((prev) =>
-      prev.map((n) => (n.id === id ? { ...n, ...item } : n))
+      prev.map((n) => (n.id === id ? (res.data as AdminNewsItem) : n))
     );
   }, []);
 
-  const deleteNews = useCallback((id: string) => {
+  const deleteNews = useCallback(async (id: string) => {
+    const res = await api.news.delete(id);
+    if (!res.ok) throw new Error(res.error);
     setAdminNewsState((prev) => prev.filter((n) => n.id !== id));
   }, []);
 
@@ -178,7 +180,7 @@ export function AdminDataProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const addEvent = useCallback(
-    (item: Omit<Event, "createdAt" | "updatedAt" | "status" | "year"> & { status?: Event["status"]; year?: number }) => {
+    async (item: Omit<Event, "createdAt" | "updatedAt" | "status" | "year"> & { status?: Event["status"]; year?: number }) => {
       const now = new Date().toISOString();
       const status = getEventStatus({ startDate: item.startDate, endDate: item.endDate ?? null });
       const year = item.year ?? getEventYear(item.startDate);
@@ -190,26 +192,28 @@ export function AdminDataProvider({ children }: { children: ReactNode }) {
         createdAt: now,
         updatedAt: now,
       };
-      setEventsState((prev) => [...prev, normalizeEvent(newEvent)]);
+      const res = await api.events.create(newEvent);
+      if (!res.ok || !res.data) throw new Error(res.ok ? "No se pudo crear el evento." : res.error);
+      setEventsState((prev) => [...prev, normalizeEvent(res.data as Event)]);
     },
     []
   );
 
-  const updateEvent = useCallback((id: string, item: Partial<Omit<Event, "id" | "createdAt">>) => {
+  const updateEvent = useCallback(async (id: string, item: Partial<Omit<Event, "id" | "createdAt">>) => {
+    const res = await api.events.update(id, item);
+    if (!res.ok || !res.data) throw new Error(res.ok ? "No se pudo actualizar el evento." : res.error);
     setEventsState((prev) =>
-      prev.map((e) => {
-        if (e.id !== id) return e;
-        const updated = { ...e, ...item, updatedAt: new Date().toISOString() };
-        return normalizeEvent(updated);
-      })
+      prev.map((e) => (e.id === id ? normalizeEvent(res.data as Event) : e))
     );
   }, []);
 
-  const deleteEvent = useCallback((id: string) => {
+  const deleteEvent = useCallback(async (id: string) => {
+    const res = await api.events.delete(id);
+    if (!res.ok) throw new Error(res.error);
     setEventsState((prev) => prev.filter((e) => e.id !== id));
   }, []);
 
-  const duplicateEvent = useCallback((id: string) => {
+  const duplicateEvent = useCallback(async (id: string) => {
     const ev = events.find((e) => e.id === id);
     if (!ev) return;
     const now = new Date().toISOString();
@@ -221,7 +225,9 @@ export function AdminDataProvider({ children }: { children: ReactNode }) {
       createdAt: now,
       updatedAt: now,
     });
-    setEventsState((prev) => [...prev, dup]);
+    const res = await api.events.create(dup);
+    if (!res.ok || !res.data) throw new Error(res.ok ? "No se pudo duplicar el evento." : res.error);
+    setEventsState((prev) => [...prev, normalizeEvent(res.data as Event)]);
   }, [events]);
 
   const setAdminCifras = useCallback(
@@ -259,24 +265,33 @@ export function AdminDataProvider({ children }: { children: ReactNode }) {
     });
   }, []);
 
-  const addDocument = useCallback((item: Omit<GestionDocument, "id">) => {
+  const addDocument = useCallback(async (item: Omit<GestionDocument, "id">) => {
     const id = "admin-doc-" + Date.now();
-    setAdminDocumentsState((prev) => [...prev, { ...item, id }]);
+    const payload = { ...item, id };
+    const res = await api.documents.create(payload);
+    if (!res.ok || !res.data) throw new Error(res.ok ? "No se pudo crear el documento." : res.error);
+    setAdminDocumentsState((prev) => [...prev, res.data as GestionDocument]);
   }, []);
 
-  const updateDocument = useCallback((id: string, item: Partial<Omit<GestionDocument, "id">>) => {
+  const updateDocument = useCallback(async (id: string, item: Partial<Omit<GestionDocument, "id">>) => {
+    const res = await api.documents.update(id, item);
+    if (!res.ok || !res.data) throw new Error(res.ok ? "No se pudo actualizar el documento." : res.error);
     setAdminDocumentsState((prev) =>
-      prev.map((d) => (d.id === id ? { ...d, ...item } : d))
+      prev.map((d) => (d.id === id ? (res.data as GestionDocument) : d))
     );
   }, []);
 
-  const deleteDocument = useCallback((id: string) => {
+  const deleteDocument = useCallback(async (id: string) => {
+    const res = await api.documents.delete(id);
+    if (!res.ok) throw new Error(res.error);
     setAdminDocumentsState((prev) => prev.filter((d) => d.id !== id));
   }, []);
 
   return (
     <AdminDataContext.Provider
       value={{
+        contentSource,
+        contentError,
         adminNews,
         setAdminNews,
         addNews,
@@ -326,12 +341,8 @@ export interface HomeNewsItemLike {
 /** Para que la home y noticias muestren estáticos + publicados por admin */
 export function useMergedNews(): HomeNewsItemLike[] {
   const ctx = useContext(AdminDataContext);
-  const staticWithImages = homeNews.map((item) => {
-    const full = noticiasData.find((n) => n.slug === item.slug);
-    return { ...item, imageUrl: full?.imageUrl };
-  });
-  const adminPart =
-    ctx?.adminNews
+  if (ctx?.contentSource === "database") {
+    return (ctx.adminNews ?? [])
       .filter((n) => n.published)
       .map((n) => ({
         slug: n.slug || n.id,
@@ -341,16 +352,21 @@ export function useMergedNews(): HomeNewsItemLike[] {
         excerpt: n.excerpt,
         imageUrl: n.imageUrl || undefined,
         additionalImages: n.additionalImages || undefined,
-      })) ?? [];
-  const merged = [...staticWithImages, ...adminPart];
-  merged.sort((a, b) => (a.date > b.date ? -1 : 1));
-  return merged;
+      }))
+      .sort((a, b) => (a.date > b.date ? -1 : 1));
+  }
+  const staticWithImages = homeNews.map((item) => {
+    const full = noticiasData.find((n) => n.slug === item.slug);
+    return { ...item, imageUrl: full?.imageUrl };
+  });
+  return [...staticWithImages].sort((a, b) => (a.date > b.date ? -1 : 1));
 }
 
 /** Lista de eventos (source of truth desde Admin o seed). */
 export function useEvents(): Event[] {
   const ctx = useContext(AdminDataContext);
-  return ctx?.events ?? EVENTS_SEED.map(normalizeEvent);
+  if (ctx?.contentSource === "database") return ctx.events;
+  return EVENTS_SEED.map(normalizeEvent);
 }
 
 export function useMergedCifras(): KPIItem[] {
@@ -361,6 +377,6 @@ export function useMergedCifras(): KPIItem[] {
 /** Documentos estáticos + los añadidos por el admin. Usar en Gestión y BuscarDocumentos. */
 export function useMergedGestionDocuments(): GestionDocument[] {
   const ctx = useContext(AdminDataContext);
-  const admin = ctx?.adminDocuments ?? [];
-  return [...gestionDocuments, ...admin];
+  if (ctx?.contentSource === "database") return ctx.adminDocuments ?? [];
+  return gestionDocuments;
 }

@@ -4,15 +4,19 @@ import { useAuth } from "@/contexts/AuthContext";
 
 export default function Login() {
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { login, isConfigured, bootstrapRequired } = useAuth();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-    if (login(username, password)) {
+    setIsSubmitting(true);
+    const ok = await login(username, password);
+    setIsSubmitting(false);
+    if (ok) {
       navigate("/admin", { replace: true });
     } else {
       setError("Usuario o contraseña incorrectos.");
@@ -58,6 +62,31 @@ export default function Login() {
           style={{ borderColor: "var(--regu-gray-100)" }}
         >
           <form onSubmit={handleSubmit} className="space-y-5">
+            {!isConfigured && (
+              <div
+                className="rounded-lg border px-4 py-3 text-sm"
+                style={{
+                  borderColor: "var(--regu-salmon)",
+                  backgroundColor: "rgba(252,145,135,0.15)",
+                  color: "var(--regu-gray-900)",
+                }}
+              >
+                El acceso admin aún no está configurado correctamente en el servidor.
+              </div>
+            )}
+            {bootstrapRequired && (
+              <div
+                className="rounded-lg border px-4 py-3 text-sm"
+                style={{
+                  borderColor: "var(--regu-blue)",
+                  backgroundColor: "rgba(68,137,198,0.08)",
+                  color: "var(--regu-gray-900)",
+                }}
+              >
+                No existe todavía un usuario administrador en Neon. Ejecuta el script
+                `npm run admin:create -- --name "..." --email "..." --password "..." --role admin`.
+              </div>
+            )}
             {error && (
               <div
                 className="rounded-lg border px-4 py-3 text-sm"
@@ -114,10 +143,11 @@ export default function Login() {
             </div>
             <button
               type="submit"
+              disabled={isSubmitting || !isConfigured}
               className="w-full rounded-xl px-4 py-3 text-sm font-bold uppercase tracking-wide text-white transition hover:opacity-95"
-              style={{ backgroundColor: "var(--regu-blue)" }}
+              style={{ backgroundColor: "var(--regu-blue)", opacity: isSubmitting || !isConfigured ? 0.7 : 1 }}
             >
-              Entrar
+              {isSubmitting ? "Entrando..." : "Entrar"}
             </button>
           </form>
           <p className="mt-4 text-center text-sm" style={{ color: "var(--regu-gray-500)" }}>

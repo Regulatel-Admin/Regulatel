@@ -1,11 +1,14 @@
-import { useRef, useState, useEffect, useCallback } from "react";
+import { useRef, useState, useEffect, useCallback, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import {
-  searchSite,
+  buildSearchDocs,
+  searchSiteDocs,
   getTypeLabel,
   type SiteSearchResult,
   type SiteSearchType,
 } from "@/lib/siteSearch";
+import { useAdminData, useEvents, useMergedGestionDocuments } from "@/contexts/AdminDataContext";
+import { noticiasData } from "@/pages/noticiasData";
 
 const DEBOUNCE_MS = 200;
 const AUTCOMPLETE_LIMIT = 8;
@@ -46,10 +49,36 @@ export default function SiteSearchAutocomplete({
   compact = false,
 }: SiteSearchAutocompleteProps) {
   const navigate = useNavigate();
+  const { adminNews, contentSource } = useAdminData();
+  const events = useEvents();
+  const documents = useMergedGestionDocuments();
   const [open, setOpen] = useState(false);
   const [results, setResults] = useState<SiteSearchResult[]>([]);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const searchDocs = useMemo(
+    () =>
+      buildSearchDocs({
+        news:
+          contentSource === "database"
+            ? adminNews
+                .filter((n) => n.published)
+                .map((n) => ({
+                  id: n.id,
+                  slug: n.slug || n.id,
+                  title: n.title,
+                  date: n.date,
+                  dateFormatted: n.dateFormatted,
+                  excerpt: n.excerpt,
+                  category: n.category,
+                  content: n.content,
+                }))
+            : noticiasData,
+        events,
+        documents,
+      }),
+    [adminNews, contentSource, documents, events]
+  );
 
   const runSearch = useCallback((q: string) => {
     if (!q.trim()) {
@@ -57,10 +86,10 @@ export default function SiteSearchAutocomplete({
       setOpen(false);
       return;
     }
-    const next = searchSite(q, { limit: AUTCOMPLETE_LIMIT });
+    const next = searchSiteDocs(searchDocs, q, { limit: AUTCOMPLETE_LIMIT });
     setResults(next);
     setOpen(next.length > 0);
-  }, []);
+  }, [searchDocs]);
 
   useEffect(() => {
     if (debounceRef.current) clearTimeout(debounceRef.current);

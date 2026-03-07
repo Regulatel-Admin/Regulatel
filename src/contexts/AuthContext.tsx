@@ -6,50 +6,57 @@ import {
   useState,
   type ReactNode,
 } from "react";
-
-const STORAGE_KEY = "regulatel_admin_auth";
+import { api } from "@/lib/api";
 
 interface AuthContextValue {
   isAdmin: boolean;
-  login: (username: string, password: string) => boolean;
-  logout: () => void;
+  isChecking: boolean;
+  isConfigured: boolean;
+  bootstrapRequired: boolean;
+  login: (username: string, password: string) => Promise<boolean>;
+  logout: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null);
 
-function getStoredAuth(): boolean {
-  if (typeof window === "undefined") return false;
-  return localStorage.getItem(STORAGE_KEY) === "1";
-}
-
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [isAdmin, setIsAdmin] = useState(false);
+  const [isChecking, setIsChecking] = useState(true);
+  const [isConfigured, setIsConfigured] = useState(true);
+  const [bootstrapRequired, setBootstrapRequired] = useState(false);
 
   useEffect(() => {
-    setIsAdmin(getStoredAuth());
+    void (async () => {
+      const res = await api.admin.session();
+      if (res.ok) {
+        setIsAdmin(res.data.authenticated);
+        setIsConfigured(res.data.configured);
+        setBootstrapRequired(res.data.bootstrapRequired);
+      } else {
+        setIsAdmin(false);
+        setIsConfigured(false);
+        setBootstrapRequired(false);
+      }
+      setIsChecking(false);
+    })();
   }, []);
 
-  const login = useCallback((username: string, password: string): boolean => {
-    // Usuario temporal: admin@indotel.gob.do / 123 — también admin/admin para compatibilidad
-    const ok =
-      (username === "admin@indotel.gob.do" && password === "123") ||
-      (username === "admin" && password === "admin") ||
-      (username.trim() !== "" && password.trim() !== "");
-    if (ok) {
-      localStorage.setItem(STORAGE_KEY, "1");
-      setIsAdmin(true);
-      return true;
-    }
-    return false;
+  const login = useCallback(async (username: string, password: string): Promise<boolean> => {
+    const res = await api.admin.login({ username, password });
+    if (!res.ok) return false;
+    setIsAdmin(true);
+    return true;
   }, []);
 
-  const logout = useCallback(() => {
-    localStorage.removeItem(STORAGE_KEY);
+  const logout = useCallback(async () => {
+    await api.admin.logout();
     setIsAdmin(false);
   }, []);
 
   return (
-    <AuthContext.Provider value={{ isAdmin, login, logout }}>
+    <AuthContext.Provider
+      value={{ isAdmin, isChecking, isConfigured, bootstrapRequired, login, logout }}
+    >
       {children}
     </AuthContext.Provider>
   );

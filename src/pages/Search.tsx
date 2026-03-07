@@ -1,6 +1,14 @@
 import { useSearchParams, Link } from "react-router-dom";
-import { searchSite, getTypeLabel, suggestQuery } from "@/lib/siteSearch";
+import { useMemo } from "react";
+import {
+  buildSearchDocs,
+  searchSiteDocs,
+  getTypeLabel,
+  suggestQueryDocs,
+} from "@/lib/siteSearch";
 import type { SiteSearchResult, SiteSearchType } from "@/lib/siteSearch";
+import { useAdminData, useEvents, useMergedGestionDocuments } from "@/contexts/AdminDataContext";
+import { noticiasData } from "./noticiasData";
 
 const TYPES: SiteSearchType[] = ["autoridad", "noticia", "evento", "documento"];
 const PAGE_SIZE = 12;
@@ -49,14 +57,41 @@ function ResultCard({ r }: { r: SiteSearchResult }) {
 }
 
 export default function Search() {
+  const { adminNews, contentSource } = useAdminData();
+  const events = useEvents();
+  const documents = useMergedGestionDocuments();
   const [searchParams, setSearchParams] = useSearchParams();
   const q = searchParams.get("q") ?? "";
   const typeFilter = (searchParams.get("type") as SiteSearchType) || null;
+  const searchDocs = useMemo(
+    () =>
+      buildSearchDocs({
+        news:
+          contentSource === "database"
+            ? adminNews
+                .filter((n) => n.published)
+                .map((n) => ({
+                  id: n.id,
+                  slug: n.slug || n.id,
+                  title: n.title,
+                  date: n.date,
+                  dateFormatted: n.dateFormatted,
+                  excerpt: n.excerpt,
+                  category: n.category,
+                  content: n.content,
+                }))
+            : noticiasData,
+        events,
+        documents,
+      }),
+    [adminNews, contentSource, documents, events]
+  );
 
   const results = q.trim()
-    ? searchSite(q, { limit: 100, type: typeFilter ?? undefined })
+    ? searchSiteDocs(searchDocs, q, { limit: 100, type: typeFilter ?? undefined })
     : [];
-  const suggestion = results.length === 0 && q.trim().length >= 2 ? suggestQuery(q) : null;
+  const suggestion =
+    results.length === 0 && q.trim().length >= 2 ? suggestQueryDocs(searchDocs, q) : null;
 
   const setType = (t: SiteSearchType | null) => {
     const next = new URLSearchParams(searchParams);

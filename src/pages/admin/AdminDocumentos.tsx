@@ -3,6 +3,7 @@ import { useAdminData } from "@/contexts/AdminDataContext";
 import type { GestionDocument, GestionCategory } from "@/data/gestion";
 import { GESTION_TAB_LABELS } from "@/data/gestion";
 import { Pencil, Trash2, Plus, FileText } from "lucide-react";
+import { uploadAdminFile } from "@/lib/uploads";
 
 const CATEGORY_OPTIONS: { value: GestionCategory; label: string }[] = [
   { value: "planes-actas", label: GESTION_TAB_LABELS["planes-actas"] },
@@ -27,41 +28,62 @@ export default function AdminDocumentos() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [adding, setAdding] = useState(false);
   const [form, setForm] = useState(emptyDoc);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
+  const [formError, setFormError] = useState<string | null>(null);
 
   const resetForm = () => {
     setForm(emptyDoc);
     setEditingId(null);
     setAdding(false);
+    setFormError(null);
+    setIsUploading(false);
+    setIsSubmitting(false);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!form.url?.trim()) {
+      setFormError("Debes adjuntar un documento o indicar una URL.");
       return;
     }
+    setFormError(null);
+    setIsSubmitting(true);
     const payload = {
       ...form,
       year: form.year?.trim() || form.year,
       quarter: form.quarter?.trim() || undefined,
     };
-    if (editingId) {
-      updateDocument(editingId, payload);
-    } else {
-      addDocument(payload);
+    try {
+      if (editingId) {
+        await updateDocument(editingId, payload);
+      } else {
+        await addDocument(payload);
+      }
+      resetForm();
+    } catch (error) {
+      setFormError(
+        error instanceof Error ? error.message : "No se pudo guardar el documento."
+      );
+    } finally {
+      setIsSubmitting(false);
     }
-    resetForm();
   };
 
   const startEdit = (d: GestionDocument) => {
     setForm({
       title: d.title,
       url: d.url,
+      fileName: d.fileName,
+      fileType: d.fileType,
+      fileSize: d.fileSize,
       category: d.category,
       year: d.year ?? "",
       quarter: d.quarter ?? "",
     });
     setEditingId(d.id);
     setAdding(false);
+    setFormError(null);
   };
 
   return (
@@ -69,6 +91,9 @@ export default function AdminDocumentos() {
       <h1 className="mb-6 text-2xl font-bold" style={{ color: "var(--regu-gray-900)" }}>
         Documentos
       </h1>
+      {formError && !adding && !editingId && (
+        <p className="mb-4 text-sm font-medium text-red-600">{formError}</p>
+      )}
       <p className="mb-6 text-sm max-w-2xl" style={{ color: "var(--regu-gray-500)" }}>
         Aquí puedes añadir documentos y asignarlos a las subcategorías del menú Recursos (Planes de trabajo, Actas, Declaraciones, Revista Digital, etc.). Los documentos que añadas aparecerán en la categoría correspondiente en Gestión.
       </p>
@@ -97,6 +122,11 @@ export default function AdminDocumentos() {
             {editingId ? "Editar documento" : "Nuevo documento"}
           </h2>
           <div className="grid gap-4 md:grid-cols-2">
+            {formError && (
+              <p className="md:col-span-2 text-sm font-medium text-red-600" role="alert">
+                {formError}
+              </p>
+            )}
             <div className="md:col-span-2">
               <label className="mb-1 block text-sm font-medium" style={{ color: "var(--regu-gray-700)" }}>Título *</label>
               <input
@@ -111,7 +141,7 @@ export default function AdminDocumentos() {
             <div className="md:col-span-2">
               <label className="mb-1 block text-sm font-medium" style={{ color: "var(--regu-gray-700)" }}>Adjuntar documento *</label>
               <p className="mb-2 text-xs" style={{ color: "var(--regu-gray-500)" }}>
-                Sube el archivo (PDF, etc.) o pega la URL si el documento está en línea.
+                Sube el archivo a Vercel Blob o pega una URL externa si el documento ya está publicado.
               </p>
               <div className="mb-2">
                 <label className="flex cursor-pointer items-center gap-2 rounded-lg border border-dashed px-4 py-3 transition hover:bg-[var(--regu-gray-50)]"
@@ -119,33 +149,66 @@ export default function AdminDocumentos() {
                 >
                   <FileText className="h-5 w-5 shrink-0" style={{ color: "var(--regu-blue)" }} />
                   <span className="text-sm font-medium" style={{ color: "var(--regu-gray-700)" }}>
-                    {form.url.startsWith("data:") ? "Documento adjunto" : "Seleccionar archivo"}
+                    {isUploading
+                      ? "Subiendo..."
+                      : form.fileName || "Seleccionar archivo"}
                   </span>
                   <input
                     type="file"
                     accept=".pdf,application/pdf,application/msword,.doc,.docx"
                     className="sr-only"
-                    onChange={(e) => {
+                    onChange={async (e) => {
                       const file = e.target.files?.[0];
                       if (!file) return;
-                      const reader = new FileReader();
-                      reader.onload = () => setForm((f) => ({ ...f, url: reader.result as string }));
-                      reader.readAsDataURL(file);
+                      setFormError(null);
+                      setIsUploading(true);
+                      try {
+                        const uploaded = await uploadAdminFile({
+                          file,
+                          kind: "document",
+                          folder: "documents",
+                        });
+                        setForm((f) => ({
+                          ...f,
+                          url: uploaded.url,
+                          fileName: uploaded.fileName,
+                          fileType: uploaded.mimeType,
+                          fileSize: uploaded.size,
+                        }));
+                      } catch (error) {
+                        setFormError(
+                          error instanceof Error
+                            ? error.message
+                            : "No se pudo subir el documento."
+                        );
+                      } finally {
+                        setIsUploading(false);
+                        e.currentTarget.value = "";
+                      }
                     }}
                   />
                 </label>
               </div>
               <input
                 type="url"
-                value={form.url.startsWith("data:") ? "" : form.url}
-                onChange={(e) => setForm((f) => ({ ...f, url: e.target.value }))}
-                placeholder="O pegar URL del documento (https://... o /documents/archivo.pdf)"
+                value={form.url}
+                onChange={(e) =>
+                  setForm((f) => ({
+                    ...f,
+                    url: e.target.value,
+                    fileName: undefined,
+                    fileType: undefined,
+                    fileSize: undefined,
+                  }))
+                }
+                placeholder="https://... o /documents/archivo.pdf"
                 className="w-full rounded-lg border px-3 py-2 text-sm"
                 style={{ borderColor: "var(--regu-gray-100)" }}
               />
-              {form.url.startsWith("data:") && (
+              {form.fileName && (
                 <p className="mt-1 text-xs" style={{ color: "var(--regu-gray-500)" }}>
-                  Para cambiar, sube otro archivo o pega una URL.
+                  Archivo guardado: {form.fileName}
+                  {form.fileType ? ` · ${form.fileType}` : ""}
                 </p>
               )}
             </div>
@@ -191,10 +254,11 @@ export default function AdminDocumentos() {
           <div className="mt-4 flex gap-2">
             <button
               type="submit"
+              disabled={isSubmitting || isUploading}
               className="rounded-xl px-4 py-2 text-sm font-semibold text-white"
-              style={{ backgroundColor: "var(--regu-blue)" }}
+              style={{ backgroundColor: "var(--regu-blue)", opacity: isSubmitting || isUploading ? 0.7 : 1 }}
             >
-              {editingId ? "Guardar" : "Añadir"}
+              {isSubmitting ? "Guardando..." : editingId ? "Guardar" : "Añadir"}
             </button>
             <button
               type="button"
@@ -223,6 +287,7 @@ export default function AdminDocumentos() {
                   {GESTION_TAB_LABELS[d.category]}
                   {d.year && ` · ${d.year}`}
                   {d.quarter && ` ${d.quarter}`}
+                  {d.fileName && ` · ${d.fileName}`}
                 </p>
               </div>
             </div>
@@ -237,7 +302,19 @@ export default function AdminDocumentos() {
               </button>
               <button
                 type="button"
-                onClick={() => deleteDocument(d.id)}
+                onClick={() => {
+                  void (async () => {
+                    try {
+                      await deleteDocument(d.id);
+                    } catch (error) {
+                      setFormError(
+                        error instanceof Error
+                          ? error.message
+                          : "No se pudo eliminar el documento."
+                      );
+                    }
+                  })();
+                }}
                 className="rounded-lg p-2 transition hover:bg-red-50"
                 aria-label="Eliminar"
               >

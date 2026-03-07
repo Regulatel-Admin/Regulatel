@@ -1,5 +1,6 @@
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
+import { useAdminData } from "@/contexts/AdminDataContext";
 import {
   LayoutDashboard,
   Newspaper,
@@ -21,15 +22,17 @@ const nav = [
 ];
 
 export default function AdminLayout() {
-  const { isAdmin, logout } = useAuth();
+  const { isAdmin, isChecking, logout } = useAuth();
+  const { contentSource, contentError } = useAdminData();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!isAdmin) {
+    if (!isChecking && !isAdmin) {
       navigate("/login", { replace: true });
     }
-  }, [isAdmin, navigate]);
+  }, [isAdmin, isChecking, navigate]);
 
+  if (isChecking) return null;
   if (!isAdmin) return null;
 
   return (
@@ -73,7 +76,7 @@ export default function AdminLayout() {
             <button
               type="button"
               onClick={() => {
-                logout();
+                void logout();
                 navigate("/login");
               }}
               className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium"
@@ -86,6 +89,13 @@ export default function AdminLayout() {
         </div>
       </aside>
       <main className="min-w-0 flex-1 p-6 md:p-8">
+        {contentSource !== "database" && (
+          <div className="mb-6 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+            El contenido principal no está saliendo de Neon en este momento. El portal quedó en modo
+            legacy solo para lectura pública.
+            {contentError ? ` Motivo: ${contentError}` : ""}
+          </div>
+        )}
         <Outlet />
       </main>
     </div>

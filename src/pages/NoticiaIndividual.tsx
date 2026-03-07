@@ -663,11 +663,13 @@ function ArticleLayout({
 
 export default function NoticiaIndividual() {
   const { slug } = useParams<{ slug: string }>();
-  const { adminNews } = useAdminData();
+  const { adminNews, contentSource } = useAdminData();
+  if (contentSource === "loading") return null;
   const adminNoticia = adminNews.find(
     (n) => n.published && (n.slug === slug || n.id === slug)
   );
-  const noticiaStatic = noticiasData.find((n) => n.slug === slug);
+  const noticiaStatic =
+    contentSource === "database" ? undefined : noticiasData.find((n) => n.slug === slug);
 
   if (adminNoticia) {
     const payload = normalizeAdminNoticia(adminNoticia);

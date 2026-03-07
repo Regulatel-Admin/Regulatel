@@ -21,6 +21,9 @@ export interface Event {
   tags: string[];
   description?: string;
   imageUrl?: string;
+  imageFileName?: string;
+  imageMimeType?: string;
+  imageSize?: number;
   createdAt: string; // ISO
   updatedAt: string;
 }

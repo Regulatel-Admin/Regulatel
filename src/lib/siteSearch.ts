@@ -1,7 +1,9 @@
 /**
- * Site search: in-memory index from authorities, news, events, documents.
- * Normalize (accents, case), rank by title match > content match, snippet with highlight.
+ * Site search over the active content source (database or legacy fallback).
+ * Components build the index from current app state; this file stays source-agnostic.
  */
+
+import { authorities } from "@/data/authorities";
 
 export type SiteSearchType = "autoridad" | "noticia" | "evento" | "documento";
 
@@ -22,16 +24,38 @@ export interface SiteSearchResult {
   url: string;
   date: string;
   snippet: string;
-  /** Highlighted snippet (HTML string with <mark>) for display */
   snippetHighlighted: string;
 }
 
-import { authorities } from "@/data/authorities";
-import { EVENTS_SEED } from "@/data/eventsSeed";
-import { gestionDocuments } from "@/data/gestion";
-import { noticiasData } from "@/pages/noticiasData";
+export interface SearchNewsSource {
+  id?: string;
+  slug: string;
+  title: string;
+  date?: string;
+  dateFormatted?: string;
+  excerpt?: string;
+  category?: string;
+  content?: string | string[];
+  tags?: string[];
+}
 
-let index: SiteSearchDoc[] | null = null;
+export interface SearchEventSource {
+  id: string;
+  title: string;
+  description?: string;
+  organizer: string;
+  location: string;
+  year: number;
+  startDate: string;
+}
+
+export interface SearchDocumentSource {
+  id: string;
+  title: string;
+  url: string;
+  year?: string;
+  category: string;
+}
 
 function normalizeText(s: string): string {
   return s
@@ -42,9 +66,11 @@ function normalizeText(s: string): string {
     .trim();
 }
 
-function buildIndex(): SiteSearchDoc[] {
-  if (index) return index;
-
+export function buildSearchDocs(input: {
+  news: SearchNewsSource[];
+  events: SearchEventSource[];
+  documents: SearchDocumentSource[];
+}): SiteSearchDoc[] {
   const docs: SiteSearchDoc[] = [];
 
   for (const a of authorities) {
@@ -59,10 +85,10 @@ function buildIndex(): SiteSearchDoc[] {
     });
   }
 
-  for (const n of noticiasData) {
+  for (const n of input.news) {
     const content = Array.isArray(n.content) ? n.content.join(" ") : (n.content ?? "");
     docs.push({
-      id: `noticia-${n.slug}`,
+      id: `noticia-${n.id ?? n.slug}`,
       type: "noticia",
       title: n.title,
       url: `/noticias/${n.slug}`,
@@ -72,7 +98,7 @@ function buildIndex(): SiteSearchDoc[] {
     });
   }
 
-  EVENTS_SEED.forEach((e) => {
+  input.events.forEach((e) => {
     docs.push({
       id: `evento-${e.id}`,
       type: "evento",
@@ -84,7 +110,7 @@ function buildIndex(): SiteSearchDoc[] {
     });
   });
 
-  for (const d of gestionDocuments) {
+  for (const d of input.documents) {
     docs.push({
       id: `doc-${d.id}`,
       type: "documento",
@@ -96,7 +122,6 @@ function buildIndex(): SiteSearchDoc[] {
     });
   }
 
-  index = docs;
   return docs;
 }
 
@@ -187,21 +212,14 @@ function scoreDoc(doc: SiteSearchDoc, queryNorm: string): number {
   return score;
 }
 
-const resultCache = new Map<string, SiteSearchResult[]>();
-
-export function searchSite(
+export function searchSiteDocs(
+  docs: SiteSearchDoc[],
   query: string,
   options: { limit?: number; type?: SiteSearchType } = {}
 ): SiteSearchResult[] {
   const q = query.trim();
   const queryNorm = normalizeText(q);
   if (!queryNorm) return [];
-
-  const cacheKey = `${queryNorm}|${options.limit ?? 0}|${options.type ?? ""}`;
-  const cached = resultCache.get(cacheKey);
-  if (cached) return cached;
-
-  const docs = buildIndex();
   let filtered = docs;
   if (options.type) filtered = docs.filter((d) => d.type === options.type);
 
@@ -225,11 +243,6 @@ export function searchSite(
     };
   });
 
-  resultCache.set(cacheKey, results);
-  if (resultCache.size > 100) {
-    const first = resultCache.keys().next().value;
-    if (first) resultCache.delete(first);
-  }
   return results;
 }
 
@@ -266,13 +279,11 @@ function levenshtein(a: string, b: string): number {
 }
 
 /** "Did you mean?" when no results: suggest closest title by edit distance or partial match */
-export function suggestQuery(query: string): string | null {
+export function suggestQueryDocs(docs: SiteSearchDoc[], query: string): string | null {
   const q = query.trim();
   if (!q || q.length < 2) return null;
-  const results = searchSite(q, { limit: 1 });
+  const results = searchSiteDocs(docs, q, { limit: 1 });
   if (results.length > 0) return null;
-
-  const docs = buildIndex();
   const queryNorm = normalizeText(q);
   const firstWord = queryNorm.split(/\s+/)[0];
   if (!firstWord) return null;

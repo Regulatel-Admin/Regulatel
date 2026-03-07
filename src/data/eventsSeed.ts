@@ -1,11 +1,10 @@
 /**
- * Seed inicial de eventos (calendario 2026 + pasados).
- * Source of truth: si hay datos en Admin (localStorage key regulatel_admin_events_v3),
- * se usan esos; si no, se usa este seed. Al guardar desde Admin se persiste en localStorage.
+ * Dataset legacy de eventos para fallback de lectura pública.
+ * En producción, la fuente principal debe ser Neon vía API.
  *
  * Para añadir nuevos eventos o cambiar URLs de registro:
  * → Panel Admin: /admin/eventos (crear / editar / eliminar / duplicar).
- * Este archivo solo define el seed por defecto al cargar la app sin datos guardados.
+ * Este archivo queda como respaldo cuando la API no está disponible.
  */
 
 import type { Event } from "@/types/event";
