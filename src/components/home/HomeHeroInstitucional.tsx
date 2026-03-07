@@ -2,6 +2,7 @@
  * Hero institucional del home REGULATEL.
  * Versión inicial desarrollada por Diego Cuervo (INDOTEL). 2026.
  */
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
 export interface HomeHeroInstitucionalProps {
@@ -40,6 +41,9 @@ export default function HomeHeroInstitucional({
   primaryCta,
   secondaryCta,
 }: HomeHeroInstitucionalProps) {
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const showLoader = Boolean(coverImageUrl) && !imageLoaded;
+
   return (
     <section
       className="heroInstitucional relative w-full overflow-hidden min-h-[72vh] md:min-h-[73vh]"
@@ -59,7 +63,9 @@ export default function HomeHeroInstitucional({
               className="absolute inset-0 h-full w-full object-cover"
               style={{ filter: "brightness(0.85)" }}
               loading="eager"
+              onLoad={() => setImageLoaded(true)}
               onError={(e) => {
+                setImageLoaded(true);
                 e.currentTarget.style.display = "none";
                 const parent = e.currentTarget.parentElement;
                 if (parent) {
@@ -69,6 +75,17 @@ export default function HomeHeroInstitucional({
                 }
               }}
             />
+            {showLoader && (
+              <div
+                className="heroCoverLoader absolute inset-0 z-[2] flex items-center justify-center"
+                aria-hidden
+              >
+                <div
+                  className="heroCoverSpinner h-10 w-10 rounded-full border-2 border-white/40 border-t-white"
+                  style={{ animation: "hero-spin 0.9s linear infinite" }}
+                />
+              </div>
+            )}
             <div
               className="heroInstitucionalOverlay absolute inset-0 z-[1]"
               style={{ background: HERO_OVERLAY }}
