@@ -26,7 +26,7 @@ export default function Home() {
   const allEvents = useEvents();
   const homeEvents = useMemo(() => allEvents.filter((e) => e.year === 2026), [allEvents]);
 
-  return (
+    return (
     <>
       {/* Hero institucional/editorial: imagen de cooperación + badge + título + 2 CTAs (mapa disponible en /images/mapa-mundi-nuevo-home.png para otras secciones) */}
       <HomeHeroInstitucional
@@ -51,26 +51,26 @@ export default function Home() {
           style={{ color: "var(--regu-gray-900)", fontFamily: "var(--token-font-heading)" }}
         >
           CUMBRES DESTACADAS
-        </h2>
+                        </h2>
         <p
           className="mt-1 text-sm md:mt-1.5 md:text-base"
           style={{ color: "var(--regu-gray-700)", fontFamily: "var(--token-font-body)" }}
         >
           Próximas y recientes cumbres de REGULATEL y organismos aliados.
         </p>
-      </div>
+                                    </div>
       <FeaturedCarousel items={featuredCarouselItems} />
 
       <LiveIndicatorsSection />
 
       <section className="bg-white">
         <NewsSectionBerec news={homeNews} />
-      </section>
+        </section>
       {/* Eventos: carrusel destacados (BEREC) + grid "Todos los eventos" */}
       <section className="bg-gradient-to-b from-white to-slate-100">
         <FeaturedEventsCarousel events={homeEvents} autoplayIntervalMs={7000} />
         <EventsSection events={homeEvents} variant="home" maxEvents={4} />
-      </section>
+        </section>
     </>
   );
 }

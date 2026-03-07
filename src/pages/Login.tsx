@@ -76,15 +76,23 @@ export default function Login() {
             )}
             {bootstrapRequired && (
               <div
-                className="rounded-lg border px-4 py-3 text-sm"
+                className="rounded-lg border px-4 py-3 text-sm space-y-2"
                 style={{
                   borderColor: "var(--regu-blue)",
                   backgroundColor: "rgba(68,137,198,0.08)",
                   color: "var(--regu-gray-900)",
                 }}
               >
-                No existe todavía un usuario administrador en Neon. Ejecuta el script
-                `npm run admin:create -- --name "..." --email "..." --password "..." --role admin`.
+                <p>
+                  La aplicación no detecta usuarios administrador en la base de datos a la que está conectada.
+                </p>
+                <p>
+                  Si ya creaste usuarios en Neon, revisa que en Vercel (Settings → Environment Variables) la variable <strong>DATABASE_URL</strong> apunte a la base correcta (la que tiene las tablas y los usuarios). Luego haz un redeploy.
+                </p>
+                <p>
+                  Si aún no hay usuarios, ejecuta localmente:{" "}
+                  <code className="text-xs bg-white/70 px-1 rounded">npm run admin:create -- --name "Nombre" --email "tu@email" --password "..." --role admin</code>
+                </p>
               </div>
             )}
             {error && (
