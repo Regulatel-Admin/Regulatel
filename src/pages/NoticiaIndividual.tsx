@@ -93,6 +93,7 @@ function normalizeStaticNoticia(n: NoticiaData): ArticlePayload {
     highlights: n.highlights,
     tags: n.tags,
     slug: n.slug,
+    link: n.link,
   };
 }
 

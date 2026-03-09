@@ -314,7 +314,7 @@ export const heroSlides: HeroSlideItem[] = [
       "https://www.regulatel.org/sites/default/files/gallery/CUMBRE-REGULATEL-ASIET-COMTELCA-2025-HOME.png",
     dateFormatted: "11 DICIEMBRE 2025",
     category: "EVENTOS",
-    href: "https://www.flickr.com/photos/indotel/albums/72177720330839315",
+    href: "/noticias/cumbre-regulatel-asiet-comtelca",
   },
   {
     title: "Cumbre REGULATEL - BEREC, Santa Cruz 2024",
@@ -458,7 +458,7 @@ export const featuredSummit = {
   title: "Cumbre Punta Cana 2025",
   description:
     "Encuentro regional de cooperación entre reguladores y actores del ecosistema digital para impulsar una agenda común.",
-  href: "https://www.flickr.com/photos/indotel/albums/72177720330839315",
+  href: "/noticias/cumbre-regulatel-asiet-comtelca",
   buttonLabel: "Ver Cumbre",
 };
 
@@ -480,7 +480,7 @@ export const featuredCarouselItems = [
     date: "11 DIC 2025",
     title: "Cumbre REGULATEL, ASIET y COMTELCA — Conectando el futuro digital de la región",
     imageUrl: "/images/cumbre-regulatel-asiet-comtelca-2025.png",
-    href: "https://www.flickr.com/photos/indotel/albums/72177720330839315",
+    href: "/noticias/cumbre-regulatel-asiet-comtelca",
     ctaPrimaryLabel: "Ver Cumbre",
     /* Sin ctaSecondary: evento 2025 ya pasó, no debe mostrar Registrarse. */
   },

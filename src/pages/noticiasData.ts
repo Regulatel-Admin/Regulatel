@@ -21,9 +21,33 @@ export interface NoticiaData {
   quotes?: Quote[];
   highlights?: Highlight[];
   tags?: string[];
+  link?: string;
 }
 
 export const noticiasData: NoticiaData[] = [
+  {
+    slug: 'cumbre-regulatel-asiet-comtelca',
+    title: 'Cumbre Regulatel, Asiet, Comtelca',
+    date: '2025-10-28',
+    dateFormatted: '28 octubre 2025',
+    category: 'Noticias',
+    excerpt: 'INDOTEL, REGULATEL, ASIET y COMTELCA organizan la Cumbre "Conectando el futuro digital de la región" el 11 de diciembre de 2025 en Punta Cana, República Dominicana.',
+    imageUrl: '/images/noticias/CUMBRE-REGULATEL-ASIET-COMTELCA-2025.png',
+    author: 'INDOTEL',
+    content: [
+      '28 de octubre. El Instituto Dominicano de las Telecomunicaciones (INDOTEL), el Foro Latinoamericano de Entes Reguladores de Telecomunicaciones (REGULATEL), la Asociación Interamericana de Empresas de Telecomunicaciones (ASIET) y la Comisión Técnica Regional de Telecomunicaciones (COMTELCA) se encuentran organizando la Cumbre REGULATEL–ASIET–COMTELCA "Conectando el futuro digital de la región", que se llevará a cabo el 11 de diciembre de 2025, de 8:00 a.m. a 6:00 p.m., en el Hotel Barceló Bávaro Palace, Punta Cana, República Dominicana.',
+      'El encuentro reunirá a líderes de la industria y autoridades regulatorias de Europa y América Latina para abordar temas estratégicos relacionados con:',
+      '- Regulación inteligente y tecnologías emergentes para el progreso económico y la competitividad.',
+      '- Despliegue y aprovechamiento de nuevas tecnologías.',
+      '- Mejora regulatoria e inclusión digital como pilares de desarrollo sostenible.',
+      '- Rol de la infraestructura digital en el desarrollo económico y social, y su impacto en la integración regional.',
+      'Las telecomunicaciones habilitan los cambios tecnológicos, económicos y sociales que caracterizan la transformación digital: garantizar una conectividad significativa es, hoy, una prioridad regional.',
+      'En este sentido, la Cumbre se consolidará como un espacio de alto nivel para fortalecer la cooperación, articular políticas y promover una agenda común de digitalización en la región.',
+      'Más información y proceso de registro aquí: https://indotel.gob.do/cumbre-regulatel-asiet-comtelca-2/'
+    ],
+    tags: ['CUMBRE', 'REGULATEL', 'ASIET', 'COMTELCA', 'INDOTEL', 'Punta Cana 2025'],
+    link: 'https://indotel.gob.do/cumbre-regulatel-asiet-comtelca-2/'
+  },
   {
     slug: 'regulatel-invita-a-berec-a-participar-en-encuentro-birregional-en-cartagena',
     title: 'REGULATEL invita a BEREC a participar en encuentro birregional en Cartagena',
