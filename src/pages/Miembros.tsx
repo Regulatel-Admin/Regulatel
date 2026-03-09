@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Globe, ExternalLink, Search, Mail, User, Briefcase, X } from 'lucide-react';
+import { Globe, ExternalLink, Search, Mail, User, Briefcase, X, ChevronRight, ChevronLeft } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import PageHero from '@/components/PageHero';
@@ -44,6 +44,7 @@ const logoUrlMap: Record<string, string> = {
   'mtc': 'https://www.regulatel.org/sites/default/files/gallery/mtc.png',
   'conatel-gt': 'https://www.regulatel.org/sites/default/files/gallery/conatel-gt.png',
   'super-tel': 'https://www.regulatel.org/sites/default/files/gallery/super-tel.png',
+  'crt': '/images/comite-ejecutivo/crt.png',
 };
 
 // Componente inteligente para cargar logos con múltiples intentos
@@ -183,28 +184,32 @@ const Miembros: React.FC = () => {
     return Array.from(new Set(directorioAutoridades.map(item => item.pais))).sort();
   }, []);
 
-  const entesReguladores: EnteRegulador[] = [
-    { name: 'SUB SECRETARIA TELECOM', country: 'Argentina', route: '/sub-secretaria-telecom', externalUrl: 'https://www.regulatel.org/sub-secretaria-telecom' },
-    { name: 'ANATEL', country: 'Brasil', fullName: 'Agência Nacional de Telecomunicações', route: '/anatel', externalUrl: 'https://www.regulatel.org/anatel' },
-    { name: 'ATT', country: 'Chile', fullName: 'Autoridad de Regulación y Fiscalización de Telecomunicaciones y Transportes', route: '/att', externalUrl: 'https://www.regulatel.org/att' },
+  const entesReguladoresBase: EnteRegulador[] = [
     { name: 'ENACOM', country: 'Argentina', fullName: 'Ente Nacional de Comunicaciones', route: '/enacom', externalUrl: 'https://www.regulatel.org/enacom' },
-    { name: 'SUTEL', country: 'Costa Rica', fullName: 'Superintendencia de Telecomunicaciones', route: '/sutel', externalUrl: 'https://www.regulatel.org/sutel' },
-    { name: 'MINISTERIO DE COMUNICACIONES', country: 'Ecuador', route: '/min-com', externalUrl: 'https://www.regulatel.org/min-com' },
-    { name: 'AGCOM', country: 'Italia', fullName: 'Autorità per le Garanzie nelle Comunicazioni', route: '/agcom', externalUrl: 'https://www.regulatel.org/agcom' },
-    { name: 'ARCOTEL', country: 'Ecuador', fullName: 'Agencia de Regulación y Control de las Telecomunicaciones', route: '/arcotel', externalUrl: 'https://www.regulatel.org/arcotel' },
-    { name: 'CRC', country: 'Colombia', fullName: 'Comisión de Regulación de Comunicaciones', route: '/crc', externalUrl: 'https://www.regulatel.org/crc' },
-    { name: 'CNMC', country: 'España', fullName: 'Comisión Nacional de los Mercados y la Competencia', route: '/cnmc', externalUrl: 'https://www.regulatel.org/cnmc' },
-    { name: 'SIT', country: 'El Salvador', fullName: 'Superintendencia General de Electricidad y Telecomunicaciones', route: '/sit', externalUrl: 'https://www.regulatel.org/sit' },
-    { name: 'CONATEL', country: 'Honduras', fullName: 'Comisión Nacional de Telecomunicaciones', route: '/conatel', externalUrl: 'https://www.regulatel.org/conatel' },
-    { name: 'INDOTEL', country: 'República Dominicana', fullName: 'Instituto Dominicano de las Telecomunicaciones', route: '/indotel', externalUrl: 'https://www.regulatel.org/indotel' },
-    { name: 'IFT', country: 'México', fullName: 'Instituto Federal de Telecomunicaciones', route: '/ift', externalUrl: 'https://www.regulatel.org/ift' },
+    { name: 'ATT', country: 'Bolivia', fullName: 'Autoridad de Regulación y Fiscalización de Telecomunicaciones y Transportes', route: '/att', externalUrl: 'https://www.regulatel.org/att' },
+    { name: 'ANATEL', country: 'Brasil', fullName: 'Agência Nacional de Telecomunicações', route: '/anatel', externalUrl: 'https://www.regulatel.org/anatel' },
     { name: 'SUBTEL', country: 'Chile', fullName: 'Subsecretaría de Telecomunicaciones', route: '/subtel', externalUrl: 'https://www.regulatel.org/subtel' },
-    { name: 'MTC', country: 'Perú', fullName: 'Ministerio de Transportes y Comunicaciones', route: '/mtc', externalUrl: 'https://www.regulatel.org/mtc' },
-    { name: 'CONATEL', country: 'Guatemala', fullName: 'Comisión Nacional de Telecomunicaciones', route: '/conatel-gt', externalUrl: 'https://www.regulatel.org/conatel-gt' },
+    { name: 'CRC', country: 'Colombia', fullName: 'Comisión de Regulación de Comunicaciones', route: '/crc', externalUrl: 'https://www.regulatel.org/crc' },
+    { name: 'CRT', country: 'Costa Rica', fullName: 'Comisión Reguladora de Telecomunicaciones', route: '/crt', externalUrl: 'https://www.crt.go.cr' },
+    { name: 'SUTEL', country: 'Costa Rica', fullName: 'Superintendencia de Telecomunicaciones', route: '/sutel', externalUrl: 'https://www.regulatel.org/sutel' },
+    { name: 'SIT', country: 'El Salvador', fullName: 'Superintendencia General de Electricidad y Telecomunicaciones', route: '/sit', externalUrl: 'https://www.regulatel.org/sit' },
+    { name: 'ARCOTEL', country: 'Ecuador', fullName: 'Agencia de Regulación y Control de las Telecomunicaciones', route: '/arcotel', externalUrl: 'https://www.regulatel.org/arcotel' },
+    { name: 'MINISTERIO DE COMUNICACIONES', country: 'Ecuador', route: '/min-com', externalUrl: 'https://www.regulatel.org/min-com' },
     { name: 'SUPERTEL', country: 'Ecuador', fullName: 'Superintendencia de Telecomunicaciones', route: '/super-tel', externalUrl: 'https://www.regulatel.org/super-tel' },
+    { name: 'CNMC', country: 'España', fullName: 'Comisión Nacional de los Mercados y la Competencia', route: '/cnmc', externalUrl: 'https://www.regulatel.org/cnmc' },
+    { name: 'CONATEL', country: 'Guatemala', fullName: 'Comisión Nacional de Telecomunicaciones', route: '/conatel-gt', externalUrl: 'https://www.regulatel.org/conatel-gt' },
+    { name: 'CONATEL', country: 'Honduras', fullName: 'Comisión Nacional de Telecomunicaciones', route: '/conatel', externalUrl: 'https://www.regulatel.org/conatel' },
+    { name: 'AGCOM', country: 'Italia', fullName: 'Autorità per le Garanzie nelle Comunicazioni', route: '/agcom', externalUrl: 'https://www.regulatel.org/agcom' },
+    { name: 'IFT', country: 'México', fullName: 'Instituto Federal de Telecomunicaciones', route: '/ift', externalUrl: 'https://www.regulatel.org/ift' },
+    { name: 'MTC', country: 'Perú', fullName: 'Ministerio de Transportes y Comunicaciones', route: '/mtc', externalUrl: 'https://www.regulatel.org/mtc' },
+    { name: 'INDOTEL', country: 'República Dominicana', fullName: 'Instituto Dominicano de las Telecomunicaciones', route: '/indotel', externalUrl: 'https://www.regulatel.org/indotel' },
   ];
+  const entesReguladores = useMemo(
+    () => [...entesReguladoresBase].sort((a, b) => a.country.localeCompare(b.country, 'es')),
+    []
+  );
 
-  // Filter for entes reguladores
+  // Filter for entes reguladores (sorted by country)
   const filteredEntesReguladores = useMemo(() => {
     return entesReguladores.filter(ente => {
       const matchesSearch = !enteSearchTerm || 
@@ -216,32 +221,41 @@ const Miembros: React.FC = () => {
       
       return matchesSearch && matchesCountry;
     });
-  }, [enteSearchTerm, selectedEnteCountry]);
+  }, [entesReguladores, enteSearchTerm, selectedEnteCountry]);
 
   const uniqueEnteCountries = useMemo(() => {
-    return Array.from(new Set(entesReguladores.map(ente => ente.country))).sort();
-  }, []);
+    return Array.from(new Set(entesReguladoresBase.map(ente => ente.country))).sort();
+  }, [entesReguladoresBase]);
 
-  const paises = [
-    { name: 'Argentina', code: 'ar' },
-    { name: 'Bolivia', code: 'bo' },
-    { name: 'Brasil', code: 'br' },
-    { name: 'Chile', code: 'cl' },
-    { name: 'Colombia', code: 'co' },
-    { name: 'Costa Rica', code: 'cr' },
-    { name: 'Ecuador', code: 'ec' },
-    { name: 'El Salvador', code: 'sv' },
-    { name: 'Guatemala', code: 'gt' },
-    { name: 'Honduras', code: 'hn' },
-    { name: 'México', code: 'mx' },
-    { name: 'Nicaragua', code: 'ni' },
-    { name: 'Panamá', code: 'pa' },
-    { name: 'Paraguay', code: 'py' },
-    { name: 'Perú', code: 'pe' },
-    { name: 'Rep. Dominicana', code: 'do' },
-    { name: 'Uruguay', code: 'uy' },
-    { name: 'Venezuela', code: 've' }
-  ];
+  const carouselRef = React.useRef<HTMLDivElement>(null);
+  const [carouselCanScrollLeft, setCarouselCanScrollLeft] = useState(false);
+  const [carouselCanScrollRight, setCarouselCanScrollRight] = useState(true);
+  const updateCarouselScrollState = React.useCallback(() => {
+    const el = carouselRef.current;
+    if (!el) return;
+    setCarouselCanScrollLeft(el.scrollLeft > 0);
+    setCarouselCanScrollRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 2);
+  }, []);
+  React.useEffect(() => {
+    const el = carouselRef.current;
+    if (!el) return;
+    updateCarouselScrollState();
+    el.addEventListener('scroll', updateCarouselScrollState);
+    const ro = new ResizeObserver(updateCarouselScrollState);
+    ro.observe(el);
+    return () => {
+      el.removeEventListener('scroll', updateCarouselScrollState);
+      ro.disconnect();
+    };
+  }, [updateCarouselScrollState, filteredEntesReguladores.length]);
+
+  const CAROUSEL_SCROLL_PX = 320;
+  const scrollCarousel = (direction: 'left' | 'right') => {
+    carouselRef.current?.scrollBy({
+      left: direction === 'left' ? -CAROUSEL_SCROLL_PX : CAROUSEL_SCROLL_PX,
+      behavior: 'smooth',
+    });
+  };
 
   return (
     <>
@@ -325,38 +339,95 @@ const Miembros: React.FC = () => {
           variants={fadeIn}
           className="mb-12"
         >
-          <div className="bg-white rounded-2xl p-8 shadow-md border" style={{ borderColor: "var(--regu-gray-100)", boxShadow: "0 4px 20px rgba(22, 61, 89, 0.06)" }}>
+          <div className="bg-white rounded-2xl p-8 md:p-10 shadow-md border relative" style={{ borderColor: "var(--regu-gray-100)", boxShadow: "0 4px 20px rgba(22, 61, 89, 0.06)" }}>
             {filteredEntesReguladores.length > 0 ? (
-              <div className="overflow-x-auto overflow-y-hidden scrollbar-thin" style={{ scrollbarWidth: "thin", scrollbarColor: "var(--regu-gray-500) rgba(22, 61, 89, 0.1)", WebkitOverflowScrolling: "touch" }}>
-                <div className="flex gap-8 items-center min-w-max pb-4 px-2">
-                  {filteredEntesReguladores.map((ente, index) => (
-                    <Link key={index} to={ente.route}>
-                      <motion.div
-                        initial={{ opacity: 0, x: -20 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.4, delay: index * 0.03 }}
-                        viewport={{ once: true }}
-                        whileHover={{ scale: 1.05, y: -5 }}
-                        className="flex-shrink-0 flex flex-col items-center justify-center min-w-[200px] max-w-[250px] px-6 py-6 rounded-xl border transition-all cursor-pointer group"
-                        style={{ backgroundColor: "var(--regu-offwhite)", borderColor: "var(--regu-gray-100)" }}
-                      >
-                        <div className="w-32 h-32 mb-3 flex items-center justify-center bg-white rounded-lg p-4 shadow-sm group-hover:shadow-md transition-shadow border relative" style={{ borderColor: "var(--regu-gray-100)" }}>
-                          <LogoImage name={ente.name} route={ente.route} />
-                        </div>
-                        <div className="text-center">
-                          {ente.fullName && (
-                            <p className="text-xs mb-1 leading-tight" style={{ color: "var(--regu-blue)" }}>{ente.fullName}</p>
-                          )}
-                          <p className="text-xs font-medium mb-2" style={{ color: "var(--regu-gray-700)" }}>{ente.country}</p>
-                          <div className="text-xs font-medium flex items-center justify-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity" style={{ color: "var(--regu-blue)" }}>
-                            Ver más <ExternalLink className="w-3 h-3" />
-                          </div>
-                        </div>
-                      </motion.div>
-                    </Link>
-                  ))}
+              <>
+                <div className="relative flex items-stretch gap-2">
+                  <button
+                    type="button"
+                    onClick={() => scrollCarousel('left')}
+                    disabled={!carouselCanScrollLeft}
+                    aria-label="Ver miembros anteriores"
+                    className="carousel-arrow absolute left-0 top-1/2 -translate-y-1/2 z-10 hidden md:flex w-11 h-11 items-center justify-center rounded-full border-2 bg-white shadow-md transition-all hover:bg-[var(--regu-gray-50)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-40"
+                    style={{ borderColor: "var(--regu-gray-200)", color: "var(--regu-blue)" }}
+                  >
+                    <ChevronLeft className="w-6 h-6" strokeWidth={2.5} />
+                  </button>
+                  <div
+                    ref={carouselRef}
+                    className="overflow-x-auto overflow-y-hidden scrollbar-thin scroll-smooth flex-1 min-w-0"
+                    style={{ scrollbarWidth: "thin", scrollbarColor: "var(--regu-gray-500) rgba(22, 61, 89, 0.1)", WebkitOverflowScrolling: "touch" }}
+                    id="miembros-carousel"
+                  >
+                    <div className="flex gap-6 md:gap-8 items-stretch min-w-max pb-4 px-1 md:pl-14 md:pr-14 py-2">
+                      {filteredEntesReguladores.map((ente, index) => (
+                        <Link key={`${ente.route}-${index}`} to={ente.route} className="flex-shrink-0">
+                          <motion.div
+                            initial={{ opacity: 0, x: -20 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.4, delay: index * 0.03 }}
+                            viewport={{ once: true }}
+                            whileHover={{ scale: 1.02, y: -3 }}
+                            className="flex flex-col items-center justify-start w-[248px] md:w-[272px] h-full min-h-[300px] md:min-h-[320px] px-6 py-7 rounded-xl border transition-all cursor-pointer group"
+                            style={{ backgroundColor: "var(--regu-offwhite)", borderColor: "var(--regu-gray-100)" }}
+                          >
+                            <div className="w-48 h-48 md:w-52 md:h-52 flex-shrink-0 mb-5 flex items-center justify-center bg-white rounded-xl p-5 shadow-sm group-hover:shadow-md transition-shadow border" style={{ borderColor: "var(--regu-gray-100)" }}>
+                              <LogoImage name={ente.name} route={ente.route} />
+                            </div>
+                            <div className="text-center flex-1 flex flex-col justify-end min-h-0">
+                              {ente.fullName && (
+                                <p className="text-sm md:text-base mb-1.5 leading-snug line-clamp-2" style={{ color: "var(--regu-blue)" }}>{ente.fullName}</p>
+                              )}
+                              <p className="text-sm md:text-base font-medium mt-auto" style={{ color: "var(--regu-gray-700)" }}>{ente.country}</p>
+                              <div className="text-xs font-medium flex items-center justify-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity mt-2" style={{ color: "var(--regu-blue)" }}>
+                                Ver más <ExternalLink className="w-3 h-3" />
+                              </div>
+                            </div>
+                          </motion.div>
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => scrollCarousel('right')}
+                    disabled={!carouselCanScrollRight}
+                    aria-label="Ver más miembros"
+                    className="carousel-arrow absolute right-0 top-1/2 -translate-y-1/2 z-10 hidden md:flex w-11 h-11 items-center justify-center rounded-full border-2 bg-white shadow-md transition-all hover:bg-[var(--regu-gray-50)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-40"
+                    style={{ borderColor: "var(--regu-gray-200)", color: "var(--regu-blue)" }}
+                  >
+                    <ChevronRight className="w-6 h-6" strokeWidth={2.5} />
+                  </button>
                 </div>
-              </div>
+                <div className="flex flex-wrap items-center justify-between gap-3 mt-4 pt-3 border-t" style={{ borderColor: "var(--regu-gray-100)" }}>
+                  <span className="inline-flex items-center gap-1.5 text-sm font-medium" style={{ color: "var(--regu-gray-500)" }}>
+                    <ChevronRight className="w-4 h-4 md:hidden" style={{ color: "var(--regu-blue)" }} aria-hidden />
+                    Desliza para ver más
+                  </span>
+                  <div className="flex items-center gap-2 md:hidden">
+                    <button
+                      type="button"
+                      onClick={() => scrollCarousel('left')}
+                      disabled={!carouselCanScrollLeft}
+                      aria-label="Anterior"
+                      className="w-10 h-10 rounded-full border-2 bg-white flex items-center justify-center disabled:opacity-40"
+                      style={{ borderColor: "var(--regu-gray-200)", color: "var(--regu-blue)" }}
+                    >
+                      <ChevronLeft className="w-5 h-5" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => scrollCarousel('right')}
+                      disabled={!carouselCanScrollRight}
+                      aria-label="Siguiente"
+                      className="w-10 h-10 rounded-full border-2 bg-white flex items-center justify-center disabled:opacity-40"
+                      style={{ borderColor: "var(--regu-gray-200)", color: "var(--regu-blue)" }}
+                    >
+                      <ChevronRight className="w-5 h-5" />
+                    </button>
+                  </div>
+                </div>
+              </>
             ) : (
               <div className="text-center py-12">
                 <Globe className="w-16 h-16 mx-auto mb-4" style={{ color: "var(--regu-gray-500)" }} />
@@ -376,57 +447,6 @@ const Miembros: React.FC = () => {
             )}
           </div>
         </motion.div>
-
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={fadeIn}
-          className="text-center mb-12"
-        >
-          <div className="inline-block rounded-full border px-4 py-1 text-sm font-medium mb-4" style={{ backgroundColor: "rgba(68, 137, 198, 0.12)", borderColor: "var(--regu-blue)", color: "var(--regu-blue)" }}>
-            Países Miembros
-          </div>
-          <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-6" style={{ color: "var(--regu-gray-900)" }}>
-            Red de Cooperación Regional
-          </h2>
-        </motion.div>
-
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6 mb-12">
-          {paises.map((country, index) => (
-            <motion.div
-              key={country.code}
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.4, delay: index * 0.05 }}
-              viewport={{ once: true }}
-              whileHover={{ scale: 1.05 }}
-              className="group cursor-pointer"
-            >
-              <div className="rounded-xl bg-white border p-6 text-center transition-all h-full flex flex-col items-center justify-center shadow-sm hover:shadow-md" style={{ borderColor: "var(--regu-gray-100)" }}>
-                <div className="w-16 h-12 mb-3 rounded overflow-hidden shadow-lg group-hover:scale-110 transition-transform relative">
-                  <img 
-                    src={`https://flagcdn.com/w160/${country.code}.png`}
-                    srcSet={`https://flagcdn.com/w320/${country.code}.png 2x`}
-                    alt={`${country.name} flag`}
-                    className="w-full h-full object-cover"
-                    onError={(e) => {
-                      e.currentTarget.style.display = 'none';
-                      const fallback = e.currentTarget.parentElement?.nextElementSibling;
-                      if (fallback) {
-                        fallback.classList.remove('hidden');
-                      }
-                    }}
-                  />
-                </div>
-                <div className="hidden">
-                  <Globe className="w-8 h-8 mb-3" style={{ color: "var(--regu-blue)" }} />
-                </div>
-                <p className="text-sm font-medium" style={{ color: "var(--regu-gray-900)" }}>{country.name}</p>
-              </div>
-            </motion.div>
-          ))}
-        </div>
 
         {/* Sección Directorio por Autoridades */}
         <motion.div

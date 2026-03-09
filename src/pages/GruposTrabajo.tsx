@@ -301,19 +301,13 @@ const GruposTrabajo: React.FC = () => {
           <h2 className="text-2xl font-bold mb-4" style={{ color: 'var(--regu-gray-900)' }}>Sobre los Grupos de Trabajo</h2>
           <div className="space-y-4" style={{ color: 'var(--regu-gray-700)' }}>
             <p>
-              Los grupos de trabajo de REGULATEL son espacios especializados de colaboración donde los 
-              países miembros trabajan en temas específicos del sector de las telecomunicaciones, 
-              compartiendo experiencias y desarrollando soluciones comunes.
+              Los grupos de trabajo de REGULATEL son espacios especializados de colaboración donde los países miembros trabajan en temas específicos del sector de las telecomunicaciones, compartiendo experiencias y desarrollando soluciones comunes.
             </p>
             <p>
-              Cada grupo cuenta con coordinadores que lideran las actividades y miembros que participan 
-              activamente en el intercambio de conocimientos, mejores prácticas y desarrollo de documentos 
-              técnicos y recomendaciones.
+              Cada grupo cuenta con al menos un organismo coordinador que lideran las actividades y miembros que participan activamente en el intercambio de conocimientos, mejores prácticas y desarrollo de documentos técnicos y recomendaciones, en base a unos términos de referencia.
             </p>
             <p>
-              La participación activa en los grupos de trabajo permite a los países miembros contribuir 
-              al desarrollo de políticas regionales, fortalecer la cooperación técnica y beneficiarse 
-              del intercambio de conocimientos y experiencias exitosas.
+              La participación activa en los grupos de trabajo permite a los países miembros contribuir al desarrollo de políticas regionales, fortalecer la cooperación técnica y beneficiarse del intercambio de conocimientos y experiencias exitosas.
             </p>
           </div>
         </motion.div>

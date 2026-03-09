@@ -3,14 +3,24 @@ import { Link, useNavigate } from "react-router-dom";
 import {
   Search,
   FileText,
-  Instagram,
   Youtube,
-  Twitter,
   User,
   Menu,
   X,
+  Linkedin,
+  Facebook,
+  Instagram,
 } from "lucide-react";
 import { resolveSiteSearch, resolveDocumentSearch } from "@/data/searchMaps";
+
+/** Logo oficial X (Twitter) — SVG para que se vea nítido y correcto. */
+function XLogo({ size = 18 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" fill="currentColor" />
+    </svg>
+  );
+}
 import SiteSearchAutocomplete from "@/components/SiteSearchAutocomplete";
 
 const FONT_SIZE_KEY = "regulatel-font-size";
@@ -164,8 +174,8 @@ export default function TopBarBerecLike({
           </form>
         </div>
 
-        {/* (3) Derecha: SIEMPRE visible — a-/a/a+ + iconos + usuario + Suscribirse */}
-        <div className="topbarRight flex items-center shrink-0" style={{ gap: "14px" }}>
+        {/* (3) Derecha: SIEMPRE visible — a-/a/a+ + iconos sociales + usuario + Suscribirse */}
+        <div className="topbarRight flex items-center shrink-0" style={{ gap: "12px" }}>
           <div className="a11yControls hidden md:flex items-center" role="group" aria-label="Tamaño de fuente" style={{ gap: "4px" }}>
             {(["sm", "md", "lg"] as const).map((mode) => (
               <button
@@ -190,18 +200,25 @@ export default function TopBarBerecLike({
             ))}
           </div>
 
-          <div className="flex items-center" style={{ gap: "12px" }}>
-            <a href="https://www.youtube.com/@INDOTELRD" target="_blank" rel="noreferrer noopener" aria-label="YouTube" className="rounded p-1.5 transition-colors hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)]" style={{ color: accentColor }}>
-              <Youtube style={{ width: "20px", height: "20px" }} />
+          {/* Iconos sociales: colores de marca, mismo tamaño visual, espaciado uniforme */}
+          <div className="topbarSocial hidden md:flex items-center shrink-0" style={{ gap: "8px" }}>
+            <a href="https://www.youtube.com/@INDOTELRD" target="_blank" rel="noreferrer noopener" aria-label="YouTube" className="rounded p-1 transition-colors hover:opacity-85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-1 inline-flex items-center justify-center" style={{ color: "#E53935" }}>
+              <Youtube style={{ width: "18px", height: "18px" }} />
             </a>
-            <a href="https://x.com/regulatel" target="_blank" rel="noreferrer noopener" aria-label="X (Twitter)" className="rounded p-1.5 transition-colors hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)]" style={{ color: accentColor }}>
-              <Twitter style={{ width: "20px", height: "20px" }} />
+            <a href="https://x.com/regulatel" target="_blank" rel="noreferrer noopener" aria-label="X (Twitter)" className="rounded p-1 transition-colors hover:opacity-85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-1 inline-flex items-center justify-center" style={{ color: "#14171A" }}>
+              <XLogo size={18} />
             </a>
-            <a href="https://www.instagram.com/foro.regulatel/" target="_blank" rel="noreferrer noopener" aria-label="Instagram" className="rounded p-1.5 transition-colors hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)]" style={{ color: accentColor }}>
-              <Instagram style={{ width: "20px", height: "20px" }} />
+            <a href="https://www.instagram.com/foro.regulatel/" target="_blank" rel="noreferrer noopener" aria-label="Instagram" className="rounded p-1 transition-colors hover:opacity-85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-1 inline-flex items-center justify-center" style={{ color: "#E4405F" }}>
+              <Instagram style={{ width: "18px", height: "18px" }} />
             </a>
-            <Link to="/login" aria-label="Iniciar sesión" className="rounded p-1.5 transition-colors hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)]" style={{ color: accentColor }}>
-              <User style={{ width: "20px", height: "20px" }} />
+            <a href="https://www.linkedin.com/company/regulatel" target="_blank" rel="noreferrer noopener" aria-label="LinkedIn" className="rounded p-1 transition-colors hover:opacity-85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-1 inline-flex items-center justify-center" style={{ color: "#0A66C2" }}>
+              <Linkedin style={{ width: "18px", height: "18px" }} />
+            </a>
+            <a href="https://www.facebook.com/foro.regulatel" target="_blank" rel="noreferrer noopener" aria-label="Facebook" className="rounded p-1 transition-colors hover:opacity-85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-1 inline-flex items-center justify-center" style={{ color: "#1877F2" }}>
+              <Facebook style={{ width: "18px", height: "18px" }} />
+            </a>
+            <Link to="/login" aria-label="Iniciar sesión" className="rounded p-1 transition-colors hover:opacity-85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-1 inline-flex items-center justify-center" style={{ color: accentColor }}>
+              <User style={{ width: "18px", height: "18px" }} />
             </Link>
           </div>
 

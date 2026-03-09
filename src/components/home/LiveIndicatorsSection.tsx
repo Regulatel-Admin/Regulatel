@@ -20,8 +20,8 @@ export default function LiveIndicatorsSection() {
       aria-label="Indicadores en vivo"
     >
       <div
-        className="mx-auto w-full px-4 sm:px-6 lg:px-8"
-        style={{ maxWidth: "1200px" }}
+        className="mx-auto w-full px-4 md:px-8 lg:px-10"
+        style={{ maxWidth: "1520px" }}
       >
         {/* Desktop: módulo institucional único (header + embed) */}
         <div
@@ -32,7 +32,7 @@ export default function LiveIndicatorsSection() {
           }}
         >
           {/* Header: título, subtítulo y CTA alineados */}
-          <div className="liveIndicatorsHeader border-b px-6 pt-6 pb-5 md:px-8 md:pt-8 md:pb-6" style={{ borderColor: "rgba(22, 61, 89, 0.08)" }}>
+          <div className="liveIndicatorsHeader border-b px-5 pt-6 pb-5 md:px-8 md:pt-8 md:pb-6 lg:px-10" style={{ borderColor: "rgba(22, 61, 89, 0.08)" }}>
             <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-end sm:justify-between sm:gap-6">
               <div className="min-w-0 flex-1">
                 <h2
@@ -76,7 +76,7 @@ export default function LiveIndicatorsSection() {
               }}
             >
               <iframe
-                className="liveIndicatorsIframe h-[520px] w-full border-0 lg:h-[580px]"
+                className="liveIndicatorsIframe h-[540px] w-full border-0 md:h-[620px] lg:h-[680px]"
                 src={POWER_BI_URL}
                 title="Panel de indicadores REGULATEL - Power BI"
                 loading="lazy"

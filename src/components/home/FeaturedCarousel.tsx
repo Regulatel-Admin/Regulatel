@@ -21,7 +21,7 @@ interface FeaturedCarouselProps {
 }
 
 const OVERLAY_GRADIENT =
-  "linear-gradient(90deg, rgba(0,0,0,.72) 0%, rgba(0,0,0,.58) 50%, rgba(0,0,0,.42) 100%)";
+  "linear-gradient(90deg, rgba(0,0,0,.38) 0%, rgba(0,0,0,.28) 50%, rgba(0,0,0,.18) 100%)";
 
 const MESES: Record<string, number> = {
   ENE: 0, FEB: 1, MAR: 2, ABR: 3, MAY: 4, JUN: 5, JUL: 6, AGO: 7, SEP: 8, OCT: 9, NOV: 10, DIC: 11,

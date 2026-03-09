@@ -153,6 +153,50 @@
   }
 }
 
+/* Mega panel: subheaders con tamaño fijo para que nada los sobrescriba (desktop 18px) */
+.header-font-fixed .mega-panel-subheader {
+  font-size: 18px !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.04em !important;
+  line-height: 1.2 !important;
+  margin-bottom: 20px !important;
+  color: var(--regu-navy) !important;
+}
+@media (max-width: 1024px) {
+  .header-font-fixed .mega-panel-subheader {
+    font-size: 17px !important;
+  }
+}
+@media (max-width: 768px) {
+  .header-font-fixed .mega-panel-subheader {
+    font-size: 16px !important;
+  }
+}
+
+/* Mega menu links: tamaño y legibilidad (desktop 16px, no depender de variables) */
+.header-font-fixed .mega-menu-link {
+  font-size: 16px !important;
+  line-height: 1.4 !important;
+  font-weight: 600 !important;
+}
+@media (max-width: 1024px) {
+  .header-font-fixed .mega-menu-link {
+    font-size: 15px !important;
+  }
+}
+@media (max-width: 768px) {
+  .header-font-fixed .mega-menu-link {
+    font-size: 14px !important;
+  }
+}
+/* Un poco más de aire entre ítems del mega panel (solo desktop; móvil ya tiene py-2) */
+.header-font-fixed .mega-panel-links > li {
+  margin-bottom: 5px !important;
+}
+.header-font-fixed .mega-panel-links > li:last-child {
+  margin-bottom: 0 !important;
+}
+
 /* Mega menu links: hover underline + accent (BEREC 1:1) */
 .mega-menu-link {
   transition: color var(--mega-link-transition-ms) ease;
@@ -210,7 +254,10 @@
   border-color: rgba(197, 220, 11, 0.35);
 }
 
-/* ——— Hero institucional (imagen + overlay gradiente + badge + título + CTAs). Altura sobria 73vh. ——— */
+/* ——— Hero institucional (imagen sin efectos + badge + título + CTAs). ——— */
+.heroInstitucional img {
+  filter: none;
+}
 .heroInstitucional {
   min-height: 72vh;
 }

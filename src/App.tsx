@@ -39,8 +39,8 @@ import MicrositioBuenasPracticas from '@/pages/MicrositioBuenasPracticas';
 import Subscribe from '@/pages/Subscribe';
 import QueSomos from '@/pages/quienes-somos/QueSomos';
 import VisionMision from '@/pages/quienes-somos/VisionMision';
-import Funciones from '@/pages/quienes-somos/Funciones';
-import Reglamento from '@/pages/quienes-somos/Reglamento';
+import ObjetivosYFunciones from '@/pages/quienes-somos/ObjetivosYFunciones';
+import ProtocolosYProcedimientos from '@/pages/quienes-somos/ProtocolosYProcedimientos';
 
 function App() {
   return (
@@ -63,8 +63,10 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/que-somos" element={<QueSomos />} />
               <Route path="/vision-mision" element={<VisionMision />} />
-              <Route path="/funciones" element={<Funciones />} />
-              <Route path="/reglamento" element={<Reglamento />} />
+              <Route path="/funciones" element={<ObjetivosYFunciones />} />
+              <Route path="/objetivos-y-funciones" element={<ObjetivosYFunciones />} />
+              <Route path="/reglamento" element={<ProtocolosYProcedimientos />} />
+              <Route path="/protocolos-y-procedimientos" element={<ProtocolosYProcedimientos />} />
               <Route path="/search" element={<Search />} />
               <Route path="/buscar-documentos" element={<BuscarDocumentos />} />
           <Route path="/acceso-documentos" element={<AccesoDocumentos />} />
@@ -104,6 +106,7 @@ function App() {
           <Route path="/mtc" element={<EnteRegulador />} />
           <Route path="/conatel-gt" element={<EnteRegulador />} />
               <Route path="/super-tel" element={<EnteRegulador />} />
+          <Route path="/crt" element={<EnteRegulador />} />
             </Route>
           </Routes>
         </AdminDataProvider>

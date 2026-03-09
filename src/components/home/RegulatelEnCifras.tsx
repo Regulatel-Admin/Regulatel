@@ -93,24 +93,24 @@ export default function RegulatelEnCifras() {
 
   return (
     <section
-      className="regulatelEnCifras mx-auto w-full px-4 pt-10 pb-16 md:px-6 md:pt-12 md:pb-20 lg:px-8"
+      className="regulatelEnCifras mx-auto w-full px-4 pt-12 pb-20 md:px-8 md:pt-14 md:pb-24 lg:px-10"
       style={{
         fontFamily: "var(--token-font-body)",
-        maxWidth: "var(--token-container-max)",
+        maxWidth: "1520px",
       }}
       aria-label={TITLE}
     >
       {/* Header: título + subtítulo a la izquierda, selector de año integrado a la derecha */}
-      <div className="cifrasHeader mb-9 flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-end sm:justify-between sm:gap-6 md:mb-10">
+      <div className="cifrasHeader mb-10 flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-end sm:justify-between sm:gap-6 md:mb-12">
         <div className="min-w-0 flex-1">
           <h2
-            className="text-xl font-bold uppercase tracking-tight text-[var(--regu-gray-900)] md:text-2xl"
+            className="text-xl font-bold uppercase tracking-tight text-[var(--regu-gray-900)] md:text-2xl lg:text-[1.75rem]"
             style={{ fontFamily: "var(--token-font-heading)" }}
           >
             {TITLE}
           </h2>
           <p
-            className="mt-2 text-sm text-[var(--regu-gray-500)] md:text-base md:leading-relaxed"
+            className="mt-2 text-sm text-[var(--regu-gray-500)] md:text-base lg:text-[1.0625rem] md:leading-relaxed"
             style={{ fontFamily: "var(--token-font-body)" }}
           >
             {SUBTITLE}
@@ -143,7 +143,7 @@ export default function RegulatelEnCifras() {
                     handleYearChange(anos[index + 1]);
                   }
                 }}
-                className="rounded-full px-4 py-2.5 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2"
+                className="rounded-full px-5 py-3 text-base font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2"
                 style={{
                   backgroundColor: isSelected ? "var(--regu-blue)" : "var(--regu-gray-100)",
                   color: isSelected ? "#fff" : "var(--regu-gray-700)",
@@ -207,39 +207,39 @@ function CifraCard({
         boxShadow: "0 4px 20px rgba(22, 61, 89, 0.05)",
       }}
     >
-      <div className="flex h-full flex-1 flex-col p-6 md:p-7">
+      <div className="flex h-full flex-1 flex-col p-7 md:p-8">
         <div className="flex justify-end">
           <Icon
-            className="h-6 w-6 flex-shrink-0 opacity-55"
+            className="h-7 w-7 md:h-8 md:w-8 flex-shrink-0 opacity-55"
             style={{ color: "var(--regu-gray-500)" }}
             aria-hidden
           />
         </div>
         <p
-          className="mt-2 font-bold tabular-nums leading-none"
+          className="mt-3 font-bold tabular-nums leading-none"
           style={{
-            fontSize: "clamp(2.25rem, 4vw, 3.25rem)",
+            fontSize: "clamp(2.5rem, 4.5vw, 3.75rem)",
             color: "var(--regu-blue)",
           }}
         >
           {displayValue}
         </p>
         <h3
-          className="mt-3.5 font-bold uppercase tracking-wide leading-tight text-[var(--regu-gray-900)]"
+          className="mt-4 font-bold uppercase tracking-wide leading-tight text-[var(--regu-gray-900)]"
           style={{
             fontFamily: "var(--token-font-heading)",
-            fontSize: "var(--token-heading-h3-size)",
+            fontSize: "clamp(1rem, 1.2vw, var(--token-heading-h3-size))",
           }}
         >
           {config.title}
         </h3>
         <p
-          className="mt-2 text-sm leading-relaxed text-[var(--regu-gray-500)]"
+          className="mt-2.5 text-sm md:text-base leading-relaxed text-[var(--regu-gray-500)]"
           style={{ fontFamily: "var(--token-font-body)" }}
         >
           {config.subtitle}
         </p>
-        <div className="mt-4 flex-1 flex flex-col justify-end">
+        <div className="mt-5 flex-1 flex flex-col justify-end">
           <a
             href={config.sourceUrl}
             target="_blank"

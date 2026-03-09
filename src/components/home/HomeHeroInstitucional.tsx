@@ -6,7 +6,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 
 export interface HomeHeroInstitucionalProps {
-  /** Imagen de fondo del hero (opcional; si no se indica, se usa gradiente) */
+  /** Imagen de fondo del hero (opcional; si no se indica, se usa color sólido) */
   coverImageUrl?: string;
   /** Badge pequeño arriba del título (ej: Presidencia 2026) */
   badge: string;
@@ -22,14 +22,10 @@ export interface HomeHeroInstitucionalProps {
   secondaryCta: { label: string; href: string };
 }
 
-const HERO_BG_GRADIENT =
-  "linear-gradient(135deg, #163D59 0%, #2d5a7b 50%, #1a4a6e 100%)";
-/** Overlay en gradiente: izquierda (texto) más oscuro, derecha deja ver más la imagen. Refinado y elegante. */
-const HERO_OVERLAY =
-  "linear-gradient(90deg, rgba(7, 30, 55, 0.80) 0%, rgba(7, 30, 55, 0.68) 45%, rgba(7, 30, 55, 0.42) 100%)";
+const HERO_BG_FALLBACK = "#163D59";
 
 /**
- * Hero institucional/editorial: imagen de fondo o gradiente + badge + título + descripción + 2 CTAs.
+ * Hero institucional/editorial: imagen de fondo o color sólido + badge + título + descripción + 2 CTAs.
  * Estilo BEREC / UE / ITU.
  */
 export default function HomeHeroInstitucional({
@@ -46,14 +42,14 @@ export default function HomeHeroInstitucional({
 
   return (
     <section
-      className="heroInstitucional relative w-full overflow-hidden min-h-[72vh] md:min-h-[73vh]"
+      className="heroInstitucional relative w-full overflow-hidden min-h-[50vh] md:min-h-[54vh] lg:min-h-[58vh]"
       style={{ fontFamily: "var(--token-font-body)" }}
       aria-label="Hero principal"
     >
-      {/* Fondo: imagen o gradiente. Mientras la imagen carga se ve el gradiente (evita el gris). */}
+      {/* Fondo: imagen o color sólido de respaldo. */}
       <div
         className="absolute inset-0"
-        style={{ background: coverImageUrl ? HERO_BG_GRADIENT : undefined }}
+        style={{ background: coverImageUrl ? HERO_BG_FALLBACK : undefined }}
       >
         {coverImageUrl ? (
           <>
@@ -61,18 +57,14 @@ export default function HomeHeroInstitucional({
               src={coverImageUrl}
               alt=""
               className="absolute inset-0 h-full w-full object-cover"
-              style={{ filter: "brightness(0.85)" }}
+              style={{ objectPosition: "center 42%", filter: "none" }}
               loading="eager"
               onLoad={() => setImageLoaded(true)}
               onError={(e) => {
                 setImageLoaded(true);
                 e.currentTarget.style.display = "none";
                 const parent = e.currentTarget.parentElement;
-                if (parent) {
-                  const overlay = parent.querySelector(".heroInstitucionalOverlay");
-                  if (overlay instanceof HTMLElement) overlay.style.display = "none";
-                  parent.style.background = HERO_BG_GRADIENT;
-                }
+                if (parent) parent.style.background = HERO_BG_FALLBACK;
               }}
             />
             {showLoader && (
@@ -86,25 +78,20 @@ export default function HomeHeroInstitucional({
                 />
               </div>
             )}
-            <div
-              className="heroInstitucionalOverlay absolute inset-0 z-[1]"
-              style={{ background: HERO_OVERLAY }}
-              aria-hidden
-            />
           </>
         ) : (
           <div
             className="absolute inset-0"
-            style={{ background: HERO_BG_GRADIENT }}
+            style={{ background: HERO_BG_FALLBACK }}
             aria-hidden
           />
         )}
       </div>
 
-      {/* Contenido: bloque izquierda, ligeramente subido para mejor equilibrio vertical */}
+      {/* Contenido: bloque izquierda, proporción afinada al nuevo alto */}
       <div
-        className="heroInstitucionalContent relative z-10 flex min-h-[72vh] md:min-h-[73vh] flex-col items-center justify-center px-4 py-14 text-center md:items-start md:px-6 md:py-16 md:text-left lg:px-8"
-        style={{ marginTop: "-24px" }}
+        className="heroInstitucionalContent relative z-10 flex min-h-[50vh] md:min-h-[54vh] lg:min-h-[58vh] flex-col items-center justify-center px-4 py-10 text-center md:items-start md:px-6 md:py-12 md:text-left lg:px-8"
+        style={{ marginTop: "-16px" }}
       >
         <div
           className="w-full max-w-[720px] lg:max-w-[760px]"
@@ -122,10 +109,10 @@ export default function HomeHeroInstitucional({
           </p>
 
           <h1
-            className="heroInstitucionalTitle mt-4 font-bold leading-[1.14] text-white md:mt-5"
+            className="heroInstitucionalTitle mt-3 font-bold leading-[1.18] text-white md:mt-4"
             style={{
               fontFamily: "var(--token-font-heading)",
-              fontSize: "clamp(1.75rem, 4.8vw, 4.25rem)",
+              fontSize: "clamp(1.6rem, 4.2vw, 3.6rem)",
             }}
           >
             {title}
@@ -134,13 +121,13 @@ export default function HomeHeroInstitucional({
           </h1>
 
           <p
-            className="heroInstitucionalDescription mt-5 max-w-[640px] text-base leading-relaxed text-white/95 md:mt-6 md:text-lg"
+            className="heroInstitucionalDescription mt-4 max-w-[640px] text-base leading-relaxed text-white/95 md:text-lg"
             style={{ fontFamily: "var(--token-font-body)" }}
           >
             {description}
           </p>
 
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+          <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
             <Link
               to={primaryCta.href}
               className="heroInstitucionalPrimaryCta inline-flex items-center justify-center rounded-lg px-6 py-3.5 text-sm font-semibold text-white transition hover:opacity-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"

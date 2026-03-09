@@ -410,13 +410,9 @@ export default function HeaderMegaMenu() {
                     {item.columns?.map((column) => (
                       <div key={column.title} className="space-y-2">
                         <h3
-                          className="uppercase"
+                          className="mega-panel-subheader uppercase"
                           style={{
-                            fontSize: "var(--mega-heading-size)",
-                            fontWeight: "var(--mega-heading-weight)",
-                            letterSpacing: "var(--mega-heading-spacing)",
-                            color: "var(--mega-heading-color)",
-                            marginBottom: "var(--mega-heading-margin-bottom)",
+                            fontFamily: "var(--token-font-body)",
                           }}
                         >
                           {column.title}
@@ -429,12 +425,9 @@ export default function HeaderMegaMenu() {
                                   href={link.href}
                                   target="_blank"
                                   rel="noreferrer noopener"
-                                  className="block py-2 transition-colors hover:text-[var(--mega-link-hover-color)] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--token-accent)]"
+                                  className="mega-menu-link block py-2 transition-colors hover:text-[var(--mega-link-hover-color)] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--token-accent)]"
                                   style={{
-                                    fontSize: "var(--mega-link-size)",
-                                    fontWeight: "var(--mega-link-weight)",
                                     color: "var(--mega-link-color)",
-                                    lineHeight: "var(--mega-link-line-height)",
                                   }}
                                 >
                                   {link.label}
@@ -442,12 +435,9 @@ export default function HeaderMegaMenu() {
                               ) : (
                                 <Link
                                   to={link.href}
-                                  className="block py-2 transition-colors hover:text-[var(--mega-link-hover-color)] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--token-accent)]"
+                                  className="mega-menu-link block py-2 transition-colors hover:text-[var(--mega-link-hover-color)] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--token-accent)]"
                                   style={{
-                                    fontSize: "var(--mega-link-size)",
-                                    fontWeight: "var(--mega-link-weight)",
                                     color: "var(--mega-link-color)",
-                                    lineHeight: "var(--mega-link-line-height)",
                                   }}
                                 >
                                   {link.label}
@@ -462,12 +452,9 @@ export default function HeaderMegaMenu() {
                                           href={child.href}
                                           target="_blank"
                                           rel="noreferrer noopener"
-                                          className="block py-2 transition-colors hover:text-[var(--mega-link-hover-color)] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--token-accent)]"
+                                          className="mega-menu-link block py-2 transition-colors hover:text-[var(--mega-link-hover-color)] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--token-accent)]"
                                           style={{
-                                            fontSize: "var(--mega-link-size)",
-                                            fontWeight: "var(--mega-link-weight)",
                                             color: "var(--mega-link-color)",
-                                            lineHeight: "var(--mega-link-line-height)",
                                           }}
                                         >
                                           {child.label}
@@ -475,12 +462,9 @@ export default function HeaderMegaMenu() {
                                       ) : (
                                         <Link
                                           to={child.href}
-                                          className="block py-2 transition-colors hover:text-[var(--mega-link-hover-color)] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--token-accent)]"
+                                          className="mega-menu-link block py-2 transition-colors hover:text-[var(--mega-link-hover-color)] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--token-accent)]"
                                           style={{
-                                            fontSize: "var(--mega-link-size)",
-                                            fontWeight: "var(--mega-link-weight)",
                                             color: "var(--mega-link-color)",
-                                            lineHeight: "var(--mega-link-line-height)",
                                           }}
                                         >
                                           {child.label}

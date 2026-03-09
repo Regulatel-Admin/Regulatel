@@ -29,7 +29,7 @@ export default function QuickLinksBar({
 }: QuickLinksBarProps) {
   return (
     <section
-      className="quickLinksBar w-full mt-0 mb-0 pt-12 pb-6 md:pt-14 md:pb-8"
+      className="quickLinksBar w-full mt-0 mb-0 pt-14 pb-8 md:pt-16 md:pb-10"
       style={{
         backgroundColor: "var(--regu-offwhite)",
         fontFamily: "var(--token-font-body)",
@@ -37,11 +37,11 @@ export default function QuickLinksBar({
       aria-label={title}
     >
       <div
-        className="mx-auto w-full px-4 md:px-6"
-        style={{ maxWidth: "1200px" }}
+        className="mx-auto w-full px-4 md:px-8 lg:px-10"
+        style={{ maxWidth: "1520px" }}
       >
         {/* Encabezado: título + línea de apoyo + CTA integrado */}
-        <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-end sm:justify-between md:mb-8">
+        <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-end sm:justify-between md:mb-10">
           <div className="min-w-0 flex-1">
             <h2
               className="text-left font-bold uppercase tracking-wider"
@@ -106,19 +106,19 @@ function QuickLinkTile({ item, index }: { item: QuickLinkItem; index: number }) 
     <>
       {Icon && (
         <span
-          className="flex-shrink-0 flex items-center justify-center mr-3"
+          className="flex-shrink-0 flex items-center justify-center mr-4"
           style={{ color: "var(--regu-navy)" }}
           aria-hidden
         >
-          <Icon className="w-5 h-5 md:w-6 md:h-6" />
+          <Icon className="w-6 h-6 md:w-7 md:h-7" />
         </span>
       )}
       <span className="flex flex-col items-start justify-center text-left min-w-0">
-        <span className="font-semibold text-sm md:text-base leading-tight block" style={{ color: "var(--regu-navy)" }}>
+        <span className="font-semibold text-base md:text-lg leading-tight block" style={{ color: "var(--regu-navy)" }}>
           {item.label}
         </span>
         {item.subtitle && (
-          <span className="text-xs md:text-sm font-normal mt-0.5 block" style={{ color: "var(--regu-gray-500)" }}>
+          <span className="text-sm md:text-base font-normal mt-1 block" style={{ color: "var(--regu-gray-500)" }}>
             {item.subtitle}
           </span>
         )}
@@ -127,7 +127,7 @@ function QuickLinkTile({ item, index }: { item: QuickLinkItem; index: number }) 
   );
 
   const tileClass =
-    "quickLinkTile flex items-center justify-center h-[90px] md:h-[100px] min-h-[90px] px-4 md:px-5 cursor-pointer transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-inset";
+    "quickLinkTile flex items-center justify-center h-[100px] md:h-[120px] min-h-[100px] px-5 md:px-6 cursor-pointer transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-inset";
 
   const tileStyle: React.CSSProperties = {
     backgroundColor: bgBase,

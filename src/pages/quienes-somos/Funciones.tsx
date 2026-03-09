@@ -68,7 +68,7 @@ export default function Funciones() {
           className="space-y-4"
         >
           <p
-            className="text-base md:text-lg leading-relaxed"
+            className="text-base md:text-lg leading-relaxed md:text-justify"
             style={{ color: "var(--regu-gray-900)" }}
           >
             REGULATEL desarrolla su labor a través de grupos técnicos especializados que analizan

@@ -76,7 +76,6 @@ export default function Subscribe() {
   const [agree1, setAgree1] = useState(false);
   const [mediaName, setMediaName] = useState("");
   const [mediaSurname, setMediaSurname] = useState("");
-  const [mediaOutlet, setMediaOutlet] = useState("");
   const [mediaCountry, setMediaCountry] = useState("");
   const [mediaEmail, setMediaEmail] = useState("");
   const [agree2, setAgree2] = useState(false);
@@ -248,21 +247,6 @@ export default function Subscribe() {
                 onChange={(e) => setMediaSurname(e.target.value)}
                 className={inputClass}
                 style={inputStyle}
-              />
-            </div>
-            <div>
-              <label htmlFor="media-outlet" className="block" style={labelStyle}>
-                Medio de comunicación <span style={{ color: "#DC2626" }}>*</span>
-              </label>
-              <input
-                id="media-outlet"
-                type="text"
-                required
-                value={mediaOutlet}
-                onChange={(e) => setMediaOutlet(e.target.value)}
-                className={inputClass}
-                style={inputStyle}
-                placeholder="ej. Periódico, canal de TV"
               />
             </div>
             <div>

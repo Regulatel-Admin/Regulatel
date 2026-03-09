@@ -26,7 +26,7 @@ export default function Reglamento() {
           initial="hidden"
           animate="visible"
           variants={fadeIn}
-          className="space-y-5 text-base md:text-lg leading-relaxed"
+          className="space-y-5 text-base md:text-lg leading-relaxed md:text-justify"
           style={{ color: "var(--regu-gray-900)" }}
         >
           <p>

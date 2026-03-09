@@ -91,26 +91,6 @@ Durante los últimos 15 años, ha estudiado la regulación digital y tecnológic
       { title: "Participación internacional", content: "Autora de bibliografía científica y ponente en congresos y seminarios nacionales e internacionales. Miembro del Consejo Regulador de la ERC (2011-2016). Enfoque reciente en regulación digital, tecnológica e Inteligencia Artificial." },
     ],
   },
-  {
-    id: "4",
-    slug: "cristiam-marcelo-mamani-vides",
-    name: "Cristiam Marcelo Mamani Vides",
-    role: "Vocal",
-    institution: "ATT",
-    country: "Bolivia",
-    period: "2024–presente",
-    image: "https://www.regulatel.org/sites/default/files/styles/height/public/team/Foto%20carnet%20Cristiam%20Mamani_0.jpg",
-    bio: "Especialista en regulación de telecomunicaciones con enfoque en desarrollo de políticas públicas.",
-    fullBio: `Especialista en regulación de telecomunicaciones con enfoque en desarrollo de políticas públicas. Cristiam Marcelo Mamani Vides ha contribuido significativamente al sector de las telecomunicaciones en Bolivia, trabajando en el desarrollo de marcos regulatorios que promueven la competencia y el acceso universal a los servicios de telecomunicaciones.
-
-Con una sólida formación técnica y experiencia en el sector público, ha participado activamente en el diseño e implementación de políticas que buscan modernizar el sector de las telecomunicaciones en Bolivia y fortalecer la cooperación regional a través de REGULATEL.
-
-Su trabajo se ha centrado en promover la innovación tecnológica, mejorar la calidad de los servicios y garantizar el acceso equitativo a las telecomunicaciones en todo el territorio boliviano.`,
-    sections: [
-      { title: "Perfil", content: "Especialista en regulación de telecomunicaciones con enfoque en desarrollo de políticas públicas. Ha contribuido de forma significativa al sector en Bolivia." },
-      { title: "Rol en REGULATEL", content: "Participación activa en el diseño e implementación de políticas que modernizan el sector en Bolivia y fortalecen la cooperación regional a través de REGULATEL. Enfoque en innovación tecnológica, calidad de los servicios y acceso equitativo a las telecomunicaciones en todo el territorio boliviano." },
-    ],
-  },
 ];
 
 export function getAuthorityBySlug(slug: string): Authority | undefined {

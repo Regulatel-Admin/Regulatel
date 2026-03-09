@@ -128,20 +128,15 @@ export default function NavMegaPanel({
             }}
           >
             <h3
-              className="uppercase"
+              className="mega-panel-subheader uppercase"
               style={{
-                fontSize: "var(--mega-heading-size)",
-                fontWeight: "var(--mega-heading-weight)",
-                letterSpacing: "var(--mega-heading-spacing)",
-                color: "var(--mega-heading-color)",
-                marginBottom: "var(--mega-heading-margin-bottom)",
                 marginTop: 0,
                 fontFamily: "var(--token-font-body)",
               }}
             >
               {column.title}
             </h3>
-            <ul className="list-none p-0" style={{ margin: 0 }}>
+            <ul className="mega-panel-links list-none p-0" style={{ margin: 0 }}>
               {column.links.map((link) => (
                 <li key={link.label} style={{ margin: 0 }}>
                   <PanelLink link={link} onLinkClick={onLinkClick} />

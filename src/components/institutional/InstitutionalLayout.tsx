@@ -1,4 +1,6 @@
 import { type ReactNode } from "react";
+import { Link } from "react-router-dom";
+import { ArrowLeft } from "lucide-react";
 import PageHero from "@/components/PageHero";
 
 const CONTENT_MAX_WIDTH = "1100px";
@@ -39,6 +41,20 @@ export default function InstitutionalLayout({
           style={{ maxWidth: CONTENT_MAX_WIDTH }}
         >
           {children}
+          <nav
+            className="mt-14 md:mt-16 lg:mt-20 pt-8 border-t"
+            style={{ borderColor: "var(--regu-gray-200)" }}
+            aria-label="Navegación final"
+          >
+            <Link
+              to="/"
+              className="inline-flex items-center gap-2 rounded-xl px-5 py-3 text-base font-semibold transition-colors bg-[#4489C6]/10 hover:bg-[#4489C6]/16 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2"
+              style={{ color: "var(--regu-blue)" }}
+            >
+              <ArrowLeft className="w-4 h-4 shrink-0" aria-hidden />
+              Volver a inicio
+            </Link>
+          </nav>
         </div>
       </div>
     </>

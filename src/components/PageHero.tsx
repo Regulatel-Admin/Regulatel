@@ -18,23 +18,13 @@ const PageHero: React.FC<PageHeroProps> = ({ title, subtitle, breadcrumb, descri
     <section
       className="page-hero relative w-full overflow-hidden bg-cover bg-center bg-no-repeat"
       style={{
-        backgroundImage: "url('/images/world-map-dots.jpg')",
+        backgroundImage: "url('/images/breadcrumb.png')",
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
         minHeight: 'clamp(240px, 38vw, 380px)',
       }}
     >
-      {/* Overlay más oscuro + scrim para legibilidad del texto */}
-      <div
-        className="hero-overlay absolute inset-0 z-[1] pointer-events-none"
-        style={{
-          background: `
-            radial-gradient(circle at 50% 35%, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.55) 70%),
-            linear-gradient(180deg, rgba(0, 10, 20, 0.78) 0%, rgba(0, 20, 35, 0.62) 45%, rgba(0, 10, 20, 0.78) 100%)
-          `,
-        }}
-      />
 
       {/* Content */}
       <div className="relative z-[2] container px-4 md:px-6 mx-auto max-w-6xl py-12 md:py-20 lg:py-24">

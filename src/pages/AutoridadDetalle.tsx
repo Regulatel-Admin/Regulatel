@@ -14,19 +14,27 @@ function DetailHero({ a }: { a: Authority }) {
         style={{ maxWidth: "1100px" }}
       >
         <nav
-          className="flex items-center gap-2 text-sm text-[#6B7280] mb-8"
+          className="flex flex-wrap items-center gap-1 md:gap-2 mb-8"
           aria-label="Breadcrumb"
         >
-          <Link to="/" className="hover:text-[#111827] flex items-center gap-1">
-            <Home className="w-4 h-4" />
+          <Link
+            to="/"
+            className="inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-[0.9375rem] font-semibold text-[#4489C6] hover:bg-[#4489C6]/10 hover:text-[#2563a8] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#4489C6] focus-visible:ring-offset-1"
+          >
+            <Home className="w-4 h-4 shrink-0" aria-hidden />
             Inicio
           </Link>
-          <ChevronRight className="w-4 h-4 text-[#9CA3AF]" />
-          <Link to="/autoridades" className="hover:text-[#111827]">
+          <ChevronRight className="w-4 h-4 shrink-0 text-[#9CA3AF]" aria-hidden />
+          <Link
+            to="/autoridades"
+            className="inline-flex items-center rounded-lg px-3 py-1.5 text-[0.9375rem] font-semibold text-[#4489C6] hover:bg-[#4489C6]/10 hover:text-[#2563a8] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#4489C6] focus-visible:ring-offset-1"
+          >
             Autoridades
           </Link>
-          <ChevronRight className="w-4 h-4 text-[#9CA3AF]" />
-          <span className="text-[#111827] font-medium">{a.name}</span>
+          <ChevronRight className="w-4 h-4 shrink-0 text-[#9CA3AF]" aria-hidden />
+          <span className="inline-flex items-center rounded-lg px-3 py-1.5 text-[0.9375rem] font-bold text-[#111827] bg-[#E5E7EB]">
+            {a.name}
+          </span>
         </nav>
 
         <div className="flex flex-col md:flex-row md:items-start gap-8">
@@ -69,50 +77,6 @@ function DetailHero({ a }: { a: Authority }) {
   );
 }
 
-type DataRow = { label: string; value: string; href?: string };
-
-function DatosClaveCard({ a }: { a: Authority }) {
-  const rows: DataRow[] = [
-    { label: "Cargo", value: a.role },
-    { label: "Institución", value: a.institution },
-    { label: "País", value: a.country },
-    ...(a.period ? [{ label: "Período", value: a.period }] : []),
-    ...(a.email ? [{ label: "Email", value: a.email }] : []),
-    ...(a.linkedin ? [{ label: "LinkedIn", value: "Ver perfil", href: a.linkedin }] : []),
-  ];
-
-  return (
-    <div className="rounded-xl border border-[#E5E7EB] bg-white p-6 shadow-sm">
-      <h3 className="text-sm font-semibold uppercase tracking-wider text-[#6B7280] mb-4">
-        Datos clave
-      </h3>
-      <dl className="space-y-3">
-        {rows.map((row, i) => (
-          <div key={i}>
-            <dt className="text-xs font-medium text-[#6B7280] uppercase tracking-wider">
-              {row.label}
-            </dt>
-            <dd className="mt-0.5 text-sm text-[#111827] font-medium">
-              {row.href ? (
-                <a
-                  href={row.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-[#4489C6] hover:underline"
-                >
-                  {row.value}
-                </a>
-              ) : (
-                row.value
-              )}
-            </dd>
-          </div>
-        ))}
-      </dl>
-    </div>
-  );
-}
-
 function BioSections({ a }: { a: Authority }) {
   const sections = a.sections && a.sections.length > 0
     ? a.sections
@@ -122,8 +86,8 @@ function BioSections({ a }: { a: Authority }) {
     <div className="space-y-10">
       {sections.map((sec, i) => (
         <section key={i}>
-          <h2 className="text-lg font-semibold text-[#111827] mb-3">{sec.title}</h2>
-          <div className="text-base text-[#374151] leading-[1.7] whitespace-pre-line">
+          <h2 className="text-lg font-semibold text-[#111827] mb-4">{sec.title}</h2>
+          <div className="text-[1.125rem] md:text-[1.25rem] text-[#1f2937] leading-[1.8] whitespace-pre-line md:text-justify max-w-[720px]">
             {sec.content}
           </div>
         </section>
@@ -200,13 +164,8 @@ export default function AutoridadDetalle() {
         className="mx-auto px-4 md:px-6 py-12 md:py-16"
         style={{ maxWidth: "1100px" }}
       >
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-12 lg:gap-16">
-          <div className="min-w-0">
-            <BioSections a={authority} />
-          </div>
-          <div className="lg:sticky lg:top-24 h-fit">
-            <DatosClaveCard a={authority} />
-          </div>
+        <div className="min-w-0">
+          <BioSections a={authority} />
         </div>
 
         <OtrasAutoridades currentSlug={authority.slug} />

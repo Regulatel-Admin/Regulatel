@@ -96,7 +96,7 @@ const LogoImage: React.FC<{ name: string; route: string }> = ({ name, route }) =
   if (hasError || !imgSrc) {
     return (
       <div className="text-center w-full">
-        <div className="text-2xl md:text-3xl font-bold text-indigo-900 leading-tight">{name}</div>
+        <div className="text-2xl md:text-3xl font-bold leading-tight" style={{ color: 'var(--regu-gray-900)' }}>{name}</div>
       </div>
     );
   }
@@ -416,11 +416,11 @@ const EnteRegulador: React.FC = () => {
 
   if (!ente) {
     return (
-      <div className="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-b from-indigo-50/50 to-indigo-100/40">
+      <div className="w-full py-12 md:py-24 lg:py-32" style={{ background: 'linear-gradient(to bottom, var(--regu-offwhite), var(--regu-gray-100))' }}>
         <div className="container px-4 md:px-6 mx-auto max-w-6xl text-center">
-          <h1 className="text-3xl font-bold text-indigo-900 mb-4">Ente no encontrado</h1>
+          <h1 className="text-3xl font-bold mb-4" style={{ color: 'var(--regu-gray-900)' }}>Ente no encontrado</h1>
           <Link to="/miembros">
-            <Button className="bg-indigo-600 text-white hover:bg-indigo-700">
+            <Button className="text-white" style={{ backgroundColor: 'var(--regu-blue)' }}>
               <ArrowLeft className="mr-2 h-4 w-4" />
               Volver a Miembros
             </Button>
@@ -431,7 +431,7 @@ const EnteRegulador: React.FC = () => {
   }
 
   return (
-    <div className="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-b from-indigo-50/50 to-indigo-100/40">
+    <div className="w-full py-12 md:py-24 lg:py-32" style={{ background: 'linear-gradient(to bottom, var(--regu-offwhite), var(--regu-gray-100))' }}>
       <div className="container px-4 md:px-6 mx-auto max-w-6xl">
         <motion.div
           initial="hidden"
@@ -441,7 +441,7 @@ const EnteRegulador: React.FC = () => {
           className="mb-8"
         >
           <Link to="/miembros">
-            <Button variant="ghost" className="mb-6 text-indigo-700 hover:text-indigo-900">
+            <Button variant="ghost" className="mb-6" style={{ color: 'var(--regu-blue)' }}>
               <ArrowLeft className="mr-2 h-4 w-4" />
               Volver a Miembros
             </Button>
@@ -453,34 +453,35 @@ const EnteRegulador: React.FC = () => {
           whileInView="visible"
           viewport={{ once: true }}
           variants={fadeIn}
-          className="bg-white/90 rounded-2xl p-8 md:p-12 shadow-md border border-indigo-200"
+          className="bg-white/90 rounded-2xl p-8 md:p-12 shadow-md border"
+          style={{ borderColor: 'var(--regu-gray-100)' }}
         >
           <div className="flex flex-col md:flex-row gap-8 mb-8">
             <div className="flex-shrink-0">
-              <div className="w-48 h-48 md:w-64 md:h-64 flex items-center justify-center bg-white rounded-xl border border-indigo-200 p-6 shadow-sm">
+              <div className="w-48 h-48 md:w-64 md:h-64 flex items-center justify-center bg-white rounded-xl border p-6 shadow-sm" style={{ borderColor: 'var(--regu-gray-100)' }}>
                 <LogoImage name={ente.name} route={ente.route} />
               </div>
             </div>
             <div className="flex-1">
-              <h1 className="text-3xl md:text-4xl font-bold text-indigo-900 mb-4">{ente.name}</h1>
+              <h1 className="text-3xl md:text-4xl font-bold mb-4" style={{ color: 'var(--regu-gray-900)' }}>{ente.name}</h1>
               {ente.fullName && (
-                <p className="text-lg text-indigo-700 mb-4 font-medium">{ente.fullName}</p>
+                <p className="text-lg mb-4 font-medium" style={{ color: 'var(--regu-gray-700)' }}>{ente.fullName}</p>
               )}
               <div className="flex items-center gap-2 mb-4">
                 <Globe className="w-5 h-5 text-green-600" />
-                <p className="text-lg text-indigo-800 font-medium">{ente.country}</p>
+                <p className="text-lg font-medium" style={{ color: 'var(--regu-gray-900)' }}>{ente.country}</p>
               </div>
               
               {ente.authorities && ente.authorities.length > 0 && (
                 <div className="mb-6">
-                  <h3 className="text-lg font-semibold text-indigo-900 mb-3">{ente.name} – {ente.country}</h3>
+                  <h3 className="text-lg font-semibold mb-3" style={{ color: 'var(--regu-gray-900)' }}>{ente.name} – {ente.country}</h3>
                   <div className="space-y-3">
                     {ente.authorities.map((authority, index) => (
                       <div key={index} className="flex items-start gap-3">
                         <User className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
                         <div>
-                          <p className="text-base font-medium text-indigo-900">{authority.name}</p>
-                          <p className="text-sm text-indigo-700">{authority.role}</p>
+                          <p className="text-base font-medium" style={{ color: 'var(--regu-gray-900)' }}>{authority.name}</p>
+                          <p className="text-sm" style={{ color: 'var(--regu-gray-700)' }}>{authority.role}</p>
                         </div>
                       </div>
                     ))}
@@ -489,14 +490,15 @@ const EnteRegulador: React.FC = () => {
               )}
               
               {ente.description && (
-                <p className="text-indigo-700 mb-6">{ente.description}</p>
+                <p className="mb-6" style={{ color: 'var(--regu-gray-700)' }}>{ente.description}</p>
               )}
               {ente.website && (
                 <a
                   href={ente.website}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-green-600 hover:text-green-700 font-medium transition-colors mb-6"
+                  className="inline-flex items-center gap-2 font-medium transition-colors mb-6"
+                  style={{ color: 'var(--regu-blue)' }}
                 >
                   <ExternalLink className="w-5 h-5" />
                   Visitar sitio web oficial
@@ -510,10 +512,11 @@ const EnteRegulador: React.FC = () => {
             whileInView="visible"
             viewport={{ once: true }}
             variants={fadeIn}
-            className="mt-8 pt-8 border-t border-indigo-200"
+            className="mt-8 pt-8 border-t"
+            style={{ borderColor: 'var(--regu-gray-100)' }}
           >
-            <h2 className="text-2xl font-bold text-indigo-900 mb-4">Sobre {ente.name}</h2>
-            <div className="space-y-4 text-indigo-800">
+            <h2 className="text-2xl font-bold mb-4" style={{ color: 'var(--regu-gray-900)' }}>Sobre {ente.name}</h2>
+            <div className="space-y-4" style={{ color: 'var(--regu-gray-700)' }}>
               <p>
                 {ente.name} es un organismo regulador de telecomunicaciones en {ente.country}, 
                 miembro activo de REGULATEL, el Foro Latinoamericano de Entes Reguladores de Telecomunicaciones.

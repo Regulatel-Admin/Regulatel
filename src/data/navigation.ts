@@ -35,15 +35,14 @@ export const navigationItems: NavigationItem[] = [
         links: [
           { label: "Qué somos", href: "/que-somos" },
           { label: "Visión y misión", href: "/vision-mision" },
-          { label: "Funciones", href: "/funciones" },
-          { label: "Reglamento", href: "/reglamento" },
+          { label: "Objetivos y Funciones", href: "/objetivos-y-funciones" },
+          { label: "Estatutos, reglamentos y procedimientos", href: "/protocolos-y-procedimientos" },
           { label: "Miembros", href: "/miembros" },
         ],
       },
       {
         title: "ORGANIZACIÓN",
         links: [
-          { label: "Cómo nos organizamos", href: "/pendiente/organizacion", todo: "TODO: Definir URL oficial de 'Cómo nos organizamos'." },
           { label: "Autoridades actuales", href: "/autoridades" },
           { label: "Comité Ejecutivo", href: "/comite-ejecutivo" },
           { label: "Grupos de Trabajo", href: "/grupos-de-trabajo" },
