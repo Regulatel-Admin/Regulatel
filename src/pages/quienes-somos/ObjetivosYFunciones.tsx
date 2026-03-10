@@ -3,6 +3,7 @@ import { CheckCircle2, Target } from "lucide-react";
 import InstitutionalLayout, {
   InstitutionalSection,
   InstitutionalH2,
+  InstitutionalCard,
 } from "@/components/institutional/InstitutionalLayout";
 
 const fadeIn = {
@@ -35,54 +36,113 @@ export default function ObjetivosYFunciones() {
       subtitle="QUIÉNES SOMOS"
       breadcrumb={[{ label: "Objetivos y Funciones" }]}
     >
-      <InstitutionalSection>
-        <InstitutionalH2>Objetivos</InstitutionalH2>
-        <motion.ul
-          initial="hidden"
-          animate="visible"
-          variants={fadeIn}
-          className="space-y-4"
-        >
-          {OBJETIVOS.map((text) => (
+      {/* Bloque introductorio: conecta hero con contenido */}
+      <motion.p
+        initial="hidden"
+        animate="visible"
+        variants={fadeIn}
+        className="mb-14 md:mb-16 lg:mb-20 text-lg md:text-xl leading-relaxed max-w-3xl"
+        style={{ color: "var(--regu-gray-700)" }}
+      >
+        A continuación se presentan los objetivos y las funciones que orientan la actuación del Foro REGULATEL en la región.
+      </motion.p>
+
+      {/* Objetivos: cards para mayor presencia visual */}
+      <InstitutionalSection className="mb-16 md:mb-20 lg:mb-24">
+        <div className="mb-8 md:mb-10">
+          <h2
+            className="text-2xl md:text-3xl font-bold mb-2"
+            style={{ color: "var(--regu-gray-900)" }}
+          >
+            Objetivos
+          </h2>
+          <div
+            className="h-1 w-16 rounded-full"
+            style={{ backgroundColor: "var(--regu-blue)" }}
+            aria-hidden
+          />
+        </div>
+        <ul className="space-y-5 md:space-y-6">
+          {OBJETIVOS.map((text, index) => (
             <motion.li
               key={text.slice(0, 50)}
+              initial="hidden"
+              animate="visible"
               variants={fadeIn}
-              className="flex items-start gap-3 text-base md:text-lg leading-relaxed md:text-justify"
-              style={{ color: "var(--regu-gray-900)" }}
             >
-              <Target
-                className="w-6 h-6 flex-shrink-0 mt-0.5"
-                style={{ color: "var(--regu-blue)" }}
-              />
-              <span>{text}</span>
+              <InstitutionalCard className="flex flex-col sm:flex-row sm:items-start gap-4 sm:gap-5 p-6 md:p-8">
+                <div
+                  className="flex items-center justify-center w-12 h-12 rounded-xl flex-shrink-0"
+                  style={{ backgroundColor: "var(--regu-blue)", color: "white" }}
+                  aria-hidden
+                >
+                  <Target className="w-6 h-6" />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <span
+                    className="text-sm font-semibold uppercase tracking-wider block mb-2"
+                    style={{ color: "var(--regu-blue)" }}
+                  >
+                    Objetivo {index + 1}
+                  </span>
+                  <p
+                    className="text-base md:text-lg leading-relaxed md:text-justify"
+                    style={{ color: "var(--regu-gray-900)" }}
+                  >
+                    {text}
+                  </p>
+                </div>
+              </InstitutionalCard>
             </motion.li>
           ))}
-        </motion.ul>
+        </ul>
       </InstitutionalSection>
 
+      {/* Funciones: sección diferenciada, 2 columnas en desktop */}
       <InstitutionalSection>
-        <InstitutionalH2>Funciones</InstitutionalH2>
-        <motion.ul
-          initial="hidden"
-          animate="visible"
-          variants={fadeIn}
-          className="space-y-4"
+        <div className="mb-8 md:mb-10">
+          <h2
+            className="text-2xl md:text-3xl font-bold mb-2"
+            style={{ color: "var(--regu-gray-900)" }}
+          >
+            Funciones
+          </h2>
+          <div
+            className="h-1 w-16 rounded-full"
+            style={{ backgroundColor: "var(--regu-blue)" }}
+            aria-hidden
+          />
+        </div>
+        <div
+          className="rounded-2xl border p-6 md:p-8 lg:p-10"
+          style={{
+            backgroundColor: "var(--regu-white)",
+            borderColor: "var(--regu-gray-100)",
+            boxShadow: "var(--token-shadow-card)",
+          }}
         >
-          {FUNCIONES.map((text) => (
-            <motion.li
-              key={text.slice(0, 50)}
-              variants={fadeIn}
-              className="flex items-start gap-3 text-base md:text-lg leading-relaxed md:text-justify"
-              style={{ color: "var(--regu-gray-900)" }}
-            >
-              <CheckCircle2
-                className="w-6 h-6 flex-shrink-0 mt-0.5"
-                style={{ color: "var(--regu-blue)" }}
-              />
-              <span>{text}</span>
-            </motion.li>
-          ))}
-        </motion.ul>
+          <motion.ul
+            initial="hidden"
+            animate="visible"
+            variants={fadeIn}
+            className="grid grid-cols-1 lg:grid-cols-2 gap-x-10 lg:gap-x-14 gap-y-5 md:gap-y-6"
+          >
+            {FUNCIONES.map((text) => (
+              <motion.li
+                key={text.slice(0, 50)}
+                variants={fadeIn}
+                className="flex items-start gap-3 text-base md:text-lg leading-relaxed"
+                style={{ color: "var(--regu-gray-900)" }}
+              >
+                <CheckCircle2
+                  className="w-6 h-6 flex-shrink-0 mt-0.5"
+                  style={{ color: "var(--regu-blue)" }}
+                />
+                <span>{text}</span>
+              </motion.li>
+            ))}
+          </motion.ul>
+        </div>
       </InstitutionalSection>
     </InstitutionalLayout>
   );
