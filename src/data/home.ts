@@ -192,9 +192,10 @@ export const heroClean = {
   secondaryCta: { label: "VER PRÓXIMOS EVENTOS", href: "/eventos" },
 };
 
-/** Hero institucional/editorial: imagen de fondo + overlay + badge + título + descripción + 2 CTAs */
+/** Hero institucional/editorial: composición de fondo (conectividad regional) o imagen opcional + badge + título + 2 CTAs */
 export const heroInstitucional = {
-  coverImageUrl: "/images/foto-home-regulatel.png",
+  /** Sin imagen: se usa fondo institucional con nodos y conexiones (telecom + región). Para usar foto, asignar ej. "/images/foto-home-regulatel.png" */
+  coverImageUrl: undefined as string | undefined,
   badge: "Presidencia 2026",
   title: "Cooperación regulatoria para una transformación digital",
   titleHighlight: "inclusiva y segura",

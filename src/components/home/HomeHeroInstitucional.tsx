@@ -1,9 +1,11 @@
 /**
  * Hero institucional del home REGULATEL.
+ * Fondo: composición institucional (conectividad regional) o imagen opcional.
  * Versión inicial desarrollada por Diego Cuervo (INDOTEL). 2026.
  */
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import HeroInstitucionalBackground from "./HeroInstitucionalBackground";
 
 export interface HomeHeroInstitucionalProps {
   /** Imagen de fondo del hero (opcional; si no se indica, se usa color sólido) */
@@ -46,10 +48,10 @@ export default function HomeHeroInstitucional({
       style={{ fontFamily: "var(--token-font-body)" }}
       aria-label="Hero principal"
     >
-      {/* Fondo: imagen o color sólido de respaldo. */}
+      {/* Fondo: imagen opcional o composición institucional (conectividad regional). */}
       <div
         className="absolute inset-0"
-        style={{ background: coverImageUrl ? HERO_BG_FALLBACK : undefined }}
+        style={{ background: HERO_BG_FALLBACK }}
       >
         {coverImageUrl ? (
           <>
@@ -79,13 +81,9 @@ export default function HomeHeroInstitucional({
               </div>
             )}
           </>
-        ) : (
-          <div
-            className="absolute inset-0"
-            style={{ background: HERO_BG_FALLBACK }}
-            aria-hidden
-          />
-        )}
+        ) : null}
+        {/* Composición institucional: nodos y conexiones (telecom + cooperación regional). */}
+        {!coverImageUrl && <HeroInstitucionalBackground />}
       </div>
 
       {/* Contenido: bloque izquierda, proporción afinada al nuevo alto */}
