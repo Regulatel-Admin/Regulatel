@@ -168,7 +168,7 @@ export default function NavMegaPanel({
                             className="mega-panel-children list-none"
                             style={{
                               margin: 0,
-                              marginTop: "14px",
+                              marginTop: "10px",
                               paddingLeft: "var(--mega-child-indent, 20px)",
                               borderLeft: "2px solid var(--regu-gray-100)",
                             }}
@@ -203,11 +203,11 @@ export default function NavMegaPanel({
                         groups.find((x) => x.label === g)!.items.push(child);
                       }
                       return (
-                        <div className="mt-5 space-y-7">
+                        <div className="mt-4 space-y-5">
                           {groups.map((group) => (
                             <div key={group.label}>
                               <p
-                                className="mega-panel-year-subtitle mb-3 font-semibold uppercase tracking-wider"
+                                className="mega-panel-year-subtitle mb-2 font-semibold uppercase tracking-wider"
                                 style={{
                                   paddingLeft: "var(--mega-child-indent, 24px)",
                                 }}

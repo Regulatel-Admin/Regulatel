@@ -173,29 +173,29 @@
   background: rgba(22, 61, 89, 0.35);
 }
 
-/* Mega panel: títulos de columna — azul institucional fuerte + línea sutil */
+/* Mega panel: títulos de columna — azul institucional, compacto vertical */
 .header-font-fixed .mega-panel-subheader {
   font-size: 27px !important;
   font-weight: 800 !important;
   letter-spacing: 0.09em !important;
   line-height: 1.22 !important;
-  margin-bottom: 26px !important;
+  margin-bottom: 20px !important;
   color: var(--regu-navy) !important;
   border-bottom: 2px solid rgba(68, 137, 198, 0.22) !important;
-  padding-bottom: 8px !important;
+  padding-bottom: 6px !important;
 }
 @media (max-width: 1024px) {
   .header-font-fixed .mega-panel-subheader {
     font-size: 24px !important;
-    margin-bottom: 22px !important;
-    padding-bottom: 6px !important;
+    margin-bottom: 18px !important;
+    padding-bottom: 5px !important;
   }
 }
 @media (max-width: 768px) {
   .header-font-fixed .mega-panel-subheader {
     font-size: 21px !important;
-    margin-bottom: 20px !important;
-    padding-bottom: 6px !important;
+    margin-bottom: 16px !important;
+    padding-bottom: 5px !important;
   }
 }
 
@@ -241,16 +241,16 @@
   }
 }
 
-/* Texto secundario — gris medio elegante (Solo usuarios autorizados, Acceso restringido) */
+/* Texto secundario — gris medio elegante, compacto */
 .header-font-fixed .mega-panel-secondary {
   font-size: 15px !important;
   font-weight: 600 !important;
   line-height: 1.4 !important;
   color: var(--regu-gray-700) !important;
-  margin-top: 6px !important;
+  margin-top: 4px !important;
 }
 
-/* Subtítulos de año — azul secundario institucional + barra teal sutil para escaneo */
+/* Subtítulos de año — azul institucional, poco margen para compactar */
 .header-font-fixed .mega-panel-year-subtitle {
   font-size: 15px !important;
   font-weight: 700 !important;
@@ -259,11 +259,12 @@
   border-left: 3px solid rgba(51, 164, 180, 0.5) !important;
   padding-left: 20px !important;
   margin-left: 0 !important;
+  margin-bottom: 8px !important;
 }
 
-/* Espacio entre grupos — contenido para no alargar panel */
+/* Espacio entre grupos (Planes, Asambleas, Revista, etc.) — controlado como Eventos */
 .header-font-fixed .mega-panel-links > li {
-  margin-bottom: 34px !important;
+  margin-bottom: 24px !important;
 }
 .header-font-fixed .mega-panel-links > li:last-child {
   margin-bottom: 0 !important;

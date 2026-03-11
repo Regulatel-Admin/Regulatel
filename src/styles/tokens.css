@@ -122,8 +122,8 @@
   --mega-panel-bg: var(--regu-white);
   --mega-panel-border-bottom: 1px solid rgba(22, 61, 89, 0.12);
   --mega-wrapper-max: 1480px;
-  --mega-padding-y-top: 48px;
-  --mega-padding-y-bottom: 52px;
+  --mega-padding-y-top: 32px;
+  --mega-padding-y-bottom: 36px;
   --mega-padding-x: 40px;
   --mega-column-gap: 48px;
   --mega-col-padding-inline: 28px;
@@ -134,7 +134,7 @@
   --mega-heading-spacing: 0.09em;
   --mega-heading-line-height: 1.22;
   --mega-heading-color: var(--regu-navy);
-  --mega-heading-margin-bottom: 26px;
+  --mega-heading-margin-bottom: 20px;
   --mega-link-size: 18px;
   --mega-link-weight: 700;
   --mega-link-color: var(--regu-gray-900);
@@ -147,9 +147,9 @@
   --mega-child-size: 17px;
   --mega-secondary-size: 15px;
   --mega-secondary-color: var(--regu-gray-500);
-  --mega-group-gap: 34px;
+  --mega-group-gap: 24px;
   --mega-child-indent: 28px;
-  --mega-child-spacing: 11px;
+  --mega-child-spacing: 8px;
   --mega-year-subtitle-size: 15px;
   /* Mega panel: límite al viewport (header + margen) para no cortar en Mac/Safari */
   --mega-panel-viewport-offset: 140px;
