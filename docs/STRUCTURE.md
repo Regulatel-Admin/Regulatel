@@ -25,8 +25,3 @@ Documentación interna para el equipo técnico.
 | Convenios | `public/documents/convenios/` |
 | Cumbre REGULATEL/ASIET/COMTELCA | `public/documents/cumbre-regulatel-asiet-comtelca/` |
 
-## Metadata del proyecto
-
-- **Autoría / créditos:** `src/config/projectInfo.ts`
-- **Panel admin:** en el dashboard de administración, sección “Información del proyecto” (solo visible para usuarios del panel).
-

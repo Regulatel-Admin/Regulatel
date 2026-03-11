@@ -120,7 +120,11 @@ export default function RegulatelEnCifras() {
         <div
           role="tablist"
           aria-label="Seleccionar año"
-          className="cifrasYearToggle flex shrink-0 items-center gap-2"
+          className="cifrasYearToggle flex shrink-0 items-center gap-1.5 rounded-full p-1 shadow-sm"
+          style={{
+            backgroundColor: "var(--regu-gray-100)",
+            border: "1px solid rgba(22, 61, 89, 0.08)",
+          }}
         >
           {anos.map((year, index) => {
             const isSelected = year === selectedYear;
@@ -143,10 +147,11 @@ export default function RegulatelEnCifras() {
                     handleYearChange(anos[index + 1]);
                   }
                 }}
-                className="rounded-full px-5 py-3 text-base font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2"
+                className="min-w-[4.25rem] rounded-full px-5 py-3 text-center text-[0.9375rem] font-semibold tracking-tight transition-all duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2"
                 style={{
-                  backgroundColor: isSelected ? "var(--regu-blue)" : "var(--regu-gray-100)",
-                  color: isSelected ? "#fff" : "var(--regu-gray-700)",
+                  backgroundColor: isSelected ? "var(--regu-blue)" : "transparent",
+                  color: isSelected ? "#fff" : "var(--regu-gray-600)",
+                  boxShadow: isSelected ? "0 2px 8px rgba(22, 61, 89, 0.18)" : "none",
                 }}
               >
                 {year}
@@ -201,55 +206,67 @@ function CifraCard({
 
   return (
     <article
-      className="cifraCard relative flex h-full flex-col overflow-hidden rounded-2xl border bg-white transition-shadow duration-200 hover:shadow-[0_6px_24px_rgba(22,61,89,0.08)]"
-      style={{
-        borderColor: "rgba(22, 61, 89, 0.12)",
-        boxShadow: "0 4px 20px rgba(22, 61, 89, 0.05)",
-      }}
+      className="cifraCard group relative flex h-full flex-col overflow-hidden rounded-2xl border border-[rgba(22,61,89,0.09)] bg-white/98 shadow-[0_1px_2px_rgba(22,61,89,0.04),0_4px_16px_rgba(22,61,89,0.06)] transition-all duration-300 ease-out hover:border-[rgba(22,61,89,0.14)] hover:shadow-[0_4px_12px_rgba(22,61,89,0.08),0_12px_32px_rgba(22,61,89,0.1)]"
     >
       <div className="flex h-full flex-1 flex-col p-7 md:p-8">
-        <div className="flex justify-end">
+        {/* Icono: esquina superior derecha, integrado y sutil */}
+        <div
+          className="absolute right-6 top-6 flex items-center justify-center opacity-[0.42] transition-opacity duration-200 group-hover:opacity-55"
+          aria-hidden
+        >
           <Icon
-            className="h-7 w-7 md:h-8 md:w-8 flex-shrink-0 opacity-55"
-            style={{ color: "var(--regu-gray-500)" }}
-            aria-hidden
+            className="h-6 w-6 md:h-7 md:w-7 flex-shrink-0"
+            style={{ color: "var(--regu-gray-600)" }}
           />
         </div>
+
+        {/* Número como ancla visual principal */}
         <p
-          className="mt-3 font-bold tabular-nums leading-none"
+          className="mt-1 font-bold tabular-nums leading-[1.1] tracking-tight"
           style={{
-            fontSize: "clamp(2.5rem, 4.5vw, 3.75rem)",
+            fontFamily: "var(--token-font-heading)",
+            fontSize: "clamp(2.75rem, 5vw, 3.875rem)",
             color: "var(--regu-blue)",
+            letterSpacing: "-0.02em",
           }}
         >
           {displayValue}
         </p>
+
+        {/* Título del indicador */}
         <h3
-          className="mt-4 font-bold uppercase tracking-wide leading-tight text-[var(--regu-gray-900)]"
+          className="mt-5 font-semibold uppercase tracking-[0.06em] leading-tight text-[var(--regu-gray-900)]"
           style={{
             fontFamily: "var(--token-font-heading)",
-            fontSize: "clamp(1rem, 1.2vw, var(--token-heading-h3-size))",
+            fontSize: "clamp(0.8125rem, 1.1vw, 0.9375rem)",
           }}
         >
           {config.title}
         </h3>
+
+        {/* Descripción */}
         <p
-          className="mt-2.5 text-sm md:text-base leading-relaxed text-[var(--regu-gray-500)]"
+          className="mt-2.5 text-[0.9375rem] leading-[1.5] text-[var(--regu-gray-600)] md:text-[1rem]"
           style={{ fontFamily: "var(--token-font-body)" }}
         >
           {config.subtitle}
         </p>
-        <div className="mt-5 flex-1 flex flex-col justify-end">
+
+        {/* Fuente: estilo editorial */}
+        <div className="mt-6 flex-1 flex flex-col justify-end">
           <a
             href={config.sourceUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="cifraSourceLink inline-block text-sm font-medium text-[var(--regu-blue)] transition hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2"
+            className="cifraSourceLink inline-flex items-baseline gap-0.5 text-[0.8125rem] font-medium tracking-wide text-[var(--regu-blue)] transition-colors duration-150 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2"
             style={{ fontFamily: "var(--token-font-body)" }}
           >
-            Fuente: {config.sourceLabel}
+            <span className="uppercase tracking-wider text-[var(--regu-gray-500)]">
+              Fuente:
+            </span>{" "}
+            {config.sourceLabel}
             {isExternal && (
-              <span className="ml-0.5 inline-block" aria-hidden>
+              <span className="inline-block shrink-0" aria-hidden>
                 ↗
               </span>
             )}

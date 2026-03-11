@@ -19,8 +19,8 @@
   --regu-gray-700: #4A5568;     /* Gris medio (etiquetas, texto secundario fuerte) */
   --regu-gray-900: #1C1C1C;     /* Gris oscuro (texto) */
 
-  /* Acento editorial sección Noticias (estilo BEREC: etiquetas + "Leer más") */
-  --news-accent: #C4005A;
+  /* Acento editorial sección Noticias (alineado al azul institucional) */
+  --news-accent: var(--regu-blue);
 
   /* ——— Tokens de UI (mapeados a paleta REGULATEL) ——— */
   --token-navy: var(--regu-navy);

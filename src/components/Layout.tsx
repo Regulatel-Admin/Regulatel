@@ -58,13 +58,6 @@ export default function Layout({ children }: LayoutProps) {
               >
                 Declaración de privacidad
               </Link>
-              <Link
-                to="/pendiente/terminos"
-                className="transition-colors hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--token-accent)]"
-                style={{ color: "var(--token-text-secondary)" }}
-              >
-                Términos
-              </Link>
             </nav>
           </div>
           <div className="md:text-right">

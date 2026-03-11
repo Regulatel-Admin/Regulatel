@@ -130,8 +130,8 @@ export default function FeaturedEventsCarousel({
                     href={event.registrationUrl!}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center rounded-lg px-4 py-2.5 text-xs font-semibold uppercase tracking-[0.08em] text-white transition hover:opacity-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2"
-                    style={{ backgroundColor: "var(--news-accent)" }}
+                    className="inline-flex items-center justify-center rounded-lg px-4 py-2.5 text-xs font-semibold uppercase tracking-[0.08em] text-white transition hover:opacity-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2"
+                    style={{ backgroundColor: "var(--regu-blue)" }}
                     aria-label={`Registrarse a ${event.title}`}
                   >
                     Registrarse

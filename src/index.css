@@ -574,7 +574,7 @@
 }
 .countryOptionActive {
   border-color: var(--news-accent);
-  background: rgba(196, 0, 90, 0.04);
+  background: rgba(68, 137, 198, 0.08);
   color: #111827;
 }
 .categoryTabs {
