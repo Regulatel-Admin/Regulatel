@@ -27,6 +27,10 @@ export interface HomeHeroInstitucionalProps {
 }
 
 const HERO_BG_FALLBACK = "#163D59";
+/** Overlay navy institucional para legibilidad del texto sobre la foto */
+const HERO_OVERLAY = "linear-gradient(90deg, rgba(22, 61, 89, 0.68) 0%, rgba(22, 61, 89, 0.42) 45%, rgba(22, 61, 89, 0.28) 100%)";
+/** Filtro suave: menos brillo y saturación para bajar ruido visual sin tapar la foto */
+const HERO_IMAGE_FILTER = "brightness(0.88) saturate(0.82)";
 
 /**
  * Hero institucional/editorial: slideshow o imagen de fondo + badge + título + descripción + 2 CTAs.
@@ -74,7 +78,7 @@ export default function HomeHeroInstitucional({
                 className="absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ease-in-out"
                 style={{
                   objectPosition: "center 42%",
-                  filter: "none",
+                  filter: HERO_IMAGE_FILTER,
                   opacity: i === currentIndex ? 1 : 0,
                   zIndex: i === currentIndex ? 1 : 0,
                 }}
@@ -86,9 +90,15 @@ export default function HomeHeroInstitucional({
                 }}
               />
             ))}
+            {/* Overlay azul institucional + gradiente focal (más oscuro donde está el texto) */}
+            <div
+              className="pointer-events-none absolute inset-0 z-[2]"
+              style={{ background: HERO_OVERLAY }}
+              aria-hidden
+            />
             {showLoader && (
               <div
-                className="heroCoverLoader absolute inset-0 z-[2] flex items-center justify-center"
+                className="heroCoverLoader absolute inset-0 z-[3] flex items-center justify-center"
                 aria-hidden
               >
                 <div
