@@ -339,7 +339,12 @@ export default function HeaderMegaMenu() {
         ].join(" ")}
         style={{ borderColor: "var(--token-border)" }}
       >
-        <ul className="space-y-2" aria-label="Navegación móvil">
+        <div
+          className="mobile-menu-scroll max-h-[calc(100vh-80px)] overflow-y-auto overflow-x-hidden"
+          style={{ WebkitOverflowScrolling: "touch" }}
+          aria-label="Menú de navegación"
+        >
+        <ul className="space-y-2 pb-4" aria-label="Navegación móvil">
           {navigationItems.map((item) => {
             const hasPanel = Boolean(item.columns?.length) || item.id === "eventos";
             const expanded = openMobileAccordions[item.id] ?? false;
@@ -515,6 +520,7 @@ export default function HeaderMegaMenu() {
             );
           })}
         </ul>
+        </div>
       </div>
     </header>
   );

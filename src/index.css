@@ -158,6 +158,21 @@
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: contain;
 }
+
+/* Menú móvil: scroll interno en iPhone/Safari para poder recorrer todo el contenido */
+.mobile-menu-scroll {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+@media (max-width: 767px) {
+  .mobile-menu-scroll {
+    max-height: calc(100vh - 80px);
+    max-height: calc(100dvh - 80px);
+  }
+}
+
 .mega-panel-viewport::-webkit-scrollbar {
   width: 8px;
   height: 8px;
