@@ -5,6 +5,7 @@
  */
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { ChevronLeft, ChevronRight, Pause, Play } from "lucide-react";
 import HeroInstitucionalBackground from "./HeroInstitucionalBackground";
 
 const HERO_SLIDESHOW_INTERVAL_MS = 5000;
@@ -27,8 +28,6 @@ export interface HomeHeroInstitucionalProps {
 }
 
 const HERO_BG_FALLBACK = "#163D59";
-/** Overlay navy institucional para legibilidad del texto sobre la foto */
-const HERO_OVERLAY = "linear-gradient(90deg, rgba(22, 61, 89, 0.68) 0%, rgba(22, 61, 89, 0.42) 45%, rgba(22, 61, 89, 0.28) 100%)";
 /** Filtro suave: menos brillo y saturación para bajar ruido visual sin tapar la foto */
 const HERO_IMAGE_FILTER = "brightness(0.88) saturate(0.82)";
 
@@ -46,17 +45,23 @@ export default function HomeHeroInstitucional({
 }: HomeHeroInstitucionalProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [loadedCount, setLoadedCount] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
   const hasImages = coverImageUrls.length > 0;
   const isSlideshow = coverImageUrls.length > 1;
   const showLoader = hasImages && loadedCount === 0;
 
   useEffect(() => {
-    if (!isSlideshow) return;
+    if (!isSlideshow || isPaused) return;
     const id = setInterval(() => {
       setCurrentIndex((i) => (i + 1) % coverImageUrls.length);
     }, HERO_SLIDESHOW_INTERVAL_MS);
     return () => clearInterval(id);
-  }, [isSlideshow, coverImageUrls.length]);
+  }, [isSlideshow, isPaused, coverImageUrls.length]);
+
+  const goPrev = () =>
+    setCurrentIndex((i) => (i === 0 ? coverImageUrls.length - 1 : i - 1));
+  const goNext = () =>
+    setCurrentIndex((i) => (i + 1) % coverImageUrls.length);
 
   return (
     <section
@@ -93,10 +98,13 @@ export default function HomeHeroInstitucional({
                 }}
               />
             ))}
-            {/* Overlay azul institucional + gradiente focal (más oscuro donde está el texto) */}
+            {/* Overlay oscuro focal: cubre solo la zona del texto (izquierda/centro) para legibilidad */}
             <div
               className="pointer-events-none absolute inset-0 z-[2]"
-              style={{ background: HERO_OVERLAY }}
+              style={{
+                background:
+                  "linear-gradient(to right, rgba(0,0,0,0.52) 0%, rgba(0,0,0,0.32) 50%, rgba(0,0,0,0.08) 100%)",
+              }}
               aria-hidden
             />
             {showLoader && (
@@ -108,6 +116,43 @@ export default function HomeHeroInstitucional({
                   className="heroCoverSpinner h-10 w-10 rounded-full border-2 border-white/40 border-t-white"
                   style={{ animation: "hero-spin 0.9s linear infinite" }}
                 />
+              </div>
+            )}
+
+            {/* Controles del slideshow: anterior, pausa/play, siguiente — esquina inferior derecha (z-20 para quedar encima del contenido z-10 y recibir clics) */}
+            {isSlideshow && (
+              <div
+                className="heroSlideshowControls absolute bottom-5 right-5 z-20 flex items-center gap-1 rounded-xl border border-white/20 bg-white/10 px-1 py-1 shadow-sm backdrop-blur-sm"
+                aria-label="Controles del slideshow"
+              >
+                <button
+                  type="button"
+                  aria-label="Imagen anterior"
+                  onClick={goPrev}
+                  className="heroSlideshowBtn flex h-8 w-8 items-center justify-center rounded-lg text-white/90 transition-colors hover:bg-white/20 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
+                >
+                  <ChevronLeft className="h-5 w-5" aria-hidden />
+                </button>
+                <button
+                  type="button"
+                  aria-label={isPaused ? "Reanudar slideshow" : "Pausar slideshow"}
+                  onClick={() => setIsPaused((p) => !p)}
+                  className="heroSlideshowBtn flex h-8 w-8 items-center justify-center rounded-lg text-white/90 transition-colors hover:bg-white/20 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
+                >
+                  {isPaused ? (
+                    <Play className="h-4 w-4" aria-hidden />
+                  ) : (
+                    <Pause className="h-4 w-4" aria-hidden />
+                  )}
+                </button>
+                <button
+                  type="button"
+                  aria-label="Imagen siguiente"
+                  onClick={goNext}
+                  className="heroSlideshowBtn flex h-8 w-8 items-center justify-center rounded-lg text-white/90 transition-colors hover:bg-white/20 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
+                >
+                  <ChevronRight className="h-5 w-5" aria-hidden />
+                </button>
               </div>
             )}
           </>
