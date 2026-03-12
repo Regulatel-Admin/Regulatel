@@ -19,15 +19,13 @@ const ACCESOS_CARD_BORDER = "#D4E3EE";
 const ACCESOS_ICON_BG = "#DFECF5";
 const ACCESOS_ICON_TITLE = "#163E67";
 const ACCESOS_LINK = "#488CC8";
-const ACCESOS_HOVER_BORDER = "#488CC8";
-const ACCESOS_ACCENT_LIMA = "#CAD536";
 
 function AccessCard({ item }: AccessCardProps) {
   const Icon = item.icon;
   const isExternal = item.href.startsWith("http");
   const linkClass =
     "accessCardLink mt-3 inline-flex items-center gap-1 text-sm font-semibold transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2";
-  const linkStyle = { color: ACCESOS_LINK as const };
+  const linkStyle = { color: ACCESOS_LINK };
 
   return (
     <article
