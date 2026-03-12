@@ -103,16 +103,16 @@ export default function TopBarBerecLike({
   const a11yBtnSize = 34;
   const subscribeHeight = 42;
   const accentColor = "var(--regu-blue)";
-  /* Borde visible tipo BEREC (gris medio), fondo blanco sólido — no transparente */
-  const searchBorder = "1px solid #9CA3AF";
+  /* Bordes premium: suaves y coherentes (sistema institucional) */
+  const searchBorder = "1px solid #C2CDD6";
   const searchBg = "#FFFFFF";
-  const borderColor = "#9CA3AF";
+  const borderColor = "#C2CDD6";
 
   return (
     <div
       className="topbar border-b bg-white relative overflow-visible"
       style={{
-        borderBottom: "1px solid #E5E7EB",
+        borderBottom: "1px solid #EBEEF2",
         height: `${topbarHeight}px`,
         minHeight: `${topbarHeight}px`,
         display: "flex",
@@ -132,37 +132,50 @@ export default function TopBarBerecLike({
           minWidth: 0,
         }}
       >
-        {/* (1) Izquierda: logo — nunca se corta */}
-        <div className="topbarLeft flex shrink-0 items-center" style={{ marginRight: "16px" }}>
-          <Link
-            to="/"
-            className="shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2 rounded"
-            aria-label="REGULATEL inicio"
-            style={{ display: "block", minWidth: "140px" }}
-          >
-            <img
-              src="/images/regulatel-logo.png"
-              alt="REGULATEL"
-              width={140}
-              height={40}
-              style={{ height: "40px", width: "auto", maxWidth: "none", display: "block", objectFit: "contain" }}
-              loading="eager"
-            />
-          </Link>
+        {/* (1) Izquierda: brand block — logo + divisor sutil, sin tagline para dar espacio al centro */}
+        <div className="topbarBrandBlock flex shrink-0 items-center" style={{ marginRight: "20px" }}>
+          <div className="topbarBrandInner flex items-center" style={{ paddingRight: "16px" }}>
+            <Link
+              to="/"
+              className="topbarLogoLink shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2 rounded"
+              aria-label="REGULATEL inicio"
+              style={{ display: "block", padding: "2px 0" }}
+            >
+              <img
+                src="/images/regulatel-logo.png"
+                alt="REGULATEL"
+                width={196}
+                height={56}
+                className="topbarLogoImg"
+                style={{ height: "56px", width: "auto", maxWidth: "none", display: "block", objectFit: "contain" }}
+                loading="eager"
+              />
+            </Link>
+          </div>
+          <div
+            className="topbarBrandDivider hidden md:block"
+            style={{
+              width: "1px",
+              height: "32px",
+              backgroundColor: "rgba(22, 61, 89, 0.09)",
+              flexShrink: 0,
+            }}
+            aria-hidden
+          />
         </div>
 
-        {/* (2) Centro: 2 search inputs — minWidth evita que colapse y que el bloque a-/a/a+ invada el buscador */}
-        <div className="topbarCenter hidden md:flex items-center" style={{ gap: "16px", flex: "1 1 0", minWidth: "432px", justifyContent: "center", maxWidth: "720px" }}>
-          <form onSubmit={handleSearchWebsite} role="search" aria-label="Buscar en el sitio" className="searchField flex items-center rounded-xl min-w-0 flex-[1_1_280px]" style={{ maxWidth: "280px", minWidth: "200px", height: `${searchHeight}px`, border: searchBorder, borderRadius: "12px", background: searchBg, paddingLeft: "14px", paddingRight: "14px", boxShadow: "none" }}>
-            <Search className="searchIcon shrink-0" style={{ width: "18px", height: "18px", color: "#4B5563", marginRight: "10px" }} aria-hidden />
+        {/* (2) Centro: buscadores con espacio garantizado — etiquetas completas visibles en desktop */}
+        <div className="topbarCenter hidden md:flex items-center min-w-0 flex-1" style={{ gap: "14px", flexBasis: 0, minWidth: "460px", justifyContent: "center" }}>
+          <form onSubmit={handleSearchWebsite} role="search" aria-label="Buscar en el sitio" className="searchField topbarSearchForm flex items-center rounded-xl flex-1" style={{ minWidth: "218px", flexShrink: 0, height: `${searchHeight}px`, border: searchBorder, borderRadius: "14px", background: searchBg, paddingLeft: "14px", paddingRight: "14px", boxShadow: "none" }}>
+            <Search className="searchIcon shrink-0" style={{ width: "17px", height: "17px", color: "#4F5F70", marginRight: "10px" }} aria-hidden />
             <SiteSearchAutocomplete
               value={searchWebsite}
               onChange={setSearchWebsite}
               placeholder="BUSCAR EN EL SITIO"
             />
           </form>
-          <form onSubmit={handleSearchDocuments} role="search" aria-label="Buscar documentos" className="searchField flex items-center rounded-xl min-w-0 flex-[1_1_280px]" style={{ maxWidth: "280px", minWidth: "200px", height: `${searchHeight}px`, border: searchBorder, borderRadius: "12px", background: searchBg, paddingLeft: "14px", paddingRight: "14px", boxShadow: "none" }}>
-            <FileText className="searchIcon shrink-0" style={{ width: "18px", height: "18px", color: "#4B5563", marginRight: "10px" }} aria-hidden />
+          <form onSubmit={handleSearchDocuments} role="search" aria-label="Buscar documentos" className="searchField topbarSearchForm flex items-center rounded-xl flex-1" style={{ minWidth: "218px", flexShrink: 0, height: `${searchHeight}px`, border: searchBorder, borderRadius: "14px", background: searchBg, paddingLeft: "14px", paddingRight: "14px", boxShadow: "none" }}>
+            <FileText className="searchIcon shrink-0" style={{ width: "17px", height: "17px", color: "#4F5F70", marginRight: "10px" }} aria-hidden />
             <input
               type="search"
               placeholder="BUSCAR DOCUMENTO"
@@ -174,7 +187,7 @@ export default function TopBarBerecLike({
           </form>
         </div>
 
-        {/* (3) Derecha: SIEMPRE visible — a-/a/a+ + iconos sociales + usuario + Suscribirse */}
+        {/* (3) Derecha: a11y + redes (tratamiento institucional) + usuario + Suscribirse */}
         <div className="topbarRight flex items-center shrink-0" style={{ gap: "12px" }}>
           <div className="a11yControls hidden md:flex items-center" role="group" aria-label="Tamaño de fuente" style={{ gap: "4px" }}>
             {(["sm", "md", "lg"] as const).map((mode) => (
@@ -191,7 +204,7 @@ export default function TopBarBerecLike({
                   fontSize: "14px",
                   fontWeight: 600,
                   color: fontMode === mode ? accentColor : "#1C1C1C",
-                  borderColor: fontMode === mode ? accentColor : "rgba(0,0,0,0.12)",
+                  borderColor: fontMode === mode ? accentColor : "rgba(0,0,0,0.1)",
                   background: fontMode === mode ? "rgba(68, 137, 198, 0.12)" : "transparent",
                 }}
               >
@@ -200,39 +213,52 @@ export default function TopBarBerecLike({
             ))}
           </div>
 
-          {/* Iconos sociales: colores de marca, mismo tamaño visual, espaciado uniforme */}
-          <div className="topbarSocial hidden md:flex items-center shrink-0" style={{ gap: "8px" }}>
-            <a href="https://www.youtube.com/@ForoRegulatel" target="_blank" rel="noopener noreferrer" aria-label="Canal de YouTube de REGULATEL" className="rounded p-1 transition-colors hover:opacity-85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-1 inline-flex items-center justify-center" style={{ color: "#E53935" }}>
-              <Youtube style={{ width: "18px", height: "18px" }} />
-            </a>
-            <a href="https://x.com/regulatel" target="_blank" rel="noreferrer noopener" aria-label="X (Twitter)" className="rounded p-1 transition-colors hover:opacity-85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-1 inline-flex items-center justify-center" style={{ color: "#14171A" }}>
-              <XLogo size={18} />
-            </a>
-            <a href="https://www.instagram.com/foro.regulatel/" target="_blank" rel="noreferrer noopener" aria-label="Instagram" className="rounded p-1 transition-colors hover:opacity-85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-1 inline-flex items-center justify-center" style={{ color: "#E4405F" }}>
-              <Instagram style={{ width: "18px", height: "18px" }} />
-            </a>
-            <a href="https://www.linkedin.com/company/regulatel" target="_blank" rel="noreferrer noopener" aria-label="LinkedIn" className="rounded p-1 transition-colors hover:opacity-85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-1 inline-flex items-center justify-center" style={{ color: "#0A66C2" }}>
-              <Linkedin style={{ width: "18px", height: "18px" }} />
-            </a>
-            <a href="https://www.facebook.com/foro.regulatel" target="_blank" rel="noreferrer noopener" aria-label="Facebook" className="rounded p-1 transition-colors hover:opacity-85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-1 inline-flex items-center justify-center" style={{ color: "#1877F2" }}>
-              <Facebook style={{ width: "18px", height: "18px" }} />
-            </a>
-            <Link to="/login" aria-label="Iniciar sesión" className="rounded p-1 transition-colors hover:opacity-85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-1 inline-flex items-center justify-center" style={{ color: accentColor }}>
+          {/* Redes + divisor + login */}
+          <div className="topbarSocial hidden md:flex items-center shrink-0" style={{ gap: "14px" }}>
+            <div className="topbarSocialBlock flex items-center shrink-0">
+            <div className="topbarSocialGroup flex items-center shrink-0" style={{ gap: "2px" }}>
+              <a href="https://www.youtube.com/@ForoRegulatel" target="_blank" rel="noopener noreferrer" aria-label="Canal de YouTube de REGULATEL" className="topbarIconLink topbarIconLink--youtube rounded p-1 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-1 inline-flex items-center justify-center" style={{ color: "#FF0000" }}>
+                <Youtube style={{ width: "18px", height: "18px" }} />
+              </a>
+              <a href="https://x.com/regulatel" target="_blank" rel="noreferrer noopener" aria-label="X (Twitter)" className="topbarIconLink topbarIconLink--x rounded p-1 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-1 inline-flex items-center justify-center" style={{ color: "#000000" }}>
+                <XLogo size={18} />
+              </a>
+              <a href="https://www.instagram.com/foro.regulatel/" target="_blank" rel="noreferrer noopener" aria-label="Instagram" className="topbarIconLink topbarIconLink--instagram rounded p-1 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-1 inline-flex items-center justify-center" style={{ color: "#E4405F" }}>
+                <Instagram style={{ width: "18px", height: "18px" }} />
+              </a>
+              <a href="https://www.linkedin.com/company/regulatel" target="_blank" rel="noreferrer noopener" aria-label="LinkedIn" className="topbarIconLink topbarIconLink--linkedin rounded p-1 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-1 inline-flex items-center justify-center" style={{ color: "#0A66C2" }}>
+                <Linkedin style={{ width: "18px", height: "18px" }} />
+              </a>
+              <a href="https://www.facebook.com/foro.regulatel" target="_blank" rel="noreferrer noopener" aria-label="Facebook" className="topbarIconLink topbarIconLink--facebook rounded p-1 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-1 inline-flex items-center justify-center" style={{ color: "#1877F2" }}>
+                <Facebook style={{ width: "18px", height: "18px" }} />
+              </a>
+            </div>
+            </div>
+            <div
+              className="topbarLoginDivider shrink-0"
+              style={{
+                width: "1px",
+                height: "22px",
+                backgroundColor: "rgba(22, 61, 89, 0.07)",
+              }}
+              aria-hidden
+            />
+            <Link to="/login" aria-label="Iniciar sesión" className="topbarIconLink topbarIconLink--login rounded p-1 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-1 inline-flex items-center justify-center shrink-0" style={{ color: "var(--regu-blue)" }}>
               <User style={{ width: "18px", height: "18px" }} />
             </Link>
           </div>
 
           <Link
             to="/subscribe"
-            className="subscribeBtn hidden shrink-0 items-center justify-center rounded-xl border-2 font-extrabold uppercase transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2 md:inline-flex hover:bg-[var(--regu-blue)] hover:text-white"
+            className="subscribeBtn hidden shrink-0 items-center justify-center rounded-xl border-2 font-bold uppercase transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2 md:inline-flex hover:bg-[var(--regu-blue)] hover:text-white hover:border-[var(--regu-blue)]"
             style={{
               height: `${subscribeHeight}px`,
-              paddingLeft: "18px",
-              paddingRight: "18px",
-              borderColor: accentColor,
-              color: accentColor,
-              background: "transparent",
-              borderRadius: "12px",
+              paddingLeft: "20px",
+              paddingRight: "20px",
+              border: "2px solid var(--regu-blue)",
+              color: "var(--regu-blue)",
+              background: "#FFFFFF",
+              borderRadius: "14px",
               letterSpacing: "0.10em",
               fontSize: "12px",
             }}

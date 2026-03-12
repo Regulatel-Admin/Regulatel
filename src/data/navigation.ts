@@ -105,6 +105,11 @@ export const navigationItems: NavigationItem[] = [
         links: [
           { label: "Estudios", href: "/pendiente/estudios", todo: "TODO: Definir URL oficial de 'Estudios'." },
           {
+            label: "Galería fotográfica",
+            href: "https://www.flickr.com/photos/indotel/albums/72177720330864280/",
+            external: true,
+          },
+          {
             label: "Revista Digital REGULATEL",
             href: "/gestion?tipo=revista",
             children: [

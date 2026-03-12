@@ -6,6 +6,7 @@ import {
   Files,
   Globe,
   Handshake,
+  ImageIcon,
   Newspaper,
   Users,
   type LucideIcon,
@@ -194,8 +195,18 @@ export const heroClean = {
 
 /** Hero institucional/editorial: slideshow de imágenes o composición SVG + badge + título + 2 CTAs */
 export const heroInstitucional = {
-  /** Varias URLs = slideshow; una sola = imagen fija; undefined = fondo SVG institucional */
-  coverImageUrls: ["/images/1.jpg", "/images/2.jpg"] as string[],
+  /** Varias URLs = slideshow; imágenes en public/ (orden: 1a → 9a) */
+  coverImageUrls: [
+    "/1a.jpg",
+    "/2a.jpg",
+    "/3a.jpg",
+    "/4a.jpg",
+    "/5a.jpg",
+    "/6a.jpg",
+    "/7a.jpg",
+    "/8a.jpg",
+    "/9a.jpg",
+  ] as string[],
   badge: "Presidencia 2026",
   title: "Cooperación regulatoria para una transformación digital",
   titleHighlight: "inclusiva y segura",
@@ -245,6 +256,12 @@ export const accessMainItems: AccessMainItem[] = [
     shortDescription: "Documentos, planes de trabajo y actas.",
     href: "/gestion?tipo=documentos",
     icon: FileText,
+  },
+  {
+    title: "Galería fotográfica",
+    shortDescription: "Galería oficial REGULATEL/INDOTEL en Flickr.",
+    href: "https://www.flickr.com/photos/indotel/albums/72177720330864280/",
+    icon: ImageIcon,
   },
   {
     title: "Revista Digital",

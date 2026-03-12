@@ -12,21 +12,38 @@ interface AccessCardProps {
   item: AccessCardItem;
 }
 
+/* Paleta Accesos Principales — identidad visual REGULATEL (logo: azul #488CC8, lima #CAD536) */
+const ACCESOS_BG_SECTION = "#EAF3F8";
+const ACCESOS_CARD_BG = "#F3F8FB";
+const ACCESOS_CARD_BORDER = "#D4E3EE";
+const ACCESOS_ICON_BG = "#DFECF5";
+const ACCESOS_ICON_TITLE = "#163E67";
+const ACCESOS_LINK = "#488CC8";
+const ACCESOS_HOVER_BORDER = "#488CC8";
+const ACCESOS_ACCENT_LIMA = "#CAD536";
+
 function AccessCard({ item }: AccessCardProps) {
   const Icon = item.icon;
   const isExternal = item.href.startsWith("http");
   const linkClass =
-    "mt-3 inline-flex items-center gap-1 text-sm font-semibold transition-colors hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2";
-  const linkStyle = { color: "var(--regu-blue)" as const };
+    "accessCardLink mt-3 inline-flex items-center gap-1 text-sm font-semibold transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2";
+  const linkStyle = { color: ACCESOS_LINK as const };
 
   return (
-    <article className="accessCard h-full rounded-2xl border bg-white p-5 shadow-sm transition-shadow hover:shadow-md">
+    <article
+      className="accessCard h-full rounded-2xl border p-5 shadow-sm transition-all duration-200"
+      style={{
+        backgroundColor: ACCESOS_CARD_BG,
+        borderColor: ACCESOS_CARD_BORDER,
+        borderWidth: "1px",
+      }}
+    >
       <div className="flex h-full flex-col">
         <div
           className="mb-3 flex h-10 w-10 shrink-0 items-center justify-center rounded-lg"
           style={{
-            backgroundColor: "rgba(68, 137, 198, 0.12)",
-            color: "var(--regu-blue)",
+            backgroundColor: ACCESOS_ICON_BG,
+            color: ACCESOS_ICON_TITLE,
           }}
         >
           <Icon className="h-5 w-5" aria-hidden />
@@ -36,7 +53,7 @@ function AccessCard({ item }: AccessCardProps) {
           style={{
             fontFamily: "var(--token-font-heading)",
             fontSize: "var(--token-heading-h3-size)",
-            color: "var(--regu-gray-900)",
+            color: ACCESOS_ICON_TITLE,
           }}
         >
           {item.title}
@@ -79,8 +96,8 @@ export default function AccesosPrincipales({ items }: AccesosPrincipalesProps) {
     <section
       className="accessSection w-full border-b py-12 md:py-14"
       style={{
-        backgroundColor: "var(--regu-offwhite)",
-        borderColor: "var(--regu-gray-100)",
+        backgroundColor: ACCESOS_BG_SECTION,
+        borderColor: ACCESOS_CARD_BORDER,
       }}
     >
       <div
@@ -92,7 +109,7 @@ export default function AccesosPrincipales({ items }: AccesosPrincipalesProps) {
           style={{
             fontFamily: "var(--token-font-heading)",
             fontSize: "var(--token-heading-h2-size)",
-            color: "var(--regu-gray-900)",
+            color: ACCESOS_ICON_TITLE,
           }}
         >
           ACCESOS PRINCIPALES

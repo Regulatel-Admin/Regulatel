@@ -403,13 +403,41 @@
   font-size: 16px;
 }
 
-/* Search fields (BEREC): fondo blanco sólido, borde visible — no transparente */
+/* Logo REGULATEL: pulido final — ligero refuerzo de jerarquía en desktop */
+.topbarLogoImg {
+  height: 56px !important;
+  width: auto !important;
+  max-width: none !important;
+}
+@media (max-width: 767px) {
+  .topbarLogoImg {
+    height: 44px !important;
+  }
+  .topbarLogoLink {
+    min-width: 154px !important;
+  }
+}
+
+/* Brand block: logo + divisor; compacto en móvil */
+.topbarBrandBlock {
+  min-width: 0;
+}
+@media (max-width: 767px) {
+  .topbarBrandBlock {
+    margin-right: 16px !important;
+  }
+  .topbarBrandInner {
+    padding-right: 0 !important;
+  }
+}
+
+/* Search fields topbar: bordes suaves, sistema institucional unificado */
 .searchField {
   background-color: #FFFFFF !important;
-  border: 1px solid #9CA3AF;
+  border: 1px solid #C2CDD6 !important;
 }
 .searchField input::placeholder {
-  color: #6B7280;
+  color: #5F6B7A;
   font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.05em;
@@ -417,9 +445,38 @@
 .searchField input:focus {
   outline: none;
 }
-.searchField:focus-within {
-  border-color: rgba(68, 137, 198, 0.7) !important;
-  box-shadow: 0 0 0 3px rgba(68, 137, 198, 0.12);
+.searchField:focus-within,
+.topbarSearchForm:focus-within {
+  border-color: var(--regu-blue) !important;
+  box-shadow: 0 0 0 2px rgba(68, 137, 198, 0.12) !important;
+}
+
+/* Topbar centro: ancho mínimo para etiquetas completas; no truncar en desktop */
+.topbarCenter {
+  flex-shrink: 1;
+  min-width: 460px;
+}
+.topbarSearchForm {
+  max-width: 100%;
+  min-width: 218px;
+  flex-shrink: 0;
+}
+.topbarSearchForm input,
+.topbarSearchForm [role="combobox"] {
+  min-width: 0;
+}
+
+/* Topbar iconos (redes + usuario): colores de marca; login usa --regu-blue */
+/* Hover: oscurecer ligeramente cada icono según su color de marca */
+.topbarIconLink--youtube:hover { color: #CC0000 !important; }
+.topbarIconLink--x:hover { color: #333333 !important; }
+.topbarIconLink--instagram:hover { color: #C13584 !important; }
+.topbarIconLink--linkedin:hover { color: #004182 !important; }
+.topbarIconLink--facebook:hover { color: #0D65D9 !important; }
+.topbarIconLink--login:hover { color: var(--regu-blue) !important; }
+.topbarIconLink:active,
+.topbarIconLink:focus-visible {
+  opacity: 0.9;
 }
 
 /* Controles a-/a/a+: tamaño fijo, no crecen con escala */
@@ -498,17 +555,22 @@
   }
 }
 .accessSection {
-  /* Fondo y padding por Tailwind/inline */
+  /* Fondo institucional y borde por inline/componente */
 }
 .accessGrid {
   /* Grid 3 cols desktop, 2 tablet, 1 mobile */
 }
 .accessCard {
-  border-color: var(--regu-gray-100);
-  border-width: 1px;
+  /* Colores por componente (paleta REGULATEL) */
 }
 .accessCard:hover {
-  box-shadow: var(--token-shadow-hover);
+  border-color: #488CC8;
+  box-shadow: 0 4px 16px rgba(72, 140, 200, 0.12);
+}
+.accessSection .accessCardLink:hover {
+  text-decoration: underline;
+  text-decoration-color: #CAD536;
+  text-underline-offset: 3px;
 }
 
 /* Subscribe page: SHARE icons hover institucional */
