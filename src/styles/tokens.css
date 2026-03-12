@@ -167,10 +167,10 @@
   --topbar-visible-height: 72px;
   --topbar-collapse-duration: 180ms;
   /* Hero home: valores por defecto (desktop grande); se sobrescriben en max-width 1679px */
-  --hero-min-height: 58vh;
-  --hero-title-font: clamp(1.6rem, 4.2vw, 3.6rem);
-  --hero-content-padding-y: 3rem;
-  --hero-content-padding-x: 2rem;
+  --hero-min-height: 66vh;
+  --hero-title-font: clamp(1.75rem, 4.2vw, 3.5rem);
+  --hero-content-padding-y: 3.5rem;
+  --hero-content-padding-x: 2.5rem;
 }
 
 /* Tamaño de fuente global (a- a a+): small / medium / large — escala todo el sitio, incluido header y mega menú */
@@ -272,10 +272,10 @@ html[data-font="lg"] {
   html[data-font="md"],
   html:not([data-font]),
   html[data-font="lg"] {
-    --hero-min-height: 50vh;
-    --hero-title-font: clamp(1.35rem, 3.6vw, 2.75rem);
-    --hero-content-padding-y: 2.25rem;
-    --hero-content-padding-x: 1.5rem;
+    --hero-min-height: 54vh;
+    --hero-title-font: clamp(1.4rem, 3.6vw, 2.8rem);
+    --hero-content-padding-y: 2.5rem;
+    --hero-content-padding-x: 1.25rem;
   }
 }
 
@@ -285,10 +285,11 @@ html[data-font="lg"] {
   align-items: center;
   justify-content: center;
   background: #fff;
-  border: 1px solid #e8edf3;
+  border: 1px solid rgba(22, 61, 89, 0.10);
   border-radius: 1.125rem;
-  box-shadow: 0 2px 12px rgba(22, 61, 89, 0.06);
+  box-shadow: 0 2px 8px rgba(22, 61, 89, 0.06), 0 6px 20px rgba(22, 61, 89, 0.06);
   overflow: hidden;
+  transition: box-shadow 0.2s ease;
 }
 .logoCard img {
   width: 100%;

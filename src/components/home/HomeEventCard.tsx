@@ -29,27 +29,36 @@ export default function HomeEventCard({ event }: HomeEventCardProps) {
 
   return (
     <article
-      className="home-event-card flex h-full min-h-[300px] flex-col rounded-[20px] border bg-white p-6 transition-all duration-200 hover:-translate-y-0.5 focus-within:ring-2 focus-within:ring-[var(--regu-blue)] focus-within:ring-offset-2 md:p-7"
+      className="home-event-card homeEventCardHover relative flex h-full min-h-[300px] flex-col overflow-hidden rounded-[20px] border bg-white transition-all duration-200 hover:-translate-y-0.5 focus-within:ring-2 focus-within:ring-[var(--regu-blue)] focus-within:ring-offset-2"
       style={{
-        borderColor: "rgba(22, 61, 89, 0.12)",
-        boxShadow: "0 4px 20px rgba(22, 61, 89, 0.05)",
+        borderColor: "rgba(22, 61, 89, 0.11)",
+        boxShadow: "0 2px 8px rgba(22,61,89,0.05), 0 6px 20px rgba(22,61,89,0.06)",
       }}
     >
+      {/* Acento top: azul en reposo, lima en hover */}
+      <div
+        className="homeEventCardAccent absolute inset-x-0 top-0 h-[3px] transition-colors duration-300"
+        style={{ backgroundColor: "var(--regu-blue)" }}
+        aria-hidden
+      />
+
       {event.imageUrl?.trim() && (
-        <div className="-mx-6 -mt-6 mb-3.5 overflow-hidden rounded-t-[20px]" style={{ aspectRatio: "16/10", backgroundColor: "var(--regu-gray-100)" }}>
-          <img src={event.imageUrl} alt="" className="h-full w-full object-cover" />
+        <div className="-mx-0 mt-0 mb-0 overflow-hidden rounded-t-[20px]" style={{ aspectRatio: "16/10", backgroundColor: "var(--regu-gray-100)" }}>
+          <img src={event.imageUrl} alt="" className="h-full w-full object-cover transition-transform duration-500 hover:scale-[1.02]" />
         </div>
       )}
-      {/* Badge + año — mismo margen inferior en todas las cards */}
+
+      <div className="flex flex-1 flex-col p-6 md:p-7">
+      {/* Badge + año */}
       <div className="mb-3.5 flex flex-wrap items-center justify-between gap-2">
         <span
-          className="rounded-full px-3 py-1 text-xs font-bold uppercase tracking-[0.08em]"
+          className="inline-block rounded-sm px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.10em]"
           style={{
-            backgroundColor: isUpcoming ? "rgba(68, 137, 198, 0.12)" : "rgba(22, 61, 89, 0.1)",
+            backgroundColor: isUpcoming ? "rgba(68,137,198,0.10)" : "rgba(22,61,89,0.07)",
             color: isUpcoming ? "var(--regu-blue)" : "var(--regu-gray-600)",
           }}
         >
-          {isUpcoming ? "PRÓXIMO" : "PASADO"}
+          {isUpcoming ? "Próximo" : "Pasado"}
         </span>
         <span className="text-xs font-semibold tabular-nums" style={{ color: "var(--regu-gray-500)" }}>
           {event.year}
@@ -91,10 +100,10 @@ export default function HomeEventCard({ event }: HomeEventCardProps) {
         <div className="mt-0 flex-1 min-h-0" aria-hidden />
       )}
 
-      {/* CTA: línea divisoria fija + botones alineados en la misma base */}
+      {/* CTA */}
       <div
         className="mt-6 flex flex-wrap items-center gap-4 pt-4"
-        style={{ borderTop: "1px solid rgba(22, 61, 89, 0.1)" }}
+        style={{ borderTop: "1px solid rgba(22, 61, 89, 0.08)" }}
       >
         {isUpcoming && (
           hasRegistrationUrl ? (
@@ -127,6 +136,7 @@ export default function HomeEventCard({ event }: HomeEventCardProps) {
           Leer más
           <ArrowRight className="h-4 w-4 shrink-0" aria-hidden />
         </Link>
+      </div>
       </div>
     </article>
   );

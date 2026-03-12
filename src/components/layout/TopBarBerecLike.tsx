@@ -10,17 +10,18 @@ import {
   Linkedin,
   Facebook,
   Instagram,
+  Bell,
 } from "lucide-react";
 import { resolveSiteSearch, resolveDocumentSearch } from "@/data/searchMaps";
 
-/** Logo oficial X (Twitter) — SVG para que se vea nítido y correcto. */
-function XLogo({ size = 18 }: { size?: number }) {
+function XLogo({ size = 16 }: { size?: number }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
       <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" fill="currentColor" />
     </svg>
   );
 }
+
 import SiteSearchAutocomplete from "@/components/SiteSearchAutocomplete";
 
 const FONT_SIZE_KEY = "regulatel-font-size";
@@ -44,7 +45,6 @@ interface TopBarBerecLikeProps {
   onMobileMenuToggle?: () => void;
 }
 
-/** Topbar BEREC: tamaños en px para que a-/a/a+ NO afecte esta franja. Escalado solo en #contentRoot. */
 export default function TopBarBerecLike({
   mobileMenuOpen = false,
   onMobileMenuToggle,
@@ -98,21 +98,15 @@ export default function TopBarBerecLike({
     setMobileSearchOpen(false);
   };
 
-  const topbarHeight = 72;
-  const searchHeight = 44;
-  const a11yBtnSize = 34;
-  const subscribeHeight = 42;
-  const accentColor = "var(--regu-blue)";
-  /* Bordes premium: suaves y coherentes (sistema institucional) */
-  const searchBorder = "1px solid #C2CDD6";
-  const searchBg = "#FFFFFF";
-  const borderColor = "#C2CDD6";
+  const topbarHeight = 68;
+  const iconColor = "#5C6B7A";
+  const iconHoverColor = "var(--regu-blue)";
 
   return (
     <div
-      className="topbar border-b bg-white relative overflow-visible"
+      className="topbar relative overflow-visible bg-white"
       style={{
-        borderBottom: "1px solid #EBEEF2",
+        borderBottom: "1px solid #E8ECF0",
         height: `${topbarHeight}px`,
         minHeight: `${topbarHeight}px`,
         display: "flex",
@@ -120,153 +114,239 @@ export default function TopBarBerecLike({
       }}
     >
       <div
-        className="topbarInner mx-auto flex w-full items-center px-4 md:px-6 overflow-visible"
+        className="topbarInner mx-auto flex w-full items-center overflow-visible"
         style={{
           maxWidth: "var(--topbar-wrap-max, 1240px)",
           paddingLeft: "var(--topbar-wrap-padding-x, 24px)",
           paddingRight: "var(--topbar-wrap-padding-x, 24px)",
           height: "100%",
-          gap: "24px",
+          gap: "20px",
           justifyContent: "space-between",
           flexWrap: "nowrap",
           minWidth: 0,
         }}
       >
-        {/* (1) Izquierda: brand block — logo + divisor sutil, sin tagline para dar espacio al centro */}
-        <div className="topbarBrandBlock flex shrink-0 items-center" style={{ marginRight: "20px" }}>
-          <div className="topbarBrandInner flex items-center" style={{ paddingRight: "16px" }}>
-            <Link
-              to="/"
-              className="topbarLogoLink shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2 rounded"
-              aria-label="REGULATEL inicio"
-              style={{ display: "block", padding: "2px 0" }}
-            >
+        {/* ── (1) Logo ── */}
+        <div className="topbarBrandBlock flex shrink-0 items-center gap-4">
+          <Link
+            to="/"
+            className="topbarLogoLink shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2 rounded"
+            aria-label="REGULATEL inicio"
+          >
               <img
                 src="/images/regulatel-logo.png"
                 alt="REGULATEL"
-                width={196}
-                height={56}
+                width={220}
+                height={64}
                 className="topbarLogoImg"
-                style={{ height: "56px", width: "auto", maxWidth: "none", display: "block", objectFit: "contain" }}
+                style={{ height: "62px", width: "auto", maxWidth: "none", display: "block", objectFit: "contain" }}
                 loading="eager"
               />
-            </Link>
-          </div>
+          </Link>
+          {/* Divider */}
           <div
-            className="topbarBrandDivider hidden md:block"
-            style={{
-              width: "1px",
-              height: "32px",
-              backgroundColor: "rgba(22, 61, 89, 0.09)",
-              flexShrink: 0,
-            }}
+            className="hidden md:block shrink-0"
+            style={{ width: "1px", height: "28px", backgroundColor: "rgba(22,61,89,0.10)" }}
             aria-hidden
           />
         </div>
 
-        {/* (2) Centro: buscadores con espacio garantizado — etiquetas completas visibles en desktop */}
-        <div className="topbarCenter hidden md:flex items-center min-w-0 flex-1" style={{ gap: "14px", flexBasis: 0, minWidth: "460px", justifyContent: "center" }}>
-          <form onSubmit={handleSearchWebsite} role="search" aria-label="Buscar en el sitio" className="searchField topbarSearchForm flex items-center rounded-xl flex-1" style={{ minWidth: "218px", flexShrink: 0, height: `${searchHeight}px`, border: searchBorder, borderRadius: "14px", background: searchBg, paddingLeft: "14px", paddingRight: "14px", boxShadow: "none" }}>
-            <Search className="searchIcon shrink-0" style={{ width: "17px", height: "17px", color: "#4F5F70", marginRight: "10px" }} aria-hidden />
+        {/* ── (2) Search ── */}
+        <div
+          className="topbarCenter hidden md:flex items-center min-w-0 flex-1"
+          style={{ gap: "10px", flexBasis: 0, minWidth: "460px", justifyContent: "center" }}
+        >
+          {/* Site search */}
+          <form
+            onSubmit={handleSearchWebsite}
+            role="search"
+            aria-label="Buscar en el sitio"
+            className="flex items-center flex-1 rounded-xl bg-[#F4F6F8] transition-all focus-within:bg-white focus-within:ring-2 focus-within:ring-[var(--regu-blue)]/30"
+            style={{
+              minWidth: "210px",
+              flexShrink: 0,
+              height: "40px",
+              border: "1px solid transparent",
+              paddingLeft: "12px",
+              paddingRight: "12px",
+            }}
+          >
+            <Search
+              className="shrink-0 mr-2.5"
+              style={{ width: "15px", height: "15px", color: "#8A97A3" }}
+              aria-hidden
+            />
             <SiteSearchAutocomplete
               value={searchWebsite}
               onChange={setSearchWebsite}
-              placeholder="BUSCAR EN EL SITIO"
+              placeholder="Buscar en el sitio"
             />
           </form>
-          <form onSubmit={handleSearchDocuments} role="search" aria-label="Buscar documentos" className="searchField topbarSearchForm flex items-center rounded-xl flex-1" style={{ minWidth: "218px", flexShrink: 0, height: `${searchHeight}px`, border: searchBorder, borderRadius: "14px", background: searchBg, paddingLeft: "14px", paddingRight: "14px", boxShadow: "none" }}>
-            <FileText className="searchIcon shrink-0" style={{ width: "17px", height: "17px", color: "#4F5F70", marginRight: "10px" }} aria-hidden />
+
+          {/* Document search */}
+          <form
+            onSubmit={handleSearchDocuments}
+            role="search"
+            aria-label="Buscar documentos"
+            className="flex items-center flex-1 rounded-xl bg-[#F4F6F8] transition-all focus-within:bg-white focus-within:ring-2 focus-within:ring-[var(--regu-blue)]/30"
+            style={{
+              minWidth: "210px",
+              flexShrink: 0,
+              height: "40px",
+              border: "1px solid transparent",
+              paddingLeft: "12px",
+              paddingRight: "12px",
+            }}
+          >
+            <FileText
+              className="shrink-0 mr-2.5"
+              style={{ width: "15px", height: "15px", color: "#8A97A3" }}
+              aria-hidden
+            />
             <input
               type="search"
-              placeholder="BUSCAR DOCUMENTO"
+              placeholder="Buscar documento"
               value={searchDocuments}
               onChange={(e) => setSearchDocuments(e.target.value)}
               className="flex-1 min-w-0 border-0 p-0 outline-none bg-transparent"
-              style={{ fontSize: "13px", fontWeight: 600, letterSpacing: "0.05em", color: "#1C1C1C" }}
+              style={{ fontSize: "13px", fontWeight: 500, color: "#1C2B38" }}
             />
           </form>
         </div>
 
-        {/* (3) Derecha: a11y + redes (tratamiento institucional) + usuario + Suscribirse */}
-        <div className="topbarRight flex items-center shrink-0" style={{ gap: "12px" }}>
-          <div className="a11yControls hidden md:flex items-center" role="group" aria-label="Tamaño de fuente" style={{ gap: "4px" }}>
-            {(["sm", "md", "lg"] as const).map((mode) => (
+        {/* ── (3) Right: a11y + socials + login + subscribe ── */}
+        <div className="topbarRight flex items-center shrink-0" style={{ gap: "10px" }}>
+
+          {/* Font size controls */}
+          <div
+            className="a11yControls hidden md:flex items-center rounded-lg overflow-hidden"
+            role="group"
+            aria-label="Tamaño de fuente"
+            style={{ border: "1px solid rgba(22,61,89,0.12)", backgroundColor: "#F4F6F8", gap: 0 }}
+          >
+            {(["sm", "md", "lg"] as const).map((mode, idx) => (
               <button
                 key={mode}
                 type="button"
-                aria-label={mode === "sm" ? "Tamaño de fuente pequeño" : mode === "md" ? "Tamaño de fuente mediano" : "Tamaño de fuente grande"}
+                aria-label={mode === "sm" ? "Fuente pequeña" : mode === "md" ? "Fuente mediana" : "Fuente grande"}
                 aria-pressed={fontMode === mode}
                 onClick={() => setFontMode(mode)}
-                className="rounded-md border transition-colors hover:text-[var(--regu-blue)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-1"
+                className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-1 transition-colors"
                 style={{
-                  width: `${a11yBtnSize}px`,
-                  height: `${a11yBtnSize}px`,
-                  fontSize: "14px",
-                  fontWeight: 600,
-                  color: fontMode === mode ? accentColor : "#1C1C1C",
-                  borderColor: fontMode === mode ? accentColor : "rgba(0,0,0,0.1)",
-                  background: fontMode === mode ? "rgba(68, 137, 198, 0.12)" : "transparent",
+                  width: "30px",
+                  height: "30px",
+                  fontSize: mode === "sm" ? "11px" : mode === "md" ? "13px" : "15px",
+                  fontWeight: 700,
+                  color: fontMode === mode ? "var(--regu-blue)" : "#7A8A97",
+                  backgroundColor: fontMode === mode ? "rgba(68,137,198,0.14)" : "transparent",
+                  borderRight: idx < 2 ? "1px solid rgba(22,61,89,0.10)" : "none",
+                  lineHeight: 1,
                 }}
               >
-                {mode === "sm" ? "a-" : mode === "md" ? "a" : "a+"}
+                A
               </button>
             ))}
           </div>
 
-          {/* Redes + divisor + login */}
-          <div className="topbarSocial hidden md:flex items-center shrink-0" style={{ gap: "14px" }}>
-            <div className="topbarSocialBlock flex items-center shrink-0">
-            <div className="topbarSocialGroup flex items-center shrink-0" style={{ gap: "2px" }}>
-              <a href="https://www.youtube.com/@ForoRegulatel" target="_blank" rel="noopener noreferrer" aria-label="Canal de YouTube de REGULATEL" className="topbarIconLink topbarIconLink--youtube rounded p-1 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-1 inline-flex items-center justify-center" style={{ color: "#FF0000" }}>
-                <Youtube style={{ width: "18px", height: "18px" }} />
-              </a>
-              <a href="https://x.com/regulatel" target="_blank" rel="noreferrer noopener" aria-label="X (Twitter)" className="topbarIconLink topbarIconLink--x rounded p-1 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-1 inline-flex items-center justify-center" style={{ color: "#000000" }}>
-                <XLogo size={18} />
-              </a>
-              <a href="https://www.instagram.com/foro.regulatel/" target="_blank" rel="noreferrer noopener" aria-label="Instagram" className="topbarIconLink topbarIconLink--instagram rounded p-1 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-1 inline-flex items-center justify-center" style={{ color: "#E4405F" }}>
-                <Instagram style={{ width: "18px", height: "18px" }} />
-              </a>
-              <a href="https://www.linkedin.com/company/regulatel" target="_blank" rel="noreferrer noopener" aria-label="LinkedIn" className="topbarIconLink topbarIconLink--linkedin rounded p-1 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-1 inline-flex items-center justify-center" style={{ color: "#0A66C2" }}>
-                <Linkedin style={{ width: "18px", height: "18px" }} />
-              </a>
-              <a href="https://www.facebook.com/foro.regulatel" target="_blank" rel="noreferrer noopener" aria-label="Facebook" className="topbarIconLink topbarIconLink--facebook rounded p-1 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-1 inline-flex items-center justify-center" style={{ color: "#1877F2" }}>
-                <Facebook style={{ width: "18px", height: "18px" }} />
-              </a>
-            </div>
-            </div>
-            <div
-              className="topbarLoginDivider shrink-0"
-              style={{
-                width: "1px",
-                height: "22px",
-                backgroundColor: "rgba(22, 61, 89, 0.07)",
-              }}
-              aria-hidden
-            />
-            <Link to="/login" aria-label="Iniciar sesión" className="topbarIconLink topbarIconLink--login rounded p-1 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-1 inline-flex items-center justify-center shrink-0" style={{ color: "var(--regu-blue)" }}>
-              <User style={{ width: "18px", height: "18px" }} />
-            </Link>
+          {/* Divider */}
+          <div
+            className="hidden md:block shrink-0"
+            style={{ width: "1px", height: "22px", backgroundColor: "rgba(22,61,89,0.09)" }}
+            aria-hidden
+          />
+
+          {/* Social icons */}
+          <div className="hidden md:flex items-center shrink-0" style={{ gap: "2px" }}>
+            <a
+              href="https://www.youtube.com/@ForoRegulatel"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="YouTube"
+              className="topbarIconLink topbarIconLink--youtube inline-flex items-center justify-center rounded-md p-1.5 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-1"
+              style={{ color: iconColor }}
+            >
+              <Youtube style={{ width: "17px", height: "17px" }} />
+            </a>
+            <a
+              href="https://x.com/regulatel"
+              target="_blank"
+              rel="noreferrer noopener"
+              aria-label="X (Twitter)"
+              className="topbarIconLink topbarIconLink--x inline-flex items-center justify-center rounded-md p-1.5 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-1"
+              style={{ color: iconColor }}
+            >
+              <XLogo size={16} />
+            </a>
+            <a
+              href="https://www.instagram.com/foro.regulatel/"
+              target="_blank"
+              rel="noreferrer noopener"
+              aria-label="Instagram"
+              className="topbarIconLink topbarIconLink--instagram inline-flex items-center justify-center rounded-md p-1.5 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-1"
+              style={{ color: iconColor }}
+            >
+              <Instagram style={{ width: "17px", height: "17px" }} />
+            </a>
+            <a
+              href="https://www.linkedin.com/company/regulatel"
+              target="_blank"
+              rel="noreferrer noopener"
+              aria-label="LinkedIn"
+              className="topbarIconLink topbarIconLink--linkedin inline-flex items-center justify-center rounded-md p-1.5 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-1"
+              style={{ color: iconColor }}
+            >
+              <Linkedin style={{ width: "17px", height: "17px" }} />
+            </a>
+            <a
+              href="https://www.facebook.com/foro.regulatel"
+              target="_blank"
+              rel="noreferrer noopener"
+              aria-label="Facebook"
+              className="topbarIconLink topbarIconLink--facebook inline-flex items-center justify-center rounded-md p-1.5 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-1"
+              style={{ color: iconColor }}
+            >
+              <Facebook style={{ width: "17px", height: "17px" }} />
+            </a>
           </div>
 
+          {/* Divider */}
+          <div
+            className="hidden md:block shrink-0"
+            style={{ width: "1px", height: "22px", backgroundColor: "rgba(22,61,89,0.09)" }}
+            aria-hidden
+          />
+
+          {/* Login icon */}
+          <Link
+            to="/login"
+            aria-label="Iniciar sesión"
+            className="hidden md:inline-flex items-center justify-center rounded-md p-1.5 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-1 shrink-0"
+            style={{ color: iconColor }}
+          >
+            <User style={{ width: "17px", height: "17px" }} />
+          </Link>
+
+          {/* Subscribe CTA */}
           <Link
             to="/subscribe"
-            className="subscribeBtn hidden shrink-0 items-center justify-center rounded-xl border-2 font-bold uppercase transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2 md:inline-flex hover:bg-[var(--regu-blue)] hover:text-white hover:border-[var(--regu-blue)]"
+            className="subscribeBtn hidden md:inline-flex shrink-0 items-center justify-center rounded-xl font-bold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2 hover:brightness-110"
             style={{
-              height: `${subscribeHeight}px`,
-              paddingLeft: "20px",
-              paddingRight: "20px",
-              border: "2px solid var(--regu-blue)",
-              color: "var(--regu-blue)",
-              background: "#FFFFFF",
-              borderRadius: "14px",
-              letterSpacing: "0.10em",
+              height: "38px",
+              paddingLeft: "18px",
+              paddingRight: "18px",
+              backgroundColor: "var(--regu-blue)",
+              color: "#fff",
+              borderRadius: "10px",
               fontSize: "12px",
+              letterSpacing: "0.06em",
+              gap: "6px",
             }}
           >
+            <Bell style={{ width: "13px", height: "13px" }} aria-hidden />
             Suscribirse
           </Link>
 
-          {/* Mobile: botón búsqueda (abre panel) + menú hamburger */}
+          {/* Mobile: search toggle */}
           <button
             type="button"
             aria-label={mobileSearchOpen ? "Cerrar búsqueda" : "Buscar"}
@@ -277,6 +357,8 @@ export default function TopBarBerecLike({
           >
             <Search style={{ width: "22px", height: "22px" }} />
           </button>
+
+          {/* Mobile: hamburger */}
           {onMobileMenuToggle ? (
             <button
               type="button"
@@ -292,36 +374,51 @@ export default function TopBarBerecLike({
         </div>
       </div>
 
-      {/* Mobile: panel búsqueda colapsable (un solo input o dos apilados) */}
+      {/* Mobile: collapsible search panel */}
       {mobileSearchOpen && (
-        <div className="md:hidden absolute left-0 right-0 top-full z-50 border-b bg-white p-4 shadow-md" style={{ borderColor: borderColor }}>
+        <div
+          className="md:hidden absolute left-0 right-0 top-full z-50 border-b bg-white p-4 shadow-md"
+          style={{ borderColor: "#E8ECF0" }}
+        >
           <form onSubmit={handleSearchWebsite} className="mb-3">
-            <div className="flex rounded-xl border bg-white overflow-hidden items-center px-3" style={{ height: "44px", borderColor: borderColor }}>
-              <Search style={{ width: "20px", height: "20px", color: "#64748B", marginRight: "8px", flexShrink: 0 }} aria-hidden />
+            <div
+              className="flex items-center rounded-xl bg-[#F4F6F8] px-3"
+              style={{ height: "44px" }}
+            >
+              <Search style={{ width: "18px", height: "18px", color: "#8A97A3", marginRight: "8px", flexShrink: 0 }} aria-hidden />
               <SiteSearchAutocomplete
                 value={searchWebsite}
                 onChange={setSearchWebsite}
                 onResultSelect={() => setMobileSearchOpen(false)}
-                placeholder="BUSCAR EN EL SITIO"
+                placeholder="Buscar en el sitio"
                 compact
               />
             </div>
           </form>
           <form onSubmit={handleSearchDocuments}>
-            <div className="flex rounded-xl border bg-white overflow-hidden" style={{ height: "44px", borderColor: borderColor }}>
-              <FileText style={{ width: "20px", height: "20px", color: "#64748B", marginLeft: "12px", alignSelf: "center" }} aria-hidden />
+            <div
+              className="flex items-center rounded-xl bg-[#F4F6F8] px-3"
+              style={{ height: "44px" }}
+            >
+              <FileText style={{ width: "18px", height: "18px", color: "#8A97A3", marginRight: "8px", flexShrink: 0 }} aria-hidden />
               <input
                 type="search"
-                placeholder="BUSCAR DOCUMENTO"
+                placeholder="Buscar documento"
                 value={searchDocuments}
                 onChange={(e) => setSearchDocuments(e.target.value)}
-                className="flex-1 min-w-0 border-0 px-3 py-2 outline-none"
-                style={{ fontSize: "14px" }}
+                className="flex-1 min-w-0 border-0 p-0 outline-none bg-transparent"
+                style={{ fontSize: "14px", color: "#1C2B38" }}
               />
             </div>
           </form>
         </div>
       )}
+
+      <style>{`
+        .topbarIconLink { color: #5C6B7A !important; }
+        .topbarIconLink:hover { color: ${iconHoverColor} !important; }
+        .topbarIconLink:active { color: var(--regu-navy) !important; }
+      `}</style>
     </div>
   );
 }

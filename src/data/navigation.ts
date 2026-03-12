@@ -72,62 +72,71 @@ export const navigationItems: NavigationItem[] = [
       {
         title: "PUBLICACIONES",
         links: [
-          { label: "Documentos", href: "/gestion" },
+          {
+            label: "Documentos",
+            href: "/gestion",
+            description: "Documentos institucionales y técnicos",
+          },
           {
             label: "Planes de trabajo",
             href: "/gestion?tipo=planes-actas",
-            children: [
-              { label: "Plan de Trabajo 2026", href: "/gestion?tipo=planes-actas&id=plan-2026", groupLabel: "2026" },
-              { label: "Plan de Trabajo 2025", href: "/gestion?tipo=planes-actas&id=plan-2025", groupLabel: "2025" },
-              { label: "Plan de Trabajo 2024", href: "/gestion?tipo=planes-actas&id=plan-2024", groupLabel: "2024" },
-              { label: "Plan de Trabajo 2023", href: "/gestion?tipo=planes-actas&id=acta-2023", groupLabel: "2023" },
-            ],
+            description: "Planificación estratégica anual por período",
           },
           {
-            label: "ASAMBLEAS",
-            href: "/gestion?tipo=planes-actas",
-            subtitle: "Solo usuarios autorizados",
-            children: [
-              { label: "Acta No. 28", href: "/acceso-documentos?doc=acta-2023", restricted: true },
-              { label: "Acta No. 27", href: "/acceso-documentos?doc=acta-27", restricted: true },
-              { label: "Acta No. 26", href: "/acceso-documentos?doc=acta-2023", restricted: true },
-            ],
+            label: "Asambleas",
+            href: "/acceso-documentos",
+            description: "Actas oficiales de sesiones",
+            restricted: true,
           },
           {
             label: "Declaraciones",
             href: "/gestion?tipo=documentos",
-            children: [{ label: "Declaración de la Paz 2023", href: "/gestion?tipo=documentos&id=declaracion-paz-2023" }],
+            description: "Declaraciones y pronunciamientos oficiales",
           },
         ],
       },
       {
-        title: "GESTIÓN DE CONOCIMIENTO",
+        title: "CONOCIMIENTO",
         links: [
-          { label: "Estudios", href: "/pendiente/estudios", todo: "TODO: Definir URL oficial de 'Estudios'." },
           {
-            label: "Galería fotográfica",
-            href: "https://www.flickr.com/photos/indotel/albums/72177720330864280/",
-            external: true,
+            label: "Estudios e investigación",
+            href: "/pendiente/estudios",
+            description: "Análisis y estudios regulatorios comparados",
+            todo: "TODO: Definir URL oficial de 'Estudios'.",
           },
           {
             label: "Revista Digital REGULATEL",
             href: "/gestion?tipo=revista",
-            children: [
-              { label: "1. Edición 2026", href: "/gestion?tipo=revista", groupLabel: "2026" },
-              { label: "4. Edición 2025", href: "/gestion?tipo=revista&id=revista-q4-2025", groupLabel: "2025" },
-              { label: "3. Edición 2025", href: "/gestion?tipo=revista&id=revista-q3-2025", groupLabel: "2025" },
-              { label: "2. Edición 2025", href: "/gestion?tipo=revista&id=revista-q2-2025", groupLabel: "2025" },
-              { label: "1. Edición 2025", href: "/gestion?tipo=revista&id=revista-q1-2025", groupLabel: "2025" },
-            ],
+            description: "Publicación periódica oficial de REGULATEL",
+          },
+          {
+            label: "Galería fotográfica",
+            href: "https://www.flickr.com/photos/indotel/albums/72177720330864280/",
+            external: true,
+            description: "Imágenes de eventos y actividades",
           },
         ],
       },
       {
         title: "HERRAMIENTAS",
         links: [
-          { label: "Mejores prácticas regulatorias", href: "/micrositio-buenas-practicas" },
-          { label: "Banco de informaciones de telecomunicaciones", href: "/pendiente/banco-informaciones", todo: "TODO: Definir URL oficial del banco de informaciones." },
-          { label: "Micrositio Buenas prácticas Power BI", href: "https://sutel.go.cr/pagina/indicadores-internacionales-regulatel", external: true },
+          {
+            label: "Mejores prácticas regulatorias",
+            href: "/micrositio-buenas-practicas",
+            description: "Observatorio de regulación comparada regional",
+          },
+          {
+            label: "Banco de información",
+            href: "/pendiente/banco-informaciones",
+            description: "Base de datos de telecomunicaciones",
+            todo: "TODO: Definir URL oficial del banco de informaciones.",
+          },
+          {
+            label: "Indicadores Power BI",
+            href: "https://sutel.go.cr/pagina/indicadores-internacionales-regulatel",
+            external: true,
+            description: "Indicadores internacionales interactivos",
+          },
         ],
       },
     ],

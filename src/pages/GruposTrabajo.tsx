@@ -1,412 +1,416 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Card, CardContent } from '@/components/ui/card';
-import { Users, FileText, Download, Briefcase, Network, TrendingUp, Shield, Sparkles, BarChart3, Wifi, Eye, X, Maximize2 } from 'lucide-react';
-import PageHero from '@/components/PageHero';
-
-const fadeIn = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.6 },
-  },
-};
-
-/** Variante de color institucional: primary (azul/navy) o accent (lima/teal) */
-type GrupoColorVariant = 'primary' | 'accent';
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Link } from "react-router-dom";
+import {
+  Users, FileText, Download, Briefcase, Network, TrendingUp,
+  Shield, Sparkles, BarChart3, Wifi, Eye, X, Maximize2, ArrowLeft, ArrowRight,
+} from "lucide-react";
+import PageHero from "@/components/PageHero";
 
 interface GrupoTrabajo {
+  id: string;
   title: string;
   description: string;
   coordinadores: string[];
   miembros: string[];
   icon: React.ElementType;
-  color: GrupoColorVariant;
   imageUrl: string;
   termsUrl?: string;
 }
 
-const GruposTrabajo: React.FC = () => {
+const GRUPOS: GrupoTrabajo[] = [
+  {
+    id: "proteccion-empoderamiento-usuarios",
+    title: "Protección y empoderamiento de los usuarios",
+    description: "Buenas prácticas regulatorias en atención al usuario, seguridad de dispositivos y control de fraudes en telecomunicaciones.",
+    coordinadores: ["OSIPTEL, Perú"],
+    miembros: ["SUTEL, Costa Rica", "ATT, Bolivia", "INDOTEL, República Dominicana", "CRC, Colombia"],
+    icon: Shield,
+    imageUrl: "/grupos-trabajo/proteccion-empoderamiento-usuarios.jpg",
+    termsUrl: "/documents/grupos-trabajo/terminos-referencia-proteccion-empoderamiento-usuarios.pdf",
+  },
+  {
+    id: "cierre-brecha-calidad",
+    title: "Cierre de brecha y calidad de servicios",
+    description: "Intercambio de experiencias sobre calidad, despliegue y compartición de infraestructura para cerrar la brecha digital.",
+    coordinadores: ["CRC, Colombia"],
+    miembros: ["ASEP, Panamá", "ATT, Bolivia"],
+    icon: Wifi,
+    imageUrl: "/grupos-trabajo/cierre-brecha-calidad.jpg",
+    termsUrl: "/documents/grupos-trabajo/terminos-referencia-cierre-brecha-calidad.pdf",
+  },
+  {
+    id: "indicadores-telecomunicaciones-tic",
+    title: "Indicadores de Telecomunicaciones / TIC",
+    description: "Estadísticas regionales y tecnologías emergentes para optimizar y visualizar datos de conectividad.",
+    coordinadores: ["CRT, México", "SUTEL, Costa Rica"],
+    miembros: ["INDOTEL, República Dominicana", "ATT, Bolivia"],
+    icon: BarChart3,
+    imageUrl: "/grupos-trabajo/indicadores-telecomunicaciones-tic.jpg",
+    termsUrl: "/documents/grupos-trabajo/terminos-referencia-indicadores-telecomunicaciones-tic.pdf",
+  },
+  {
+    id: "fortalecimiento-institucional",
+    title: "Fortalecimiento Institucional",
+    description: "Iniciativas para la autoevaluación, transparencia y financiamiento del Foro en favor de la eficiencia regulatoria.",
+    coordinadores: ["OSIPTEL, Perú"],
+    miembros: ["ANATEL, Brasil", "INDOTEL, República Dominicana"],
+    icon: TrendingUp,
+    imageUrl: "/grupos-trabajo/fortalecimiento-institucional.jpg",
+    termsUrl: "/documents/grupos-trabajo/terminos-referencia-fortalecimiento-institucional.pdf",
+  },
+  {
+    id: "asuntos-internet",
+    title: "Asuntos de Internet",
+    description: "Intercambio de experiencias sobre Internet desde perspectiva regulatoria, técnica y de gobernanza.",
+    coordinadores: ["ENACOM, Argentina", "ANATEL, Brasil"],
+    miembros: ["ASEP, Panamá"],
+    icon: Network,
+    imageUrl: "/grupos-trabajo/asuntos-internet.jpg",
+    termsUrl: "/documents/grupos-trabajo/terminos-referencia-asuntos-internet.pdf",
+  },
+  {
+    id: "mercados-digitales",
+    title: "Mercados Digitales",
+    description: "Espacio de diálogo para anticipar retos y oportunidades en mercados y servicios digitales.",
+    coordinadores: ["CRC, Colombia", "ANATEL, Brasil"],
+    miembros: ["OSIPTEL, Perú (TBC)"],
+    icon: Briefcase,
+    imageUrl: "/grupos-trabajo/mercados-digitales.jpg",
+    termsUrl: "/documents/grupos-trabajo/terminos-referencia-mercados-digitales.pdf",
+  },
+  {
+    id: "innovacion-mejora-regulatoria",
+    title: "Innovación y mejora regulatoria",
+    description: "Promover marcos regulatorios eficientes y transparentes que impulsen la innovación y la competencia.",
+    coordinadores: ["CRC, Colombia"],
+    miembros: ["INDOTEL, República Dominicana", "ENACOM, Argentina", "ASEP, Panamá"],
+    icon: Sparkles,
+    imageUrl: "/grupos-trabajo/innovacion-mejora-regulatoria.jpg",
+    termsUrl: "/documents/grupos-trabajo/terminos-referencia-innovacion-mejora-regulatoria.pdf",
+  },
+  {
+    id: "paridad-sociedad-informacion",
+    title: "Paridad en la Sociedad de la Información",
+    description: "Fomento de medidas regulatorias para la equidad en TIC y la igualdad de género, alineadas con los ODS.",
+    coordinadores: ["INDOTEL, República Dominicana", "CONATEL, Paraguay"],
+    miembros: ["ATT, Bolivia"],
+    icon: Users,
+    imageUrl: "/grupos-trabajo/paridad-sociedad-informacion.jpg",
+    termsUrl: "/documents/grupos-trabajo/terminos-referencia-paridad-sociedad-informacion.pdf",
+  },
+  {
+    id: "ciberseguridad",
+    title: "Ciberseguridad",
+    description: "Impulsar el análisis regulatorio y las buenas prácticas para fortalecer la seguridad digital en telecomunicaciones a nivel regional.",
+    coordinadores: ["INDOTEL, República Dominicana"],
+    miembros: ["ANATEL, Brasil"],
+    icon: Shield,
+    imageUrl: "/grupos-trabajo/ciberseguridad.jpg",
+    termsUrl: "/documents/grupos-trabajo/TdR_CIberseguirdad_2026.pdf",
+  },
+];
+
+export default function GruposTrabajo() {
   const [previewDoc, setPreviewDoc] = useState<{ url: string; title: string } | null>(null);
-
-  // Mapeo de URLs de imágenes de grupos de trabajo (usando imágenes locales)
-  const gruposImages: Record<string, string> = {
-    'proteccion-empoderamiento-usuarios': '/grupos-trabajo/proteccion-empoderamiento-usuarios.jpg',
-    'cierre-brecha-calidad': '/grupos-trabajo/cierre-brecha-calidad.jpg',
-    'indicadores-telecomunicaciones-tic': '/grupos-trabajo/indicadores-telecomunicaciones-tic.jpg',
-    'fortalecimiento-institucional': '/grupos-trabajo/fortalecimiento-institucional.jpg',
-    'asuntos-internet': '/grupos-trabajo/asuntos-internet.jpg',
-    'mercados-digitales': '/grupos-trabajo/mercados-digitales.jpg',
-    'innovacion-mejora-regulatoria': '/grupos-trabajo/innovacion-mejora-regulatoria.jpg',
-    'paridad-sociedad-informacion': '/grupos-trabajo/paridad-sociedad-informacion.jpg',
-    'ciberseguridad': '/grupos-trabajo/ciberseguridad.jpg',
-  };
-
-  // Mapeo de URLs de términos de referencia (usando PDFs locales)
-  const gruposTerms: Record<string, string> = {
-    'proteccion-empoderamiento-usuarios': '/documents/grupos-trabajo/terminos-referencia-proteccion-empoderamiento-usuarios.pdf',
-    'cierre-brecha-calidad': '/documents/grupos-trabajo/terminos-referencia-cierre-brecha-calidad.pdf',
-    'indicadores-telecomunicaciones-tic': '/documents/grupos-trabajo/terminos-referencia-indicadores-telecomunicaciones-tic.pdf',
-    'fortalecimiento-institucional': '/documents/grupos-trabajo/terminos-referencia-fortalecimiento-institucional.pdf',
-    'asuntos-internet': '/documents/grupos-trabajo/terminos-referencia-asuntos-internet.pdf',
-    'mercados-digitales': '/documents/grupos-trabajo/terminos-referencia-mercados-digitales.pdf',
-    'innovacion-mejora-regulatoria': '/documents/grupos-trabajo/terminos-referencia-innovacion-mejora-regulatoria.pdf',
-    'paridad-sociedad-informacion': '/documents/grupos-trabajo/terminos-referencia-paridad-sociedad-informacion.pdf',
-    'ciberseguridad': '/documents/grupos-trabajo/TdR_CIberseguirdad_2026.pdf',
-  };
-
-  const grupos: GrupoTrabajo[] = [
-    {
-      title: 'Protección y empoderamiento de los usuarios',
-      description: 'Buenas prácticas regulatorias en atención al usuario, seguridad de dispositivos y control de fraudes en telecomunicaciones.',
-      coordinadores: ['OSIPTEL, Perú'],
-      miembros: ['SUTEL, Costa Rica', 'ATT, Bolivia', 'INDOTEL, República Dominicana', 'CRC, Colombia'],
-      icon: Shield,
-      color: 'accent',
-      imageUrl: gruposImages['proteccion-empoderamiento-usuarios'],
-      termsUrl: gruposTerms['proteccion-empoderamiento-usuarios']
-    },
-    {
-      title: 'Cierre de brecha y calidad de servicios de telecomunicaciones',
-      description: 'Intercambio de experiencias sobre calidad, despliegue y compartición de infraestructura para cerrar la brecha digital.',
-      coordinadores: ['CRC, Colombia'],
-      miembros: ['ASEP, Panamá', 'ATT, Bolivia'],
-      icon: Wifi,
-      color: 'primary',
-      imageUrl: gruposImages['cierre-brecha-calidad'],
-      termsUrl: gruposTerms['cierre-brecha-calidad']
-    },
-    {
-      title: 'Indicadores de Telecomunicaciones/TIC',
-      description: 'Estadísticas regionales y tecnologías emergentes para optimizar y visualizar datos de conectividad.',
-      coordinadores: ['CRT, México', 'SUTEL, Costa Rica'],
-      miembros: ['INDOTEL, República Dominicana', 'ATT, Bolivia'],
-      icon: BarChart3,
-      color: 'primary',
-      imageUrl: gruposImages['indicadores-telecomunicaciones-tic'],
-      termsUrl: gruposTerms['indicadores-telecomunicaciones-tic']
-    },
-    {
-      title: 'Fortalecimiento Institucional',
-      description: 'Iniciativas para la autoevaluación, transparencia y financiamiento del Foro en favor de la eficiencia regulatoria.',
-      coordinadores: ['OSIPTEL, Perú'],
-      miembros: ['ANATEL, Brasil', 'INDOTEL, República Dominicana'],
-      icon: TrendingUp,
-      color: 'accent',
-      imageUrl: gruposImages['fortalecimiento-institucional'],
-      termsUrl: gruposTerms['fortalecimiento-institucional']
-    },
-    {
-      title: 'Asuntos de Internet',
-      description: 'Intercambiar experiencias sobre asuntos relacionados con Internet, tanto desde una perspectiva regulatoria como técnica y de gobernanza.',
-      coordinadores: ['ENACOM, Argentina', 'ANATEL, Brasil'],
-      miembros: ['ASEP, Panamá'],
-      icon: Network,
-      color: 'primary',
-      imageUrl: gruposImages['asuntos-internet'],
-      termsUrl: gruposTerms['asuntos-internet']
-    },
-    {
-      title: 'Mercados Digitales',
-      description: 'Espacio de diálogo para anticipar retos y oportunidades en mercados y servicios digitales.',
-      coordinadores: ['CRC, Colombia', 'ANATEL, Brasil'],
-      miembros: ['OSIPTEL, Perú (TBC)'],
-      icon: Briefcase,
-      color: 'accent',
-      imageUrl: gruposImages['mercados-digitales'],
-      termsUrl: gruposTerms['mercados-digitales']
-    },
-    {
-      title: 'Innovación y mejora regulatoria',
-      description: 'Promover marcos regulatorios eficientes, transparentes y efectivos que impulsen la innovación, la competencia y el bienestar del usuario mediante la simplificación normativa.',
-      coordinadores: ['CRC, Colombia'],
-      miembros: ['INDOTEL, República Dominicana', 'ENACOM, Argentina', 'ASEP, Panamá'],
-      icon: Sparkles,
-      color: 'primary',
-      imageUrl: gruposImages['innovacion-mejora-regulatoria'],
-      termsUrl: gruposTerms['innovacion-mejora-regulatoria']
-    },
-    {
-      title: 'Paridad en la Sociedad de la Información',
-      description: 'Fomento de medidas regulatorias para la equidad en TIC y la igualdad de género alineadas con los Objetivos de Desarrollo Sostenible.',
-      coordinadores: ['INDOTEL, República Dominicana', 'CONATEL, Paraguay'],
-      miembros: ['ATT, Bolivia'],
-      icon: Users,
-      color: 'accent',
-      imageUrl: gruposImages['paridad-sociedad-informacion'],
-      termsUrl: gruposTerms['paridad-sociedad-informacion']
-    },
-    {
-      title: 'Ciberseguridad',
-      description: 'Impulsar el análisis regulatorio y la adopción de buenas prácticas que contribuyan al fortalecimiento de la seguridad digital en el sector de las telecomunicaciones a nivel regional.',
-      coordinadores: ['INDOTEL, República Dominicana'],
-      miembros: ['ANATEL, Brasil'],
-      icon: Shield,
-      color: 'primary',
-      imageUrl: gruposImages['ciberseguridad'],
-      termsUrl: gruposTerms['ciberseguridad']
-    },
-  ];
 
   return (
     <>
       <PageHero
-        title="GRUPOS DE TRABAJO"
-        breadcrumb={[{ label: 'GRUPOS DE TRABAJO' }]}
-        description="Los grupos de trabajo de REGULATEL son espacios de colaboración donde los países miembros 
-        trabajan en temas específicos del sector de las telecomunicaciones, compartiendo experiencias 
-        y desarrollando soluciones comunes."
+        title="Grupos de Trabajo"
+        subtitle="QUIÉNES SOMOS"
+        breadcrumb={[{ label: "Grupos de Trabajo" }]}
+        description="Espacios de colaboración especializada donde los países miembros comparten experiencias y desarrollan soluciones regulatorias comunes."
       />
+
       <div
-        className="w-full py-12 md:py-24 lg:py-32"
+        className="w-full py-12 md:py-16 lg:py-20"
         style={{
-          background: `linear-gradient(180deg, var(--regu-offwhite) 0%, var(--regu-gray-100) 100%)`,
+          backgroundColor: "#FAFBFC",
+          borderTop: "1px solid rgba(22,61,89,0.07)",
+          fontFamily: "var(--token-font-body)",
         }}
       >
-        <div className="container px-4 md:px-6 mx-auto max-w-6xl">
-
-        <div className="space-y-8 mb-12">
-          {grupos.map((grupo, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.08 }}
-              viewport={{ once: true }}
-              whileHover={{ y: -4 }}
-            >
-              <Card
-                className="bg-white transition-all shadow-md hover:shadow-lg group"
-                style={{
-                  borderColor: 'var(--token-border)',
-                  borderWidth: '1px',
-                }}
+        <div
+          className="mx-auto px-4 md:px-6 lg:px-8"
+          style={{ maxWidth: "1180px" }}
+        >
+          {/* Header de sección */}
+          <div className="mb-10 flex items-start gap-4 md:mb-12">
+            <div
+              className="mt-1 h-8 w-[3px] flex-shrink-0 rounded-full"
+              style={{ backgroundColor: "var(--regu-blue)" }}
+              aria-hidden
+            />
+            <div>
+              <h2
+                className="text-xl font-bold md:text-2xl"
+                style={{ color: "var(--regu-navy)", fontFamily: "var(--token-font-heading)" }}
               >
-                <CardContent className="p-6 md:p-8">
-                  <div className="flex flex-col md:flex-row gap-6">
-                    {/* Imagen del grupo de trabajo */}
-                    <div className="flex-shrink-0 md:w-48">
-                      <div className="w-full aspect-square rounded-xl overflow-hidden group-hover:scale-105 transition-transform shadow-md">
+                Grupos activos
+              </h2>
+              <p className="mt-1 text-sm" style={{ color: "var(--regu-gray-500)" }}>
+                {GRUPOS.length} grupos de trabajo en funcionamiento
+              </p>
+            </div>
+          </div>
+
+          {/* Lista de grupos */}
+          <div className="space-y-5 mb-12">
+            {GRUPOS.map((grupo, index) => {
+              const Icon = grupo.icon;
+              return (
+                <motion.article
+                  key={grupo.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: index * 0.05 }}
+                  viewport={{ once: true }}
+                  className="grupoCard relative overflow-hidden rounded-2xl border bg-white transition-all duration-200 hover:-translate-y-0.5"
+                  style={{
+                    borderColor: "rgba(22,61,89,0.10)",
+                    boxShadow: "0 2px 6px rgba(22,61,89,0.04), 0 6px 20px rgba(22,61,89,0.06)",
+                  }}
+                >
+                  {/* Acento top */}
+                  <div
+                    className="grupoCardAccent absolute inset-x-0 top-0 h-[3px] transition-colors duration-300"
+                    style={{ backgroundColor: "var(--regu-blue)" }}
+                    aria-hidden
+                  />
+
+                  <div className="flex flex-col gap-6 p-6 md:flex-row md:p-7">
+                    {/* Imagen / Ícono */}
+                    <div className="flex-shrink-0 md:w-44">
+                      <div
+                        className="relative aspect-square w-full overflow-hidden rounded-xl md:w-44"
+                        style={{ backgroundColor: "rgba(68,137,198,0.08)" }}
+                      >
                         <img
                           src={grupo.imageUrl}
-                          alt={`Logo de ${grupo.title}`}
-                          className="w-full h-full object-cover"
+                          alt=""
+                          className="h-full w-full object-cover"
                           onError={(e) => {
-                            // Si la imagen falla, mostrar el icono como fallback
-                            const target = e.currentTarget;
-                            target.style.display = 'none';
-                            const fallback = target.parentElement?.querySelector('.icon-fallback');
-                            if (fallback) {
-                              (fallback as HTMLElement).style.display = 'flex';
-                            }
+                            e.currentTarget.style.display = "none";
+                            const fb = e.currentTarget.nextElementSibling as HTMLElement | null;
+                            if (fb) fb.style.display = "flex";
                           }}
                         />
                         <div
-                          className="icon-fallback w-full h-full rounded-xl flex items-center justify-center hidden"
-                          style={{
-                            backgroundColor: grupo.color === 'accent' ? 'rgba(197, 220, 11, 0.12)' : 'rgba(68, 137, 198, 0.12)',
-                          }}
+                          className="absolute inset-0 hidden items-center justify-center rounded-xl"
+                          style={{ backgroundColor: "rgba(68,137,198,0.08)" }}
+                          aria-hidden
                         >
-                          <grupo.icon
-                            className="w-16 h-16"
-                            style={{ color: grupo.color === 'accent' ? 'var(--regu-lime)' : 'var(--regu-blue)' }}
-                          />
+                          <Icon className="h-14 w-14" style={{ color: "var(--regu-blue)", opacity: 0.6 }} />
                         </div>
                       </div>
                     </div>
 
-                    {/* Contenido principal */}
-                    <div className="flex-1 min-w-0">
-                      <h3 className="text-xl md:text-2xl font-bold mb-3 leading-tight" style={{ color: 'var(--regu-gray-900)' }}>
-                        {grupo.title}
-                      </h3>
-                      <p className="mb-6 leading-relaxed" style={{ color: 'var(--regu-gray-700)' }}>
+                    {/* Contenido */}
+                    <div className="flex min-w-0 flex-1 flex-col">
+                      {/* Número + título */}
+                      <div className="mb-3 flex items-start gap-3">
+                        <span
+                          className="mt-0.5 inline-block flex-shrink-0 rounded-sm px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.10em]"
+                          style={{ backgroundColor: "rgba(68,137,198,0.10)", color: "var(--regu-blue)" }}
+                        >
+                          GT {String(index + 1).padStart(2, "0")}
+                        </span>
+                        <h3
+                          className="font-bold leading-tight"
+                          style={{
+                            color: "var(--regu-navy)",
+                            fontSize: "clamp(1rem, 1.4vw, 1.175rem)",
+                            fontFamily: "var(--token-font-heading)",
+                          }}
+                        >
+                          {grupo.title}
+                        </h3>
+                      </div>
+
+                      <p
+                        className="mb-5 text-sm leading-relaxed md:text-base"
+                        style={{ color: "var(--regu-gray-600)" }}
+                      >
                         {grupo.description}
                       </p>
 
-                      {/* Coordinadores y Miembros */}
-                      <div className="grid md:grid-cols-2 gap-6 mb-6">
+                      {/* Coordinadores + Miembros */}
+                      <div className="mb-5 grid gap-4 sm:grid-cols-2">
                         <div>
-                          <div className="flex items-center gap-2 mb-2">
-                            <Briefcase className="w-4 h-4" style={{ color: grupo.color === 'accent' ? 'var(--regu-teal)' : 'var(--regu-blue)' }} />
-                            <span className="text-sm font-semibold uppercase tracking-wide" style={{ color: 'var(--regu-gray-700)' }}>
+                          <div className="mb-2 flex items-center gap-1.5">
+                            <Briefcase className="h-3.5 w-3.5" style={{ color: "var(--regu-blue)" }} aria-hidden />
+                            <span
+                              className="text-[10px] font-bold uppercase tracking-[0.10em]"
+                              style={{ color: "var(--regu-gray-500)" }}
+                            >
                               Coordinadores
                             </span>
                           </div>
                           <div className="space-y-1">
-                            {grupo.coordinadores.map((coord, idx) => (
-                              <p key={idx} className="text-sm font-medium" style={{ color: 'var(--regu-gray-900)' }}>
-                                {coord}
+                            {grupo.coordinadores.map((c, i) => (
+                              <p key={i} className="text-sm font-semibold" style={{ color: "var(--regu-navy)" }}>
+                                {c}
                               </p>
                             ))}
                           </div>
                         </div>
-
                         <div>
-                          <div className="flex items-center gap-2 mb-2">
-                            <Users className="w-4 h-4" style={{ color: grupo.color === 'accent' ? 'var(--regu-teal)' : 'var(--regu-blue)' }} />
-                            <span className="text-sm font-semibold uppercase tracking-wide" style={{ color: 'var(--regu-gray-700)' }}>
+                          <div className="mb-2 flex items-center gap-1.5">
+                            <Users className="h-3.5 w-3.5" style={{ color: "var(--regu-blue)" }} aria-hidden />
+                            <span
+                              className="text-[10px] font-bold uppercase tracking-[0.10em]"
+                              style={{ color: "var(--regu-gray-500)" }}
+                            >
                               Miembros
                             </span>
                           </div>
                           <div className="space-y-1">
-                            {grupo.miembros.map((miembro, idx) => (
-                              <p key={idx} className="text-sm" style={{ color: 'var(--regu-gray-900)' }}>
-                                {miembro}
+                            {grupo.miembros.map((m, i) => (
+                              <p key={i} className="text-sm" style={{ color: "var(--regu-gray-700)" }}>
+                                {m}
                               </p>
                             ))}
                           </div>
                         </div>
                       </div>
 
-                      {/* Botones de términos de referencia */}
+                      {/* CTAs */}
                       {grupo.termsUrl && (
-                        <div className="flex gap-3 flex-wrap">
+                        <div
+                          className="mt-auto flex flex-wrap items-center gap-2.5 border-t pt-4"
+                          style={{ borderColor: "rgba(22,61,89,0.07)" }}
+                        >
                           <button
-                            onClick={() => setPreviewDoc({ url: grupo.termsUrl!, title: `Términos de Referencia - ${grupo.title}` })}
-                            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors text-sm shadow-sm hover:opacity-90"
-                            style={{ backgroundColor: 'var(--regu-blue)', color: 'white' }}
+                            onClick={() => setPreviewDoc({ url: grupo.termsUrl!, title: `Términos de referencia — ${grupo.title}` })}
+                            className="inline-flex items-center gap-1.5 rounded-lg px-4 py-2 text-xs font-bold uppercase tracking-[0.07em] text-white transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2"
+                            style={{ backgroundColor: "var(--regu-blue)" }}
                           >
-                            <Eye className="w-4 h-4" />
+                            <Eye className="h-3.5 w-3.5 shrink-0" />
                             Vista previa
                           </button>
                           <a
                             href={grupo.termsUrl}
                             download
-                            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors text-sm shadow-sm hover:opacity-90"
-                            style={{ backgroundColor: 'var(--regu-teal)', color: 'white' }}
+                            className="inline-flex items-center gap-1.5 rounded-lg border-2 px-4 py-2 text-xs font-bold uppercase tracking-[0.07em] transition hover:bg-[rgba(68,137,198,0.07)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2"
+                            style={{ borderColor: "var(--regu-blue)", color: "var(--regu-blue)" }}
                           >
-                            <Download className="w-4 h-4" />
-                            Descargar términos de referencia
+                            <Download className="h-3.5 w-3.5 shrink-0" />
+                            Términos de referencia
                           </a>
                         </div>
                       )}
                     </div>
                   </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-          ))}
-        </div>
-
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={fadeIn}
-          className="bg-white rounded-2xl p-8 shadow-md"
-          style={{ border: '1px solid var(--token-border)' }}
-        >
-          <h2 className="text-2xl font-bold mb-4" style={{ color: 'var(--regu-gray-900)' }}>Sobre los Grupos de Trabajo</h2>
-          <div className="space-y-4" style={{ color: 'var(--regu-gray-700)' }}>
-            <p>
-              Los grupos de trabajo de REGULATEL son espacios especializados de colaboración donde los países miembros trabajan en temas específicos del sector de las telecomunicaciones, compartiendo experiencias y desarrollando soluciones comunes.
-            </p>
-            <p>
-              Cada grupo cuenta con al menos un organismo coordinador que lideran las actividades y miembros que participan activamente en el intercambio de conocimientos, mejores prácticas y desarrollo de documentos técnicos y recomendaciones, en base a unos términos de referencia.
-            </p>
-            <p>
-              La participación activa en los grupos de trabajo permite a los países miembros contribuir al desarrollo de políticas regionales, fortalecer la cooperación técnica y beneficiarse del intercambio de conocimientos y experiencias exitosas.
-            </p>
+                </motion.article>
+              );
+            })}
           </div>
-        </motion.div>
+
+          {/* Bloque informativo */}
+          <section
+            className="rounded-2xl border bg-white p-8 md:p-10"
+            style={{ borderColor: "rgba(22,61,89,0.10)", boxShadow: "0 2px 6px rgba(22,61,89,0.04)" }}
+          >
+            <h2
+              className="mb-5 flex items-center gap-3 text-lg font-bold md:text-xl"
+              style={{ color: "var(--regu-navy)", fontFamily: "var(--token-font-heading)" }}
+            >
+              <span
+                className="inline-block h-5 w-[3px] flex-shrink-0 rounded-full"
+                style={{ backgroundColor: "var(--regu-blue)" }}
+                aria-hidden
+              />
+              Sobre los Grupos de Trabajo
+            </h2>
+            <div className="space-y-4 text-base leading-relaxed" style={{ color: "var(--regu-gray-600)" }}>
+              <p>
+                Los grupos de trabajo son espacios especializados donde los países miembros trabajan en temas
+                del sector de las telecomunicaciones, compartiendo experiencias y desarrollando soluciones comunes.
+              </p>
+              <p>
+                Cada grupo cuenta con al menos un organismo coordinador y miembros que participan activamente
+                en el intercambio de conocimientos, elaboración de recomendaciones técnicas y documentos de referencia.
+              </p>
+            </div>
+          </section>
+
+          {/* Footer nav */}
+          <nav
+            className="mt-10 flex flex-wrap items-center gap-4 border-t pt-8"
+            style={{ borderColor: "rgba(22,61,89,0.08)" }}
+            aria-label="Navegación final"
+          >
+            <Link
+              to="/"
+              className="inline-flex items-center gap-2 rounded-xl border-2 px-5 py-3 text-sm font-semibold transition-colors hover:bg-[rgba(68,137,198,0.12)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2"
+              style={{ color: "var(--regu-blue)", borderColor: "var(--regu-blue)", backgroundColor: "rgba(68,137,198,0.06)" }}
+            >
+              <ArrowLeft className="h-4 w-4 shrink-0" aria-hidden />
+              Inicio
+            </Link>
+            <Link
+              to="/miembros"
+              className="inline-flex items-center gap-1.5 text-sm font-semibold transition-all hover:gap-2.5"
+              style={{ color: "var(--regu-gray-500)" }}
+            >
+              Ver todos los miembros <ArrowRight className="h-3.5 w-3.5" aria-hidden />
+            </Link>
+          </nav>
+        </div>
       </div>
 
-      {/* Modal de Preview de PDF */}
+      {/* Modal PDF */}
       <AnimatePresence>
         {previewDoc && (
           <>
-            {/* Overlay */}
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
               onClick={() => setPreviewDoc(null)}
-              className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50"
+              className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm"
             />
-            
-            {/* Modal */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              initial={{ opacity: 0, scale: 0.96, y: 16 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              className="fixed inset-4 md:inset-8 lg:inset-12 z-50 flex flex-col bg-white rounded-2xl shadow-2xl overflow-hidden"
+              exit={{ opacity: 0, scale: 0.96, y: 16 }}
+              transition={{ type: "spring", damping: 28, stiffness: 320 }}
+              className="fixed inset-4 z-50 flex flex-col overflow-hidden rounded-2xl bg-white shadow-2xl md:inset-8 lg:inset-12"
             >
-              {/* Header del Modal */}
               <div
-                className="flex items-center justify-between p-4 md:p-6 border-b"
-                style={{ borderColor: 'var(--token-border)', background: 'var(--regu-offwhite)' }}
+                className="flex items-center justify-between border-b px-5 py-4 md:px-6"
+                style={{ borderColor: "rgba(22,61,89,0.08)", backgroundColor: "#FAFBFC" }}
               >
-                <div className="flex items-center gap-3 flex-1 min-w-0">
-                  <div
-                    className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0"
-                    style={{ backgroundColor: 'rgba(68, 137, 198, 0.15)' }}
-                  >
-                    <FileText className="w-5 h-5" style={{ color: 'var(--regu-blue)' }} />
+                <div className="flex min-w-0 flex-1 items-center gap-3">
+                  <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl" style={{ backgroundColor: "rgba(68,137,198,0.10)", color: "var(--regu-blue)" }}>
+                    <FileText className="h-5 w-5" />
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <h3 className="text-lg md:text-xl font-bold truncate" style={{ color: 'var(--regu-gray-900)' }}>
-                      {previewDoc.title}
-                    </h3>
-                    <p className="text-sm" style={{ color: 'var(--regu-gray-500)' }}>Vista previa del documento</p>
+                  <div className="min-w-0 flex-1">
+                    <h3 className="truncate text-base font-bold" style={{ color: "var(--regu-gray-900)" }}>{previewDoc.title}</h3>
+                    <p className="text-xs" style={{ color: "var(--regu-gray-500)" }}>Vista previa del documento</p>
                   </div>
                 </div>
-                <div className="flex items-center gap-2 flex-shrink-0">
-                  <a
-                    href={previewDoc.url}
-                    download
-                    className="inline-flex items-center gap-2 px-4 py-2 text-white rounded-lg hover:opacity-90 transition-opacity font-medium shadow-md hover:shadow-lg text-sm md:text-base"
-                    style={{ backgroundColor: 'var(--regu-blue)' }}
-                  >
-                    <Download className="w-4 h-4 md:w-5 md:h-5" />
-                    <span className="hidden sm:inline">Descargar</span>
+                <div className="flex flex-shrink-0 items-center gap-2">
+                  <a href={previewDoc.url} download className="inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold text-white transition hover:opacity-90" style={{ backgroundColor: "var(--regu-blue)" }}>
+                    <Download className="h-4 w-4" /><span className="hidden sm:inline">Descargar</span>
                   </a>
-                  <button
-                    onClick={() => setPreviewDoc(null)}
-                    className="w-10 h-10 rounded-lg flex items-center justify-center shadow-sm hover:opacity-80 transition-opacity"
-                    style={{ backgroundColor: 'var(--regu-gray-100)', color: 'var(--regu-gray-700)' }}
-                    aria-label="Cerrar"
-                  >
-                    <X className="w-5 h-5" />
+                  <button onClick={() => setPreviewDoc(null)} className="flex h-9 w-9 items-center justify-center rounded-lg border transition hover:bg-[var(--regu-gray-100)]" style={{ borderColor: "rgba(22,61,89,0.12)", color: "var(--regu-gray-700)" }} aria-label="Cerrar">
+                    <X className="h-5 w-5" />
                   </button>
                 </div>
               </div>
-
-              {/* Contenido del PDF */}
-              <div className="flex-1 overflow-hidden" style={{ backgroundColor: 'var(--regu-gray-100)' }}>
-                <iframe
-                  src={`${previewDoc.url}#toolbar=1&navpanes=1&scrollbar=1`}
-                  className="w-full h-full border-0"
-                  title={`Preview de ${previewDoc.title}`}
-                  style={{ minHeight: '400px' }}
-                />
+              <div className="flex-1 overflow-hidden bg-[#F0F0F0]">
+                <iframe src={`${previewDoc.url}#toolbar=1`} className="h-full w-full border-0" title={previewDoc.title} style={{ minHeight: "400px" }} />
               </div>
-
-              {/* Footer del Modal */}
-              <div className="p-4 border-t" style={{ borderColor: 'var(--token-border)', backgroundColor: 'var(--regu-offwhite)' }}>
-                <div className="flex items-center justify-between flex-wrap gap-2">
-                  <p className="text-sm" style={{ color: 'var(--regu-gray-700)' }}>
-                    <span className="font-medium">Nota:</span> Usa los controles del visor para navegar el documento
-                  </p>
-                  <button
-                    onClick={() => window.open(previewDoc.url, '_blank')}
-                    className="inline-flex items-center gap-2 px-3 py-1.5 text-sm rounded-lg transition-colors hover:opacity-90"
-                    style={{ color: 'var(--regu-blue)' }}
-                  >
-                    <Maximize2 className="w-4 h-4" />
-                    Abrir en nueva pestaña
-                  </button>
-                </div>
+              <div className="flex flex-wrap items-center justify-between gap-2 border-t px-5 py-3" style={{ borderColor: "rgba(22,61,89,0.08)", backgroundColor: "#FAFBFC" }}>
+                <p className="text-xs" style={{ color: "var(--regu-gray-500)" }}>Usa los controles del visor para navegar</p>
+                <button onClick={() => window.open(previewDoc.url, "_blank")} className="inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-semibold transition hover:bg-white" style={{ color: "var(--regu-blue)" }}>
+                  <Maximize2 className="h-4 w-4" /> Abrir en nueva pestaña
+                </button>
               </div>
             </motion.div>
           </>
         )}
       </AnimatePresence>
-    </div>
     </>
   );
-};
-
-export default GruposTrabajo;
+}

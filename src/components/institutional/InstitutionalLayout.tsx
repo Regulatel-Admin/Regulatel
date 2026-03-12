@@ -1,6 +1,6 @@
 import { type ReactNode } from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import PageHero from "@/components/PageHero";
 
 const CONTENT_MAX_WIDTH = "1180px";
@@ -12,9 +12,6 @@ interface InstitutionalLayoutProps {
   children: ReactNode;
 }
 
-/**
- * Layout institucional tipo BEREC/UE: hero + contenido con ancho máximo 1100px, spacing amplio.
- */
 export default function InstitutionalLayout({
   title,
   subtitle,
@@ -33,7 +30,8 @@ export default function InstitutionalLayout({
         className="w-full py-12 md:py-16 lg:py-20"
         style={{
           fontFamily: "var(--token-font-body)",
-          background: "linear-gradient(180deg, var(--regu-offwhite) 0%, var(--regu-gray-100) 100%)",
+          backgroundColor: "#FAFBFC",
+          borderTop: "1px solid rgba(22,61,89,0.07)",
         }}
       >
         <div
@@ -42,28 +40,28 @@ export default function InstitutionalLayout({
         >
           {children}
           <footer
-            className="mt-20 md:mt-24 lg:mt-28 pt-12 md:pt-14 pb-4"
+            className="mt-16 md:mt-20 lg:mt-24 pt-10 pb-4 border-t flex flex-wrap items-center gap-4"
+            style={{ borderColor: "rgba(22,61,89,0.08)" }}
             aria-label="Cierre de página"
           >
-            <div
-              className="h-px w-full mb-12 md:mb-14"
-              style={{ backgroundColor: "var(--regu-gray-200)" }}
-              aria-hidden
-            />
-            <nav aria-label="Navegación final">
-              <Link
-                to="/"
-                className="inline-flex items-center gap-2.5 rounded-xl px-6 py-3.5 text-base font-semibold transition-colors border-2 hover:bg-[#4489C6]/12 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2"
-                style={{
-                  color: "var(--regu-blue)",
-                  borderColor: "var(--regu-blue)",
-                  backgroundColor: "rgba(68, 137, 198, 0.08)",
-                }}
-              >
-                <ArrowLeft className="w-4 h-4 shrink-0" aria-hidden />
-                Volver a inicio
-              </Link>
-            </nav>
+            <Link
+              to="/"
+              className="inline-flex items-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold transition-colors hover:bg-[rgba(68,137,198,0.12)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2 border-2"
+              style={{
+                color: "var(--regu-blue)",
+                borderColor: "var(--regu-blue)",
+                backgroundColor: "rgba(68,137,198,0.06)",
+              }}
+            >
+              Inicio
+            </Link>
+            <Link
+              to="/que-somos"
+              className="inline-flex items-center gap-1.5 text-sm font-semibold transition-colors hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2"
+              style={{ color: "var(--regu-gray-500)" }}
+            >
+              Quiénes somos <ArrowRight className="h-3.5 w-3.5" aria-hidden />
+            </Link>
           </footer>
         </div>
       </div>
@@ -79,40 +77,112 @@ export function InstitutionalSection({
   className?: string;
 }) {
   return (
-    <section className={`mb-14 md:mb-16 lg:mb-20 ${className}`}>
+    <section className={`mb-12 md:mb-16 ${className}`}>
       {children}
     </section>
   );
 }
 
-export function InstitutionalH2({ children }: { children: ReactNode }) {
+/** Título de sección con barra accent izquierda — mismo sistema que el home */
+export function InstitutionalH2({
+  children,
+  subtitle,
+}: {
+  children: ReactNode;
+  subtitle?: string;
+}) {
   return (
-    <h2
-      className="text-xl md:text-2xl font-bold mb-6"
-      style={{ color: "var(--regu-gray-900)" }}
-    >
-      {children}
-    </h2>
+    <div className="mb-8 flex items-start gap-4">
+      <div
+        className="mt-1 h-8 w-[3px] flex-shrink-0 rounded-full"
+        style={{ backgroundColor: "var(--regu-blue)" }}
+        aria-hidden
+      />
+      <div>
+        <h2
+          className="text-xl font-bold md:text-2xl"
+          style={{
+            color: "var(--regu-navy)",
+            fontFamily: "var(--token-font-heading)",
+          }}
+        >
+          {children}
+        </h2>
+        {subtitle && (
+          <p className="mt-1 text-sm" style={{ color: "var(--regu-gray-500)" }}>
+            {subtitle}
+          </p>
+        )}
+      </div>
+    </div>
   );
 }
 
+/** Card institucional con acento top opcional */
 export function InstitutionalCard({
   children,
   className = "",
+  accent = true,
 }: {
   children: ReactNode;
   className?: string;
+  accent?: boolean;
 }) {
   return (
     <div
-      className={`rounded-2xl border p-6 md:p-8 transition-all duration-200 hover:shadow-[var(--token-shadow-hover)] ${className}`}
+      className={`relative overflow-hidden rounded-2xl border bg-white transition-all duration-200 hover:-translate-y-0.5 ${className}`}
       style={{
-        backgroundColor: "var(--regu-white)",
-        borderColor: "var(--regu-gray-100)",
-        boxShadow: "var(--token-shadow-card)",
+        borderColor: "rgba(22,61,89,0.10)",
+        boxShadow: "0 2px 6px rgba(22,61,89,0.04), 0 6px 20px rgba(22,61,89,0.06)",
+      }}
+      onMouseEnter={(e) => {
+        (e.currentTarget.querySelector(".instCardAccent") as HTMLElement | null)?.style.setProperty("background-color", "var(--regu-lime)");
+      }}
+      onMouseLeave={(e) => {
+        (e.currentTarget.querySelector(".instCardAccent") as HTMLElement | null)?.style.setProperty("background-color", "var(--regu-blue)");
       }}
     >
-      {children}
+      {accent && (
+        <div
+          className="instCardAccent absolute inset-x-0 top-0 h-[3px] transition-colors duration-300"
+          style={{ backgroundColor: "var(--regu-blue)" }}
+          aria-hidden
+        />
+      )}
+      <div className={accent ? "pt-1" : ""}>
+        {children}
+      </div>
+    </div>
+  );
+}
+
+/** Lead editorial con borde izquierdo — para introducción de páginas */
+export function InstitutionalLead({
+  children,
+  source,
+}: {
+  children: ReactNode;
+  source?: string;
+}) {
+  return (
+    <div
+      className="mb-12 rounded-r-xl border-l-4 py-6 pl-6 pr-6 md:py-7 md:pl-8"
+      style={{
+        borderLeftColor: "var(--regu-blue)",
+        backgroundColor: "rgba(68,137,198,0.04)",
+      }}
+    >
+      <div
+        className="text-lg leading-relaxed md:text-xl"
+        style={{ color: "var(--regu-gray-800)" }}
+      >
+        {children}
+      </div>
+      {source && (
+        <p className="mt-4 text-xs font-medium uppercase tracking-[0.08em]" style={{ color: "var(--regu-gray-500)" }}>
+          Fuente: {source}
+        </p>
+      )}
     </div>
   );
 }

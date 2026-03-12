@@ -1,82 +1,80 @@
+import { ExternalLink, BarChart2 } from "lucide-react";
+
 const POWER_BI_URL =
   "https://app.powerbi.com/view?r=eyJrIjoiOWM5NWI3YWEtZjk0MC00NDlhLWI0YmYtMDQ4MGQ2OTM1ZTQwIiwidCI6ImVjYzY2NjY1LTFiYjktNDgxOC04YWJjLWE0MDk0Njg5NDE3OCIsImMiOjR9";
 
-const TITLE = "Indicadores en vivo";
-const SUBTITLE =
-  "Consulta el panel interactivo de indicadores y visualizaciones de REGULATEL.";
-const LINK_LABEL = "Abrir panel completo";
-const MOBILE_MESSAGE =
-  "Para una mejor visualización del panel interactivo, ábralo en pantalla completa.";
-const MOBILE_CTA = "Abrir panel completo";
-
-/**
- * Sección BEREC: dashboard Power BI como módulo institucional premium (desktop) o CTA elegante (mobile).
- * Ubicación: debajo del carrusel de cumbres en la home.
- */
 export default function LiveIndicatorsSection() {
   return (
     <section
-      className="liveIndicatorsSection bg-[var(--regu-offwhite)] py-16 md:py-20"
+      className="w-full"
       aria-label="Indicadores en vivo"
+      style={{
+        backgroundColor: "#FAFBFC",
+        borderTop: "1px solid rgba(22,61,89,0.07)",
+        borderBottom: "1px solid rgba(22,61,89,0.07)",
+        paddingTop: "56px",
+        paddingBottom: "64px",
+      }}
     >
-      <div
-        className="mx-auto w-full px-4 md:px-8 lg:px-10"
-        style={{ maxWidth: "1520px" }}
-      >
-        {/* Desktop: módulo institucional único (header + embed) */}
+      <div className="mx-auto w-full px-4 md:px-6 lg:px-8" style={{ maxWidth: "1280px" }}>
+
+        {/* Section header */}
+        <div className="mb-8 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
+          <div className="flex items-start gap-4">
+            <div
+              className="mt-1 h-8 w-[3px] flex-shrink-0 rounded-full"
+              style={{ backgroundColor: "var(--regu-blue)" }}
+              aria-hidden
+            />
+            <div>
+              <p
+                className="mb-1 text-[10px] font-bold uppercase tracking-[0.14em]"
+                style={{ color: "var(--regu-gray-400)" }}
+              >
+                Panel interactivo
+              </p>
+              <h2
+                className="text-xl font-bold md:text-2xl"
+                style={{ color: "var(--regu-navy)", fontFamily: "var(--token-font-heading)" }}
+              >
+                Indicadores en vivo
+              </h2>
+              <p className="mt-1 text-sm" style={{ color: "var(--regu-gray-500)" }}>
+                Datos e indicadores interactivos de los países miembros de REGULATEL.
+              </p>
+            </div>
+          </div>
+          <a
+            href={POWER_BI_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex shrink-0 items-center gap-2 rounded-xl border px-4 py-2 text-sm font-bold transition-all hover:bg-[rgba(68,137,198,0.06)]"
+            style={{ borderColor: "rgba(22,61,89,0.14)", color: "var(--regu-blue)" }}
+          >
+            <ExternalLink className="h-4 w-4" />
+            Abrir panel completo
+          </a>
+        </div>
+
+        {/* Desktop: iframe embed */}
         <div
           className="hidden overflow-hidden rounded-2xl border bg-white md:block"
           style={{
-            borderColor: "rgba(22, 61, 89, 0.12)",
-            boxShadow: "0 4px 24px rgba(22, 61, 89, 0.06)",
+            borderColor: "rgba(22,61,89,0.10)",
+            boxShadow: "0 4px 24px rgba(22,61,89,0.06)",
+            borderTop: "3px solid var(--regu-blue)",
           }}
         >
-          {/* Header: título, subtítulo y CTA alineados */}
-          <div className="liveIndicatorsHeader border-b px-5 pt-6 pb-5 md:px-8 md:pt-8 md:pb-6 lg:px-10" style={{ borderColor: "rgba(22, 61, 89, 0.08)" }}>
-            <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-end sm:justify-between sm:gap-6">
-              <div className="min-w-0 flex-1">
-                <h2
-                  id="live-indicators-heading"
-                  className="text-xl font-bold tracking-tight text-[var(--regu-gray-900)] md:text-2xl"
-                  style={{ fontFamily: "var(--token-font-heading)" }}
-                >
-                  {TITLE}
-                </h2>
-                <p
-                  className="mt-2 text-sm text-[var(--regu-gray-600)] md:text-base md:leading-relaxed"
-                  style={{ fontFamily: "var(--token-font-body)" }}
-                >
-                  {SUBTITLE}
-                </p>
-              </div>
-              <a
-                href={POWER_BI_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="liveIndicatorsFullLink inline-flex shrink-0 items-center justify-center rounded-lg border px-4 py-2.5 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2"
-                style={{
-                  fontFamily: "var(--token-font-body)",
-                  borderColor: "var(--regu-blue)",
-                  color: "var(--regu-blue)",
-                }}
-              >
-                {LINK_LABEL}
-                <span aria-hidden className="ml-1">↗</span>
-              </a>
-            </div>
-          </div>
-
-          {/* Contenedor del embed dentro del mismo módulo */}
-          <div className="liveIndicatorsEmbedWrap p-4 md:px-6 md:py-5 lg:px-8 lg:py-6">
+          <div className="p-4 md:p-5 lg:p-6">
             <div
-              className="overflow-hidden rounded-xl bg-[var(--regu-gray-100)]"
+              className="overflow-hidden rounded-xl"
               style={{
-                boxShadow: "0 2px 12px rgba(22, 61, 89, 0.04)",
-                border: "1px solid rgba(22, 61, 89, 0.08)",
+                border: "1px solid rgba(22,61,89,0.07)",
+                backgroundColor: "rgba(22,61,89,0.02)",
               }}
             >
               <iframe
-                className="liveIndicatorsIframe h-[540px] w-full border-0 md:h-[620px] lg:h-[680px]"
+                className="h-[540px] w-full border-0 md:h-[620px] lg:h-[680px]"
                 src={POWER_BI_URL}
                 title="Panel de indicadores REGULATEL - Power BI"
                 loading="lazy"
@@ -86,40 +84,44 @@ export default function LiveIndicatorsSection() {
           </div>
         </div>
 
-        {/* Mobile: fallback card (sin iframe) — mismo estilo de módulo */}
+        {/* Mobile: clean CTA card */}
         <div
-          className="liveIndicatorsMobileFallback rounded-2xl border bg-white p-6 md:hidden"
+          className="overflow-hidden rounded-2xl border bg-white md:hidden"
           style={{
-            borderColor: "rgba(22, 61, 89, 0.12)",
-            boxShadow: "0 4px 24px rgba(22, 61, 89, 0.06)",
+            borderColor: "rgba(22,61,89,0.10)",
+            boxShadow: "0 4px 24px rgba(22,61,89,0.06)",
+            borderTop: "3px solid var(--regu-blue)",
           }}
         >
-          <h3
-            className="text-lg font-bold text-[var(--regu-gray-900)]"
-            style={{ fontFamily: "var(--token-font-heading)" }}
-          >
-            {TITLE}
-          </h3>
-          <p
-            className="mt-2 text-sm leading-relaxed text-[var(--regu-gray-600)]"
-            style={{ fontFamily: "var(--token-font-body)" }}
-          >
-            {MOBILE_MESSAGE}
-          </p>
-          <a
-            href={POWER_BI_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-5 inline-flex items-center justify-center rounded-lg px-5 py-3 text-sm font-bold uppercase tracking-wide text-white transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2"
-            style={{
-              backgroundColor: "var(--regu-blue)",
-              fontFamily: "var(--token-font-body)",
-            }}
-          >
-            {MOBILE_CTA}
-            <span aria-hidden className="ml-1">↗</span>
-          </a>
+          <div className="p-6">
+            <div
+              className="mb-5 flex h-14 w-14 items-center justify-center rounded-2xl"
+              style={{ backgroundColor: "rgba(68,137,198,0.10)" }}
+            >
+              <BarChart2 className="h-7 w-7" style={{ color: "var(--regu-blue)" }} />
+            </div>
+            <h3
+              className="text-lg font-bold mb-2"
+              style={{ color: "var(--regu-navy)", fontFamily: "var(--token-font-heading)" }}
+            >
+              Indicadores en vivo
+            </h3>
+            <p className="text-sm leading-relaxed mb-5" style={{ color: "var(--regu-gray-600)" }}>
+              Accede al panel interactivo de indicadores y visualizaciones de REGULATEL con datos actualizados de los países miembros.
+            </p>
+            <a
+              href={POWER_BI_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-xl px-5 py-3 text-sm font-bold text-white transition-opacity hover:opacity-85"
+              style={{ backgroundColor: "var(--regu-blue)" }}
+            >
+              <ExternalLink className="h-4 w-4" />
+              Abrir panel completo
+            </a>
+          </div>
         </div>
+
       </div>
     </section>
   );

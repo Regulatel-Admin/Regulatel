@@ -11,7 +11,6 @@ export interface FeaturedCarouselItem {
   href: string;
   ctaPrimaryLabel?: string;
   ctaSecondary?: { label: string; href: string };
-  /** Si se define, reemplaza la etiqueta por defecto (EVENTOS / Pasado / NOTICIAS). Ej.: "PRÓXIMA" */
   categoryLabel?: string;
 }
 
@@ -20,11 +19,9 @@ interface FeaturedCarouselProps {
   autoplayIntervalMs?: number;
 }
 
-const OVERLAY_GRADIENT =
-  "linear-gradient(90deg, rgba(0,0,0,.38) 0%, rgba(0,0,0,.28) 50%, rgba(0,0,0,.18) 100%)";
-
 const MESES: Record<string, number> = {
-  ENE: 0, FEB: 1, MAR: 2, ABR: 3, MAY: 4, JUN: 5, JUL: 6, AGO: 7, SEP: 8, OCT: 9, NOV: 10, DIC: 11,
+  ENE: 0, FEB: 1, MAR: 2, ABR: 3, MAY: 4, JUN: 5,
+  JUL: 6, AGO: 7, SEP: 8, OCT: 9, NOV: 10, DIC: 11,
 };
 function isSlideDatePast(dateStr: string): boolean {
   if (!dateStr || dateStr.length < 6) return false;
@@ -51,12 +48,10 @@ export default function FeaturedCarousel({
 
   const goTo = useCallback(
     (index: number) => {
-      setActiveIndex(() => {
-        let next = index;
-        if (next < 0) next = items.length - 1;
-        if (next >= items.length) next = 0;
-        return next;
-      });
+      let next = index;
+      if (next < 0) next = items.length - 1;
+      if (next >= items.length) next = 0;
+      setActiveIndex(next);
     },
     [items.length]
   );
@@ -74,10 +69,7 @@ export default function FeaturedCarousel({
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "ArrowLeft") prev();
       if (e.key === "ArrowRight") next();
-      if (e.key === " ") {
-        e.preventDefault();
-        setIsPaused((p) => !p);
-      }
+      if (e.key === " ") { e.preventDefault(); setIsPaused((p) => !p); }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
@@ -87,179 +79,195 @@ export default function FeaturedCarousel({
 
   const slide = items[activeIndex];
   const isEventPast = slide.type === "eventos" && isSlideDatePast(slide.date);
-  const defaultCategoryLabel = slide.type === "eventos" ? (isEventPast ? "Pasado" : "PRÓXIMA") : "NOTICIAS";
+  const defaultCategoryLabel =
+    slide.type === "eventos" ? (isEventPast ? "Pasado" : "Próxima") : "Noticias";
   const categoryLabel = slide.categoryLabel ?? defaultCategoryLabel;
   const showCumbreLabel = slide.type === "eventos";
 
   return (
     <section
-      className="featuredCarousel relative w-full overflow-hidden min-h-[320px] md:min-h-[380px] lg:min-h-[460px]"
+      className="featuredCarousel relative w-full overflow-hidden"
+      style={{ minHeight: "380px", height: "clamp(380px, 46vh, 560px)" }}
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
       aria-label="Carrusel destacado"
     >
-      {/* Background del slide activo */}
+      {/* Slides con crossfade */}
+      {items.map((item, i) => (
+        <div
+          key={item.id}
+          className="absolute inset-0 transition-opacity duration-700 ease-in-out"
+          style={{ opacity: i === activeIndex ? 1 : 0, zIndex: i === activeIndex ? 1 : 0 }}
+        >
+          <div
+            className="absolute inset-0 bg-cover bg-center"
+            style={{ backgroundImage: `url(${item.imageUrl})`, filter: "brightness(0.78) saturate(0.88)" }}
+          />
+        </div>
+      ))}
+
+      {/* Mismo overlay que el slideshow del home: más protección izquierda para el texto, se desvanece hacia la derecha */}
       <div
-        className="absolute inset-0 bg-cover bg-center transition-opacity duration-500"
+        className="pointer-events-none absolute inset-0 z-[2]"
         style={{
-          backgroundImage: `url(${slide.imageUrl})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
+          background:
+            "linear-gradient(105deg, rgba(10,28,48,0.72) 0%, rgba(10,28,48,0.48) 45%, rgba(10,28,48,0.10) 75%, rgba(10,28,48,0.00) 100%)",
         }}
-      />
-      {/* Overlay sutil para legibilidad */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{ background: OVERLAY_GRADIENT }}
+        aria-hidden
       />
 
-      {/* Contenedor: card + controles */}
+      {/* Layout principal */}
       <div
-        className="relative z-10 mx-auto flex min-h-[320px] w-full max-w-[1280px] flex-col justify-end px-4 pb-6 pt-12 md:min-h-[380px] md:px-6 md:pb-8 md:pt-16 lg:min-h-[460px] lg:justify-center lg:pb-12 lg:pt-20"
+        className="relative z-10 mx-auto flex h-full w-full max-w-[1280px] items-center px-4 md:px-6 lg:px-10"
         style={{ fontFamily: "var(--token-font-body)" }}
       >
-        {/* Card blanca overlay — centrada y levemente a la izquierda en desktop */}
+        {/* Tarjeta institucional */}
         <div
-          className="featuredCarouselCard mx-auto w-[92vw] max-w-[560px] flex-shrink-0 rounded-[16px] border border-black/[0.06] bg-white p-6 shadow-[0_10px_30px_rgba(0,0,0,.12)] md:ml-[8%] md:mr-auto md:p-7"
-          style={{ minWidth: "min(560px, 92vw)" }}
+          className="featuredCarouselCard relative flex-shrink-0 overflow-hidden rounded-2xl bg-white shadow-[0_8px_32px_rgba(0,0,0,0.18),0_2px_8px_rgba(0,0,0,0.10)]"
+          style={{
+            width: "min(100%, 480px)",
+            borderLeft: "4px solid var(--regu-blue)",
+          }}
         >
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-flex-start sm:justify-between">
-            <div className="min-w-0 flex-1">
-              {/* Meta: fecha · estado (PRÓXIMA/Pasado) · CUMBRE para eventos; fecha · NOTICIAS para noticias */}
-              <div className="featuredCarouselMeta flex flex-wrap items-center gap-x-2 gap-y-1">
-                <span
-                  className="text-xs font-semibold uppercase tracking-[0.12em]"
-                  style={{ color: "var(--news-accent)" }}
-                >
-                  {slide.date}
-                </span>
-                <span className="text-xs font-semibold uppercase tracking-[0.08em]" style={{ color: "var(--regu-gray-700)" }}>
-                  ·
-                </span>
-                <span
-                  className={isEventPast ? "text-[10px] font-medium uppercase tracking-wider opacity-90" : "text-xs font-semibold uppercase tracking-[0.12em]"}
-                  style={{ color: isEventPast ? "var(--regu-gray-500)" : "var(--news-accent)" }}
-                >
-                  {categoryLabel}
-                </span>
-                {showCumbreLabel && (
-                  <>
-                    <span className="text-xs font-semibold uppercase tracking-[0.08em]" style={{ color: "var(--regu-gray-700)" }}>
-                      ·
-                    </span>
-                    <span className="text-xs font-semibold uppercase tracking-[0.12em]" style={{ color: "var(--regu-blue)" }}>
-                      CUMBRE
-                    </span>
-                  </>
-                )}
-              </div>
-              {/* Título */}
-              <h2
-                className="mt-2 line-clamp-3 text-xl font-bold leading-tight md:text-2xl lg:text-[1.75rem]"
-                style={{ color: "var(--regu-gray-900)" }}
+          {/* Acento superior sutil */}
+          <div
+            className="absolute inset-x-0 top-0 h-[2px]"
+            style={{ background: "linear-gradient(90deg, var(--regu-blue), var(--regu-teal))" }}
+            aria-hidden
+          />
+
+          <div className="p-6 md:p-7">
+            {/* Meta — badges */}
+            <div className="flex flex-wrap items-center gap-2">
+              <span
+                className="inline-block rounded-sm px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.10em]"
+                style={{
+                  backgroundColor: "rgba(68,137,198,0.10)",
+                  color: "var(--regu-blue)",
+                }}
               >
-                {slide.title}
-              </h2>
-              {/* Botones */}
-              <div className="mt-4 flex flex-wrap items-center gap-3">
-                {slide.href.startsWith("http") ? (
-                  <a
-                    href={slide.href}
-                    target="_blank"
-                    rel="noreferrer noopener"
-                    className="inline-flex items-center justify-center rounded-lg border-2 px-4 py-2.5 text-xs font-semibold uppercase tracking-[0.08em] transition hover:bg-[var(--news-accent)] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--news-accent)] focus-visible:ring-offset-2"
-                    style={{
-                      borderColor: "var(--news-accent)",
-                      color: "var(--news-accent)",
-                    }}
-                  >
-                    {slide.ctaPrimaryLabel ?? "Leer más"}
-                  </a>
-                ) : (
-                  <Link
-                    to={slide.href}
-                    className="inline-flex items-center justify-center rounded-lg border-2 px-4 py-2.5 text-xs font-semibold uppercase tracking-[0.08em] transition hover:bg-[var(--news-accent)] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--news-accent)] focus-visible:ring-offset-2"
-                    style={{
-                      borderColor: "var(--news-accent)",
-                      color: "var(--news-accent)",
-                    }}
-                  >
-                    {slide.ctaPrimaryLabel ?? "Leer más"}
-                  </Link>
-                )}
-                {slide.ctaSecondary && (
-                  <a
-                    href={slide.ctaSecondary.href}
-                    target="_blank"
-                    rel="noreferrer noopener"
-                    className="inline-flex items-center justify-center rounded-lg px-4 py-2.5 text-xs font-semibold uppercase tracking-[0.08em] text-white transition hover:opacity-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2"
-                    style={{ backgroundColor: "var(--news-accent)" }}
-                  >
-                    {slide.ctaSecondary.label}
-                  </a>
-                )}
-              </div>
-            </div>
-            {/* Dots / indicadores a la derecha dentro de la card */}
-            <div
-              className="featuredCarouselDots flex items-center gap-2 sm:shrink-0"
-              aria-label="Slides"
-            >
-              {items.slice(0, 7).map((_, i) => (
-                <button
-                  key={items[i].id}
-                  type="button"
-                  aria-label={`Ir al slide ${i + 1}`}
-                  aria-current={i === activeIndex ? "true" : undefined}
-                  className="h-1.5 w-6 rounded-full transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--news-accent)] focus-visible:ring-offset-2"
+                {categoryLabel}
+              </span>
+              {showCumbreLabel && (
+                <span
+                  className="inline-block rounded-sm px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.10em]"
                   style={{
-                    backgroundColor:
-                      i === activeIndex
-                        ? "var(--news-accent)"
-                        : "var(--regu-gray-100)",
+                    backgroundColor: "rgba(22,61,89,0.07)",
+                    color: "var(--regu-navy)",
                   }}
-                  onClick={() => setActiveIndex(i)}
-                />
-              ))}
+                >
+                  Cumbre
+                </span>
+              )}
+              <span
+                className="text-xs font-semibold uppercase tracking-[0.08em]"
+                style={{ color: "var(--regu-gray-500)" }}
+              >
+                {slide.date}
+              </span>
             </div>
+
+            {/* Título */}
+            <h2
+              className="mt-3 line-clamp-3 font-bold leading-snug"
+              style={{
+                fontFamily: "var(--token-font-heading)",
+                fontSize: "clamp(1.05rem, 1.8vw, 1.375rem)",
+                color: "var(--regu-gray-900)",
+              }}
+            >
+              {slide.title}
+            </h2>
+
+            {/* CTA */}
+            <div className="mt-5 flex flex-wrap items-center gap-2.5">
+              {slide.href.startsWith("http") ? (
+                <a
+                  href={slide.href}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className="inline-flex items-center justify-center rounded-lg px-4 py-2 text-xs font-bold uppercase tracking-[0.08em] text-white transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2"
+                  style={{ backgroundColor: "var(--regu-blue)" }}
+                >
+                  {slide.ctaPrimaryLabel ?? "Leer más"}
+                </a>
+              ) : (
+                <Link
+                  to={slide.href}
+                  className="inline-flex items-center justify-center rounded-lg px-4 py-2 text-xs font-bold uppercase tracking-[0.08em] text-white transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2"
+                  style={{ backgroundColor: "var(--regu-blue)" }}
+                >
+                  {slide.ctaPrimaryLabel ?? "Leer más"}
+                </Link>
+              )}
+              {slide.ctaSecondary && (
+                <a
+                  href={slide.ctaSecondary.href}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className="inline-flex items-center justify-center rounded-lg border px-4 py-2 text-xs font-bold uppercase tracking-[0.08em] transition hover:bg-[var(--regu-navy)] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-navy)] focus-visible:ring-offset-2"
+                  style={{ borderColor: "var(--regu-navy)", color: "var(--regu-navy)" }}
+                >
+                  {slide.ctaSecondary.label}
+                </a>
+              )}
+            </div>
+
+            {/* Dots de paginación — dentro de la card, fila inferior */}
+            {items.length > 1 && (
+              <div className="mt-5 flex items-center gap-1.5" aria-label="Slides">
+                {items.slice(0, 7).map((_, i) => (
+                  <button
+                    key={items[i].id}
+                    type="button"
+                    aria-label={`Ir al slide ${i + 1}`}
+                    aria-current={i === activeIndex ? "true" : undefined}
+                    className="h-1 rounded-full transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2"
+                    style={{
+                      width: i === activeIndex ? "24px" : "6px",
+                      backgroundColor: i === activeIndex ? "var(--regu-blue)" : "rgba(22,61,89,0.18)",
+                    }}
+                    onClick={() => setActiveIndex(i)}
+                  />
+                ))}
+              </div>
+            )}
           </div>
         </div>
+      </div>
 
-        {/* Controles del carrusel: prev / play-pause / next — abajo a la derecha */}
+      {/* Controles — pill translúcido, esquina inferior derecha */}
+      {items.length > 1 && (
         <div
-          className="featuredCarouselControls absolute bottom-4 right-4 flex items-center gap-2 md:bottom-6 md:right-6 lg:bottom-8 lg:right-8"
+          className="absolute bottom-5 right-5 z-20 flex items-center gap-0.5 rounded-xl border border-white/20 bg-black/25 px-1 py-1 backdrop-blur-sm"
           aria-label="Controles del carrusel"
         >
           <button
             type="button"
             aria-label="Slide anterior"
-            className="flex h-10 w-10 items-center justify-center rounded-full bg-white/95 text-[var(--regu-gray-900)] shadow-md transition hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
+            className="flex h-8 w-8 items-center justify-center rounded-lg text-white/90 transition-colors hover:bg-white/20 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
             onClick={prev}
           >
-            <ChevronLeft className="h-5 w-5" />
+            <ChevronLeft className="h-4 w-4" />
           </button>
           <button
             type="button"
-            aria-label={isPaused ? "Reanudar" : "Pausar"}
-            className="flex h-10 w-10 items-center justify-center rounded-full bg-white/95 text-[var(--regu-gray-900)] shadow-md transition hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
+            aria-label={isPaused ? "Reanudar slideshow" : "Pausar slideshow"}
+            className="flex h-8 w-8 items-center justify-center rounded-lg text-white/90 transition-colors hover:bg-white/20 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
             onClick={() => setIsPaused((p) => !p)}
           >
-            {isPaused ? (
-              <Play className="h-5 w-5" />
-            ) : (
-              <Pause className="h-5 w-5" />
-            )}
+            {isPaused ? <Play className="h-3.5 w-3.5" /> : <Pause className="h-3.5 w-3.5" />}
           </button>
           <button
             type="button"
             aria-label="Slide siguiente"
-            className="flex h-10 w-10 items-center justify-center rounded-full bg-white/95 text-[var(--regu-gray-900)] shadow-md transition hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
+            className="flex h-8 w-8 items-center justify-center rounded-lg text-white/90 transition-colors hover:bg-white/20 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
             onClick={next}
           >
-            <ChevronRight className="h-5 w-5" />
+            <ChevronRight className="h-4 w-4" />
           </button>
         </div>
-      </div>
+      )}
     </section>
   );
 }

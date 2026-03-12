@@ -66,8 +66,8 @@ export default function Home() {
       <section className="bg-white">
         <NewsSectionBerec news={homeNews} />
         </section>
-      {/* Eventos: carrusel destacados (BEREC) + grid "Todos los eventos" */}
-      <section className="bg-gradient-to-b from-white to-slate-100">
+      {/* Eventos: carrusel destacados + grid "Próximos eventos" */}
+      <section style={{ backgroundColor: "var(--regu-offwhite)", borderTop: "1px solid rgba(22,61,89,0.07)" }}>
         <FeaturedEventsCarousel events={homeEvents} autoplayIntervalMs={7000} />
         <EventsSection events={homeEvents} variant="home" maxEvents={4} />
         </section>

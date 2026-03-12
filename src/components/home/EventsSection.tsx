@@ -52,22 +52,29 @@ export default function EventsSection({
       >
         {isHome ? (
           <>
-            <header className="mb-8 md:mb-10">
-              <h2
-                className="text-xl font-bold uppercase tracking-wide md:text-2xl"
-                style={{
-                  color: "var(--regu-gray-900)",
-                  fontFamily: "var(--token-font-heading)",
-                }}
-              >
-                Próximos eventos 2026
-              </h2>
-              <p
-                className="mt-2 text-sm md:text-base"
-                style={{ color: "var(--regu-gray-500)" }}
-              >
-                Agenda institucional y encuentros regionales de REGULATEL.
-              </p>
+            <header className="mb-8 flex items-start gap-4 md:mb-10">
+              <div
+                className="mt-1 hidden h-10 w-[3px] flex-shrink-0 rounded-full sm:block"
+                style={{ backgroundColor: "var(--regu-blue)" }}
+                aria-hidden
+              />
+              <div>
+                <h2
+                  className="text-xl font-bold uppercase tracking-[0.06em] md:text-2xl"
+                  style={{
+                    color: "var(--regu-navy)",
+                    fontFamily: "var(--token-font-heading)",
+                  }}
+                >
+                  Próximos eventos 2026
+                </h2>
+                <p
+                  className="mt-1.5 text-sm md:text-base"
+                  style={{ color: "var(--regu-gray-500)" }}
+                >
+                  Agenda institucional y encuentros regionales de REGULATEL.
+                </p>
+              </div>
             </header>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5">
               {displayList.map((event) => (

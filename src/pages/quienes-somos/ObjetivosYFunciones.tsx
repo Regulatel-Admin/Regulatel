@@ -3,6 +3,7 @@ import { CheckCircle2, Target, FileText, Eye, Download } from "lucide-react";
 import InstitutionalLayout, {
   InstitutionalSection,
   InstitutionalCard,
+  InstitutionalLead,
 } from "@/components/institutional/InstitutionalLayout";
 
 /** Fuente oficial: Acta Constitutiva de REGULATEL, octubre de 2013 */
@@ -43,56 +44,16 @@ export default function ObjetivosYFunciones() {
       subtitle="QUIÉNES SOMOS"
       breadcrumb={[{ label: "Objetivos y Funciones" }]}
     >
-      {/* Bloque introductorio: lead editorial, más presencia y conexión con el hero */}
-      <div
-        className="max-w-4xl pt-2 pb-10 md:pb-12 border-l-4 pl-6 md:pl-8"
-        style={{
-          borderLeftColor: "var(--regu-blue)",
-          backgroundColor: "rgba(68, 137, 198, 0.04)",
-        }}
-      >
-        <motion.p
-          initial="hidden"
-          animate="visible"
-          variants={fadeIn}
-          className="text-xl md:text-2xl lg:text-[1.5rem] leading-[1.6] tracking-tight"
-          style={{ color: "var(--regu-gray-800)" }}
-        >
-          A continuación se presentan los objetivos y las funciones que orientan la actuación del Foro REGULATEL en la región.
-        </motion.p>
-        <motion.p
-          initial="hidden"
-          animate="visible"
-          variants={fadeIn}
-          className="mt-7 flex items-center gap-2.5 text-sm md:text-base"
-          style={{ color: "var(--regu-gray-500)" }}
-        >
-          <FileText className="w-4 h-4 shrink-0 opacity-80" aria-hidden />
-          <span>Fuente: {FUENTE_ACTA}</span>
-        </motion.p>
-      </div>
+      {/* Lead editorial con componente compartido */}
+      <InstitutionalLead source={FUENTE_ACTA}>
+        A continuación se presentan los objetivos y las funciones que orientan la actuación del Foro REGULATEL en la región.
+      </InstitutionalLead>
 
-      {/* Divisor: intro → Objetivos */}
-      <div
-        className="h-px w-full max-w-2xl my-16 md:my-20 lg:my-24"
-        style={{ backgroundColor: "var(--regu-gray-200)" }}
-        aria-hidden
-      />
-
-      {/* Objetivos: cards para mayor presencia visual */}
-      <InstitutionalSection className="mb-20 md:mb-24 lg:mb-28">
-        <div className="mb-10 md:mb-12">
-          <h2
-            className="text-2xl md:text-3xl lg:text-4xl font-bold mb-3 tracking-tight"
-            style={{ color: "var(--regu-gray-900)" }}
-          >
-            Objetivos
-          </h2>
-          <div
-            className="h-1 w-20 rounded-full"
-            style={{ backgroundColor: "var(--regu-blue)" }}
-            aria-hidden
-          />
+      {/* Objetivos */}
+      <InstitutionalSection>
+        <div className="mb-8 flex items-start gap-4">
+          <div className="mt-1 h-8 w-[3px] flex-shrink-0 rounded-full" style={{ backgroundColor: "var(--regu-blue)" }} aria-hidden />
+          <h2 className="text-xl font-bold md:text-2xl" style={{ color: "var(--regu-navy)", fontFamily: "var(--token-font-heading)" }}>Objetivos</h2>
         </div>
         <ul className="space-y-6 md:space-y-7 list-none p-0 m-0">
           {OBJETIVOS.map((text, index) => (
@@ -125,28 +86,14 @@ export default function ObjetivosYFunciones() {
         </ul>
       </InstitutionalSection>
 
-      {/* Transición Objetivos → Funciones: más aire y diferenciación */}
-      <div
-        className="h-px w-full my-20 md:my-24 lg:my-28"
-        style={{ backgroundColor: "var(--regu-gray-200)" }}
-        aria-hidden
-      />
-      <div className="mb-4 md:mb-6" aria-hidden />
-
-      {/* Funciones: sección más ligera y escaneable */}
-      <InstitutionalSection className="mb-20 md:mb-24 lg:mb-28">
-        <div className="mb-10 md:mb-12">
-          <h2
-            className="text-2xl md:text-3xl lg:text-4xl font-bold mb-3 tracking-tight"
-            style={{ color: "var(--regu-gray-900)" }}
-          >
-            Funciones
-          </h2>
-          <div
-            className="h-1 w-20 rounded-full"
-            style={{ backgroundColor: "var(--regu-blue)" }}
-            aria-hidden
-          />
+      {/* Funciones */}
+      <InstitutionalSection>
+        <div className="mb-8 flex items-start gap-4">
+          <div className="mt-1 h-8 w-[3px] flex-shrink-0 rounded-full" style={{ backgroundColor: "var(--regu-blue)" }} aria-hidden />
+          <div>
+            <h2 className="text-xl font-bold md:text-2xl" style={{ color: "var(--regu-navy)", fontFamily: "var(--token-font-heading)" }}>Funciones</h2>
+            <p className="mt-1 text-sm" style={{ color: "var(--regu-gray-500)" }}>Art. 4° del Acta Constitutiva</p>
+          </div>
         </div>
         <div
           className="rounded-2xl border p-8 md:p-10 lg:p-12"
@@ -180,15 +127,8 @@ export default function ObjetivosYFunciones() {
         </div>
       </InstitutionalSection>
 
-      {/* Divisor sutil: Funciones → Acta Constitutiva */}
-      <div
-        className="h-px w-full max-w-2xl my-16 md:my-20 lg:my-24"
-        style={{ backgroundColor: "var(--regu-gray-200)" }}
-        aria-hidden
-      />
-
-      {/* Acta Constitutiva: documento oficial destacado */}
-      <InstitutionalSection className="mb-24 md:mb-28 lg:mb-32">
+      {/* Acta Constitutiva */}
+      <InstitutionalSection>
         <motion.div initial="hidden" animate="visible" variants={fadeIn}>
           <div
             className="rounded-2xl border border-l-4 p-8 md:p-10 lg:p-14 flex flex-col sm:flex-row items-start sm:items-center gap-8 sm:gap-10"

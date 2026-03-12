@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Globe, ExternalLink, Search, Mail, User, Briefcase, X, ChevronRight, ChevronLeft, ArrowLeft } from 'lucide-react';
-import { Card, CardContent } from '@/components/ui/card';
+import { Globe, ExternalLink, Search, Mail, User, Briefcase, X, ChevronRight, ChevronLeft, ArrowLeft, ArrowRight } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import PageHero from '@/components/PageHero';
 
@@ -242,23 +241,26 @@ const Miembros: React.FC = () => {
   return (
     <>
       <PageHero
-        title="MIEMBROS"
-        breadcrumb={[{ label: 'MIEMBROS' }]}
-        description="El Foro Latinoamericano de Entes Reguladores de Telecomunicaciones está conformado por 23 países 
-        de Latinoamérica y Europa (Italia, Portugal y España)."
+        title="Miembros"
+        subtitle="QUIÉNES SOMOS"
+        breadcrumb={[{ label: "Miembros" }]}
+        description="23 entes reguladores de América Latina y Europa trabajan juntos a través del Foro REGULATEL."
       />
-      <div className="w-full py-12 md:py-24 lg:py-32" style={{ background: "linear-gradient(to bottom, var(--regu-offwhite), var(--regu-gray-100))" }}>
-        <div className="container px-4 md:px-6 mx-auto max-w-6xl">
+      <div className="w-full py-12 md:py-16 lg:py-20" style={{ backgroundColor: "#FAFBFC", borderTop: "1px solid rgba(22,61,89,0.07)", fontFamily: "var(--token-font-body)" }}>
+        <div className="container px-4 md:px-6 mx-auto" style={{ maxWidth: "1180px" }}>
 
-        {/* Search and Filter Section for Entes Reguladores */}
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={fadeIn}
-          className="mb-8"
-        >
-          <div className="bg-white rounded-2xl p-6 shadow-md border" style={{ borderColor: "var(--regu-gray-100)", boxShadow: "0 4px 20px rgba(22, 61, 89, 0.06)" }}>
+        {/* Header sección entes reguladores */}
+        <div className="mb-8 flex items-start gap-4">
+          <div className="mt-1 h-8 w-[3px] flex-shrink-0 rounded-full" style={{ backgroundColor: "var(--regu-blue)" }} aria-hidden />
+          <div>
+            <h2 className="text-xl font-bold md:text-2xl" style={{ color: "var(--regu-navy)", fontFamily: "var(--token-font-heading)" }}>Entes Reguladores Miembros</h2>
+            <p className="mt-1 text-sm" style={{ color: "var(--regu-gray-500)" }}>Organismos oficiales de telecomunicaciones por país</p>
+          </div>
+        </div>
+
+        {/* Búsqueda y filtro */}
+        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn} className="mb-5">
+          <div className="rounded-2xl border bg-white p-5" style={{ borderColor: "rgba(22,61,89,0.10)", boxShadow: "0 2px 6px rgba(22,61,89,0.04)" }}>
             <div className="flex flex-col md:flex-row gap-4 items-center">
               {/* Search Input */}
               <div className="flex-1 w-full md:w-auto relative">
@@ -314,14 +316,8 @@ const Miembros: React.FC = () => {
           </div>
         </motion.div>
 
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={fadeIn}
-          className="mb-12"
-        >
-          <div className="bg-white rounded-2xl p-8 md:p-10 shadow-md border relative" style={{ borderColor: "var(--regu-gray-100)", boxShadow: "0 4px 20px rgba(22, 61, 89, 0.06)" }}>
+        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn} className="mb-14">
+          <div className="relative overflow-hidden rounded-2xl border bg-white p-8 md:p-10" style={{ borderColor: "rgba(22,61,89,0.10)", boxShadow: "0 2px 6px rgba(22,61,89,0.04), 0 6px 20px rgba(22,61,89,0.06)" }}>
             {filteredEntesReguladores.length > 0 ? (
               <>
                 <div className="relative flex items-stretch gap-2">
@@ -430,28 +426,18 @@ const Miembros: React.FC = () => {
           </div>
         </motion.div>
 
-        {/* Sección Directorio por Autoridades */}
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={fadeIn}
-          className="mb-12"
-        >
-          <div className="text-center mb-8">
-            <div className="inline-block rounded-full border px-4 py-1 text-sm font-medium mb-4" style={{ backgroundColor: "rgba(68, 137, 198, 0.12)", borderColor: "var(--regu-blue)", color: "var(--regu-blue)" }}>
-              Directorio
+        {/* Directorio */}
+        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn} className="mb-12">
+          <div className="mb-8 flex items-start gap-4">
+            <div className="mt-1 h-8 w-[3px] flex-shrink-0 rounded-full" style={{ backgroundColor: "var(--regu-blue)" }} aria-hidden />
+            <div>
+              <h2 className="text-xl font-bold md:text-2xl" style={{ color: "var(--regu-navy)", fontFamily: "var(--token-font-heading)" }}>Directorio de Autoridades</h2>
+              <p className="mt-1 text-sm" style={{ color: "var(--regu-gray-500)" }}>Contactos oficiales por país miembro</p>
             </div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4" style={{ color: "var(--regu-gray-900)" }}>
-              Directorio por Autoridades
-            </h2>
-            <p className="text-lg max-w-3xl mx-auto" style={{ color: "var(--regu-gray-700)" }}>
-              Consulte aquí el directorio completo de la organización con información de contacto de cada país miembro.
-            </p>
           </div>
 
           {/* Filtros y búsqueda */}
-          <div className="bg-white rounded-2xl p-6 shadow-md border mb-8" style={{ borderColor: "var(--regu-gray-100)", boxShadow: "0 4px 20px rgba(22, 61, 89, 0.06)" }}>
+          <div className="rounded-2xl border bg-white p-5 mb-6" style={{ borderColor: "rgba(22,61,89,0.10)", boxShadow: "0 2px 6px rgba(22,61,89,0.04)" }}>
             <div className="flex flex-col md:flex-row gap-4 mb-6">
               <div className="flex-1 relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" style={{ color: "var(--regu-gray-500)" }} />
@@ -498,7 +484,7 @@ const Miembros: React.FC = () => {
           </div>
 
           {/* Grid de directorio */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             <AnimatePresence mode="wait">
               {filteredDirectorio.map((item, index) => (
                 <motion.div
@@ -507,16 +493,17 @@ const Miembros: React.FC = () => {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -20 }}
                   transition={{ duration: 0.3, delay: index * 0.03 }}
-                  whileHover={{ y: -5, transition: { duration: 0.2 } }}
+                  className="relative overflow-hidden rounded-2xl border bg-white transition-all duration-200 hover:-translate-y-0.5"
+                  style={{ borderColor: "rgba(22,61,89,0.10)", boxShadow: "0 2px 6px rgba(22,61,89,0.04), 0 6px 20px rgba(22,61,89,0.06)" }}
                 >
-                  <Card className="bg-white border h-full shadow-md hover:shadow-lg transition-all" style={{ borderColor: "var(--regu-gray-100)", boxShadow: "0 4px 20px rgba(22, 61, 89, 0.06)" }}>
-                    <CardContent className="p-6">
-                      <div className="flex items-start justify-between mb-4">
-                        <div className="flex-1">
-                          <h3 className="text-xl font-bold mb-2" style={{ color: "var(--regu-gray-900)" }}>{item.pais}</h3>
-                        </div>
-                        <Globe className="w-5 h-5 flex-shrink-0 mt-1" style={{ color: "var(--regu-blue)" }} />
+                  <div className="absolute inset-x-0 top-0 h-[3px]" style={{ backgroundColor: "var(--regu-blue)" }} aria-hidden />
+                  <div className="p-6">
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="flex-1">
+                        <h3 className="text-base font-bold leading-snug" style={{ color: "var(--regu-navy)", fontFamily: "var(--token-font-heading)" }}>{item.pais}</h3>
                       </div>
+                      <Globe className="w-4 h-4 flex-shrink-0 mt-0.5 opacity-50" style={{ color: "var(--regu-blue)" }} />
+                    </div>
                       
                       <div className="space-y-4">
                         <div>
@@ -557,8 +544,7 @@ const Miembros: React.FC = () => {
                           <p className="text-sm pl-6 leading-relaxed" style={{ color: "var(--regu-gray-700)" }}>{item.cargo}</p>
                         </div>
                       </div>
-                    </CardContent>
-                  </Card>
+                  </div>
                 </motion.div>
               ))}
             </AnimatePresence>
@@ -582,40 +568,47 @@ const Miembros: React.FC = () => {
         </motion.div>
 
         <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={fadeIn}
-          className="bg-white border rounded-2xl p-8 shadow-md"
-          style={{ borderColor: "var(--regu-gray-100)", boxShadow: "0 4px 20px rgba(22, 61, 89, 0.06)" }}
+          initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}
+          className="rounded-2xl border bg-white p-8 md:p-10"
+          style={{ borderColor: "rgba(22,61,89,0.10)", boxShadow: "0 2px 6px rgba(22,61,89,0.04)" }}
         >
-          <h2 className="text-2xl font-bold mb-4" style={{ color: "var(--regu-gray-900)" }}>Sobre los Miembros</h2>
-          <div className="space-y-4" style={{ color: "var(--regu-gray-700)" }}>
+          <h2 className="mb-5 flex items-center gap-3 text-lg font-bold md:text-xl" style={{ color: "var(--regu-navy)", fontFamily: "var(--token-font-heading)" }}>
+            <span className="inline-block h-5 w-[3px] flex-shrink-0 rounded-full" style={{ backgroundColor: "var(--regu-blue)" }} aria-hidden />
+            Sobre los Miembros
+          </h2>
+          <div className="space-y-4 text-base leading-relaxed" style={{ color: "var(--regu-gray-600)" }}>
             <p>
-              Los países miembros de REGULATEL representan a los principales entes reguladores de 
-              telecomunicaciones de América Latina. Cada miembro contribuye con su experiencia y 
-              conocimiento para avanzar en los objetivos comunes del Foro.
+              Los países miembros de REGULATEL representan a los principales entes reguladores de
+              telecomunicaciones de América Latina y Europa. Cada miembro contribuye con su experiencia
+              y conocimiento para avanzar en los objetivos comunes del Foro.
             </p>
             <p>
-              La membresía en REGULATEL está abierta a los entes reguladores de telecomunicaciones 
-              de los países de América Latina que compartan los principios y objetivos del Foro, 
-              promoviendo la cooperación y el intercambio de experiencias en el sector.
+              La membresía está abierta a los entes reguladores de telecomunicaciones que compartan
+              los principios y objetivos del Foro, promoviendo la cooperación y el intercambio de
+              experiencias en el sector.
             </p>
           </div>
         </motion.div>
 
         <nav
-          className="mt-16 md:mt-20 pt-10 pb-6 border-t flex justify-center"
-          style={{ borderColor: "var(--regu-gray-100)" }}
+          className="mt-10 flex flex-wrap items-center gap-4 border-t pt-8"
+          style={{ borderColor: "rgba(22,61,89,0.08)" }}
           aria-label="Navegación final"
         >
           <Link
             to="/"
-            className="inline-flex items-center gap-2 rounded-xl px-5 py-3 text-base font-semibold transition-colors bg-[#4489C6]/10 hover:bg-[#4489C6]/16 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4489C6] focus-visible:ring-offset-2"
-            style={{ color: "var(--regu-blue)" }}
+            className="inline-flex items-center gap-2 rounded-xl border-2 px-5 py-3 text-sm font-semibold transition-colors hover:bg-[rgba(68,137,198,0.12)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2"
+            style={{ color: "var(--regu-blue)", borderColor: "var(--regu-blue)", backgroundColor: "rgba(68,137,198,0.06)" }}
           >
             <ArrowLeft className="w-4 h-4 shrink-0" aria-hidden />
-            Volver a inicio
+            Inicio
+          </Link>
+          <Link
+            to="/comite-ejecutivo"
+            className="inline-flex items-center gap-1.5 text-sm font-semibold transition-all hover:gap-2.5"
+            style={{ color: "var(--regu-gray-500)" }}
+          >
+            Ver Comité Ejecutivo <ArrowRight className="w-3.5 h-3.5" aria-hidden />
           </Link>
         </nav>
       </div>

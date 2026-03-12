@@ -11,7 +11,7 @@ interface NavMegaPanelProps {
 }
 
 /**
- * Single link — legible, jerarquía clara (categoría vs hijo vs secundario).
+ * Single link — label + descripción opcional, hover pill institucional.
  */
 function PanelLink({
   link,
@@ -42,40 +42,60 @@ function PanelLink({
 
   const className = [baseClass, variantClass].filter(Boolean).join(" ");
 
+  const description = link.description ? (
+    <span
+      className="mega-panel-link-desc block leading-snug"
+      style={{
+        fontFamily: "var(--token-font-body)",
+        fontSize: "var(--mega-secondary-size)",
+        color: "var(--regu-gray-500)",
+        fontWeight: 400,
+        marginTop: "2px",
+        paddingLeft: "10px",
+      }}
+    >
+      {link.description}
+    </span>
+  ) : null;
+
   if (link.external) {
     return (
-      <a
-        href={link.href}
-        target="_blank"
-        rel="noreferrer noopener"
-        onClick={onLinkClick}
-        className={className}
-        style={style}
-      >
-        {link.label}
-        <ExternalLink className="ml-1 inline-block h-3.5 w-3.5 opacity-60" aria-hidden />
-      </a>
+      <>
+        <a
+          href={link.href}
+          target="_blank"
+          rel="noreferrer noopener"
+          onClick={onLinkClick}
+          className={className}
+          style={style}
+        >
+          {link.label}
+          <ExternalLink className="ml-1 inline-block h-3 w-3 opacity-50" aria-hidden />
+        </a>
+        {description}
+      </>
     );
   }
 
   if (link.restricted) {
     return (
-      <span className="block">
+      <>
         <Link to={link.href} onClick={onLinkClick} className={className} style={style}>
-          <Lock className="mr-1.5 inline-block h-3.5 w-3.5 shrink-0 opacity-85" aria-hidden />
+          <Lock className="mr-1.5 inline-block h-3.5 w-3.5 shrink-0 opacity-70" aria-hidden />
           {link.label}
         </Link>
-        <span className="mega-panel-secondary mt-1.5 block">
-          Acceso restringido
-        </span>
-      </span>
+        {description}
+      </>
     );
   }
 
   return (
-    <Link to={link.href} onClick={onLinkClick} className={className} style={style}>
-      {link.label}
-    </Link>
+    <>
+      <Link to={link.href} onClick={onLinkClick} className={className} style={style}>
+        {link.label}
+      </Link>
+      {description}
+    </>
   );
 }
 
@@ -101,9 +121,9 @@ export default function NavMegaPanel({
       ].join(" ")}
       style={{
         fontFamily: "var(--token-font-body)",
-        background: "var(--mega-panel-bg)",
-        borderBottom: "var(--mega-panel-border-bottom)",
-        boxShadow: "var(--mega-panel-shadow)",
+        background: "#ffffff",
+        borderBottom: "1px solid rgba(22,61,89,0.12)",
+        boxShadow: "0 8px 32px rgba(22,61,89,0.10), 0 2px 8px rgba(22,61,89,0.06)",
         maxHeight: "var(--mega-panel-max-height, 62vh)",
         overflowY: "auto",
       }}
@@ -116,11 +136,6 @@ export default function NavMegaPanel({
           paddingBottom: "var(--mega-padding-y-bottom)",
           paddingLeft: "var(--mega-padding-x)",
           paddingRight: "var(--mega-padding-x)",
-          border: "var(--mega-panel-inner-border)",
-          borderTop: "none",
-          borderBottomLeftRadius: "10px",
-          borderBottomRightRadius: "10px",
-          boxShadow: "0 2px 12px rgba(22, 61, 89, 0.04)",
         }}
       >
         <div
@@ -144,8 +159,7 @@ export default function NavMegaPanel({
             style={{
               paddingLeft: "var(--mega-col-padding-inline)",
               paddingRight: "var(--mega-col-padding-inline)",
-              borderLeft: index === 0 ? "none" : "var(--mega-col-divider)",
-              borderRight: index === columns.length - 1 ? "var(--mega-col-divider)" : "none",
+              borderLeft: index === 0 ? "none" : "1px solid rgba(22,61,89,0.08)",
             }}
           >
             <h3
@@ -159,13 +173,17 @@ export default function NavMegaPanel({
             </h3>
             <ul className="mega-panel-links list-none p-0" style={{ margin: 0 }}>
               {column.links.map((link) => (
-                <li key={link.label} style={{ margin: 0 }}>
+                <li
+                  key={link.label}
+                  className={link.description ? "mega-panel-link-has-desc" : ""}
+                  style={{ margin: 0 }}
+                >
                   <PanelLink
                     link={link}
                     onLinkClick={onLinkClick}
                     variant={link.children?.length ? "category" : "default"}
                   />
-                  {link.subtitle && (
+                  {link.subtitle && !link.description && (
                     <span className="mega-panel-secondary mt-1.5 block">
                       {link.subtitle}
                     </span>

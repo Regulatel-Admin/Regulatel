@@ -3,12 +3,13 @@ import { useParams, useLocation, Link } from "react-router-dom";
 import { useCallback, useState } from "react";
 import {
   ArrowLeft,
-  Building2,
   Maximize2,
   FileText,
   Image as ImageIcon,
   Play,
   Share2,
+  Tag,
+  ArrowRight,
 } from "lucide-react";
 import ImageCarousel from "@/components/ImageCarousel";
 import { noticiasData } from "./noticiasData";
@@ -17,25 +18,16 @@ import type { NoticiaData } from "./noticiasData";
 
 const fadeIn = {
   hidden: { opacity: 0, y: 16 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.4 },
-  },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.4 } },
 };
 
-/** Réplica INDOTEL: ancho amplio; cuadro con borde muy sutil (como INDOTEL). */
-const CONTAINER_MAX = "1440px";
-const ARTICLE_BOX_MAX = "1200px";
-const BODY_MAX = "1200px";
+const CONTAINER_MAX = "1060px";
 
-/** Datos normalizados para render (estático o admin). */
 interface ArticlePayload {
   title: string;
   dateFormatted: string;
   category: string;
   imageUrl: string | null;
-  /** Imágenes adicionales (enlaces o adjuntos). Todas se muestran en la noticia. */
   additionalImages?: string[];
   author?: string;
   excerpt?: string;
@@ -62,9 +54,7 @@ function normalizeAdminNoticia(admin: {
   slug?: string;
   id?: string;
 }): ArticlePayload {
-  const paragraphs = admin.content
-    ? admin.content.split(/\n\n+/).filter(Boolean)
-    : [];
+  const paragraphs = admin.content ? admin.content.split(/\n\n+/).filter(Boolean) : [];
   return {
     title: admin.title,
     dateFormatted: admin.dateFormatted,
@@ -97,106 +87,101 @@ function normalizeStaticNoticia(n: NoticiaData): ArticlePayload {
   };
 }
 
-/** Breadcrumb INDOTEL: Inicio / Noticias / [título]. Último ítem en negrita azul. */
 function ArticleBreadcrumb({ title }: { title: string }) {
   return (
-    <nav
-      aria-label="Breadcrumb"
-      className="text-xs sm:text-sm mb-4"
-      style={{ color: "var(--regu-gray-500)" }}
-    >
-      <Link
-        to="/"
-        className="hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-1 rounded"
-        style={{ color: "var(--regu-gray-600)" }}
-      >
-        Inicio
-      </Link>
-      <span className="mx-1.5" aria-hidden>/</span>
-      <Link
-        to="/noticias"
-        className="hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-1 rounded"
-        style={{ color: "var(--regu-gray-600)" }}
-      >
-        Noticias
-      </Link>
-      <span className="mx-1.5" aria-hidden>/</span>
-      <span className="font-semibold" style={{ color: "var(--regu-blue)" }}>
-        {title}
-      </span>
+    <nav aria-label="Breadcrumb" className="text-xs sm:text-[0.8125rem] mb-6 flex flex-wrap items-center gap-1" style={{ color: "var(--regu-gray-500)" }}>
+      <Link to="/" className="hover:text-[var(--regu-blue)] transition-colors">Inicio</Link>
+      <span aria-hidden className="mx-0.5">/</span>
+      <Link to="/noticias" className="hover:text-[var(--regu-blue)] transition-colors">Noticias</Link>
+      <span aria-hidden className="mx-0.5">/</span>
+      <span className="font-semibold line-clamp-1" style={{ color: "var(--regu-blue)" }}>{title}</span>
     </nav>
   );
 }
 
-/** Título principal INDOTEL: grande, negro, fuera de imagen, alineado a la izquierda. */
+function CategoryBadge({ label }: { label: string }) {
+  return (
+    <span
+      className="inline-block rounded-sm px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.12em]"
+      style={{ backgroundColor: "rgba(68,137,198,0.10)", color: "var(--regu-blue)" }}
+    >
+      {label}
+    </span>
+  );
+}
+
 function ArticleHeader({ payload }: { payload: ArticlePayload }) {
   return (
-    <header className="mb-5 md:mb-6">
+    <header className="mb-6">
+      <div className="mb-3 flex flex-wrap items-center gap-3">
+        <CategoryBadge label={payload.category} />
+        <time
+          className="text-[0.8125rem] font-medium"
+          style={{ color: "var(--regu-gray-500)" }}
+        >
+          {payload.dateFormatted}
+        </time>
+        {payload.author && (
+          <>
+            <span style={{ color: "var(--regu-gray-300)" }}>·</span>
+            <span className="text-[0.8125rem]" style={{ color: "var(--regu-gray-500)" }}>{payload.author}</span>
+          </>
+        )}
+      </div>
       <h1
-        className="text-xl sm:text-2xl md:text-[1.875rem] font-bold leading-tight tracking-tight"
+        className="font-bold leading-tight tracking-tight"
         style={{
-          color: "#1a1a1a",
+          color: "var(--regu-navy)",
+          fontSize: "clamp(1.5rem, 2.2vw, 2.25rem)",
+          lineHeight: 1.25,
           fontFamily: "var(--token-font-heading)",
-          lineHeight: 1.3,
         }}
       >
         {payload.title}
       </h1>
+      {payload.excerpt && (
+        <p
+          className="mt-3 text-base leading-relaxed"
+          style={{ color: "var(--regu-gray-600)" }}
+        >
+          {payload.excerpt}
+        </p>
+      )}
     </header>
   );
 }
 
-/** Imagen principal INDOTEL: rectangular, ancho columna, sin bordes ni sombra. */
 function ArticleImage({ imageUrl }: { imageUrl: string }) {
   return (
-    <figure className="mb-0 w-full">
+    <figure
+      className="mb-0 w-full overflow-hidden rounded-2xl"
+      style={{
+        boxShadow: "0 4px 16px rgba(22,61,89,0.08)",
+      }}
+    >
       <img
         src={imageUrl}
         alt=""
-        className="w-full h-auto max-h-[70vh] object-contain"
-        onError={(e) => {
-          e.currentTarget.style.display = "none";
-        }}
+        className="w-full h-auto max-h-[60vh] object-cover"
+        onError={(e) => { e.currentTarget.style.display = "none"; }}
       />
     </figure>
   );
 }
 
-/** Fecha debajo de la línea gris: discreta, solo fecha (estilo INDOTEL). */
-function ArticleMetaLine({ payload }: { payload: ArticlePayload }) {
-  return (
-    <div
-      className="mb-6 md:mb-8 text-sm"
-      style={{ color: "var(--regu-gray-500)" }}
-    >
-      <time>{payload.dateFormatted}</time>
-    </div>
-  );
-}
-
-/** Estilos de cuerpo: tipografía lectura. */
-const bodyTextStyle = {
-  color: "var(--regu-gray-900)",
-  lineHeight: 1.75,
+const bodyTextStyle: React.CSSProperties = {
+  color: "var(--regu-gray-800)",
+  lineHeight: 1.8,
+  fontSize: "1.0rem",
 };
 
-function ArticleBody({
-  payload,
-  isStaticCumbre,
-}: {
-  payload: ArticlePayload;
-  isStaticCumbre?: boolean;
-}) {
+function ArticleBody({ payload, isStaticCumbre }: { payload: ArticlePayload; isStaticCumbre?: boolean }) {
   const urlRegex = /(https?:\/\/[^\s]+)/g;
 
   const renderParagraph = (text: string, key: number) => {
     const parts = text.split(urlRegex);
     return (
-      <p
-        key={key}
-        className="mb-6 last:mb-0"
-        style={bodyTextStyle}
-      >
+      <p key={key} className="mb-5 last:mb-0" style={bodyTextStyle}>
         {parts.map((part, i) => {
           if (part.match(urlRegex)) {
             return (
@@ -220,67 +205,60 @@ function ArticleBody({
   };
 
   return (
-    <div
-      className="article-body text-base md:text-[1.0625rem]"
-      style={{
-        maxWidth: BODY_MAX,
-        marginLeft: "auto",
-        marginRight: "auto",
-        paddingTop: "0.5rem",
-        paddingBottom: "1rem",
-        lineHeight: 1.8,
-      }}
-    >
-      <div className="space-y-5">
+    <div className="article-body">
+      <div className="space-y-1">
         {payload.content.map((paragraph, index) => {
           if (paragraph.startsWith("**") && paragraph.endsWith("**")) {
             const title = paragraph.replace(/\*\*/g, "");
             return (
               <h2
                 key={index}
-                className="text-xl md:text-2xl font-bold mt-8 md:mt-10 mb-3 md:mb-4 first:mt-0"
-                style={{
-                  color: "var(--regu-gray-900)",
-                  fontFamily: "var(--token-font-heading)",
-                }}
+                className="text-lg md:text-xl font-bold mt-8 mb-3 first:mt-0 flex items-center gap-3"
+                style={{ color: "var(--regu-navy)", fontFamily: "var(--token-font-heading)" }}
               >
+                <span
+                  className="inline-block h-5 w-[3px] rounded-full flex-shrink-0"
+                  style={{ backgroundColor: "var(--regu-blue)" }}
+                  aria-hidden
+                />
                 {title}
               </h2>
             );
           }
           if (paragraph.trim().startsWith("- ")) {
-            const items = paragraph
-              .split("\n")
-              .filter((p) => p.trim().startsWith("- "));
+            const items = paragraph.split("\n").filter((p) => p.trim().startsWith("- "));
             return (
-              <ul
-                key={index}
-                className="list-disc list-outside pl-6 space-y-2 mb-6"
-                style={{ ...bodyTextStyle, color: "var(--regu-gray-900)" }}
-              >
+              <ul key={index} className="pl-0 space-y-2 my-4 list-none">
                 {items.map((item, idx) => {
-                  const text = item.replace(/^- /, "");
+                  const text = item.replace(/^- /, "").replace(/\*\*/g, "");
                   const parts = text.split(urlRegex);
                   return (
-                    <li key={idx} className="leading-relaxed">
-                      {parts.map((part, partIdx) => {
-                        if (part.match(urlRegex)) {
-                          return (
-                            <a
-                              key={partIdx}
-                              href={part}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="underline font-medium inline-flex items-center gap-1"
-                              style={{ color: "var(--regu-blue)" }}
-                            >
-                              {part}
-                              <Maximize2 className="h-3 w-3" />
-                            </a>
-                          );
-                        }
-                        return <span key={partIdx}>{part}</span>;
-                      })}
+                    <li key={idx} className="flex items-start gap-2.5 leading-relaxed text-[0.9375rem]" style={{ color: "var(--regu-gray-800)" }}>
+                      <span
+                        className="mt-2 h-1.5 w-1.5 rounded-full flex-shrink-0"
+                        style={{ backgroundColor: "var(--regu-blue)" }}
+                        aria-hidden
+                      />
+                      <span>
+                        {parts.map((part, partIdx) => {
+                          if (part.match(urlRegex)) {
+                            return (
+                              <a
+                                key={partIdx}
+                                href={part}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="underline font-medium inline-flex items-center gap-1"
+                                style={{ color: "var(--regu-blue)" }}
+                              >
+                                {part}
+                                <Maximize2 className="h-3 w-3" />
+                              </a>
+                            );
+                          }
+                          return <span key={partIdx}>{part}</span>;
+                        })}
+                      </span>
                     </li>
                   );
                 })}
@@ -291,116 +269,117 @@ function ArticleBody({
         })}
       </div>
 
+      {/* Quotes */}
       {payload.quotes && payload.quotes.length > 0 && (
-        <div className="mt-8 md:mt-10 space-y-5">
+        <div className="mt-10 space-y-4">
           {payload.quotes.map((quote, index) => (
-            <div
+            <blockquote
               key={index}
-              className="pl-4 py-2 border-l-2"
+              className="relative pl-6 py-4 pr-4 rounded-xl"
               style={{
-                borderLeftColor: "var(--regu-blue)",
-                backgroundColor: "rgba(68, 137, 198, 0.04)",
+                borderLeft: "4px solid var(--regu-blue)",
+                backgroundColor: "rgba(68,137,198,0.04)",
               }}
             >
               <p
                 className="text-base md:text-lg leading-relaxed italic m-0"
-                style={{ color: "var(--regu-gray-900)" }}
+                style={{ color: "var(--regu-gray-800)", fontFamily: "var(--token-font-heading)" }}
               >
                 &ldquo;{quote.text}&rdquo;
               </p>
               {quote.author && (
-                <p
-                  className="mt-3 text-sm font-semibold m-0"
-                  style={{ color: "var(--regu-gray-500)" }}
-                >
+                <footer className="mt-3 text-[0.8125rem] font-semibold" style={{ color: "var(--regu-gray-500)" }}>
                   — {quote.author}
-                </p>
+                </footer>
               )}
-            </div>
+            </blockquote>
           ))}
         </div>
       )}
 
+      {/* Highlights */}
       {payload.highlights && payload.highlights.length > 0 && (
-        <div className="mt-8 md:mt-10 grid sm:grid-cols-2 gap-3">
-          {payload.highlights.map((h, index) => (
-            <div
-              key={index}
-              className="p-4 border-l-2 pl-4 flex items-start gap-3"
-              style={{
-                borderLeftColor: "var(--regu-gray-300)",
-                backgroundColor: "transparent",
-              }}
-            >
-              <Building2
-                className="h-5 w-5 flex-shrink-0 mt-0.5"
-                style={{ color: "var(--regu-blue)" }}
-              />
-              <div>
+        <div className="mt-10">
+          <p className="text-[10px] font-bold uppercase tracking-[0.12em] mb-4" style={{ color: "var(--regu-gray-500)" }}>
+            Datos destacados
+          </p>
+          <div className="grid sm:grid-cols-2 gap-3">
+            {payload.highlights.map((h, index) => (
+              <div
+                key={index}
+                className="p-5 rounded-2xl border"
+                style={{
+                  borderColor: "rgba(22,61,89,0.10)",
+                  backgroundColor: "rgba(68,137,198,0.04)",
+                  borderTop: "3px solid var(--regu-blue)",
+                }}
+              >
                 {h.title && (
-                  <h3
-                    className="font-bold mb-1 text-base"
-                    style={{ color: "var(--regu-gray-900)" }}
-                  >
+                  <p className="font-bold text-lg mb-1" style={{ color: "var(--regu-navy)" }}>
                     {h.title}
-                  </h3>
+                  </p>
                 )}
-                <p
-                  className="text-sm leading-relaxed m-0"
-                  style={{ color: "var(--regu-gray-500)" }}
-                >
+                <p className="text-[0.8125rem] leading-relaxed" style={{ color: "var(--regu-gray-600)" }}>
                   {h.text}
                 </p>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       )}
 
+      {/* Tags */}
       {payload.tags && payload.tags.length > 0 && (
-        <div
-          className="mt-8 md:mt-10 pt-5 border-t flex flex-wrap gap-2"
-          style={{ borderColor: "var(--regu-gray-100)" }}
-        >
+        <div className="mt-10 pt-6 border-t flex flex-wrap items-center gap-2" style={{ borderColor: "rgba(22,61,89,0.08)" }}>
+          <Tag className="h-3.5 w-3.5 flex-shrink-0" style={{ color: "var(--regu-gray-400)" }} />
           {payload.tags.map((tag, index) => (
-            <span key={index} className="text-xs text-[var(--regu-gray-500)]">
+            <span
+              key={index}
+              className="rounded-full px-3 py-1 text-[11px] font-medium"
+              style={{
+                backgroundColor: "rgba(22,61,89,0.06)",
+                color: "var(--regu-gray-600)",
+              }}
+            >
               {tag}
-              {index < payload.tags!.length - 1 && <span className="mx-1.5" aria-hidden>·</span>}
             </span>
           ))}
         </div>
       )}
 
+      {/* External link */}
       {payload.link && (
-        <p className="mt-6">
+        <div className="mt-6 pt-4 border-t" style={{ borderColor: "rgba(22,61,89,0.08)" }}>
           <a
             href={payload.link}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1 font-medium"
-            style={{ color: "var(--regu-blue)" }}
+            className="inline-flex items-center gap-2 rounded-xl px-5 py-3 text-sm font-bold transition-opacity hover:opacity-85"
+            style={{ backgroundColor: "var(--regu-blue)", color: "#fff" }}
           >
-            Enlace externo
-            <Maximize2 className="h-3.5 w-3.5" />
+            <Maximize2 className="h-4 w-4" />
+            Ver enlace oficial
           </a>
-        </p>
+        </div>
       )}
+
+      {/* Video */}
       {payload.videoUrl && (
-        <p className="mt-4">
+        <div className="mt-4">
           <a
             href={payload.videoUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 font-medium"
-            style={{ color: "var(--regu-blue)" }}
+            className="inline-flex items-center gap-2 rounded-xl px-5 py-3 text-sm font-bold transition-opacity hover:opacity-85"
+            style={{ backgroundColor: "var(--regu-navy)", color: "#fff" }}
           >
             <Play className="h-4 w-4" />
             Ver video
           </a>
-        </p>
+        </div>
       )}
 
-      {/* Bloque especial Cumbre REGULATEL ASIET COMTELCA (solo noticia estática) */}
+      {/* Bloque especial Cumbre */}
       {isStaticCumbre && payload.slug === "cumbre-regulatel-asiet-comtelca" && (
         <CumbreExtraBlock />
       )}
@@ -408,36 +387,26 @@ function ArticleBody({
   );
 }
 
-/** Bloque extra para la noticia de la Cumbre (YouTube, Flickr, presentaciones). */
 function CumbreExtraBlock() {
   return (
-    <div
-      className="mt-12 pt-10 border-t space-y-10"
-      style={{ borderColor: "var(--regu-gray-100)" }}
-    >
+    <div className="mt-12 pt-10 border-t space-y-8" style={{ borderColor: "rgba(22,61,89,0.08)" }}>
+      {/* YouTube */}
       <div
-        className="rounded-xl p-6 border"
-        style={{
-          borderColor: "var(--regu-gray-100)",
-          backgroundColor: "var(--regu-offwhite)",
-        }}
+        className="rounded-2xl p-6 border"
+        style={{ borderColor: "rgba(22,61,89,0.10)", backgroundColor: "rgba(68,137,198,0.04)", borderTop: "3px solid var(--regu-blue)" }}
       >
         <div className="flex items-start gap-4 mb-4">
-          <Play className="h-6 w-6 flex-shrink-0 mt-1" style={{ color: "var(--regu-blue)" }} />
+          <Play className="h-5 w-5 flex-shrink-0 mt-0.5" style={{ color: "var(--regu-blue)" }} />
           <div className="flex-1">
-            <h4 className="text-lg font-bold mb-2" style={{ color: "var(--regu-gray-900)" }}>
-              Revive la Cumbre
-            </h4>
-            <p className="text-sm mb-4" style={{ color: "var(--regu-gray-500)" }}>
-              Transmisión oficial del evento
-            </p>
+            <h4 className="text-base font-bold mb-1" style={{ color: "var(--regu-navy)" }}>Revive la Cumbre</h4>
+            <p className="text-sm" style={{ color: "var(--regu-gray-500)" }}>Transmisión oficial del evento</p>
           </div>
         </div>
         <a
-          href="https://youtube.com/watch?time_continue=31795&v=2JG3kB0zMGY&embeds_referring_euri=https%3A%2F%2Findotel.gob.do%2F&source_ve_path=MjM4NTE"
+          href="https://youtube.com/watch?time_continue=31795&v=2JG3kB0zMGY"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg font-semibold text-white text-sm transition-colors hover:opacity-95"
+          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-white text-sm transition-opacity hover:opacity-85"
           style={{ backgroundColor: "var(--regu-blue)" }}
         >
           <Play className="w-4 h-4" />
@@ -445,59 +414,41 @@ function CumbreExtraBlock() {
         </a>
       </div>
 
-      <div className="space-y-6">
+      {/* Flickr galleries */}
+      <div className="grid sm:grid-cols-2 gap-4">
         {[
-          {
-            title: "Galería de Fotos – Flickr",
-            desc: "Acceda al álbum oficial con los mejores momentos de la Cumbre.",
-            href: "https://www.flickr.com/photos/indotel/albums/72177720330839315",
-          },
-          {
-            title: "Galería de Fotos – Asamblea Plenaria",
-            desc: "Álbum oficial de la Asamblea Plenaria de REGULATEL.",
-            href: "https://www.flickr.com/photos/indotel/albums/72177720330864280",
-          },
+          { title: "Galería – Cumbre", desc: "Álbum oficial de la Cumbre.", href: "https://www.flickr.com/photos/indotel/albums/72177720330839315" },
+          { title: "Galería – Asamblea Plenaria", desc: "Álbum oficial de la Asamblea Plenaria.", href: "https://www.flickr.com/photos/indotel/albums/72177720330864280" },
         ].map((g, i) => (
-          <div
-            key={i}
-            className="rounded-xl p-6 border"
-            style={{
-              borderColor: "var(--regu-gray-100)",
-              backgroundColor: "white",
-            }}
-          >
-            <div className="flex items-start gap-4 mb-4">
-              <ImageIcon className="h-6 w-6 flex-shrink-0 mt-1" style={{ color: "var(--regu-blue)" }} />
-              <div className="flex-1">
-                <h4 className="text-lg font-bold mb-2" style={{ color: "var(--regu-gray-900)" }}>
-                  {g.title}
-                </h4>
-                <p className="text-sm mb-4" style={{ color: "var(--regu-gray-500)" }}>
-                  {g.desc}
-                </p>
+          <div key={i} className="rounded-2xl p-5 border" style={{ borderColor: "rgba(22,61,89,0.10)", backgroundColor: "#fff" }}>
+            <div className="flex items-start gap-3 mb-3">
+              <ImageIcon className="h-5 w-5 flex-shrink-0 mt-0.5" style={{ color: "var(--regu-blue)" }} />
+              <div>
+                <h4 className="text-sm font-bold mb-1" style={{ color: "var(--regu-navy)" }}>{g.title}</h4>
+                <p className="text-xs" style={{ color: "var(--regu-gray-500)" }}>{g.desc}</p>
               </div>
             </div>
             <a
               href={g.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center px-5 py-2.5 rounded-lg font-semibold text-sm transition-colors hover:opacity-95 text-white"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl font-bold text-white text-xs transition-opacity hover:opacity-85"
               style={{ backgroundColor: "var(--regu-blue)" }}
             >
               Ver álbum en Flickr
+              <ArrowRight className="h-3.5 w-3.5" />
             </a>
           </div>
         ))}
       </div>
 
+      {/* Presentations */}
       <div>
         <div className="flex items-center gap-3 mb-4">
-          <FileText className="h-6 w-6" style={{ color: "var(--regu-blue)" }} />
-          <h3 className="text-xl font-bold" style={{ color: "var(--regu-gray-900)" }}>
-            Presentaciones de los Expositores
-          </h3>
+          <FileText className="h-5 w-5" style={{ color: "var(--regu-blue)" }} />
+          <h3 className="text-base font-bold" style={{ color: "var(--regu-navy)" }}>Presentaciones de los Expositores</h3>
         </div>
-        <ul className="space-y-3">
+        <div className="rounded-2xl border overflow-hidden" style={{ borderColor: "rgba(22,61,89,0.10)" }}>
           {[
             { name: "Cristhian Lizcano", format: "PPTX", file: "presentacion-cristhian-lizcano.pptx" },
             { name: "Lucas Gallitto", format: "PDF", file: "presentacion-lucas-gallitto.pdf" },
@@ -509,60 +460,52 @@ function CumbreExtraBlock() {
             { name: "Carolina Limbatto", format: "PPTX", file: "presentacion-carolina-limbatto.pptx" },
             { name: "Carlos Lugo", format: "PPTX", file: "presentacion-carlos-lugo.pptx" },
             { name: "Robert Mourik", format: "PPTX", file: "presentacion-robert-mourik.pptx" },
-          ].map((p, idx) => (
-            <li
+          ].map((p, idx, arr) => (
+            <div
               key={idx}
-              className="flex items-center gap-4 p-3 rounded-lg"
-              style={{ backgroundColor: "var(--regu-offwhite)" }}
+              className={`flex items-center gap-4 px-5 py-3 ${idx < arr.length - 1 ? "border-b" : ""}`}
+              style={{ borderColor: "rgba(22,61,89,0.07)", backgroundColor: idx % 2 === 0 ? "#fff" : "rgba(22,61,89,0.015)" }}
             >
-              <span className="flex-1 font-medium" style={{ color: "var(--regu-gray-900)" }}>
-                {p.name}
-              </span>
+              <span className="flex-1 text-sm font-medium" style={{ color: "var(--regu-navy)" }}>{p.name}</span>
               <a
                 href={`/documents/cumbre-regulatel-asiet-comtelca/${p.file}`}
                 download
-                className="px-3 py-1.5 rounded-lg font-semibold text-white text-sm"
-                style={{
-                  backgroundColor: p.format === "PPTX" ? "#ea580c" : "var(--regu-blue)",
-                }}
+                className="px-3 py-1.5 rounded-lg font-bold text-white text-xs"
+                style={{ backgroundColor: p.format === "PPTX" ? "#ea580c" : "var(--regu-blue)" }}
               >
                 {p.format}
               </a>
-            </li>
+            </div>
           ))}
-        </ul>
+        </div>
       </div>
 
+      {/* Comunicado */}
       <div
-        className="rounded-xl p-4 border flex items-center gap-4"
-        style={{
-          borderColor: "var(--regu-gray-100)",
-          backgroundColor: "rgba(68, 137, 198, 0.06)",
-        }}
+        className="rounded-2xl p-5 border flex items-center gap-4"
+        style={{ borderColor: "rgba(22,61,89,0.10)", backgroundColor: "rgba(68,137,198,0.06)" }}
       >
-        <FileText className="h-6 w-6 flex-shrink-0" style={{ color: "var(--regu-blue)" }} />
-        <span className="flex-1 font-medium" style={{ color: "var(--regu-gray-900)" }}>
+        <FileText className="h-5 w-5 flex-shrink-0" style={{ color: "var(--regu-blue)" }} />
+        <span className="flex-1 text-sm font-semibold" style={{ color: "var(--regu-navy)" }}>
           Comunicado – Cumbre Regulatel ASIET Comtelca
         </span>
         <a
           href="/documents/cumbre-regulatel-asiet-comtelca/comunicado-cumbre-regulatel-asiet-comtelca.pdf"
           download
-          className="px-4 py-2 rounded-lg font-semibold text-white text-sm"
+          className="flex-shrink-0 px-4 py-2 rounded-xl font-bold text-white text-sm transition-opacity hover:opacity-85"
           style={{ backgroundColor: "var(--regu-blue)" }}
         >
           Descargar PDF
         </a>
       </div>
 
-      <p className="flex items-center gap-3 text-sm font-medium pt-4" style={{ color: "var(--regu-gray-500)" }}>
-        <span aria-hidden>📍</span>
-        Complejo Barceló Bávaro – Punta Cana, República Dominicana
+      <p className="text-sm" style={{ color: "var(--regu-gray-500)" }}>
+        📍 Complejo Barceló Bávaro – Punta Cana, República Dominicana
       </p>
     </div>
   );
 }
 
-/** Compartir: usa Web Share API o copia enlace al portapapeles. */
 function ArticleShareFooter({ title }: { title: string }) {
   const location = useLocation();
   const [copied, setCopied] = useState(false);
@@ -570,12 +513,7 @@ function ArticleShareFooter({ title }: { title: string }) {
   const handleShare = useCallback(() => {
     const url = window.location.origin + location.pathname;
     if (typeof navigator !== "undefined" && navigator.share) {
-      navigator.share({
-        title,
-        url,
-      }).catch(() => {
-        copyToClipboard(url);
-      });
+      navigator.share({ title, url }).catch(() => copyToClipboard(url));
     } else {
       copyToClipboard(url);
     }
@@ -589,76 +527,77 @@ function ArticleShareFooter({ title }: { title: string }) {
   }
 
   return (
-    <div className="pt-6 pb-2">
+    <div className="pt-6 pb-2 flex items-center justify-between border-t mt-8" style={{ borderColor: "rgba(22,61,89,0.08)" }}>
+      <Link
+        to="/noticias"
+        className="inline-flex items-center gap-2 text-sm font-semibold transition-colors hover:text-[var(--regu-blue)]"
+        style={{ color: "var(--regu-gray-600)" }}
+      >
+        <ArrowLeft className="h-4 w-4" />
+        Volver a noticias
+      </Link>
       <button
         type="button"
         onClick={handleShare}
-        className="flex items-center gap-2 text-sm cursor-pointer border-0 bg-transparent p-0 hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2 rounded"
+        className="flex items-center gap-2 text-sm font-semibold cursor-pointer border-0 bg-transparent p-0 hover:text-[var(--regu-blue)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2 rounded"
         style={{ color: "var(--regu-gray-500)" }}
         aria-label="Compartir esta noticia"
       >
         <Share2 className="h-4 w-4" aria-hidden />
-        <span>{copied ? "Enlace copiado" : "Compartir"}</span>
+        <span>{copied ? "Enlace copiado ✓" : "Compartir"}</span>
       </button>
     </div>
   );
 }
 
-/** Layout réplica INDOTEL: breadcrumb → título → imagen → línea gris → fecha → cuerpo → compartir → volver. */
-function ArticleLayout({
-  payload,
-  isStaticCumbre,
-}: {
-  payload: ArticlePayload;
-  isStaticCumbre?: boolean;
-}) {
+function ArticleLayout({ payload, isStaticCumbre }: { payload: ArticlePayload; isStaticCumbre?: boolean }) {
   return (
-    <motion.article
-      initial="hidden"
-      animate="visible"
-      variants={fadeIn}
-      className="w-full"
-    >
+    <motion.article initial="hidden" animate="visible" variants={fadeIn} className="w-full">
       <ArticleBreadcrumb title={payload.title} />
       <ArticleHeader payload={payload} />
+
+      {/* Main image */}
       {(() => {
         const allImages = [payload.imageUrl, ...(payload.additionalImages ?? [])].filter(Boolean) as string[];
         if (allImages.length === 0) return null;
-        if (allImages.length === 1) return <ArticleImage imageUrl={allImages[0]} />;
+        if (allImages.length === 1) return (
+          <div className="mb-8">
+            <ArticleImage imageUrl={allImages[0]} />
+          </div>
+        );
         return (
-          <ImageCarousel
-            images={allImages}
-            variant="article"
-            aspectRatio="auto"
-            slideHeight="70vh"
-            autoPlayMs={6000}
-            className="mb-0"
-          />
+          <div className="mb-8">
+            <ImageCarousel
+              images={allImages}
+              variant="article"
+              aspectRatio="auto"
+              slideHeight="60vh"
+              autoPlayMs={6000}
+              className="rounded-2xl overflow-hidden"
+            />
+          </div>
         );
       })()}
-      {/* Línea fina gris debajo de las imágenes (réplica INDOTEL) */}
-      {(payload.imageUrl || (payload.additionalImages?.length ?? 0) > 0) && (
-        <hr
-          className="my-4 border-0 border-t w-full"
-          style={{ borderColor: "var(--regu-gray-200)" }}
-        />
-      )}
-      <ArticleMetaLine payload={payload} />
+
       <ArticleBody payload={payload} isStaticCumbre={isStaticCumbre} />
       <ArticleShareFooter title={payload.title} />
-      <div
-        className="pt-4 pb-2 border-t"
-        style={{ borderColor: "var(--regu-gray-100)" }}
-      >
-        <Link
-          to="/noticias"
-          className="inline-flex items-center gap-2 text-sm text-[var(--regu-gray-600)] hover:text-[var(--regu-blue)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2 rounded"
-        >
-          <ArrowLeft className="h-4 w-4" />
-          Volver a noticias
-        </Link>
-      </div>
     </motion.article>
+  );
+}
+
+function ArticleWrapper({ children }: { children: React.ReactNode }) {
+  return (
+    <div
+      className="w-full"
+      style={{ backgroundColor: "#FAFBFC", fontFamily: "var(--token-font-body)", borderTop: "1px solid rgba(22,61,89,0.07)" }}
+    >
+      {/* Blue accent bar */}
+      <div style={{ backgroundColor: "var(--regu-blue)", height: "4px" }} aria-hidden />
+
+      <div className="mx-auto px-4 md:px-6 lg:px-8 py-10 md:py-14" style={{ maxWidth: CONTAINER_MAX }}>
+        {children}
+      </div>
+    </div>
   );
 }
 
@@ -666,120 +605,42 @@ export default function NoticiaIndividual() {
   const { slug } = useParams<{ slug: string }>();
   const { adminNews, contentSource } = useAdminData();
   if (contentSource === "loading") return null;
-  const adminNoticia = adminNews.find(
-    (n) => n.published && (n.slug === slug || n.id === slug)
-  );
+
+  const adminNoticia = adminNews.find((n) => n.published && (n.slug === slug || n.id === slug));
   const noticiaStatic = noticiasData.find((n) => n.slug === slug);
 
   if (adminNoticia) {
     const payload = normalizeAdminNoticia(adminNoticia);
     return (
-      <div
-        className="w-full pt-4 pb-10 md:pt-6 md:pb-12"
-        style={{
-          backgroundColor: "var(--regu-offwhite)",
-          fontFamily: "var(--token-font-body)",
-        }}
-      >
-        <div
-          className="mx-auto px-4 md:px-6 lg:px-8"
-          style={{ maxWidth: CONTAINER_MAX }}
-        >
-          {/* Franja azul horizontal (réplica INDOTEL) */}
-          <div
-            className="w-full h-16 flex-shrink-0"
-            style={{ backgroundColor: "var(--regu-blue)" }}
-            aria-hidden
-          />
-          {/* Cuadro blanco del artículo: borde muy sutil y esquina superior suave (como INDOTEL) */}
-          <div
-            className="relative z-10 mx-auto px-6 md:px-12 py-8 md:py-10 bg-white rounded-t-lg"
-            style={{
-              maxWidth: ARTICLE_BOX_MAX,
-              marginTop: "-2rem",
-              boxShadow: "0 0 0 1px rgba(0,0,0,0.06)",
-            }}
-          >
-            <ArticleLayout payload={payload} />
-          </div>
-        </div>
-      </div>
+      <ArticleWrapper>
+        <ArticleLayout payload={payload} />
+      </ArticleWrapper>
     );
   }
 
   if (!noticiaStatic) {
     return (
-      <div
-        className="w-full pt-4 pb-10 md:pt-6 md:pb-12"
-        style={{
-          backgroundColor: "var(--regu-offwhite)",
-          fontFamily: "var(--token-font-body)",
-        }}
-      >
-        <div
-          className="mx-auto px-4 md:px-6 lg:px-8"
-          style={{ maxWidth: CONTAINER_MAX }}
+      <ArticleWrapper>
+        <ArticleBreadcrumb title="Noticia no encontrada" />
+        <h1 className="text-xl font-bold mt-2 mb-4" style={{ color: "var(--regu-navy)" }}>
+          Noticia no encontrada
+        </h1>
+        <Link
+          to="/noticias"
+          className="inline-flex items-center gap-2 text-sm font-semibold"
+          style={{ color: "var(--regu-blue)" }}
         >
-          <div
-            className="w-full h-16 flex-shrink-0"
-            style={{ backgroundColor: "var(--regu-blue)" }}
-            aria-hidden
-          />
-          <div
-            className="relative z-10 mx-auto px-6 md:px-12 py-8 md:py-10 bg-white text-center rounded-t-lg"
-            style={{
-              maxWidth: ARTICLE_BOX_MAX,
-              marginTop: "-2rem",
-              boxShadow: "0 0 0 1px rgba(0,0,0,0.06)",
-            }}
-          >
-            <ArticleBreadcrumb title="Noticia no encontrada" />
-            <h1 className="text-xl font-bold mt-2 mb-4" style={{ color: "#1a1a1a" }}>
-              Noticia no encontrada
-            </h1>
-            <Link
-              to="/noticias"
-              className="inline-flex items-center gap-2 text-sm font-medium"
-              style={{ color: "var(--regu-blue)" }}
-            >
-              <ArrowLeft className="h-4 w-4" />
-              Volver a noticias
-            </Link>
-          </div>
-        </div>
-      </div>
+          <ArrowLeft className="h-4 w-4" />
+          Volver a noticias
+        </Link>
+      </ArticleWrapper>
     );
   }
 
   const payload = normalizeStaticNoticia(noticiaStatic);
   return (
-    <div
-      className="w-full pt-4 pb-10 md:pt-6 md:pb-12"
-      style={{
-        backgroundColor: "var(--regu-offwhite)",
-        fontFamily: "var(--token-font-body)",
-      }}
-    >
-      <div
-        className="mx-auto px-4 md:px-6 lg:px-8"
-        style={{ maxWidth: CONTAINER_MAX }}
-      >
-        <div
-          className="w-full h-16 flex-shrink-0"
-          style={{ backgroundColor: "var(--regu-blue)" }}
-          aria-hidden
-        />
-        <div
-          className="relative z-10 mx-auto px-6 md:px-12 py-8 md:py-10 bg-white rounded-t-lg"
-          style={{
-            maxWidth: ARTICLE_BOX_MAX,
-            marginTop: "-2rem",
-            boxShadow: "0 0 0 1px rgba(0,0,0,0.06)",
-          }}
-        >
-          <ArticleLayout payload={payload} isStaticCumbre />
-        </div>
-      </div>
-    </div>
+    <ArticleWrapper>
+      <ArticleLayout payload={payload} isStaticCumbre />
+    </ArticleWrapper>
   );
 }

@@ -5,15 +5,12 @@ import type { Event } from "@/types/event";
 import { formatEventDateRange } from "@/types/event";
 
 const EVENTS_IMAGE_FALLBACK = "/images/homepage/regulatel-portada.png";
-const OVERLAY_GRADIENT =
-  "linear-gradient(90deg, rgba(0,0,0,.35) 0%, rgba(0,0,0,.15) 60%, rgba(0,0,0,.05) 100%)";
 
 interface FeaturedEventsCarouselProps {
   events: Event[];
   autoplayIntervalMs?: number;
 }
 
-/** Eventos destacados: isFeatured && upcoming, orden por startDate, máx 8. */
 function getFeaturedEvents(events: Event[]): Event[] {
   const upcoming = events.filter((e) => e.status === "upcoming" && e.isFeatured);
   return [...upcoming].sort((a, b) => a.startDate.localeCompare(b.startDate)).slice(0, 8);
@@ -30,12 +27,10 @@ export default function FeaturedEventsCarousel({
 
   const goTo = useCallback(
     (index: number) => {
-      setActiveIndex(() => {
-        let next = index;
-        if (next < 0) next = featured.length - 1;
-        if (next >= featured.length) next = 0;
-        return next;
-      });
+      let next = index;
+      if (next < 0) next = featured.length - 1;
+      if (next >= featured.length) next = 0;
+      setActiveIndex(next);
     },
     [featured.length]
   );
@@ -53,10 +48,7 @@ export default function FeaturedEventsCarousel({
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "ArrowLeft") prev();
       if (e.key === "ArrowRight") next();
-      if (e.key === " ") {
-        e.preventDefault();
-        setIsPaused((p) => !p);
-      }
+      if (e.key === " ") { e.preventDefault(); setIsPaused((p) => !p); }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
@@ -65,127 +57,184 @@ export default function FeaturedEventsCarousel({
   if (!featured.length) return null;
 
   const event = featured[activeIndex];
-  const imageUrl = event.imageUrl || EVENTS_IMAGE_FALLBACK;
   const hasRegistrationUrl = Boolean(event.registrationUrl?.trim());
-  const dateLabel = `${event.location}, ${formatEventDateRange(event.startDate, event.endDate)}`;
+  const dateLabel = formatEventDateRange(event.startDate, event.endDate);
 
   return (
     <section
-      className="featuredEvents relative w-full overflow-hidden min-h-[260px] md:min-h-[300px] lg:min-h-[360px]"
+      className="featuredEvents relative w-full overflow-hidden"
+      style={{ minHeight: "300px", height: "clamp(300px, 40vh, 480px)" }}
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
       aria-label="Eventos destacados"
     >
-      <div
-        className="slide absolute inset-0 bg-cover bg-center transition-opacity duration-500"
-        style={{
-          backgroundImage: `url(${imageUrl})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      />
-      <div className="slideOverlay absolute inset-0 pointer-events-none" style={{ background: OVERLAY_GRADIENT }} />
+      {/* Crossfade entre slides */}
+      {featured.map((ev, i) => (
+        <div
+          key={ev.id}
+          className="absolute inset-0 transition-opacity duration-700 ease-in-out"
+          style={{ opacity: i === activeIndex ? 1 : 0, zIndex: i === activeIndex ? 1 : 0 }}
+        >
+          <div
+            className="absolute inset-0 bg-cover bg-center"
+            style={{
+              backgroundImage: `url(${ev.imageUrl || EVENTS_IMAGE_FALLBACK})`,
+              filter: "brightness(0.75) saturate(0.85)",
+            }}
+          />
+        </div>
+      ))}
 
+      {/* Overlay navy institucional */}
       <div
-        className="relative z-10 mx-auto flex min-h-[260px] w-full max-w-[1280px] flex-col justify-end px-4 pb-6 pt-10 md:min-h-[300px] md:px-6 md:pb-8 md:pt-12 lg:min-h-[360px] lg:justify-center lg:pb-10 lg:pt-16"
+        className="pointer-events-none absolute inset-0 z-[2]"
+        style={{
+          background:
+            "linear-gradient(105deg, rgba(22,61,89,0.65) 0%, rgba(22,61,89,0.32) 55%, rgba(0,0,0,0.06) 100%)",
+        }}
+        aria-hidden
+      />
+
+      {/* Layout */}
+      <div
+        className="relative z-10 mx-auto flex h-full w-full max-w-[1280px] items-center px-4 md:px-6 lg:px-10"
         style={{ fontFamily: "var(--token-font-body)" }}
       >
+        {/* Tarjeta institucional */}
         <div
-          className="floatingCard mx-auto w-[90vw] max-w-[620px] flex-shrink-0 rounded-[16px] border border-black/[0.06] bg-white p-6 shadow-[0_10px_30px_rgba(0,0,0,.12)] md:ml-[8%] md:mr-auto md:p-7"
-          style={{ minWidth: "min(620px, 90vw)" }}
+          className="featuredEventsCard relative flex-shrink-0 overflow-hidden rounded-2xl bg-white shadow-[0_8px_32px_rgba(0,0,0,0.18),0_2px_8px_rgba(0,0,0,0.10)]"
+          style={{
+            width: "min(100%, 460px)",
+            borderLeft: "4px solid var(--regu-blue)",
+          }}
         >
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-flex-start sm:justify-between">
-            <div className="min-w-0 flex-1">
-              <div className="eventMeta flex flex-wrap items-center justify-between gap-2">
-                <span className="text-xs font-medium uppercase tracking-[0.12em]" style={{ color: "var(--regu-gray-500)" }}>
-                  {dateLabel}
-                </span>
-                <span className="text-xs font-semibold uppercase tracking-[0.12em]" style={{ color: "var(--news-accent)" }}>
-                  PRÓXIMO
-                </span>
-              </div>
-              <h2
-                className="eventTitle mt-2 line-clamp-3 text-xl font-bold leading-tight md:text-2xl lg:text-[1.75rem]"
-                style={{ color: "var(--regu-gray-900)" }}
-                title={event.title}
+          {/* Línea de gradiente superior */}
+          <div
+            className="absolute inset-x-0 top-0 h-[2px]"
+            style={{ background: "linear-gradient(90deg, var(--regu-blue), var(--regu-teal))" }}
+            aria-hidden
+          />
+
+          <div className="p-6 md:p-7">
+            {/* Badges */}
+            <div className="flex flex-wrap items-center gap-2">
+              <span
+                className="inline-block rounded-sm px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.10em]"
+                style={{ backgroundColor: "rgba(68,137,198,0.10)", color: "var(--regu-blue)" }}
               >
-                {event.title}
-              </h2>
-              <p className="mt-1 text-sm" style={{ color: "var(--regu-gray-500)" }}>
-                {event.organizer} · {formatEventDateRange(event.startDate, event.endDate)}
-              </p>
-              <div className="ctaRow mt-4 flex flex-wrap items-center gap-3">
-                <Link
-                  to={`/eventos/${event.id}`}
-                  className="inline-flex items-center justify-center rounded-lg border-2 px-4 py-2.5 text-xs font-semibold uppercase tracking-[0.08em] transition hover:bg-[var(--news-accent)] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--news-accent)] focus-visible:ring-offset-2"
-                  style={{
-                    borderColor: "var(--news-accent)",
-                    color: "var(--news-accent)",
-                  }}
+                Próximo
+              </span>
+              <span
+                className="text-xs font-semibold uppercase tracking-[0.08em]"
+                style={{ color: "var(--regu-gray-500)" }}
+              >
+                {event.location}
+              </span>
+              <span style={{ color: "var(--regu-gray-300)", fontSize: "10px" }}>·</span>
+              <span
+                className="text-xs font-semibold"
+                style={{ color: "var(--regu-gray-500)" }}
+              >
+                {dateLabel}
+              </span>
+            </div>
+
+            {/* Título */}
+            <h2
+              className="mt-3 line-clamp-3 font-bold leading-snug"
+              style={{
+                fontFamily: "var(--token-font-heading)",
+                fontSize: "clamp(1.05rem, 1.7vw, 1.35rem)",
+                color: "var(--regu-gray-900)",
+              }}
+            >
+              {event.title}
+            </h2>
+
+            {/* Organizador */}
+            <p className="mt-1.5 text-xs" style={{ color: "var(--regu-gray-500)" }}>
+              {event.organizer}
+            </p>
+
+            {/* CTAs */}
+            <div className="mt-5 flex flex-wrap items-center gap-2.5">
+              <Link
+                to={`/eventos/${event.id}`}
+                className="inline-flex items-center justify-center rounded-lg px-4 py-2 text-xs font-bold uppercase tracking-[0.08em] text-white transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2"
+                style={{ backgroundColor: "var(--regu-blue)" }}
+              >
+                Leer más
+              </Link>
+              {hasRegistrationUrl ? (
+                <a
+                  href={event.registrationUrl!}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center rounded-lg border px-4 py-2 text-xs font-bold uppercase tracking-[0.08em] transition hover:bg-[var(--regu-navy)] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-navy)] focus-visible:ring-offset-2"
+                  style={{ borderColor: "var(--regu-navy)", color: "var(--regu-navy)" }}
                 >
-                  Leer más
-                </Link>
-                {hasRegistrationUrl ? (
-                  <a
-                    href={event.registrationUrl!}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center rounded-lg px-4 py-2.5 text-xs font-semibold uppercase tracking-[0.08em] text-white transition hover:opacity-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2"
-                    style={{ backgroundColor: "var(--regu-blue)" }}
-                    aria-label={`Registrarse a ${event.title}`}
-                  >
-                    Registrarse
-                  </a>
-                ) : (
-                  <span className="text-xs font-medium uppercase text-[var(--regu-gray-500)]">Por definir</span>
-                )}
+                  Registrarse
+                </a>
+              ) : (
+                <span className="text-xs font-medium text-[var(--regu-gray-500)]">Por definir</span>
+              )}
+            </div>
+
+            {/* Dots */}
+            {featured.length > 1 && (
+              <div className="mt-5 flex items-center gap-1.5" aria-label="Slides de eventos">
+                {featured.slice(0, 8).map((ev, i) => (
+                  <button
+                    key={ev.id}
+                    type="button"
+                    aria-label={`Evento ${i + 1}`}
+                    aria-current={i === activeIndex ? "true" : undefined}
+                    className="h-1 rounded-full transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2"
+                    style={{
+                      width: i === activeIndex ? "24px" : "6px",
+                      backgroundColor: i === activeIndex ? "var(--regu-blue)" : "rgba(22,61,89,0.18)",
+                    }}
+                    onClick={() => setActiveIndex(i)}
+                  />
+                ))}
               </div>
-            </div>
-            <div className="dots flex items-center gap-2 sm:shrink-0" aria-label="Slides">
-              {featured.slice(0, 8).map((ev, i) => (
-                <button
-                  key={ev.id}
-                  type="button"
-                  aria-label={`Ir al evento ${i + 1}`}
-                  aria-current={i === activeIndex ? "true" : undefined}
-                  className="h-1.5 w-6 rounded-full transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--news-accent)] focus-visible:ring-offset-2"
-                  style={{
-                    backgroundColor: i === activeIndex ? "var(--news-accent)" : "var(--regu-gray-100)",
-                  }}
-                  onClick={() => setActiveIndex(i)}
-                />
-              ))}
-            </div>
+            )}
           </div>
         </div>
+      </div>
 
-        <div className="navArrow absolute bottom-4 right-4 flex items-center gap-2 md:bottom-6 md:right-6 lg:bottom-8 lg:right-8" aria-label="Controles del carrusel">
+      {/* Controles — pill translúcido */}
+      {featured.length > 1 && (
+        <div
+          className="absolute bottom-5 right-5 z-20 flex items-center gap-0.5 rounded-xl border border-white/20 bg-black/25 px-1 py-1 backdrop-blur-sm"
+          aria-label="Controles del carrusel"
+        >
           <button
             type="button"
             aria-label="Evento anterior"
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-black/10 bg-white text-[var(--regu-gray-900)] shadow-md transition hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--news-accent)] focus-visible:ring-offset-2"
+            className="flex h-8 w-8 items-center justify-center rounded-lg text-white/90 transition-colors hover:bg-white/20 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
             onClick={prev}
           >
-            <ChevronLeft className="h-5 w-5" />
+            <ChevronLeft className="h-4 w-4" />
           </button>
           <button
             type="button"
-            aria-label={isPaused ? "Reanudar" : "Pausar"}
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-black/10 bg-white text-[var(--regu-gray-900)] shadow-md transition hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--news-accent)] focus-visible:ring-offset-2"
+            aria-label={isPaused ? "Reanudar slideshow" : "Pausar slideshow"}
+            className="flex h-8 w-8 items-center justify-center rounded-lg text-white/90 transition-colors hover:bg-white/20 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
             onClick={() => setIsPaused((p) => !p)}
           >
-            {isPaused ? <Play className="h-5 w-5" /> : <Pause className="h-5 w-5" />}
+            {isPaused ? <Play className="h-3.5 w-3.5" /> : <Pause className="h-3.5 w-3.5" />}
           </button>
           <button
             type="button"
-            aria-label="Siguiente evento"
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-black/10 bg-white text-[var(--regu-gray-900)] shadow-md transition hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--news-accent)] focus-visible:ring-offset-2"
+            aria-label="Evento siguiente"
+            className="flex h-8 w-8 items-center justify-center rounded-lg text-white/90 transition-colors hover:bg-white/20 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
             onClick={next}
           >
-            <ChevronRight className="h-5 w-5" />
+            <ChevronRight className="h-4 w-4" />
           </button>
         </div>
-      </div>
+      )}
     </section>
   );
 }
