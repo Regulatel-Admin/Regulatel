@@ -43,7 +43,7 @@ export const gestionDocuments: GestionDocument[] = [
   // —— Planes y Actas ——
   {
     id: "plan-2026",
-    title: "Plan de trabajo de la Presidencia para Regulatel en 2026",
+    title: "Plan de trabajo de la presidencia de Regulatel 2026",
     url: "/documents/Plan-Trabajo-REGULATEL-2026.pdf",
     year: "2026",
     category: "planes-actas",
@@ -66,6 +66,13 @@ export const gestionDocuments: GestionDocument[] = [
     id: "acta-27",
     title: "Acta de la Asamblea 27",
     url: "/documents/Acta-27-Asamblea-Plenaria-Regulatel.pdf",
+    year: "2025",
+    category: "planes-actas",
+  },
+  {
+    id: "acta-28",
+    title: "Acta de la Asamblea 28",
+    url: "/documents/Acta-28-Asamblea-Plenaria-Regulatel.pdf",
     year: "2025",
     category: "planes-actas",
   },
@@ -119,25 +126,23 @@ export const gestionDocuments: GestionDocument[] = [
   },
 ];
 
-/** Valores de tipo para tabs (query param). "todo" = sin filtro. */
+/** Valores de tipo para tabs (query param). "todo" = sin filtro. "banco" eliminado como opción visible. */
 export const GESTION_TIPO_VALUES = [
   "todo",
   "revista",
   "documentos",
   "planes-actas",
-  "banco",
   "otros",
 ] as const;
 
 export type GestionTipo = (typeof GESTION_TIPO_VALUES)[number];
 
-/** Labels para cada tab */
+/** Labels para cada tab (solo tipos visibles; "banco" ya no es tab). */
 export const GESTION_TAB_LABELS: Record<GestionTipo, string> = {
   todo: "Todo",
   revista: "Revista Digital",
   documentos: "Documentos Oficiales",
   "planes-actas": "Planes y Actas",
-  banco: "Banco de información",
   otros: "Otros",
 };
 
@@ -146,9 +151,14 @@ export const GESTION_BLOCK_TITLES: Record<Exclude<GestionTipo, "todo">, string> 
   revista: "Revista digital REGULATEL",
   documentos: "Documentos Oficiales",
   "planes-actas": "Planes y Actas",
-  banco: "Banco de información",
   otros: "Otros documentos",
 };
+
+/** Label para mostrar categoría en UI (documentos con category "banco" legacy se muestran como "Otros"). */
+export function getCategoryDisplayLabel(category: GestionCategory): string {
+  if (category === "banco") return "Otros";
+  return GESTION_TAB_LABELS[category as GestionTipo] ?? "Otros";
+}
 
 export function filterByTipo(
   docs: GestionDocument[],

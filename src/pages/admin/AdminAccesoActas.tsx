@@ -129,7 +129,12 @@ export default function AdminAccesoActas() {
     setDeletingId(u.id);
     const res = await api.admin.documentAccessUsers.delete(u.id);
     setDeletingId(null);
-    if (res.ok) loadUsers();
+    if (res.ok) {
+      setSuccess("Cuenta eliminada.");
+      loadUsers();
+    } else {
+      setFormError(res.error ?? "No se pudo eliminar la cuenta.");
+    }
   };
 
   return (

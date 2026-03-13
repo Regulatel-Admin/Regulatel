@@ -1,5 +1,7 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Newspaper, Calendar, Hash, FileText, BookOpen, Info } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
+import { Newspaper, Calendar, Hash, FileText, BookOpen, Info, Users, Lock, ChevronDown, ChevronUp } from "lucide-react";
 import { projectInfo } from "@/config/projectInfo";
 
 const cards = [
@@ -10,7 +12,15 @@ const cards = [
   { to: "/admin/revista", icon: BookOpen, title: "Revista Digital", desc: "Añadir ediciones de la revista digital." },
 ];
 
+const adminOnlyCards = [
+  { to: "/admin/usuarios", icon: Users, title: "Usuarios y auditoría", desc: "Gestionar usuarios admin y consultar el registro de auditoría." },
+  { to: "/admin/acceso-actas", icon: Lock, title: "Acceso a actas", desc: "Crear cuentas para desbloquear actas restringidas desde la página pública." },
+];
+
 export default function AdminDashboard() {
+  const { canManageUsers } = useAuth();
+  const [projectInfoOpen, setProjectInfoOpen] = useState(false);
+  const allCards = [...cards, ...(canManageUsers ? adminOnlyCards : [])];
   return (
     <div>
       <h1
@@ -23,7 +33,7 @@ export default function AdminDashboard() {
         Elige una sección para gestionar el contenido de la página.
       </p>
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {cards.map(({ to, icon: Icon, title, desc }) => (
+        {allCards.map(({ to, icon: Icon, title, desc }) => (
           <Link
             key={to}
             to={to}
@@ -51,23 +61,33 @@ export default function AdminDashboard() {
         ))}
       </div>
 
-      {/* Información del proyecto (uso interno, no público) */}
+      {/* Información del proyecto (uso interno, no público) — colapsable */}
       <section
-        className="mt-12 rounded-xl border bg-[var(--regu-offwhite)] p-5"
+        className="mt-12 rounded-xl border bg-[var(--regu-offwhite)]"
         style={{ borderColor: "var(--regu-gray-100)" }}
         aria-label="Información del proyecto"
       >
-        <h2 className="mb-3 flex items-center gap-2 text-sm font-bold uppercase tracking-wide text-[var(--regu-gray-700)]">
-          <Info className="h-4 w-4" />
-          Información del proyecto
-        </h2>
-        <ul className="space-y-1 text-sm text-[var(--regu-gray-600)]">
-          <li><strong>Portal:</strong> {projectInfo.project}</li>
-          <li><strong>Versión inicial desarrollada por:</strong> {projectInfo.initialVersionBy}</li>
-          <li><strong>Cargo:</strong> {projectInfo.role}</li>
-          <li><strong>Correo institucional:</strong> {projectInfo.institutionalEmail}</li>
-          <li><strong>Año:</strong> {projectInfo.year}</li>
-        </ul>
+        <button
+          type="button"
+          onClick={() => setProjectInfoOpen((o) => !o)}
+          className="flex w-full items-center justify-between gap-2 p-5 text-left"
+          aria-expanded={projectInfoOpen}
+        >
+          <h2 className="flex items-center gap-2 text-sm font-bold uppercase tracking-wide text-[var(--regu-gray-700)]">
+            <Info className="h-4 w-4" />
+            Información del proyecto
+          </h2>
+          {projectInfoOpen ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+        </button>
+        {projectInfoOpen && (
+          <ul className="space-y-1 border-t px-5 pb-5 pt-1 text-sm text-[var(--regu-gray-600)]" style={{ borderColor: "var(--regu-gray-100)" }}>
+            <li><strong>Portal:</strong> {projectInfo.project}</li>
+            <li><strong>Versión inicial desarrollada por:</strong> {projectInfo.initialVersionBy}</li>
+            <li><strong>Cargo:</strong> {projectInfo.role}</li>
+            <li><strong>Correo institucional:</strong> {projectInfo.institutionalEmail}</li>
+            <li><strong>Año:</strong> {projectInfo.year}</li>
+          </ul>
+        )}
       </section>
     </div>
   );

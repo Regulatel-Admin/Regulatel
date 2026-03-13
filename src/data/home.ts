@@ -195,7 +195,7 @@ export const heroClean = {
 
 /** Hero institucional/editorial: slideshow de imágenes o composición SVG + badge + título + 2 CTAs */
 export const heroInstitucional = {
-  /** Varias URLs = slideshow; imágenes en public/ (orden: 1a → 9a) */
+  /** Varias URLs = slideshow; imágenes en public/ (orden: 1a → 8a) */
   coverImageUrls: [
     "/1a.jpg",
     "/2a.jpg",
@@ -205,7 +205,6 @@ export const heroInstitucional = {
     "/6a.jpg",
     "/7a.jpg",
     "/8a.jpg",
-    "/9a.jpg",
   ] as string[],
   badge: "Presidencia 2026",
   title: "Cooperación regulatoria para una transformación digital",
@@ -283,28 +282,28 @@ export const accessMainItems: AccessMainItem[] = [
   },
 ];
 
-/** Quick Links (Accesos principales estilo INDOTEL): 4 tiles pegados, primer tile en forma de flecha. */
+/** Quick Links (Accesos principales): 4 tiles, orden Miembros → Buenas Prácticas → Banco de Información → Documentos */
 export const quickLinks = [
   {
-    label: "Observatorio de Mejores Prácticas Regulatorias",
+    label: "Miembros",
+    href: "/miembros",
+    icon: Users,
+  },
+  {
+    label: "Buenas Prácticas Regulatorias",
     href: "/micrositio-buenas-practicas",
     icon: Globe,
   },
   {
-    label: "Micrositio Buenas prácticas (Power BI)",
-    href: "https://app.powerbi.com/view?r=eyJrIjoiOWM5NWI3YWEtZjk0MC00NDlhLWI0YmYtMDQ4MGQ2OTM1ZTQwIiwidCI6ImVjYzY2NjY1LTFiYjktNDgxOC04YWJjLWE0MDk0Njg5NDE3OCIsImMiOjR9",
-    icon: Handshake,
+    label: "Banco de Información de Telecomunicación",
+    href: "https://sutel.go.cr/pagina/indicadores-internacionales-regulatel",
+    icon: BarChart3,
     external: true,
   },
   {
     label: "Documentos",
     href: "/gestion",
     icon: Files,
-  },
-  {
-    label: "Miembros",
-    href: "/miembros",
-    icon: Users,
   },
 ];
 

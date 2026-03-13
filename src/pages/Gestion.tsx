@@ -22,6 +22,7 @@ import {
   GESTION_TIPO_VALUES,
   GESTION_TAB_LABELS,
   GESTION_BLOCK_TITLES,
+  getCategoryDisplayLabel,
   type GestionTipo,
   type GestionDocument,
 } from "@/data/gestion";
@@ -62,6 +63,7 @@ const SEARCH_DEBOUNCE_MS = 200;
 /* ——————————————————————————————————————————
    Íconos por categoría
 —————————————————————————————————————————— */
+/* Íconos y colores por categoría (banco se mantiene para docs legacy que ya tienen esa category). */
 const CATEGORY_ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
   revista: BookOpen,
   "planes-actas": ClipboardList,
@@ -69,10 +71,6 @@ const CATEGORY_ICONS: Record<string, React.ComponentType<{ className?: string }>
   banco: FileText,
   otros: FileText,
 };
-
-/* ——————————————————————————————————————————
-   Colores de badge por categoría
-—————————————————————————————————————————— */
 const CATEGORY_BADGE: Record<string, { bg: string; color: string }> = {
   revista:      { bg: "rgba(68,137,198,0.10)",  color: "var(--regu-blue)"  },
   "planes-actas": { bg: "rgba(22,61,89,0.07)",   color: "var(--regu-navy)"  },
@@ -89,6 +87,16 @@ export default function Gestion() {
   const docId = searchParams.get("id") ?? null;
   const searchQuery = searchParams.get("q") ?? "";
   const validTipo = GESTION_TIPO_VALUES.includes(tipo) ? tipo : "todo";
+  /* Redirigir ?tipo=banco a vista "Todo" (categoría banco ya no es filtro visible). */
+  useEffect(() => {
+    if (searchParams.get("tipo") === "banco") {
+      setSearchParams((prev) => {
+        const next = new URLSearchParams(prev);
+        next.delete("tipo");
+        return next;
+      }, { replace: true });
+    }
+  }, [searchParams, setSearchParams]);
   const [previewDoc, setPreviewDoc] = useState<{ url: string; title: string } | null>(null);
   const [searchInput, setSearchInput] = useState(searchQuery);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -514,7 +522,7 @@ function DocCard({
 
         {/* Categoría */}
         <p className="mb-auto mt-1 text-xs font-medium uppercase tracking-[0.08em]" style={{ color: "var(--regu-gray-500)" }}>
-          {isRevista ? "Revista Digital" : doc.category === "planes-actas" ? "Planes y actas" : doc.category === "documentos" ? "Documentos oficiales" : doc.category}
+          {getCategoryDisplayLabel(doc.category)}
         </p>
 
         {/* Acceso restringido aviso */}

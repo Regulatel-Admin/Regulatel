@@ -1,247 +1,336 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { Link } from "react-router-dom";
+import PageHero from "@/components/PageHero";
+import MejoresPracticasSearch from "@/components/mejoresPracticas/MejoresPracticasSearch";
+import MejoresPracticasSidebar from "@/components/mejoresPracticas/MejoresPracticasSidebar";
+import CategoryAccordion from "@/components/mejoresPracticas/CategoryAccordion";
+import CountryFlag from "@/components/buenasPracticas/CountryFlag";
 import {
-  categories,
-  countries,
-  type Category,
-} from "@/data/buenasPracticas/countries";
-import CountrySelector from "@/components/buenasPracticas/CountrySelector";
-import CategoryTabs from "@/components/buenasPracticas/CategoryTabs";
-import ComparisonPanel from "@/components/buenasPracticas/ComparisonPanel";
-import { Globe, BarChart2 } from "lucide-react";
+  mejoresPracticasData,
+  getLinkCountByCountry,
+  normalizeScrapedRegulatelJson,
+  type CountryPracticesData,
+  type ScrapedRegulatelEntry,
+} from "@/data/mejoresPracticas";
+import { Globe, ChevronDown, ChevronUp, LayoutList } from "lucide-react";
+
+function getUniqueCategoryNamesFromData(data: CountryPracticesData[]): string[] {
+  const set = new Set<string>();
+  data.forEach((d) => {
+    d.categories.forEach((cat) => {
+      if (cat.links.length > 0) set.add(cat.name);
+    });
+  });
+  return Array.from(set);
+}
+
+function normalizeForSearch(s: string): string {
+  return s
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/\u0300/g, "")
+    .trim();
+}
+
+function countryMatchesSearch(data: CountryPracticesData, query: string): boolean {
+  if (!query.trim()) return true;
+  const n = normalizeForSearch(query);
+  if (normalizeForSearch(data.name).includes(n)) return true;
+  for (const cat of data.categories) {
+    if (normalizeForSearch(cat.name).includes(n)) return true;
+    for (const link of cat.links) {
+      if (normalizeForSearch(link.title).includes(n)) return true;
+    }
+  }
+  return false;
+}
 
 export default function MicrositioBuenasPracticas() {
+  const [dataList, setDataList] = useState<CountryPracticesData[]>(mejoresPracticasData);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState<string>("");
+  const [expandAll, setExpandAll] = useState<boolean | null>(null);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
   useEffect(() => {
-    window.scrollTo(0, 0);
+    fetch("/mejoresPracticasRegulatel.json")
+      .then((r) => (r.ok ? r.json() : Promise.reject(new Error("No JSON"))))
+      .then((raw: ScrapedRegulatelEntry[]) => {
+        const normalized = normalizeScrapedRegulatelJson(raw);
+        if (normalized.length > 0) setDataList(normalized);
+      })
+      .catch(() => {});
   }, []);
 
-  const [selectedCountryA, setSelectedCountryA] = useState<string | null>(
-    "rep_dominicana"
-  );
-  const [selectedCountryB, setSelectedCountryB] = useState<string | null>(null);
-  const [selectedCategory, setSelectedCategory] = useState<Category>(
-    categories[0]
+  const bySlug = useMemo(() => new Map(dataList.map((d) => [d.slug, d])), [dataList]);
+
+  const [selectedSlug, setSelectedSlugState] = useState<string | null>(() => {
+    const hash = window.location.hash.slice(1).trim();
+    return hash || null;
+  });
+
+  useEffect(() => {
+    const handleHashChange = () => {
+      setSelectedSlugState(window.location.hash.slice(1).trim() || null);
+    };
+    window.addEventListener("hashchange", handleHashChange);
+    return () => window.removeEventListener("hashchange", handleHashChange);
+  }, []);
+
+  useEffect(() => {
+    if (dataList.length > 0 && selectedSlug && !bySlug.has(selectedSlug)) {
+      const first = dataList[0];
+      setSelectedSlugState(first.slug);
+      window.location.hash = first.slug;
+    } else if (dataList.length > 0 && !selectedSlug) {
+      const first = dataList[0];
+      setSelectedSlugState(first.slug);
+      window.location.hash = first.slug;
+    }
+  }, [dataList, selectedSlug, bySlug]);
+
+  const selectCountry = useCallback((slug: string) => {
+    setSelectedSlugState(slug);
+    window.location.hash = slug;
+    setSidebarOpen(false);
+    const main = document.getElementById("mejores-practicas-main");
+    if (main) main.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, []);
+
+  const filteredCountries = useMemo(() => {
+    return searchQuery.trim()
+      ? dataList.filter((c) => countryMatchesSearch(c, searchQuery))
+      : [...dataList];
+  }, [dataList, searchQuery]);
+
+  const selectedCountry = selectedSlug ? bySlug.get(selectedSlug) ?? null : null;
+
+  useEffect(() => {
+    if (filteredCountries.length > 0 && selectedSlug && !filteredCountries.some((c) => c.slug === selectedSlug)) {
+      const first = filteredCountries[0];
+      setSelectedSlugState(first.slug);
+      window.location.hash = first.slug;
+    }
+  }, [filteredCountries, selectedSlug]);
+
+  const categoriesForFilter = useMemo(() => getUniqueCategoryNamesFromData(dataList), [dataList]);
+  const totalLinks = useMemo(
+    () => dataList.reduce((acc, c) => acc + getLinkCountByCountry(c), 0),
+    [dataList]
   );
 
-  const countryA = countries.find((c) => c.id === selectedCountryA) ?? null;
-  const countryB = countries.find((c) => c.id === selectedCountryB) ?? null;
+  const filteredCategoriesForCountry = useMemo(() => {
+    if (!selectedCountry) return [];
+    let cats = selectedCountry.categories;
+    if (categoryFilter) {
+      cats = cats.filter((c) => c.name === categoryFilter);
+    }
+    if (searchQuery.trim()) {
+      const n = normalizeForSearch(searchQuery);
+      cats = cats
+        .map((cat) => {
+          const categoryMatch = normalizeForSearch(cat.name).includes(n);
+          const matchingLinks = categoryMatch
+            ? cat.links
+            : cat.links.filter((l) => normalizeForSearch(l.title).includes(n));
+          return { ...cat, links: matchingLinks };
+        })
+        .filter((cat) => cat.links.length > 0 || normalizeForSearch(cat.name).includes(n));
+    }
+    return cats;
+  }, [selectedCountry, categoryFilter, searchQuery]);
+
+  const searchNorm = searchQuery.trim() ? normalizeForSearch(searchQuery) : "";
 
   return (
     <div
       className="min-h-screen"
       style={{
-        background: "#FAFBFC",
+        background: "var(--regu-gray-50, #FAFBFC)",
         borderTop: "1px solid rgba(22,61,89,0.07)",
       }}
     >
-      {/* 4px accent bar */}
-      <div style={{ height: 4, background: "var(--regu-blue)", width: "100%" }} />
+      <PageHero
+        title="Buenas Prácticas Regulatorias"
+        description="Consulte prácticas, iniciativas y recursos regulatorios de telecomunicaciones por país y categoría. Información proporcionada por los miembros de REGULATEL."
+        breadcrumb={[
+          { label: "Inicio", path: "/" },
+          { label: "Recursos", path: "/gestion" },
+          { label: "Buenas Prácticas Regulatorias" },
+        ]}
+      />
 
       <div
-        style={{
-          maxWidth: 1060,
-          margin: "0 auto",
-          padding: "0 24px 72px",
-        }}
+        className="mx-auto w-full max-w-7xl px-4 py-8 md:px-6 lg:px-8"
+        style={{ fontFamily: "var(--token-font-body)" }}
       >
-        {/* Page header */}
-        <header style={{ padding: "44px 0 32px", borderBottom: "1px solid rgba(22,61,89,0.08)", marginBottom: 36 }}>
-          {/* Breadcrumb */}
-          <nav style={{ marginBottom: 16, display: "flex", flexWrap: "wrap", alignItems: "center", gap: 6 }}>
-            <Link
-              to="/"
-              style={{ fontSize: "0.75rem", color: "var(--regu-gray-400)", textDecoration: "none" }}
-              className="hover:underline"
-            >
-              Inicio
-            </Link>
-            <span style={{ fontSize: "0.75rem", color: "var(--regu-gray-300)" }}>/</span>
-            <Link
-              to="/gestion"
-              style={{ fontSize: "0.75rem", color: "var(--regu-gray-400)", textDecoration: "none" }}
-              className="hover:underline"
-            >
-              Recursos
-            </Link>
-            <span style={{ fontSize: "0.75rem", color: "var(--regu-gray-300)" }}>/</span>
-            <span style={{ fontSize: "0.75rem", color: "var(--regu-blue)", fontWeight: 600 }}>
-              Buenas prácticas
-            </span>
-          </nav>
-
-          {/* Eyebrow */}
-          <p style={{ fontSize: "0.625rem", fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--regu-gray-400)", marginBottom: 10, display: "flex", alignItems: "center", gap: 6 }}>
-            <Globe size={12} style={{ color: "var(--regu-blue)" }} />
-            Observatorio regulatorio · REGULATEL
-          </p>
-
-          {/* Accent bar + title */}
-          <div style={{ display: "flex", gap: 14, alignItems: "flex-start" }}>
-            <div style={{ width: 4, minHeight: 36, borderRadius: 2, background: "var(--regu-blue)", flexShrink: 0, marginTop: 4 }} />
-            <div>
-              <h1
-                style={{
-                  fontSize: "clamp(1.5rem, 3.5vw, 2.25rem)",
-                  fontWeight: 700,
-                  color: "var(--regu-navy)",
-                  lineHeight: 1.2,
-                  margin: 0,
-                  fontFamily: "var(--token-font-heading)",
-                }}
+        {/* Barra: buscador + filtro categoría + expandir/colapsar */}
+        <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex-1 min-w-0 max-w-xl">
+            <MejoresPracticasSearch
+              value={searchQuery}
+              onChange={setSearchQuery}
+              placeholder="Buscar por país, categoría o recurso…"
+            />
+          </div>
+          <div className="flex flex-wrap items-center gap-3">
+            <div className="flex items-center gap-2">
+              <label htmlFor="cat-filter" className="text-sm font-medium" style={{ color: "var(--regu-gray-600)" }}>
+                Categoría:
+              </label>
+              <select
+                id="cat-filter"
+                value={categoryFilter}
+                onChange={(e) => setCategoryFilter(e.target.value)}
+                className="rounded-lg border px-3 py-2 text-sm"
+                style={{ borderColor: "rgba(22,61,89,0.12)", color: "var(--regu-gray-800)" }}
               >
-                Buenas Prácticas Regulatorias
-              </h1>
-              <p
-                style={{
-                  marginTop: 10,
-                  fontSize: "1rem",
-                  lineHeight: 1.65,
-                  color: "var(--regu-gray-500)",
-                  maxWidth: 640,
-                }}
+                <option value="">Todas</option>
+                {categoriesForFilter.map((name) => (
+                  <option key={name} value={name}>{name}</option>
+                ))}
+              </select>
+            </div>
+            <div className="flex gap-1">
+              <button
+                type="button"
+                onClick={() => setExpandAll(true)}
+                className="flex items-center gap-1.5 rounded-lg border px-3 py-2 text-sm font-medium transition hover:bg-white"
+                style={{ borderColor: "rgba(22,61,89,0.12)", color: "var(--regu-gray-700)" }}
               >
-                Compare prácticas regulatorias de telecomunicaciones entre países
-                miembros de REGULATEL por categoría temática.
-              </p>
+                <ChevronDown className="h-4 w-4" />
+                Expandir todo
+              </button>
+              <button
+                type="button"
+                onClick={() => setExpandAll(false)}
+                className="flex items-center gap-1.5 rounded-lg border px-3 py-2 text-sm font-medium transition hover:bg-white"
+                style={{ borderColor: "rgba(22,61,89,0.12)", color: "var(--regu-gray-700)" }}
+              >
+                <ChevronUp className="h-4 w-4" />
+                Colapsar todo
+              </button>
             </div>
           </div>
+        </div>
 
-          {/* Stats row */}
-          <div style={{ display: "flex", gap: 24, marginTop: 24, flexWrap: "wrap" }}>
-            {[
-              { icon: <Globe size={14} />, label: `${countries.length} países miembros` },
-              { icon: <BarChart2 size={14} />, label: `${categories.length} categorías de análisis` },
-            ].map((item, i) => (
-              <div key={i} style={{ display: "flex", alignItems: "center", gap: 6, fontSize: "0.8125rem", color: "var(--regu-gray-500)" }}>
-                <span style={{ color: "var(--regu-blue)" }}>{item.icon}</span>
-                {item.label}
-              </div>
-            ))}
-          </div>
-        </header>
+        {/* Stats rápidos */}
+        <div className="mb-8 flex flex-wrap gap-6 text-sm" style={{ color: "var(--regu-gray-500)" }}>
+          <span className="flex items-center gap-2">
+            <Globe className="h-4 w-4" style={{ color: "var(--regu-blue)" }} />
+            {dataList.length} países
+          </span>
+          <span className="flex items-center gap-2">
+            <LayoutList className="h-4 w-4" style={{ color: "var(--regu-blue)" }} />
+            {totalLinks} recursos en total
+          </span>
+        </div>
 
-        {/* Country selectors */}
-        <section className="obsControls" style={{ marginBottom: 32 }}>
-          <div className="countryGroup">
-            <CountrySelector
-              countries={countries}
-              selectedCountryId={selectedCountryA}
-              onSelectCountry={setSelectedCountryA}
-              label="País principal (A)"
-            />
-          </div>
-          <div className="countryGroup">
-            <CountrySelector
-              countries={countries.filter((c) => c.id !== selectedCountryA)}
-              selectedCountryId={selectedCountryB}
-              onSelectCountry={setSelectedCountryB}
-              label="País comparador (B)"
-              comparisonMode
-            />
-          </div>
-        </section>
-
-        {/* Category tabs + comparison */}
-        {countryA && countryB ? (
-          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-            {/* Category tabs card */}
-            <div
-              style={{
-                background: "#fff",
-                border: "1px solid rgba(22,61,89,0.10)",
-                borderRadius: 16,
-                padding: "20px 24px 0",
-                boxShadow: "0 2px 6px rgba(22,61,89,0.04)",
-              }}
-            >
-              <p
-                style={{
-                  fontSize: "0.625rem",
-                  fontWeight: 700,
-                  letterSpacing: "0.12em",
-                  textTransform: "uppercase",
-                  color: "var(--regu-gray-400)",
-                  marginBottom: 12,
-                }}
-              >
-                Categoría de análisis
-              </p>
-              <CategoryTabs
-                selectedCategory={selectedCategory}
-                onSelectCategory={setSelectedCategory}
-                countryAName={countryA.name}
-                countryBName={countryB.name}
-              />
-            </div>
-
-            {/* Comparison panel */}
-            <ComparisonPanel
-              countryA={countryA}
-              countryB={countryB}
-              category={selectedCategory}
-            />
-          </div>
-        ) : (
-          <div
+        <div className="flex flex-col gap-8 lg:flex-row">
+          {/* Sidebar: selector de país */}
+          <aside
+            className="lg:w-64 shrink-0"
             style={{
-              background: "#fff",
-              border: "1px solid rgba(22,61,89,0.10)",
+              backgroundColor: "#fff",
+              border: "1px solid rgba(22,61,89,0.08)",
               borderRadius: 16,
-              padding: "56px 24px",
-              textAlign: "center",
-              boxShadow: "0 2px 6px rgba(22,61,89,0.04)",
+              padding: 16,
             }}
           >
-            <div style={{ width: 52, height: 52, borderRadius: 12, background: "rgba(68,137,198,0.08)", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 16px" }}>
-              <Globe size={24} style={{ color: "var(--regu-blue)" }} />
+            <div className="flex items-center justify-between gap-2 mb-3">
+              <h2 className="text-sm font-bold uppercase tracking-wide" style={{ color: "var(--regu-gray-600)" }}>
+                Países
+              </h2>
+              <button
+                type="button"
+                onClick={() => setSidebarOpen((o) => !o)}
+                className="lg:hidden flex items-center justify-center w-9 h-9 rounded-lg border"
+                style={{ borderColor: "rgba(22,61,89,0.12)" }}
+                aria-expanded={sidebarOpen}
+                aria-label={sidebarOpen ? "Cerrar lista de países" : "Abrir lista de países"}
+              >
+                <ChevronDown className={`h-5 w-5 transition ${sidebarOpen ? "rotate-180" : ""}`} />
+              </button>
             </div>
-            <p style={{ fontSize: "1rem", fontWeight: 600, color: "var(--regu-navy)", marginBottom: 6 }}>
-              Seleccione dos países para comparar
-            </p>
-            <p style={{ fontSize: "0.875rem", color: "var(--regu-gray-500)" }}>
-              Elija un país principal (A) y un país comparador (B) en los selectores de arriba.
-            </p>
-          </div>
-        )}
+            <div className={sidebarOpen ? "block" : "hidden lg:block"}>
+              <MejoresPracticasSidebar
+                countries={filteredCountries}
+                selectedSlug={selectedSlug}
+                onSelectCountry={selectCountry}
+                searchQuery={searchQuery}
+              />
+            </div>
+          </aside>
+
+          {/* Contenido principal: detalle del país */}
+          <main
+            id="mejores-practicas-main"
+            className="min-w-0 flex-1"
+          >
+            {selectedCountry ? (
+              <div>
+                <header className="mb-6 flex flex-wrap items-center gap-4">
+                  <CountryFlag flag={selectedCountry.flag} size="md" />
+                  <div>
+                    <h1 className="text-2xl font-bold" style={{ color: "var(--regu-navy)" }}>
+                      {selectedCountry.name}
+                    </h1>
+                    <p className="text-sm mt-1" style={{ color: "var(--regu-gray-500)" }}>
+                      {getLinkCountByCountry(selectedCountry)} recursos en {selectedCountry.categories.filter((c) => c.links.length > 0).length} categorías
+                    </p>
+                  </div>
+                </header>
+
+                <div className="space-y-3">
+                  {filteredCategoriesForCountry.length > 0 ? (
+                    filteredCategoriesForCountry.map((cat, idx) => (
+                      <CategoryAccordion
+                        key={`${selectedCountry.slug}-${cat.name}-${idx}`}
+                        category={cat}
+                        defaultOpen={expandAll === true || (expandAll === null && filteredCategoriesForCountry.length <= 4)}
+                        searchNorm={searchNorm}
+                      />
+                    ))
+                  ) : (
+                    <div
+                      className="rounded-xl border border-dashed py-12 text-center"
+                      style={{ borderColor: "rgba(22,61,89,0.12)", color: "var(--regu-gray-500)" }}
+                    >
+                      <p className="font-medium">No hay recursos que coincidan con la búsqueda o el filtro.</p>
+                      <p className="text-sm mt-1">Pruebe otro país o quite filtros.</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            ) : (
+              <div
+                className="rounded-xl border border-dashed py-12 text-center"
+                style={{ borderColor: "rgba(22,61,89,0.12)", color: "var(--regu-gray-500)" }}
+              >
+                <p className="font-medium">Seleccione un país en el panel izquierdo.</p>
+              </div>
+            )}
+          </main>
+        </div>
 
         {/* Footer nav */}
-        <div style={{ marginTop: 48, paddingTop: 24, borderTop: "1px solid rgba(22,61,89,0.08)", display: "flex", gap: 16, flexWrap: "wrap" }}>
+        <div
+          className="mt-12 flex flex-wrap gap-4 border-t pt-8"
+          style={{ borderColor: "rgba(22,61,89,0.08)" }}
+        >
           <Link
             to="/"
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 6,
-              padding: "8px 16px",
-              borderRadius: 8,
-              border: "1px solid rgba(22,61,89,0.12)",
-              background: "#fff",
-              fontSize: "0.8125rem",
-              fontWeight: 600,
-              color: "var(--regu-gray-700)",
-              textDecoration: "none",
-              transition: "border-color 0.15s, color 0.15s",
-            }}
-            className="hover:border-[var(--regu-blue)] hover:text-[var(--regu-blue)]"
+            className="inline-flex items-center gap-2 rounded-xl border-2 px-4 py-2.5 text-sm font-semibold transition hover:opacity-90"
+            style={{ borderColor: "var(--regu-blue)", color: "var(--regu-blue)", backgroundColor: "rgba(22,61,89,0.06)" }}
           >
             ← Volver a inicio
           </Link>
           <Link
             to="/miembros"
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 6,
-              padding: "8px 16px",
-              borderRadius: 8,
-              background: "var(--regu-blue)",
-              fontSize: "0.8125rem",
-              fontWeight: 600,
-              color: "#fff",
-              textDecoration: "none",
-            }}
+            className="inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold text-white transition hover:opacity-90"
+            style={{ backgroundColor: "var(--regu-blue)" }}
           >
-            Ver todos los miembros →
+            Ver miembros REGULATEL →
           </Link>
         </div>
       </div>

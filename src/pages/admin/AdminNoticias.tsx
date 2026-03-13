@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAdminData } from "@/contexts/AdminDataContext";
 import type { AdminNewsItem } from "@/contexts/AdminDataContext";
 import { Pencil, Trash2, Plus } from "lucide-react";
@@ -55,6 +55,13 @@ export default function AdminNoticias() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!successMessage) return;
+    const t = setTimeout(() => setSuccessMessage(null), 4000);
+    return () => clearTimeout(t);
+  }, [successMessage]);
 
   const resetForm = () => {
     setForm(initialFormState());
@@ -107,6 +114,7 @@ export default function AdminNoticias() {
             .replace(/[^a-z0-9-]/g, "");
         await addNews({ ...payload, slug });
       }
+      setSuccessMessage(editingId ? "Noticia actualizada correctamente." : "Noticia añadida correctamente.");
       resetForm();
     } catch (error) {
       setFormError(
@@ -163,8 +171,11 @@ export default function AdminNoticias() {
       <h1 className="mb-6 text-2xl font-bold" style={{ color: "var(--regu-gray-900)" }}>
         Noticias
       </h1>
+      {successMessage && (
+        <p className="mb-4 text-sm font-medium text-green-700" role="status">{successMessage}</p>
+      )}
       {formError && !adding && !editingId && (
-        <p className="mb-4 text-sm font-medium text-red-600">{formError}</p>
+        <p className="mb-4 text-sm font-medium text-red-600" role="alert">{formError}</p>
       )}
 
       {!adding && !editingId && (
@@ -434,9 +445,11 @@ export default function AdminNoticias() {
               <button
                 type="button"
                 onClick={() => {
+                  if (!window.confirm("¿Eliminar esta noticia? Esta acción no se puede deshacer.")) return;
                   void (async () => {
                     try {
                       await deleteNews(n.id);
+                      setSuccessMessage("Noticia eliminada.");
                     } catch (error) {
                       setFormError(
                         error instanceof Error

@@ -4,7 +4,7 @@
  * Añadir nuevos eventos o URLs: usar el formulario "Nuevo evento" o editar una fila.
  */
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useAdminData } from "@/contexts/AdminDataContext";
 import type { Event } from "@/types/event";
 import { getEventYear, slugifyEventId, EVENT_STATUS_LABEL } from "@/types/event";
@@ -46,6 +46,13 @@ export default function AdminEventos() {
   const [urlError, setUrlError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isUploadingImage, setIsUploadingImage] = useState(false);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!successMessage) return;
+    const t = setTimeout(() => setSuccessMessage(null), 4000);
+    return () => clearTimeout(t);
+  }, [successMessage]);
 
   const sortedEvents = useMemo(
     () => [...events].sort((a, b) => b.startDate.localeCompare(a.startDate)),
@@ -145,6 +152,7 @@ export default function AdminEventos() {
           imageSize: form.imageSize,
         });
       }
+      setSuccessMessage(editingId ? "Evento actualizado correctamente." : "Evento creado correctamente.");
       closeModal();
     } catch (error) {
       setUrlError(
@@ -160,8 +168,11 @@ export default function AdminEventos() {
       <h1 className="mb-6 text-2xl font-bold" style={{ color: "var(--regu-gray-900)" }}>
         Eventos
       </h1>
+      {successMessage && (
+        <p className="mb-4 text-sm font-medium text-green-700" role="status">{successMessage}</p>
+      )}
       {urlError && !adding && !editingId && (
-        <p className="mb-4 text-sm font-medium text-red-600">{urlError}</p>
+        <p className="mb-4 text-sm font-medium text-red-600" role="alert">{urlError}</p>
       )}
       <p className="mb-4 text-sm" style={{ color: "var(--regu-gray-600)" }}>
         Gestionar todos los eventos que se muestran en la página pública y en el slider. El botón &quot;Registrarse&quot; usa la URL de registro configurada aquí.
@@ -492,6 +503,7 @@ export default function AdminEventos() {
                         void (async () => {
                           try {
                             await deleteEvent(ev.id);
+                            setSuccessMessage("Evento eliminado.");
                           } catch (error) {
                             setUrlError(
                               error instanceof Error

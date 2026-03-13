@@ -19,6 +19,11 @@ export const RESTRICTED_DOCUMENTS: Record<string, RestrictedDocumentEntry> = {
     title: "Acta No. 27",
     redirectUrl: "/gestion?tipo=planes-actas&id=acta-27",
   },
+  "acta-28": {
+    id: "acta-28",
+    title: "Acta No. 28",
+    redirectUrl: "/gestion?tipo=planes-actas&id=acta-28",
+  },
   "acta-2023": {
     id: "acta-2023",
     title: "Acta No. 28 / Acta No. 26",

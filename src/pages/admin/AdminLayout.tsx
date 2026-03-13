@@ -1,6 +1,8 @@
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { useAdminData } from "@/contexts/AdminDataContext";
+import AdminBreadcrumbs from "@/components/admin/AdminBreadcrumbs";
 import {
   LayoutDashboard,
   Newspaper,
@@ -12,8 +14,9 @@ import {
   Lock,
   LogOut,
   Home,
+  Menu,
+  X,
 } from "lucide-react";
-import { useEffect } from "react";
 
 const nav = [
   { to: "/admin", icon: LayoutDashboard, label: "Panel" },
@@ -25,9 +28,11 @@ const nav = [
 ];
 
 export default function AdminLayout() {
-  const { isAdmin, isChecking, canManageUsers, logout } = useAuth();
+  const { isAdmin, isChecking, canManageUsers, user, logout } = useAuth();
   const { contentSource, contentError } = useAdminData();
   const navigate = useNavigate();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [legacyDismissed, setLegacyDismissed] = useState(false);
 
   useEffect(() => {
     if (!isChecking && !isAdmin) {
@@ -35,66 +40,142 @@ export default function AdminLayout() {
     }
   }, [isAdmin, isChecking, navigate]);
 
+  useEffect(() => {
+    const handleUnauthorized = () => {
+      void logout();
+      navigate("/login", { replace: true });
+    };
+    window.addEventListener("auth:unauthorized", handleUnauthorized);
+    return () => window.removeEventListener("auth:unauthorized", handleUnauthorized);
+  }, [logout, navigate]);
+
   if (isChecking) return null;
   if (!isAdmin) return null;
 
+  const showLegacyBanner = contentSource !== "database" && !legacyDismissed;
+
   return (
     <div className="flex min-h-screen" style={{ backgroundColor: "var(--regu-gray-100)" }}>
+      {/* Mobile menu button */}
+      <button
+        type="button"
+        onClick={() => setSidebarOpen((o) => !o)}
+        className="fixed left-4 top-4 z-50 flex h-10 w-10 items-center justify-center rounded-lg border bg-white shadow md:hidden"
+        style={{ borderColor: "var(--regu-gray-200)" }}
+        aria-label={sidebarOpen ? "Cerrar menú" : "Abrir menú"}
+        aria-expanded={sidebarOpen}
+      >
+        {sidebarOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+      </button>
+
+      {/* Overlay when sidebar open on mobile */}
+      {sidebarOpen && (
+        <button
+          type="button"
+          onClick={() => setSidebarOpen(false)}
+          className="fixed inset-0 z-40 bg-black/30 md:hidden"
+          aria-hidden
+        />
+      )}
+
       <aside
-        className="w-56 shrink-0 border-r md:w-64"
+        className={`
+          fixed inset-y-0 left-0 z-40 w-56 shrink-0 border-r transition-transform duration-200 md:relative md:translate-x-0 md:w-64
+          ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
+        `}
         style={{
           backgroundColor: "var(--regu-white)",
           borderColor: "var(--regu-gray-100)",
         }}
       >
-        <div className="sticky top-0 flex flex-col py-6">
+        <div className="flex h-full flex-col py-6 pl-4 pr-2 md:pl-4 md:pr-2">
           <Link
             to="/admin"
-            className="px-4 pb-4 text-lg font-bold"
+            className="px-2 pb-4 text-lg font-bold"
             style={{ color: "var(--regu-navy)" }}
+            onClick={() => setSidebarOpen(false)}
           >
             Admin REGULATEL
           </Link>
-          <nav className="space-y-0.5 px-2">
+          <nav className="space-y-0.5 px-2" aria-label="Administración">
             {nav.map(({ to, icon: Icon, label }) => (
-              <Link
+              <NavLink
                 key={to}
                 to={to}
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition"
-                style={{ color: "var(--regu-gray-900)" }}
+                end={to === "/admin"}
+                onClick={() => setSidebarOpen(false)}
+                className={({ isActive }) =>
+                  "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition " +
+                  (isActive
+                    ? "bg-[rgba(68,137,198,0.12)]"
+                    : "")
+                }
+                style={({ isActive }) =>
+                  isActive
+                    ? { color: "var(--regu-blue)" }
+                    : { color: "var(--regu-gray-900)" }
+                }
               >
-                <Icon className="h-4 w-4" />
+                <Icon className="h-4 w-4" aria-hidden />
                 {label}
-              </Link>
+              </NavLink>
             ))}
             {canManageUsers && (
               <>
-                <Link
+                <NavLink
                   to="/admin/usuarios"
-                  className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition"
-                  style={{ color: "var(--regu-gray-900)" }}
+                  onClick={() => setSidebarOpen(false)}
+                  className={({ isActive }) =>
+                    "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition " +
+                    (isActive ? "bg-[rgba(68,137,198,0.12)]" : "")
+                  }
+                  style={({ isActive }) =>
+                    isActive
+                      ? { color: "var(--regu-blue)" }
+                      : { color: "var(--regu-gray-900)" }
+                  }
                 >
-                  <Users className="h-4 w-4" />
+                  <Users className="h-4 w-4" aria-hidden />
                   Usuarios y auditoría
-                </Link>
-                <Link
+                </NavLink>
+                <NavLink
                   to="/admin/acceso-actas"
-                  className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition"
-                  style={{ color: "var(--regu-gray-900)" }}
+                  onClick={() => setSidebarOpen(false)}
+                  className={({ isActive }) =>
+                    "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition " +
+                    (isActive ? "bg-[rgba(68,137,198,0.12)]" : "")
+                  }
+                  style={({ isActive }) =>
+                    isActive
+                      ? { color: "var(--regu-blue)" }
+                      : { color: "var(--regu-gray-900)" }
+                  }
                 >
-                  <Lock className="h-4 w-4" />
+                  <Lock className="h-4 w-4" aria-hidden />
                   Acceso a actas
-                </Link>
+                </NavLink>
               </>
             )}
           </nav>
-          <div className="mt-auto border-t px-2 pt-4" style={{ borderColor: "var(--regu-gray-100)" }}>
+
+          {user && (
+            <p
+              className="mt-4 px-3 py-2 text-xs truncate rounded-lg"
+              style={{ color: "var(--regu-gray-500)", backgroundColor: "var(--regu-gray-100)" }}
+              title={user.email}
+            >
+              {user.name || user.email}
+            </p>
+          )}
+
+          <div className="mt-auto border-t pt-4" style={{ borderColor: "var(--regu-gray-100)" }}>
             <Link
               to="/"
+              onClick={() => setSidebarOpen(false)}
               className="mb-2 flex items-center gap-3 rounded-lg border-2 px-3 py-2.5 text-sm font-semibold transition hover:opacity-90"
               style={{ borderColor: "var(--regu-blue)", color: "var(--regu-blue)", backgroundColor: "rgba(22, 61, 89, 0.06)" }}
             >
-              <Home className="h-4 w-4" />
+              <Home className="h-4 w-4" aria-hidden />
               Ir a home
             </Link>
             <button
@@ -103,23 +184,39 @@ export default function AdminLayout() {
                 void logout();
                 navigate("/login");
               }}
-              className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium"
+              className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition hover:opacity-80"
               style={{ color: "var(--regu-gray-700)" }}
+              aria-label="Cerrar sesión"
             >
-              <LogOut className="h-4 w-4" />
+              <LogOut className="h-4 w-4" aria-hidden />
               Cerrar sesión
             </button>
           </div>
         </div>
       </aside>
-      <main className="min-w-0 flex-1 p-6 md:p-8">
-        {contentSource !== "database" && (
-          <div className="mb-6 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
-            El contenido principal no está saliendo de Neon en este momento. El portal quedó en modo
-            legacy solo para lectura pública.
-            {contentError ? ` Motivo: ${contentError}` : ""}
+
+      <main className="min-w-0 flex-1 p-6 pt-14 md:pt-6 md:p-8">
+        {showLegacyBanner && (
+          <div
+            className="mb-6 flex items-start justify-between gap-3 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900"
+            role="alert"
+          >
+            <span>
+              El contenido principal no está saliendo de Neon en este momento. El portal quedó en modo
+              legacy solo para lectura pública.
+              {contentError ? ` Motivo: ${contentError}` : ""}
+            </span>
+            <button
+              type="button"
+              onClick={() => setLegacyDismissed(true)}
+              className="shrink-0 rounded px-2 py-1 text-amber-800 hover:bg-amber-100"
+              aria-label="Ocultar aviso"
+            >
+              <X className="h-4 w-4" />
+            </button>
           </div>
         )}
+        <AdminBreadcrumbs />
         <Outlet />
       </main>
     </div>

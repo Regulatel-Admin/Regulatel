@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAdminData } from "@/contexts/AdminDataContext";
 import type { GestionDocument, GestionCategory } from "@/data/gestion";
-import { GESTION_TAB_LABELS } from "@/data/gestion";
+import { GESTION_TAB_LABELS, getCategoryDisplayLabel } from "@/data/gestion";
 import { Pencil, Trash2, Plus, FileText } from "lucide-react";
 import { uploadAdminFile } from "@/lib/uploads";
 
@@ -9,7 +9,6 @@ const CATEGORY_OPTIONS: { value: GestionCategory; label: string }[] = [
   { value: "planes-actas", label: GESTION_TAB_LABELS["planes-actas"] },
   { value: "documentos", label: GESTION_TAB_LABELS.documentos },
   { value: "revista", label: GESTION_TAB_LABELS.revista },
-  { value: "banco", label: GESTION_TAB_LABELS.banco },
   { value: "otros", label: GESTION_TAB_LABELS.otros },
 ];
 
@@ -31,6 +30,7 @@ export default function AdminDocumentos() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   const resetForm = () => {
     setForm(emptyDoc);
@@ -40,6 +40,12 @@ export default function AdminDocumentos() {
     setIsUploading(false);
     setIsSubmitting(false);
   };
+
+  useEffect(() => {
+    if (!successMessage) return;
+    const t = setTimeout(() => setSuccessMessage(null), 4000);
+    return () => clearTimeout(t);
+  }, [successMessage]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -57,8 +63,10 @@ export default function AdminDocumentos() {
     try {
       if (editingId) {
         await updateDocument(editingId, payload);
+        setSuccessMessage("Documento actualizado correctamente.");
       } else {
         await addDocument(payload);
+        setSuccessMessage("Documento añadido correctamente.");
       }
       resetForm();
     } catch (error) {
@@ -77,7 +85,7 @@ export default function AdminDocumentos() {
       fileName: d.fileName,
       fileType: d.fileType,
       fileSize: d.fileSize,
-      category: d.category,
+      category: d.category === "banco" ? "otros" : d.category,
       year: d.year ?? "",
       quarter: d.quarter ?? "",
     });
@@ -91,8 +99,13 @@ export default function AdminDocumentos() {
       <h1 className="mb-6 text-2xl font-bold" style={{ color: "var(--regu-gray-900)" }}>
         Documentos
       </h1>
+      {successMessage && (
+        <p className="mb-4 text-sm font-medium text-green-700" role="status">
+          {successMessage}
+        </p>
+      )}
       {formError && !adding && !editingId && (
-        <p className="mb-4 text-sm font-medium text-red-600">{formError}</p>
+        <p className="mb-4 text-sm font-medium text-red-600" role="alert">{formError}</p>
       )}
       <p className="mb-6 text-sm max-w-2xl" style={{ color: "var(--regu-gray-500)" }}>
         Aquí puedes añadir documentos y asignarlos a las subcategorías del menú Recursos (Planes de trabajo, Actas, Declaraciones, Revista Digital, etc.). Los documentos que añadas aparecerán en la categoría correspondiente en Gestión.
@@ -284,7 +297,7 @@ export default function AdminDocumentos() {
               <div className="min-w-0">
                 <p className="font-semibold" style={{ color: "var(--regu-gray-900)" }}>{d.title}</p>
                 <p className="truncate text-sm" style={{ color: "var(--regu-gray-500)" }}>
-                  {GESTION_TAB_LABELS[d.category]}
+                  {getCategoryDisplayLabel(d.category)}
                   {d.year && ` · ${d.year}`}
                   {d.quarter && ` ${d.quarter}`}
                   {d.fileName && ` · ${d.fileName}`}
@@ -303,9 +316,11 @@ export default function AdminDocumentos() {
               <button
                 type="button"
                 onClick={() => {
+                  if (!window.confirm("¿Eliminar este documento? Esta acción no se puede deshacer.")) return;
                   void (async () => {
                     try {
                       await deleteDocument(d.id);
+                      setSuccessMessage("Documento eliminado.");
                     } catch (error) {
                       setFormError(
                         error instanceof Error

@@ -19,6 +19,13 @@ async function request<T>(
       credentials: "include",
     };
     const res = await fetch(`${API_BASE}${path}`, init);
+    if (res.status === 401) {
+      try {
+        window.dispatchEvent(new CustomEvent("auth:unauthorized"));
+      } catch {
+        // no-op
+      }
+    }
     const text = await res.text();
     let data: T | undefined;
     if (text.trim()) {

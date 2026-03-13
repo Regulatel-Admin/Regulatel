@@ -16,13 +16,16 @@ export default function AdminCifras() {
   const anos = getCifrasAnos();
   const [selectedYear, setSelectedYear] = useState<number>(anos[0] ?? 2026);
   const [editingKey, setEditingKey] = useState<keyof CifrasAnuales | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   const cifras = getCifrasForYear(selectedYear);
   const hasOverrideForYear = selectedYear in adminCifrasPorAno;
 
   const handleSave = (key: keyof CifrasAnuales, value: number) => {
-    setCifrasForYear(selectedYear, { ...cifras, [key]: value });
+    void setCifrasForYear(selectedYear, { ...cifras, [key]: value });
     setEditingKey(null);
+    setSuccessMessage("Cifras guardadas.");
+    setTimeout(() => setSuccessMessage(null), 3000);
   };
 
   const resetYearToDefault = () => {
@@ -35,6 +38,9 @@ export default function AdminCifras() {
       <h1 className="mb-6 text-2xl font-bold" style={{ color: "var(--regu-gray-900)" }}>
         REGULATEL en cifras
       </h1>
+      {successMessage && (
+        <p className="mb-4 text-sm font-medium text-green-700" role="status">{successMessage}</p>
+      )}
 
       {/* Selector de año: 2025 | 2026 */}
       <div className="mb-6 flex flex-wrap items-center gap-3">

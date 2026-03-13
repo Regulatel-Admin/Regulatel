@@ -16,26 +16,29 @@ export default function CountryFlag({
   size = "md",
   className = "",
 }: CountryFlagProps) {
-  const isImage =
-    flag.endsWith(".png") ||
-    flag.endsWith(".jpg") ||
-    flag.endsWith(".jpeg") ||
-    flag.endsWith(".svg");
+  const value = flag?.trim() || "";
+  const isFullUrl = value.startsWith("http://") || value.startsWith("https://");
+  const isLocalImage =
+    value && !isFullUrl && (value.endsWith(".png") || value.endsWith(".jpg") || value.endsWith(".jpeg") || value.endsWith(".svg"));
+  const useImage = isFullUrl || isLocalImage;
 
-  const pixelSize = size === "xs" ? 18 : size === "sm" ? 24 : size === "md" ? 36 : 48;
+  const pixelSize = size === "xs" ? 20 : size === "sm" ? 24 : size === "md" ? 36 : 48;
+  const imgSrc = isFullUrl ? value : isLocalImage ? `/flags/${value}` : "";
 
-  if (isImage) {
+  if (useImage && imgSrc) {
     return (
-      <span className={className}>
+      <span className={`inline-block shrink-0 ${className}`}>
         <img
-          src={`/flags/${flag}`}
+          src={imgSrc}
           alt="Bandera del país"
+          width={pixelSize}
+          height={pixelSize}
           style={{
             width: pixelSize,
             height: pixelSize,
             borderRadius: 4,
             objectFit: "cover",
-            boxShadow: "0 0 0 1px rgba(148, 163, 184, 0.6)",
+            boxShadow: "0 0 0 1px rgba(148, 163, 184, 0.3)",
           }}
         />
       </span>
@@ -44,7 +47,7 @@ export default function CountryFlag({
 
   return (
     <span
-      className={`${sizeClasses[size]} ${className} inline-block leading-none`}
+      className={`${sizeClasses[size]} ${className} inline-block leading-none shrink-0`}
       role="img"
       aria-label="bandera"
       style={{
@@ -56,7 +59,7 @@ export default function CountryFlag({
           size === "xs" ? "1.125rem" : size === "sm" ? "1.5rem" : size === "md" ? "2.5rem" : "3rem",
       }}
     >
-      {flag}
+      {value || "🌐"}
     </span>
   );
 }
