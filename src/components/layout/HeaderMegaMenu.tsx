@@ -5,7 +5,8 @@ import NavMegaPanel from "@/components/layout/NavMegaPanel";
 import MegaMenuEvents from "@/components/layout/MegaMenuEvents";
 import ConveniosMenu from "@/components/convenios/ConveniosMenu";
 import TopBarBerecLike from "@/components/layout/TopBarBerecLike";
-import { navigationItems } from "@/data/navigation";
+import { navigationItems, type NavigationItem } from "@/data/navigation";
+import { useNavigationSettings } from "@/contexts/SiteSettingsContext";
 
 /** Histéresis: evita flicker al hacer scroll cerca del umbral. Ocultar solo al bajar pasado HIDE; mostrar solo al subir hasta SHOW o menos. */
 const SCROLL_THRESHOLD_HIDE = 80; // px — al bajar pasado esto se oculta la top bar
@@ -21,6 +22,10 @@ function isPathActive(currentPath: string, href?: string): boolean {
 
 export default function HeaderMegaMenu() {
   const location = useLocation();
+  const apiNav = useNavigationSettings();
+  const navItems: NavigationItem[] = (apiNav && Array.isArray(apiNav) && apiNav.length > 0
+    ? apiNav
+    : navigationItems) as NavigationItem[];
   const navRef = useRef<HTMLDivElement>(null);
   const topbarWrapperRef = useRef<HTMLDivElement>(null);
   const [openDesktopMenu, setOpenDesktopMenu] = useState<string | null>(null);
@@ -49,7 +54,7 @@ export default function HeaderMegaMenu() {
   const activeByItemId = useMemo(() => {
     const map: Record<string, boolean> = {};
 
-    for (const item of navigationItems) {
+    for (const item of navItems) {
       let active = isPathActive(location.pathname, item.href);
       if (item.columns?.length) {
         for (const column of item.columns) {
@@ -67,7 +72,7 @@ export default function HeaderMegaMenu() {
     }
 
     return map;
-  }, [location.pathname]);
+  }, [location.pathname, navItems]);
 
   useEffect(() => {
     setMobileMenuOpen(false);
@@ -158,7 +163,7 @@ export default function HeaderMegaMenu() {
     setOpenMobileAccordions((prev) => ({ ...prev, [id]: !prev[id] }));
   };
 
-  const openItem = navigationItems.find((item) => item.id === openDesktopMenu);
+  const openItem = navItems.find((item) => item.id === openDesktopMenu);
 
   return (
     <header
@@ -213,7 +218,7 @@ export default function HeaderMegaMenu() {
                 listStyle: "none",
               }}
             >
-              {navigationItems.map((item) => {
+              {navItems.map((item) => {
                 const hasPanel = Boolean(item.columns?.length) || item.id === "eventos" || item.id === "convenios";
                 const isOpen = openDesktopMenu === item.id;
                 const isActive = activeByItemId[item.id];
@@ -345,7 +350,7 @@ export default function HeaderMegaMenu() {
           aria-label="Menú de navegación"
         >
         <ul className="space-y-2 pb-4" aria-label="Navegación móvil">
-          {navigationItems.map((item) => {
+          {navItems.map((item) => {
             const hasPanel = Boolean(item.columns?.length) || item.id === "eventos";
             const expanded = openMobileAccordions[item.id] ?? false;
             const panelId = `${item.id}-mobile-panel`;

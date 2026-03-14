@@ -1,11 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useAdminData } from "@/contexts/AdminDataContext";
 import type { AdminNewsItem } from "@/contexts/AdminDataContext";
-import { Pencil, Trash2, Plus } from "lucide-react";
+import { Pencil, Trash2, Plus, History, X } from "lucide-react";
 import { uploadAdminFile } from "@/lib/uploads";
 import type { UploadedFileMeta } from "@/types/uploads";
+import { api } from "@/lib/api";
 
-const emptyItem: Omit<AdminNewsItem, "id" | "published"> = {
+const emptyItem: Omit<AdminNewsItem, "id"> = {
   slug: "",
   title: "",
   date: new Date().toISOString().slice(0, 10),
@@ -21,6 +22,7 @@ const emptyItem: Omit<AdminNewsItem, "id" | "published"> = {
   imageFileName: undefined,
   additionalImageNames: undefined,
   additionalImageMeta: undefined,
+  published: true,
 };
 
 type ImageSlot = {
@@ -29,7 +31,7 @@ type ImageSlot = {
   mimeType?: string;
   size?: number;
 };
-type FormState = Omit<AdminNewsItem, "id" | "published"> & { imageSlots: ImageSlot[] };
+type FormState = Omit<AdminNewsItem, "id"> & { imageSlots: ImageSlot[] };
 
 function formatDate(s: string) {
   if (!s) return "";
@@ -47,6 +49,15 @@ const initialFormState = (): FormState => ({
   imageSlots: [{ url: "" }],
 });
 
+type AuditEntry = {
+  id: string;
+  action: string;
+  user_email: string;
+  user_name: string | null;
+  details: Record<string, unknown>;
+  created_at: string;
+};
+
 export default function AdminNoticias() {
   const { adminNews, addNews, updateNews, deleteNews } = useAdminData();
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -56,12 +67,40 @@ export default function AdminNoticias() {
   const [isUploading, setIsUploading] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [historyNewsId, setHistoryNewsId] = useState<string | null>(null);
+  const [historyEntries, setHistoryEntries] = useState<AuditEntry[]>([]);
+  const [historyLoading, setHistoryLoading] = useState(false);
+  const [historyError, setHistoryError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!successMessage) return;
     const t = setTimeout(() => setSuccessMessage(null), 4000);
     return () => clearTimeout(t);
   }, [successMessage]);
+
+  const loadHistory = useCallback(async (newsId: string) => {
+    setHistoryNewsId(newsId);
+    setHistoryError(null);
+    setHistoryLoading(true);
+    try {
+      const res = await api.admin.audit.list({
+        resource_type: "news",
+        resource_id: newsId,
+        limit: 50,
+      });
+      if (!res.ok) {
+        setHistoryError(res.error ?? "No se pudo cargar el historial.");
+        setHistoryEntries([]);
+      } else {
+        setHistoryEntries(res.data?.items ?? []);
+      }
+    } catch (err) {
+      setHistoryError(err instanceof Error ? err.message : "No se pudo cargar el historial.");
+      setHistoryEntries([]);
+    } finally {
+      setHistoryLoading(false);
+    }
+  }, []);
 
   const resetForm = () => {
     setForm(initialFormState());
@@ -99,6 +138,7 @@ export default function AdminNoticias() {
       author: form.author,
       link: form.link,
       videoUrl: form.videoUrl,
+      published: form.published,
     };
     setFormError(null);
     setIsSubmitting(true);
@@ -112,7 +152,7 @@ export default function AdminNoticias() {
             .toLowerCase()
             .replace(/\s+/g, "-")
             .replace(/[^a-z0-9-]/g, "");
-        await addNews({ ...payload, slug });
+        await addNews({ ...payload, slug, published: form.published });
       }
       setSuccessMessage(editingId ? "Noticia actualizada correctamente." : "Noticia añadida correctamente.");
       resetForm();
@@ -159,6 +199,7 @@ export default function AdminNoticias() {
       author: n.author,
       link: n.link,
       videoUrl: n.videoUrl,
+      published: n.published !== false,
       imageSlots,
     });
     setEditingId(n.id);
@@ -238,6 +279,18 @@ export default function AdminNoticias() {
                 className="w-full rounded-lg border px-3 py-2"
                 style={{ borderColor: "var(--regu-gray-100)" }}
               />
+            </div>
+            <div className="flex items-center gap-2">
+              <input
+                type="checkbox"
+                id="news-published"
+                checked={form.published !== false}
+                onChange={(e) => setForm((f) => ({ ...f, published: e.target.checked }))}
+                className="h-4 w-4 rounded border-gray-300"
+              />
+              <label htmlFor="news-published" className="text-sm font-medium" style={{ color: "var(--regu-gray-700)" }}>
+                Publicado (visible en el sitio)
+              </label>
             </div>
             <div className="md:col-span-2">
               <label className="mb-1 block text-sm font-medium" style={{ color: "var(--regu-gray-700)" }}>Resumen *</label>
@@ -419,6 +472,31 @@ export default function AdminNoticias() {
               Cancelar
             </button>
           </div>
+
+          {/* Vista previa de la card */}
+          <div className="mt-6 rounded-xl border bg-[var(--regu-offwhite)] p-4" style={{ borderColor: "var(--regu-gray-100)" }}>
+            <p className="mb-2 text-xs font-bold uppercase tracking-wide" style={{ color: "var(--regu-gray-500)" }}>
+              Vista previa (card)
+            </p>
+            <div className="max-w-sm overflow-hidden rounded-lg border bg-white shadow-sm" style={{ borderColor: "rgba(22,61,89,0.08)" }}>
+              {form.imageSlots[0]?.url ? (
+                <div className="aspect-video w-full bg-[var(--regu-gray-100)]">
+                  <img src={form.imageSlots[0].url} alt="" className="h-full w-full object-cover" />
+                </div>
+              ) : null}
+              <div className="p-3">
+                <p className="font-semibold leading-snug" style={{ color: "var(--regu-gray-900)" }}>
+                  {form.title || "Título de la noticia"}
+                </p>
+                <p className="mt-1 text-xs" style={{ color: "var(--regu-gray-500)" }}>
+                  {formatDate(form.date) || "—"}
+                </p>
+                <p className="mt-2 line-clamp-2 text-sm" style={{ color: "var(--regu-gray-600)" }}>
+                  {form.excerpt || "Resumen…"}
+                </p>
+              </div>
+            </div>
+          </div>
         </form>
       )}
 
@@ -430,10 +508,30 @@ export default function AdminNoticias() {
             style={{ borderColor: "var(--regu-gray-100)" }}
           >
             <div className="min-w-0">
-              <p className="font-semibold" style={{ color: "var(--regu-gray-900)" }}>{n.title}</p>
+              <div className="flex flex-wrap items-center gap-2">
+                <p className="font-semibold" style={{ color: "var(--regu-gray-900)" }}>{n.title}</p>
+                <span
+                  className="rounded-full px-2 py-0.5 text-xs font-medium"
+                  style={{
+                    backgroundColor: n.published !== false ? "rgba(68,137,198,0.12)" : "var(--regu-gray-100)",
+                    color: n.published !== false ? "var(--regu-blue)" : "var(--regu-gray-600)",
+                  }}
+                >
+                  {n.published !== false ? "Publicado" : "Borrador"}
+                </span>
+              </div>
               <p className="text-sm" style={{ color: "var(--regu-gray-500)" }}>{formatDate(n.date)}</p>
             </div>
             <div className="flex shrink-0 gap-2">
+              <button
+                type="button"
+                onClick={() => loadHistory(n.id)}
+                className="rounded-lg p-2 transition hover:bg-slate-100"
+                aria-label="Ver historial"
+                title="Historial de cambios"
+              >
+                <History className="h-4 w-4" style={{ color: "var(--regu-gray-600)" }} />
+              </button>
               <button
                 type="button"
                 onClick={() => startEdit(n)}
@@ -473,6 +571,84 @@ export default function AdminNoticias() {
           </p>
         )}
       </div>
+
+      {/* Modal Historial de cambios */}
+      {historyNewsId != null && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          style={{ backgroundColor: "rgba(0,0,0,0.4)" }}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="historial-title"
+        >
+          <div
+            className="w-full max-w-lg max-h-[85vh] overflow-hidden rounded-2xl border bg-white shadow-xl"
+            style={{ borderColor: "var(--regu-gray-100)" }}
+          >
+            <div className="flex items-center justify-between border-b p-4" style={{ borderColor: "var(--regu-gray-100)" }}>
+              <h2 id="historial-title" className="text-lg font-bold" style={{ color: "var(--regu-gray-900)" }}>
+                Historial de cambios
+              </h2>
+              <button
+                type="button"
+                onClick={() => { setHistoryNewsId(null); setHistoryError(null); }}
+                className="rounded-lg p-2 hover:bg-gray-100"
+                aria-label="Cerrar"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+            <div className="overflow-y-auto p-4" style={{ maxHeight: "calc(85vh - 80px)" }}>
+              {historyLoading ? (
+                <p className="text-sm" style={{ color: "var(--regu-gray-500)" }}>Cargando…</p>
+              ) : historyError ? (
+                <p className="text-sm font-medium text-red-600">{historyError}</p>
+              ) : historyEntries.length === 0 ? (
+                <p className="text-sm" style={{ color: "var(--regu-gray-500)" }}>No hay registros de cambios para esta noticia.</p>
+              ) : (
+                <ul className="space-y-3">
+                  {historyEntries.map((entry) => (
+                    <li
+                      key={entry.id}
+                      className="rounded-lg border p-3 text-sm"
+                      style={{ borderColor: "var(--regu-gray-100)" }}
+                    >
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span
+                          className="rounded-full px-2 py-0.5 text-xs font-semibold"
+                          style={{
+                            backgroundColor: entry.action === "created" ? "rgba(68,137,198,0.15)" : entry.action === "deleted" ? "rgba(252,145,135,0.2)" : "var(--regu-gray-100)",
+                            color: entry.action === "created" ? "var(--regu-blue)" : entry.action === "deleted" ? "var(--regu-salmon)" : "var(--regu-gray-700)",
+                          }}
+                        >
+                          {entry.action === "created" ? "Creado" : entry.action === "updated" ? "Actualizado" : "Eliminado"}
+                        </span>
+                        <span style={{ color: "var(--regu-gray-600)" }}>
+                          {new Date(entry.created_at).toLocaleString("es-ES", {
+                            day: "numeric",
+                            month: "short",
+                            year: "numeric",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          })}
+                        </span>
+                      </div>
+                      <p className="mt-1" style={{ color: "var(--regu-gray-700)" }}>
+                        {entry.user_name || entry.user_email}
+                      </p>
+                      {typeof entry.details?.title === "string" && (
+                        <p className="mt-0.5 truncate text-xs" style={{ color: "var(--regu-gray-500)" }}>
+                          {entry.details.title}
+                        </p>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

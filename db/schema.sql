@@ -75,6 +75,24 @@ CREATE TABLE IF NOT EXISTS documents (
 CREATE INDEX IF NOT EXISTS idx_documents_category ON documents(category);
 CREATE INDEX IF NOT EXISTS idx_documents_year ON documents(year);
 
+-- Site-wide CMS content (hero, carousel, quick links, navigation)
+CREATE TABLE IF NOT EXISTS site_settings (
+  key TEXT PRIMARY KEY,
+  value JSONB NOT NULL DEFAULT '{}',
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+CREATE INDEX IF NOT EXISTS idx_site_settings_updated ON site_settings(updated_at);
+
+-- Suscriptores a actualizaciones (noticias, eventos)
+CREATE TABLE IF NOT EXISTS subscribers (
+  id TEXT PRIMARY KEY,
+  email TEXT NOT NULL UNIQUE,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  unsubscribed_at TIMESTAMPTZ
+);
+CREATE INDEX IF NOT EXISTS idx_subscribers_email ON subscribers(lower(email));
+CREATE INDEX IF NOT EXISTS idx_subscribers_active ON subscribers(unsubscribed_at) WHERE unsubscribed_at IS NULL;
+
 -- REGULATEL en cifras (por año): grupos de trabajo, comités, revista, países
 CREATE TABLE IF NOT EXISTS cifras (
   year INTEGER PRIMARY KEY,
@@ -126,7 +144,7 @@ CREATE TABLE IF NOT EXISTS admin_audit_log (
   user_email TEXT NOT NULL,
   user_name TEXT,
   action TEXT NOT NULL CHECK (action IN ('created', 'updated', 'deleted', 'uploaded')),
-  resource_type TEXT NOT NULL CHECK (resource_type IN ('news', 'event', 'document', 'upload', 'admin_user', 'cifras')),
+  resource_type TEXT NOT NULL CHECK (resource_type IN ('news', 'event', 'document', 'upload', 'admin_user', 'cifras', 'site_settings')),
   resource_id TEXT,
   details JSONB DEFAULT '{}',
   created_at TIMESTAMPTZ DEFAULT NOW()

@@ -65,7 +65,7 @@ interface AdminDataContextValue {
   contentError: string | null;
   adminNews: AdminNewsItem[];
   setAdminNews: (v: AdminNewsItem[] | ((prev: AdminNewsItem[]) => AdminNewsItem[])) => void;
-  addNews: (item: Omit<AdminNewsItem, "id" | "published">) => Promise<void>;
+  addNews: (item: Omit<AdminNewsItem, "id">) => Promise<void>;
   updateNews: (id: string, item: Partial<AdminNewsItem>) => Promise<void>;
   deleteNews: (id: string) => Promise<void>;
 
@@ -168,9 +168,9 @@ export function AdminDataProvider({ children }: { children: ReactNode }) {
   );
 
   const addNews = useCallback(
-    async (item: Omit<AdminNewsItem, "id" | "published">) => {
+    async (item: Omit<AdminNewsItem, "id">) => {
       const id = "admin-" + Date.now();
-      const payload = { ...item, id, published: true };
+      const payload = { ...item, id, published: item.published !== false };
       const res = await api.news.create(payload);
       if (!res.ok || !res.data) throw new Error(res.ok ? "No se pudo crear la noticia." : res.error);
       setAdminNewsState((prev) => [...prev, res.data as AdminNewsItem]);

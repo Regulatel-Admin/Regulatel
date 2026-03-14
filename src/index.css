@@ -147,6 +147,11 @@
 .nav-item-underline.nav-item-active::after {
   opacity: 1;
 }
+/* Color del ítem activo/hover del menú: azul institucional (sin lime) */
+.header-font-fixed .nav-item-underline.nav-item-active,
+.header-font-fixed .nav-item-underline:hover {
+  color: var(--nav-item-active-color, var(--regu-blue)) !important;
+}
 @media (prefers-reduced-motion: reduce) {
   .nav-item-underline::after {
     transition: none;
@@ -323,18 +328,18 @@
 }
 .mega-panel-link-has-desc:hover .mega-menu-link,
 .mega-panel-link-has-desc:hover .mega-panel-link-desc {
-  background-color: rgba(68, 137, 198, 0.07);
-  border-left-color: var(--regu-blue);
+  background-color: rgba(22, 61, 89, 0.04);
+  border-left-color: rgba(68, 137, 198, 0.5);
 }
 .mega-panel-link-has-desc:hover .mega-menu-link {
   color: var(--mega-link-hover-color) !important;
   text-decoration: none;
 }
-/* Links sin descripción — hover normal */
+/* Links sin descripción — hover sutil e institucional */
 .mega-panel-links > li:not(.mega-panel-link-has-desc) .mega-menu-link:hover {
   color: var(--mega-link-hover-color) !important;
-  background-color: rgba(68, 137, 198, 0.07);
-  border-left-color: var(--regu-blue);
+  background-color: rgba(22, 61, 89, 0.04);
+  border-left-color: rgba(68, 137, 198, 0.5);
   text-decoration: none;
 }
 .mega-menu-link:focus-visible {
@@ -355,8 +360,8 @@
   transition: background-color 0.15s ease, border-left-color 0.15s ease, color 0.14s ease;
 }
 .mega-panel-child-item .mega-panel-child-link:hover {
-  background-color: rgba(68, 137, 198, 0.07);
-  border-left-color: rgba(68, 137, 198, 0.5);
+  background-color: rgba(22, 61, 89, 0.04);
+  border-left-color: rgba(68, 137, 198, 0.45);
 }
 
 /* Revista Digital / Planes: año como label secundario, ediciones como bloques escaneables */

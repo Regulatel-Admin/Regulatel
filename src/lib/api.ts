@@ -88,6 +88,11 @@ export const api = {
       request<{ ok: boolean }>("/api/document-access", { method: "POST", body }),
     session: () => request<{ ok: boolean }>("/api/document-access"),
   },
+  settings: {
+    getAll: () => request<Record<string, unknown>>("/api/settings"),
+    get: (key: string) => request<{ key: string; value: unknown; updated_at?: string }>(`/api/settings?key=${encodeURIComponent(key)}`),
+    set: (key: string, value: unknown) => request<{ key: string; value: unknown; updated_at: string }>("/api/settings", { method: "PUT", body: { key, value } }),
+  },
   admin: {
     session: () =>
       request<{
@@ -121,10 +126,12 @@ export const api = {
         request<void>(`/api/admin/document-access-users/${encodeURIComponent(id)}`, { method: "DELETE" }),
     },
     audit: {
-      list: (params?: { limit?: number; offset?: number }) => {
+      list: (params?: { limit?: number; offset?: number; resource_type?: string; resource_id?: string }) => {
         const sp = new URLSearchParams();
         if (params?.limit != null) sp.set("limit", String(params.limit));
         if (params?.offset != null) sp.set("offset", String(params.offset));
+        if (params?.resource_type) sp.set("resource_type", params.resource_type);
+        if (params?.resource_id) sp.set("resource_id", params.resource_id);
         const q = sp.toString();
         return request<{ items: Array<{
           id: string;
@@ -137,6 +144,15 @@ export const api = {
           details: Record<string, unknown>;
           created_at: string;
         }> }>(`/api/admin/audit${q ? `?${q}` : ""}`);
+      },
+    },
+    media: {
+      list: (params?: { prefix?: "news" | "events" | "gallery" | "all"; limit?: number }) => {
+        const sp = new URLSearchParams();
+        if (params?.prefix) sp.set("prefix", params.prefix);
+        if (params?.limit != null) sp.set("limit", String(params.limit));
+        const q = sp.toString();
+        return request<{ items: Array<{ url: string; pathname: string; size?: number; uploadedAt?: string }> }>(`/api/admin/media${q ? `?${q}` : ""}`);
       },
     },
   },

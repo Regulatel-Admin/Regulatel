@@ -2,9 +2,10 @@ import { Link } from "react-router-dom";
 import { Home } from "lucide-react";
 import PageHero from "@/components/PageHero";
 import AlbumCard from "@/components/galeria/AlbumCard";
-import { albumesGaleria } from "@/data/galeria";
+import { useGalleryAlbums } from "@/contexts/SiteSettingsContext";
 
 export default function Galeria() {
+  const albumesGaleria = useGalleryAlbums();
   return (
     <>
       <PageHero

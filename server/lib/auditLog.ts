@@ -31,7 +31,7 @@ export async function ensureAuditSchema() {
 }
 
 export type AuditAction = "created" | "updated" | "deleted" | "uploaded";
-export type AuditResourceType = "news" | "event" | "document" | "upload" | "admin_user" | "cifras";
+export type AuditResourceType = "news" | "event" | "document" | "upload" | "admin_user" | "cifras" | "site_settings";
 
 export async function logAudit(params: {
   userId: string;
@@ -81,6 +81,24 @@ export async function listAuditLog(limit: number, offset: number): Promise<Audit
     ORDER BY created_at DESC
     LIMIT ${limit}
     OFFSET ${offset}
+  `;
+  return rows;
+}
+
+/** Historial de cambios de un recurso (noticia, evento, documento, etc.) */
+export async function listAuditLogByResource(
+  resourceType: string,
+  resourceId: string,
+  limit: number = 50
+): Promise<AuditLogRow[]> {
+  await ensureAuditSchema();
+  const sql = getDb();
+  const rows = await sql<AuditLogRow[]>`
+    SELECT id, user_id, user_email, user_name, action, resource_type, resource_id, details, created_at
+    FROM admin_audit_log
+    WHERE resource_type = ${resourceType} AND resource_id = ${resourceId}
+    ORDER BY created_at DESC
+    LIMIT ${limit}
   `;
   return rows;
 }

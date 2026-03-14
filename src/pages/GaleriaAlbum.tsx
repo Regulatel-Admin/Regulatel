@@ -5,11 +5,13 @@ import { ArrowLeft, Home, Images } from "lucide-react";
 import PageHero from "@/components/PageHero";
 import GalleryGrid from "@/components/galeria/GalleryGrid";
 import Lightbox from "@/components/galeria/Lightbox";
-import { getAlbumBySlug, getAlbumImageUrls } from "@/data/galeria";
+import { getAlbumImageUrls } from "@/data/galeria";
+import { useGalleryAlbums } from "@/contexts/SiteSettingsContext";
 
 export default function GaleriaAlbum() {
   const { slug } = useParams<{ slug: string }>();
-  const album = slug ? getAlbumBySlug(slug) : undefined;
+  const albums = useGalleryAlbums();
+  const album = slug ? albums.find((a) => a.slug === slug) : undefined;
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
   const openLightbox = useCallback((index: number) => setLightboxIndex(index), []);

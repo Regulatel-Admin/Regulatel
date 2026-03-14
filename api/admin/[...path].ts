@@ -14,7 +14,9 @@ import {
 import { listAdminUsers, createAdminUser } from "../../server/lib/adminUsers.js";
 import { findAdminUserByIdentifier } from "../../server/lib/adminUsers.js";
 import { logAudit } from "../../server/lib/auditLog.js";
-import { listAuditLog } from "../../server/lib/auditLog.js";
+import { listAuditLog, listAuditLogByResource } from "../../server/lib/auditLog.js";
+import { listBlobs, isBlobConfigured } from "../../server/lib/blob.js";
+import type { BlobListFolder } from "../../server/lib/blob.js";
 import {
   ensureDocumentAccessSchema,
   listDocumentAccessUsers,
@@ -160,18 +162,46 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
 
     if (subpath === "audit") {
       const auth = await ensureAdmin(req);
-      if (!isSuperAdmin(auth.user.email)) {
-        sendJson(res, 403, { error: "Solo los administradores autorizados pueden ver la auditoría." });
-        return;
-      }
       if (req.method !== "GET") {
         sendJson(res, 405, { error: "Method Not Allowed" });
         return;
       }
       const url = new URL(req.url ?? "", `http://${req.headers.host}`);
+      const resourceType = url.searchParams.get("resource_type") ?? "";
+      const resourceId = url.searchParams.get("resource_id") ?? "";
+      if (resourceType && resourceId) {
+        const limit = Math.min(100, Math.max(1, parseInt(url.searchParams.get("limit") ?? "50", 10)));
+        const items = await listAuditLogByResource(resourceType, resourceId, limit);
+        sendJson(res, 200, { items });
+        return;
+      }
+      if (!isSuperAdmin(auth.user.email)) {
+        sendJson(res, 403, { error: "Solo los administradores autorizados pueden ver el registro completo de auditoría." });
+        return;
+      }
       const limit = Math.min(100, Math.max(1, parseInt(url.searchParams.get("limit") ?? "50", 10)));
       const offset = Math.max(0, parseInt(url.searchParams.get("offset") ?? "0", 10));
       const items = await listAuditLog(limit, offset);
+      sendJson(res, 200, { items });
+      return;
+    }
+
+    if (subpath === "media") {
+      await ensureAdmin(req);
+      if (req.method !== "GET") {
+        sendJson(res, 405, { error: "Method Not Allowed" });
+        return;
+      }
+      if (!isBlobConfigured()) {
+        sendJson(res, 503, { error: "Blob storage no configurado (BLOB_READ_WRITE_TOKEN)." });
+        return;
+      }
+      const url = new URL(req.url ?? "", `http://${req.headers.host}`);
+      const prefix = (url.searchParams.get("prefix") ?? "all") as BlobListFolder;
+      const limit = Math.min(200, Math.max(1, parseInt(url.searchParams.get("limit") ?? "100", 10)));
+      const validPrefixes: BlobListFolder[] = ["news", "events", "gallery", "all"];
+      const folder = validPrefixes.includes(prefix) ? prefix : "all";
+      const items = await listBlobs(folder, limit);
       sendJson(res, 200, { items });
       return;
     }

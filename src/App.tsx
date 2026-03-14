@@ -5,6 +5,7 @@
 import { BrowserRouter as Router, Routes, Route, Outlet } from 'react-router-dom';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { AdminDataProvider } from '@/contexts/AdminDataContext';
+import { SiteSettingsProvider } from '@/contexts/SiteSettingsContext';
 import Layout from '@/components/Layout';
 import Login from '@/pages/Login';
 import AdminLayout from '@/pages/admin/AdminLayout';
@@ -16,6 +17,12 @@ import AdminDocumentos from '@/pages/admin/AdminDocumentos';
 import AdminRevista from '@/pages/admin/AdminRevista';
 import AdminUsuarios from '@/pages/admin/AdminUsuarios';
 import AdminAccesoActas from '@/pages/admin/AdminAccesoActas';
+import AdminContentHome from '@/pages/admin/content/AdminContentHome';
+import AdminContentCumbres from '@/pages/admin/content/AdminContentCumbres';
+import AdminContentGaleria from '@/pages/admin/content/AdminContentGaleria';
+import AdminContentAccesos from '@/pages/admin/content/AdminContentAccesos';
+import AdminContentNavigation from '@/pages/admin/content/AdminContentNavigation';
+import AdminMedia from '@/pages/admin/AdminMedia';
 import Home from '@/pages/Home';
 import Autoridades from '@/pages/Autoridades';
 import AutoridadDetalle from '@/pages/AutoridadDetalle';
@@ -53,10 +60,17 @@ function App() {
     <Router>
       <AuthProvider>
         <AdminDataProvider>
+          <SiteSettingsProvider>
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/admin" element={<AdminLayout />}>
               <Route index element={<AdminDashboard />} />
+              <Route path="content/home" element={<AdminContentHome />} />
+              <Route path="content/cumbres" element={<AdminContentCumbres />} />
+              <Route path="content/galeria" element={<AdminContentGaleria />} />
+              <Route path="content/accesos" element={<AdminContentAccesos />} />
+              <Route path="content/navigation" element={<AdminContentNavigation />} />
+              <Route path="media" element={<AdminMedia />} />
               <Route path="noticias" element={<AdminNoticias />} />
               <Route path="eventos" element={<AdminEventos />} />
               <Route path="cifras" element={<AdminCifras />} />
@@ -126,6 +140,7 @@ function App() {
           <Route path="*" element={<NotFound />} />
             </Route>
           </Routes>
+          </SiteSettingsProvider>
         </AdminDataProvider>
       </AuthProvider>
     </Router>

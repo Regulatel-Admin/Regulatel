@@ -9,6 +9,7 @@
     "preview": "vite preview",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "admin:create": "node ./scripts/create-admin.mjs",
+    "admin:dev": "node ./scripts/create-dev-admin.mjs",
     "db:init": "node ./scripts/init-db.mjs",
     "scrape:mejores-practicas": "node scripts/scrape-mejores-practicas.mjs",
     "scrape:mejores-practicas:headed": "node scripts/scrape-mejores-practicas.mjs --headed"
@@ -28,6 +29,7 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^7.12.0",
+    "resend": "^4.0.0",
     "tailwind-merge": "^2.6.0"
   },
   "devDependencies": {

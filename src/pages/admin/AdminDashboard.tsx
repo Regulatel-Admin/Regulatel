@@ -1,10 +1,19 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
-import { Newspaper, Calendar, Hash, FileText, BookOpen, Info, Users, Lock, ChevronDown, ChevronUp } from "lucide-react";
+import { Newspaper, Calendar, Hash, FileText, BookOpen, Info, Users, Lock, ChevronDown, ChevronUp, Layout, Zap, FolderOpen, ImageIcon, Menu, Images } from "lucide-react";
 import { projectInfo } from "@/config/projectInfo";
 
+const contentCards = [
+  { to: "/admin/content/home", icon: Layout, title: "Home", desc: "Hero institucional, título, CTAs e imágenes del slideshow; accesos principales." },
+  { to: "/admin/content/cumbres", icon: Zap, title: "Cumbres destacadas", desc: "Crear, editar, reordenar slides del carrusel de cumbres." },
+  { to: "/admin/content/galeria", icon: FolderOpen, title: "Galería", desc: "Crear y editar álbumes, subir y reordenar fotos." },
+  { to: "/admin/content/accesos", icon: ImageIcon, title: "Accesos principales", desc: "Los 4 tiles de la home: etiquetas, enlaces e iconos." },
+  { to: "/admin/content/navigation", icon: Menu, title: "Navegación", desc: "Editar el menú principal del header (JSON)." },
+];
+
 const cards = [
+  { to: "/admin/media", icon: Images, title: "Media library", desc: "Referencia de dónde subir imágenes (noticias, eventos, galería)." },
   { to: "/admin/noticias", icon: Newspaper, title: "Noticias", desc: "Añadir, editar o eliminar noticias. Se publican en la sección Noticias." },
   { to: "/admin/eventos", icon: Calendar, title: "Eventos", desc: "Gestionar eventos que aparecen en la home y en la sección Eventos." },
   { to: "/admin/cifras", icon: Hash, title: "REGULATEL en cifras", desc: "Modificar los números (grupos de trabajo, países, etc.)." },
@@ -20,7 +29,7 @@ const adminOnlyCards = [
 export default function AdminDashboard() {
   const { canManageUsers } = useAuth();
   const [projectInfoOpen, setProjectInfoOpen] = useState(false);
-  const allCards = [...cards, ...(canManageUsers ? adminOnlyCards : [])];
+  const allCards = [...contentCards, ...cards, ...(canManageUsers ? adminOnlyCards : [])];
   return (
     <div>
       <h1
@@ -30,7 +39,7 @@ export default function AdminDashboard() {
         Panel de administración
       </h1>
       <p className="mb-8 text-sm" style={{ color: "var(--regu-gray-500)" }}>
-        Elige una sección para gestionar el contenido de la página.
+        Contenido del sitio (Home, Cumbres, Galería, Accesos) y gestión de noticias, eventos, documentos y cifras.
       </p>
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {allCards.map(({ to, icon: Icon, title, desc }) => (

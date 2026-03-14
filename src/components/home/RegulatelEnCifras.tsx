@@ -71,10 +71,15 @@ function useReducedMotion(): boolean {
   return reduce;
 }
 
-export default function RegulatelEnCifras() {
+interface RegulatelEnCifrasProps {
+  /** Año inicial (p. ej. para vista previa en admin) */
+  initialYear?: number;
+}
+
+export default function RegulatelEnCifras({ initialYear }: RegulatelEnCifrasProps = {}) {
   const { getCifrasForYear } = useAdminData();
   const anos = getCifrasAnos();
-  const [selectedYear, setSelectedYear] = useState<number>(anos[0] ?? 2026);
+  const [selectedYear, setSelectedYear] = useState<number>(initialYear ?? anos[0] ?? 2026);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const reduceMotion = useReducedMotion();
 

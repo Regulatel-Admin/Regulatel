@@ -34,7 +34,8 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
       const folder =
         body.folder === "events" ||
         body.folder === "documents" ||
-        body.folder === "attachments"
+        body.folder === "attachments" ||
+        body.folder === "gallery"
           ? body.folder
           : "news";
       const fileName = typeof body.fileName === "string" ? body.fileName : "";

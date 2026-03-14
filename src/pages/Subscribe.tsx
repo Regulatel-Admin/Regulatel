@@ -59,25 +59,36 @@ function SubscribeAccordion({
 }
 
 export default function Subscribe() {
-  const [accordion1, setAccordion1] = useState(true);
-  const [accordion2, setAccordion2] = useState(true);
-
+  const [accordionOpen, setAccordionOpen] = useState(true);
   const [email, setEmail] = useState("");
-  const [agree1, setAgree1] = useState(false);
-  const [mediaName, setMediaName] = useState("");
-  const [mediaSurname, setMediaSurname] = useState("");
-  const [mediaCountry, setMediaCountry] = useState("");
-  const [mediaEmail, setMediaEmail] = useState("");
-  const [agree2, setAgree2] = useState(false);
+  const [agree, setAgree] = useState(false);
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [message, setMessage] = useState("");
 
-  const handleWebsiteSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    // TODO: conectar con API de suscripción
-  };
-
-  const handleMediaSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    // TODO: conectar con API de lista de medios
+    setStatus("loading");
+    setMessage("");
+    try {
+      const res = await fetch("/api/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: email.trim() }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (res.ok && data.ok) {
+        setStatus("success");
+        setMessage("Gracias por suscribirte. Recibirás noticias, eventos y publicaciones de REGULATEL por correo.");
+        setEmail("");
+        setAgree(false);
+      } else {
+        setStatus("error");
+        setMessage(typeof data.error === "string" ? data.error : "No se pudo completar la suscripción. Intente de nuevo.");
+      }
+    } catch {
+      setStatus("error");
+      setMessage("Error de conexión. Intente más tarde.");
+    }
   };
 
   const inputClass =
@@ -135,7 +146,7 @@ export default function Subscribe() {
             }}
           >
             <Bell size={12} style={{ color: "var(--regu-blue)" }} />
-            Actualizaciones y comunicaciones REGULATEL
+            Actualizaciones REGULATEL
           </p>
           <div style={{ display: "flex", gap: 14, alignItems: "flex-start" }}>
             <div
@@ -159,7 +170,7 @@ export default function Subscribe() {
                   fontFamily: "var(--token-font-heading)",
                 }}
               >
-                Suscribirse
+                Suscribirse a actualizaciones
               </h1>
               <p
                 style={{
@@ -170,7 +181,7 @@ export default function Subscribe() {
                   maxWidth: 520,
                 }}
               >
-                Reciba noticias, eventos y comunicados de REGULATEL por correo electrónico o únase a la lista de medios.
+                Reciba noticias, eventos y comunicados de REGULATEL por correo electrónico. Puede darse de baja en cualquier momento.
               </p>
             </div>
           </div>
@@ -179,13 +190,29 @@ export default function Subscribe() {
         <div className="space-y-6">
           <SubscribeAccordion
             title="Actualizaciones del sitio"
-            open={accordion1}
-            onToggle={() => setAccordion1((v) => !v)}
+            open={accordionOpen}
+            onToggle={() => setAccordionOpen((v) => !v)}
           >
             <p className="mb-4 text-sm leading-relaxed" style={{ color: "var(--regu-gray-600)" }}>
-              Manténgase informado sobre las últimas noticias, publicaciones y eventos de REGULATEL. Puede darse de baja en cualquier momento desde el pie de nuestros correos.
+              Manténgase informado sobre las últimas noticias, publicaciones y eventos de REGULATEL. Todos los campos marcados con * son obligatorios.
             </p>
-            <form onSubmit={handleWebsiteSubmit} className="space-y-5">
+            {status === "success" && (
+              <div
+                className="mb-4 rounded-xl border border-[var(--regu-blue)] px-4 py-3 text-sm"
+                style={{ backgroundColor: "rgba(68,137,198,0.08)", color: "var(--regu-navy)" }}
+              >
+                {message}
+              </div>
+            )}
+            {status === "error" && (
+              <div
+                className="mb-4 rounded-xl border border-red-300 px-4 py-3 text-sm text-red-800"
+                style={{ backgroundColor: "#fef2f2" }}
+              >
+                {message}
+              </div>
+            )}
+            <form onSubmit={handleSubmit} className="space-y-5">
               <div>
                 <label htmlFor="subscribe-email" className="block" style={labelStyle}>
                   Correo electrónico <span style={{ color: "var(--regu-blue)" }}>*</span>
@@ -199,19 +226,21 @@ export default function Subscribe() {
                   className={inputClass}
                   style={inputStyle}
                   placeholder="su@correo.com"
+                  disabled={status === "loading"}
                 />
               </div>
               <div className="flex items-start gap-3">
                 <input
-                  id="agree-website"
+                  id="agree-privacy"
                   type="checkbox"
                   required
-                  checked={agree1}
-                  onChange={(e) => setAgree1(e.target.checked)}
+                  checked={agree}
+                  onChange={(e) => setAgree(e.target.checked)}
                   className="mt-1 rounded border-gray-300"
                   style={{ accentColor: "var(--regu-blue)" }}
+                  disabled={status === "loading"}
                 />
-                <label htmlFor="agree-website" className="text-sm" style={{ color: "var(--regu-gray-600)" }}>
+                <label htmlFor="agree-privacy" className="text-sm" style={{ color: "var(--regu-gray-600)" }}>
                   He leído y acepto el tratamiento de mis datos personales conforme a la{" "}
                   <Link to="/declaracion-de-privacidad" className="font-semibold underline" style={{ color: "var(--regu-blue)" }}>
                     declaración de privacidad
@@ -221,107 +250,12 @@ export default function Subscribe() {
               </div>
               <button
                 type="submit"
-                className="inline-flex items-center justify-center gap-2 rounded-xl px-5 py-3.5 text-sm font-bold text-white transition hover:opacity-95 focus:outline-none focus:ring-2 focus:ring-[rgba(68,137,198,0.40)] focus:ring-offset-2"
+                disabled={status === "loading"}
+                className="inline-flex items-center justify-center gap-2 rounded-xl px-5 py-3.5 text-sm font-bold text-white transition hover:opacity-95 focus:outline-none focus:ring-2 focus:ring-[rgba(68,137,198,0.40)] focus:ring-offset-2 disabled:opacity-70"
                 style={{ backgroundColor: "var(--regu-blue)" }}
               >
                 <Send size={16} />
-                Suscribirse a actualizaciones
-              </button>
-            </form>
-          </SubscribeAccordion>
-
-          <SubscribeAccordion
-            title="Lista de medios"
-            open={accordion2}
-            onToggle={() => setAccordion2((v) => !v)}
-          >
-            <p className="mb-4 text-sm leading-relaxed" style={{ color: "var(--regu-gray-600)" }}>
-              Si es periodista o representante de medios, suscríbase a nuestra lista para recibir comunicados de prensa y comunicaciones oficiales. Todos los campos marcados con * son obligatorios.
-            </p>
-            <form onSubmit={handleMediaSubmit} className="space-y-5">
-              <div className="grid gap-5 sm:grid-cols-2">
-                <div>
-                  <label htmlFor="media-name" className="block" style={labelStyle}>
-                    Nombre <span style={{ color: "var(--regu-blue)" }}>*</span>
-                  </label>
-                  <input
-                    id="media-name"
-                    type="text"
-                    required
-                    value={mediaName}
-                    onChange={(e) => setMediaName(e.target.value)}
-                    className={inputClass}
-                    style={inputStyle}
-                  />
-                </div>
-                <div>
-                  <label htmlFor="media-surname" className="block" style={labelStyle}>
-                    Apellido <span style={{ color: "var(--regu-blue)" }}>*</span>
-                  </label>
-                  <input
-                    id="media-surname"
-                    type="text"
-                    required
-                    value={mediaSurname}
-                    onChange={(e) => setMediaSurname(e.target.value)}
-                    className={inputClass}
-                    style={inputStyle}
-                  />
-                </div>
-              </div>
-              <div>
-                <label htmlFor="media-country" className="block" style={labelStyle}>
-                  País <span style={{ color: "var(--regu-blue)" }}>*</span>
-                </label>
-                <input
-                  id="media-country"
-                  type="text"
-                  required
-                  value={mediaCountry}
-                  onChange={(e) => setMediaCountry(e.target.value)}
-                  className={inputClass}
-                  style={inputStyle}
-                />
-              </div>
-              <div>
-                <label htmlFor="media-email" className="block" style={labelStyle}>
-                  Correo electrónico (laboral o personal) <span style={{ color: "var(--regu-blue)" }}>*</span>
-                </label>
-                <input
-                  id="media-email"
-                  type="email"
-                  required
-                  value={mediaEmail}
-                  onChange={(e) => setMediaEmail(e.target.value)}
-                  className={inputClass}
-                  style={inputStyle}
-                />
-              </div>
-              <div className="flex items-start gap-3">
-                <input
-                  id="agree-media"
-                  type="checkbox"
-                  required
-                  checked={agree2}
-                  onChange={(e) => setAgree2(e.target.checked)}
-                  className="mt-1 rounded border-gray-300"
-                  style={{ accentColor: "var(--regu-blue)" }}
-                />
-                <label htmlFor="agree-media" className="text-sm" style={{ color: "var(--regu-gray-600)" }}>
-                  He leído y acepto el tratamiento de mis datos conforme a la{" "}
-                  <Link to="/declaracion-de-privacidad" className="font-semibold underline" style={{ color: "var(--regu-blue)" }}>
-                    declaración de privacidad
-                  </Link>
-                  . <span style={{ color: "var(--regu-blue)" }}>*</span>
-                </label>
-              </div>
-              <button
-                type="submit"
-                className="inline-flex items-center justify-center gap-2 rounded-xl px-5 py-3.5 text-sm font-bold text-white transition hover:opacity-95 focus:outline-none focus:ring-2 focus:ring-[rgba(68,137,198,0.40)] focus:ring-offset-2"
-                style={{ backgroundColor: "var(--regu-blue)" }}
-              >
-                <Send size={16} />
-                Suscribirse a lista de medios
+                {status === "loading" ? "Enviando…" : "Suscribirse a actualizaciones"}
               </button>
             </form>
           </SubscribeAccordion>

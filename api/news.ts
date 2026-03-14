@@ -4,6 +4,7 @@ import { ensureAdmin } from "../server/lib/adminAuth.js";
 import { logAudit } from "../server/lib/auditLog.js";
 import { parseJsonBody } from "../server/lib/parseBody.js";
 import { isDbConfigured } from "../server/lib/db.js";
+import { notifySubscribersNewContent } from "../server/lib/sendNewsletter.js";
 
 function sendJson(res: ServerResponse, status: number, data: unknown) {
   res.setHeader("Content-Type", "application/json");
@@ -86,6 +87,15 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
         resourceId: item.id,
         details: { title: item.title, slug: item.slug },
       });
+      if (item.published) {
+        void notifySubscribersNewContent({
+          type: "noticia",
+          title: item.title,
+          excerpt: item.excerpt,
+          url: `/noticias/${item.slug}`,
+          date: item.dateFormatted || item.date,
+        }).then((r) => r.sent > 0 && console.log("[news] Notificación enviada a", r.sent, "suscriptores."));
+      }
       sendJson(res, 201, item);
       return;
     }

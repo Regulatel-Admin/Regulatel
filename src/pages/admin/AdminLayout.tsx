@@ -16,10 +16,24 @@ import {
   Home,
   Menu,
   X,
+  Layout,
+  ImageIcon,
+  Zap,
+  FolderOpen,
+  Images,
 } from "lucide-react";
+
+const navContenido = [
+  { to: "/admin/content/home", icon: Layout, label: "Home" },
+  { to: "/admin/content/cumbres", icon: Zap, label: "Cumbres destacadas" },
+  { to: "/admin/content/galeria", icon: FolderOpen, label: "Galería" },
+  { to: "/admin/content/accesos", icon: ImageIcon, label: "Accesos principales" },
+  { to: "/admin/content/navigation", icon: Menu, label: "Navegación" },
+];
 
 const nav = [
   { to: "/admin", icon: LayoutDashboard, label: "Panel" },
+  { to: "/admin/media", icon: Images, label: "Media library" },
   { to: "/admin/noticias", icon: Newspaper, label: "Noticias" },
   { to: "/admin/eventos", icon: Calendar, label: "Eventos" },
   { to: "/admin/cifras", icon: Hash, label: "REGULATEL en cifras" },
@@ -98,6 +112,29 @@ export default function AdminLayout() {
             Admin REGULATEL
           </Link>
           <nav className="space-y-0.5 px-2" aria-label="Administración">
+            <p className="mb-1 px-3 text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--regu-gray-400)" }}>
+              Contenido
+            </p>
+            {navContenido.map(({ to, icon: Icon, label }) => (
+              <NavLink
+                key={to}
+                to={to}
+                onClick={() => setSidebarOpen(false)}
+                className={({ isActive }) =>
+                  "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition " +
+                  (isActive ? "bg-[rgba(68,137,198,0.12)]" : "")
+                }
+                style={({ isActive }) =>
+                  isActive ? { color: "var(--regu-blue)" } : { color: "var(--regu-gray-900)" }
+                }
+              >
+                <Icon className="h-4 w-4" aria-hidden />
+                {label}
+              </NavLink>
+            ))}
+            <p className="mb-1 mt-4 px-3 text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--regu-gray-400)" }}>
+              Gestión
+            </p>
             {nav.map(({ to, icon: Icon, label }) => (
               <NavLink
                 key={to}

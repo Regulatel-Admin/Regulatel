@@ -1,7 +1,7 @@
-import { del, put } from "@vercel/blob";
+import { del, list, put } from "@vercel/blob";
 
 type UploadKind = "image" | "document";
-type UploadFolder = "news" | "events" | "documents" | "attachments";
+type UploadFolder = "news" | "events" | "documents" | "attachments" | "gallery";
 
 const IMAGE_MIME_TYPES = new Set([
   "image/jpeg",
@@ -96,4 +96,27 @@ export async function deleteFromBlob(url: string) {
 
 export function isBlobConfigured() {
   return Boolean(process.env.BLOB_READ_WRITE_TOKEN);
+}
+
+export type BlobListFolder = "news" | "events" | "gallery" | "all";
+
+export interface BlobListItem {
+  url: string;
+  pathname: string;
+  size?: number;
+  uploadedAt?: Date;
+}
+
+export async function listBlobs(prefix?: BlobListFolder, limit = 100): Promise<BlobListItem[]> {
+  const prefixPath = prefix && prefix !== "all" ? `${prefix}/` : undefined;
+  const result = await list({
+    prefix: prefixPath,
+    limit,
+  });
+  return (result.blobs ?? []).map((b) => ({
+    url: b.url,
+    pathname: b.pathname ?? b.url,
+    size: b.size,
+    uploadedAt: b.uploadedAt,
+  }));
 }

@@ -1,7 +1,8 @@
 import { useAdminData } from "@/contexts/AdminDataContext";
 import { getCifrasAnos } from "@/data/home";
 import type { CifrasAnuales } from "@/data/home";
-import { Pencil, RotateCcw, Users, Building2, BookOpen, Globe } from "lucide-react";
+import RegulatelEnCifras from "@/components/home/RegulatelEnCifras";
+import { Pencil, RotateCcw, Users, Building2, BookOpen, Globe, Eye } from "lucide-react";
 import { useState } from "react";
 
 const CARD_KEYS: { key: keyof CifrasAnuales; label: string; description: string; icon: React.ComponentType<{ className?: string }> }[] = [
@@ -117,6 +118,17 @@ export default function AdminCifras() {
           </div>
         ))}
       </div>
+
+      {/* Vista previa: cómo se ve la sección en el sitio */}
+      <section className="mt-12 rounded-xl border bg-[var(--regu-offwhite)] p-4" style={{ borderColor: "var(--regu-gray-100)" }}>
+        <h2 className="mb-3 flex items-center gap-2 text-sm font-bold uppercase tracking-wide" style={{ color: "var(--regu-gray-600)" }}>
+          <Eye className="h-4 w-4" />
+          Vista previa en el sitio
+        </h2>
+        <div className="overflow-hidden rounded-lg border bg-white" style={{ borderColor: "rgba(22,61,89,0.08)" }}>
+          <RegulatelEnCifras key={selectedYear} initialYear={selectedYear} />
+        </div>
+      </section>
     </div>
   );
 }

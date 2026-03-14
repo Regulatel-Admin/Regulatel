@@ -161,7 +161,9 @@
   --nav-underline-height: 2px;
   --nav-underline-width: 48px;
   --nav-underline-offset: 11px;
-  --nav-underline-color: var(--regu-lime);
+  /* Subrayado e ítem activo del menú: azul institucional (no lime) */
+  --nav-underline-color: var(--regu-blue);
+  --nav-item-active-color: var(--regu-blue);
   /* Header scroll collapse (BEREC-like: TopBar se oculta al hacer scroll) */
   --header-scroll-threshold: 32px;
   --topbar-visible-height: 72px;

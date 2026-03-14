@@ -39,16 +39,19 @@ export const albumesGaleria: AlbumGaleria[] = albumesBase.map((a) => ({
   images: galeriaImages[a.slug] ?? [],
 }));
 
-/** URL completa de la portada del álbum: primera imagen del álbum, o placeholder neutro si no hay fotos. */
+/** URL completa de la portada del álbum: primera imagen (puede ser URL absoluta o path relativo). */
 export function getAlbumCoverUrl(album: AlbumGaleria): string {
   const first = album.images[0];
-  if (first) return `${GALERIA_BASE}/${album.folder}/${first}`;
-  return ""; // sin imagen: el componente mostrará un placeholder gris
+  if (!first) return "";
+  if (first.startsWith("http")) return first;
+  return `${GALERIA_BASE}/${album.folder}/${first}`;
 }
 
-/** URLs completas de todas las fotos del álbum. */
+/** URLs completas de todas las fotos del álbum (soporta URLs absolutas o paths relativos). */
 export function getAlbumImageUrls(album: AlbumGaleria): string[] {
-  return album.images.map((name) => `${GALERIA_BASE}/${album.folder}/${name}`);
+  return album.images.map((img) =>
+    img.startsWith("http") ? img : `${GALERIA_BASE}/${album.folder}/${img}`
+  );
 }
 
 export function getAlbumBySlug(slug: string): AlbumGaleria | undefined {
