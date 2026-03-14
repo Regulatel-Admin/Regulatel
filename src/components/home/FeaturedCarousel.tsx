@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
-import { ChevronLeft, ChevronRight, Play, Pause } from "lucide-react";
+import { ChevronLeft, ChevronRight, Play, Pause, MapPin, Expand, X } from "lucide-react";
 
 export interface FeaturedCarouselItem {
   id: string;
@@ -12,6 +12,10 @@ export interface FeaturedCarouselItem {
   ctaPrimaryLabel?: string;
   ctaSecondary?: { label: string; href: string };
   categoryLabel?: string;
+  /** Ubicación del evento (ej. "Punta Cana, Rep. Dom."). Se muestra en la card cuando está definido. */
+  location?: string;
+  /** Posición del fondo (ej. "center top", "50% 25%") para mejorar el encuadre de la imagen. */
+  imagePosition?: string;
 }
 
 interface FeaturedCarouselProps {
@@ -23,15 +27,61 @@ const MESES: Record<string, number> = {
   ENE: 0, FEB: 1, MAR: 2, ABR: 3, MAY: 4, JUN: 5,
   JUL: 6, AGO: 7, SEP: 8, OCT: 9, NOV: 10, DIC: 11,
 };
+const MESES_LARGO: Record<string, number> = {
+  enero: 0, febrero: 1, marzo: 2, abril: 3, mayo: 4, junio: 5,
+  julio: 6, agosto: 7, septiembre: 8, octubre: 9, noviembre: 10, diciembre: 11,
+};
+
+function parseDateForPastCheck(dateStr: string): Date | null {
+  if (!dateStr || !dateStr.trim()) return null;
+  const s = dateStr.trim();
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  // Solo año: "2025" o "2024"
+  const onlyYear = /^\d{4}$/.exec(s);
+  if (onlyYear) {
+    const year = parseInt(onlyYear[0], 10);
+    return new Date(year, 11, 31); // fin de ese año para comparar
+  }
+
+  // "11 de diciembre de 2025" / "28 octubre 2025"
+  const matchLong = s.match(/^(\d{1,2})\s+de?\s+(\w+)\s+de?\s+(\d{4})$/i) ?? s.match(/^(\d{1,2})\s+(\w+)\s+(\d{4})$/i);
+  if (matchLong) {
+    const day = parseInt(matchLong[1], 10);
+    const year = parseInt(matchLong[3], 10);
+    const mesStr = matchLong[2].toLowerCase();
+    const mes = MESES_LARGO[mesStr] ?? MESES[mesStr.slice(0, 3).toUpperCase()];
+    if (Number.isNaN(day) || Number.isNaN(year) || mes === undefined) return null;
+    return new Date(year, mes, day);
+  }
+
+  // "DIC 2024" / "JUN 2025" (mes abreviado + año)
+  const parts = s.split(/\s+/);
+  if (parts.length >= 2) {
+    const mesStr = (parts[0] || "").toUpperCase().slice(0, 3);
+    const year = parseInt(parts[parts.length - 1], 10);
+    if (MESES[mesStr] !== undefined && !Number.isNaN(year)) {
+      return new Date(year, MESES[mesStr], 1);
+    }
+  }
+
+  // "11 DIC 2025" (día + mes + año)
+  if (parts.length >= 3) {
+    const day = parseInt(parts[0], 10);
+    const mesStr = (parts[1] || "").toUpperCase().slice(0, 3);
+    const year = parseInt(parts[2], 10);
+    if (!Number.isNaN(day) && MESES[mesStr] !== undefined && !Number.isNaN(year)) {
+      return new Date(year, MESES[mesStr], day);
+    }
+  }
+
+  return null;
+}
+
 function isSlideDatePast(dateStr: string): boolean {
-  if (!dateStr || dateStr.length < 6) return false;
-  const parts = dateStr.trim().split(/\s+/);
-  if (parts.length < 3) return false;
-  const day = parseInt(parts[0], 10);
-  const mesStr = (parts[1] || "").toUpperCase().slice(0, 3);
-  const year = parseInt(parts[2], 10);
-  if (Number.isNaN(day) || Number.isNaN(year) || !MESES[mesStr]) return false;
-  const d = new Date(year, MESES[mesStr], day);
+  const d = parseDateForPastCheck(dateStr);
+  if (!d) return false;
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   d.setHours(0, 0, 0, 0);
@@ -45,6 +95,7 @@ export default function FeaturedCarousel({
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
 
   const goTo = useCallback(
     (index: number) => {
@@ -67,13 +118,17 @@ export default function FeaturedCarousel({
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
+      if (lightboxOpen && e.key === "Escape") {
+        setLightboxOpen(false);
+        return;
+      }
       if (e.key === "ArrowLeft") prev();
       if (e.key === "ArrowRight") next();
       if (e.key === " ") { e.preventDefault(); setIsPaused((p) => !p); }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [prev, next]);
+  }, [prev, next, lightboxOpen]);
 
   if (!items.length) return null;
 
@@ -100,8 +155,12 @@ export default function FeaturedCarousel({
           style={{ opacity: i === activeIndex ? 1 : 0, zIndex: i === activeIndex ? 1 : 0 }}
         >
           <div
-            className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: `url(${item.imageUrl})`, filter: "brightness(0.78) saturate(0.88)" }}
+            className="absolute inset-0 bg-cover"
+            style={{
+              backgroundImage: `url(${item.imageUrl})`,
+              backgroundPosition: item.imagePosition ?? "center",
+              filter: "brightness(0.78) saturate(0.88)",
+            }}
           />
         </div>
       ))}
@@ -179,6 +238,17 @@ export default function FeaturedCarousel({
               {slide.title}
             </h2>
 
+            {/* Ubicación (opcional) */}
+            {slide.location && (
+              <p
+                className="mt-2 flex items-center gap-1.5 text-xs font-medium tracking-[0.02em]"
+                style={{ color: "var(--regu-gray-600)" }}
+              >
+                <MapPin className="h-3.5 w-3.5 flex-shrink-0" style={{ color: "var(--regu-blue)" }} aria-hidden />
+                <span>{slide.location}</span>
+              </p>
+            )}
+
             {/* CTA */}
             <div className="mt-5 flex flex-wrap items-center gap-2.5">
               {slide.href.startsWith("http") ? (
@@ -234,37 +304,83 @@ export default function FeaturedCarousel({
             )}
           </div>
         </div>
+
+        {/* Botón ver imagen completa — a la derecha del card, uso institucional */}
+        <div className="ml-auto hidden flex-shrink-0 md:flex items-center">
+          <button
+            type="button"
+            onClick={() => setLightboxOpen(true)}
+            aria-label="Ver imagen de fondo completa"
+            className="inline-flex items-center gap-2 rounded-xl border-2 px-4 py-2.5 text-xs font-semibold uppercase tracking-[0.06em] transition-all hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
+            style={{ borderColor: "rgba(255,255,255,0.5)", color: "#fff" }}
+          >
+            <Expand className="h-4 w-4" aria-hidden />
+            Ver imagen
+          </button>
+        </div>
       </div>
 
-      {/* Controles — pill translúcido, esquina inferior derecha */}
+      {/* Lightbox: imagen de fondo completa */}
+      {lightboxOpen && (
+        <div
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/85 p-4"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Imagen de la cumbre a tamaño completo"
+          onClick={() => setLightboxOpen(false)}
+        >
+          <button
+            type="button"
+            onClick={() => setLightboxOpen(false)}
+            aria-label="Cerrar"
+            className="absolute right-4 top-4 z-10 flex h-10 w-10 items-center justify-center rounded-full border-2 border-white/30 bg-black/40 text-white transition hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+          >
+            <X className="h-5 w-5" />
+          </button>
+          <div
+            className="relative max-h-[90vh] w-full max-w-4xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <img
+              src={slide.imageUrl}
+              alt=""
+              className="max-h-[90vh] w-full object-contain rounded-lg shadow-2xl"
+              style={{ filter: "none" }}
+            />
+          </div>
+        </div>
+      )}
+
+      {/* Controles — pill sólido estilo Apple, esquina inferior derecha */}
       {items.length > 1 && (
         <div
-          className="absolute bottom-5 right-5 z-20 flex items-center gap-0.5 rounded-xl border border-white/20 bg-black/25 px-1 py-1 backdrop-blur-sm"
+          className="absolute bottom-5 right-5 z-20 flex items-center justify-center gap-1 rounded-full px-3 py-2.5 shadow-[0_2px_12px_rgba(68,137,198,0.45),0_0_0_1px_rgba(255,255,255,0.12)_inset]"
+          style={{ backgroundColor: "var(--regu-blue)" }}
           aria-label="Controles del carrusel"
         >
           <button
             type="button"
             aria-label="Slide anterior"
-            className="flex h-8 w-8 items-center justify-center rounded-lg text-white/90 transition-colors hover:bg-white/20 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+            className="flex h-8 w-8 items-center justify-center rounded-full text-white transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--regu-blue)]"
             onClick={prev}
           >
-            <ChevronLeft className="h-4 w-4" />
+            <ChevronLeft className="h-4 w-4" strokeWidth={2.25} />
           </button>
           <button
             type="button"
             aria-label={isPaused ? "Reanudar slideshow" : "Pausar slideshow"}
-            className="flex h-8 w-8 items-center justify-center rounded-lg text-white/90 transition-colors hover:bg-white/20 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+            className="flex h-8 w-8 items-center justify-center rounded-full text-white transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--regu-blue)]"
             onClick={() => setIsPaused((p) => !p)}
           >
-            {isPaused ? <Play className="h-3.5 w-3.5" /> : <Pause className="h-3.5 w-3.5" />}
+            {isPaused ? <Play className="h-3.5 w-3.5" strokeWidth={2.25} /> : <Pause className="h-3.5 w-3.5" strokeWidth={2.25} />}
           </button>
           <button
             type="button"
             aria-label="Slide siguiente"
-            className="flex h-8 w-8 items-center justify-center rounded-lg text-white/90 transition-colors hover:bg-white/20 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+            className="flex h-8 w-8 items-center justify-center rounded-full text-white transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--regu-blue)]"
             onClick={next}
           >
-            <ChevronRight className="h-4 w-4" />
+            <ChevronRight className="h-4 w-4" strokeWidth={2.25} />
           </button>
         </div>
       )}

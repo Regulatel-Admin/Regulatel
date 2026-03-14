@@ -124,13 +124,13 @@ export default function ComiteEjecutivo() {
           className="mx-auto px-4 md:px-8 lg:px-10"
           style={{ maxWidth: "1180px" }}
         >
-          {/* Presidente + Vicepresidentes */}
+          {/* Presidente + Vicepresidentes en una sola línea */}
           <section className="mb-16 md:mb-20">
             <SectionHeader
               title="Presidencia y Vicepresidencias"
               subtitle="Elegidos anualmente por la Asamblea Plenaria"
             />
-            <div className="flex flex-col items-center justify-center gap-12 lg:flex-row lg:items-start lg:gap-16 xl:gap-24">
+            <div className="flex flex-row flex-wrap items-start justify-center gap-8 md:gap-12 lg:gap-16">
               {/* Presidente */}
               <div className="flex flex-col items-center gap-3">
                 <span
@@ -141,15 +141,7 @@ export default function ComiteEjecutivo() {
                 </span>
                 <LogoBlock item={d.presidente} size="xl" />
               </div>
-
-              {/* Divider vertical */}
-              <div
-                className="hidden h-[200px] w-px lg:block"
-                style={{ backgroundColor: "rgba(22,61,89,0.10)" }}
-                aria-hidden
-              />
-
-              {/* Vicepresidentes */}
+              {/* Vicepresidentes (misma línea, orden mantenido) */}
               <div className="flex flex-col items-center gap-3">
                 <span
                   className="inline-block rounded-sm px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.12em]"
@@ -162,22 +154,6 @@ export default function ComiteEjecutivo() {
                     <LogoBlock key={i} item={v} size="lg" />
                   ))}
                 </div>
-              </div>
-            </div>
-          </section>
-
-          {/* Secretario Ejecutivo */}
-          <section className="mb-16 md:mb-20">
-            <SectionHeader title="Secretaría Ejecutiva" />
-            <div className="flex justify-center">
-              <div className="flex flex-col items-center gap-3">
-                <span
-                  className="inline-block rounded-sm px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.12em]"
-                  style={{ backgroundColor: "rgba(68,137,198,0.10)", color: "var(--regu-blue)" }}
-                >
-                  Secretario Ejecutivo
-                </span>
-                <LogoBlock item={d.secretarioEjecutivo} size="xl" />
               </div>
             </div>
           </section>

@@ -2,7 +2,7 @@
  * Datos centralizados de convenios. Usado por: dropdown header, lista /convenios, detalle /convenios/:slug.
  */
 
-export type ConvenioSlug = "berec" | "icann" | "fcc" | "comtelca";
+export type ConvenioSlug = "berec" | "icann" | "fcc" | "comtelca" | "prai";
 
 export interface Convenio {
   slug: ConvenioSlug;
@@ -78,6 +78,22 @@ export const convenios: Convenio[] = [
       "Coordinación en foros regionales",
     ],
     order: 4,
+  },
+  {
+    slug: "prai" as ConvenioSlug,
+    title: "Memorando de entendimiento REGULATEL – PRAI",
+    acronym: "PRAI",
+    shortDescription:
+      "Cooperación para la protección y el empoderamiento de la niñez y la adolescencia en entornos digitales, mediante el intercambio de experiencias y buenas prácticas entre reguladores.",
+    logoSrc: `${LOGOS}/prai.png`,
+    downloadUrl: "/documents/convenios/memorando-entendimiento-prai.pdf",
+    areas: [
+      "Protección de la niñez en entornos digitales",
+      "Intercambio de experiencias y buenas prácticas",
+      "Cooperación entre reguladores iberoamericanos",
+      "Fortalecimiento de marcos de protección en línea",
+    ],
+    order: 5,
   },
 ].sort((a, b) => a.order - b.order);
 

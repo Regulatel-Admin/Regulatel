@@ -3,9 +3,11 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
   Users, FileText, Download, Briefcase, Network, TrendingUp,
-  Shield, Sparkles, BarChart3, Wifi, Eye, X, Maximize2, ArrowLeft, ArrowRight,
+  Shield, Sparkles, BarChart3, Wifi,   Eye, X, Maximize2, ArrowLeft, ArrowRight, ExternalLink,
 } from "lucide-react";
 import PageHero from "@/components/PageHero";
+
+const INFORMES_2025 = "/documents/grupos-trabajo/informes-2025";
 
 interface GrupoTrabajo {
   id: string;
@@ -16,6 +18,8 @@ interface GrupoTrabajo {
   icon: React.ElementType;
   imageUrl: string;
   termsUrl?: string;
+  /** Informe final 2025: PDF (vista previa + descarga) o PPTX (solo descarga). */
+  informeUrl?: string;
 }
 
 const GRUPOS: GrupoTrabajo[] = [
@@ -27,7 +31,8 @@ const GRUPOS: GrupoTrabajo[] = [
     miembros: ["SUTEL, Costa Rica", "ATT, Bolivia", "INDOTEL, República Dominicana", "CRC, Colombia"],
     icon: Shield,
     imageUrl: "/grupos-trabajo/proteccion-empoderamiento-usuarios.jpg",
-    termsUrl: "/documents/grupos-trabajo/terminos-referencia-proteccion-empoderamiento-usuarios.pdf",
+    termsUrl: "/documents/grupos-trabajo/proteccion-empoderamiento-usuarios-2026.pdf",
+    informeUrl: `${INFORMES_2025}/proteccion-empoderamiento-informe-2025.pptx`,
   },
   {
     id: "cierre-brecha-calidad",
@@ -37,7 +42,8 @@ const GRUPOS: GrupoTrabajo[] = [
     miembros: ["ASEP, Panamá", "ATT, Bolivia"],
     icon: Wifi,
     imageUrl: "/grupos-trabajo/cierre-brecha-calidad.jpg",
-    termsUrl: "/documents/grupos-trabajo/terminos-referencia-cierre-brecha-calidad.pdf",
+    termsUrl: "/documents/grupos-trabajo/cierre-brecha-calidad-servicios-2026.pdf",
+    informeUrl: `${INFORMES_2025}/cierre-brecha-calidad-informe-2025.pdf`,
   },
   {
     id: "indicadores-telecomunicaciones-tic",
@@ -47,7 +53,8 @@ const GRUPOS: GrupoTrabajo[] = [
     miembros: ["INDOTEL, República Dominicana", "ATT, Bolivia"],
     icon: BarChart3,
     imageUrl: "/grupos-trabajo/indicadores-telecomunicaciones-tic.jpg",
-    termsUrl: "/documents/grupos-trabajo/terminos-referencia-indicadores-telecomunicaciones-tic.pdf",
+    termsUrl: "/documents/grupos-trabajo/indicadores-telecomunicaciones-tic-2026.pdf",
+    informeUrl: `${INFORMES_2025}/indicadores-telecomunicaciones-informe-2025.pptx`,
   },
   {
     id: "fortalecimiento-institucional",
@@ -57,7 +64,8 @@ const GRUPOS: GrupoTrabajo[] = [
     miembros: ["ANATEL, Brasil", "INDOTEL, República Dominicana"],
     icon: TrendingUp,
     imageUrl: "/grupos-trabajo/fortalecimiento-institucional.jpg",
-    termsUrl: "/documents/grupos-trabajo/terminos-referencia-fortalecimiento-institucional.pdf",
+    termsUrl: "/documents/grupos-trabajo/fortalecimiento-institucional-2026.pdf",
+    informeUrl: `${INFORMES_2025}/fortalecimiento-institucional-informe-2025.pptx`,
   },
   {
     id: "asuntos-internet",
@@ -67,7 +75,8 @@ const GRUPOS: GrupoTrabajo[] = [
     miembros: ["ASEP, Panamá"],
     icon: Network,
     imageUrl: "/grupos-trabajo/asuntos-internet.jpg",
-    termsUrl: "/documents/grupos-trabajo/terminos-referencia-asuntos-internet.pdf",
+    termsUrl: "/documents/grupos-trabajo/asuntos-internet-2026.pdf",
+    informeUrl: `${INFORMES_2025}/asuntos-internet-informe-2025.pptx`,
   },
   {
     id: "mercados-digitales",
@@ -77,7 +86,8 @@ const GRUPOS: GrupoTrabajo[] = [
     miembros: ["OSIPTEL, Perú (TBC)"],
     icon: Briefcase,
     imageUrl: "/grupos-trabajo/mercados-digitales.jpg",
-    termsUrl: "/documents/grupos-trabajo/terminos-referencia-mercados-digitales.pdf",
+    termsUrl: "/documents/grupos-trabajo/mercados-digitales-2026.pdf",
+    informeUrl: `${INFORMES_2025}/mercados-digitales-informe-2025.pdf`,
   },
   {
     id: "innovacion-mejora-regulatoria",
@@ -87,7 +97,7 @@ const GRUPOS: GrupoTrabajo[] = [
     miembros: ["INDOTEL, República Dominicana", "ENACOM, Argentina", "ASEP, Panamá"],
     icon: Sparkles,
     imageUrl: "/grupos-trabajo/innovacion-mejora-regulatoria.jpg",
-    termsUrl: "/documents/grupos-trabajo/terminos-referencia-innovacion-mejora-regulatoria.pdf",
+    termsUrl: "/documents/grupos-trabajo/innovacion-mejora-regulatoria-2026.pdf",
   },
   {
     id: "paridad-sociedad-informacion",
@@ -97,7 +107,8 @@ const GRUPOS: GrupoTrabajo[] = [
     miembros: ["ATT, Bolivia"],
     icon: Users,
     imageUrl: "/grupos-trabajo/paridad-sociedad-informacion.jpg",
-    termsUrl: "/documents/grupos-trabajo/terminos-referencia-paridad-sociedad-informacion.pdf",
+    termsUrl: "/documents/grupos-trabajo/paridad-sociedad-informacion-2026.pdf",
+    informeUrl: `${INFORMES_2025}/paridad-sociedad-informacion-informe-2025.pdf`,
   },
   {
     id: "ciberseguridad",
@@ -107,7 +118,7 @@ const GRUPOS: GrupoTrabajo[] = [
     miembros: ["ANATEL, Brasil"],
     icon: Shield,
     imageUrl: "/grupos-trabajo/ciberseguridad.jpg",
-    termsUrl: "/documents/grupos-trabajo/TdR_CIberseguirdad_2026.pdf",
+    termsUrl: "/documents/grupos-trabajo/ciberseguridad-2026.pdf",
   },
 ];
 
@@ -151,6 +162,19 @@ export default function GruposTrabajo() {
               </h2>
               <p className="mt-1 text-sm" style={{ color: "var(--regu-gray-500)" }}>
                 {GRUPOS.length} grupos de trabajo en funcionamiento
+              </p>
+            </div>
+          </div>
+
+          {/* Título informes finales 2025 */}
+          <div className="mb-8 flex items-start gap-4">
+            <div className="mt-1 h-8 w-[3px] flex-shrink-0 rounded-full" style={{ backgroundColor: "var(--regu-blue)" }} aria-hidden />
+            <div>
+              <h2 className="text-xl font-bold md:text-2xl" style={{ color: "var(--regu-navy)", fontFamily: "var(--token-font-heading)" }}>
+                Informes finales de los grupos 2025
+              </h2>
+              <p className="mt-1 text-sm" style={{ color: "var(--regu-gray-500)" }}>
+                Vista previa y descarga del informe de cada grupo de trabajo
               </p>
             </div>
           </div>
@@ -275,31 +299,68 @@ export default function GruposTrabajo() {
                         </div>
                       </div>
 
-                      {/* CTAs */}
-                      {grupo.termsUrl && (
-                        <div
-                          className="mt-auto flex flex-wrap items-center gap-2.5 border-t pt-4"
-                          style={{ borderColor: "rgba(22,61,89,0.07)" }}
-                        >
-                          <button
-                            onClick={() => setPreviewDoc({ url: grupo.termsUrl!, title: `Términos de referencia — ${grupo.title}` })}
-                            className="inline-flex items-center gap-1.5 rounded-lg px-4 py-2 text-xs font-bold uppercase tracking-[0.07em] text-white transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2"
-                            style={{ backgroundColor: "var(--regu-blue)" }}
-                          >
-                            <Eye className="h-3.5 w-3.5 shrink-0" />
-                            Vista previa
-                          </button>
-                          <a
-                            href={grupo.termsUrl}
-                            download
-                            className="inline-flex items-center gap-1.5 rounded-lg border-2 px-4 py-2 text-xs font-bold uppercase tracking-[0.07em] transition hover:bg-[rgba(68,137,198,0.07)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2"
-                            style={{ borderColor: "var(--regu-blue)", color: "var(--regu-blue)" }}
-                          >
-                            <Download className="h-3.5 w-3.5 shrink-0" />
-                            Términos de referencia
-                          </a>
-                        </div>
-                      )}
+                      {/* CTAs: Términos de referencia + Informe 2025 */}
+                      <div
+                        className="mt-auto flex flex-wrap items-center gap-2.5 border-t pt-4"
+                        style={{ borderColor: "rgba(22,61,89,0.07)" }}
+                      >
+                        {grupo.termsUrl && (
+                          <>
+                            <button
+                              onClick={() => setPreviewDoc({ url: grupo.termsUrl!, title: `Términos de referencia — ${grupo.title}` })}
+                              className="inline-flex items-center gap-1.5 rounded-lg px-4 py-2 text-xs font-bold uppercase tracking-[0.07em] text-white transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2"
+                              style={{ backgroundColor: "var(--regu-blue)" }}
+                            >
+                              <Eye className="h-3.5 w-3.5 shrink-0" />
+                              Vista previa
+                            </button>
+                            <a
+                              href={grupo.termsUrl}
+                              download
+                              className="inline-flex items-center gap-1.5 rounded-lg border-2 px-4 py-2 text-xs font-bold uppercase tracking-[0.07em] transition hover:bg-[rgba(68,137,198,0.07)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2"
+                              style={{ borderColor: "var(--regu-blue)", color: "var(--regu-blue)" }}
+                            >
+                              <Download className="h-3.5 w-3.5 shrink-0" />
+                              Términos de referencia
+                            </a>
+                          </>
+                        )}
+                        {grupo.informeUrl && (
+                          <>
+                            {grupo.informeUrl.toLowerCase().endsWith(".pdf") ? (
+                              <button
+                                onClick={() => setPreviewDoc({ url: grupo.informeUrl!, title: `Informe 2025 — ${grupo.title}` })}
+                                className="inline-flex items-center gap-1.5 rounded-lg px-4 py-2 text-xs font-bold uppercase tracking-[0.07em] text-white transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2"
+                                style={{ backgroundColor: "var(--regu-navy)" }}
+                              >
+                                <FileText className="h-3.5 w-3.5 shrink-0" />
+                                Ver informe
+                              </button>
+                            ) : (
+                              <a
+                                href={grupo.informeUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-1.5 rounded-lg px-4 py-2 text-xs font-bold uppercase tracking-[0.07em] text-white transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-navy)] focus-visible:ring-offset-2"
+                                style={{ backgroundColor: "var(--regu-navy)" }}
+                                title="Los archivos PPTX se abren en nueva pestaña o se descargan según el navegador"
+                              >
+                                <ExternalLink className="h-3.5 w-3.5 shrink-0" />
+                                Abrir informe
+                              </a>
+                            )}
+                            <a
+                              href={grupo.informeUrl}
+                              download
+                              className="inline-flex items-center gap-1.5 rounded-lg border-2 px-4 py-2 text-xs font-bold uppercase tracking-[0.07em] transition hover:bg-[rgba(22,61,89,0.06)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-navy)] focus-visible:ring-offset-2"
+                              style={{ borderColor: "var(--regu-navy)", color: "var(--regu-navy)" }}
+                            >
+                              <Download className="h-3.5 w-3.5 shrink-0" />
+                              Descargar informe
+                            </a>
+                          </>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </motion.article>

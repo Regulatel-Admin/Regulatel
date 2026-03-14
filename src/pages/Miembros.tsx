@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Globe, ExternalLink, Search, Mail, User, Briefcase, X, ChevronRight, ChevronLeft, ArrowLeft, ArrowRight } from 'lucide-react';
+import { Globe, ExternalLink, Search, X, ChevronRight, ChevronLeft, ArrowLeft, ArrowRight } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import PageHero from '@/components/PageHero';
 
@@ -38,7 +38,7 @@ const logoUrlMap: Record<string, string> = {
   'sit': '/images/logos/sit.png',
   'conatel': '/images/logos/conatel.png',
   'indotel': '/images/logos/indotel.png',
-  'ift': '/images/logos/ift.png',
+  'ift': '/images/logos/CRT-Mexico.png',
   'subtel': '/images/logos/subtel.png',
   'osiptel': '/images/logos/osiptel.png',
   'conatel-gt': '/images/logos/conatel-gt.png',
@@ -102,36 +102,38 @@ const LogoImage: React.FC<{ name: string; route: string }> = ({ name, route }) =
 
 interface DirectorioAutoridad {
   pais: string;
+  acronym: string;
   presidente: string;
+  cargo: string;
   corresponsal: string;
   correo: string;
-  cargo: string;
 }
 
+// Correo = primer email de la columna "Dirección de correo electrónico1" (correo del corresponsal) por país.
 const directorioAutoridades: DirectorioAutoridad[] = [
-  { pais: 'COLOMBIA', presidente: 'Felipe Augusto Díaz Suaza', corresponsal: 'Mariana Sarmiento', correo: 'mariana.sarmiento@crcom.gov.co', cargo: 'Director Ejecutivo' },
-  { pais: 'HONDURAS', presidente: 'Lorenzo Sauceda Calix', corresponsal: 'Claudia Rosario Reyes Solis', correo: 'rosario.reyes@conatel.gob.hn', cargo: 'Jefe Unidad de Relaciones Internacionales e Interistitucionales' },
-  { pais: 'COSTA RICA', presidente: 'Carlos Watson Carazo', corresponsal: 'Ivannia Morales', correo: 'ivannia.morales@sutel.go.cr', cargo: 'Presidente' },
-  { pais: 'CUBA', presidente: 'Wilfredo López Rodríguez', corresponsal: 'Melba Pita Calderon', correo: 'Melba.pita@mincom.gob.cu', cargo: 'Director de Regulaciones' },
-  { pais: 'REPÚBLICA DOMINICANA', presidente: 'Guido Orlando Gómez Mazara', corresponsal: 'Amparo Arango Echeverri', correo: 'aarango@indotel.gob.do', cargo: 'Directora Relaciones Internacionales' },
-  { pais: 'MÉXICO', presidente: 'Javier Juárez Mojica', corresponsal: 'Diana Haidee Gómez Gallardo', correo: 'diana.gomez@ift.org.mx', cargo: 'Directora de Política Internacional' },
-  { pais: 'PERÚ', presidente: 'Jesus Guillén Marroquín', corresponsal: 'Vanessa Castillo Mendives', correo: 'vcastillo@osiptel.gob.pe', cargo: 'Presidente ejecutivo (e)' },
-  { pais: 'GUATEMALA', presidente: 'Herbert Armando Rubio Montes', corresponsal: 'Ingrid Roxanda García Santiago', correo: 'ingrid.garcia@sit.gob.gt', cargo: 'Asesora Asuntos Nacionales e Internacionales' },
-  { pais: 'PORTUGAL', presidente: 'Sandra Maximiano', corresponsal: 'Rita Silva', correo: 'rita.silva@anacom.pt', cargo: 'Presidente del Consejo de Administración' },
-  { pais: 'BRASIL', presidente: 'Carlos Baigorri', corresponsal: 'Salerme Oliveira', correo: 'salerme@anatel.gov.br', cargo: 'Assessor' },
-  { pais: 'ESPAÑA', presidente: 'Alejandra de Iturriaga', corresponsal: 'Antonio Serra Bastida', correo: 'antonio.serra@cnmc.es', cargo: 'Funcionario' },
-  { pais: 'URUGUAY', presidente: 'Gonzalo Balseiro', corresponsal: 'Bruno Fernandez, Leandro Claramunt', correo: 'cdolinkas@ursec.gub.uy', cargo: 'Presidente / Vicepresidente / Director' },
-  { pais: 'VENEZUELA', presidente: 'Jorge Elieser Márquez Monsalve', corresponsal: 'Mariana Solymer Calderón Martínez', correo: 'mcalderon@conatel.gob.ve', cargo: 'Presidente' },
-  { pais: 'BOLIVIA', presidente: 'Néstor Ríos Rivero', corresponsal: 'Alan Wilbert Borda Rivera', correo: 'aborda@att.gob.bo', cargo: 'Responsable de Relaciones Internacionales' },
-  { pais: 'ECUADOR', presidente: 'Jorge Roberto Hoyos Zavala', corresponsal: 'Jenny Paulina Zhunio Cifuentes', correo: 'paulina.zhunio@arcotel.gob.ec', cargo: 'Director Ejecutivo' },
-  { pais: 'ARGENTINA', presidente: 'Juan Martín Ozores', corresponsal: 'Daniel Jorge Carletti', correo: 'dcarletti@enacom.gob.ar', cargo: 'Subdirección de Asuntos Internacionales' },
-  { pais: 'ITALIA', presidente: 'Giacomo Lasorella', corresponsal: 'Antonio De Tommaso', correo: 'Ia.detommaso@agcom.it; sri@agcom.it', cargo: 'Presidente' },
-  { pais: 'EL SALVADOR', presidente: 'Manuel Aguilar', corresponsal: 'Maria Escobar', correo: 'mescobar@siget.gob.sv', cargo: 'Superintendente' },
-  { pais: 'NICARAGUA', presidente: 'Nahima Díaz Flores', corresponsal: 'Alina Rivas', correo: 'arivas@telcor.gob.ni', cargo: 'Directora General' },
-  { pais: 'PANAMÁ', presidente: 'Zelmar Rodríguez Crespo', corresponsal: 'Ana De la Rosa', correo: 'adelarosa@asep.gob.pa', cargo: 'Administradora General' },
-  { pais: 'CHILE', presidente: 'Claudio Araya San Martín', corresponsal: 'Denis Gonzalez Grandjean', correo: 'dgonzalezg@subtel.gob.cl', cargo: 'Abogado Unidad de Asuntos Internacionales' },
-  { pais: 'PUERTO RICO', presidente: 'Ferdinand A. Ramos Soegaard', corresponsal: 'Rafael O. García Santiago', correo: 'rgarcia@jrsp.pr.gov', cargo: 'Presidente de la Junta Reglamentadora' },
-  { pais: 'PARAGUAY', presidente: 'Juan Carlos Duarte Duré', corresponsal: 'Marco Cubilla Da Silva', correo: 'mcubilla@conatel.gov.py', cargo: 'Presidente' },
+  { pais: 'ARGENTINA', acronym: 'ENACOM', presidente: 'Juan Martín Ozores', cargo: 'Presidente', corresponsal: 'Allen Aldana Palacios', correo: 'apelacion@enacom.gob.ar' },
+  { pais: 'BOLIVIA', acronym: 'ATT', presidente: 'Néstor Ríos Rivero', cargo: 'Director Ejecutivo', corresponsal: 'Alan Wilbert Borda Rivera', correo: 'aborda@att.gob.bo' },
+  { pais: 'BRASIL', acronym: 'ANATEL', presidente: 'Carlos Baigorri', cargo: 'Presidente', corresponsal: 'Salerme Oliveira', correo: 'salerme@anatel.gov.br' },
+  { pais: 'CHILE', acronym: 'SUBTEL', presidente: 'Claudio Araya San Martín', cargo: 'Subsecretario', corresponsal: 'Denis Gonzalez Grandjean', correo: 'dgonzalez@subtel.gob.cl' },
+  { pais: 'COLOMBIA', acronym: 'CRC', presidente: 'Felipe Augusto Díaz Suaza', cargo: 'Director Ejecutivo', corresponsal: 'Mariana Sarmiento Argüello', correo: 'mariana.sarmiento@crcom.gov.co' },
+  { pais: 'COSTA RICA', acronym: 'SUTEL', presidente: 'Carlos Watson Carazo', cargo: 'Presidente del Consejo Directivo', corresponsal: 'Ivannia Morales Chávez', correo: 'ivannia.morales@sutel.go.cr' },
+  { pais: 'CUBA', acronym: 'MINCOM', presidente: 'Wilfredo López Rodríguez', cargo: 'Primer Viceministro', corresponsal: 'Melba Pita Calderon', correo: 'melba.pita@mincom.gob.cu' },
+  { pais: 'ECUADOR', acronym: 'ARCOTEL', presidente: 'Jorge Roberto Hoyos Zavala', cargo: 'Director Ejecutivo', corresponsal: 'Juan Pablo Zhunio Cifuentes', correo: 'juan.puchuela@arcotel.gob.ec' },
+  { pais: 'EL SALVADOR', acronym: 'SIGET', presidente: 'Manuel Ernesto Aguilar', cargo: 'Superintendente General', corresponsal: 'María Escobar', correo: 'mescobar@siget.gob.sv' },
+  { pais: 'ESPAÑA', acronym: 'CNMC', presidente: 'Alejandra de Iturriaga', cargo: 'Vicepresidenta', corresponsal: 'Antonio Serra Bastida', correo: 'antonio.serra@cnmc.es' },
+  { pais: 'GUATEMALA', acronym: 'SIT', presidente: 'Herbert Armando Rubio Montes', cargo: 'Comisionado Presidente', corresponsal: 'Ingrid Rosenda García Santiago', correo: 'ingrid.garcia@sit.gob.gt' },
+  { pais: 'HONDURAS', acronym: 'CONATEL', presidente: 'Lorenzo Sauceda Calix', cargo: 'Comisionado Presidente', corresponsal: 'Claudia Rosario Reyes Solís', correo: 'maurin.reyes@conatel.gob.hn' },
+  { pais: 'ITALIA', acronym: 'AGCOM', presidente: 'Giacomo Lasorella', cargo: 'Presidente', corresponsal: 'Antonio De Tommaso', correo: 's.detommaso@agcom.it' },
+  { pais: 'MÉXICO', acronym: 'CRT', presidente: 'Norma Solano Rodríguez', cargo: 'Presidente', corresponsal: 'Julio Téllez del Río', correo: 'julio.tellez@crt.gob.mx' },
+  { pais: 'NICARAGUA', acronym: 'TELCOR', presidente: 'Nahima Díaz Flores', cargo: 'Directora General', corresponsal: 'Alina Rivas', correo: 'arivas@telcor.gob.ni' },
+  { pais: 'PANAMÁ', acronym: 'ASEP', presidente: 'Zelmar Rodríguez Crespo', cargo: 'Administradora General', corresponsal: 'Ana De la Rosa', correo: 'adelarosa@asep.gob.pa' },
+  { pais: 'PARAGUAY', acronym: 'CONATEL', presidente: 'Juan Carlos Duarte Duré', cargo: 'Presidente', corresponsal: 'Rodrigo Volpe', correo: 'rodrigo_volpe@conatel.gov.py' },
+  { pais: 'PERÚ', acronym: 'OSIPTEL', presidente: 'Jesus Guillén Marroquín', cargo: 'Presidente', corresponsal: 'Vanessa Castillo Mendives', correo: 'vcastillo@osiptel.gob.pe' },
+  { pais: 'PORTUGAL', acronym: 'ANACOM', presidente: 'Sandra Maximiano', cargo: 'Presidente del Consejo de Administración', corresponsal: 'Rita Silva', correo: 'rita.silva@anacom.pt' },
+  { pais: 'PUERTO RICO', acronym: 'NET', presidente: 'Romina Garrido Iglesias', cargo: 'Comisionado Presidente', corresponsal: 'Norberto Almodóvar Vélez', correo: 'osvaldo.soto@jsp.pr.gov' },
+  { pais: 'REPÚBLICA DOMINICANA', acronym: 'INDOTEL', presidente: 'Guido Orlando Gómez Mazara', cargo: 'Presidente del Consejo Directivo', corresponsal: 'Amparo Arango Cruz', correo: 'aarango@indotel.gob.do' },
+  { pais: 'URUGUAY', acronym: 'URSEC', presidente: 'Gonzalo Balseiro', cargo: 'Presidente', corresponsal: 'Carol Dolinkas', correo: 'cdolinkas@ursec.gub.uy' },
+  { pais: 'VENEZUELA', acronym: 'CONATEL', presidente: 'Enrique José Quintana Sifontes', cargo: 'Director General', corresponsal: 'Mariana Solymer Calderón Martínez', correo: 'mcalderon@conatel.gob.ve' },
 ];
 
 const Miembros: React.FC = () => {
@@ -146,6 +148,7 @@ const Miembros: React.FC = () => {
     return directorioAutoridades.filter(item => {
       const matchesSearch = !searchTerm || 
         item.pais.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.acronym.toLowerCase().includes(searchTerm.toLowerCase()) ||
         item.presidente.toLowerCase().includes(searchTerm.toLowerCase()) ||
         item.corresponsal.toLowerCase().includes(searchTerm.toLowerCase()) ||
         item.cargo.toLowerCase().includes(searchTerm.toLowerCase());
@@ -174,7 +177,7 @@ const Miembros: React.FC = () => {
     { name: 'CONATEL', country: 'Guatemala', fullName: 'Comisión Nacional de Telecomunicaciones', route: '/conatel-gt', externalUrl: 'https://www.regulatel.org/conatel-gt' },
     { name: 'CONATEL', country: 'Honduras', fullName: 'Comisión Nacional de Telecomunicaciones', route: '/conatel', externalUrl: 'https://www.regulatel.org/conatel' },
     { name: 'AGCOM', country: 'Italia', fullName: 'Autorità per le Garanzie nelle Comunicazioni', route: '/agcom', externalUrl: 'https://www.regulatel.org/agcom' },
-    { name: 'IFT', country: 'México', fullName: 'Instituto Federal de Telecomunicaciones', route: '/ift', externalUrl: 'https://www.regulatel.org/ift' },
+    { name: 'CRT', country: 'México', fullName: 'Comisión Reguladora de Telecomunicaciones', route: '/ift', externalUrl: 'https://www.regulatel.org/ift' },
     { name: 'TELCOR', country: 'Nicaragua', fullName: 'Instituto Nicaraguense de Telecomunicaciones y Correo', route: '/telcor', externalUrl: 'https://www.telcor.gob.ni' },
     { name: 'ASEP', country: 'Panamá', fullName: 'Autoridad Nacional de los Servicios Públicos', route: '/asep', externalUrl: 'https://www.asep.gob.pa' },
     { name: 'CONATEL', country: 'Paraguay', fullName: 'Comisión Nacional de Telecomunicaciones', route: '/conatel-py', externalUrl: 'https://www.conatel.gov.py' },
@@ -346,10 +349,10 @@ const Miembros: React.FC = () => {
                             transition={{ duration: 0.4, delay: index * 0.03 }}
                             viewport={{ once: true }}
                             whileHover={{ scale: 1.02, y: -3 }}
-                            className="flex flex-col items-center justify-start w-[248px] md:w-[272px] h-full min-h-[300px] md:min-h-[320px] px-6 py-7 rounded-xl border transition-all cursor-pointer group"
+                            className="flex flex-col items-center justify-start w-[296px] md:w-[352px] h-full min-h-[360px] md:min-h-[420px] px-5 py-7 rounded-xl border transition-all cursor-pointer group"
                             style={{ backgroundColor: "var(--regu-offwhite)", borderColor: "var(--regu-gray-100)" }}
                           >
-                            <div className="w-48 h-48 md:w-52 md:h-52 flex-shrink-0 mb-5 flex items-center justify-center bg-white rounded-xl p-5 shadow-sm group-hover:shadow-md transition-shadow border" style={{ borderColor: "var(--regu-gray-100)" }}>
+                            <div className="w-[256px] h-[256px] md:w-[312px] md:h-[312px] flex-shrink-0 mb-5 flex items-center justify-center bg-white rounded-xl p-2 md:p-3 shadow-sm group-hover:shadow-md transition-shadow border" style={{ borderColor: "var(--regu-gray-100)" }}>
                               <LogoImage name={ente.name} route={ente.route} />
                             </div>
                             <div className="text-center flex-1 flex flex-col justify-end min-h-0">
@@ -483,7 +486,7 @@ const Miembros: React.FC = () => {
             )}
           </div>
 
-          {/* Grid de directorio */}
+          {/* Grid de directorio — formato institucional: ACRÓNIMO - PAÍS / Presidente / Cargo / Corresponsal / Correo */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             <AnimatePresence mode="wait">
               {filteredDirectorio.map((item, index) => (
@@ -499,51 +502,29 @@ const Miembros: React.FC = () => {
                   <div className="absolute inset-x-0 top-0 h-[3px]" style={{ backgroundColor: "var(--regu-blue)" }} aria-hidden />
                   <div className="p-6">
                     <div className="flex items-start justify-between mb-4">
-                      <div className="flex-1">
-                        <h3 className="text-base font-bold leading-snug" style={{ color: "var(--regu-navy)", fontFamily: "var(--token-font-heading)" }}>{item.pais}</h3>
-                      </div>
-                      <Globe className="w-4 h-4 flex-shrink-0 mt-0.5 opacity-50" style={{ color: "var(--regu-blue)" }} />
+                      <h3 className="text-base font-bold leading-snug" style={{ color: "var(--regu-navy)", fontFamily: "var(--token-font-heading)" }}>
+                        {item.acronym} – {item.pais}
+                      </h3>
+                      <Globe className="w-4 h-4 flex-shrink-0 mt-0.5 opacity-50" style={{ color: "var(--regu-blue)" }} aria-hidden />
                     </div>
-                      
-                      <div className="space-y-4">
-                        <div>
-                          <div className="flex items-center gap-2 mb-1">
-                            <User className="w-4 h-4" style={{ color: "var(--regu-blue)" }} />
-                            <span className="text-xs font-semibold uppercase tracking-wide" style={{ color: "var(--regu-gray-700)" }}>Presidente</span>
-                          </div>
-                          <p className="text-sm font-medium pl-6" style={{ color: "var(--regu-gray-900)" }}>{item.presidente}</p>
-                        </div>
-                        
-                        <div>
-                          <div className="flex items-center gap-2 mb-1">
-                            <User className="w-4 h-4" style={{ color: "var(--regu-blue)" }} />
-                            <span className="text-xs font-semibold uppercase tracking-wide" style={{ color: "var(--regu-gray-700)" }}>Corresponsal</span>
-                          </div>
-                          <p className="text-sm font-medium pl-6" style={{ color: "var(--regu-gray-900)" }}>{item.corresponsal}</p>
-                        </div>
-                        
-                        <div>
-                          <div className="flex items-center gap-2 mb-1">
-                            <Mail className="w-4 h-4" style={{ color: "var(--regu-blue)" }} />
-                            <span className="text-xs font-semibold uppercase tracking-wide" style={{ color: "var(--regu-gray-700)" }}>Correo</span>
-                          </div>
-                          <a
-                            href={`mailto:${item.correo}`}
-                            className="text-sm font-medium pl-6 break-all transition-colors hover:opacity-90"
-                            style={{ color: "var(--regu-blue)" }}
-                          >
-                            {item.correo}
-                          </a>
-                        </div>
-                        
-                        <div>
-                          <div className="flex items-center gap-2 mb-1">
-                            <Briefcase className="w-4 h-4" style={{ color: "var(--regu-blue)" }} />
-                            <span className="text-xs font-semibold uppercase tracking-wide" style={{ color: "var(--regu-gray-700)" }}>Cargo</span>
-                          </div>
-                          <p className="text-sm pl-6 leading-relaxed" style={{ color: "var(--regu-gray-700)" }}>{item.cargo}</p>
-                        </div>
+                    <div className="space-y-4" style={{ color: "var(--regu-gray-900)" }}>
+                      <p className="text-sm font-medium leading-snug">{item.presidente}</p>
+                      <p className="text-sm leading-snug" style={{ color: "var(--regu-gray-700)" }}>{item.cargo}</p>
+                      <div className="pt-2 border-t" style={{ borderColor: "rgba(22,61,89,0.08)" }}>
+                        <p className="text-xs font-semibold uppercase tracking-wide mb-1" style={{ color: "var(--regu-gray-600)" }}>Corresponsal</p>
+                        <p className="text-sm font-medium">{item.corresponsal}</p>
                       </div>
+                      <div>
+                        <p className="text-xs font-semibold uppercase tracking-wide mb-1" style={{ color: "var(--regu-gray-600)" }}>Correo</p>
+                        <a
+                          href={`mailto:${item.correo}`}
+                          className="text-sm break-all transition-colors hover:opacity-90"
+                          style={{ color: "var(--regu-blue)" }}
+                        >
+                          {item.correo}
+                        </a>
+                      </div>
+                    </div>
                   </div>
                 </motion.div>
               ))}

@@ -258,8 +258,8 @@ export const accessMainItems: AccessMainItem[] = [
   },
   {
     title: "Galería fotográfica",
-    shortDescription: "Galería oficial REGULATEL/INDOTEL en Flickr.",
-    href: "https://www.flickr.com/photos/indotel/albums/72177720330864280/",
+    shortDescription: "Imágenes de eventos y actividades de REGULATEL.",
+    href: "/galeria",
     icon: ImageIcon,
   },
   {
@@ -479,33 +479,53 @@ export const featuredSummit = {
   buttonLabel: "Ver Cumbre",
 };
 
-/** Items para el carrusel editorial tipo BEREC (featured hero con card overlay). */
+/** Items para el carrusel "Cumbres Destacadas" (featured hero con card overlay). Orden exacto del slider. */
 export const featuredCarouselItems = [
   {
-    id: "cumbre-cartagena-2026",
+    id: "cumbre-punta-cana",
     type: "eventos" as const,
-    date: "2026",
-    title: "Cumbre BEREC - REGULATEL, Cartagena 2026",
-    imageUrl: "/images/cumbre-berec-cartagena-2026.jpg",
-    href: "/pendiente/cumbre-berec-regulatel-cartagena-2026",
-    ctaPrimaryLabel: "Leer más",
-    categoryLabel: "PRÓXIMA",
-  },
-  {
-    id: "cumbre-punta-cana-2025",
-    type: "eventos" as const,
-    date: "11 DIC 2025",
-    title: "Cumbre REGULATEL, ASIET y COMTELCA — Conectando el futuro digital de la región",
+    date: "11 de diciembre de 2025",
+    title: "Cumbre Regulatel, Asiet, Comtelca",
     imageUrl: "/images/cumbre-regulatel-asiet-comtelca-2025.png",
     href: "/noticias/cumbre-regulatel-asiet-comtelca",
     ctaPrimaryLabel: "Ver Cumbre",
-    /* Sin ctaSecondary: evento 2025 ya pasó, no debe mostrar Registrarse. */
+    location: "Punta Cana, Rep. Dom.",
   },
   {
-    id: "cumbre-santa-cruz-2024",
+    id: "cumbre-regulatel-prai-2025",
     type: "eventos" as const,
-    date: "21 JUN 2024",
-    title: "Cumbre BEREC - REGULATEL, Santa Cruz 2024",
+    date: "13 de noviembre 2025",
+    title: "Cumbre REGULATEL PRAI 2025",
+    imageUrl: "/images/cumbre-regulatel-prai-2025.jpg",
+    href: "https://prai.tv/inicio/cumbre-regulatel-prai-2025-reunio-a-reguladores-iberoamericanos-para-fortalecer-la-proteccion-de-la-ninez-en-entornos-digitales/",
+    ctaPrimaryLabel: "Leer más",
+    location: "Virtual a través de Microsoft Teams",
+    imagePosition: "center 28%",
+  },
+  {
+    id: "berec-eapereg-regulatel",
+    type: "eventos" as const,
+    date: "5 de marzo de 2025",
+    title: "Cumbre cuatrilateral BEREC, EaPeReg, REGULATEL y EMERG",
+    imageUrl: "/images/cumbre-berec-cartagena-2026.jpg",
+    href: "https://www.berec.europa.eu/en/events/four-lateral-berec-eapereg-regulatel-and-emerg-summit-0",
+    ctaPrimaryLabel: "Leer más",
+    location: "Barcelona, España",
+  },
+  {
+    id: "regulatel-asiet-cartagena-dic-2024",
+    type: "eventos" as const,
+    date: "DIC 2024",
+    title: "REGULATEL - ASIET Cartagena Dic 2024",
+    imageUrl: "/images/cumbre-regulatel-ASIET.jpg",
+    href: "https://www.crcom.gov.co/es/noticias/comunicado-prensa/cumbre-regulatel-asiet",
+    ctaPrimaryLabel: "Leer más",
+  },
+  {
+    id: "berec-regulatel-bolivia-junio-2025",
+    type: "eventos" as const,
+    date: "JUN 2025",
+    title: "BEREC - REGULATEL Bolivia Junio 2025",
     imageUrl: "/images/cumbre-berec-santa-cruz-2024.jpg",
     href: "/noticias/concluye-con-exito-la-historica-cumbre-regulatel-berec-en-bolivia-2024",
     ctaPrimaryLabel: "Leer más",

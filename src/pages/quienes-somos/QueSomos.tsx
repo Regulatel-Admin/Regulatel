@@ -5,7 +5,6 @@ import InstitutionalLayout, {
   InstitutionalSection,
   InstitutionalH2,
   InstitutionalCard,
-  InstitutionalLead,
 } from "@/components/institutional/InstitutionalLayout";
 
 const fadeIn = {
@@ -38,13 +37,6 @@ export default function QueSomos() {
       subtitle="QUIÉNES SOMOS"
       breadcrumb={[{ label: "Qué somos" }]}
     >
-      {/* Lead editorial */}
-      <InstitutionalLead>
-        El Foro Latinoamericano de Entes Reguladores en Telecomunicaciones (REGULATEL) es una
-        organización sin fines de lucro que funciona como un espacio multilateral de cooperación
-        entre autoridades reguladoras de telecomunicaciones de América Latina.
-      </InstitutionalLead>
-
       {/* Descripción institucional */}
       <InstitutionalSection>
         <InstitutionalH2>Quiénes somos</InstitutionalH2>
@@ -56,9 +48,14 @@ export default function QueSomos() {
           style={{ color: "var(--regu-gray-700)" }}
         >
           <p>
-            El Foro se constituye como un mecanismo flexible y eficiente de colaboración basado en
-            las infraestructuras institucionales existentes en cada país miembro. REGULATEL facilita
-            el intercambio de información, experiencias y buenas prácticas regulatorias entre sus
+            El Foro Latinoamericano de Entes Reguladores en Telecomunicaciones (REGULATEL) funciona
+            como un espacio multilateral de cooperación entre autoridades reguladoras de
+            telecomunicaciones de América Latina, España, Portugal e Italia.
+          </p>
+          <p>
+            Constituye como un mecanismo flexible y eficiente de colaboración basado en las
+            infraestructuras institucionales existentes en cada país miembro. REGULATEL facilita el
+            intercambio de información, experiencias y buenas prácticas regulatorias entre sus
             miembros.
           </p>
           <p>

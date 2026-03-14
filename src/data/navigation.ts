@@ -100,9 +100,8 @@ export const navigationItems: NavigationItem[] = [
         links: [
           {
             label: "Estudios e investigación",
-            href: "/pendiente/estudios",
+            href: "/estudios-e-investigacion",
             description: "Análisis y estudios regulatorios comparados",
-            todo: "TODO: Definir URL oficial de 'Estudios'.",
           },
           {
             label: "Revista Digital REGULATEL",
@@ -111,8 +110,7 @@ export const navigationItems: NavigationItem[] = [
           },
           {
             label: "Galería fotográfica",
-            href: "https://www.flickr.com/photos/indotel/albums/72177720330864280/",
-            external: true,
+            href: "/galeria",
             description: "Imágenes de eventos y actividades",
           },
         ],
@@ -127,15 +125,9 @@ export const navigationItems: NavigationItem[] = [
           },
           {
             label: "Banco de información",
-            href: "/pendiente/banco-informaciones",
-            description: "Base de datos de telecomunicaciones",
-            todo: "TODO: Definir URL oficial del banco de informaciones.",
-          },
-          {
-            label: "Indicadores Power BI",
             href: "https://sutel.go.cr/pagina/indicadores-internacionales-regulatel",
             external: true,
-            description: "Indicadores internacionales interactivos",
+            description: "Base de datos de telecomunicaciones",
           },
         ],
       },
