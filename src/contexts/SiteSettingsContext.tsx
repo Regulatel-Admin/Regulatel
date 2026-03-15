@@ -2,7 +2,7 @@
  * Site-wide CMS settings for the public site (hero, quick links, carousel).
  * Fetches from /api/settings when DB is configured; falls back to static data when not.
  */
-import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from "react";
 import { api } from "@/lib/api";
 import type {
   HomeHeroSetting,
@@ -21,6 +21,8 @@ export interface SiteSettingsState {
   galleryAlbums: GalleryAlbumSetting[] | null;
   navigation: unknown | null;
   loading: boolean;
+  /** Vuelve a pedir los settings al API (útil al volver al Home tras guardar en admin). */
+  refetch: () => Promise<void>;
 }
 
 const defaultState: SiteSettingsState = {
@@ -30,43 +32,54 @@ const defaultState: SiteSettingsState = {
   galleryAlbums: null,
   navigation: null,
   loading: true,
+  refetch: async () => {},
 };
 
 const SiteSettingsContext = createContext<SiteSettingsState>(defaultState);
 
+async function fetchSettings(): Promise<Omit<SiteSettingsState, "refetch">> {
+  const res = await api.settings.getAll();
+  if (!res.ok || !res.data) {
+    return { ...defaultState, loading: false };
+  }
+  const d = res.data;
+  return {
+    homeHero:
+      d.home_hero && typeof d.home_hero === "object"
+        ? (d.home_hero as HomeHeroSetting)
+        : null,
+    quickLinks: Array.isArray(d.quick_links) ? (d.quick_links as QuickLinkSettingItem[]) : null,
+    featuredCarousel:
+      Array.isArray(d.featured_carousel) ? (d.featured_carousel as FeaturedCarouselItemSetting[]) : null,
+    galleryAlbums: Array.isArray(d.gallery_albums) ? (d.gallery_albums as GalleryAlbumSetting[]) : null,
+    navigation: d.navigation != null ? d.navigation : null,
+    loading: false,
+  };
+}
+
 export function SiteSettingsProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<SiteSettingsState>(defaultState);
+
+  const refetch = useCallback(async () => {
+    setState((prev) => ({ ...prev, loading: true }));
+    const next = await fetchSettings();
+    setState((prev) => ({ ...prev, ...next, refetch: prev.refetch }));
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
     (async () => {
-      const res = await api.settings.getAll();
+      const next = await fetchSettings();
       if (cancelled) return;
-      if (!res.ok || !res.data) {
-        setState({ ...defaultState, loading: false });
-        return;
-      }
-      const d = res.data;
-      setState({
-        homeHero:
-          d.home_hero && typeof d.home_hero === "object"
-            ? (d.home_hero as HomeHeroSetting)
-            : null,
-        quickLinks: Array.isArray(d.quick_links) ? (d.quick_links as QuickLinkSettingItem[]) : null,
-        featuredCarousel:
-          Array.isArray(d.featured_carousel) ? (d.featured_carousel as FeaturedCarouselItemSetting[]) : null,
-        galleryAlbums: Array.isArray(d.gallery_albums) ? (d.gallery_albums as GalleryAlbumSetting[]) : null,
-        navigation: d.navigation != null ? d.navigation : null,
-        loading: false,
-      });
+      setState((prev) => ({ ...prev, ...next, refetch }));
     })();
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [refetch]);
 
   return (
-    <SiteSettingsContext.Provider value={state}>
+    <SiteSettingsContext.Provider value={{ ...state, refetch }}>
       {children}
     </SiteSettingsContext.Provider>
   );

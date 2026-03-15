@@ -3,7 +3,7 @@
  * Versión inicial desarrollada por Diego Cuervo (INDOTEL). 2026.
  * Hero, accesos y cumbres pueden venir de /api/settings (CMS) o de datos estáticos.
  */
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import QuickLinksBar from "@/components/home/QuickLinksBar";
 import EventsSection from "@/components/home/EventsSection";
 import FeaturedCarousel from "@/components/home/FeaturedCarousel";
@@ -16,12 +16,17 @@ import {
   useEvents,
   useMergedNews,
 } from "@/contexts/AdminDataContext";
-import { useHomeHero, useHomeQuickLinks, useFeaturedCarouselSettings } from "@/contexts/SiteSettingsContext";
+import { useHomeHero, useHomeQuickLinks, useFeaturedCarouselSettings, useSiteSettings } from "@/contexts/SiteSettingsContext";
 import { quickLinkItemsFromSetting } from "@/lib/quickLinks";
 import { quickLinks as staticQuickLinks, featuredCarouselItems as fallbackCarouselItems } from "@/data/home";
 import type { FeaturedCarouselItem } from "@/components/home/FeaturedCarousel";
 
 export default function Home() {
+  const { refetch: refetchSettings } = useSiteSettings();
+  useEffect(() => {
+    void refetchSettings();
+  }, [refetchSettings]);
+
   const homeNews = useMergedNews();
   const allEvents = useEvents();
   const homeEvents = useMemo(() => allEvents.filter((e) => e.year === 2026), [allEvents]);
