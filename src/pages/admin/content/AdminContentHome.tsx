@@ -52,8 +52,19 @@ export default function AdminContentHome() {
       const res = await api.settings.getAll();
       if (cancelled) return;
       if (res.ok && res.data) {
-        if (res.data.home_hero && typeof res.data.home_hero === "object") {
-          const h = res.data.home_hero as HomeHeroSetting;
+        const rawHero = res.data.home_hero;
+        const heroObj =
+          typeof rawHero === "string"
+            ? (() => {
+                try {
+                  return JSON.parse(rawHero) as HomeHeroSetting;
+                } catch {
+                  return null;
+                }
+              })()
+            : rawHero && typeof rawHero === "object" ? (rawHero as HomeHeroSetting) : null;
+        if (heroObj) {
+          const h = heroObj;
           setHero({
             coverImageUrls: Array.isArray(h.coverImageUrls) ? h.coverImageUrls : defaultHero.coverImageUrls,
             badge: typeof h.badge === "string" ? h.badge : defaultHero.badge,
@@ -64,9 +75,11 @@ export default function AdminContentHome() {
             secondaryCta: h.secondaryCta && typeof h.secondaryCta.label === "string" ? h.secondaryCta : defaultHero.secondaryCta,
           });
         }
-        if (Array.isArray(res.data.quick_links) && res.data.quick_links.length > 0) {
+        const rawQl = res.data.quick_links;
+        const qlArr = typeof rawQl === "string" ? (() => { try { return JSON.parse(rawQl); } catch { return null; } })() : rawQl;
+        if (Array.isArray(qlArr) && qlArr.length > 0) {
           setQuickLinksSetting(
-            (res.data.quick_links as QuickLinkSettingItem[]).map((q) => ({
+            (qlArr as QuickLinkSettingItem[]).map((q) => ({
               label: typeof q.label === "string" ? q.label : "",
               href: typeof q.href === "string" ? q.href : "",
               external: Boolean(q.external),

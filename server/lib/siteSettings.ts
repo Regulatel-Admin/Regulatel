@@ -25,6 +25,18 @@ export interface SiteSettingRow {
   updated_at: string;
 }
 
+/** Algunos clientes Postgres devuelven JSONB como string; normalizar a objeto/array. */
+function normalizeJsonValue(val: unknown): unknown {
+  if (typeof val === "string") {
+    try {
+      return JSON.parse(val) as unknown;
+    } catch {
+      return val;
+    }
+  }
+  return val;
+}
+
 /** Get one setting by key. Returns null if not found. */
 export async function getSetting(key: string): Promise<{ key: string; value: unknown; updated_at: string } | null> {
   if (!isAllowedKey(key)) return null;
@@ -33,7 +45,7 @@ export async function getSetting(key: string): Promise<{ key: string; value: unk
     SELECT key, value, updated_at FROM site_settings WHERE key = ${key}
   `;
   if (!row) return null;
-  return { key: row.key, value: row.value, updated_at: row.updated_at };
+  return { key: row.key, value: normalizeJsonValue(row.value), updated_at: row.updated_at };
 }
 
 const ALLOWED_SET = new Set<string>(ALLOWED_KEYS);
@@ -46,7 +58,7 @@ export async function getAllSettings(): Promise<Record<string, unknown>> {
   `;
   const out: Record<string, unknown> = {};
   for (const r of rows) {
-    if (ALLOWED_SET.has(r.key)) out[r.key] = r.value;
+    if (ALLOWED_SET.has(r.key)) out[r.key] = normalizeJsonValue(r.value);
   }
   return out;
 }

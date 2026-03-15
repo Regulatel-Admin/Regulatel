@@ -55,22 +55,38 @@ async function fetchSettings(retry = false): Promise<Omit<SiteSettingsState, "re
     return { ...defaultState, loading: false };
   }
   const d = res.data;
-  const keys = Object.keys(d);
-  const hasHero = d.home_hero && typeof d.home_hero === "object";
-  console.warn("[REGULATEL] Settings OK: claves recibidas del API:", keys.length ? keys.join(", ") : "(ninguna)");
-  console.warn("[REGULATEL] home_hero en respuesta:", d.home_hero == null ? "ausente/null/undefined" : typeof d.home_hero === "object" ? "objeto OK" : "tipo inesperado: " + typeof d.home_hero);
-  if (!hasHero && keys.length > 0) {
-    console.error("[REGULATEL] El API devolvió 200 con claves", keys, "pero home_hero no viene o no es objeto. ¿El PUT guardó en otra tabla/instancia?");
-  }
+  const rawHero = d.home_hero;
+  const homeHeroParsed =
+    typeof rawHero === "string"
+      ? (() => {
+          try {
+            return JSON.parse(rawHero) as unknown;
+          } catch {
+            return null;
+          }
+        })()
+      : rawHero;
+  const hasHero = homeHeroParsed && typeof homeHeroParsed === "object";
   return {
     homeHero:
-      d.home_hero && typeof d.home_hero === "object"
-        ? (d.home_hero as HomeHeroSetting)
+      hasHero && homeHeroParsed && typeof homeHeroParsed === "object" && !Array.isArray(homeHeroParsed)
+        ? (homeHeroParsed as HomeHeroSetting)
         : null,
-    quickLinks: Array.isArray(d.quick_links) ? (d.quick_links as QuickLinkSettingItem[]) : null,
-    featuredCarousel:
-      Array.isArray(d.featured_carousel) ? (d.featured_carousel as FeaturedCarouselItemSetting[]) : null,
-    galleryAlbums: Array.isArray(d.gallery_albums) ? (d.gallery_albums as GalleryAlbumSetting[]) : null,
+    quickLinks: (() => {
+      const raw = d.quick_links;
+      const parsed = typeof raw === "string" ? (() => { try { return JSON.parse(raw); } catch { return raw; } })() : raw;
+      return Array.isArray(parsed) ? (parsed as QuickLinkSettingItem[]) : null;
+    })(),
+    featuredCarousel: (() => {
+      const raw = d.featured_carousel;
+      const parsed = typeof raw === "string" ? (() => { try { return JSON.parse(raw); } catch { return raw; } })() : raw;
+      return Array.isArray(parsed) ? (parsed as FeaturedCarouselItemSetting[]) : null;
+    })(),
+    galleryAlbums: (() => {
+      const raw = d.gallery_albums;
+      const parsed = typeof raw === "string" ? (() => { try { return JSON.parse(raw); } catch { return raw; } })() : raw;
+      return Array.isArray(parsed) ? (parsed as GalleryAlbumSetting[]) : null;
+    })(),
     navigation: d.navigation != null ? d.navigation : null,
     loading: false,
   };
