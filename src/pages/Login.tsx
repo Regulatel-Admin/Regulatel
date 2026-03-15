@@ -5,7 +5,7 @@ import { useAuth } from "@/contexts/AuthContext";
 
 export default function Login() {
   const navigate = useNavigate();
-  const { login, isAdmin, isChecking, isConfigured, bootstrapRequired } = useAuth();
+  const { login, isAdmin, isChecking, isConfigured, bootstrapRequired, configError } = useAuth();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -89,14 +89,22 @@ export default function Login() {
               {/* Config / bootstrap alerts */}
               {!isConfigured && (
                 <div
-                  className="rounded-xl border px-4 py-3 text-sm"
+                  className="rounded-xl border px-4 py-3 text-sm space-y-2"
                   style={{
                     borderColor: "rgba(220,38,38,0.25)",
                     backgroundColor: "rgba(254,226,226,0.6)",
                     color: "var(--regu-gray-800)",
                   }}
                 >
-                  El acceso de administración aún no está configurado correctamente en el servidor.
+                  <p className="font-semibold" style={{ color: "var(--regu-navy)" }}>
+                    El acceso de administración no está configurado en el servidor
+                  </p>
+                  <p>{configError ?? "No se pudo conectar con el servidor."}</p>
+                  {(configError?.includes("DATABASE") ?? false) && (
+                    <p className="text-xs mt-2">
+                      En Vercel: <strong>Settings → Environment Variables</strong> → añade <code className="bg-black/10 px-1 rounded">DATABASE_URL</code> con la cadena de conexión de Neon y vuelve a desplegar.
+                    </p>
+                  )}
                 </div>
               )}
               {bootstrapRequired && (

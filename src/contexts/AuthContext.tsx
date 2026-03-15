@@ -21,6 +21,7 @@ interface AuthContextValue {
   isChecking: boolean;
   isConfigured: boolean;
   bootstrapRequired: boolean;
+  configError: string | null;
   user: AdminUser | null;
   canManageUsers: boolean;
   login: (username: string, password: string) => Promise<boolean>;
@@ -36,6 +37,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isChecking, setIsChecking] = useState(true);
   const [isConfigured, setIsConfigured] = useState(true);
   const [bootstrapRequired, setBootstrapRequired] = useState(false);
+  const [configError, setConfigError] = useState<string | null>(null);
   const [user, setUser] = useState<AdminUser | null>(null);
 
   useEffect(() => {
@@ -46,11 +48,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setIsConfigured(res.data.configured);
         setBootstrapRequired(res.data.bootstrapRequired);
         setUser(res.data.user ?? null);
+        setConfigError(null);
       } else {
         setIsAdmin(false);
         setIsConfigured(false);
         setBootstrapRequired(false);
         setUser(null);
+        setConfigError(res.error ?? "No se pudo conectar con el servidor.");
       }
       setIsChecking(false);
     })();
@@ -75,7 +79,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   return (
     <AuthContext.Provider
-      value={{ isAdmin, isChecking, isConfigured, bootstrapRequired, user, canManageUsers, login, logout }}
+      value={{ isAdmin, isChecking, isConfigured, bootstrapRequired, configError, user, canManageUsers, login, logout }}
     >
       {children}
     </AuthContext.Provider>
