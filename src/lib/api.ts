@@ -1,9 +1,10 @@
 /**
- * API client for backend (Neon Postgres). Uses relative /api/* URLs.
- * No secrets; all requests go to same origin.
+ * API client for backend (Neon Postgres).
+ * All requests go to /api/route/* so they hit the single serverless function on Vercel
+ * (avoids depending on rewrites that can return HTML instead of JSON).
  */
-
 const API_BASE = "";
+const API_PREFIX = "/api/route";
 
 async function request<T>(
   path: string,
@@ -18,7 +19,7 @@ async function request<T>(
       body: bodySerialized,
       credentials: "include",
     };
-    const res = await fetch(`${API_BASE}${path}`, init);
+    const res = await fetch(`${API_BASE}${API_PREFIX}${path}`, init);
     if (res.status === 401) {
       try {
         window.dispatchEvent(new CustomEvent("auth:unauthorized"));
@@ -53,45 +54,45 @@ async function request<T>(
 
 export const api = {
   news: {
-    list: () => request<unknown[]>("/api/news"),
-    create: (body: unknown) => request<unknown>("/api/news", { method: "POST", body }),
-    get: (id: string) => request<unknown>(`/api/news/${encodeURIComponent(id)}`),
-    update: (id: string, body: unknown) => request<unknown>(`/api/news/${encodeURIComponent(id)}`, { method: "PATCH", body }),
-    delete: (id: string) => request<void>(`/api/news/${encodeURIComponent(id)}`, { method: "DELETE" }),
+    list: () => request<unknown[]>("/news"),
+    create: (body: unknown) => request<unknown>("/news", { method: "POST", body }),
+    get: (id: string) => request<unknown>(`/news/${encodeURIComponent(id)}`),
+    update: (id: string, body: unknown) => request<unknown>(`/news/${encodeURIComponent(id)}`, { method: "PATCH", body }),
+    delete: (id: string) => request<void>(`/news/${encodeURIComponent(id)}`, { method: "DELETE" }),
   },
   events: {
-    list: () => request<unknown[]>("/api/events"),
-    create: (body: unknown) => request<unknown>("/api/events", { method: "POST", body }),
-    get: (id: string) => request<unknown>(`/api/events/${encodeURIComponent(id)}`),
-    update: (id: string, body: unknown) => request<unknown>(`/api/events/${encodeURIComponent(id)}`, { method: "PATCH", body }),
-    delete: (id: string) => request<void>(`/api/events/${encodeURIComponent(id)}`, { method: "DELETE" }),
+    list: () => request<unknown[]>("/events"),
+    create: (body: unknown) => request<unknown>("/events", { method: "POST", body }),
+    get: (id: string) => request<unknown>(`/events/${encodeURIComponent(id)}`),
+    update: (id: string, body: unknown) => request<unknown>(`/events/${encodeURIComponent(id)}`, { method: "PATCH", body }),
+    delete: (id: string) => request<void>(`/events/${encodeURIComponent(id)}`, { method: "DELETE" }),
   },
   cifras: {
-    list: () => request<Record<number, { gruposTrabajo: number; comitesEjecutivos: number; revistaDigital: number; paises: number }>>("/api/cifras"),
+    list: () => request<Record<number, { gruposTrabajo: number; comitesEjecutivos: number; revistaDigital: number; paises: number }>>("/cifras"),
     setForYear: (year: number, data: { gruposTrabajo: number; comitesEjecutivos: number; revistaDigital: number; paises: number }) =>
-      request<unknown>("/api/cifras", { method: "PUT", body: { year, ...data } }),
-    clearYear: (year: number) => request<void>(`/api/cifras/${year}`, { method: "DELETE" }),
+      request<unknown>("/cifras", { method: "PUT", body: { year, ...data } }),
+    clearYear: (year: number) => request<void>(`/cifras/${year}`, { method: "DELETE" }),
   },
   documents: {
-    list: () => request<unknown[]>("/api/documents"),
-    create: (body: unknown) => request<unknown>("/api/documents", { method: "POST", body }),
-    get: (id: string) => request<unknown>(`/api/documents/${encodeURIComponent(id)}`),
-    update: (id: string, body: unknown) => request<unknown>(`/api/documents/${encodeURIComponent(id)}`, { method: "PATCH", body }),
-    delete: (id: string) => request<void>(`/api/documents/${encodeURIComponent(id)}`, { method: "DELETE" }),
+    list: () => request<unknown[]>("/documents"),
+    create: (body: unknown) => request<unknown>("/documents", { method: "POST", body }),
+    get: (id: string) => request<unknown>(`/documents/${encodeURIComponent(id)}`),
+    update: (id: string, body: unknown) => request<unknown>(`/documents/${encodeURIComponent(id)}`, { method: "PATCH", body }),
+    delete: (id: string) => request<void>(`/documents/${encodeURIComponent(id)}`, { method: "DELETE" }),
   },
   uploads: {
-    upload: (body: unknown) => request<unknown>("/api/uploads", { method: "POST", body }),
-    delete: (body: unknown) => request<void>("/api/uploads", { method: "DELETE", body }),
+    upload: (body: unknown) => request<unknown>("/uploads", { method: "POST", body }),
+    delete: (body: unknown) => request<void>("/uploads", { method: "DELETE", body }),
   },
   documentAccess: {
     login: (body: { email: string; password: string }) =>
-      request<{ ok: boolean }>("/api/document-access", { method: "POST", body }),
-    session: () => request<{ ok: boolean }>("/api/document-access"),
+      request<{ ok: boolean }>("/document-access", { method: "POST", body }),
+    session: () => request<{ ok: boolean }>("/document-access"),
   },
   settings: {
-    getAll: () => request<Record<string, unknown>>("/api/settings"),
-    get: (key: string) => request<{ key: string; value: unknown; updated_at?: string }>(`/api/settings?key=${encodeURIComponent(key)}`),
-    set: (key: string, value: unknown) => request<{ key: string; value: unknown; updated_at: string }>("/api/settings", { method: "PUT", body: { key, value } }),
+    getAll: () => request<Record<string, unknown>>("/settings"),
+    get: (key: string) => request<{ key: string; value: unknown; updated_at?: string }>(`/settings?key=${encodeURIComponent(key)}`),
+    set: (key: string, value: unknown) => request<{ key: string; value: unknown; updated_at: string }>("/settings", { method: "PUT", body: { key, value } }),
   },
   admin: {
     session: () =>
@@ -106,24 +107,24 @@ export const api = {
           username: string | null;
           role: "admin" | "editor";
         } | null;
-      }>("/api/admin/session"),
+      }>("/admin/session"),
     login: (body: unknown) =>
-      request<{ authenticated: boolean }>("/api/admin/session", { method: "POST", body }),
-    logout: () => request<void>("/api/admin/session", { method: "DELETE" }),
+      request<{ authenticated: boolean }>("/admin/session", { method: "POST", body }),
+    logout: () => request<void>("/admin/session", { method: "DELETE" }),
     users: {
-      list: () => request<Array<{ id: string; name: string; email: string; username: string | null; role: string; is_active: boolean; last_login_at: string | null; created_at: string }>>("/api/admin/users"),
+      list: () => request<Array<{ id: string; name: string; email: string; username: string | null; role: string; is_active: boolean; last_login_at: string | null; created_at: string }>>("/admin/users"),
       create: (body: { email: string; password: string; name?: string; role?: string }) =>
-        request<{ id: string; email: string; name: string; role: string }>("/api/admin/users", { method: "POST", body }),
+        request<{ id: string; email: string; name: string; role: string }>("/admin/users", { method: "POST", body }),
     },
     documentAccessUsers: {
       list: () =>
-        request<Array<{ id: string; email: string; name: string | null; institution: string | null; position: string | null; country: string | null; is_active: boolean; created_at: string }>>("/api/admin/document-access-users"),
+        request<Array<{ id: string; email: string; name: string | null; institution: string | null; position: string | null; country: string | null; is_active: boolean; created_at: string }>>("/admin/document-access-users"),
       create: (body: { email: string; password: string; name?: string; institution?: string; position?: string; country?: string }) =>
-        request<{ id: string; email: string; name: string | null; institution: string | null; position: string | null; country: string | null }>("/api/admin/document-access-users", { method: "POST", body }),
+        request<{ id: string; email: string; name: string | null; institution: string | null; position: string | null; country: string | null }>("/admin/document-access-users", { method: "POST", body }),
       update: (id: string, body: { name?: string; institution?: string; position?: string; country?: string; password?: string }) =>
-        request<{ id: string; email: string; name: string | null; institution: string | null; position: string | null; country: string | null }>(`/api/admin/document-access-users/${encodeURIComponent(id)}`, { method: "PATCH", body }),
+        request<{ id: string; email: string; name: string | null; institution: string | null; position: string | null; country: string | null }>(`/admin/document-access-users/${encodeURIComponent(id)}`, { method: "PATCH", body }),
       delete: (id: string) =>
-        request<void>(`/api/admin/document-access-users/${encodeURIComponent(id)}`, { method: "DELETE" }),
+        request<void>(`/admin/document-access-users/${encodeURIComponent(id)}`, { method: "DELETE" }),
     },
     audit: {
       list: (params?: { limit?: number; offset?: number; resource_type?: string; resource_id?: string }) => {
@@ -143,7 +144,7 @@ export const api = {
           resource_id: string | null;
           details: Record<string, unknown>;
           created_at: string;
-        }> }>(`/api/admin/audit${q ? `?${q}` : ""}`);
+        }> }>(`/admin/audit${q ? `?${q}` : ""}`);
       },
     },
     media: {
@@ -152,7 +153,7 @@ export const api = {
         if (params?.prefix) sp.set("prefix", params.prefix);
         if (params?.limit != null) sp.set("limit", String(params.limit));
         const q = sp.toString();
-        return request<{ items: Array<{ url: string; pathname: string; size?: number; uploadedAt?: string }> }>(`/api/admin/media${q ? `?${q}` : ""}`);
+        return request<{ items: Array<{ url: string; pathname: string; size?: number; uploadedAt?: string }> }>(`/admin/media${q ? `?${q}` : ""}`);
       },
     },
   },
