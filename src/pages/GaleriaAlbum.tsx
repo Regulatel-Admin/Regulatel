@@ -6,16 +6,25 @@ import PageHero from "@/components/PageHero";
 import GalleryGrid from "@/components/galeria/GalleryGrid";
 import Lightbox from "@/components/galeria/Lightbox";
 import { getAlbumImageUrls } from "@/data/galeria";
-import { useGalleryAlbums } from "@/contexts/SiteSettingsContext";
+import { useGalleryAlbums, useSiteSettings } from "@/contexts/SiteSettingsContext";
 
 export default function GaleriaAlbum() {
   const { slug } = useParams<{ slug: string }>();
+  const { loading: settingsLoading } = useSiteSettings();
   const albums = useGalleryAlbums();
   const album = slug ? albums.find((a) => a.slug === slug) : undefined;
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
   const openLightbox = useCallback((index: number) => setLightboxIndex(index), []);
   const closeLightbox = useCallback(() => setLightboxIndex(null), []);
+
+  if (settingsLoading) {
+    return (
+      <div className="flex min-h-[40vh] items-center justify-center">
+        <p style={{ color: "var(--regu-gray-500)" }}>Cargando álbum...</p>
+      </div>
+    );
+  }
 
   if (!album) {
     return <Navigate to="/galeria" replace />;
