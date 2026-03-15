@@ -36,6 +36,7 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
 
   try {
     if (req.method === "GET") {
+      res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");
       const query = getQuery(req);
       const key = query.key;
       if (key) {

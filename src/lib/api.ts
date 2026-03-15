@@ -25,6 +25,7 @@ async function request<T>(
       headers: { "Content-Type": "application/json", ...options?.headers },
       body: bodySerialized,
       credentials: "include",
+      cache: "no-store", // Evita que el navegador cachee 404/respuestas viejas y muestre datos estáticos
     };
     const res = await fetch(url, init);
     const text = await res.text();

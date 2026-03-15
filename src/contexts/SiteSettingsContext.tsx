@@ -78,6 +78,15 @@ export function SiteSettingsProvider({ children }: { children: ReactNode }) {
     };
   }, [refetch]);
 
+  // Al volver a esta pestaña (p. ej. desde el admin), refrescar settings para ver lo guardado
+  useEffect(() => {
+    const onVisibility = () => {
+      if (document.visibilityState === "visible") void refetch();
+    };
+    document.addEventListener("visibilitychange", onVisibility);
+    return () => document.removeEventListener("visibilitychange", onVisibility);
+  }, [refetch]);
+
   return (
     <SiteSettingsContext.Provider value={{ ...state, refetch }}>
       {children}
