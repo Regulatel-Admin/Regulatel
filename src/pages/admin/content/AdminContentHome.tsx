@@ -89,18 +89,30 @@ export default function AdminContentHome() {
 
   const saveHero = async () => {
     setSaving("hero");
+    console.warn("[REGULATEL] Guardando hero (PUT /api/route?path=settings)...");
     const res = await api.settings.set("home_hero", hero);
     setSaving(null);
-    if (res.ok) showMessage("ok", "Hero guardado correctamente.");
-    else showMessage("err", res.error ?? "Error al guardar.");
+    if (res.ok) {
+      console.warn("[REGULATEL] Save hero: OK — guardado en base de datos.");
+      showMessage("ok", "Hero guardado correctamente.");
+    } else {
+      console.error("[REGULATEL] Save hero FALLÓ:", res.error);
+      showMessage("err", res.error ?? "Error al guardar.");
+    }
   };
 
   const saveQuickLinks = async () => {
     setSaving("quick_links");
+    console.warn("[REGULATEL] Guardando accesos (PUT /api/route?path=settings)...");
     const res = await api.settings.set("quick_links", quickLinksSetting);
     setSaving(null);
-    if (res.ok) showMessage("ok", "Accesos principales guardados.");
-    else showMessage("err", res.error ?? "Error al guardar.");
+    if (res.ok) {
+      console.warn("[REGULATEL] Save quick_links: OK.");
+      showMessage("ok", "Accesos principales guardados.");
+    } else {
+      console.error("[REGULATEL] Save quick_links FALLÓ:", res.error);
+      showMessage("err", res.error ?? "Error al guardar.");
+    }
   };
 
   const previewQuickLinkItems = useMemo(

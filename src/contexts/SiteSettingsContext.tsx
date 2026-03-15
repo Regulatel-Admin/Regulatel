@@ -37,12 +37,25 @@ const defaultState: SiteSettingsState = {
 
 const SiteSettingsContext = createContext<SiteSettingsState>(defaultState);
 
-async function fetchSettings(): Promise<Omit<SiteSettingsState, "refetch">> {
+async function fetchSettings(retry = false): Promise<Omit<SiteSettingsState, "refetch">> {
+  if (!retry) {
+    console.warn("[REGULATEL] Cargando settings desde API (GET /api/route?path=settings)...");
+  } else {
+    console.warn("[REGULATEL] Reintento de carga de settings...");
+  }
   const res = await api.settings.getAll();
   if (!res.ok || !res.data) {
+    if (!retry) {
+      console.error("[REGULATEL] Settings falló en primer intento:", res.ok ? "sin data" : res.error, "→ reintento en 1.5s");
+      await new Promise((r) => setTimeout(r, 1500));
+      return fetchSettings(true);
+    }
+    console.error("[REGULATEL] El home usará datos ESTÁTICOS. La API no devolvió settings (motivo:", res.error ?? "sin datos", "). Revisa la consola [REGULATEL API] arriba.");
     return { ...defaultState, loading: false };
   }
   const d = res.data;
+  const hasHero = d.home_hero && typeof d.home_hero === "object";
+  console.warn("[REGULATEL] Settings OK: usando datos del CMS.", hasHero ? "home_hero: sí" : "home_hero: no");
   return {
     homeHero:
       d.home_hero && typeof d.home_hero === "object"

@@ -27,10 +27,26 @@ async function request<T>(
       credentials: "include",
       cache: "no-store", // Evita que el navegador cachee 404/respuestas viejas y muestre datos estáticos
     };
+    const isSettings = path.startsWith("/settings");
+    if (isSettings) {
+      console.warn("[REGULATEL API]", method, url, "(settings)");
+    }
     const res = await fetch(url, init);
     const text = await res.text();
     const trimmed = text.trim();
     const looksLikeHtml = trimmed.startsWith("<") || trimmed.startsWith("The page") || trimmed.startsWith("<!");
+
+    if (isSettings) {
+      if (res.ok) {
+        console.warn("[REGULATEL API] Settings response OK", res.status, "- datos recibidos");
+      } else {
+        console.error("[REGULATEL API] Settings response FALLÓ:", res.status, res.statusText);
+        console.error("[REGULATEL API] Body:", trimmed ? trimmed.slice(0, 300) : "(vacío)");
+        if (looksLikeHtml) {
+          console.error("[REGULATEL API] El servidor devolvió HTML en vez de JSON → la ruta /api/route?path=settings no está llegando al backend (revisa Vercel: Root Directory, despliegue).");
+        }
+      }
+    }
 
     if (res.status === 401) {
       try {
