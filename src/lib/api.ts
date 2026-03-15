@@ -26,11 +26,22 @@ async function request<T>(
       }
     }
     const text = await res.text();
+    const trimmed = text.trim();
+    const looksLikeHtml = trimmed.startsWith("<") || trimmed.startsWith("The page") || trimmed.startsWith("<!");
+
     let data: T | undefined;
-    if (text.trim()) {
-      const trimmed = text.trim();
-      if (trimmed.startsWith("<") || trimmed.startsWith("The page") || trimmed.startsWith("<!")) {
-        return { ok: false, error: "El servidor devolvió una página en lugar de datos. ¿La API está en marcha? (En desarrollo usa el backend o despliega en Vercel)." };
+    if (trimmed) {
+      if (looksLikeHtml) {
+        if (res.status === 401 || res.status === 403) {
+          return {
+            ok: false,
+            error: "401/403 y el servidor devolvió HTML. En Vercel: Settings → Deployment Protection → desactiva la protección o añade una excepción para que las rutas /api/* no pidan contraseña.",
+          };
+        }
+        return {
+          ok: false,
+          error: "El servidor devolvió una página en lugar de datos. Revisa en Vercel que Root Directory esté vacío y que la carpeta api/ se despliegue.",
+        };
       }
       try {
         data = JSON.parse(trimmed) as T;

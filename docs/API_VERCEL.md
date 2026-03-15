@@ -19,3 +19,7 @@ Para evitar 404 y el error "El servidor devolvió una página en lugar de datos"
 
 5. **Variables de entorno**  
    Configura en Vercel: `DATABASE_URL`, `BLOB_READ_WRITE_TOKEN`. Sin `DATABASE_URL`, el login y el admin responderán 503.
+
+6. **Si ves 401 y "devolvió una página" o HTML**  
+   La **Deployment Protection** (protección por contraseña o Vercel Authentication) intercepta las peticiones a `/api/*` y devuelve una página de login (401 + HTML).  
+   **Solución:** En Vercel → **Settings → Deployment Protection** → desactiva la protección para el entorno que uses (Production/Preview) o configura una excepción para que las rutas `/api` no requieran contraseña. No puede configurarse por `vercel.json`; solo desde el dashboard.
