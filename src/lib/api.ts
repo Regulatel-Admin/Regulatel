@@ -1,8 +1,9 @@
 /**
- * API client for backend (Neon Postgres). Uses /api/* (single catch-all at api/[[...path]].ts on Vercel).
+ * API client: todas las peticiones a /api/route/* para que Vercel las atienda con api/route/[...path].ts
+ * (api/[[...path]].ts en la raíz suele dar 404 en proyectos Vite).
  */
 const API_BASE = "";
-const API_PREFIX = "/api";
+const API_PREFIX = "/api/route";
 
 async function request<T>(
   path: string,

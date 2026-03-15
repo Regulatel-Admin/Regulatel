@@ -2,8 +2,8 @@
 
 Para evitar 404 y el error "El servidor devolvió una página en lugar de datos":
 
-1. **Router en la raíz de `api/`**  
-   Un único handler `api/[[...path]].ts` atiende **todas** las rutas `/api/*` (admin/session, news, settings, etc.). El frontend llama directamente a `/api/admin/session`, `/api/news`, etc. No se usa rewrite.
+1. **Router que sí funciona en Vercel (Vite)**  
+   El frontend llama a **`/api/route/*`** (ej. `/api/route/admin/session`, `/api/route/news`). Esas peticiones las atiende **`api/route/[...path].ts`**. El handler en la raíz `api/[[...path]].ts` a menudo da 404 en proyectos Vite; por eso se usa la ruta explícita `/api/route/`.
 
 2. **Handlers en `server/api-handlers/`**  
    La lógica está en `server/api-handlers/`. El router solo importa y despacha por el primer segmento del path.
