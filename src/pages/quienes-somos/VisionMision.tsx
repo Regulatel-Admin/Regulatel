@@ -82,19 +82,19 @@ export default function VisionMision() {
             >
               <InstitutionalCard className="h-full flex flex-col">
                 <div
-                  className="w-12 h-12 rounded-xl flex items-center justify-center mb-4"
+                  className="mb-6 flex h-14 w-14 shrink-0 items-center justify-center rounded-xl p-3"
                   style={{ backgroundColor: "rgba(68, 137, 198, 0.12)", color: "var(--regu-blue)" }}
                 >
-                  <item.icon className="w-6 h-6" />
+                  <item.icon className="h-6 w-6 shrink-0" strokeWidth={1.75} aria-hidden />
                 </div>
                 <h3
-                  className="text-lg font-bold mb-2"
+                  className="mb-3 text-lg font-bold"
                   style={{ color: "var(--regu-gray-900)" }}
                 >
                   {item.title}
                 </h3>
                 <p
-                  className="text-base leading-relaxed flex-1"
+                  className="flex-1 text-base leading-relaxed"
                   style={{ color: "var(--regu-gray-500)" }}
                 >
                   {item.text}
@@ -108,16 +108,16 @@ export default function VisionMision() {
       <InstitutionalSection>
         <InstitutionalH2>Acta constitutiva</InstitutionalH2>
         <motion.div initial="hidden" animate="visible" variants={fadeIn}>
-          <InstitutionalCard className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
+          <InstitutionalCard className="flex flex-col items-start gap-8 sm:flex-row sm:items-center">
             <div
-              className="w-14 h-14 rounded-xl flex items-center justify-center flex-shrink-0"
+              className="flex h-16 w-16 shrink-0 items-center justify-center rounded-xl p-3.5"
               style={{ backgroundColor: "rgba(68, 137, 198, 0.12)", color: "var(--regu-blue)" }}
             >
-              <FileText className="w-7 h-7" />
+              <FileText className="h-7 w-7 shrink-0" strokeWidth={1.75} aria-hidden />
             </div>
-            <div className="flex-1 min-w-0">
+            <div className="min-w-0 flex-1">
               <h3
-                className="text-lg font-bold mb-1"
+                className="mb-2 text-lg font-bold"
                 style={{ color: "var(--regu-gray-900)" }}
               >
                 Documento institucional

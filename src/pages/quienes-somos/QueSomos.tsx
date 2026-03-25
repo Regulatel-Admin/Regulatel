@@ -88,7 +88,7 @@ export default function QueSomos() {
                 animate="visible"
                 variants={{ ...fadeIn, visible: { ...fadeIn.visible, transition: { duration: 0.4, delay: index * 0.08 } } }}
               >
-                <InstitutionalCard className="flex flex-col gap-4 p-6 md:p-8 sm:flex-row sm:items-start sm:gap-6">
+                <InstitutionalCard className="flex flex-col gap-4 sm:flex-row sm:items-start sm:gap-6">
                   <div
                     className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl"
                     style={{ backgroundColor: "var(--regu-blue)", color: "#ffffff" }}

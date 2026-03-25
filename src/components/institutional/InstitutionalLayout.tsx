@@ -149,7 +149,13 @@ export function InstitutionalCard({
           aria-hidden
         />
       )}
-      <div className={accent ? "pt-1" : ""}>
+      <div
+        className={
+          accent
+            ? "px-6 pb-6 pt-7 md:px-7 md:pb-7 md:pt-8"
+            : "p-6 md:p-7"
+        }
+      >
         {children}
       </div>
     </div>

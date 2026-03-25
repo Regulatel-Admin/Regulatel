@@ -10,7 +10,8 @@ import { useAdminData } from "@/contexts/AdminDataContext";
 
 const TITLE = "REGULATEL EN CIFRAS";
 const SUBTITLE = "Indicadores institucionales clave para seguimiento público.";
-const COUNT_DURATION_MS = 450;
+/** Duración del conteo al entrar en vista o al cambiar de año */
+const COUNT_DURATION_MS = 1100;
 const FADE_OUT_MS = 120;
 const FADE_IN_MS = 220;
 
@@ -25,36 +26,52 @@ function easeOutCubic(t: number): number {
   return 1 - Math.pow(1 - t, 3);
 }
 
+/**
+ * Anima el número desde el valor anterior (o 0 al montar) hasta `target`.
+ * `countKey` debe cambiar cuando cambia el año para forzar una nueva animación coherente.
+ */
 function useCountUp(
   target: number,
-  key: string,
+  countKey: string,
   durationMs: number,
   reduceMotion: boolean
 ): number {
-  const [display, setDisplay] = useState(target);
-  const prevTargetRef = useRef(target);
+  const [display, setDisplay] = useState(() => (reduceMotion ? target : 0));
+  /** Valor al que terminó la última animación (o 0 antes del primer conteo). */
+  const fromRef = useRef(reduceMotion ? target : 0);
   const rafRef = useRef<number>(0);
 
   useEffect(() => {
-    if (reduceMotion || target === prevTargetRef.current) {
+    if (reduceMotion) {
       setDisplay(target);
-      prevTargetRef.current = target;
+      fromRef.current = target;
       return;
     }
-    const start = prevTargetRef.current;
-    prevTargetRef.current = target;
+
+    const start = fromRef.current;
+    if (start === target) {
+      setDisplay(target);
+      return;
+    }
+
     const startTime = performance.now();
 
     const tick = (now: number) => {
       const elapsed = now - startTime;
       const t = Math.min(elapsed / durationMs, 1);
       const eased = easeOutCubic(t);
-      setDisplay(Math.round(start + (target - start) * eased));
-      if (t < 1) rafRef.current = requestAnimationFrame(tick);
+      const next = Math.round(start + (target - start) * eased);
+      setDisplay(next);
+      if (t < 1) {
+        rafRef.current = requestAnimationFrame(tick);
+      } else {
+        fromRef.current = target;
+      }
     };
+
     rafRef.current = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(rafRef.current);
-  }, [target, key, durationMs, reduceMotion]);
+  }, [target, countKey, durationMs, reduceMotion]);
 
   return display;
 }
@@ -188,6 +205,7 @@ export default function RegulatelEnCifras({ initialYear }: RegulatelEnCifrasProp
             config={card}
             icon={ICON_BY_KEY[card.key]}
             reduceMotion={reduceMotion}
+            countKey={String(selectedYear)}
           />
         ))}
       </div>
@@ -201,18 +219,15 @@ function CifraCard({
   config,
   icon: Icon,
   reduceMotion,
+  countKey,
 }: {
   value: number;
   config: CifraCardConfig;
   icon: React.ComponentType<{ className?: string; style?: React.CSSProperties }>;
   reduceMotion: boolean;
+  countKey: string;
 }) {
-  const displayValue = useCountUp(
-    value,
-    `${config.key}-${config.title}`,
-    COUNT_DURATION_MS,
-    reduceMotion
-  );
+  const displayValue = useCountUp(value, countKey, COUNT_DURATION_MS, reduceMotion);
 
   const isExternal = config.sourceUrl.startsWith("http");
 

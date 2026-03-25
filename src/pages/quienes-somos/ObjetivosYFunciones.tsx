@@ -58,7 +58,7 @@ export default function ObjetivosYFunciones() {
         <ul className="space-y-6 md:space-y-7 list-none p-0 m-0">
           {OBJETIVOS.map((text, index) => (
             <motion.li key={text.slice(0, 50)} initial="hidden" animate="visible" variants={fadeIn}>
-              <InstitutionalCard className="flex flex-col sm:flex-row sm:items-start gap-4 sm:gap-5 p-6 md:p-8 min-h-[13rem] md:min-h-[14rem]">
+              <InstitutionalCard className="flex flex-col sm:flex-row sm:items-start gap-4 sm:gap-5 min-h-[13rem] md:min-h-[14rem]">
                 <div
                   className="flex items-center justify-center w-12 h-12 rounded-xl flex-shrink-0 sm:self-start"
                   style={{ backgroundColor: "var(--regu-blue)", color: "white" }}
