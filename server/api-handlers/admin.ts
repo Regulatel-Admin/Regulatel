@@ -27,7 +27,6 @@ import {
 import { parseJsonBody } from "../lib/parseBody.js";
 import { isDbConfigured } from "../lib/db.js";
 
-const SUPER_ADMIN_EMAILS = ["dcuervo@indotel.gob.do", "aarango@indotel.gob.do", "aarango@indotel.gob"];
 
 function sendJson(res: ServerResponse, status: number, data: unknown) {
   res.setHeader("Content-Type", "application/json");
@@ -35,8 +34,8 @@ function sendJson(res: ServerResponse, status: number, data: unknown) {
   res.end(JSON.stringify(data));
 }
 
-function isSuperAdmin(email: string): boolean {
-  return SUPER_ADMIN_EMAILS.includes(email.toLowerCase().trim());
+function canManageUsers(role: string): boolean {
+  return role === "admin";
 }
 
 function getPathname(req: IncomingMessage): string {
@@ -110,8 +109,8 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
 
     if (subpath === "users") {
       const auth = await ensureAdmin(req);
-      if (!isSuperAdmin(auth.user.email)) {
-        sendJson(res, 403, { error: "Solo los administradores autorizados pueden gestionar usuarios." });
+      if (!canManageUsers(auth.user.role)) {
+        sendJson(res, 403, { error: "Solo los usuarios con rol admin pueden gestionar usuarios." });
         return;
       }
       if (req.method === "GET") {
@@ -172,8 +171,8 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
         sendJson(res, 200, { items });
         return;
       }
-      if (!isSuperAdmin(auth.user.email)) {
-        sendJson(res, 403, { error: "Solo los administradores autorizados pueden ver el registro completo de auditoría." });
+      if (!canManageUsers(auth.user.role)) {
+        sendJson(res, 403, { error: "Solo los usuarios con rol admin pueden ver el registro completo de auditoría." });
         return;
       }
       const limit = Math.min(100, Math.max(1, parseInt(url.searchParams.get("limit") ?? "50", 10)));
@@ -205,8 +204,8 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
 
     if (subpath === "document-access-users") {
       const auth = await ensureAdmin(req);
-      if (!isSuperAdmin(auth.user.email)) {
-        sendJson(res, 403, { error: "Solo los super administradores pueden gestionar usuarios de acceso a actas." });
+      if (!canManageUsers(auth.user.role)) {
+        sendJson(res, 403, { error: "Solo los usuarios con rol admin pueden gestionar usuarios de acceso a actas." });
         return;
       }
       await ensureDocumentAccessSchema();

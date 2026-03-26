@@ -30,8 +30,6 @@ interface AuthContextValue {
 
 const AuthContext = createContext<AuthContextValue | null>(null);
 
-const SUPER_ADMIN_EMAILS = ["dcuervo@indotel.gob.do", "aarango@indotel.gob.do", "aarango@indotel.gob"];
-
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [isAdmin, setIsAdmin] = useState(false);
   const [isChecking, setIsChecking] = useState(true);
@@ -75,7 +73,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(null);
   }, []);
 
-  const canManageUsers = Boolean(user?.email && SUPER_ADMIN_EMAILS.includes(user.email.toLowerCase()));
+  const canManageUsers = user?.role === "admin";
 
   return (
     <AuthContext.Provider

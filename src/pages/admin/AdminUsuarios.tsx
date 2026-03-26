@@ -1,6 +1,6 @@
 /**
  * Gestión de usuarios admin y registro de auditoría.
- * Solo visible para super administradores (dcuervo@indotel.gob.do, aarango@indotel.gob.do).
+ * Visible para usuarios con rol admin (definido en base de datos).
  */
 import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
@@ -265,13 +265,13 @@ export default function AdminUsuarios() {
           Usuarios y auditoría
         </h1>
         <p className="mt-1 text-sm" style={{ color: "var(--regu-gray-600)" }}>
-          Solo las cuentas super administrador (autorizadas) pueden ver esta página. La lista muestra <strong>todos</strong> los usuarios del sistema con acceso al panel.
+          Solo las cuentas con rol <strong>admin</strong> pueden ver esta página. La lista muestra <strong>todos</strong> los usuarios del sistema con acceso al panel.
         </p>
         <div className="mt-3 rounded-lg border px-4 py-3 text-sm" style={{ borderColor: "var(--regu-gray-200)", backgroundColor: "var(--regu-gray-50)", color: "var(--regu-gray-700)" }}>
           <p className="font-semibold mb-1" style={{ color: "var(--regu-navy)" }}>Roles</p>
           <p><strong>Admin:</strong> Acceso completo al panel (noticias, eventos, documentos, REGULATEL en cifras, revista).</p>
           <p className="mt-1"><strong>Editor:</strong> Mismo acceso al contenido que Admin. La diferencia está reservada para futuras restricciones (por ejemplo, solo editar sin eliminar).</p>
-          <p className="mt-2 text-xs" style={{ color: "var(--regu-gray-500)" }}>Solo los super administradores pueden crear usuarios y ver este registro de auditoría.</p>
+          <p className="mt-2 text-xs" style={{ color: "var(--regu-gray-500)" }}>Solo los usuarios con rol admin pueden crear usuarios y ver este registro de auditoría.</p>
         </div>
       </div>
 

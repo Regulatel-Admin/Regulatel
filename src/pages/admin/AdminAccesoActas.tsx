@@ -1,7 +1,7 @@
 /**
  * Crear y listar usuarios con acceso solo a documentos restringidos (actas).
  * No tienen acceso al panel admin; al ingresar email y contraseña en /acceso-documentos desbloquean el acta.
- * Solo super administradores.
+ * Solo usuarios con rol admin.
  */
 import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
