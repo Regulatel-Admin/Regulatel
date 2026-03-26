@@ -9,6 +9,8 @@ export interface Authority {
   name: string;
   role: string;
   institution: string;
+  /** Sitio web oficial del ente (abre en nueva pestaña desde la ficha). */
+  institutionUrl?: string;
   country: string;
   period?: string;
   image: string;
@@ -26,8 +28,8 @@ export const authorities: Authority[] = [
     name: "Guido Gómez Mazara",
     role: "Presidente",
     institution: "INDOTEL",
+    institutionUrl: "https://www.indotel.gob.do",
     country: "República Dominicana",
-    period: "2024–presente",
     image: "https://www.regulatel.org/sites/default/files/team/guido-gomez-mazara-regulatel.jpeg",
     bio: "Abogado, político y profesor universitario con una sólida trayectoria profesional en el sector de las telecomunicaciones.",
     fullBio: `Abogado, político y profesor universitario con una sólida formación académica y una amplia trayectoria profesional. Es Doctor en Derecho por la Universidad Iberoamericana (UNIBE), cuenta con una Maestría en Ciencias Políticas y Administración Pública de New School for Social Research en Nueva York y cursos en políticas públicas de la Universidad Carlos III de Madrid, España.
@@ -51,8 +53,8 @@ Bajo su liderazgo, INDOTEL trabaja incansablemente para reducir la brecha digita
     name: "Felipe Augusto Díaz Suaza",
     role: "Vicepresidente",
     institution: "CRC",
+    institutionUrl: "https://www.crcom.gov.co",
     country: "Colombia",
-    period: "2024–presente",
     image: "/images/felipe-diaz-suaza.jpg",
     bio: "Economista de la Universidad de Cartagena, Magíster y candidato a Doctor en Ciencias Económicas de la Universidad Nacional de Colombia. Cuenta con formación complementaria en NIIF, econometría, defensa de la competencia y ciencia de datos.",
     fullBio: `Economista de la Universidad de Cartagena, Magíster y candidato a Doctor en Ciencias Económicas de la Universidad Nacional de Colombia. Cuenta con formación complementaria mediante diplomados en Normas Internacionales de Información Financiera (NIIF), econometría, defensa de la competencia y ciencia de datos.
@@ -69,8 +71,8 @@ Posee una trayectoria en el sector público desde 2010, desempeñándose como ec
     name: "Raquel Brízida Castro",
     role: "Vicepresidenta",
     institution: "ANACOM",
+    institutionUrl: "https://www.anacom.pt",
     country: "Portugal",
-    period: "2024–presente",
     image: "https://www.regulatel.org/sites/default/files/gallery/Raquel%20Brizida%20de%20Castro-14.jpg",
     bio: "Experta en regulación y políticas de telecomunicaciones con amplia experiencia internacional.",
     fullBio: `Es doctora en Derecho, constitucionalista, profesora de la Facultad de Derecho de la Universidad de Lisboa e investigadora. Desde el 1 de febrero es también vicepresidenta de ANACOM, la Autoridad Nacional de Comunicaciones.

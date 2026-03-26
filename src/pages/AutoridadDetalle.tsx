@@ -79,10 +79,23 @@ function DetailHero({ a }: { a: Authority }) {
             {a.name}
           </h1>
           <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm" style={{ color: "var(--regu-gray-600)" }}>
-            <span className="flex items-center gap-1.5">
-              <Building2 size={14} style={{ color: "var(--regu-blue)" }} />
-              {a.institution}
-            </span>
+            {a.institutionUrl ? (
+              <a
+                href={a.institutionUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1.5"
+                style={{ color: "var(--regu-gray-600)" }}
+              >
+                <Building2 size={14} style={{ color: "var(--regu-blue)" }} />
+                {a.institution}
+              </a>
+            ) : (
+              <span className="flex items-center gap-1.5">
+                <Building2 size={14} style={{ color: "var(--regu-blue)" }} />
+                {a.institution}
+              </span>
+            )}
             {a.country && (
               <span className="flex items-center gap-1.5">
                 <MapPin size={14} style={{ color: "var(--regu-blue)" }} />
