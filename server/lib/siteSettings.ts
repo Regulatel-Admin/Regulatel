@@ -4,6 +4,7 @@
  */
 
 import { getDb } from "./db.js";
+import { deepFixMojibakeUtf8 } from "./utf8Mojibake.js";
 
 const ALLOWED_KEYS = [
   "home_hero",
@@ -47,10 +48,19 @@ export async function getSetting(key: string): Promise<{ key: string; value: unk
     SELECT key, value, updated_at FROM site_settings WHERE key = ${key}
   `;
   if (!row) return null;
-  return { key: row.key, value: normalizeJsonValue(row.value), updated_at: row.updated_at };
+  const value = postProcessValue(row.key, normalizeJsonValue(row.value));
+  return { key: row.key, value, updated_at: row.updated_at };
 }
 
 const ALLOWED_SET = new Set<string>(ALLOWED_KEYS);
+
+/** Claves cuyo valor es texto CMS: aplicar reparación UTF-8 mal grabado (mojibake) al leer. */
+const MOJIBAKE_FIX_KEYS = new Set<string>(["directorio_autoridades", "grupos_trabajo"]);
+
+function postProcessValue(key: string, value: unknown): unknown {
+  if (!MOJIBAKE_FIX_KEYS.has(key)) return value;
+  return deepFixMojibakeUtf8(value);
+}
 
 /** Get all allowed settings. Returns object key -> value. */
 export async function getAllSettings(): Promise<Record<string, unknown>> {
@@ -60,7 +70,9 @@ export async function getAllSettings(): Promise<Record<string, unknown>> {
   `;
   const out: Record<string, unknown> = {};
   for (const r of rows) {
-    if (ALLOWED_SET.has(r.key)) out[r.key] = normalizeJsonValue(r.value);
+    if (ALLOWED_SET.has(r.key)) {
+      out[r.key] = postProcessValue(r.key, normalizeJsonValue(r.value));
+    }
   }
   return out;
 }
@@ -72,13 +84,16 @@ export async function setSetting(key: string, value: unknown): Promise<{ key: st
   }
   const sql = getDb();
   const now = new Date().toISOString();
+  const valueToStore = MOJIBAKE_FIX_KEYS.has(key) ? deepFixMojibakeUtf8(value) : value;
+  const jsonValue = JSON.parse(JSON.stringify(valueToStore));
   const [row] = await sql<SiteSettingRow[]>`
     INSERT INTO site_settings (key, value, updated_at)
-    VALUES (${key}, ${JSON.stringify(value)}::jsonb, ${now}::timestamptz)
+    VALUES (${key}, ${sql.json(jsonValue)}, ${now}::timestamptz)
     ON CONFLICT (key) DO UPDATE SET
-      value = ${JSON.stringify(value)}::jsonb,
+      value = ${sql.json(jsonValue)},
       updated_at = ${now}::timestamptz
     RETURNING key, value, updated_at
   `;
-  return { key: row.key, value: row.value, updated_at: row.updated_at };
+  const outVal = postProcessValue(row.key, normalizeJsonValue(row.value));
+  return { key: row.key, value: outVal, updated_at: row.updated_at };
 }
