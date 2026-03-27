@@ -11,6 +11,7 @@ const ALLOWED_KEYS = [
   "quick_links",
   "navigation",
   "gallery_albums",
+  "directorio_autoridades",
 ] as const;
 
 export type SiteSettingKey = (typeof ALLOWED_KEYS)[number];

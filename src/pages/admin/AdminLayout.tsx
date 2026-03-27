@@ -21,6 +21,7 @@ import {
   Zap,
   FolderOpen,
   Images,
+  Contact,
 } from "lucide-react";
 
 const navContenido = [
@@ -37,6 +38,7 @@ const nav = [
   { to: "/admin/noticias", icon: Newspaper, label: "Noticias" },
   { to: "/admin/eventos", icon: Calendar, label: "Eventos" },
   { to: "/admin/cifras", icon: Hash, label: "REGULATEL en cifras" },
+  { to: "/admin/directorio-autoridades", icon: Contact, label: "Directorio de autoridades" },
   { to: "/admin/documentos", icon: FileText, label: "Documentos" },
   { to: "/admin/revista", icon: BookOpen, label: "Revista Digital" },
 ];

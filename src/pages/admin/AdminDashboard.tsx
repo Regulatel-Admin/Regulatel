@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
-import { Newspaper, Calendar, Hash, FileText, BookOpen, Info, Users, Lock, ChevronDown, ChevronUp, Layout, Zap, FolderOpen, ImageIcon, Menu, Images } from "lucide-react";
+import { Newspaper, Calendar, Hash, FileText, BookOpen, Info, Users, Lock, ChevronDown, ChevronUp, Layout, Zap, FolderOpen, ImageIcon, Menu, Images, Contact } from "lucide-react";
 import { projectInfo } from "@/config/projectInfo";
 
 const contentCards = [
@@ -17,6 +17,7 @@ const cards = [
   { to: "/admin/noticias", icon: Newspaper, title: "Noticias", desc: "Añadir, editar o eliminar noticias. Se publican en la sección Noticias." },
   { to: "/admin/eventos", icon: Calendar, title: "Eventos", desc: "Gestionar eventos que aparecen en la home y en la sección Eventos." },
   { to: "/admin/cifras", icon: Hash, title: "REGULATEL en cifras", desc: "Modificar los números (grupos de trabajo, países, etc.)." },
+  { to: "/admin/directorio-autoridades", icon: Contact, title: "Directorio de autoridades", desc: "Editar contactos oficiales por país en la página Miembros." },
   { to: "/admin/documentos", icon: FileText, title: "Documentos", desc: "Subir documentos y colocarlos en su sección correcta." },
   { to: "/admin/revista", icon: BookOpen, title: "Revista Digital", desc: "Añadir ediciones de la revista digital." },
 ];

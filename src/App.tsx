@@ -13,6 +13,7 @@ import AdminDashboard from '@/pages/admin/AdminDashboard';
 import AdminNoticias from '@/pages/admin/AdminNoticias';
 import AdminEventos from '@/pages/admin/AdminEventos';
 import AdminCifras from '@/pages/admin/AdminCifras';
+import AdminDirectorio from '@/pages/admin/AdminDirectorio';
 import AdminDocumentos from '@/pages/admin/AdminDocumentos';
 import AdminRevista from '@/pages/admin/AdminRevista';
 import AdminUsuarios from '@/pages/admin/AdminUsuarios';
@@ -74,6 +75,7 @@ function App() {
               <Route path="noticias" element={<AdminNoticias />} />
               <Route path="eventos" element={<AdminEventos />} />
               <Route path="cifras" element={<AdminCifras />} />
+              <Route path="directorio-autoridades" element={<AdminDirectorio />} />
               <Route path="documentos" element={<AdminDocumentos />} />
               <Route path="revista" element={<AdminRevista />} />
               <Route path="usuarios" element={<AdminUsuarios />} />
