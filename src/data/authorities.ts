@@ -30,7 +30,9 @@ export const authorities: Authority[] = [
     institution: "INDOTEL",
     institutionUrl: "https://www.indotel.gob.do",
     country: "República Dominicana",
-    image: "https://www.regulatel.org/sites/default/files/team/guido-gomez-mazara-regulatel.jpeg",
+    // Foto: nota institucional INDOTEL (antes: Drupal regulatel.org — rutas /sites/default/files ya no existen).
+    image:
+      "https://indotel.gob.do/wp-content/uploads/2024/08/25ff469b-d1ba-4150-8885-0d52e87b92c4-scaled.jpeg",
     bio: "Abogado, político y profesor universitario con una sólida trayectoria profesional en el sector de las telecomunicaciones.",
     fullBio: `Abogado, político y profesor universitario con una sólida formación académica y una amplia trayectoria profesional. Es Doctor en Derecho por la Universidad Iberoamericana (UNIBE), cuenta con una Maestría en Ciencias Políticas y Administración Pública de New School for Social Research en Nueva York y cursos en políticas públicas de la Universidad Carlos III de Madrid, España.
 
@@ -73,7 +75,9 @@ Posee una trayectoria en el sector público desde 2010, desempeñándose como ec
     institution: "ANACOM",
     institutionUrl: "https://www.anacom.pt",
     country: "Portugal",
-    image: "https://www.regulatel.org/sites/default/files/gallery/Raquel%20Brizida%20de%20Castro-14.jpg",
+    // Retrato oficial en streaming ANACOM (antes: galería Drupal regulatel.org, 404).
+    image:
+      "https://www.anacom.pt/streaming/RBC_VP_ANACOM.jpg?contentId=1817718&field=IMAGE",
     bio: "Experta en regulación y políticas de telecomunicaciones con amplia experiencia internacional.",
     fullBio: `Es doctora en Derecho, constitucionalista, profesora de la Facultad de Derecho de la Universidad de Lisboa e investigadora. Desde el 1 de febrero es también vicepresidenta de ANACOM, la Autoridad Nacional de Comunicaciones.
 
