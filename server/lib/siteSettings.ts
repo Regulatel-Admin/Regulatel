@@ -12,6 +12,7 @@ const ALLOWED_KEYS = [
   "navigation",
   "gallery_albums",
   "directorio_autoridades",
+  "grupos_trabajo",
 ] as const;
 
 export type SiteSettingKey = (typeof ALLOWED_KEYS)[number];

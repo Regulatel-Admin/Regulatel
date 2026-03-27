@@ -22,6 +22,7 @@ import {
   FolderOpen,
   Images,
   Contact,
+  Briefcase,
 } from "lucide-react";
 
 const navContenido = [
@@ -39,6 +40,7 @@ const nav = [
   { to: "/admin/eventos", icon: Calendar, label: "Eventos" },
   { to: "/admin/cifras", icon: Hash, label: "REGULATEL en cifras" },
   { to: "/admin/directorio-autoridades", icon: Contact, label: "Directorio de autoridades" },
+  { to: "/admin/grupos-trabajo", icon: Briefcase, label: "Grupos de trabajo" },
   { to: "/admin/documentos", icon: FileText, label: "Documentos" },
   { to: "/admin/revista", icon: BookOpen, label: "Revista Digital" },
 ];

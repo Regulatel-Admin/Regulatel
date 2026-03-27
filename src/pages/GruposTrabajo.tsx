@@ -1,129 +1,55 @@
-import React, { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
-  Users, FileText, Download, Briefcase, Network, TrendingUp,
-  Shield, Sparkles, BarChart3, Wifi,   Eye, X, Maximize2, ArrowLeft, ArrowRight, ExternalLink,
+  Users,
+  FileText,
+  Download,
+  Briefcase,
+  Eye,
+  X,
+  Maximize2,
+  ArrowLeft,
+  ArrowRight,
+  ExternalLink,
 } from "lucide-react";
 import PageHero from "@/components/PageHero";
-
-const INFORMES_2025 = "/documents/grupos-trabajo/informes-2025";
-
-interface GrupoTrabajo {
-  id: string;
-  title: string;
-  description: string;
-  coordinadores: string[];
-  miembros: string[];
-  icon: React.ElementType;
-  imageUrl: string;
-  termsUrl?: string;
-  /** Informe final 2025: PDF (vista previa + descarga) o PPTX (solo descarga). */
-  informeUrl?: string;
-}
-
-const GRUPOS: GrupoTrabajo[] = [
-  {
-    id: "proteccion-empoderamiento-usuarios",
-    title: "Protección y empoderamiento de los usuarios",
-    description: "Buenas prácticas regulatorias en atención al usuario, seguridad de dispositivos y control de fraudes en telecomunicaciones.",
-    coordinadores: ["OSIPTEL, Perú"],
-    miembros: ["SUTEL, Costa Rica", "ATT, Bolivia", "INDOTEL, República Dominicana", "CRC, Colombia"],
-    icon: Shield,
-    imageUrl: "/grupos-trabajo/proteccion-empoderamiento-usuarios.jpg",
-    termsUrl: "/documents/grupos-trabajo/proteccion-empoderamiento-usuarios-2026.pdf",
-    informeUrl: `${INFORMES_2025}/proteccion-empoderamiento-informe-2025.pptx`,
-  },
-  {
-    id: "cierre-brecha-calidad",
-    title: "Cierre de brecha y calidad de servicios",
-    description: "Intercambio de experiencias sobre calidad, despliegue y compartición de infraestructura para cerrar la brecha digital.",
-    coordinadores: ["CRC, Colombia"],
-    miembros: ["ASEP, Panamá", "ATT, Bolivia"],
-    icon: Wifi,
-    imageUrl: "/grupos-trabajo/cierre-brecha-calidad.jpg",
-    termsUrl: "/documents/grupos-trabajo/cierre-brecha-calidad-servicios-2026.pdf",
-    informeUrl: `${INFORMES_2025}/cierre-brecha-calidad-informe-2025.pdf`,
-  },
-  {
-    id: "indicadores-telecomunicaciones-tic",
-    title: "Indicadores de Telecomunicaciones / TIC",
-    description: "Estadísticas regionales y tecnologías emergentes para optimizar y visualizar datos de conectividad.",
-    coordinadores: ["CRT, México", "SUTEL, Costa Rica"],
-    miembros: ["INDOTEL, República Dominicana", "ATT, Bolivia"],
-    icon: BarChart3,
-    imageUrl: "/grupos-trabajo/indicadores-telecomunicaciones-tic.jpg",
-    termsUrl: "/documents/grupos-trabajo/indicadores-telecomunicaciones-tic-2026.pdf",
-    informeUrl: `${INFORMES_2025}/indicadores-telecomunicaciones-informe-2025.pptx`,
-  },
-  {
-    id: "fortalecimiento-institucional",
-    title: "Fortalecimiento Institucional",
-    description: "Iniciativas para la autoevaluación, transparencia y financiamiento del Foro en favor de la eficiencia regulatoria.",
-    coordinadores: ["OSIPTEL, Perú"],
-    miembros: ["ANATEL, Brasil", "INDOTEL, República Dominicana"],
-    icon: TrendingUp,
-    imageUrl: "/grupos-trabajo/fortalecimiento-institucional.jpg",
-    termsUrl: "/documents/grupos-trabajo/fortalecimiento-institucional-2026.pdf",
-    informeUrl: `${INFORMES_2025}/fortalecimiento-institucional-informe-2025.pptx`,
-  },
-  {
-    id: "asuntos-internet",
-    title: "Asuntos de Internet",
-    description: "Intercambio de experiencias sobre Internet desde perspectiva regulatoria, técnica y de gobernanza.",
-    coordinadores: ["ENACOM, Argentina", "ANATEL, Brasil"],
-    miembros: ["ASEP, Panamá"],
-    icon: Network,
-    imageUrl: "/grupos-trabajo/asuntos-internet.jpg",
-    termsUrl: "/documents/grupos-trabajo/asuntos-internet-2026.pdf",
-    informeUrl: `${INFORMES_2025}/asuntos-internet-informe-2025.pptx`,
-  },
-  {
-    id: "mercados-digitales",
-    title: "Mercados Digitales",
-    description: "Espacio de diálogo para anticipar retos y oportunidades en mercados y servicios digitales.",
-    coordinadores: ["CRC, Colombia", "ANATEL, Brasil"],
-    miembros: ["OSIPTEL, Perú (TBC)"],
-    icon: Briefcase,
-    imageUrl: "/grupos-trabajo/mercados-digitales.jpg",
-    termsUrl: "/documents/grupos-trabajo/mercados-digitales-2026.pdf",
-    informeUrl: `${INFORMES_2025}/mercados-digitales-informe-2025.pdf`,
-  },
-  {
-    id: "innovacion-mejora-regulatoria",
-    title: "Innovación y mejora regulatoria",
-    description: "Promover marcos regulatorios eficientes y transparentes que impulsen la innovación y la competencia.",
-    coordinadores: ["CRC, Colombia"],
-    miembros: ["INDOTEL, República Dominicana", "ENACOM, Argentina", "ASEP, Panamá"],
-    icon: Sparkles,
-    imageUrl: "/grupos-trabajo/innovacion-mejora-regulatoria.jpg",
-    termsUrl: "/documents/grupos-trabajo/innovacion-mejora-regulatoria-2026.pdf",
-  },
-  {
-    id: "paridad-sociedad-informacion",
-    title: "Paridad en la Sociedad de la Información",
-    description: "Fomento de medidas regulatorias para la equidad en TIC y la igualdad de género, alineadas con los ODS.",
-    coordinadores: ["INDOTEL, República Dominicana", "CONATEL, Paraguay"],
-    miembros: ["ATT, Bolivia"],
-    icon: Users,
-    imageUrl: "/grupos-trabajo/paridad-sociedad-informacion.jpg",
-    termsUrl: "/documents/grupos-trabajo/paridad-sociedad-informacion-2026.pdf",
-    informeUrl: `${INFORMES_2025}/paridad-sociedad-informacion-informe-2025.pdf`,
-  },
-  {
-    id: "ciberseguridad",
-    title: "Ciberseguridad",
-    description: "Impulsar el análisis regulatorio y las buenas prácticas para fortalecer la seguridad digital en telecomunicaciones a nivel regional.",
-    coordinadores: ["INDOTEL, República Dominicana"],
-    miembros: ["ANATEL, Brasil"],
-    icon: Shield,
-    imageUrl: "/grupos-trabajo/ciberseguridad.jpg",
-    termsUrl: "/documents/grupos-trabajo/ciberseguridad-2026.pdf",
-  },
-];
+import { api } from "@/lib/api";
+import {
+  GRUPOS_TRABAJO_SETTINGS_KEY,
+  defaultGruposTrabajo,
+  getGrupoTrabajoIcon,
+  parseGruposTrabajoFromSettingValue,
+  type GrupoTrabajoSerialized,
+} from "@/data/gruposTrabajo";
 
 export default function GruposTrabajo() {
   const [previewDoc, setPreviewDoc] = useState<{ url: string; title: string } | null>(null);
+  const [grupos, setGrupos] = useState<GrupoTrabajoSerialized[]>(defaultGruposTrabajo);
+
+  const loadGrupos = useCallback(async () => {
+    const res = await api.settings.get(GRUPOS_TRABAJO_SETTINGS_KEY);
+    if (res.ok && res.data && res.data.value != null) {
+      const parsed = parseGruposTrabajoFromSettingValue(res.data.value);
+      if (parsed !== null) {
+        setGrupos(parsed);
+        return;
+      }
+    }
+    setGrupos(defaultGruposTrabajo);
+  }, []);
+
+  useEffect(() => {
+    void loadGrupos();
+  }, [loadGrupos]);
+
+  useEffect(() => {
+    const onVis = () => {
+      if (document.visibilityState === "visible") void loadGrupos();
+    };
+    document.addEventListener("visibilitychange", onVis);
+    return () => document.removeEventListener("visibilitychange", onVis);
+  }, [loadGrupos]);
 
   return (
     <>
@@ -142,11 +68,7 @@ export default function GruposTrabajo() {
           fontFamily: "var(--token-font-body)",
         }}
       >
-        <div
-          className="mx-auto px-4 md:px-6 lg:px-8"
-          style={{ maxWidth: "1180px" }}
-        >
-          {/* Header de sección */}
+        <div className="mx-auto px-4 md:px-6 lg:px-8" style={{ maxWidth: "1180px" }}>
           <div className="mb-10 flex items-start gap-4 md:mb-12">
             <div
               className="mt-1 h-8 w-[3px] flex-shrink-0 rounded-full"
@@ -161,16 +83,22 @@ export default function GruposTrabajo() {
                 Grupos activos
               </h2>
               <p className="mt-1 text-sm" style={{ color: "var(--regu-gray-500)" }}>
-                {GRUPOS.length} grupos de trabajo en funcionamiento
+                {grupos.length} grupos de trabajo en funcionamiento
               </p>
             </div>
           </div>
 
-          {/* Título informes finales 2025 */}
           <div className="mb-8 flex items-start gap-4">
-            <div className="mt-1 h-8 w-[3px] flex-shrink-0 rounded-full" style={{ backgroundColor: "var(--regu-blue)" }} aria-hidden />
+            <div
+              className="mt-1 h-8 w-[3px] flex-shrink-0 rounded-full"
+              style={{ backgroundColor: "var(--regu-blue)" }}
+              aria-hidden
+            />
             <div>
-              <h2 className="text-xl font-bold md:text-2xl" style={{ color: "var(--regu-navy)", fontFamily: "var(--token-font-heading)" }}>
+              <h2
+                className="text-xl font-bold md:text-2xl"
+                style={{ color: "var(--regu-navy)", fontFamily: "var(--token-font-heading)" }}
+              >
                 Informes finales de los grupos 2025
               </h2>
               <p className="mt-1 text-sm" style={{ color: "var(--regu-gray-500)" }}>
@@ -179,10 +107,9 @@ export default function GruposTrabajo() {
             </div>
           </div>
 
-          {/* Lista de grupos */}
-          <div className="space-y-5 mb-12">
-            {GRUPOS.map((grupo, index) => {
-              const Icon = grupo.icon;
+          <div className="mb-12 space-y-5">
+            {grupos.map((grupo, index) => {
+              const Icon = getGrupoTrabajoIcon(grupo.iconKey);
               return (
                 <motion.article
                   key={grupo.id}
@@ -196,7 +123,6 @@ export default function GruposTrabajo() {
                     boxShadow: "0 2px 6px rgba(22,61,89,0.04), 0 6px 20px rgba(22,61,89,0.06)",
                   }}
                 >
-                  {/* Acento top */}
                   <div
                     className="grupoCardAccent absolute inset-x-0 top-0 h-[3px] transition-colors duration-300"
                     style={{ backgroundColor: "var(--regu-blue)" }}
@@ -204,7 +130,6 @@ export default function GruposTrabajo() {
                   />
 
                   <div className="flex flex-col gap-6 p-6 md:flex-row md:p-7">
-                    {/* Imagen / Ícono */}
                     <div className="flex-shrink-0 md:w-44">
                       <div
                         className="relative aspect-square w-full overflow-hidden rounded-xl md:w-44"
@@ -230,9 +155,7 @@ export default function GruposTrabajo() {
                       </div>
                     </div>
 
-                    {/* Contenido */}
                     <div className="flex min-w-0 flex-1 flex-col">
-                      {/* Número + título */}
                       <div className="mb-3 flex items-start gap-3">
                         <span
                           className="mt-0.5 inline-block flex-shrink-0 rounded-sm px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.10em]"
@@ -252,14 +175,10 @@ export default function GruposTrabajo() {
                         </h3>
                       </div>
 
-                      <p
-                        className="mb-5 text-sm leading-relaxed md:text-base"
-                        style={{ color: "var(--regu-gray-600)" }}
-                      >
+                      <p className="mb-5 text-sm leading-relaxed md:text-base" style={{ color: "var(--regu-gray-600)" }}>
                         {grupo.description}
                       </p>
 
-                      {/* Coordinadores + Miembros */}
                       <div className="mb-5 grid gap-4 sm:grid-cols-2">
                         <div>
                           <div className="mb-2 flex items-center gap-1.5">
@@ -299,7 +218,6 @@ export default function GruposTrabajo() {
                         </div>
                       </div>
 
-                      {/* CTAs: Términos de referencia + Informe 2025 */}
                       <div
                         className="mt-auto flex flex-wrap items-center gap-2.5 border-t pt-4"
                         style={{ borderColor: "rgba(22,61,89,0.07)" }}
@@ -307,7 +225,10 @@ export default function GruposTrabajo() {
                         {grupo.termsUrl && (
                           <>
                             <button
-                              onClick={() => setPreviewDoc({ url: grupo.termsUrl!, title: `Términos de referencia — ${grupo.title}` })}
+                              type="button"
+                              onClick={() =>
+                                setPreviewDoc({ url: grupo.termsUrl!, title: `Términos de referencia — ${grupo.title}` })
+                              }
                               className="inline-flex items-center gap-1.5 rounded-lg px-4 py-2 text-xs font-bold uppercase tracking-[0.07em] text-white transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2"
                               style={{ backgroundColor: "var(--regu-blue)" }}
                             >
@@ -329,7 +250,10 @@ export default function GruposTrabajo() {
                           <>
                             {grupo.informeUrl.toLowerCase().endsWith(".pdf") ? (
                               <button
-                                onClick={() => setPreviewDoc({ url: grupo.informeUrl!, title: `Informe 2025 — ${grupo.title}` })}
+                                type="button"
+                                onClick={() =>
+                                  setPreviewDoc({ url: grupo.informeUrl!, title: `Informe 2025 — ${grupo.title}` })
+                                }
                                 className="inline-flex items-center gap-1.5 rounded-lg px-4 py-2 text-xs font-bold uppercase tracking-[0.07em] text-white transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2"
                                 style={{ backgroundColor: "var(--regu-navy)" }}
                               >
@@ -368,7 +292,6 @@ export default function GruposTrabajo() {
             })}
           </div>
 
-          {/* Bloque informativo */}
           <section
             className="rounded-2xl border bg-white p-8 md:p-10"
             style={{ borderColor: "rgba(22,61,89,0.10)", boxShadow: "0 2px 6px rgba(22,61,89,0.04)" }}
@@ -386,17 +309,16 @@ export default function GruposTrabajo() {
             </h2>
             <div className="space-y-4 text-base leading-relaxed" style={{ color: "var(--regu-gray-600)" }}>
               <p>
-                Los grupos de trabajo son espacios especializados donde los países miembros trabajan en temas
-                del sector de las telecomunicaciones, compartiendo experiencias y desarrollando soluciones comunes.
+                Los grupos de trabajo son espacios especializados donde los países miembros trabajan en temas del sector
+                de las telecomunicaciones, compartiendo experiencias y desarrollando soluciones comunes.
               </p>
               <p>
-                Cada grupo cuenta con al menos un organismo coordinador y miembros que participan activamente
-                en el intercambio de conocimientos, elaboración de recomendaciones técnicas y documentos de referencia.
+                Cada grupo cuenta con al menos un organismo coordinador y miembros que participan activamente en el
+                intercambio de conocimientos, elaboración de recomendaciones técnicas y documentos de referencia.
               </p>
             </div>
           </section>
 
-          {/* Footer nav */}
           <nav
             className="mt-10 flex flex-wrap items-center gap-4 border-t pt-8"
             style={{ borderColor: "rgba(22,61,89,0.08)" }}
@@ -405,7 +327,11 @@ export default function GruposTrabajo() {
             <Link
               to="/"
               className="inline-flex items-center gap-2 rounded-xl border-2 px-5 py-3 text-sm font-semibold transition-colors hover:bg-[rgba(68,137,198,0.12)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2"
-              style={{ color: "var(--regu-blue)", borderColor: "var(--regu-blue)", backgroundColor: "rgba(68,137,198,0.06)" }}
+              style={{
+                color: "var(--regu-blue)",
+                borderColor: "var(--regu-blue)",
+                backgroundColor: "rgba(68,137,198,0.06)",
+              }}
             >
               <ArrowLeft className="h-4 w-4 shrink-0" aria-hidden />
               Inicio
@@ -421,12 +347,13 @@ export default function GruposTrabajo() {
         </div>
       </div>
 
-      {/* Modal PDF */}
       <AnimatePresence>
         {previewDoc && (
           <>
             <motion.div
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
               onClick={() => setPreviewDoc(null)}
               className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm"
             />
@@ -442,29 +369,63 @@ export default function GruposTrabajo() {
                 style={{ borderColor: "rgba(22,61,89,0.08)", backgroundColor: "#FAFBFC" }}
               >
                 <div className="flex min-w-0 flex-1 items-center gap-3">
-                  <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl" style={{ backgroundColor: "rgba(68,137,198,0.10)", color: "var(--regu-blue)" }}>
+                  <div
+                    className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl"
+                    style={{ backgroundColor: "rgba(68,137,198,0.10)", color: "var(--regu-blue)" }}
+                  >
                     <FileText className="h-5 w-5" />
                   </div>
                   <div className="min-w-0 flex-1">
-                    <h3 className="truncate text-base font-bold" style={{ color: "var(--regu-gray-900)" }}>{previewDoc.title}</h3>
-                    <p className="text-xs" style={{ color: "var(--regu-gray-500)" }}>Vista previa del documento</p>
+                    <h3 className="truncate text-base font-bold" style={{ color: "var(--regu-gray-900)" }}>
+                      {previewDoc.title}
+                    </h3>
+                    <p className="text-xs" style={{ color: "var(--regu-gray-500)" }}>
+                      Vista previa del documento
+                    </p>
                   </div>
                 </div>
                 <div className="flex flex-shrink-0 items-center gap-2">
-                  <a href={previewDoc.url} download className="inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold text-white transition hover:opacity-90" style={{ backgroundColor: "var(--regu-blue)" }}>
-                    <Download className="h-4 w-4" /><span className="hidden sm:inline">Descargar</span>
+                  <a
+                    href={previewDoc.url}
+                    download
+                    className="inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold text-white transition hover:opacity-90"
+                    style={{ backgroundColor: "var(--regu-blue)" }}
+                  >
+                    <Download className="h-4 w-4" />
+                    <span className="hidden sm:inline">Descargar</span>
                   </a>
-                  <button onClick={() => setPreviewDoc(null)} className="flex h-9 w-9 items-center justify-center rounded-lg border transition hover:bg-[var(--regu-gray-100)]" style={{ borderColor: "rgba(22,61,89,0.12)", color: "var(--regu-gray-700)" }} aria-label="Cerrar">
+                  <button
+                    type="button"
+                    onClick={() => setPreviewDoc(null)}
+                    className="flex h-9 w-9 items-center justify-center rounded-lg border transition hover:bg-[var(--regu-gray-100)]"
+                    style={{ borderColor: "rgba(22,61,89,0.12)", color: "var(--regu-gray-700)" }}
+                    aria-label="Cerrar"
+                  >
                     <X className="h-5 w-5" />
                   </button>
                 </div>
               </div>
               <div className="flex-1 overflow-hidden bg-[#F0F0F0]">
-                <iframe src={`${previewDoc.url}#toolbar=1`} className="h-full w-full border-0" title={previewDoc.title} style={{ minHeight: "400px" }} />
+                <iframe
+                  src={`${previewDoc.url}#toolbar=1`}
+                  className="h-full w-full border-0"
+                  title={previewDoc.title}
+                  style={{ minHeight: "400px" }}
+                />
               </div>
-              <div className="flex flex-wrap items-center justify-between gap-2 border-t px-5 py-3" style={{ borderColor: "rgba(22,61,89,0.08)", backgroundColor: "#FAFBFC" }}>
-                <p className="text-xs" style={{ color: "var(--regu-gray-500)" }}>Usa los controles del visor para navegar</p>
-                <button onClick={() => window.open(previewDoc.url, "_blank")} className="inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-semibold transition hover:bg-white" style={{ color: "var(--regu-blue)" }}>
+              <div
+                className="flex flex-wrap items-center justify-between gap-2 border-t px-5 py-3"
+                style={{ borderColor: "rgba(22,61,89,0.08)", backgroundColor: "#FAFBFC" }}
+              >
+                <p className="text-xs" style={{ color: "var(--regu-gray-500)" }}>
+                  Usa los controles del visor para navegar
+                </p>
+                <button
+                  type="button"
+                  onClick={() => window.open(previewDoc.url, "_blank")}
+                  className="inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-semibold transition hover:bg-white"
+                  style={{ color: "var(--regu-blue)" }}
+                >
                   <Maximize2 className="h-4 w-4" /> Abrir en nueva pestaña
                 </button>
               </div>

@@ -14,6 +14,7 @@ import AdminNoticias from '@/pages/admin/AdminNoticias';
 import AdminEventos from '@/pages/admin/AdminEventos';
 import AdminCifras from '@/pages/admin/AdminCifras';
 import AdminDirectorio from '@/pages/admin/AdminDirectorio';
+import AdminGruposTrabajo from '@/pages/admin/AdminGruposTrabajo';
 import AdminDocumentos from '@/pages/admin/AdminDocumentos';
 import AdminRevista from '@/pages/admin/AdminRevista';
 import AdminUsuarios from '@/pages/admin/AdminUsuarios';
@@ -76,6 +77,7 @@ function App() {
               <Route path="eventos" element={<AdminEventos />} />
               <Route path="cifras" element={<AdminCifras />} />
               <Route path="directorio-autoridades" element={<AdminDirectorio />} />
+              <Route path="grupos-trabajo" element={<AdminGruposTrabajo />} />
               <Route path="documentos" element={<AdminDocumentos />} />
               <Route path="revista" element={<AdminRevista />} />
               <Route path="usuarios" element={<AdminUsuarios />} />
