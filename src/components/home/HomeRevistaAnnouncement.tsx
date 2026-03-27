@@ -159,12 +159,12 @@ export default function HomeRevistaAnnouncement() {
       <button
         type="button"
         onClick={dismiss}
-        className="group absolute right-[6px] top-[6px] z-10 flex h-4 w-4 items-center justify-center rounded-full text-[rgba(58,54,50,0.19)] transition-[color,background-color,opacity] duration-[380ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-[rgba(90,82,74,0.035)] hover:text-[rgba(46,42,38,0.4)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-1 focus-visible:ring-offset-[#f6f2eb]"
+        className="group absolute right-[7px] top-[7px] z-10 flex h-[18px] w-[18px] items-center justify-center rounded-full text-[rgba(58,54,50,0.32)] transition-[color,background-color,opacity] duration-300 ease-out hover:bg-[rgba(90,82,74,0.08)] hover:text-[rgba(46,42,38,0.56)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-1 focus-visible:ring-offset-[#f6f2eb]"
         aria-label="Cerrar aviso de publicación"
       >
         <X
-          className="h-2 w-2 transition-[transform,opacity] duration-[380ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:opacity-[0.92] group-hover:scale-[0.98]"
-          strokeWidth={0.88}
+          className="h-2.5 w-2.5 transition-[transform,opacity] duration-300 ease-out group-hover:opacity-[0.9] group-hover:scale-[0.97]"
+          strokeWidth={1}
           aria-hidden
         />
       </button>
