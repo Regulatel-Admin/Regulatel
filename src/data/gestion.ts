@@ -19,6 +19,11 @@ export interface GestionDocument {
   year?: string;
   quarter?: string;
   category: GestionCategory;
+  /**
+   * Ruta pública de detalle (ej. /revista/slug). Si existe, los CTAs “leer edición”
+   * pueden enlazar aquí en lugar del PDF. Opcional hasta que exista la página.
+   */
+  publicDetailPath?: string;
 }
 
 /**
@@ -36,6 +41,30 @@ export function toCategory(
     return "planes-actas";
   if (v === "banco") return "banco";
   return "otros";
+}
+
+/** Listado filtrado de revistas en Gestión documental. */
+export const GESTION_REVISTA_ARCHIVE_PATH = "/gestion?tipo=revista";
+
+function quarterSortRank(quarter?: string): number {
+  if (!quarter) return 0;
+  const m = /^Q(\d)/i.exec(quarter.trim());
+  return m ? parseInt(m[1], 10) : 0;
+}
+
+/**
+ * Edición de revista más reciente según año y trimestre (no depende del orden del array).
+ * Usado por el aviso del hero y otros destacados.
+ */
+export function getLatestRevistaEdition(docs: GestionDocument[] = gestionDocuments): GestionDocument | null {
+  const revistas = docs.filter((d) => d.category === "revista");
+  if (!revistas.length) return null;
+  return [...revistas].sort((a, b) => {
+    const ya = parseInt(a.year ?? "0", 10);
+    const yb = parseInt(b.year ?? "0", 10);
+    if (yb !== ya) return yb - ya;
+    return quarterSortRank(b.quarter) - quarterSortRank(a.quarter);
+  })[0];
 }
 
 /** Documentos unificados para la página Gestión. Filtrable por category. */
@@ -92,6 +121,14 @@ export const gestionDocuments: GestionDocument[] = [
     category: "documentos",
   },
   // —— Revista Digital ——
+  {
+    id: "revista-q1-2026",
+    title: "Revista Regulatel 2026 — Q1",
+    url: "/documents/Revista-Regulatel-2026-Q1.pdf",
+    year: "2026",
+    quarter: "Q1",
+    category: "revista",
+  },
   {
     id: "revista-q4-2025",
     title: "Revista Digital REGULATEL - Cuarto Trimestre 2025",

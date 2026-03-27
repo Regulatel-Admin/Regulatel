@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ChevronLeft, ChevronRight, Pause, Play, ArrowRight } from "lucide-react";
 import HeroInstitucionalBackground from "./HeroInstitucionalBackground";
+import HomeRevistaAnnouncement from "./HomeRevistaAnnouncement";
 
 const HERO_SLIDESHOW_INTERVAL_MS = 5500;
 
@@ -194,6 +195,8 @@ export default function HomeHeroInstitucional({
       </div>
 
       {/* ── Bottom bar: dots + controls ── */}
+      <HomeRevistaAnnouncement />
+
       {isSlideshow && (
         <div className="absolute bottom-0 left-0 right-0 z-20 flex items-center justify-between px-5 py-3 md:px-8">
           {/* Progress dots */}

@@ -28,3 +28,4 @@ public/videos/
 *.njsproj
 *.sln
 *.sw?
+.vercel

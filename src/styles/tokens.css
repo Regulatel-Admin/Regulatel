@@ -45,6 +45,8 @@
   /* ——— Shadows (navy 22,61,89) ——— */
   --token-shadow-card: 0 10px 30px rgba(22, 61, 89, 0.12), 0 2px 6px rgba(22, 61, 89, 0.06);
   --token-shadow-hover: 0 16px 40px rgba(22, 61, 89, 0.16), 0 6px 14px rgba(22, 61, 89, 0.08);
+  /* Halo taupe suave: tarjeta revista / flotantes editoriales */
+  --token-shadow-premium-warm: 0 22px 56px -24px rgba(34, 30, 27, 0.1);
 
   /* ——— Gradient hero (azul petróleo → azul medio → verde lima) ——— */
   --token-gradient-hero: linear-gradient(90deg, #163D59 0%, #4489C6 45%, #C5DC0B 100%);
