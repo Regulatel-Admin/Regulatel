@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
@@ -12,6 +12,7 @@ import {
   ArrowLeft,
   ArrowRight,
   ExternalLink,
+  Newspaper,
 } from "lucide-react";
 import PageHero from "@/components/PageHero";
 import { api } from "@/lib/api";
@@ -22,10 +23,21 @@ import {
   parseGruposTrabajoFromSettingValue,
   type GrupoTrabajoSerialized,
 } from "@/data/gruposTrabajo";
+import { useBoletinesGtai } from "@/hooks/useBoletinesGtai";
+import {
+  BOLETINES_GTAI_LIST_PATH,
+  getBoletinesGtaiPublished,
+  sortBoletinesByDateDesc,
+} from "@/data/boletinesGtai";
 
 export default function GruposTrabajo() {
   const [previewDoc, setPreviewDoc] = useState<{ url: string; title: string } | null>(null);
   const [grupos, setGrupos] = useState<GrupoTrabajoSerialized[]>(defaultGruposTrabajo);
+  const { entries: boletinesGtai } = useBoletinesGtai();
+  const latestGtaiBoletin = useMemo(() => {
+    const pub = sortBoletinesByDateDesc(getBoletinesGtaiPublished(boletinesGtai));
+    return pub[0] ?? null;
+  }, [boletinesGtai]);
 
   const loadGrupos = useCallback(async () => {
     const res = await api.settings.get(GRUPOS_TRABAJO_SETTINGS_KEY);
@@ -217,6 +229,91 @@ export default function GruposTrabajo() {
                           </div>
                         </div>
                       </div>
+
+                      {grupo.id === "asuntos-internet" && latestGtaiBoletin && (
+                        <div
+                          className="mb-5 rounded-xl border px-4 py-4 md:px-5 md:py-5"
+                          style={{
+                            borderColor: "rgba(68,137,198,0.20)",
+                            background: "linear-gradient(125deg, rgba(68,137,198,0.07) 0%, rgba(255,255,255,0.96) 55%)",
+                            boxShadow: "0 1px 0 rgba(22,61,89,0.04)",
+                          }}
+                        >
+                          <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
+                            <div className="flex items-center gap-2">
+                              <div
+                                className="flex h-9 w-9 items-center justify-center rounded-lg"
+                                style={{ backgroundColor: "rgba(68,137,198,0.12)", color: "var(--regu-blue)" }}
+                              >
+                                <Newspaper className="h-4 w-4" aria-hidden />
+                              </div>
+                              <div>
+                                <p
+                                  className="text-[10px] font-bold uppercase tracking-[0.12em]"
+                                  style={{ color: "var(--regu-blue)" }}
+                                >
+                                  Boletines del grupo
+                                </p>
+                                <p className="text-xs" style={{ color: "var(--regu-gray-500)" }}>
+                                  Publicación más reciente del GTAI
+                                </p>
+                              </div>
+                            </div>
+                            <Link
+                              to={BOLETINES_GTAI_LIST_PATH}
+                              className="inline-flex items-center gap-1.5 rounded-lg border-2 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.08em] transition hover:bg-white"
+                              style={{ borderColor: "var(--regu-blue)", color: "var(--regu-blue)" }}
+                            >
+                              Ver todos los boletines
+                              <ArrowRight className="h-3 w-3" aria-hidden />
+                            </Link>
+                          </div>
+                          <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+                            <div
+                              className="relative h-16 w-full shrink-0 overflow-hidden rounded-lg sm:h-16 sm:w-24"
+                              style={{ backgroundColor: "rgba(68,137,198,0.08)" }}
+                            >
+                              {latestGtaiBoletin.coverImage ? (
+                                <img
+                                  src={latestGtaiBoletin.coverImage}
+                                  alt=""
+                                  className="h-full w-full object-cover"
+                                />
+                              ) : (
+                                <div className="flex h-full w-full items-center justify-center">
+                                  <Newspaper className="h-6 w-6 opacity-40" style={{ color: "var(--regu-blue)" }} aria-hidden />
+                                </div>
+                              )}
+                            </div>
+                            <div className="min-w-0 flex-1">
+                              <p className="text-sm font-bold leading-snug" style={{ color: "var(--regu-navy)" }}>
+                                {latestGtaiBoletin.title}
+                              </p>
+                              <p className="mt-1 line-clamp-2 text-xs leading-relaxed" style={{ color: "var(--regu-gray-600)" }}>
+                                {latestGtaiBoletin.shortSummary}
+                              </p>
+                              <div className="mt-2 flex flex-wrap gap-2">
+                                <Link
+                                  to={`${BOLETINES_GTAI_LIST_PATH}/${latestGtaiBoletin.slug}`}
+                                  className="inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.07em] text-white transition hover:opacity-90"
+                                  style={{ backgroundColor: "var(--regu-blue)" }}
+                                >
+                                  Ver boletín
+                                </Link>
+                                <a
+                                  href={latestGtaiBoletin.pdfFile}
+                                  download
+                                  className="inline-flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.07em] transition hover:bg-[rgba(68,137,198,0.06)]"
+                                  style={{ borderColor: "var(--regu-navy)", color: "var(--regu-navy)" }}
+                                >
+                                  <Download className="h-3 w-3" aria-hidden />
+                                  PDF
+                                </a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      )}
 
                       <div
                         className="mt-auto flex flex-wrap items-center gap-2.5 border-t pt-4"

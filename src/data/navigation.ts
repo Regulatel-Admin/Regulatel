@@ -109,6 +109,11 @@ export const navigationItems: NavigationItem[] = [
             description: "Publicación periódica oficial de REGULATEL",
           },
           {
+            label: "Boletines GTAI",
+            href: "/boletines-gtai",
+            description: "Publicaciones periódicas del Grupo de Asuntos de Internet",
+          },
+          {
             label: "Galería fotográfica",
             href: "/galeria",
             description: "Imágenes de eventos y actividades",

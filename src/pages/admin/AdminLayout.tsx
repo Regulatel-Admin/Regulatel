@@ -41,6 +41,7 @@ const nav = [
   { to: "/admin/cifras", icon: Hash, label: "REGULATEL en cifras" },
   { to: "/admin/directorio-autoridades", icon: Contact, label: "Directorio de autoridades" },
   { to: "/admin/grupos-trabajo", icon: Briefcase, label: "Grupos de trabajo" },
+  { to: "/admin/boletines-gtai", icon: Newspaper, label: "Boletines GTAI" },
   { to: "/admin/documentos", icon: FileText, label: "Documentos" },
   { to: "/admin/revista", icon: BookOpen, label: "Revista Digital" },
 ];

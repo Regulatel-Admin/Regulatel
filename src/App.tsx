@@ -15,6 +15,7 @@ import AdminEventos from '@/pages/admin/AdminEventos';
 import AdminCifras from '@/pages/admin/AdminCifras';
 import AdminDirectorio from '@/pages/admin/AdminDirectorio';
 import AdminGruposTrabajo from '@/pages/admin/AdminGruposTrabajo';
+import AdminBoletinesGtai from '@/pages/admin/AdminBoletinesGtai';
 import AdminDocumentos from '@/pages/admin/AdminDocumentos';
 import AdminRevista from '@/pages/admin/AdminRevista';
 import AdminUsuarios from '@/pages/admin/AdminUsuarios';
@@ -32,6 +33,8 @@ import Miembros from '@/pages/Miembros';
 import ComiteEjecutivo from '@/pages/ComiteEjecutivo';
 import Gestion from '@/pages/Gestion';
 import GruposTrabajo from '@/pages/GruposTrabajo';
+import BoletinesGtai from '@/pages/BoletinesGtai';
+import BoletinGtaiDetalle from '@/pages/BoletinGtaiDetalle';
 import Noticias from '@/pages/Noticias';
 import NoticiaIndividual from '@/pages/NoticiaIndividual';
 import Eventos from '@/pages/Eventos';
@@ -78,6 +81,7 @@ function App() {
               <Route path="cifras" element={<AdminCifras />} />
               <Route path="directorio-autoridades" element={<AdminDirectorio />} />
               <Route path="grupos-trabajo" element={<AdminGruposTrabajo />} />
+              <Route path="boletines-gtai" element={<AdminBoletinesGtai />} />
               <Route path="documentos" element={<AdminDocumentos />} />
               <Route path="revista" element={<AdminRevista />} />
               <Route path="usuarios" element={<AdminUsuarios />} />
@@ -105,6 +109,8 @@ function App() {
           <Route path="/gestion" element={<Gestion />} />
           <Route path="/recursos" element={<Gestion />} />
           <Route path="/grupos-de-trabajo" element={<GruposTrabajo />} />
+          <Route path="/boletines-gtai" element={<BoletinesGtai />} />
+          <Route path="/boletines-gtai/:slug" element={<BoletinGtaiDetalle />} />
           <Route path="/noticias" element={<Noticias />} />
           <Route path="/noticias/:slug" element={<NoticiaIndividual />} />
           <Route path="/eventos" element={<Eventos />} />
