@@ -111,7 +111,7 @@ export const navigationItems: NavigationItem[] = [
           {
             label: "Boletines GTAI",
             href: "/boletines-gtai",
-            description: "Publicaciones periódicas del Grupo de Asuntos de Internet",
+            description: "Publicaciones periódicas",
           },
           {
             label: "Galería fotográfica",

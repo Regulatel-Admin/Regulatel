@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ChevronLeft, ChevronRight, Pause, Play, ArrowRight } from "lucide-react";
 import HeroInstitucionalBackground from "./HeroInstitucionalBackground";
+import HomeBoletinGtaiAnnouncement from "./HomeBoletinGtaiAnnouncement";
 import HomeRevistaAnnouncement from "./HomeRevistaAnnouncement";
 
 const HERO_SLIDESHOW_INTERVAL_MS = 5500;
@@ -194,8 +195,14 @@ export default function HomeHeroInstitucional({
         </div>
       </div>
 
-      {/* ── Bottom bar: dots + controls ── */}
-      <HomeRevistaAnnouncement />
+      {/* ── Avisos editoriales (hero): Boletín GTAI encima de Revista ── */}
+      <div
+        className="pointer-events-none absolute z-30 flex w-[min(100%-1.25rem,15.875rem)] flex-col gap-2.5 max-md:left-1/2 max-md:right-auto max-md:-translate-x-1/2 max-md:top-4 sm:w-[min(100%-2rem,16.25rem)] sm:max-md:top-5 md:right-8 md:top-7 md:w-[15.875rem] lg:right-10 lg:top-8"
+        aria-label="Publicaciones destacadas"
+      >
+        <HomeBoletinGtaiAnnouncement />
+        <HomeRevistaAnnouncement variant="stacked" />
+      </div>
 
       {isSlideshow && (
         <div className="absolute bottom-0 left-0 right-0 z-20 flex items-center justify-between px-5 py-3 md:px-8">

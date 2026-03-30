@@ -39,7 +39,7 @@ export default function BoletinesGtai() {
           { label: "Gestión y recursos", path: "/gestion" },
           { label: "Boletines GTAI" },
         ]}
-        description="Publicaciones periódicas del Grupo de Asuntos de Internet de REGULATEL."
+        description="Publicaciones periódicas — Grupo de Asuntos de Internet (GTAI), REGULATEL."
       />
 
       <div

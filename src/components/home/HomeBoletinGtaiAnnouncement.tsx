@@ -1,17 +1,19 @@
 /**
- * Tarjeta editorial destacada en el hero: nueva edición de la Revista REGULATEL.
- * Diseño institucional premium (no modal genérico). Cierre con localStorage + caducidad.
+ * Aviso en el hero: último boletín publicado del GTAI. Misma familia visual que la tarjeta de Revista (stacked).
  */
 import { useEffect, useState, type CSSProperties } from "react";
 import { Link } from "react-router-dom";
 import { motion, useReducedMotion } from "framer-motion";
 import { X } from "lucide-react";
+import { useBoletinesGtai } from "@/hooks/useBoletinesGtai";
 import {
-  GESTION_REVISTA_ARCHIVE_PATH,
-  getLatestRevistaEdition,
-} from "@/data/gestion";
+  BOLETINES_GTAI_LIST_PATH,
+  getBoletinesGtaiPublished,
+  getFeaturedBoletin,
+  sortBoletinesByDateDesc,
+} from "@/data/boletinesGtai";
 
-const STORAGE_KEY = "regulatel_home_revista_2026q1_dismissed_at";
+const STORAGE_KEY = "regulatel_home_boletin_gtai_dismissed_at";
 const SHOW_AGAIN_AFTER_DAYS = 14;
 
 const CTA_PRIMARY_CLASS =
@@ -41,8 +43,7 @@ function shouldShowAnnouncement(): boolean {
   }
 }
 
-/** Mini “portada” tipográfica — escala acorde a la tarjeta compacta. */
-function EditorialCoverMini() {
+function GtaiCoverMini({ issue }: { issue: number }) {
   return (
     <div
       className="relative shrink-0 overflow-hidden rounded-[2px] select-none"
@@ -51,41 +52,39 @@ function EditorialCoverMini() {
         height: "4.125rem",
         boxShadow:
           "inset 0 0 0 1px rgba(255,255,255,0.055), inset 0 1px 0 rgba(255,255,255,0.035), 0 8px 24px -8px rgba(32,28,25,0.12), 0 2px 8px -4px rgba(22,61,89,0.08)",
-        background:
-          "linear-gradient(152deg, #1e3d5c 0%, var(--regu-navy) 42%, #0c1f2e 92%)",
+        background: "linear-gradient(148deg, #1a4a6e 0%, var(--regu-navy) 50%, #0d2436 95%)",
       }}
       aria-hidden
     >
       <div
         className="absolute left-0 top-0 bottom-0 w-0.5"
         style={{
-          background:
-            "linear-gradient(180deg, rgba(196,214,140,0.95) 0%, rgba(196,214,140,0.45) 100%)",
+          background: "linear-gradient(180deg, rgba(68,137,198,0.95) 0%, rgba(68,137,198,0.45) 100%)",
         }}
       />
       <div
-        className="absolute -right-4 -top-6 h-16 w-16 rounded-full opacity-[0.07]"
+        className="absolute -right-3 -top-5 h-14 w-14 rounded-full opacity-[0.12]"
         style={{ background: "var(--regu-blue)" }}
       />
       <div className="relative flex h-full flex-col justify-between p-[0.4rem] pl-[0.45rem] pt-[0.4rem]">
         <p
-          className="text-[5px] font-bold uppercase leading-tight tracking-[0.2em] text-white/85"
+          className="text-[5px] font-bold uppercase leading-tight tracking-[0.18em] text-white/85"
           style={{ fontFamily: "var(--token-font-body)" }}
         >
-          Revista
+          GTAI
         </p>
         <div>
           <p
-            className="text-[1.2rem] font-semibold leading-none tracking-tight text-white"
+            className="text-[1.05rem] font-semibold leading-none tracking-tight text-white"
             style={{ fontFamily: "var(--token-font-heading)" }}
           >
-            01
+            {String(issue).padStart(2, "0")}
           </p>
           <p
-            className="mt-[0.15rem] text-[6px] font-medium uppercase tracking-[0.16em] text-white/45"
+            className="mt-[0.15rem] text-[6px] font-medium uppercase tracking-[0.14em] text-white/45"
             style={{ fontFamily: "var(--token-font-body)" }}
           >
-            Abril · 2026
+            Boletín
           </p>
         </div>
       </div>
@@ -93,17 +92,13 @@ function EditorialCoverMini() {
   );
 }
 
-export interface HomeRevistaAnnouncementProps {
-  /** `stacked`: dentro de columna absoluta (p. ej. debajo del aviso Boletín GTAI). `floating`: posición absoluta propia (legacy). */
-  variant?: "floating" | "stacked";
-}
-
-export default function HomeRevistaAnnouncement({ variant = "floating" }: HomeRevistaAnnouncementProps) {
+export default function HomeBoletinGtaiAnnouncement() {
   const reduceMotion = useReducedMotion();
-  const [visible, setVisible] = useState(false);
+  const { entries, loading } = useBoletinesGtai();
+  const [allowShow, setAllowShow] = useState(false);
 
   useEffect(() => {
-    setVisible(shouldShowAnnouncement());
+    setAllowShow(shouldShowAnnouncement());
   }, []);
 
   const dismiss = () => {
@@ -112,29 +107,23 @@ export default function HomeRevistaAnnouncement({ variant = "floating" }: HomeRe
     } catch {
       /* ignore */
     }
-    setVisible(false);
+    setAllowShow(false);
   };
 
-  if (!visible) return null;
+  if (!allowShow || loading) return null;
 
-  const featured = getLatestRevistaEdition();
-  const detailPath = featured?.publicDetailPath;
-  const editionUrl = featured?.url;
-  const motionFrom = reduceMotion
-    ? false
-    : { opacity: 0, y: 12, scale: 0.98 };
+  const pub = sortBoletinesByDateDesc(getBoletinesGtaiPublished(entries));
+  const featured = getFeaturedBoletin(entries) ?? pub[0];
+  if (!featured) return null;
+
+  const motionFrom = reduceMotion ? false : { opacity: 0, y: 12, scale: 0.98 };
   const motionTo = reduceMotion ? undefined : { opacity: 1, y: 0, scale: 1 };
-
-  const positionClassName =
-    variant === "stacked"
-      ? "pointer-events-auto z-30 w-full"
-      : "pointer-events-auto absolute z-30 w-[min(100%-1.25rem,15.875rem)] max-md:left-1/2 max-md:right-auto max-md:-translate-x-1/2 max-md:top-4 sm:w-[min(100%-2rem,16.25rem)] sm:max-md:top-5 md:right-8 md:top-7 md:w-[15.875rem] lg:right-10 lg:top-8";
 
   return (
     <motion.article
       role="region"
-      aria-labelledby="home-revista-announce-title"
-      className={positionClassName}
+      aria-labelledby="home-boletin-gtai-announce-title"
+      className="pointer-events-auto w-full"
       initial={motionFrom}
       animate={motionTo}
       transition={{ duration: 0.58, ease: ANIM_EASE }}
@@ -170,18 +159,14 @@ export default function HomeRevistaAnnouncement({ variant = "floating" }: HomeRe
         type="button"
         onClick={dismiss}
         className="group absolute right-[7px] top-[7px] z-10 flex h-[18px] w-[18px] items-center justify-center rounded-full text-[rgba(58,54,50,0.32)] transition-[color,background-color,opacity] duration-300 ease-out hover:bg-[rgba(90,82,74,0.08)] hover:text-[rgba(46,42,38,0.56)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-1 focus-visible:ring-offset-[#f6f2eb]"
-        aria-label="Cerrar aviso de publicación"
+        aria-label="Cerrar aviso de boletín GTAI"
       >
-        <X
-          className="h-2.5 w-2.5 transition-[transform,opacity] duration-300 ease-out group-hover:opacity-[0.9] group-hover:scale-[0.97]"
-          strokeWidth={1}
-          aria-hidden
-        />
+        <X className="h-2.5 w-2.5 transition-[transform,opacity] duration-300 ease-out group-hover:opacity-[0.9] group-hover:scale-[0.97]" strokeWidth={1} aria-hidden />
       </button>
 
       <div className="px-3.5 pb-3 pt-3.5 pr-9 sm:px-[0.9rem] sm:pb-[0.85rem] sm:pt-[0.95rem] sm:pr-9">
         <div className="flex gap-2.5">
-          <EditorialCoverMini />
+          <GtaiCoverMini issue={featured.issueNumber} />
 
           <div className="min-w-0 flex-1 pt-[1px]">
             <p
@@ -191,7 +176,7 @@ export default function HomeRevistaAnnouncement({ variant = "floating" }: HomeRe
                 textShadow: "0 1px 0 rgba(255, 252, 248, 0.45)",
               }}
             >
-              Publicación oficial
+              Grupo de Asuntos de Internet
             </p>
             <div
               className="mb-[0.35rem] mt-[0.35rem] h-px w-[1.45rem] max-w-[46%] rounded-full opacity-[0.78]"
@@ -202,86 +187,46 @@ export default function HomeRevistaAnnouncement({ variant = "floating" }: HomeRe
               aria-hidden
             />
             <h2
-              id="home-revista-announce-title"
+              id="home-boletin-gtai-announce-title"
               className="text-[0.765rem] font-semibold leading-[1.33] tracking-[-0.012em] sm:text-[0.8rem]"
               style={{
                 fontFamily: "var(--token-font-heading)",
                 color: "#122d42",
               }}
             >
-              Revista REGULATEL 01 – Abril 2026
+              {featured.title} · {featured.year}
             </h2>
           </div>
         </div>
 
         <p
-          className="mt-2 text-[10.5px] leading-[1.52] sm:text-[11px] sm:leading-[1.58]"
+          className="mt-2 line-clamp-3 text-[10.5px] leading-[1.52] sm:text-[11px] sm:leading-[1.58]"
           style={{
             fontFamily: "var(--token-font-body)",
             color: "rgba(35, 44, 52, 0.88)",
           }}
         >
-          Ya está disponible la primera edición 2026 de la Revista REGULATEL.
+          {featured.shortSummary}
         </p>
 
         <div className="mt-[0.72rem] sm:mt-[0.78rem]">
-          {detailPath ? (
-            <Link to={detailPath} className={CTA_PRIMARY_CLASS} style={CTA_PRIMARY_STYLE}>
-              <span
-                className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-200 ease-out group-hover/cta:opacity-100"
-                style={{
-                  background:
-                    "linear-gradient(180deg, rgba(255,255,255,0.06) 0%, transparent 44%)",
-                }}
-                aria-hidden
-              />
-              <span className="relative">Leer edición</span>
-            </Link>
-          ) : editionUrl ? (
-            <a
-              href={editionUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={CTA_PRIMARY_CLASS}
-              style={CTA_PRIMARY_STYLE}
-              aria-label="Leer edición de la Revista REGULATEL (PDF en nueva pestaña)"
-            >
-              <span
-                className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-200 ease-out group-hover/cta:opacity-100"
-                style={{
-                  background:
-                    "linear-gradient(180deg, rgba(255,255,255,0.06) 0%, transparent 44%)",
-                }}
-                aria-hidden
-              />
-              <span className="relative">Leer edición</span>
-            </a>
-          ) : (
-            <Link
-              to={GESTION_REVISTA_ARCHIVE_PATH}
-              className={CTA_PRIMARY_CLASS}
-              style={CTA_PRIMARY_STYLE}
-            >
-              <span
-                className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-200 ease-out group-hover/cta:opacity-100"
-                style={{
-                  background:
-                    "linear-gradient(180deg, rgba(255,255,255,0.06) 0%, transparent 44%)",
-                }}
-                aria-hidden
-              />
-              <span className="relative">Ver ediciones</span>
-            </Link>
-          )}
-          {(detailPath || editionUrl) && (
-            <Link
-              to={GESTION_REVISTA_ARCHIVE_PATH}
-              className="mt-2 block text-center text-[8.5px] font-normal leading-snug tracking-[0.02em] text-[rgba(22,61,89,0.58)] underline-offset-[3px] decoration-[rgba(22,61,89,0.3)] decoration-1 transition-colors duration-200 hover:text-[rgba(22,61,89,0.74)] hover:decoration-[rgba(22,61,89,0.42)] focus-visible:outline-none focus-visible:underline"
-              style={{ fontFamily: "var(--token-font-body)" }}
-            >
-              Ver todas las ediciones
-            </Link>
-          )}
+          <Link to={`${BOLETINES_GTAI_LIST_PATH}/${featured.slug}`} className={CTA_PRIMARY_CLASS} style={CTA_PRIMARY_STYLE}>
+            <span
+              className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-200 ease-out group-hover/cta:opacity-100"
+              style={{
+                background: "linear-gradient(180deg, rgba(255,255,255,0.06) 0%, transparent 44%)",
+              }}
+              aria-hidden
+            />
+            <span className="relative">Ver boletín</span>
+          </Link>
+          <Link
+            to={BOLETINES_GTAI_LIST_PATH}
+            className="mt-2 block text-center text-[8.5px] font-normal leading-snug tracking-[0.02em] text-[rgba(22,61,89,0.58)] underline-offset-[3px] decoration-[rgba(22,61,89,0.3)] decoration-1 transition-colors duration-200 hover:text-[rgba(22,61,89,0.74)] hover:decoration-[rgba(22,61,89,0.42)] focus-visible:outline-none focus-visible:underline"
+            style={{ fontFamily: "var(--token-font-body)" }}
+          >
+            Todos los boletines GTAI
+          </Link>
         </div>
       </div>
     </motion.article>
