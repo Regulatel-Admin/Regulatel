@@ -122,11 +122,10 @@ export const gestionDocuments: GestionDocument[] = [
   },
   // —— Revista Digital ——
   {
-    id: "revista-q1-2026",
-    title: "Revista Regulatel 2026 — Q1",
-    url: "/documents/Revista-Regulatel-2026-Q1.pdf",
+    id: "revista-2026-final",
+    title: "Revista REGULATEL 2026 — edición final",
+    url: "/documents/Revista-REGULATEL-2026-FINAL.pdf",
     year: "2026",
-    quarter: "Q1",
     category: "revista",
   },
   {
