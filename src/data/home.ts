@@ -327,8 +327,7 @@ export const heroSlides: HeroSlideItem[] = [
   {
     title: "Cumbre REGULATEL, ASIET y COMTELCA — Conectando el futuro digital de la región",
     subtitle: "PUNTA CANA 2025",
-    imageUrl:
-      "https://www.regulatel.org/sites/default/files/gallery/CUMBRE-REGULATEL-ASIET-COMTELCA-2025-HOME.png",
+    imageUrl: "/images/cumbre-regulatel-asiet-comtelca-2025.png",
     dateFormatted: "11 DICIEMBRE 2025",
     category: "EVENTOS",
     href: "/noticias/cumbre-regulatel-asiet-comtelca",

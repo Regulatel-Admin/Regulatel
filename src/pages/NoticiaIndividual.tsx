@@ -23,6 +23,12 @@ const fadeIn = {
 
 const CONTAINER_MAX = "1060px";
 
+/** Slugs de notas estáticas de la Cumbre que comparten el bloque (YouTube, Flickr, PDFs). */
+const STATIC_CUMBRE_EXTRA_SLUGS = new Set([
+  "cumbre-regulatel-asiet-comtelca",
+  "cumbre-regulatel-asiet-comtelca-2024",
+]);
+
 interface ArticlePayload {
   title: string;
   dateFormatted: string;
@@ -380,7 +386,7 @@ function ArticleBody({ payload, isStaticCumbre }: { payload: ArticlePayload; isS
       )}
 
       {/* Bloque especial Cumbre */}
-      {isStaticCumbre && payload.slug === "cumbre-regulatel-asiet-comtelca" && (
+      {isStaticCumbre && STATIC_CUMBRE_EXTRA_SLUGS.has(payload.slug) && (
         <CumbreExtraBlock />
       )}
     </div>

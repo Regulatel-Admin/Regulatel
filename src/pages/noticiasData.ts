@@ -229,13 +229,13 @@ export const noticiasData: NoticiaData[] = [
     tags: ['Cumbre', 'ASIET', 'COMTELCA', 'Cooperación Regional', 'Ecosistema Digital', 'Regulación Inteligente', '5G', 'Inclusión Digital']
   },
   {
-    slug: 'cumbre-regulatel-asiet-comtelca',
+    slug: 'cumbre-regulatel-asiet-comtelca-2024',
     title: 'Cumbre Regulatel, Asiet, Comtelca',
     date: '2024-12-11',
     dateFormatted: '11 Dic, 2024',
     category: 'Noticias',
     excerpt: 'La Cumbre Regulatel, ASIET y Comtelca se consolidó como un espacio regional de diálogo y colaboración para pasar a la acción. El evento reunió a líderes de la industria y reguladores de América Latina y Europa para abordar los retos y oportunidades del ecosistema digital regional.',
-    imageUrl: 'https://www.regulatel.org/sites/default/files/gallery/CUMBRE-REGULATEL-ASIET-COMTELCA-2025-HOME.png',
+    imageUrl: '/images/noticias/cumbre-regulatel-asiet-comtelca-consolidacion.png',
     author: 'REGULATEL',
     content: [
       'El Instituto Dominicano de las Telecomunicaciones (INDOTEL), REGULATEL, ASIET (Asociación Interamericana de Empresas de Telecomunicaciones) y COMTELCA (Comisión Técnica Regional de Telecomunicaciones) organizaron la Cumbre REGULATEL-ASIET-COMTELCA.',
