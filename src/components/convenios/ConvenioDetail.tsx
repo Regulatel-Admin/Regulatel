@@ -1,17 +1,20 @@
 import { Link } from "react-router-dom";
 import { ArrowLeft, Download, CheckCircle2, ArrowRight } from "lucide-react";
 import type { Convenio } from "@/data/convenios";
-import { convenios } from "@/data/convenios";
+import { convenios as defaultConvenios } from "@/data/convenios";
 
 interface ConvenioDetailProps {
   convenio: Convenio;
+  /** Lista completa para el bloque «otros convenios»; por defecto datos estáticos. */
+  allConvenios?: Convenio[];
 }
 
 /**
  * Vista detalle de un convenio: diseño institucional premium.
  */
-export default function ConvenioDetail({ convenio }: ConvenioDetailProps) {
-  const otherConvenios = convenios.filter((c) => c.slug !== convenio.slug);
+export default function ConvenioDetail({ convenio, allConvenios }: ConvenioDetailProps) {
+  const list = allConvenios ?? defaultConvenios;
+  const otherConvenios = list.filter((c) => c.slug !== convenio.slug);
 
   return (
     <div

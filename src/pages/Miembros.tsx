@@ -11,6 +11,7 @@ import {
   parseDirectorioFromSettingValue,
   type DirectorioAutoridad,
 } from '@/data/directorioAutoridades';
+import { useEntesReguladoresMiembros } from '@/contexts/SiteSettingsContext';
 
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },
@@ -20,15 +21,6 @@ const fadeIn = {
     transition: { duration: 0.6 },
   },
 };
-
-interface EnteRegulador {
-  name: string;
-  country: string;
-  fullName?: string;
-  route: string;
-  logoUrl?: string;
-  externalUrl: string;
-}
 
 // Logos locales (public/images/logos)
 const logoUrlMap: Record<string, string> = {
@@ -108,6 +100,7 @@ const LogoImage: React.FC<{ name: string; route: string }> = ({ name, route }) =
 };
 
 const Miembros: React.FC = () => {
+  const entesReguladoresBase = useEntesReguladoresMiembros();
   const [directorioAutoridades, setDirectorioAutoridades] = useState<DirectorioAutoridad[]>(defaultDirectorioAutoridades);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
@@ -159,34 +152,9 @@ const Miembros: React.FC = () => {
     return Array.from(new Set(directorioAutoridades.map(item => item.pais))).sort();
   }, [directorioAutoridades]);
 
-  const entesReguladoresBase: EnteRegulador[] = [
-    { name: 'ENACOM', country: 'Argentina', fullName: 'Ente Nacional de Comunicaciones', route: '/enacom', externalUrl: 'https://www.regulatel.org/enacom' },
-    { name: 'ATT', country: 'Bolivia', fullName: 'Autoridad de Regulación y Fiscalización de Telecomunicaciones y Transportes', route: '/att', externalUrl: 'https://www.regulatel.org/att' },
-    { name: 'ANATEL', country: 'Brasil', fullName: 'Agência Nacional de Telecomunicações', route: '/anatel', externalUrl: 'https://www.regulatel.org/anatel' },
-    { name: 'SUBTEL', country: 'Chile', fullName: 'Subsecretaría de Telecomunicaciones', route: '/subtel', externalUrl: 'https://www.regulatel.org/subtel' },
-    { name: 'CRC', country: 'Colombia', fullName: 'Comisión de Regulación de Comunicaciones', route: '/crc', externalUrl: 'https://www.regulatel.org/crc' },
-    { name: 'SUTEL', country: 'Costa Rica', fullName: 'Superintendencia de Telecomunicaciones', route: '/sutel', externalUrl: 'https://www.sutel.go.cr' },
-    { name: 'SIGET', country: 'El Salvador', fullName: 'Superintendencia General de Electricidad y Telecomunicaciones', route: '/sit', externalUrl: 'https://www.regulatel.org/sit' },
-    { name: 'ARCOTEL', country: 'Ecuador', fullName: 'Agencia de Regulación y Control de las Telecomunicaciones', route: '/arcotel', externalUrl: 'https://www.arcotel.gob.ec' },
-    { name: 'MINCOM', country: 'Cuba', fullName: 'Ministerio de Comunicaciones', route: '/min-com', externalUrl: 'https://www.mincom.gob.cu' },
-    { name: 'CNMC', country: 'España', fullName: 'Comisión Nacional de los Mercados y la Competencia', route: '/cnmc', externalUrl: 'https://www.regulatel.org/cnmc' },
-    { name: 'CONATEL', country: 'Guatemala', fullName: 'Comisión Nacional de Telecomunicaciones', route: '/conatel-gt', externalUrl: 'https://www.regulatel.org/conatel-gt' },
-    { name: 'CONATEL', country: 'Honduras', fullName: 'Comisión Nacional de Telecomunicaciones', route: '/conatel', externalUrl: 'https://www.regulatel.org/conatel' },
-    { name: 'AGCOM', country: 'Italia', fullName: 'Autorità per le Garanzie nelle Comunicazioni', route: '/agcom', externalUrl: 'https://www.regulatel.org/agcom' },
-    { name: 'CRT', country: 'México', fullName: 'Comisión Reguladora de Telecomunicaciones', route: '/ift', externalUrl: 'https://www.regulatel.org/ift' },
-    { name: 'TELCOR', country: 'Nicaragua', fullName: 'Instituto Nicaraguense de Telecomunicaciones y Correo', route: '/telcor', externalUrl: 'https://www.telcor.gob.ni' },
-    { name: 'ASEP', country: 'Panamá', fullName: 'Autoridad Nacional de los Servicios Públicos', route: '/asep', externalUrl: 'https://www.asep.gob.pa' },
-    { name: 'CONATEL', country: 'Paraguay', fullName: 'Comisión Nacional de Telecomunicaciones', route: '/conatel-py', externalUrl: 'https://www.conatel.gov.py' },
-    { name: 'OSIPTEL', country: 'Perú', fullName: 'Organismo Supervisor de Inversión Privada en Telecomunicaciones', route: '/osiptel', externalUrl: 'https://www.osiptel.gob.pe' },
-    { name: 'ANACOM', country: 'Portugal', fullName: 'Autoridade Nacional de Comunicações', route: '/anacom', externalUrl: 'https://www.anacom.pt' },
-    { name: 'NET', country: 'Puerto Rico', fullName: 'Negociado de Telecomunicaciones de Puerto Rico', route: '/net', externalUrl: 'https://www.jrsp.pr.gov' },
-    { name: 'INDOTEL', country: 'República Dominicana', fullName: 'Instituto Dominicano de las Telecomunicaciones', route: '/indotel', externalUrl: 'https://www.regulatel.org/indotel' },
-    { name: 'URSEC', country: 'Uruguay', fullName: 'Unidad Reguladora de Servicios de Comunicaciones', route: '/ursec', externalUrl: 'https://www.ursec.gub.uy' },
-    { name: 'CONATEL', country: 'Venezuela', fullName: 'Comisión Nacional de Telecomunicaciones', route: '/conatel-ve', externalUrl: 'https://www.conatel.gob.ve' },
-  ];
   const entesReguladores = useMemo(
     () => [...entesReguladoresBase].sort((a, b) => a.country.localeCompare(b.country, 'es')),
-    []
+    [entesReguladoresBase]
   );
 
   // Filter for entes reguladores (sorted by country)
@@ -204,8 +172,8 @@ const Miembros: React.FC = () => {
   }, [entesReguladores, enteSearchTerm, selectedEnteCountry]);
 
   const uniqueEnteCountries = useMemo(() => {
-    return Array.from(new Set(entesReguladoresBase.map(ente => ente.country))).sort();
-  }, [entesReguladoresBase]);
+    return Array.from(new Set(entesReguladores.map((ente) => ente.country))).sort();
+  }, [entesReguladores]);
 
   const carouselRef = React.useRef<HTMLDivElement>(null);
   const [carouselCanScrollLeft, setCarouselCanScrollLeft] = useState(false);
@@ -337,8 +305,9 @@ const Miembros: React.FC = () => {
                     id="miembros-carousel"
                   >
                     <div className="flex gap-6 md:gap-8 items-stretch min-w-max pb-4 px-1 md:pl-14 md:pr-14 py-2">
-                      {filteredEntesReguladores.map((ente, index) => (
-                        <Link key={`${ente.route}-${index}`} to={ente.route} className="flex-shrink-0">
+                      {filteredEntesReguladores.map((ente, index) => {
+                        const key = `${ente.country}-${ente.name}-${index}`;
+                        const motionCard = (
                           <motion.div
                             initial={{ opacity: 0, x: -20 }}
                             whileInView={{ opacity: 1, x: 0 }}
@@ -361,8 +330,20 @@ const Miembros: React.FC = () => {
                               </div>
                             </div>
                           </motion.div>
-                        </Link>
-                      ))}
+                        );
+                        if (ente.linkExternalOnly) {
+                          return (
+                            <a key={key} href={ente.externalUrl} target="_blank" rel="noopener noreferrer" className="flex-shrink-0">
+                              {motionCard}
+                            </a>
+                          );
+                        }
+                        return (
+                          <Link key={key} to={ente.route} className="flex-shrink-0">
+                            {motionCard}
+                          </Link>
+                        );
+                      })}
                     </div>
                   </div>
                   <button

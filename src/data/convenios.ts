@@ -2,10 +2,10 @@
  * Datos centralizados de convenios. Usado por: dropdown header, lista /convenios, detalle /convenios/:slug.
  */
 
-export type ConvenioSlug = "berec" | "icann" | "fcc" | "comtelca" | "prai";
+export type ConvenioSlug = string;
 
 export interface Convenio {
-  slug: ConvenioSlug;
+  slug: string;
   title: string;
   acronym: string;
   shortDescription: string;
@@ -17,9 +17,57 @@ export interface Convenio {
 
 const LOGOS = "/images/convenios";
 
+/** Clave en site_settings; valor: { items: Convenio[] } */
+export const CONVENIOS_SETTINGS_KEY = "convenios" as const;
+
+function unwrapSettingJson(value: unknown): unknown {
+  if (value == null) return null;
+  if (typeof value === "string") {
+    try {
+      return JSON.parse(value) as unknown;
+    } catch {
+      return null;
+    }
+  }
+  return value;
+}
+
+export function parseConveniosFromSettingValue(value: unknown): Convenio[] | null {
+  const root = unwrapSettingJson(value);
+  if (root == null || typeof root !== "object") return null;
+  const items = (root as { items?: unknown }).items;
+  if (!Array.isArray(items)) return null;
+  const out: Convenio[] = [];
+  for (const row of items) {
+    if (!row || typeof row !== "object") continue;
+    const r = row as Record<string, unknown>;
+    const slug = typeof r.slug === "string" ? r.slug.trim() : "";
+    const title = typeof r.title === "string" ? r.title : "";
+    const acronym = typeof r.acronym === "string" ? r.acronym : "";
+    if (!slug || !title) continue;
+    const areasRaw = r.areas;
+    const areas: string[] = Array.isArray(areasRaw)
+      ? areasRaw.filter((x): x is string => typeof x === "string")
+      : typeof areasRaw === "string"
+        ? areasRaw.split("\n").map((s) => s.trim()).filter(Boolean)
+        : [];
+    out.push({
+      slug,
+      title,
+      acronym,
+      shortDescription: typeof r.shortDescription === "string" ? r.shortDescription : "",
+      logoSrc: typeof r.logoSrc === "string" ? r.logoSrc : "",
+      downloadUrl: typeof r.downloadUrl === "string" ? r.downloadUrl : undefined,
+      areas,
+      order: typeof r.order === "number" && !Number.isNaN(r.order) ? r.order : out.length + 1,
+    });
+  }
+  return out;
+}
+
 export const convenios: Convenio[] = [
   {
-    slug: "berec" as ConvenioSlug,
+    slug: "berec",
     title: "European Regulators for Electronic Communications",
     acronym: "BEREC",
     shortDescription:
@@ -35,7 +83,7 @@ export const convenios: Convenio[] = [
     order: 1,
   },
   {
-    slug: "icann" as ConvenioSlug,
+    slug: "icann",
     title: "Internet Corporation for Assigned Names and Numbers",
     acronym: "ICANN",
     shortDescription:
@@ -50,7 +98,7 @@ export const convenios: Convenio[] = [
     order: 2,
   },
   {
-    slug: "fcc" as ConvenioSlug,
+    slug: "fcc",
     title: "Federal Communications Commission",
     acronym: "FCC",
     shortDescription:
@@ -65,7 +113,7 @@ export const convenios: Convenio[] = [
     order: 3,
   },
   {
-    slug: "comtelca" as ConvenioSlug,
+    slug: "comtelca",
     title: "Comisión Técnica Regional de Telecomunicaciones",
     acronym: "COMTELCA",
     shortDescription:
@@ -80,7 +128,7 @@ export const convenios: Convenio[] = [
     order: 4,
   },
   {
-    slug: "prai" as ConvenioSlug,
+    slug: "prai",
     title: "Memorando de entendimiento REGULATEL – PRAI",
     acronym: "PRAI",
     shortDescription:
@@ -97,10 +145,10 @@ export const convenios: Convenio[] = [
   },
 ].sort((a, b) => a.order - b.order);
 
-export function getConvenioBySlug(slug: string): Convenio | undefined {
-  return convenios.find((c) => c.slug === slug);
+export function getConvenioBySlug(slug: string, list: Convenio[] = convenios): Convenio | undefined {
+  return list.find((c) => c.slug === slug);
 }
 
-export function getConvenioSlugs(): ConvenioSlug[] {
-  return convenios.map((c) => c.slug);
+export function getConvenioSlugs(list: Convenio[] = convenios): ConvenioSlug[] {
+  return list.map((c) => c.slug);
 }

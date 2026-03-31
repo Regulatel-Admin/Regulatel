@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
-import { Newspaper, Calendar, Hash, FileText, BookOpen, Info, Users, Lock, ChevronDown, ChevronUp, Layout, Zap, FolderOpen, ImageIcon, Menu, Images, Contact, Briefcase, Library } from "lucide-react";
+import { Newspaper, Calendar, Hash, FileText, BookOpen, Info, Users, Lock, ChevronDown, ChevronUp, Layout, Zap, FolderOpen, ImageIcon, Menu, Images, Contact, Briefcase, Library, UserCircle, Building2, Handshake } from "lucide-react";
 import { projectInfo } from "@/config/projectInfo";
 
 const contentCards = [
@@ -18,6 +18,9 @@ const cards = [
   { to: "/admin/eventos", icon: Calendar, title: "Eventos", desc: "Gestionar eventos que aparecen en la home y en la sección Eventos." },
   { to: "/admin/cifras", icon: Hash, title: "REGULATEL en cifras", desc: "Modificar los números (grupos de trabajo, países, etc.)." },
   { to: "/admin/directorio-autoridades", icon: Contact, title: "Directorio de autoridades", desc: "Editar contactos oficiales por país en la página Miembros." },
+  { to: "/admin/autoridades-actuales", icon: UserCircle, title: "Autoridades actuales", desc: "Presidente y vicepresidentes en /autoridades (tarjetas y fichas)." },
+  { to: "/admin/entes-miembros", icon: Building2, title: "Entes miembros", desc: "Carrusel de reguladores en /miembros: país, rutas y enlaces." },
+  { to: "/admin/convenios", icon: Handshake, title: "Convenios", desc: "Acuerdos y memorandos en el menú y en /convenios." },
   { to: "/admin/grupos-trabajo", icon: Briefcase, title: "Grupos de trabajo", desc: "Coordinadores, miembros, enlaces e imágenes de cada GT." },
   { to: "/admin/boletines-gtai", icon: Library, title: "Boletines GTAI", desc: "Boletines del Grupo de Asuntos de Internet: PDF, metadatos, publicar y destacar." },
   { to: "/admin/documentos", icon: FileText, title: "Documentos", desc: "Subir documentos y colocarlos en su sección correcta." },

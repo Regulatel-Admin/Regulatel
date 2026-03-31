@@ -8,6 +8,7 @@ import {
   type SiteSearchType,
 } from "@/lib/siteSearch";
 import { useAdminData, useEvents, useMergedGestionDocuments } from "@/contexts/AdminDataContext";
+import { useAutoridadesActuales } from "@/contexts/SiteSettingsContext";
 import { noticiasData } from "@/pages/noticiasData";
 
 const DEBOUNCE_MS = 200;
@@ -52,6 +53,7 @@ export default function SiteSearchAutocomplete({
   const { adminNews, contentSource } = useAdminData();
   const events = useEvents();
   const documents = useMergedGestionDocuments();
+  const autoridadesActuales = useAutoridadesActuales();
   const [open, setOpen] = useState(false);
   const [results, setResults] = useState<SiteSearchResult[]>([]);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -59,6 +61,7 @@ export default function SiteSearchAutocomplete({
   const searchDocs = useMemo(
     () =>
       buildSearchDocs({
+        authorities: autoridadesActuales,
         news:
           contentSource === "database"
             ? adminNews
@@ -77,7 +80,7 @@ export default function SiteSearchAutocomplete({
         events,
         documents,
       }),
-    [adminNews, contentSource, documents, events]
+    [adminNews, autoridadesActuales, contentSource, documents, events]
   );
 
   const runSearch = useCallback((q: string) => {

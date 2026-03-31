@@ -4,6 +4,7 @@ import {
   getOtherAuthorities,
   type Authority,
 } from "@/data/authorities";
+import { useAutoridadesActuales } from "@/contexts/SiteSettingsContext";
 import {
   User,
   Building2,
@@ -157,8 +158,8 @@ function BioSections({ a }: { a: Authority }) {
   );
 }
 
-function OtrasAutoridades({ currentSlug }: { currentSlug: string }) {
-  const others = getOtherAuthorities(currentSlug, 4);
+function OtrasAutoridades({ currentSlug, authoritiesList }: { currentSlug: string; authoritiesList: Authority[] }) {
+  const others = getOtherAuthorities(currentSlug, 4, authoritiesList);
 
   if (others.length === 0) return null;
 
@@ -242,7 +243,8 @@ function OtrasAutoridades({ currentSlug }: { currentSlug: string }) {
 
 export default function AutoridadDetalle() {
   const { slug } = useParams<{ slug: string }>();
-  const authority = slug ? getAuthorityBySlug(slug) : undefined;
+  const authoritiesList = useAutoridadesActuales();
+  const authority = slug ? getAuthorityBySlug(slug, authoritiesList) : undefined;
 
   if (!authority) {
     return (
@@ -310,7 +312,7 @@ export default function AutoridadDetalle() {
           <BioSections a={authority} />
         </div>
 
-        <OtrasAutoridades currentSlug={authority.slug} />
+        <OtrasAutoridades currentSlug={authority.slug} authoritiesList={authoritiesList} />
 
         <div
           className="mt-12 flex flex-wrap items-center justify-between gap-4 border-t pt-8"

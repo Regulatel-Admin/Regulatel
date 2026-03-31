@@ -2,9 +2,10 @@ import { Link } from "react-router-dom";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import PageHero from "@/components/PageHero";
 import ConveniosList from "@/components/convenios/ConveniosList";
-import { convenios } from "@/data/convenios";
+import { useConveniosPublic } from "@/contexts/SiteSettingsContext";
 
 export default function Convenios() {
+  const convenios = useConveniosPublic();
   return (
     <>
       <PageHero

@@ -3,7 +3,7 @@
  * Components build the index from current app state; this file stays source-agnostic.
  */
 
-import { authorities } from "@/data/authorities";
+import { authorities, type Authority } from "@/data/authorities";
 
 export type SiteSearchType = "autoridad" | "noticia" | "evento" | "documento";
 
@@ -70,10 +70,13 @@ export function buildSearchDocs(input: {
   news: SearchNewsSource[];
   events: SearchEventSource[];
   documents: SearchDocumentSource[];
+  /** Si se omite, se indexan las autoridades por defecto del código. */
+  authorities?: Authority[];
 }): SiteSearchDoc[] {
   const docs: SiteSearchDoc[] = [];
+  const authorityRows = input.authorities ?? authorities;
 
-  for (const a of authorities) {
+  for (const a of authorityRows) {
     docs.push({
       id: `autoridad-${a.slug}`,
       type: "autoridad",

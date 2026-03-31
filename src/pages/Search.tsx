@@ -8,6 +8,7 @@ import {
 } from "@/lib/siteSearch";
 import type { SiteSearchResult, SiteSearchType } from "@/lib/siteSearch";
 import { useAdminData, useEvents, useMergedGestionDocuments } from "@/contexts/AdminDataContext";
+import { useAutoridadesActuales } from "@/contexts/SiteSettingsContext";
 import { noticiasData } from "./noticiasData";
 import {
   Search as SearchIcon,
@@ -100,12 +101,14 @@ export default function Search() {
   const { adminNews, contentSource } = useAdminData();
   const events = useEvents();
   const documents = useMergedGestionDocuments();
+  const autoridadesActuales = useAutoridadesActuales();
   const [searchParams, setSearchParams] = useSearchParams();
   const q = searchParams.get("q") ?? "";
   const typeFilter = (searchParams.get("type") as SiteSearchType) || null;
   const searchDocs = useMemo(
     () =>
       buildSearchDocs({
+        authorities: autoridadesActuales,
         news:
           contentSource === "database"
             ? adminNews
@@ -124,7 +127,7 @@ export default function Search() {
         events,
         documents,
       }),
-    [adminNews, contentSource, documents, events]
+    [adminNews, autoridadesActuales, contentSource, documents, events]
   );
 
   const results = q.trim()

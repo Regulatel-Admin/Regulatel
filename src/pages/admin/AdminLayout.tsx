@@ -23,6 +23,9 @@ import {
   Images,
   Contact,
   Briefcase,
+  UserCircle,
+  Handshake,
+  Building2,
 } from "lucide-react";
 
 const navContenido = [
@@ -40,6 +43,9 @@ const nav = [
   { to: "/admin/eventos", icon: Calendar, label: "Eventos" },
   { to: "/admin/cifras", icon: Hash, label: "REGULATEL en cifras" },
   { to: "/admin/directorio-autoridades", icon: Contact, label: "Directorio de autoridades" },
+  { to: "/admin/autoridades-actuales", icon: UserCircle, label: "Autoridades actuales" },
+  { to: "/admin/entes-miembros", icon: Building2, label: "Entes miembros" },
+  { to: "/admin/convenios", icon: Handshake, label: "Convenios" },
   { to: "/admin/grupos-trabajo", icon: Briefcase, label: "Grupos de trabajo" },
   { to: "/admin/boletines-gtai", icon: Newspaper, label: "Boletines GTAI" },
   { to: "/admin/documentos", icon: FileText, label: "Documentos" },

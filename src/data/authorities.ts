@@ -97,10 +97,72 @@ Durante los últimos 15 años, ha estudiado la regulación digital y tecnológic
   },
 ];
 
-export function getAuthorityBySlug(slug: string): Authority | undefined {
-  return authorities.find((a) => a.slug === slug);
+/** Clave en site_settings; valor: { authorities: Authority[] } */
+export const AUTORIDADES_ACTUALES_SETTINGS_KEY = "autoridades_actuales" as const;
+
+function unwrapSettingJson(value: unknown): unknown {
+  if (value == null) return null;
+  if (typeof value === "string") {
+    try {
+      return JSON.parse(value) as unknown;
+    } catch {
+      return null;
+    }
+  }
+  return value;
 }
 
-export function getOtherAuthorities(currentSlug: string, limit = 4): Authority[] {
-  return authorities.filter((a) => a.slug !== currentSlug).slice(0, limit);
+export function parseAuthoritiesFromSettingValue(value: unknown): Authority[] | null {
+  const root = unwrapSettingJson(value);
+  if (root == null || typeof root !== "object") return null;
+  const arr = (root as { authorities?: unknown }).authorities;
+  if (!Array.isArray(arr)) return null;
+  const out: Authority[] = [];
+  for (let i = 0; i < arr.length; i++) {
+    const row = arr[i];
+    if (!row || typeof row !== "object") continue;
+    const r = row as Record<string, unknown>;
+    const sectionsRaw = r.sections;
+    let sections: AuthoritySection[] | undefined;
+    if (Array.isArray(sectionsRaw)) {
+      const parsedSec: AuthoritySection[] = [];
+      for (const s of sectionsRaw) {
+        if (!s || typeof s !== "object") continue;
+        const o = s as Record<string, unknown>;
+        parsedSec.push({
+          title: typeof o.title === "string" ? o.title : "",
+          content: typeof o.content === "string" ? o.content : "",
+        });
+      }
+      sections = parsedSec.length ? parsedSec : undefined;
+    }
+    const slug = typeof r.slug === "string" ? r.slug.trim() : "";
+    const name = typeof r.name === "string" ? r.name : "";
+    if (!slug || !name) continue;
+    out.push({
+      id: typeof r.id === "string" && r.id ? r.id : String(i + 1),
+      slug,
+      name,
+      role: typeof r.role === "string" ? r.role : "",
+      institution: typeof r.institution === "string" ? r.institution : "",
+      institutionUrl: typeof r.institutionUrl === "string" ? r.institutionUrl : undefined,
+      country: typeof r.country === "string" ? r.country : "",
+      period: typeof r.period === "string" ? r.period : undefined,
+      image: typeof r.image === "string" ? r.image : "",
+      bio: typeof r.bio === "string" ? r.bio : "",
+      fullBio: typeof r.fullBio === "string" ? r.fullBio : "",
+      email: typeof r.email === "string" ? r.email : undefined,
+      linkedin: typeof r.linkedin === "string" ? r.linkedin : undefined,
+      sections,
+    });
+  }
+  return out;
+}
+
+export function getAuthorityBySlug(slug: string, list: Authority[] = authorities): Authority | undefined {
+  return list.find((a) => a.slug === slug);
+}
+
+export function getOtherAuthorities(currentSlug: string, limit = 4, list: Authority[] = authorities): Authority[] {
+  return list.filter((a) => a.slug !== currentSlug).slice(0, limit);
 }

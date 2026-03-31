@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, ArrowLeft } from "lucide-react";
 import PageHero from "@/components/PageHero";
-import { authorities } from "@/data/authorities";
+import type { Authority } from "@/data/authorities";
+import { useAutoridadesActuales } from "@/contexts/SiteSettingsContext";
 
-function AuthorityCard({ authority, index }: { authority: (typeof authorities)[number]; index: number }) {
+function AuthorityCard({ authority, index }: { authority: Authority; index: number }) {
   const isCenter = index === 1;
   return (
     <Link
@@ -85,6 +86,7 @@ function AuthorityCard({ authority, index }: { authority: (typeof authorities)[n
 }
 
 export default function Autoridades() {
+  const authoritiesList = useAutoridadesActuales();
   return (
     <>
       <PageHero
@@ -128,7 +130,7 @@ export default function Autoridades() {
 
           {/* Grid de autoridades: 1 col móvil, 2 tablet, 3 desktop */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6 justify-items-center">
-            {authorities.map((authority, index) => (
+            {authoritiesList.map((authority, index) => (
               <AuthorityCard key={authority.id} authority={authority} index={index} />
             ))}
           </div>

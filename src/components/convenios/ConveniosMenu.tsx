@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
-import { convenios } from "@/data/convenios";
+import { useConveniosPublic } from "@/contexts/SiteSettingsContext";
 
 interface ConveniosMenuProps {
   panelId: string;
@@ -18,6 +18,7 @@ export default function ConveniosMenu({
   onLinkClick,
   variant,
 }: ConveniosMenuProps) {
+  const convenios = useConveniosPublic();
   const isDesktop = variant === "desktop";
 
   if (isDesktop) {

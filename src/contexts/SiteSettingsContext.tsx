@@ -13,6 +13,12 @@ import type {
 import { heroInstitucional, quickLinks, featuredCarouselItems } from "@/data/home";
 import type { AlbumGaleria } from "@/data/galeria";
 import { albumesGaleria } from "@/data/galeria";
+import type { Authority } from "@/data/authorities";
+import { authorities, parseAuthoritiesFromSettingValue } from "@/data/authorities";
+import type { Convenio } from "@/data/convenios";
+import { convenios as defaultConveniosStatic, parseConveniosFromSettingValue } from "@/data/convenios";
+import type { EnteReguladorMiembro } from "@/data/entesReguladoresMiembros";
+import { defaultEntesReguladoresMiembros, parseEntesMiembrosFromSettingValue } from "@/data/entesReguladoresMiembros";
 
 export interface SiteSettingsState {
   homeHero: HomeHeroSetting | null;
@@ -20,6 +26,10 @@ export interface SiteSettingsState {
   featuredCarousel: FeaturedCarouselItemSetting[] | null;
   galleryAlbums: GalleryAlbumSetting[] | null;
   navigation: unknown | null;
+  /** null = usar datos estáticos; array (vacío o no) = lo guardado en BD. */
+  autoridadesActuales: Authority[] | null;
+  conveniosList: Convenio[] | null;
+  entesReguladoresMiembros: EnteReguladorMiembro[] | null;
   loading: boolean;
   /** Vuelve a pedir los settings al API (útil al volver al Home tras guardar en admin). */
   refetch: () => Promise<void>;
@@ -31,6 +41,9 @@ const defaultState: SiteSettingsState = {
   featuredCarousel: null,
   galleryAlbums: null,
   navigation: null,
+  autoridadesActuales: null,
+  conveniosList: null,
+  entesReguladoresMiembros: null,
   loading: true,
   refetch: async () => {},
 };
@@ -52,7 +65,13 @@ async function fetchSettings(retry = false): Promise<Omit<SiteSettingsState, "re
     }
     const errMsg = !res.ok ? res.error : "sin datos";
     console.error("[REGULATEL] El home usará datos ESTÁTICOS. La API no devolvió settings (motivo:", errMsg, "). Revisa la consola [REGULATEL API] arriba.");
-    return { ...defaultState, loading: false };
+    return {
+      ...defaultState,
+      autoridadesActuales: null,
+      conveniosList: null,
+      entesReguladoresMiembros: null,
+      loading: false,
+    };
   }
   const d = res.data;
   const rawHero = d.home_hero;
@@ -88,6 +107,51 @@ async function fetchSettings(retry = false): Promise<Omit<SiteSettingsState, "re
       return Array.isArray(parsed) ? (parsed as GalleryAlbumSetting[]) : null;
     })(),
     navigation: d.navigation != null ? d.navigation : null,
+    autoridadesActuales: (() => {
+      if (!("autoridades_actuales" in d)) return null;
+      const raw =
+        typeof d.autoridades_actuales === "string"
+          ? (() => {
+              try {
+                return JSON.parse(d.autoridades_actuales as string) as unknown;
+              } catch {
+                return d.autoridades_actuales;
+              }
+            })()
+          : d.autoridades_actuales;
+      const parsed = parseAuthoritiesFromSettingValue(raw);
+      return parsed !== null ? parsed : null;
+    })(),
+    conveniosList: (() => {
+      if (!("convenios" in d)) return null;
+      const raw =
+        typeof d.convenios === "string"
+          ? (() => {
+              try {
+                return JSON.parse(d.convenios as string) as unknown;
+              } catch {
+                return d.convenios;
+              }
+            })()
+          : d.convenios;
+      const parsed = parseConveniosFromSettingValue(raw);
+      return parsed !== null ? parsed : null;
+    })(),
+    entesReguladoresMiembros: (() => {
+      if (!("entes_reguladores_miembros" in d)) return null;
+      const raw =
+        typeof d.entes_reguladores_miembros === "string"
+          ? (() => {
+              try {
+                return JSON.parse(d.entes_reguladores_miembros as string) as unknown;
+              } catch {
+                return d.entes_reguladores_miembros;
+              }
+            })()
+          : d.entes_reguladores_miembros;
+      const parsed = parseEntesMiembrosFromSettingValue(raw);
+      return parsed !== null ? parsed : null;
+    })(),
     loading: false,
   };
 }
@@ -196,4 +260,27 @@ export function useNavigationSettings(): unknown | null {
   const { navigation, loading } = useSiteSettings();
   if (!loading && navigation) return navigation;
   return null;
+}
+
+/** Presidente y vicepresidentes (/autoridades): BD o estático. */
+export function useAutoridadesActuales(): Authority[] {
+  const { autoridadesActuales, loading } = useSiteSettings();
+  if (!loading && autoridadesActuales !== null) return autoridadesActuales;
+  return authorities;
+}
+
+/** Convenios para menú, lista y detalle. */
+export function useConveniosPublic(): Convenio[] {
+  const { conveniosList, loading } = useSiteSettings();
+  if (!loading && conveniosList !== null) {
+    return [...conveniosList].sort((a, b) => a.order - b.order);
+  }
+  return defaultConveniosStatic;
+}
+
+/** Tarjetas "Entes reguladores miembros" en /miembros. */
+export function useEntesReguladoresMiembros(): EnteReguladorMiembro[] {
+  const { entesReguladoresMiembros, loading } = useSiteSettings();
+  if (!loading && entesReguladoresMiembros !== null) return entesReguladoresMiembros;
+  return defaultEntesReguladoresMiembros;
 }
