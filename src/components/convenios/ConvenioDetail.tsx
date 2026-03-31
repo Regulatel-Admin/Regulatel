@@ -1,7 +1,15 @@
+import type { AnchorHTMLAttributes } from "react";
 import { Link } from "react-router-dom";
 import { ArrowLeft, Download, CheckCircle2, ArrowRight } from "lucide-react";
 import type { Convenio } from "@/data/convenios";
 import { convenios as defaultConvenios } from "@/data/convenios";
+
+function docAnchorProps(url: string): Pick<AnchorHTMLAttributes<HTMLAnchorElement>, "target" | "rel" | "download"> {
+  if (/^https?:\/\//i.test(url)) {
+    return { target: "_blank", rel: "noopener noreferrer" };
+  }
+  return { download: true };
+}
 
 interface ConvenioDetailProps {
   convenio: Convenio;
@@ -139,12 +147,23 @@ export default function ConvenioDetail({ convenio, allConvenios }: ConvenioDetai
           {convenio.downloadUrl && (
             <a
               href={convenio.downloadUrl}
-              download
               className="inline-flex items-center gap-2 rounded-lg px-5 py-3 text-sm font-bold text-white transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2"
               style={{ backgroundColor: "var(--regu-blue)" }}
+              {...docAnchorProps(convenio.downloadUrl)}
             >
               <Download className="h-4 w-4 shrink-0" aria-hidden />
-              Descargar memorándum
+              Documento principal
+            </a>
+          )}
+          {convenio.informeUrl && (
+            <a
+              href={convenio.informeUrl}
+              className="inline-flex items-center gap-2 rounded-lg border-2 px-5 py-3 text-sm font-bold transition hover:bg-[rgba(68,137,198,0.08)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2"
+              style={{ borderColor: "var(--regu-blue)", color: "var(--regu-blue)" }}
+              {...docAnchorProps(convenio.informeUrl)}
+            >
+              <Download className="h-4 w-4 shrink-0" aria-hidden />
+              Informe u anexo
             </a>
           )}
           <Link

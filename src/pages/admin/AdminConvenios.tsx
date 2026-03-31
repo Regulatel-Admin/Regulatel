@@ -7,6 +7,7 @@ import {
   type Convenio,
 } from "@/data/convenios";
 import { Save, Plus, Trash2, RotateCcw } from "lucide-react";
+import { AdminBlobUploadField } from "@/components/admin/AdminBlobUploadField";
 
 function emptyConvenio(order: number): Convenio {
   return {
@@ -14,7 +15,7 @@ function emptyConvenio(order: number): Convenio {
     title: "",
     acronym: "",
     shortDescription: "",
-    logoSrc: "/images/convenios/",
+    logoSrc: "",
     areas: [],
     order,
   };
@@ -183,9 +184,31 @@ export default function AdminConvenios() {
                 <Field label="Acrónimo" value={row.acronym} onChange={(v) => updateRow(index, { acronym: v })} />
                 <Field label="Orden" value={String(row.order)} onChange={(v) => updateRow(index, { order: parseInt(v, 10) || 0 })} />
                 <Field label="Título largo" value={row.title} onChange={(v) => updateRow(index, { title: v })} />
-                <Field label="Logo (ruta)" value={row.logoSrc} onChange={(v) => updateRow(index, { logoSrc: v })} />
-                <Field label="PDF / descarga (opc.)" value={row.downloadUrl ?? ""} onChange={(v) => updateRow(index, { downloadUrl: v || undefined })} />
               </div>
+              <AdminBlobUploadField
+                label="Logo del convenio"
+                value={row.logoSrc}
+                onChange={(v) => updateRow(index, { logoSrc: v })}
+                kind="image"
+                folder="attachments"
+                helpText="Imagen que aparece en lista y ficha."
+              />
+              <AdminBlobUploadField
+                label="Documento principal (memorándum / PDF)"
+                value={row.downloadUrl ?? ""}
+                onChange={(v) => updateRow(index, { downloadUrl: v || undefined })}
+                kind="document"
+                folder="attachments"
+                helpText="Primer archivo descargable (p. ej. MOU)."
+              />
+              <AdminBlobUploadField
+                label="Informe u otro documento (opc.)"
+                value={row.informeUrl ?? ""}
+                onChange={(v) => updateRow(index, { informeUrl: v || undefined })}
+                kind="document"
+                folder="attachments"
+                helpText="Segundo PDF o informe, si aplica."
+              />
               <label className="block">
                 <span className="mb-1 block text-xs font-medium" style={{ color: "var(--regu-gray-600)" }}>
                   Descripción corta

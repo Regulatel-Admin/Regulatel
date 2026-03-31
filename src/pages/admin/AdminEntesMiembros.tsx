@@ -7,9 +7,10 @@ import {
   type EnteReguladorMiembro,
 } from "@/data/entesReguladoresMiembros";
 import { Save, Plus, Trash2, RotateCcw } from "lucide-react";
+import { AdminBlobUploadField } from "@/components/admin/AdminBlobUploadField";
 
 function emptyEnte(): EnteReguladorMiembro {
-  return { name: "", country: "", fullName: "", route: "/", externalUrl: "", linkExternalOnly: false };
+  return { name: "", country: "", fullName: "", logoUrl: undefined, route: "/", externalUrl: "", linkExternalOnly: false };
 }
 
 export default function AdminEntesMiembros() {
@@ -166,6 +167,14 @@ export default function AdminEntesMiembros() {
               <Field label="URL externa" value={row.externalUrl} onChange={(v) => updateRow(index, { externalUrl: v })} />
               <Field label="Nombre completo (opc.)" value={row.fullName ?? ""} onChange={(v) => updateRow(index, { fullName: v || undefined })} />
             </div>
+            <AdminBlobUploadField
+              label="Logo del ente (imagen del carrusel)"
+              value={row.logoUrl ?? ""}
+              onChange={(v) => updateRow(index, { logoUrl: v || undefined })}
+              kind="image"
+              folder="attachments"
+              helpText="Si no subes imagen, el sitio intenta el logo local según la ruta interna (como antes)."
+            />
             <label className="flex items-center gap-2 text-sm cursor-pointer">
               <input
                 type="checkbox"

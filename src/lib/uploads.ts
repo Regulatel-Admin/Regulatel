@@ -2,7 +2,7 @@ import { api } from "@/lib/api";
 import type { BlobUploadResult } from "@/types/uploads";
 
 type UploadKind = "image" | "document";
-type UploadFolder = "news" | "events" | "documents" | "attachments";
+export type UploadFolder = "news" | "events" | "documents" | "attachments";
 
 function fileToDataUrl(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -21,6 +21,8 @@ function validateClientFile(file: File, kind: UploadKind) {
         "application/pdf",
         "application/msword",
         "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "application/vnd.ms-excel",
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
       ];
   const maxBytes = isImage ? 20 * 1024 * 1024 : 20 * 1024 * 1024;
 
@@ -28,7 +30,7 @@ function validateClientFile(file: File, kind: UploadKind) {
     throw new Error(
       isImage
         ? "Solo se permiten imágenes JPG, PNG o WEBP."
-        : "Solo se permiten PDF, DOC o DOCX."
+        : "Solo se permiten PDF, Word (DOC/DOCX) o Excel (XLS/XLSX)."
     );
   }
 

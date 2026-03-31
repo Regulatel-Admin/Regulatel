@@ -14,6 +14,8 @@ const DOCUMENT_MIME_TYPES = new Set([
   "application/pdf",
   "application/msword",
   "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  "application/vnd.ms-excel",
+  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
 ]);
 
 const MAX_IMAGE_BYTES = 20 * 1024 * 1024;

@@ -11,6 +11,8 @@ export interface Convenio {
   shortDescription: string;
   logoSrc: string;
   downloadUrl?: string;
+  /** Segundo documento (informe, anexo); opcional. */
+  informeUrl?: string;
   areas: string[];
   order: number;
 }
@@ -57,7 +59,8 @@ export function parseConveniosFromSettingValue(value: unknown): Convenio[] | nul
       acronym,
       shortDescription: typeof r.shortDescription === "string" ? r.shortDescription : "",
       logoSrc: typeof r.logoSrc === "string" ? r.logoSrc : "",
-      downloadUrl: typeof r.downloadUrl === "string" ? r.downloadUrl : undefined,
+      downloadUrl: typeof r.downloadUrl === "string" ? r.downloadUrl.trim() || undefined : undefined,
+      informeUrl: typeof r.informeUrl === "string" ? r.informeUrl.trim() || undefined : undefined,
       areas,
       order: typeof r.order === "number" && !Number.isNaN(r.order) ? r.order : out.length + 1,
     });

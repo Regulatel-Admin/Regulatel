@@ -8,6 +8,7 @@ import {
   type AuthoritySection,
 } from "@/data/authorities";
 import { Save, Plus, Trash2, RotateCcw } from "lucide-react";
+import { AdminBlobUploadField } from "@/components/admin/AdminBlobUploadField";
 
 function emptyAuthority(): Authority {
   return {
@@ -216,10 +217,17 @@ export default function AdminAutoridadesActuales() {
               <Field label="URL institución" value={row.institutionUrl ?? ""} onChange={(v) => updateAuth(aidx, { institutionUrl: v || undefined })} />
               <Field label="País" value={row.country} onChange={(v) => updateAuth(aidx, { country: v })} />
               <Field label="Período (opc.)" value={row.period ?? ""} onChange={(v) => updateAuth(aidx, { period: v || undefined })} />
-              <Field label="Imagen (ruta)" value={row.image} onChange={(v) => updateAuth(aidx, { image: v })} placeholder="/images/autoridades/..." />
               <Field label="Email (opc.)" value={row.email ?? ""} onChange={(v) => updateAuth(aidx, { email: v || undefined })} type="email" />
               <Field label="Linkedin (opc.)" value={row.linkedin ?? ""} onChange={(v) => updateAuth(aidx, { linkedin: v || undefined })} />
             </div>
+            <AdminBlobUploadField
+              label="Foto de la autoridad"
+              value={row.image}
+              onChange={(v) => updateAuth(aidx, { image: v })}
+              kind="image"
+              folder="attachments"
+              helpText="Sube la imagen a almacenamiento (blob) o despliega «Pegar URL manual» para una ruta local u otra URL."
+            />
             <label className="block">
               <span className="mb-1 block text-xs font-medium" style={{ color: "var(--regu-gray-600)" }}>
                 Resumen (tarjeta)

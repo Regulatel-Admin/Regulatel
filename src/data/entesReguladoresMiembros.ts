@@ -7,6 +7,8 @@ export interface EnteReguladorMiembro {
   name: string;
   country: string;
   fullName?: string;
+  /** Logo en carrusel (URL absoluta o blob); si falta, se usa el mapa local por ruta. */
+  logoUrl?: string;
   /** Ruta interna, ej. /enacom (debe existir en el sitio salvo linkExternalOnly). */
   route: string;
   /** Sitio u página de referencia del ente. */
@@ -43,10 +45,12 @@ export function parseEntesMiembrosFromSettingValue(value: unknown): EnteRegulado
     const route = typeof r.route === "string" ? r.route.trim() : "";
     const externalUrl = typeof r.externalUrl === "string" ? r.externalUrl.trim() : "";
     if (!name || !country || !externalUrl) continue;
+    const logoUrlRaw = typeof r.logoUrl === "string" ? r.logoUrl.trim() : "";
     out.push({
       name,
       country,
       fullName: typeof r.fullName === "string" ? r.fullName : undefined,
+      logoUrl: logoUrlRaw || undefined,
       route: route || "/",
       externalUrl,
       linkExternalOnly: r.linkExternalOnly === true,

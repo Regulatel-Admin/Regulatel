@@ -1,6 +1,14 @@
+import type { AnchorHTMLAttributes } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Download } from "lucide-react";
 import type { Convenio } from "@/data/convenios";
+
+function docAnchorProps(url: string): Pick<AnchorHTMLAttributes<HTMLAnchorElement>, "target" | "rel" | "download"> {
+  if (/^https?:\/\//i.test(url)) {
+    return { target: "_blank", rel: "noopener noreferrer" };
+  }
+  return { download: true };
+}
 
 interface ConveniosListProps {
   convenios: Convenio[];
@@ -124,12 +132,23 @@ export default function ConveniosList({ convenios }: ConveniosListProps) {
                   {c.downloadUrl && (
                     <a
                       href={c.downloadUrl}
-                      download
                       className="inline-flex items-center gap-1.5 rounded-lg border-2 px-4 py-2 text-xs font-bold uppercase tracking-[0.07em] transition hover:bg-[rgba(68,137,198,0.07)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2"
                       style={{ borderColor: "var(--regu-blue)", color: "var(--regu-blue)" }}
+                      {...docAnchorProps(c.downloadUrl)}
                     >
                       <Download className="h-3.5 w-3.5 shrink-0" aria-hidden />
-                      Descargar memorándum
+                      Documento principal
+                    </a>
+                  )}
+                  {c.informeUrl && (
+                    <a
+                      href={c.informeUrl}
+                      className="inline-flex items-center gap-1.5 rounded-lg border-2 px-4 py-2 text-xs font-bold uppercase tracking-[0.07em] transition hover:bg-[rgba(68,137,198,0.07)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2"
+                      style={{ borderColor: "var(--regu-blue)", color: "var(--regu-blue)" }}
+                      {...docAnchorProps(c.informeUrl)}
+                    >
+                      <Download className="h-3.5 w-3.5 shrink-0" aria-hidden />
+                      Informe u anexo
                     </a>
                   )}
                 </div>

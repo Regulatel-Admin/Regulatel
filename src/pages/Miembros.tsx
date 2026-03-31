@@ -51,16 +51,18 @@ const logoUrlMap: Record<string, string> = {
 };
 
 // Componente inteligente para cargar logos con múltiples intentos
-const LogoImage: React.FC<{ name: string; route: string }> = ({ name, route }) => {
+const LogoImage: React.FC<{ name: string; route: string; logoUrl?: string }> = ({ name, route, logoUrl }) => {
   const [imgSrc, setImgSrc] = React.useState<string>('');
   const [hasError, setHasError] = React.useState(false);
   const [currentUrlIndex, setCurrentUrlIndex] = useState(0);
-  const routeKey = route.replace('/', '');
-  
+  const routeKey = route.replace(/^\//, '').split('/')[0] ?? '';
+
   const possibleUrls = React.useMemo(() => {
+    const custom = logoUrl?.trim();
+    if (custom) return [custom];
     const url = logoUrlMap[routeKey];
     return url ? [url] : [];
-  }, [routeKey]);
+  }, [routeKey, logoUrl]);
   
   useEffect(() => {
     if (possibleUrls.length > 0) {
@@ -318,7 +320,7 @@ const Miembros: React.FC = () => {
                             style={{ backgroundColor: "var(--regu-offwhite)", borderColor: "var(--regu-gray-100)" }}
                           >
                             <div className="w-[256px] h-[256px] md:w-[312px] md:h-[312px] flex-shrink-0 mb-5 flex items-center justify-center bg-white rounded-xl p-2 md:p-3 shadow-sm group-hover:shadow-md transition-shadow border" style={{ borderColor: "var(--regu-gray-100)" }}>
-                              <LogoImage name={ente.name} route={ente.route} />
+                              <LogoImage name={ente.name} route={ente.route} logoUrl={ente.logoUrl} />
                             </div>
                             <div className="text-center flex-1 flex flex-col justify-end min-h-0">
                               {ente.fullName && (
