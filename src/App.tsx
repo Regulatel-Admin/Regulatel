@@ -21,6 +21,7 @@ import AdminGruposTrabajo from '@/pages/admin/AdminGruposTrabajo';
 import AdminBoletinesGtai from '@/pages/admin/AdminBoletinesGtai';
 import AdminDocumentos from '@/pages/admin/AdminDocumentos';
 import AdminRevista from '@/pages/admin/AdminRevista';
+import AdminBuenasPracticasRegulatorias from '@/pages/admin/AdminBuenasPracticasRegulatorias';
 import AdminUsuarios from '@/pages/admin/AdminUsuarios';
 import AdminAccesoActas from '@/pages/admin/AdminAccesoActas';
 import AdminContentHome from '@/pages/admin/content/AdminContentHome';
@@ -89,6 +90,7 @@ function App() {
               <Route path="grupos-trabajo" element={<AdminGruposTrabajo />} />
               <Route path="boletines-gtai" element={<AdminBoletinesGtai />} />
               <Route path="documentos" element={<AdminDocumentos />} />
+              <Route path="buenas-practicas" element={<AdminBuenasPracticasRegulatorias />} />
               <Route path="revista" element={<AdminRevista />} />
               <Route path="usuarios" element={<AdminUsuarios />} />
               <Route path="acceso-actas" element={<AdminAccesoActas />} />

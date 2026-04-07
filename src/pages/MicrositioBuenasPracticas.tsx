@@ -9,9 +9,12 @@ import {
   mejoresPracticasData,
   getLinkCountByCountry,
   normalizeScrapedRegulatelJson,
+  BUENAS_PRACTICAS_PAGE_DEFAULT_TITLE,
+  BUENAS_PRACTICAS_PAGE_DEFAULT_DESCRIPTION,
   type CountryPracticesData,
   type ScrapedRegulatelEntry,
 } from "@/data/mejoresPracticas";
+import { useSiteSettings } from "@/contexts/SiteSettingsContext";
 import { Globe, ChevronDown, ChevronUp, LayoutList } from "lucide-react";
 
 function getUniqueCategoryNamesFromData(data: CountryPracticesData[]): string[] {
@@ -46,13 +49,31 @@ function countryMatchesSearch(data: CountryPracticesData, query: string): boolea
 }
 
 export default function MicrositioBuenasPracticas() {
+  const { buenasPracticasRegulatorias, loading: settingsLoading } = useSiteSettings();
   const [dataList, setDataList] = useState<CountryPracticesData[]>(mejoresPracticasData);
   const [searchQuery, setSearchQuery] = useState("");
   const [categoryFilter, setCategoryFilter] = useState<string>("");
   const [expandAll, setExpandAll] = useState<boolean | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
+  const pageTitle =
+    !settingsLoading && buenasPracticasRegulatorias?.pageTitle?.trim()
+      ? buenasPracticasRegulatorias.pageTitle.trim()
+      : BUENAS_PRACTICAS_PAGE_DEFAULT_TITLE;
+  const pageDescription =
+    !settingsLoading && buenasPracticasRegulatorias?.pageDescription?.trim()
+      ? buenasPracticasRegulatorias.pageDescription.trim()
+      : BUENAS_PRACTICAS_PAGE_DEFAULT_DESCRIPTION;
+
   useEffect(() => {
+    if (settingsLoading) return;
+    if (buenasPracticasRegulatorias != null && buenasPracticasRegulatorias.entries.length > 0) {
+      const normalized = normalizeScrapedRegulatelJson(buenasPracticasRegulatorias.entries);
+      if (normalized.length > 0) {
+        setDataList(normalized);
+        return;
+      }
+    }
     fetch("/mejoresPracticasRegulatel.json")
       .then((r) => (r.ok ? r.json() : Promise.reject(new Error("No JSON"))))
       .then((raw: ScrapedRegulatelEntry[]) => {
@@ -60,7 +81,7 @@ export default function MicrositioBuenasPracticas() {
         if (normalized.length > 0) setDataList(normalized);
       })
       .catch(() => {});
-  }, []);
+  }, [settingsLoading, buenasPracticasRegulatorias]);
 
   const bySlug = useMemo(() => new Map(dataList.map((d) => [d.slug, d])), [dataList]);
 
@@ -151,8 +172,8 @@ export default function MicrositioBuenasPracticas() {
       }}
     >
       <PageHero
-        title="Buenas Prácticas Regulatorias"
-        description="Consulte prácticas, iniciativas y recursos regulatorios de telecomunicaciones por país y categoría. Información proporcionada por los miembros de REGULATEL."
+        title={pageTitle}
+        description={pageDescription}
         breadcrumb={[
           { label: "Inicio", path: "/" },
           { label: "Recursos", path: "/gestion" },

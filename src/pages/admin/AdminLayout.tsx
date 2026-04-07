@@ -26,6 +26,7 @@ import {
   UserCircle,
   Handshake,
   Building2,
+  Scale,
 } from "lucide-react";
 
 const navContenido = [
@@ -49,6 +50,7 @@ const nav = [
   { to: "/admin/grupos-trabajo", icon: Briefcase, label: "Grupos de trabajo" },
   { to: "/admin/boletines-gtai", icon: Newspaper, label: "Boletines GTAI" },
   { to: "/admin/documentos", icon: FileText, label: "Documentos" },
+  { to: "/admin/buenas-practicas", icon: Scale, label: "Buenas Prácticas" },
   { to: "/admin/revista", icon: BookOpen, label: "Revista Digital" },
 ];
 

@@ -19,6 +19,8 @@ import type { Convenio } from "@/data/convenios";
 import { convenios as defaultConveniosStatic, parseConveniosFromSettingValue } from "@/data/convenios";
 import type { EnteReguladorMiembro } from "@/data/entesReguladoresMiembros";
 import { defaultEntesReguladoresMiembros, parseEntesMiembrosFromSettingValue } from "@/data/entesReguladoresMiembros";
+import type { BuenasPracticasRegulatoriasSetting } from "@/data/mejoresPracticas";
+import { parseBuenasPracticasRegulatoriasFromSettingValue } from "@/data/mejoresPracticas";
 
 export interface SiteSettingsState {
   homeHero: HomeHeroSetting | null;
@@ -30,6 +32,8 @@ export interface SiteSettingsState {
   autoridadesActuales: Authority[] | null;
   conveniosList: Convenio[] | null;
   entesReguladoresMiembros: EnteReguladorMiembro[] | null;
+  /** null = clave ausente en BD (usar JSON estático / fallback). Objeto = lo guardado (entries puede estar vacío). */
+  buenasPracticasRegulatorias: BuenasPracticasRegulatoriasSetting | null;
   loading: boolean;
   /** Vuelve a pedir los settings al API (útil al volver al Home tras guardar en admin). */
   refetch: () => Promise<void>;
@@ -44,6 +48,7 @@ const defaultState: SiteSettingsState = {
   autoridadesActuales: null,
   conveniosList: null,
   entesReguladoresMiembros: null,
+  buenasPracticasRegulatorias: null,
   loading: true,
   refetch: async () => {},
 };
@@ -70,6 +75,7 @@ async function fetchSettings(retry = false): Promise<Omit<SiteSettingsState, "re
       autoridadesActuales: null,
       conveniosList: null,
       entesReguladoresMiembros: null,
+      buenasPracticasRegulatorias: null,
       loading: false,
     };
   }
@@ -151,6 +157,20 @@ async function fetchSettings(retry = false): Promise<Omit<SiteSettingsState, "re
           : d.entes_reguladores_miembros;
       const parsed = parseEntesMiembrosFromSettingValue(raw);
       return parsed !== null ? parsed : null;
+    })(),
+    buenasPracticasRegulatorias: (() => {
+      if (!("buenas_practicas_regulatorias" in d)) return null;
+      const raw =
+        typeof d.buenas_practicas_regulatorias === "string"
+          ? (() => {
+              try {
+                return JSON.parse(d.buenas_practicas_regulatorias as string) as unknown;
+              } catch {
+                return d.buenas_practicas_regulatorias;
+              }
+            })()
+          : d.buenas_practicas_regulatorias;
+      return parseBuenasPracticasRegulatoriasFromSettingValue(raw);
     })(),
     loading: false,
   };
@@ -283,4 +303,11 @@ export function useEntesReguladoresMiembros(): EnteReguladorMiembro[] {
   const { entesReguladoresMiembros, loading } = useSiteSettings();
   if (!loading && entesReguladoresMiembros !== null) return entesReguladoresMiembros;
   return defaultEntesReguladoresMiembros;
+}
+
+/** CMS de Buenas Prácticas: null si no hay fila en BD. */
+export function useBuenasPracticasRegulatoriasSetting(): BuenasPracticasRegulatoriasSetting | null {
+  const { buenasPracticasRegulatorias, loading } = useSiteSettings();
+  if (loading) return null;
+  return buenasPracticasRegulatorias;
 }

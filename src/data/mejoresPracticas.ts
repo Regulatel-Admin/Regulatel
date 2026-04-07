@@ -174,6 +174,65 @@ export interface ScrapedRegulatelEntry {
   categories?: { name?: string; links?: { title?: string; url?: string }[] }[];
 }
 
+/** Valor guardado en site_settings para CMS de /micrositio-buenas-practicas */
+export interface BuenasPracticasRegulatoriasSetting {
+  pageTitle?: string;
+  pageDescription?: string;
+  entries: ScrapedRegulatelEntry[];
+}
+
+export const BUENAS_PRACTICAS_REGULATORIAS_KEY = "buenas_practicas_regulatorias" as const;
+
+export const BUENAS_PRACTICAS_PAGE_DEFAULT_TITLE = "Buenas Prácticas Regulatorias";
+export const BUENAS_PRACTICAS_PAGE_DEFAULT_DESCRIPTION =
+  "Consulte prácticas, iniciativas y recursos regulatorios de telecomunicaciones por país y categoría. Información proporcionada por los miembros de REGULATEL.";
+
+function unwrapSettingJson(value: unknown): unknown {
+  if (value == null) return null;
+  if (typeof value === "string") {
+    try {
+      return JSON.parse(value) as unknown;
+    } catch {
+      return null;
+    }
+  }
+  return value;
+}
+
+/** Interpreta el valor en BD; si falta estructura devuelve entries vacíos. */
+export function parseBuenasPracticasRegulatoriasFromSettingValue(value: unknown): BuenasPracticasRegulatoriasSetting {
+  const root = unwrapSettingJson(value);
+  if (root == null || typeof root !== "object") {
+    return { entries: [] };
+  }
+  const obj = root as Record<string, unknown>;
+  const raw = obj.entries;
+  const entries: ScrapedRegulatelEntry[] = Array.isArray(raw)
+    ? (raw as ScrapedRegulatelEntry[]).filter((e) => e != null && typeof e === "object")
+    : Array.isArray(root)
+      ? (root as ScrapedRegulatelEntry[])
+      : [];
+  return {
+    pageTitle: typeof obj.pageTitle === "string" ? obj.pageTitle : undefined,
+    pageDescription: typeof obj.pageDescription === "string" ? obj.pageDescription : undefined,
+    entries,
+  };
+}
+
+export function emptyScrapedCategory(): { name: string; links: { title: string; url: string }[] } {
+  return { name: "", links: [{ title: "", url: "" }] };
+}
+
+export function emptyScrapedEntry(): ScrapedRegulatelEntry {
+  return {
+    country: "",
+    entity: "",
+    acronym: "",
+    detailUrl: "",
+    categories: [emptyScrapedCategory()],
+  };
+}
+
 /** Convierte el JSON extraído del sitio oficial a CountryPracticesData[] */
 export function normalizeScrapedRegulatelJson(
   raw: ScrapedRegulatelEntry[]
