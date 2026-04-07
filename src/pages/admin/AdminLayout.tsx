@@ -116,16 +116,59 @@ export default function AdminLayout() {
           borderColor: "var(--regu-gray-100)",
         }}
       >
-        <div className="flex h-full flex-col py-6 pl-4 pr-2 md:pl-4 md:pr-2">
+        <div className="flex h-full min-h-0 flex-col py-6 pl-4 pr-2 md:pl-4 md:pr-2">
           <Link
             to="/admin"
-            className="px-2 pb-4 text-lg font-bold"
+            className="px-2 pb-2 text-lg font-bold shrink-0"
             style={{ color: "var(--regu-navy)" }}
             onClick={() => setSidebarOpen(false)}
           >
             Admin REGULATEL
           </Link>
-          <nav className="space-y-0.5 px-2" aria-label="Administración">
+
+          <div className="mt-2 shrink-0 space-y-2 px-2">
+            <Link
+              to="/"
+              onClick={() => setSidebarOpen(false)}
+              className="flex items-center gap-3 rounded-lg border-2 px-3 py-2.5 text-sm font-semibold transition hover:opacity-90"
+              style={{
+                borderColor: "var(--regu-blue)",
+                color: "var(--regu-blue)",
+                backgroundColor: "rgba(22, 61, 89, 0.06)",
+              }}
+            >
+              <Home className="h-4 w-4 shrink-0" aria-hidden />
+              Ir a home
+            </Link>
+            <button
+              type="button"
+              onClick={() => {
+                void logout();
+                navigate("/login");
+              }}
+              className="flex w-full items-center gap-3 rounded-lg border px-3 py-2 text-sm font-medium transition hover:bg-[rgba(22,61,89,0.04)]"
+              style={{
+                borderColor: "var(--regu-gray-200)",
+                color: "var(--regu-gray-800)",
+              }}
+              aria-label="Cerrar sesión"
+            >
+              <LogOut className="h-4 w-4 shrink-0" aria-hidden />
+              Cerrar sesión
+            </button>
+          </div>
+
+          {user && (
+            <p
+              className="mt-3 mx-2 shrink-0 truncate rounded-lg px-3 py-2 text-xs"
+              style={{ color: "var(--regu-gray-500)", backgroundColor: "var(--regu-gray-100)" }}
+              title={user.email}
+            >
+              {user.name || user.email}
+            </p>
+          )}
+
+          <nav className="mt-4 min-h-0 flex-1 space-y-0.5 overflow-y-auto overscroll-contain px-2 pb-2" aria-label="Administración">
             <p className="mb-1 px-3 text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--regu-gray-400)" }}>
               Contenido
             </p>
@@ -208,41 +251,6 @@ export default function AdminLayout() {
               </>
             )}
           </nav>
-
-          {user && (
-            <p
-              className="mt-4 px-3 py-2 text-xs truncate rounded-lg"
-              style={{ color: "var(--regu-gray-500)", backgroundColor: "var(--regu-gray-100)" }}
-              title={user.email}
-            >
-              {user.name || user.email}
-            </p>
-          )}
-
-          <div className="mt-auto border-t pt-4" style={{ borderColor: "var(--regu-gray-100)" }}>
-            <Link
-              to="/"
-              onClick={() => setSidebarOpen(false)}
-              className="mb-2 flex items-center gap-3 rounded-lg border-2 px-3 py-2.5 text-sm font-semibold transition hover:opacity-90"
-              style={{ borderColor: "var(--regu-blue)", color: "var(--regu-blue)", backgroundColor: "rgba(22, 61, 89, 0.06)" }}
-            >
-              <Home className="h-4 w-4" aria-hidden />
-              Ir a home
-            </Link>
-            <button
-              type="button"
-              onClick={() => {
-                void logout();
-                navigate("/login");
-              }}
-              className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition hover:opacity-80"
-              style={{ color: "var(--regu-gray-700)" }}
-              aria-label="Cerrar sesión"
-            >
-              <LogOut className="h-4 w-4" aria-hidden />
-              Cerrar sesión
-            </button>
-          </div>
         </div>
       </aside>
 
