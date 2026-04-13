@@ -148,7 +148,7 @@ export default function ProtocolosYProcedimientos() {
                   className="text-lg font-bold mb-1"
                   style={{ color: "var(--regu-gray-900)" }}
                 >
-                  Protocolos y seguimientos del foro de Regulatel (julio 2014)
+                  Protocolos y procedimientos del foro de Regulatel (julio 2014)
                 </h3>
                 <p
                   className="text-sm"
