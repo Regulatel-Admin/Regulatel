@@ -2,9 +2,9 @@
  * Dataset legacy de eventos para fallback de lectura pública.
  * En producción, la fuente principal debe ser Neon vía API.
  *
- * Para añadir nuevos eventos o cambiar URLs de registro:
- * → Panel Admin: /admin/eventos (crear / editar / eliminar / duplicar).
- * Este archivo queda como respaldo cuando la API no está disponible.
+ * Para añadir o editar eventos en producción: Panel Admin → /admin/eventos.
+ * Este archivo solo se usa en el sitio cuando la API no está disponible (modo legacy);
+ * si la base responde, la lista pública es exclusivamente la de la base de datos.
  */
 
 import type { Event } from "@/types/event";
