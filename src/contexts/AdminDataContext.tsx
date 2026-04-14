@@ -414,15 +414,18 @@ export function useMergedNews(): HomeNewsItemLike[] {
 
 /**
  * Lista de eventos para el sitio público y búsqueda.
- * Con API (database): solo los eventos persistidos en Neon — coincide con /admin/eventos.
- * Sin API (legacy o carga inicial): dataset estático de respaldo (eventsSeed).
+ * Siempre muestra el seed estático como base; cuando la API responde (database),
+ * los eventos guardados en la BD sobreescriben al seed con el mismo id.
+ * Así la página siempre tiene eventos aunque la BD esté vacía, y al importar
+ * desde el panel se pueden editar sin tocar el código.
  */
 export function useEvents(): Event[] {
   const ctx = useContext(AdminDataContext);
   const seedNormalized = EVENTS_SEED.map(normalizeEvent);
   if (!ctx || ctx.contentSource !== "database") return seedNormalized;
-  const list = (ctx.events ?? []).map((e) => normalizeEvent(e));
-  return [...list].sort((a, b) => {
+  const dbIds = new Set((ctx.events ?? []).map((e) => e.id));
+  const staticFiltered = seedNormalized.filter((e) => !dbIds.has(e.id));
+  return [...staticFiltered, ...(ctx.events ?? []).map(normalizeEvent)].sort((a, b) => {
     const dA = a.startDate;
     const dB = b.startDate;
     return dA > dB ? -1 : dA < dB ? 1 : 0;
