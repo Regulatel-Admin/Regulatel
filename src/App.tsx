@@ -18,6 +18,7 @@ import AdminAutoridadesActuales from '@/pages/admin/AdminAutoridadesActuales';
 import AdminConvenios from '@/pages/admin/AdminConvenios';
 import AdminEntesMiembros from '@/pages/admin/AdminEntesMiembros';
 import AdminGruposTrabajo from '@/pages/admin/AdminGruposTrabajo';
+import AdminComiteEjecutivo from '@/pages/admin/AdminComiteEjecutivo';
 import AdminBoletinesGtai from '@/pages/admin/AdminBoletinesGtai';
 import AdminDocumentos from '@/pages/admin/AdminDocumentos';
 import AdminRevista from '@/pages/admin/AdminRevista';
@@ -88,6 +89,7 @@ function App() {
               <Route path="convenios" element={<AdminConvenios />} />
               <Route path="entes-miembros" element={<AdminEntesMiembros />} />
               <Route path="grupos-trabajo" element={<AdminGruposTrabajo />} />
+              <Route path="comite-ejecutivo" element={<AdminComiteEjecutivo />} />
               <Route path="boletines-gtai" element={<AdminBoletinesGtai />} />
               <Route path="documentos" element={<AdminDocumentos />} />
               <Route path="buenas-practicas" element={<AdminBuenasPracticasRegulatorias />} />

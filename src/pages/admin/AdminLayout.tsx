@@ -27,6 +27,7 @@ import {
   Handshake,
   Building2,
   Scale,
+  Crown,
 } from "lucide-react";
 
 const navContenido = [
@@ -48,6 +49,7 @@ const nav = [
   { to: "/admin/entes-miembros", icon: Building2, label: "Entes miembros" },
   { to: "/admin/convenios", icon: Handshake, label: "Convenios" },
   { to: "/admin/grupos-trabajo", icon: Briefcase, label: "Grupos de trabajo" },
+  { to: "/admin/comite-ejecutivo", icon: Crown, label: "Comité Ejecutivo" },
   { to: "/admin/boletines-gtai", icon: Newspaper, label: "Boletines GTAI" },
   { to: "/admin/documentos", icon: FileText, label: "Documentos" },
   { to: "/admin/buenas-practicas", icon: Scale, label: "Buenas Prácticas" },

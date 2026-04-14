@@ -1,8 +1,14 @@
+import { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { ArrowLeft, ArrowRight, CheckCircle2 } from "lucide-react";
 import PageHero from "@/components/PageHero";
+import { api } from "@/lib/api";
 import {
-  comiteEjecutivoData,
+  COMITE_EJECUTIVO_SETTINGS_KEY,
+  defaultComiteEjecutivoCmsDocument,
+  parseComiteEjecutivoCmsFromSettingValue,
+  resolveComiteEjecutivoUi,
+  type ComiteEjecutivoCmsDocument,
   type ComiteMemberLogo,
 } from "@/data/comiteEjecutivo";
 
@@ -98,18 +104,44 @@ function SectionHeader({ title, subtitle }: { title: string; subtitle?: string }
 }
 
 export default function ComiteEjecutivo() {
-  const d = comiteEjecutivoData;
-  const miembrosOrdenados = [...d.miembros].sort((a, b) =>
+  const [doc, setDoc] = useState<ComiteEjecutivoCmsDocument>(() => defaultComiteEjecutivoCmsDocument());
+
+  const load = useCallback(async () => {
+    const res = await api.settings.get(COMITE_EJECUTIVO_SETTINGS_KEY);
+    if (res.ok && res.data && res.data.value != null) {
+      const parsed = parseComiteEjecutivoCmsFromSettingValue(res.data.value);
+      if (parsed) {
+        setDoc(parsed);
+        return;
+      }
+    }
+    setDoc(defaultComiteEjecutivoCmsDocument());
+  }, []);
+
+  useEffect(() => {
+    void load();
+  }, [load]);
+
+  useEffect(() => {
+    const onVis = () => {
+      if (document.visibilityState === "visible") void load();
+    };
+    document.addEventListener("visibilitychange", onVis);
+    return () => document.removeEventListener("visibilitychange", onVis);
+  }, [load]);
+
+  const ui = resolveComiteEjecutivoUi(doc);
+  const miembrosOrdenados = [...doc.miembros].sort((a, b) =>
     (a.country || a.name).localeCompare(b.country || b.name, "es")
   );
 
   return (
     <>
       <PageHero
-        title="Comité Ejecutivo"
-        subtitle="QUIÉNES SOMOS"
-        breadcrumb={[{ label: "Comité Ejecutivo" }]}
-        description="Organismos reguladores que lideran la dirección estratégica del Foro y coordinan el plan de trabajo anual."
+        title={ui.heroTitle}
+        subtitle={ui.heroSubtitle}
+        breadcrumb={[{ label: ui.heroTitle }]}
+        description={ui.heroDescription}
       />
 
       <div
@@ -126,10 +158,7 @@ export default function ComiteEjecutivo() {
         >
           {/* Presidente + Vicepresidentes en una sola línea */}
           <section className="mb-16 md:mb-20">
-            <SectionHeader
-              title="Presidencia y Vicepresidencias"
-              subtitle="Elegidos anualmente por la Asamblea Plenaria"
-            />
+            <SectionHeader title={ui.presidenciaTitle} subtitle={ui.presidenciaSubtitle} />
             <div className="flex flex-row flex-wrap items-start justify-center gap-8 md:gap-12 lg:gap-16">
               {/* Presidente */}
               <div className="flex flex-col items-center gap-3">
@@ -139,7 +168,7 @@ export default function ComiteEjecutivo() {
                 >
                   Presidente
                 </span>
-                <LogoBlock item={d.presidente} size="xl" />
+                <LogoBlock item={doc.presidente} size="xl" />
               </div>
               {/* Vicepresidentes (misma línea, orden mantenido) */}
               <div className="flex flex-col items-center gap-3">
@@ -150,7 +179,7 @@ export default function ComiteEjecutivo() {
                   Vicepresidencias
                 </span>
                 <div className="flex flex-wrap items-center justify-center gap-10 md:gap-12">
-                  {d.vicepresidentes.map((v, i) => (
+                  {doc.vicepresidentes.map((v, i) => (
                     <LogoBlock key={i} item={v} size="lg" />
                   ))}
                 </div>
@@ -160,10 +189,7 @@ export default function ComiteEjecutivo() {
 
           {/* Miembros del Comité */}
           <section className="mb-16 md:mb-20">
-            <SectionHeader
-              title="Miembros del Comité"
-              subtitle="Orden alfabético por país"
-            />
+            <SectionHeader title={ui.miembrosTitle} subtitle={ui.miembrosSubtitle} />
             <div className="grid grid-cols-2 place-items-center gap-8 sm:gap-10 md:grid-cols-3 lg:gap-12 mx-auto max-w-[900px]">
               {miembrosOrdenados.map((m, i) => (
                 <div key={i} className="flex flex-col items-center gap-2">
@@ -195,16 +221,16 @@ export default function ComiteEjecutivo() {
                 style={{ backgroundColor: "var(--regu-blue)" }}
                 aria-hidden
               />
-              Funciones principales
+              {ui.funcionesSectionTitle}
             </h2>
             <p
               className="mb-6 mt-3 text-base leading-relaxed md:text-[1.0625rem]"
               style={{ color: "var(--regu-gray-600)" }}
             >
-              {d.funcionesIntro}
+              {doc.funcionesIntro}
             </p>
             <ul className="space-y-3">
-              {d.funciones.map((f, i) => (
+              {doc.funciones.map((f, i) => (
                 <li
                   key={i}
                   className="flex items-start gap-3 text-base leading-relaxed md:text-[1.0625rem]"

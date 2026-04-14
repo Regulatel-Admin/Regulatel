@@ -8,6 +8,7 @@ const PATH_LABELS: Record<string, string> = {
   "/admin/cifras": "REGULATEL en cifras",
   "/admin/documentos": "Documentos",
   "/admin/buenas-practicas": "Buenas Prácticas",
+  "/admin/comite-ejecutivo": "Comité Ejecutivo",
   "/admin/revista": "Revista Digital",
   "/admin/usuarios": "Usuarios y auditoría",
   "/admin/acceso-actas": "Acceso a actas",

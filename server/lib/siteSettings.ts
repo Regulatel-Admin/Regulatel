@@ -16,6 +16,7 @@ const ALLOWED_KEYS = [
   "grupos_trabajo",
   "boletines_gtai",
   "buenas_practicas_regulatorias",
+  "comite_ejecutivo",
 ] as const;
 
 export type SiteSettingKey = (typeof ALLOWED_KEYS)[number];
@@ -57,7 +58,7 @@ export async function getSetting(key: string): Promise<{ key: string; value: unk
 const ALLOWED_SET = new Set<string>(ALLOWED_KEYS);
 
 /** Claves cuyo valor es texto CMS: aplicar reparación UTF-8 mal grabado (mojibake) al leer. */
-const MOJIBAKE_FIX_KEYS = new Set<string>(["directorio_autoridades", "grupos_trabajo", "boletines_gtai", "buenas_practicas_regulatorias"]);
+const MOJIBAKE_FIX_KEYS = new Set<string>(["directorio_autoridades", "grupos_trabajo", "boletines_gtai", "buenas_practicas_regulatorias", "comite_ejecutivo"]);
 
 function postProcessValue(key: string, value: unknown): unknown {
   if (!MOJIBAKE_FIX_KEYS.has(key)) return value;

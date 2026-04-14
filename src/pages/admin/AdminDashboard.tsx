@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
-import { Newspaper, Calendar, Hash, FileText, BookOpen, Info, Users, Lock, ChevronDown, ChevronUp, Layout, Zap, FolderOpen, ImageIcon, Menu, Images, Contact, Briefcase, Library, UserCircle, Building2, Handshake, Scale } from "lucide-react";
+import { Newspaper, Calendar, Hash, FileText, BookOpen, Info, Users, Lock, ChevronDown, ChevronUp, Layout, Zap, FolderOpen, ImageIcon, Menu, Images, Contact, Briefcase, Library, UserCircle, Building2, Handshake, Scale, Crown } from "lucide-react";
 import { projectInfo } from "@/config/projectInfo";
 
 const contentCards = [
@@ -22,6 +22,7 @@ const cards = [
   { to: "/admin/entes-miembros", icon: Building2, title: "Entes miembros", desc: "Carrusel de reguladores en /miembros: país, rutas y enlaces." },
   { to: "/admin/convenios", icon: Handshake, title: "Convenios", desc: "Acuerdos y memorandos en el menú y en /convenios." },
   { to: "/admin/grupos-trabajo", icon: Briefcase, title: "Grupos de trabajo", desc: "Coordinadores, miembros, enlaces e imágenes de cada GT." },
+  { to: "/admin/comite-ejecutivo", icon: Crown, title: "Comité Ejecutivo", desc: "Presidente, vicepresidencias, miembros del comité y textos de /comite-ejecutivo." },
   { to: "/admin/boletines-gtai", icon: Library, title: "Boletines GTAI", desc: "Boletines del Grupo de Asuntos de Internet: PDF, metadatos, publicar y destacar." },
   { to: "/admin/documentos", icon: FileText, title: "Documentos", desc: "Subir documentos y colocarlos en su sección correcta." },
   { to: "/admin/buenas-practicas", icon: Scale, title: "Buenas Prácticas Regulatorias", desc: "Editar países, subcategorías, enlaces y textos del micrositio." },
