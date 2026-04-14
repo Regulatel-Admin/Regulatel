@@ -11,15 +11,14 @@ Con eso quedarán creadas o actualizadas todas las tablas que usa el panel de ad
 
 ## Cargar los eventos “históricos” en el panel (una vez)
 
-Si la tabla `events` está vacía y quieres que **Admin → Eventos** muestre el mismo calendario que antes tenía el sitio en código:
+Los datos viven en **`db/seed/events-legacy.json`** (calendario que antes estaba solo en código).
 
-1. En tu máquina (o en CI con `DATABASE_URL`), desde la raíz del repo:
-   ```bash
-   npm run db:seed-events
-   ```
-2. Requiere `DATABASE_URL` apuntando a Neon (igual que `npm run db:init`). El script es **idempotente**: si un `id` ya existe, no lo sobrescribe.
+**Opción A — desde el admin (recomendado):** entra en **Admin → Eventos**. Si la lista está vacía, verás el aviso **“Importar calendario por defecto”**; al pulsarlo se insertan en Neon los eventos cuyo `id` aún no exista (no pisa filas ya creadas).
 
-Después podrás editar o borrar cada evento desde `/admin/eventos`.
+**Opción B — desde la terminal** (misma lógica, requiere `DATABASE_URL`):
+```bash
+npm run db:seed-events
+```
 
 ## Tablas que se crean
 

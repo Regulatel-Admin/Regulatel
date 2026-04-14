@@ -26,6 +26,7 @@ import {
 } from "../lib/documentAccess.js";
 import { parseJsonBody } from "../lib/parseBody.js";
 import { isDbConfigured } from "../lib/db.js";
+import { seedLegacyEventsIfMissing } from "../lib/seedLegacyEvents.js";
 
 
 function sendJson(res: ServerResponse, status: number, data: unknown) {
@@ -104,6 +105,30 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
       }
       res.statusCode = 405;
       res.end("Method Not Allowed");
+      return;
+    }
+
+    if (subpath === "seed-legacy-events") {
+      const auth = await ensureAdmin(req);
+      if (req.method !== "POST") {
+        sendJson(res, 405, { error: "Method Not Allowed" });
+        return;
+      }
+      try {
+        const result = await seedLegacyEventsIfMissing();
+        await logAudit({
+          userId: auth.user.id,
+          userEmail: auth.user.email,
+          userName: auth.user.name,
+          action: "created",
+          resourceType: "event",
+          resourceId: "legacy-seed-batch",
+          details: { ...result, note: "Importación calendario por defecto (ids no existentes)" },
+        });
+        sendJson(res, 200, result);
+      } catch (e) {
+        sendJson(res, 500, { error: e instanceof Error ? e.message : "Error al importar eventos" });
+      }
       return;
     }
 

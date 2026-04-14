@@ -40,7 +40,7 @@ function isValidUrl(s: string): boolean {
 }
 
 export default function AdminEventos() {
-  const { events, addEvent, updateEvent, deleteEvent, duplicateEvent } = useAdminData();
+  const { events, addEvent, updateEvent, deleteEvent, duplicateEvent, recheckContentSource } = useAdminData();
   const [editingId, setEditingId] = useState<string | null>(null);
   const [adding, setAdding] = useState(false);
   const [form, setForm] = useState(emptyForm);
@@ -52,6 +52,7 @@ export default function AdminEventos() {
   const [historyEntries, setHistoryEntries] = useState<Array<{ id: string; action: string; user_email: string; user_name: string | null; details: Record<string, unknown>; created_at: string }>>([]);
   const [historyLoading, setHistoryLoading] = useState(false);
   const [historyError, setHistoryError] = useState<string | null>(null);
+  const [seedingLegacy, setSeedingLegacy] = useState(false);
 
   const loadHistory = useCallback(async (eventId: string) => {
     setHistoryEventId(eventId);
@@ -202,6 +203,44 @@ export default function AdminEventos() {
       <p className="mb-4 text-sm" style={{ color: "var(--regu-gray-600)" }}>
         Gestionar todos los eventos que se muestran en la página pública y en el slider. El botón &quot;Registrarse&quot; usa la URL de registro configurada aquí.
       </p>
+
+      {events.length === 0 && !adding && !editingId && (
+        <div
+          className="mb-6 rounded-xl border px-4 py-3 text-sm"
+          style={{ borderColor: "var(--regu-blue)", backgroundColor: "rgba(68,137,198,0.08)", color: "var(--regu-navy)" }}
+          role="region"
+          aria-label="Importar calendario por defecto"
+        >
+          <p className="font-semibold">¿Lista de eventos vacía?</p>
+          <p className="mt-1 text-xs opacity-90">
+            Puede importar el calendario histórico de REGULATEL (mismos datos que antes estaban en el código) a la base de datos.
+            Luego podrá editar fechas y textos aquí, sin tocar el repositorio. Los ids que ya existan no se sobrescriben.
+          </p>
+          <button
+            type="button"
+            disabled={seedingLegacy}
+            onClick={async () => {
+              setSeedingLegacy(true);
+              setUrlError(null);
+              const res = await api.admin.seedLegacyEvents();
+              setSeedingLegacy(false);
+              if (!res.ok) {
+                setUrlError(res.error ?? "No se pudo importar.");
+                return;
+              }
+              const d = res.data;
+              await recheckContentSource();
+              setSuccessMessage(
+                `Importación lista: ${d?.inserted ?? 0} nuevo(s), ${d?.skipped ?? 0} ya existían (de ${d?.total ?? 0}).`
+              );
+            }}
+            className="mt-3 inline-flex items-center gap-2 rounded-lg border-2 px-3 py-2 text-xs font-semibold disabled:opacity-50"
+            style={{ borderColor: "var(--regu-blue)", color: "var(--regu-blue)" }}
+          >
+            {seedingLegacy ? "Importando…" : "Importar calendario por defecto"}
+          </button>
+        </div>
+      )}
 
       {!adding && !editingId && (
         <button

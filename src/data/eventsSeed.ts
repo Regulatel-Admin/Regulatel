@@ -6,8 +6,8 @@
  * Este archivo solo se usa en el sitio cuando la API no está disponible (modo legacy);
  * si la base responde, la lista pública es exclusivamente la de la base de datos.
  *
- * Para volcar esta lista a Neon (y que aparezca en el admin): `npm run db:seed-events`
- * (ver `scripts/seed-events-from-legacy.mjs` — mantener ambos alineados si cambias el calendario por defecto).
+ * Fuente canónica para importar a la BD: **`db/seed/events-legacy.json`** (admin → Eventos → “Importar calendario por defecto”, o `npm run db:seed-events`).
+ * Mantén este archivo y el JSON alineados si cambias el calendario por defecto.
  */
 
 import type { Event } from "@/types/event";

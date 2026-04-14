@@ -150,6 +150,9 @@ export const api = {
     login: (body: unknown) =>
       request<{ authenticated: boolean }>("/admin/session", { method: "POST", body }),
     logout: () => request<void>("/admin/session", { method: "DELETE" }),
+    /** Idempotente: inserta eventos desde db/seed/events-legacy.json (solo ids nuevos). */
+    seedLegacyEvents: () =>
+      request<{ inserted: number; skipped: number; total: number }>("/admin/seed-legacy-events", { method: "POST" }),
     users: {
       list: () => request<Array<{ id: string; name: string; email: string; username: string | null; role: string; is_active: boolean; last_login_at: string | null; created_at: string }>>("/admin/users"),
       create: (body: { email: string; password: string; name?: string; role?: string }) =>
