@@ -22,14 +22,32 @@ export interface EventRow {
   updated_at: string;
 }
 
+/**
+ * postgres.js puede devolver columnas DATE como objetos Date o como ISO timestamps
+ * ("2026-04-20T00:00:00.000Z"). Normalizamos siempre a "YYYY-MM-DD".
+ */
+function toDateStr(v: unknown): string {
+  if (!v) return "";
+  if (v instanceof Date) return v.toISOString().slice(0, 10);
+  const s = String(v);
+  // "2026-04-20T..." → "2026-04-20"
+  return s.length > 10 && s[10] === "T" ? s.slice(0, 10) : s;
+}
+
+function toDateStrOrNull(v: unknown): string | null {
+  if (v === null || v === undefined) return null;
+  const r = toDateStr(v);
+  return r || null;
+}
+
 function rowToEvent(r: EventRow) {
   return {
     id: r.id,
     title: r.title,
     organizer: r.organizer,
     location: r.location,
-    startDate: r.start_date,
-    endDate: r.end_date,
+    startDate: toDateStr(r.start_date),
+    endDate: toDateStrOrNull(r.end_date),
     year: r.year,
     status: r.status as "upcoming" | "past",
     registrationUrl: r.registration_url,
