@@ -9,6 +9,18 @@
 
 Con eso quedarán creadas o actualizadas todas las tablas que usa el panel de admin.
 
+## Cargar los eventos “históricos” en el panel (una vez)
+
+Si la tabla `events` está vacía y quieres que **Admin → Eventos** muestre el mismo calendario que antes tenía el sitio en código:
+
+1. En tu máquina (o en CI con `DATABASE_URL`), desde la raíz del repo:
+   ```bash
+   npm run db:seed-events
+   ```
+2. Requiere `DATABASE_URL` apuntando a Neon (igual que `npm run db:init`). El script es **idempotente**: si un `id` ya existe, no lo sobrescribe.
+
+Después podrás editar o borrar cada evento desde `/admin/eventos`.
+
 ## Tablas que se crean
 
 | Tabla | Uso |

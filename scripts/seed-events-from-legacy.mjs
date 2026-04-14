@@ -1,48 +1,31 @@
 /**
- * Dataset legacy de eventos para fallback de lectura pública.
- * En producción, la fuente principal debe ser Neon vía API.
+ * Inserta en la tabla `events` los eventos que antes solo existían en `src/data/eventsSeed.ts`
+ * (misma lista). Idempotente: ON CONFLICT (id) DO NOTHING — no borra ni sobrescribe lo ya guardado.
  *
- * Para añadir o editar eventos en producción: Panel Admin → /admin/eventos.
- * Este archivo solo se usa en el sitio cuando la API no está disponible (modo legacy);
- * si la base responde, la lista pública es exclusivamente la de la base de datos.
+ * Uso: DATABASE_URL=... node ./scripts/seed-events-from-legacy.mjs
+ *      npm run db:seed-events
  *
- * Para volcar esta lista a Neon (y que aparezca en el admin): `npm run db:seed-events`
- * (ver `scripts/seed-events-from-legacy.mjs` — mantener ambos alineados si cambias el calendario por defecto).
+ * Si añades o cambias eventos “por defecto”, actualiza también src/data/eventsSeed.ts y esta lista.
  */
+import "dotenv/config";
+import postgres from "postgres";
 
-import type { Event } from "@/types/event";
-
-const now = new Date().toISOString();
-
-function seedEvent(partial: Partial<Event> & Pick<Event, "id" | "title" | "organizer" | "location" | "startDate">): Event {
-  const endDate = partial.endDate ?? null;
-  const ref = endDate ?? partial.startDate;
-  const today = new Date().toISOString().slice(0, 10);
-  const status = ref >= today ? ("upcoming" as const) : ("past" as const);
-  const year = new Date(partial.startDate + "T12:00:00").getFullYear();
-  return {
-    id: partial.id,
-    title: partial.title,
-    organizer: partial.organizer,
-    location: partial.location,
-    startDate: partial.startDate,
-    endDate,
-    year,
-    status,
-    registrationUrl: partial.registrationUrl ?? null,
-    detailsUrl: partial.detailsUrl ?? null,
-    isFeatured: partial.isFeatured ?? false,
-    tags: partial.tags ?? [],
-    description: partial.description,
-    imageUrl: partial.imageUrl,
-    createdAt: now,
-    updatedAt: now,
-  };
-}
-
-export const EVENTS_SEED: Event[] = [
-  // —— 2026 (próximos) — enlaces del Word; sin registrationUrl = "Por definir" ——
-  seedEvent({
+/** @type {Array<{
+ *   id: string;
+ *   title: string;
+ *   organizer: string;
+ *   location: string;
+ *   startDate: string;
+ *   endDate: string | null;
+ *   registrationUrl: string | null;
+ *   detailsUrl: string | null;
+ *   isFeatured: boolean;
+ *   tags: string[];
+ *   description?: string;
+ *   imageUrl?: string;
+ * }>} */
+const LEGACY_EVENTS = [
+  {
     id: "cumbre-ministerial-certal-2026",
     title: "Cumbre Ministerial (CERTAL)",
     organizer: "CERTAL",
@@ -52,9 +35,10 @@ export const EVENTS_SEED: Event[] = [
     registrationUrl: "https://certalatam.org/cumbre-preministerial-certal/",
     detailsUrl: null,
     isFeatured: true,
+    tags: [],
     description: "Cumbre Preministerial CERTAL 2026 | Madrid, España.",
-  }),
-  seedEvent({
+  },
+  {
     id: "digital-summit-latam-2026",
     title: "Digital Summit Latam",
     organizer: "DPL GROUP",
@@ -64,9 +48,10 @@ export const EVENTS_SEED: Event[] = [
     registrationUrl: "https://digitalsummitlatam.com/",
     detailsUrl: null,
     isFeatured: true,
+    tags: [],
     description: "Digital Summit Latam.",
-  }),
-  seedEvent({
+  },
+  {
     id: "saludo-institucional-berec-regulatel-madrid-2026",
     title: "Saludo Institucional BEREC - REGULATEL, Madrid 2026",
     organizer: "BEREC / REGULATEL",
@@ -76,9 +61,10 @@ export const EVENTS_SEED: Event[] = [
     registrationUrl: null,
     detailsUrl: null,
     isFeatured: false,
+    tags: [],
     description: "Encuentro institucional de apertura entre BEREC y REGULATEL.",
-  }),
-  seedEvent({
+  },
+  {
     id: "mwc-barcelona-2026",
     title: "MWC Barcelona 2026",
     organizer: "GSMA",
@@ -88,9 +74,10 @@ export const EVENTS_SEED: Event[] = [
     registrationUrl: "https://www.mwcbarcelona.com/",
     detailsUrl: null,
     isFeatured: true,
+    tags: [],
     description: "MWC Barcelona 2026.",
-  }),
-  seedEvent({
+  },
+  {
     id: "foro-altas-autoridades-citel-2026",
     title: "Foro de Altas Autoridades (previo a la IX Asamblea Ordinaria de la CITEL)",
     organizer: "CITEL",
@@ -100,9 +87,10 @@ export const EVENTS_SEED: Event[] = [
     registrationUrl: "https://www.oas.org/ext/es/principal/oea/nuestra-estructura/entidades-y-organismos/citel/Inicio",
     detailsUrl: null,
     isFeatured: true,
+    tags: [],
     description: "Foro de Altas Autoridades previo a la IX Asamblea Ordinaria de la CITEL.",
-  }),
-  seedEvent({
+  },
+  {
     id: "ix-asamblea-ordinaria-citel-2026",
     title: "IX Asamblea Ordinaria de la CITEL",
     organizer: "CITEL",
@@ -112,9 +100,10 @@ export const EVENTS_SEED: Event[] = [
     registrationUrl: "https://www.oas.org/ext/es/principal/oea/nuestra-estructura/entidades-y-organismos/citel/Inicio",
     detailsUrl: null,
     isFeatured: true,
+    tags: [],
     description: "IX Asamblea Ordinaria de la CITEL.",
-  }),
-  seedEvent({
+  },
+  {
     id: "48-reunion-ccp1-citel-2026",
     title: "48 Reunión del CCP.I",
     organizer: "CITEL",
@@ -124,9 +113,10 @@ export const EVENTS_SEED: Event[] = [
     registrationUrl: "https://www.oas.org/CITELEvents/es/Events",
     detailsUrl: null,
     isFeatured: false,
+    tags: [],
     description: "48 Reunión del CCP.I.",
-  }),
-  seedEvent({
+  },
+  {
     id: "49-reunion-ccp1-citel-2026",
     title: "49 Reunión del CCP.I",
     organizer: "CITEL",
@@ -136,9 +126,10 @@ export const EVENTS_SEED: Event[] = [
     registrationUrl: "https://www.oas.org/CITELEvents/es/Events",
     detailsUrl: null,
     isFeatured: false,
+    tags: [],
     description: "49 Reunión del CCP.I.",
-  }),
-  seedEvent({
+  },
+  {
     id: "47-reunion-ccp2-citel-2026",
     title: "47 Reunión CCP.II",
     organizer: "CITEL",
@@ -148,9 +139,10 @@ export const EVENTS_SEED: Event[] = [
     registrationUrl: "https://www.oas.org/CITELEvents/es/Events",
     detailsUrl: null,
     isFeatured: false,
+    tags: [],
     description: "47 Reunión CCP.II.",
-  }),
-  seedEvent({
+  },
+  {
     id: "48-reunion-ccp2-citel-2026",
     title: "48 Reunión CCP.II",
     organizer: "CITEL",
@@ -160,9 +152,10 @@ export const EVENTS_SEED: Event[] = [
     registrationUrl: "https://www.oas.org/CITELEvents/es/Events",
     detailsUrl: null,
     isFeatured: false,
+    tags: [],
     description: "48 Reunión CCP.II.",
-  }),
-  seedEvent({
+  },
+  {
     id: "congreso-latam-transformacion-digital-2026",
     title: "Congreso Latinoamericano de Transformación Digital 2026 y GSMA Mobile 360",
     organizer: "ASIET / GSMA",
@@ -172,9 +165,10 @@ export const EVENTS_SEED: Event[] = [
     registrationUrl: "https://cltd.lat/",
     detailsUrl: null,
     isFeatured: true,
+    tags: [],
     description: "Congreso Latinoamericano de Transformación Digital 2026 y GSMA Mobile 360 (CLTD).",
-  }),
-  seedEvent({
+  },
+  {
     id: "simposio-mundial-organismos-reguladores-2026",
     title: "Simposio Mundial para Organismos Reguladores (GSR-26)",
     organizer: "UIT",
@@ -184,9 +178,10 @@ export const EVENTS_SEED: Event[] = [
     registrationUrl: "https://www.itu.int/itu-d/meetings/gsr-26/",
     detailsUrl: null,
     isFeatured: false,
+    tags: [],
     description: "Simposio Mundial para Organismos Reguladores.",
-  }),
-  seedEvent({
+  },
+  {
     id: "cumbre-berec-regulatel-2026",
     title: "Cumbre BEREC - REGULATEL",
     organizer: "BEREC",
@@ -196,9 +191,10 @@ export const EVENTS_SEED: Event[] = [
     registrationUrl: null,
     detailsUrl: null,
     isFeatured: true,
+    tags: [],
     description: "Cumbre BEREC - REGULATEL.",
-  }),
-  seedEvent({
+  },
+  {
     id: "cumbre-regulatel-prai-2026",
     title: "Cumbre REGULATEL - PRAI",
     organizer: "REGULATEL",
@@ -208,9 +204,10 @@ export const EVENTS_SEED: Event[] = [
     registrationUrl: null,
     detailsUrl: null,
     isFeatured: false,
+    tags: [],
     description: "Cumbre REGULATEL - PRAI.",
-  }),
-  seedEvent({
+  },
+  {
     id: "conferencia-plenipotenciarios-2026",
     title: "Conferencia de Plenipotenciarios de 2026 (PP-26)",
     organizer: "UIT",
@@ -220,9 +217,10 @@ export const EVENTS_SEED: Event[] = [
     registrationUrl: "https://pp.itu.int/2026/en/",
     detailsUrl: null,
     isFeatured: true,
+    tags: [],
     description: "Conferencia de Plenipotenciarios de 2026 (PP-26).",
-  }),
-  seedEvent({
+  },
+  {
     id: "29-asamblea-plenaria-regulatel-2026",
     title: "29 Asamblea Plenaria Regulatel",
     organizer: "REGULATEL",
@@ -232,10 +230,10 @@ export const EVENTS_SEED: Event[] = [
     registrationUrl: null,
     detailsUrl: null,
     isFeatured: true,
+    tags: [],
     description: "29 Asamblea Plenaria Regulatel.",
-  }),
-  // —— 2025 (calendario completo: 7 eventos) ——
-  seedEvent({
+  },
+  {
     id: "mwc-barcelona-2025",
     title: "MWC Barcelona 2025",
     organizer: "GSMA",
@@ -245,9 +243,10 @@ export const EVENTS_SEED: Event[] = [
     registrationUrl: "https://www.mwcbarcelona.com/",
     detailsUrl: null,
     isFeatured: false,
+    tags: [],
     description: "Mobile World Congress Barcelona 2025.",
-  }),
-  seedEvent({
+  },
+  {
     id: "cumbre-four-lateral-berec-barcelona-2025",
     title: "4-lateral Summit BEREC-EMERG-Regulatel-EaPeReg 2025",
     organizer: "BEREC / EMERG / REGULATEL / EaPeReg",
@@ -257,9 +256,10 @@ export const EVENTS_SEED: Event[] = [
     registrationUrl: "https://www.berec.europa.eu/en",
     detailsUrl: null,
     isFeatured: false,
+    tags: [],
     description: "Espacio de intercambio entre foros regulatorios.",
-  }),
-  seedEvent({
+  },
+  {
     id: "reunion-regulatel-grupos-trabajo-berec-2025",
     title: "Reunión REGULATEL - Grupos de trabajo y BEREC",
     organizer: "REGULATEL / AECID",
@@ -269,9 +269,10 @@ export const EVENTS_SEED: Event[] = [
     registrationUrl: null,
     detailsUrl: null,
     isFeatured: false,
+    tags: [],
     description: "Reunión de grupos de trabajo REGULATEL con BEREC.",
-  }),
-  seedEvent({
+  },
+  {
     id: "workshop-responsabilidad-intermediarios-internet-2025",
     title: "Workshop: Responsabilidad de los intermediarios en el ámbito de Internet",
     organizer: "REGULATEL",
@@ -281,9 +282,10 @@ export const EVENTS_SEED: Event[] = [
     registrationUrl: null,
     detailsUrl: null,
     isFeatured: false,
+    tags: [],
     description: "Taller sobre responsabilidad de intermediarios en Internet.",
-  }),
-  seedEvent({
+  },
+  {
     id: "taller-virtual-enfoque-genero-2025",
     title: "Taller Virtual Internacional sobre Enfoque de Género",
     organizer: "REGULATEL",
@@ -293,9 +295,10 @@ export const EVENTS_SEED: Event[] = [
     registrationUrl: null,
     detailsUrl: null,
     isFeatured: false,
+    tags: [],
     description: "Taller internacional virtual sobre enfoque de género.",
-  }),
-  seedEvent({
+  },
+  {
     id: "cumbre-regulatel-asiet-comtelca-punta-cana-2025",
     title: "Cumbre Regulatel-ASIET-Comtelca",
     organizer: "REGULATEL / ASIET / COMTELCA",
@@ -305,9 +308,10 @@ export const EVENTS_SEED: Event[] = [
     registrationUrl: "https://www.flickr.com/photos/indotel/albums/72177720330839315",
     detailsUrl: null,
     isFeatured: false,
+    tags: [],
     description: "Evento regional sobre conectividad, cooperación y ecosistema digital.",
-  }),
-  seedEvent({
+  },
+  {
     id: "28-asamblea-plenaria-regulatel-2025",
     title: "28ª Asamblea Plenaria de REGULATEL",
     organizer: "REGULATEL",
@@ -317,10 +321,10 @@ export const EVENTS_SEED: Event[] = [
     registrationUrl: null,
     detailsUrl: null,
     isFeatured: false,
+    tags: [],
     description: "28ª Asamblea Plenaria de REGULATEL.",
-  }),
-  // —— Pasados (2024) ——
-  seedEvent({
+  },
+  {
     id: "cumbre-regulatel-asiet-cartagena-2024",
     title: "Cumbre Regulatel - ASIET, Cartagena 2024",
     organizer: "REGULATEL / ASIET",
@@ -330,9 +334,10 @@ export const EVENTS_SEED: Event[] = [
     registrationUrl: null,
     detailsUrl: null,
     isFeatured: false,
+    tags: [],
     description: "Sesión de articulación público-privada para transformación digital regional.",
-  }),
-  seedEvent({
+  },
+  {
     id: "cumbre-berec-regulatel-santa-cruz-2024",
     title: "Cumbre BEREC - REGULATEL, Santa Cruz, 2024",
     organizer: "BEREC / REGULATEL",
@@ -342,6 +347,84 @@ export const EVENTS_SEED: Event[] = [
     registrationUrl: null,
     detailsUrl: null,
     isFeatured: false,
+    tags: [],
     description: "Cumbre enfocada en intercambio de experiencias regulatorias.",
-  }),
+  },
 ];
+
+function eventStatus(startDate, endDate) {
+  const ref = endDate || startDate;
+  const today = new Date().toISOString().slice(0, 10);
+  return ref >= today ? "upcoming" : "past";
+}
+
+function eventYear(startDate) {
+  const y = new Date(`${startDate}T12:00:00`).getFullYear();
+  return Number.isNaN(y) ? new Date().getFullYear() : y;
+}
+
+async function main() {
+  const databaseUrl = process.env.DATABASE_URL;
+  if (!databaseUrl) {
+    throw new Error("DATABASE_URL no está definido. Configúralo en .env o exporta la variable.");
+  }
+
+  const sql = postgres(databaseUrl, {
+    max: 1,
+    idle_timeout: 20,
+    connect_timeout: 15,
+  });
+
+  const now = new Date().toISOString();
+  let inserted = 0;
+  let skipped = 0;
+
+  try {
+    for (const e of LEGACY_EVENTS) {
+      const status = eventStatus(e.startDate, e.endDate);
+      const year = eventYear(e.startDate);
+      const result = await sql`
+        INSERT INTO events (
+          id, title, organizer, location, start_date, end_date, year, status,
+          registration_url, details_url, is_featured, tags, description, image_url,
+          image_file_name, image_mime_type, image_size,
+          created_at, updated_at
+        ) VALUES (
+          ${e.id},
+          ${e.title},
+          ${e.organizer},
+          ${e.location},
+          ${e.startDate}::date,
+          ${e.endDate ?? null}::date,
+          ${year},
+          ${status},
+          ${e.registrationUrl ?? null},
+          ${e.detailsUrl ?? null},
+          ${e.isFeatured ?? false},
+          ${sql.json(e.tags ?? [])},
+          ${e.description ?? null},
+          ${e.imageUrl ?? null},
+          ${null},
+          ${null},
+          ${null},
+          ${now}::timestamptz,
+          ${now}::timestamptz
+        )
+        ON CONFLICT (id) DO NOTHING
+        RETURNING id
+      `;
+      if (result.length) inserted += 1;
+      else skipped += 1;
+    }
+    console.log(
+      `Listo: ${inserted} evento(s) insertado(s), ${skipped} omitido(s) (ya existían con el mismo id). Total en lista: ${LEGACY_EVENTS.length}.`
+    );
+  } finally {
+    await sql.end({ timeout: 5 });
+  }
+}
+
+main().catch((err) => {
+  console.error(err instanceof Error ? err.message : err);
+  process.exit(1);
+});

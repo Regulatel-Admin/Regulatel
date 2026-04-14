@@ -11,6 +11,7 @@
     "admin:create": "node ./scripts/create-admin.mjs",
     "admin:dev": "node ./scripts/create-dev-admin.mjs",
     "db:init": "node ./scripts/init-db.mjs",
+    "db:seed-events": "node ./scripts/seed-events-from-legacy.mjs",
     "scrape:mejores-practicas": "node scripts/scrape-mejores-practicas.mjs",
     "scrape:mejores-practicas:headed": "node scripts/scrape-mejores-practicas.mjs --headed"
   },
