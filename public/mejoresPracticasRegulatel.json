@@ -1050,7 +1050,7 @@
     "country": "Costa Rica",
     "entity": "Superintendencia de Telecomunicaciones",
     "acronym": "SUTEL",
-    "detailUrl": "https://regulatel.indotel.gob.do/pagina/detalle?id=181",
+    "detailUrl": "https://regulatel.indotel.gob.do/pagina/detalle?id=185",
     "categories": [
       {
         "name": "Espectro radioeléctrico",
@@ -1246,100 +1246,72 @@
     "country": "Cuba",
     "entity": "Ministerio de Comunicaciones",
     "acronym": "MINCOM",
-    "detailUrl": "https://regulatel.indotel.gob.do/pagina/detalle?id=185",
+    "detailUrl": "https://regulatel.indotel.gob.do/pagina/detalle?id=186",
     "categories": [
       {
         "name": "Espectro radioeléctrico",
         "links": [
           {
-            "title": "Propuesta de Cronograma de Asignación de Espectro (CAE)",
-            "url": "https://www.sutel.go.cr/sites/default/files/12._05071-sutel-dgc-2020_actualizacion_cae_2021-2025.pdf"
+            "title": "Solicitud de licencias, permisos y autorizos que se emiten en relación a los sistemas y servicios de Telecomunicaciones/TIC",
+            "url": "https://www.mincom.gob.cu/sites/default/files/catalogo/actualizacion_relacion_de_tramites_20200313_0.pdf"
           },
           {
-            "title": "Reforma Integral al Plan Nacional de Atribución de Frecuencias (PNAF)",
-            "url": "http://www.pgrweb.go.cr/scij/Busqueda/Normativa/Normas/nrm_texto_completo.aspx?param1=NRTC&nValor1=1&nValor2=94214&nValor3=125381&strTipM=TC"
+            "title": "Cuadro Nacional de Atribución de Frecuencias",
+            "url": "https://www.mincom.gob.cu/es/documento-legal/resoluci%C3%B3n-70-2021"
           },
           {
-            "title": "Adendum VII Plan Nacional de Atribución de Frecuencias",
-            "url": "https://www.sutel.go.cr/sites/default/files/normativas/pnaf_con_reforma_n_42924-micitt_30-04-2021.pdf"
+            "title": "Redes privadas de datos: Reordenamiento y organización del espectro radioeléctrico en Cuba",
+            "url": "https://www.mincom.gob.cu/es/noticia/redes-privadas-de-datos-reordenamiento-y-organizaci%C3%B3n-del-espectro-radioel%C3%A9ctrico-en-cuba"
           },
           {
-            "title": "Consultar banda libre",
-            "url": "https://homologacion.sutel.go.cr/zf_ConsultaPublica/Index/bandalibre"
+            "title": "Reglamento para el uso de los servicios de Radiocomunicaciones por Satélites",
+            "url": "https://www.mincom.gob.cu/sites/default/files/marcoregulatorio/r_107-21_reglamento_para_el_uso_de_los_servicios_de_radiocomunicaciones_por_satelites.pdf"
           },
           {
-            "title": "Recomendaciones de recuperación y asignación de espectro radioeléctrico",
-            "url": "https://www.sutel.go.cr/pagina/frecuencias-servicios-moviles"
+            "title": "Reportes estadísticos del Ministerio de las Comunicaciones",
+            "url": "https://www.mincom.gob.cu/es/estadisticas-tic"
+          },
+          {
+            "title": "Reglamento sobre el uso del espectro radioeléctrico",
+            "url": "https://www.mincom.gob.cu/sites/default/files/marcoregulatorio/d_43-21_uso_del_ere.pdf"
           }
         ]
       },
       {
-        "name": "Competencia económica",
+        "name": "Tecnologías de la Información y la Comunicación (TIC)",
         "links": [
           {
-            "title": "Ley General de Telecomunicaciones (Ley 8642)",
-            "url": "https://www.sutel.go.cr/sites/default/files/normativas/ley_general_de_telecomunicaciones.pdf"
+            "title": "Reglamento General de Telecomunicaciones y las Tecnologías de la Información y la Comunicación",
+            "url": "https://www.mincom.gob.cu/sites/default/files/marcoregulatorio/d_42-21_reglamento_gral_telecomunicaciones-tic.pdf"
           },
           {
-            "title": "Ley de Fortalecimiento de las Autoridades de Competencia (Ley 9736)",
-            "url": "https://www.sutel.go.cr/normatica/ley-9736-ley-de-fortalecimiento-de-las-autoridades-de-competencia"
+            "title": "Decreto de Ley 35-2021 \"Sobre las Telecomunicaciones y las Tecnologías de Información y Comunicación y el uso del Espectro Radioeléctrico\"",
+            "url": "https://www.mincom.gob.cu/sites/default/files/marcoregulatorio/d-l_35-21_sobre_telecomunicaciones-tic_y_uso_de_ere.pdf"
           },
           {
-            "title": "Ley de Promoción de la Competencia y Defensa Efectiva del Consumidor (Ley 7472)",
-            "url": "https://www.pgrweb.go.cr/scij/Busqueda/Normativa/Normas/nrm_texto_completo.aspx?nValor1=1&nValor2=26481"
-          },
-          {
-            "title": "Reglamento a la Ley 9736, Fortalecimiento de las Autoridades de Competencia",
-            "url": "https://www.sutel.go.cr/normativas-competencia"
-          },
-          {
-            "title": "Reglamento de Régimen de Competencia en Telecomunicaciones",
-            "url": "https://www.sutel.go.cr/normativas-competencia"
-          },
-          {
-            "title": "Estudios de mercado en materia de competencia económica",
-            "url": "https://www.sutel.go.cr/estudios-mercado"
-          },
-          {
-            "title": "Guías de competencia",
-            "url": "https://www.sutel.go.cr/guias-competencia"
+            "title": "Plataforma Apklis para descarga de aplicaciones",
+            "url": "https://www.apklis.cu/"
           }
         ]
       },
       {
-        "name": "Protección del usuario",
+        "name": "Ciberseguridad",
         "links": [
           {
-            "title": "Reglamento sobre el régimen de protección al usuario final (RPUF)",
-            "url": "https://www.imprentanacional.go.cr/pub/2022/09/22/ALCA200_22_09_2022.pdf"
+            "title": "Decreto 360-2019 sobre la Seguridad de la Tecnologías de la Información y la Comunicación y la Defensa del Ciberespacio Nacional",
+            "url": "https://www.mincom.gob.cu/sites/default/files/marcoregulatorio/d_360-2019_seguridad_tic_y_ciberespacio_nacional.pdf"
           },
           {
-            "title": "Reglamento de Prestación y Calidad de Servicios",
-            "url": "https://www.sutel.go.cr/sites/default/files/normativas/reglamento_prestacion_y_calidad_de_servicios.pdf"
+            "title": "Reglamento para la seguridad y protección de los datos personales en soporte electrónico",
+            "url": "https://www.mincom.gob.cu/sites/default/files/marcoregulatorio/r_58-22_registro_de_base_datos_personales_.pdf"
           },
           {
-            "title": "Plataforma Validación de Celulares",
-            "url": "https://pvc.sutel.go.cr/"
+            "title": "Resolución 105-2021 Modelo de actuación Nacional ante incidentes de Ciberseguridad",
+            "url": "https://www.mincom.gob.cu/sites/default/files/marcoregulatorio/r_105-21_modelo_de_actuacion_nacional.pdf"
           },
           {
-            "title": "Consulta Contratos de Adhesión",
-            "url": "https://www.sutel.go.cr/contratos-adhesion"
-          },
-          {
-            "title": "Mapas de cobertura de telefonía e Internet móvil",
-            "url": "https://mapas.sutel.go.cr/"
-          },
-          {
-            "title": "Visor de calidad con información de desempeño de redes fijas",
-            "url": "https://visorcalidad.sutel.go.cr/"
-          },
-          {
-            "title": "Evaluación nacional calidad de redes móviles",
-            "url": "https://www.sutel.go.cr/sites/default/files/informe_evaluacion_telefonia_e_internet_movil_2021.pdf"
-          },
-          {
-            "title": "Encuestas percepción calidad servicios",
-            "url": "https://www.sutel.go.cr/noticias/comunicados-de-prensa/usuarios-califican-la-calidad-de-los-servicios-de-telecomunicaciones"
+            "title": "Resolución 129-2019 Metodología para la Gestión de la seguridad Informática",
+            "url": "https://www.mincom.gob.cu/sites/default/files/marcoregulatorio/r_129-19_metodologia_para_sistema_de_gestion_de_seguridad_informatica.pdf"
           }
         ]
       },
@@ -1347,12 +1319,12 @@
         "name": "Accesibilidad",
         "links": [
           {
-            "title": "Programas del Fondo Nacional de Telecomunicaciones (Fonatel)",
-            "url": "https://www.sutel.go.cr/pagina/que-es-fonatel"
+            "title": "Decreto-Ley 370-2018 sobre la Informatización de la sociedad en Cuba",
+            "url": "https://www.mincom.gob.cu/sites/default/files/marcoregulatorio/dl_370-18_informatizacion_sociedad.pdf"
           },
           {
-            "title": "Avance de los programas del Fonatel",
-            "url": "https://www.sutel.go.cr/pagina/avance-de-los-proyectos-de-fonatel"
+            "title": "Resolución 139-2020 Nuevo número telefónico para personas de avanzada edad o con necesidades especiales",
+            "url": "https://www.mincom.gob.cu/sites/default/files/marcoregulatorio/r_139-20_numero_para_discapacitados.pdf"
           }
         ]
       },
@@ -1360,41 +1332,25 @@
         "name": "Tecnologías emergentes",
         "links": [
           {
-            "title": "Principio de Neutralidad Tecnológica de la Ley General de Telecomunicaciones",
-            "url": "http://www.pgrweb.go.cr/SCIJ/Busqueda/Normativa/Normas/nrm_texto_completo.aspx?nValor1=1&nValor2=26314"
-          },
-          {
-            "title": "Obligaciones fundamentales de la SUTEL relacionadas con tecnologías emergentes",
-            "url": "http://www.pgrweb.go.cr/SCIJ/Busqueda/Normativa/Normas/nrm_texto_completo.aspx?nValor1=1&nValor2=26314"
+            "title": "Resolución 67-2021 sobre aeronaves no tripuladas",
+            "url": "https://www.mincom.gob.cu/sites/default/files/marcoregulatorio/r_67-21_sobre_aeronaves_no_tripuladas.pdf"
           }
         ]
       },
       {
-        "name": "Compartición de infraestructura",
+        "name": "Asuntos relacionados con Internet",
         "links": [
           {
-            "title": "Reglamento sobre el uso compartido de infraestructura para el soporte de redes públicas de telecomunicaciones",
-            "url": "http://www.pgrweb.go.cr/scij/Busqueda/Normativa/Normas/nrm_texto_completo.aspx?param1=NRTC&nValor1=1&nValor2=85283&nValor3=110234&strTipM=TC"
+            "title": "Acuerdo 8611-2019 Estrategia de desarrollo de la Infraestructura de Banda Ancha en Cuba",
+            "url": "https://www.mincom.gob.cu/sites/default/files/marcoregulatorio/a_8611-19_estrategia_desarrollo_banda_ancha_cuba_.pdf"
           },
           {
-            "title": "Solicitud de la oferta de uso compartido de infraestructura por referencia (OUC) (RCS-313-2020)",
-            "url": "https://www.sutel.go.cr/sites/default/files/rcs-313-2020_oferta_uso_compartido.pdf"
+            "title": "Resolución 127-2019 Reglamento del proveedor de servicios públicos de alojamiento y de hospedaje en el entorno Internet",
+            "url": "https://www.mincom.gob.cu/sites/default/files/marcoregulatorio/r_127-19_reglamento_de_proveedor_de_hospedaje_y_alojamiento.pdf"
           },
           {
-            "title": "Registro Nacional de Telecomunicaciones",
-            "url": "https://consultarntplus.sutel.go.cr/"
-          },
-          {
-            "title": "Metodología para el cálculo de los precios por uso compartido de infraestructura de postería para los operadores de redes de telecomunicaciones",
-            "url": "http://www.pgrweb.go.cr/scij/Busqueda/Normativa/Normas/nrm_texto_completo.aspx?nValor1=1&nValor2=83206"
-          },
-          {
-            "title": "Ofertas de Uso Compartido de Infraestructura",
-            "url": "http://www.pgrweb.go.cr/scij/Busqueda/Normativa/Normas/nrm_texto_completo.aspx?nValor1=1&nValor2=83206"
-          },
-          {
-            "title": "Sistema de Información Geográfica sobre Infraestructura Pasiva de telecomunicaciones",
-            "url": "http://www.pgrweb.go.cr/scij/Busqueda/Normativa/Normas/nrm_texto_completo.aspx?nValor1=1&nValor2=83206"
+            "title": "Resolución 80-2019 Definición de la velocidad de Banda Ancha",
+            "url": "https://www.mincom.gob.cu/sites/default/files/marcoregulatorio/r_80-19_definicion_de_la_velocidad_de_banda_ancha_0.pdf"
           }
         ]
       },
@@ -1402,16 +1358,12 @@
         "name": "Telecomunicaciones de emergencia",
         "links": [
           {
-            "title": "Artículo 122 Reglamento a la Ley General de Telecomunicaciones",
-            "url": "https://www.sutel.go.cr/sites/default/files/normativas/reglamento_a_la_ley_general_de_telecomunicaciones_decreto_ejecutivo_34765-minaet_y_sus_reformas.pdf"
+            "title": "Frecuencias identificadas para las comunicaciones de socorro y seguridad del Sistema Mundial de Socorro y Seguridad Marítima (SMSSM)",
+            "url": "https://www.mincom.gob.cu/sites/default/files/marcoregulatorio/r_161-_08_frecuencias_smssm.pdf"
           },
           {
-            "title": "Artículo 62 Reglamento de Acceso e Interconexión de Redes de telecomunicaciones",
-            "url": "https://www.sutel.go.cr/sites/default/files/normativas/reglamento_de_acceso_e_interconexion_de_redes_de_telecomunicaciones_0.pdf"
-          },
-          {
-            "title": "Plan Nacional de Numeración",
-            "url": "https://www.sutel.go.cr/sites/default/files/normativas/plan_nacional_de_numeracion_0.pdf"
+            "title": "Resolución 144-2019 que contiene el Plan Nacional de Numeración",
+            "url": "https://www.mincom.gob.cu/sites/default/files/marcoregulatorio/r_144-19_plan_nacional_de_numeracion.pdf"
           }
         ]
       },
@@ -1419,68 +1371,14 @@
         "name": "Homologación de productos y dispositivos",
         "links": [
           {
-            "title": "Modificación del procedimiento de homologación de terminales de telecomunicaciones móviles”, RCS-358-2018",
-            "url": "https://www.sutel.go.cr/sites/default/files/rcs-358-2018-_procedimiento_de_homologacion_de_terminales_moviles_gaceta_0.pdf"
+            "title": "Relación de equipos homologados con certificado de Homologación vigente",
+            "url": "https://www.mincom.gob.cu/es/certificado-de-homologacion"
           },
           {
-            "title": "Procedimiento para solicitar ante la SUTEL la homologación de dispositivos que operen en las bandas de uso libre (RCS-154-2018)",
-            "url": "https://www.sutel.go.cr/sites/default/files/rcs-154-2018_procedimiento_de_homologacion_de_equipos_de_banda_libre_1_0.pdf"
-          },
-          {
-            "title": "Actualización procedimiento y requisitos acreditación peritos equipos terminales móviles (RCS-286-2018)",
-            "url": "https://www.sutel.go.cr/sites/default/files/actualizacion_rcs-286-2018_procedimiento_para_la_acreditacion_de_peritos_2023.pdf"
-          },
-          {
-            "title": "Homologación de equipos",
-            "url": "https://homologacion.sutel.go.cr/zf_ConsultaPublica/Index/indexprincipal"
+            "title": "Reglamento de Homologación. Capítulo III. De la Solicitud de Evaluación de la Conformidad y el Certificado de Homologación",
+            "url": "https://www.mincom.gob.cu/sites/default/files/marcoregulatorio/r_132-19_reglamento_de_homologacion.pdf"
           }
         ]
-      },
-      {
-        "name": "Contáctanos",
-        "links": [
-          {
-            "title": "Consultar portal institucional del INDOTEL",
-            "url": "https://indotel.gob.do/"
-          }
-        ]
-      },
-      {
-        "name": "Internacionales@indotel.gob.do",
-        "links": []
-      },
-      {
-        "name": "Internacionales@indotel.gob.do",
-        "links": []
-      },
-      {
-        "name": "Oficina en Republica Dominicana:",
-        "links": []
-      },
-      {
-        "name": "Av. Abraham Lincoln No. 962 , Santo Domingo, R.D 10148",
-        "links": []
-      },
-      {
-        "name": "Oficina en Republica Dominicana: (809) 200-9707",
-        "links": [
-          {
-            "title": "Consultar portal institucional del INDOTEL",
-            "url": "https://indotel.gob.do/"
-          }
-        ]
-      },
-      {
-        "name": "Oficina en Republica Dominicana: (809) 200-9707",
-        "links": []
-      },
-      {
-        "name": "Redes Sociales",
-        "links": []
-      },
-      {
-        "name": "App",
-        "links": []
       }
     ]
   },
@@ -1589,209 +1487,6 @@
     "country": "El Salvador",
     "entity": "Superintendencia General de Electricidad y Telecomunicaciones",
     "acronym": "SIGET",
-    "detailUrl": "https://regulatel.indotel.gob.do/pagina/detalle?id=186",
-    "categories": [
-      {
-        "name": "Espectro radioeléctrico",
-        "links": [
-          {
-            "title": "Solicitud de licencias, permisos y autorizos que se emiten en relación a los sistemas y servicios de Telecomunicaciones/TIC",
-            "url": "https://www.mincom.gob.cu/sites/default/files/catalogo/actualizacion_relacion_de_tramites_20200313_0.pdf"
-          },
-          {
-            "title": "Cuadro Nacional de Atribución de Frecuencias",
-            "url": "https://www.mincom.gob.cu/es/documento-legal/resoluci%C3%B3n-70-2021"
-          },
-          {
-            "title": "Redes privadas de datos: Reordenamiento y organización del espectro radioeléctrico en Cuba",
-            "url": "https://www.mincom.gob.cu/es/noticia/redes-privadas-de-datos-reordenamiento-y-organizaci%C3%B3n-del-espectro-radioel%C3%A9ctrico-en-cuba"
-          },
-          {
-            "title": "Reglamento para el uso de los servicios de Radiocomunicaciones por Satélites",
-            "url": "https://www.mincom.gob.cu/sites/default/files/marcoregulatorio/r_107-21_reglamento_para_el_uso_de_los_servicios_de_radiocomunicaciones_por_satelites.pdf"
-          },
-          {
-            "title": "Reportes estadísticos del Ministerio de las Comunicaciones",
-            "url": "https://www.mincom.gob.cu/es/estadisticas-tic"
-          },
-          {
-            "title": "Reglamento sobre el uso del espectro radioeléctrico",
-            "url": "https://www.mincom.gob.cu/sites/default/files/marcoregulatorio/d_43-21_uso_del_ere.pdf"
-          }
-        ]
-      },
-      {
-        "name": "Tecnologías de la Información y la Comunicación (TIC)",
-        "links": [
-          {
-            "title": "Reglamento General de Telecomunicaciones y las Tecnologías de la Información y la Comunicación",
-            "url": "https://www.mincom.gob.cu/sites/default/files/marcoregulatorio/d_42-21_reglamento_gral_telecomunicaciones-tic.pdf"
-          },
-          {
-            "title": "Decreto de Ley 35- 2021 \"Sobre las Telecomunicaciones y las Tecnologías de Información y Comunicación y el uso del Espectro Radioeléctrico\"",
-            "url": "https://www.mincom.gob.cu/sites/default/files/marcoregulatorio/d-l_35-21_sobre_telecomunicaciones-tic_y_uso_de_ere.pdf"
-          },
-          {
-            "title": "Plataforma Apklis para descarga de aplicaciones",
-            "url": "https://www.apklis.cu/"
-          }
-        ]
-      },
-      {
-        "name": "Ciberseguridad",
-        "links": [
-          {
-            "title": "Decreto 360-2019 sobre la Seguridad de la Tecnologías de la Información y la Comunicación y la Defensa del Ciberespacio Nacional",
-            "url": "https://www.mincom.gob.cu/sites/default/files/marcoregulatorio/d_360-2019_seguridad_tic_y_ciberespacio_nacional.pdf"
-          },
-          {
-            "title": "Reglamento para la seguridad y protección de los datos personales en soporte electrónico",
-            "url": "https://www.mincom.gob.cu/sites/default/files/marcoregulatorio/r_58-22_registro_de_base_datos_personales_.pdf"
-          },
-          {
-            "title": "Resolución 105-2021 Modelo de actuación Nacional ante incidentes de Ciberseguridad",
-            "url": "https://www.mincom.gob.cu/sites/default/files/marcoregulatorio/r_105-21_modelo_de_actuacion_nacional.pdf"
-          },
-          {
-            "title": "Resolución 129-2019 Metodología para la Gestión de la seguridad Informática",
-            "url": "https://www.mincom.gob.cu/sites/default/files/marcoregulatorio/r_129-19_metodologia_para_sistema_de_gestion_de_seguridad_informatica.pdf"
-          }
-        ]
-      },
-      {
-        "name": "Protección del usuario",
-        "links": [
-          {
-            "title": "Trámites en línea",
-            "url": "https://www.mincom.gob.cu/es/tramites"
-          }
-        ]
-      },
-      {
-        "name": "Accesibilidad",
-        "links": [
-          {
-            "title": "Decreto-Ley 370-2018 sobre la Informatización de la sociedad en Cuba",
-            "url": "https://www.mincom.gob.cu/sites/default/files/marcoregulatorio/dl_370-18_informatizacion_sociedad.pdf"
-          },
-          {
-            "title": "Resolución 139-2020 Nuevo número telefónico para personas de avanzada edad o con necesidades especiales",
-            "url": "https://www.mincom.gob.cu/sites/default/files/marcoregulatorio/r_139-20_numero_para_discapacitados.pdf"
-          },
-          {
-            "title": "Proyectos de informatización",
-            "url": "https://www.mincom.gob.cu/es/informatizacion"
-          }
-        ]
-      },
-      {
-        "name": "Tecnologías emergentes",
-        "links": [
-          {
-            "title": "Resolución 67-2021 sobre aeronaves no tripuladas",
-            "url": "https://www.mincom.gob.cu/sites/default/files/marcoregulatorio/r_67-21_sobre_aeronaves_no_tripuladas.pdf"
-          }
-        ]
-      },
-      {
-        "name": "Asuntos relacionados con Internet",
-        "links": [
-          {
-            "title": "Acuerdo 8611- 2019 Estrategia de desarrollo de la Infraestructura de Banda Ancha en Cuba",
-            "url": "https://www.mincom.gob.cu/sites/default/files/marcoregulatorio/a_8611-19_estrategia_desarrollo_banda_ancha_cuba_.pdf"
-          },
-          {
-            "title": "Resolución 127-2019 Reglamento del proveedor de servicios públicos de alojamiento y de hospedaje en el entorno Internet",
-            "url": "https://www.mincom.gob.cu/sites/default/files/marcoregulatorio/r_127-19_reglamento_de_proveedor_de_hospedaje_y_alojamiento.pdf"
-          },
-          {
-            "title": "Resolución 80- 2019 Definición de la velocidad de Banda Ancha",
-            "url": "https://www.mincom.gob.cu/sites/default/files/marcoregulatorio/r_80-19_definicion_de_la_velocidad_de_banda_ancha_0.pdf"
-          }
-        ]
-      },
-      {
-        "name": "Telecomunicaciones de emergencia",
-        "links": [
-          {
-            "title": "Frecuencias identificadas para las comunicaciones de socorro y seguridad del Sistema Mundial de Socorro y Seguridad Marítima (SMSSM)",
-            "url": "https://www.mincom.gob.cu/sites/default/files/marcoregulatorio/r_161-_08_frecuencias_smssm.pdf"
-          },
-          {
-            "title": "Resolución 144- 2019 que contiene el Plan Nacional de Numeración",
-            "url": "https://www.mincom.gob.cu/sites/default/files/marcoregulatorio/r_144-19_plan_nacional_de_numeracion.pdf"
-          }
-        ]
-      },
-      {
-        "name": "Homologación de productos y dispositivos",
-        "links": [
-          {
-            "title": "Reglamento de Homologación",
-            "url": "https://www.mincom.gob.cu/sites/default/files/marcoregulatorio/r_132-19_reglamento_de_homologacion.pdf"
-          },
-          {
-            "title": "Relación de equipos homologados con certificado de Homologación vigente",
-            "url": "https://www.mincom.gob.cu/es/certificado-de-homologacion"
-          },
-          {
-            "title": "Reglamento de Homologación. Capítulo III. De la Solicitud de Evaluación de la Conformidad y el Certificado de Homologación",
-            "url": "https://www.mincom.gob.cu/sites/default/files/marcoregulatorio/r_132-19_reglamento_de_homologacion.pdf"
-          }
-        ]
-      },
-      {
-        "name": "Contáctanos",
-        "links": [
-          {
-            "title": "Consultar portal institucional del INDOTEL",
-            "url": "https://indotel.gob.do/"
-          }
-        ]
-      },
-      {
-        "name": "Internacionales@indotel.gob.do",
-        "links": []
-      },
-      {
-        "name": "Internacionales@indotel.gob.do",
-        "links": []
-      },
-      {
-        "name": "Oficina en Republica Dominicana:",
-        "links": []
-      },
-      {
-        "name": "Av. Abraham Lincoln No. 962 , Santo Domingo, R.D 10148",
-        "links": []
-      },
-      {
-        "name": "Oficina en Republica Dominicana: (809) 200-9707",
-        "links": [
-          {
-            "title": "Consultar portal institucional del INDOTEL",
-            "url": "https://indotel.gob.do/"
-          }
-        ]
-      },
-      {
-        "name": "Oficina en Republica Dominicana: (809) 200-9707",
-        "links": []
-      },
-      {
-        "name": "Redes Sociales",
-        "links": []
-      },
-      {
-        "name": "App",
-        "links": []
-      }
-    ]
-  },
-  {
-    "country": "España",
-    "entity": "Comisión Nacional de los Mercados y la Competencia",
-    "acronym": "CNMC",
     "detailUrl": "https://regulatel.indotel.gob.do/pagina/detalle?id=188",
     "categories": [
       {
@@ -1824,23 +1519,6 @@
           {
             "title": "Solicitud de Frecuencias para Bandas Libres",
             "url": "https://www.siget.gob.sv/wp-content/uploads/2021/02/GT-THaGER-F04_Solicitud-de-Frecuencias-para-Bandas-Libres.xlsx"
-          },
-          {
-            "title": "Boletín estadístico",
-            "url": "https://www.siget.gob.sv/gerencias/telecomunicaciones/estadisticas/boletin-estadistico/"
-          },
-          {
-            "title": "Indicadores",
-            "url": "https://www.siget.gob.sv/gerencias/telecomunicaciones/estadisticas/indicadores/"
-          }
-        ]
-      },
-      {
-        "name": "Competencia económica",
-        "links": [
-          {
-            "title": "Ley de Competencia",
-            "url": "https://www.siget.gob.sv/wp-content/uploads/2021/02/ley-de-competencia.pdf"
           }
         ]
       },
@@ -1869,14 +1547,6 @@
             "url": "https://www.transparencia.gob.sv/institutions/siget/documents/otros-documentos-normativos"
           },
           {
-            "title": "Reclamos",
-            "url": "https://www.siget.gob.sv/gerencias/telecomunicaciones/informacion-para-los-usuarios/reclamos/"
-          },
-          {
-            "title": "Tarifas de telefonía",
-            "url": "https://www.siget.gob.sv/gerencias/telecomunicaciones/informacion-para-los-usuarios/tarifas-de-telefonia/"
-          },
-          {
             "title": "Recepción de Denuncias, Quejas y Sugerencias que presenten los Usuarios del Servicio de Electricidad y Telecomunicaciones",
             "url": "https://www.siget.gob.sv/servicios/recepcion-de-denuncias-quejas-y-sugerencias-que-presenten-los-usuarios-del-servicio-de-electricidad-y-telecomunicaciones/"
           },
@@ -1889,14 +1559,6 @@
             "url": "https://www.siget.gob.sv/servicios/consulta-robo-de-celulares/"
           },
           {
-            "title": "Portabilidad",
-            "url": "https://www.siget.gob.sv/gerencias/telecomunicaciones/portabilidad/"
-          },
-          {
-            "title": "Tu Velocidad",
-            "url": "https://www.siget.gob.sv/tuvelocidad/"
-          },
-          {
             "title": "Mapas de cobertura de telefonía celular",
             "url": "https://www.siget.gob.sv/gerencias/telecomunicaciones/informacion-para-los-usuarios/cobertura-de-telefonia-celular/"
           },
@@ -1907,21 +1569,8 @@
         ]
       },
       {
-        "name": "Asuntos relacionados con Internet",
-        "links": [
-          {
-            "title": "Indicadores",
-            "url": "https://www.siget.gob.sv/gerencias/telecomunicaciones/estadisticas/indicadores/"
-          }
-        ]
-      },
-      {
         "name": "Telecomunicaciones de emergencia",
         "links": [
-          {
-            "title": "Plan de numeración",
-            "url": "https://www.siget.gob.sv/gerencias/telecomunicaciones/informacion-para-operadores/telefonia/plan-de-numeracion/"
-          },
           {
             "title": "Consulta el plan de numeración",
             "url": "https://www.siget.gob.sv/servicios/consulta-el-plan-de-numeracion/"
@@ -1936,215 +1585,15 @@
             "url": "https://www.transparencia.gob.sv/institutions/siget/services/9905"
           }
         ]
-      },
-      {
-        "name": "Contáctanos",
-        "links": [
-          {
-            "title": "Consultar portal institucional del INDOTEL",
-            "url": "https://indotel.gob.do/"
-          }
-        ]
-      },
-      {
-        "name": "Internacionales@indotel.gob.do",
-        "links": []
-      },
-      {
-        "name": "Internacionales@indotel.gob.do",
-        "links": []
-      },
-      {
-        "name": "Oficina en Republica Dominicana:",
-        "links": []
-      },
-      {
-        "name": "Av. Abraham Lincoln No. 962 , Santo Domingo, R.D 10148",
-        "links": []
-      },
-      {
-        "name": "Oficina en Republica Dominicana: (809) 200-9707",
-        "links": [
-          {
-            "title": "Consultar portal institucional del INDOTEL",
-            "url": "https://indotel.gob.do/"
-          }
-        ]
-      },
-      {
-        "name": "Oficina en Republica Dominicana: (809) 200-9707",
-        "links": []
-      },
-      {
-        "name": "Redes Sociales",
-        "links": []
-      },
-      {
-        "name": "App",
-        "links": []
       }
     ]
   },
   {
-    "country": "Guatemala",
-    "entity": "Superintendencia de Telecomunicaciones",
-    "acronym": "SIT",
+    "country": "España",
+    "entity": "Comisión Nacional de los Mercados y la Competencia",
+    "acronym": "CNMC",
     "detailUrl": "https://regulatel.indotel.gob.do/pagina/detalle?id=189",
     "categories": [
-      {
-        "name": "Comisión Nacional de los Mercados y la Competencia",
-        "links": [
-          {
-            "title": "IPN/CNMC/040/22: Solicitud de Informe de la SETID sobre la Orden por la que se aprueba el pliego de Cláusulas Administrativas Particulares y de Prescripciones Técnicas para el otorgamiento por subasta de concesiones de uso privativo de dominio público radioeléctrico",
-            "url": "https://www.cnmc.es/expedientes/ipncnmc04022"
-          },
-          {
-            "title": "IPN/CNMC/030/22: Solicitud de la SETID sobre P.O. por la que se modifica la Orden ETD/1449/2021 de 16 de diciembre por la que se aprueba el Cuadro Nacional de Atribución de Frecuencias",
-            "url": "https://www.cnmc.es/expedientes/ipncnmc03022"
-          },
-          {
-            "title": "IPN/CNMC/039/21: Solicitud de la SETID sobre P.O. por la que se modifican las concesiones demaniales de la banda de frecuencias de 3400-3800 MHZ a efecto de llevar a cabo la reorganización de esta banda de frecuencias",
-            "url": "https://www.cnmc.es/expedientes/ipncnmc03921"
-          },
-          {
-            "title": "B",
-            "url": "https://blog.cnmc.es/cnmc/"
-          },
-          {
-            "title": "log de la CNMC",
-            "url": "https://blog.cnmc.es/cnmc/"
-          },
-          {
-            "title": "Legislación y normatividad en materia de Competencia Económica",
-            "url": "https://www.cnmc.es/sobre-la-cnmc/normativa?page_manager_page_variant_weight=0&overridden_route_name=entity.node.canonical&base_route_name=entity.node.canonical&page_manager_page=node_view&page_manager_page_variant=panel_transparencia"
-          },
-          {
-            "title": "Estudios, informes sobre normativa e impugnaciones ante los Tribunales sobre las normas que restringen indebidamente la competencia",
-            "url": "https://www.cnmc.es/ambitos-de-actuacion/promocion-de-la-competencia/mejora-regulatoria"
-          },
-          {
-            "title": "IPN/CNMC/029/21: Solicitud de",
-            "url": "https://www.cnmc.es/expedientes/ipncnmc02921"
-          },
-          {
-            "title": "Informe de la SETID sobre el borrador de anteproyecto de Ley sobre Requisitos para Garantizar la Seguridad de las Redes y Servicios de Comunicaciones Electrónicas de Quinta Generación",
-            "url": "https://www.cnmc.es/expedientes/ipncnmc02921"
-          },
-          {
-            "title": "Registro de Numeración de Telecomunicaciones de la CNMC",
-            "url": "https://numeracionyoperadores.cnmc.es/numeracion"
-          },
-          {
-            "title": "Normativa sobre accesibilidad",
-            "url": "https://www.cnmc.es/ambitos-de-actuacion/audiovisual/control-de-contenidos#accesibilidad"
-          },
-          {
-            "title": "Contribución de la CNMC a las consultas públicas de la Comisión Europea sobre la futura regulación de las plataformas digitales",
-            "url": "https://www.cnmc.es/sobre-la-cnmc/documentos-posicion/consulta-ce-plataformas-digitales"
-          },
-          {
-            "title": "Estudio sobre las condiciones de competencia en el sector de la publicidad online en España",
-            "url": "https://www.cnmc.es/expedientes/ecnmc00219"
-          },
-          {
-            "title": "INF/DTSA/023/19: Informe sobre cuestiones relacionadas con la numeración asociada a los servicios máquina a máquina (M2M)",
-            "url": "https://www.cnmc.es/expedientes/infdtsa02319"
-          },
-          {
-            "title": "Oferta Mayorista de Acceso a Registros y Conductos (MARCo)",
-            "url": "https://www.cnmc.es/sites/default/files/editor_contenidos/Telecomunicaciones/Ofertas/Marco/Oferta_MARCo_vigente.zip"
-          },
-          {
-            "title": "Cierre de centrales de la red de cobre",
-            "url": "https://www.cnmc.es/sites/default/files/editor_contenidos/Telecomunicaciones/Centrales/202212_Lista%20centrales%20en%20proceso%20de%20cierre%20diciembre%202022.csv"
-          },
-          {
-            "title": "IPN/CNMC/032/21: Solicitud de la SETID sobre proyecto de R.D. por el que se regulan las comunicaciones de emergencia utilizando el Número Único de Emergencia 112",
-            "url": "https://www.cnmc.es/expedientes/ipncnmc03221"
-          }
-        ]
-      },
-      {
-        "name": "Comisión Nacional de los Mercados y la Competencia",
-        "links": []
-      },
-      {
-        "name": "CNMC",
-        "links": [
-          {
-            "title": "IPN/CNMC/040/22: Solicitud de Informe de la SETID sobre la Orden por la que se aprueba el pliego de Cláusulas Administrativas Particulares y de Prescripciones Técnicas para el otorgamiento por subasta de concesiones de uso privativo de dominio público radioeléctrico",
-            "url": "https://www.cnmc.es/expedientes/ipncnmc04022"
-          },
-          {
-            "title": "IPN/CNMC/030/22: Solicitud de la SETID sobre P.O. por la que se modifica la Orden ETD/1449/2021 de 16 de diciembre por la que se aprueba el Cuadro Nacional de Atribución de Frecuencias",
-            "url": "https://www.cnmc.es/expedientes/ipncnmc03022"
-          },
-          {
-            "title": "IPN/CNMC/039/21: Solicitud de la SETID sobre P.O. por la que se modifican las concesiones demaniales de la banda de frecuencias de 3400-3800 MHZ a efecto de llevar a cabo la reorganización de esta banda de frecuencias",
-            "url": "https://www.cnmc.es/expedientes/ipncnmc03921"
-          },
-          {
-            "title": "B",
-            "url": "https://blog.cnmc.es/cnmc/"
-          },
-          {
-            "title": "log de la CNMC",
-            "url": "https://blog.cnmc.es/cnmc/"
-          },
-          {
-            "title": "Legislación y normatividad en materia de Competencia Económica",
-            "url": "https://www.cnmc.es/sobre-la-cnmc/normativa?page_manager_page_variant_weight=0&overridden_route_name=entity.node.canonical&base_route_name=entity.node.canonical&page_manager_page=node_view&page_manager_page_variant=panel_transparencia"
-          },
-          {
-            "title": "Estudios, informes sobre normativa e impugnaciones ante los Tribunales sobre las normas que restringen indebidamente la competencia",
-            "url": "https://www.cnmc.es/ambitos-de-actuacion/promocion-de-la-competencia/mejora-regulatoria"
-          },
-          {
-            "title": "IPN/CNMC/029/21: Solicitud de",
-            "url": "https://www.cnmc.es/expedientes/ipncnmc02921"
-          },
-          {
-            "title": "Informe de la SETID sobre el borrador de anteproyecto de Ley sobre Requisitos para Garantizar la Seguridad de las Redes y Servicios de Comunicaciones Electrónicas de Quinta Generación",
-            "url": "https://www.cnmc.es/expedientes/ipncnmc02921"
-          },
-          {
-            "title": "Registro de Numeración de Telecomunicaciones de la CNMC",
-            "url": "https://numeracionyoperadores.cnmc.es/numeracion"
-          },
-          {
-            "title": "Normativa sobre accesibilidad",
-            "url": "https://www.cnmc.es/ambitos-de-actuacion/audiovisual/control-de-contenidos#accesibilidad"
-          },
-          {
-            "title": "Contribución de la CNMC a las consultas públicas de la Comisión Europea sobre la futura regulación de las plataformas digitales",
-            "url": "https://www.cnmc.es/sobre-la-cnmc/documentos-posicion/consulta-ce-plataformas-digitales"
-          },
-          {
-            "title": "Estudio sobre las condiciones de competencia en el sector de la publicidad online en España",
-            "url": "https://www.cnmc.es/expedientes/ecnmc00219"
-          },
-          {
-            "title": "INF/DTSA/023/19: Informe sobre cuestiones relacionadas con la numeración asociada a los servicios máquina a máquina (M2M)",
-            "url": "https://www.cnmc.es/expedientes/infdtsa02319"
-          },
-          {
-            "title": "Oferta Mayorista de Acceso a Registros y Conductos (MARCo)",
-            "url": "https://www.cnmc.es/sites/default/files/editor_contenidos/Telecomunicaciones/Ofertas/Marco/Oferta_MARCo_vigente.zip"
-          },
-          {
-            "title": "Cierre de centrales de la red de cobre",
-            "url": "https://www.cnmc.es/sites/default/files/editor_contenidos/Telecomunicaciones/Centrales/202212_Lista%20centrales%20en%20proceso%20de%20cierre%20diciembre%202022.csv"
-          },
-          {
-            "title": "IPN/CNMC/032/21: Solicitud de la SETID sobre proyecto de R.D. por el que se regulan las comunicaciones de emergencia utilizando el Número Único de Emergencia 112",
-            "url": "https://www.cnmc.es/expedientes/ipncnmc03221"
-          }
-        ]
-      },
-      {
-        "name": "CNMC",
-        "links": []
-      },
       {
         "name": "Espectro radioeléctrico",
         "links": [
@@ -2161,11 +1610,7 @@
             "url": "https://www.cnmc.es/expedientes/ipncnmc03921"
           },
           {
-            "title": "B",
-            "url": "https://blog.cnmc.es/cnmc/"
-          },
-          {
-            "title": "log de la CNMC",
+            "title": "Blog de la CNMC",
             "url": "https://blog.cnmc.es/cnmc/"
           }
         ]
@@ -2175,7 +1620,7 @@
         "links": [
           {
             "title": "Legislación y normatividad en materia de Competencia Económica",
-            "url": "https://www.cnmc.es/sobre-la-cnmc/normativa?page_manager_page_variant_weight=0&overridden_route_name=entity.node.canonical&base_route_name=entity.node.canonical&page_manager_page=node_view&page_manager_page_variant=panel_transparencia"
+            "url": "https://www.cnmc.es/sobre-la-cnmc/normativa"
           },
           {
             "title": "Estudios, informes sobre normativa e impugnaciones ante los Tribunales sobre las normas que restringen indebidamente la competencia",
@@ -2187,11 +1632,7 @@
         "name": "Ciberseguridad",
         "links": [
           {
-            "title": "IPN/CNMC/029/21: Solicitud de",
-            "url": "https://www.cnmc.es/expedientes/ipncnmc02921"
-          },
-          {
-            "title": "Informe de la SETID sobre el borrador de anteproyecto de Ley sobre Requisitos para Garantizar la Seguridad de las Redes y Servicios de Comunicaciones Electrónicas de Quinta Generación",
+            "title": "IPN/CNMC/029/21: Solicitud de Informe de la SETID sobre el borrador de anteproyecto de Ley sobre Requisitos para Garantizar la Seguridad de las Redes y Servicios de Comunicaciones Electrónicas de Quinta Generación",
             "url": "https://www.cnmc.es/expedientes/ipncnmc02921"
           }
         ]
@@ -2202,15 +1643,6 @@
           {
             "title": "Registro de Numeración de Telecomunicaciones de la CNMC",
             "url": "https://numeracionyoperadores.cnmc.es/numeracion"
-          }
-        ]
-      },
-      {
-        "name": "Accesibilidad",
-        "links": [
-          {
-            "title": "Normativa sobre accesibilidad",
-            "url": "https://www.cnmc.es/ambitos-de-actuacion/audiovisual/control-de-contenidos#accesibilidad"
           }
         ]
       },
@@ -2257,59 +1689,13 @@
             "url": "https://www.cnmc.es/expedientes/ipncnmc03221"
           }
         ]
-      },
-      {
-        "name": "Contáctanos",
-        "links": [
-          {
-            "title": "Consultar portal institucional del INDOTEL",
-            "url": "https://indotel.gob.do/"
-          }
-        ]
-      },
-      {
-        "name": "Internacionales@indotel.gob.do",
-        "links": []
-      },
-      {
-        "name": "Internacionales@indotel.gob.do",
-        "links": []
-      },
-      {
-        "name": "Oficina en Republica Dominicana:",
-        "links": []
-      },
-      {
-        "name": "Av. Abraham Lincoln No. 962 , Santo Domingo, R.D 10148",
-        "links": []
-      },
-      {
-        "name": "Oficina en Republica Dominicana: (809) 200-9707",
-        "links": [
-          {
-            "title": "Consultar portal institucional del INDOTEL",
-            "url": "https://indotel.gob.do/"
-          }
-        ]
-      },
-      {
-        "name": "Oficina en Republica Dominicana: (809) 200-9707",
-        "links": []
-      },
-      {
-        "name": "Redes Sociales",
-        "links": []
-      },
-      {
-        "name": "App",
-        "links": []
       }
     ]
   },
   {
-    "country": "Honduras",
-    "entity": "Comisión Nacional de Telecomunicaciones",
-    "acronym": "CONATEL",
+    "country": "Guatemala",
+    "entity": "Superintendencia de Telecomunicaciones",
+    "acronym": "SIT",
     "detailUrl": "https://regulatel.indotel.gob.do/pagina/detalle?id=190",
     "categories": [
       {
@@ -2324,21 +1710,8 @@
             "url": "https://sit.gob.gt/gerencia-de-frecuencias/frecuencias/tabla-nacional-de-atribucion-de-frecuencias/"
           },
           {
-            "title": "Sistemas satelitales",
-            "url": "https://sit.gob.gt/gerencia-de-frecuencias/sistemas/sistema-satelital/"
-          },
-          {
             "title": "Estadísticas relacionadas con el espectro radioeléctrico",
             "url": "https://sit.gob.gt/gerencia-de-frecuencias/mas-informacion/estadisticas/"
-          }
-        ]
-      },
-      {
-        "name": "Tecnologías de la Información y Comunicación (TIC)",
-        "links": [
-          {
-            "title": "Cursos SIT",
-            "url": "https://cursos.sit.gob.gt/"
           }
         ]
       },
@@ -2347,7 +1720,7 @@
         "links": [
           {
             "title": "Literal f) artículo 5. Resolución SIT-553-2015",
-            "url": "https://sit.gob.gt/download/886/reglamento-organico-interno-sit-jur-pagina-web/1_pz236JKvm4ZOQNOpJM_Zn3SIb4upCzx/Reglamento%20Organico%20Interno%20SIT.pdf?__cf_chl_tk=Wy33MBLv2j2fS4ah4NhIu5GrZn1WJw8b.6WbZ4SuITg-1686007787-0-gaNycGzNDVA"
+            "url": "https://sit.gob.gt/download/886/reglamento-organico-interno-sit-jur-pagina-web/1_pz236JKvm4ZOQNOpJM_Zn3SIb4upCzx/Reglamento%20Organico%20Interno%20SIT.pdf"
           }
         ]
       },
@@ -2359,89 +1732,21 @@
             "url": "https://sit.gob.gt/gerencia-de-telefonia/recursos-de-telefonia/numeracion/plan-nacional-de-numeracion/"
           }
         ]
-      },
-      {
-        "name": "Homologación de productos y dispositivos",
-        "links": [
-          {
-            "title": "Dispensación de homologación",
-            "url": "https://sit.gob.gt/gerencia-de-frecuencias/mas-informacion/dispensacion-de-homologacion/"
-          }
-        ]
-      },
-      {
-        "name": "Contáctanos",
-        "links": [
-          {
-            "title": "Consultar portal institucional del INDOTEL",
-            "url": "https://indotel.gob.do/"
-          }
-        ]
-      },
-      {
-        "name": "Internacionales@indotel.gob.do",
-        "links": []
-      },
-      {
-        "name": "Internacionales@indotel.gob.do",
-        "links": []
-      },
-      {
-        "name": "Oficina en Republica Dominicana:",
-        "links": []
-      },
-      {
-        "name": "Av. Abraham Lincoln No. 962 , Santo Domingo, R.D 10148",
-        "links": []
-      },
-      {
-        "name": "Oficina en Republica Dominicana: (809) 200-9707",
-        "links": [
-          {
-            "title": "Consultar portal institucional del INDOTEL",
-            "url": "https://indotel.gob.do/"
-          }
-        ]
-      },
-      {
-        "name": "Oficina en Republica Dominicana: (809) 200-9707",
-        "links": []
-      },
-      {
-        "name": "Redes Sociales",
-        "links": []
-      },
-      {
-        "name": "App",
-        "links": []
       }
     ]
   },
   {
-    "country": "Italia",
-    "entity": "Autorità per le Garanzie nelle Comunicazioni",
-    "acronym": "AGCOM",
+    "country": "Honduras",
+    "entity": "Comisión Nacional de Telecomunicaciones",
+    "acronym": "CONATEL",
     "detailUrl": "https://regulatel.indotel.gob.do/pagina/detalle?id=191",
     "categories": [
       {
         "name": "Espectro radioeléctrico",
         "links": [
           {
-            "title": "Atribución de Frecuencias",
-            "url": "https://www.conatel.gob.hn/doc/Regulacion/resoluciones/2021/NR003-21.pdf"
-          },
-          {
             "title": "Bandas de frecuencias del espectro radioeléctrico de uso libre",
             "url": "https://www.conatel.gob.hn/doc/Regulacion/resoluciones/2021/NR013-21.pdf"
-          }
-        ]
-      },
-      {
-        "name": "Competencia económica",
-        "links": [
-          {
-            "title": "Reglamento de Competencia",
-            "url": "https://www.conatel.gob.hn/doc/Regulacion/resoluciones/2015/NR017-15.pdf"
           }
         ]
       },
@@ -2453,7 +1758,7 @@
             "url": "https://www.conatel.gob.hn/doc/Regulacion/resoluciones/2022/NR005-22.pdf"
           },
           {
-            "title": "NR008-22:Prestación de Servicios de Telecomunicaciones Con Conectividad de Banda Ancha",
+            "title": "NR008-22: Prestación de Servicios de Telecomunicaciones Con Conectividad de Banda Ancha",
             "url": "https://www.conatel.gob.hn/doc/Regulacion/resoluciones/2022/NR008-22.pdf"
           }
         ]
@@ -2466,21 +1771,8 @@
             "url": "https://www.conatel.gob.hn/doc/Regulacion/resoluciones/2017/NR014-17.pdf"
           },
           {
-            "title": "Reglamento de tarifas",
-            "url": "https://www.conatel.gob.hn/doc/Regulacion/resoluciones/2021/NR004-21.pdf"
-          },
-          {
             "title": "Reglamento de Tarifas y Costos de Servicios de Telecomunicaciones",
             "url": "https://www.conatel.gob.hn/doc/Regulacion/resoluciones/2022/NR003-22.pdf"
-          }
-        ]
-      },
-      {
-        "name": "Asuntos relacionados con Internet",
-        "links": [
-          {
-            "title": "Resolución Normativa NR004/2022",
-            "url": "https://www.conatel.gob.hn/doc/Regulacion/resoluciones/2022/NR004-22.pdf"
           }
         ]
       },
@@ -2497,56 +1789,218 @@
         "name": "Homologación de productos y dispositivos",
         "links": [
           {
-            "title": "Hasta este año 2023, se esta trabajando en la Versión Preliminar de Anteproyecto de Resolución Normativa del Reglamento de Homologación de equipos",
+            "title": "Sistema de Homologación de Marcas y Modelos",
             "url": "http://sitae.conatel.gob.hn/SHMG/ListadoGeneral.aspx"
           }
         ]
-      },
+      }
+    ]
+  },
+  {
+    "country": "Italia",
+    "entity": "Autorità per le Garanzie nelle Comunicazioni",
+    "acronym": "AGCOM",
+    "detailUrl": "https://regulatel.indotel.gob.do/pagina/detalle?id=192",
+    "categories": [
       {
-        "name": "Contáctanos",
+        "name": "Espectro Radioeléctrico",
         "links": [
           {
-            "title": "Consultar portal institucional del INDOTEL",
-            "url": "https://indotel.gob.do/"
+            "title": "Cuadro Nacional de Atribución de Frecuencias (CNAF)",
+            "url": "https://www.agcom.it/documents/10179/2024195/Allegato+8-7-2015/f206acb3-d4be-439f-a7b1-e1c73f891aa8?version=1.1"
+          },
+          {
+            "title": "Dividendo digital en 800 MHz y otras frecuencias disponibles en 1800, 2000 y 2600 MHz para sistemas de comunicaciones de banda ancha",
+            "url": "https://www.agcom.it/dividendo-digitale-ad-800-mhz-ed-altre-frequenze-disponibili-a-1800-2000-e-2600-mhz-per-sistemi-di-comunicazione-elettronica-a-larga-banda"
+          },
+          {
+            "title": "Frecuencias de banda L para sistemas de comunicaciones electrónicas terrestres",
+            "url": "https://www.agcom.it/frequenze-nella-banda-1452-1492-mhz-per-sistemi-terrestri-di-comunicazioni-elettroniche"
+          },
+          {
+            "title": "Ampliación de derechos de uso de frecuencias en las bandas de 900, 1800 y 2100 MHz",
+            "url": "https://www.agcom.it/proroga-diritti-d-uso-delle-frequenze-in-banda-900-e-1800-mhz"
+          },
+          {
+            "title": "Derechos de uso de frecuencia para redes de radio de banda ancha de 26 y 28 GHz",
+            "url": "https://www.agcom.it/130"
+          },
+          {
+            "title": "Frecuencias en las bandas de 694-790 MHz, 3600-3800 MHz y 26,5-27,5 GHz para sistemas de comunicaciones electrónicas terrestres (5G)",
+            "url": "https://www.agcom.it/frequenze-nelle-bande-694-790-mhz-3600-3800-mhz-e-26.5-27.5-ghz-per-sistemi-terrestri-di-comunicazioni-elettroniche-5g-"
+          },
+          {
+            "title": "Frecuencias en la banda 3600-3800 MHz para uso de sistemas terrenales para servicios de comunicaciones electrónicas",
+            "url": "https://www.agcom.it/131"
+          },
+          {
+            "title": "Frecuencias de 3,4-3,6 GHz para sistemas inalámbricos de banda ancha",
+            "url": "https://www.agcom.it/frequenze-a-3.4-3.6-ghz-per-sistemi-broadband-wireless-access-bwa-a-3.5-ghz"
+          },
+          {
+            "title": "Frecuencias para sistemas UMTS",
+            "url": "https://www.agcom.it/frequenze-per-sistemi-umts"
+          },
+          {
+            "title": "Frecuencias para sistemas GSM en la banda de 900-1800 MHz",
+            "url": "https://www.agcom.it/frequenze-per-sistemi-gsm-in-banda-900-e-1800-mhz"
+          },
+          {
+            "title": "Acceso compartido con Licencia (LSA)",
+            "url": "https://www.agcom.it/licensed-shared-access-lsa-"
           }
         ]
       },
       {
-        "name": "Internacionales@indotel.gob.do",
-        "links": []
-      },
-      {
-        "name": "Internacionales@indotel.gob.do",
-        "links": []
-      },
-      {
-        "name": "Oficina en Republica Dominicana:",
-        "links": []
-      },
-      {
-        "name": "Av. Abraham Lincoln No. 962 , Santo Domingo, R.D 10148",
-        "links": []
-      },
-      {
-        "name": "Oficina en Republica Dominicana: (809) 200-9707",
+        "name": "Competencia Económica",
         "links": [
           {
-            "title": "Consultar portal institucional del INDOTEL",
-            "url": "https://indotel.gob.do/"
+            "title": "Mercados de Comunicaciones Electrónicas",
+            "url": "https://www.agcom.it/mercati-delle-comunicazioni-elettroniche"
+          },
+          {
+            "title": "Sistema de Información Económica (IES)",
+            "url": "https://www.agcom.it/mercati-ies"
+          },
+          {
+            "title": "Sistema Integrado de Comunicaciones",
+            "url": "https://www.agcom.it/sistema-integrato-delle-comunicazioni-sic"
+          },
+          {
+            "title": "Contabilidad regulatoria de redes fijas y móviles",
+            "url": "https://www.agcom.it/contabilita-regolatoria-delle-reti-fisse-e-mobili"
+          },
+          {
+            "title": "Observatorio de las Comunicaciones",
+            "url": "https://www.agcom.it/osservatorio-sulle-comunicazioni"
+          },
+          {
+            "title": "Cheques de ofertas minoristas",
+            "url": "https://www.agcom.it/verifiche-delle-offerte-al-dettaglio"
           }
         ]
       },
       {
-        "name": "Oficina en Republica Dominicana: (809) 200-9707",
-        "links": []
+        "name": "Protección del usuario",
+        "links": [
+          {
+            "title": "Protección de los Derechos de autor y derechos anexos",
+            "url": "https://www.agcom.it/tutela-del-diritto-d-autore"
+          },
+          {
+            "title": "Supervisión de derechos de autor y derechos anexos",
+            "url": "https://www.agcom.it/diritti-connessi1"
+          },
+          {
+            "title": "Protección de usuarios con discapacidad",
+            "url": "https://www.agcom.it/tutela-utenti-disabili"
+          },
+          {
+            "title": "Protección de los usuarios en el servicio postal",
+            "url": "https://www.agcom.it/tutela-degli-utenti-nel-settore-postale"
+          },
+          {
+            "title": "Reglamento del servicio postal",
+            "url": "https://www.agcom.it/regolamentazione-del-servizio-postale"
+          },
+          {
+            "title": "Equivalencia, igualdad de trato interna/externa",
+            "url": "https://www.agcom.it/equivalence-parita-di-trattamento-interna/esterna"
+          },
+          {
+            "title": "Comprobación de las restricciones de precios máximos en los servicios telefónicos",
+            "url": "https://www.agcom.it/verifica-vincoli-di-price-cap-sui-servizi-telefonici"
+          },
+          {
+            "title": "Controles preventivos de las ofertas minoristas de Telecom Italia",
+            "url": "https://www.agcom.it/verifiche-preventive-delle-offerte-al-dettaglio-di-telecom-italia"
+          },
+          {
+            "title": "Supervisión en el sector TLC: Informes en línea",
+            "url": "https://www.agcom.it/vigilanza-nel-settore-tlc-segnalazioni-on-line"
+          }
+        ]
       },
       {
-        "name": "Redes Sociales",
-        "links": []
+        "name": "Conectividad",
+        "links": [
+          {
+            "title": "Acceso a la red local",
+            "url": "https://www.agcom.it/accesso-alla-rete-locale"
+          },
+          {
+            "title": "Servicios de acceso desagregado",
+            "url": "https://www.agcom.it/servizi-di-accesso-disaggregato"
+          },
+          {
+            "title": "Calidad de los servicios mayoristas",
+            "url": "https://www.agcom.it/qualita-dei-servizi-wholesale"
+          },
+          {
+            "title": "Condiciones al acceso local de cobre",
+            "url": "https://www.agcom.it/condizioni-di-accesso-alla-rete-locale-in-rame"
+          },
+          {
+            "title": "Condiciones de acceso e interconexión",
+            "url": "https://www.agcom.it/condizioni-di-accesso-ed-interconnessione"
+          },
+          {
+            "title": "Condiciones de acceso a conexiones con capacidad dedicada",
+            "url": "https://www.agcom.it/condizioni-di-accesso-ai-collegamenti-a-capacita-dedicata"
+          },
+          {
+            "title": "Condiciones de acceso a la red NGAN",
+            "url": "https://www.agcom.it/condizioni-di-accesso-alla-rete-ngan"
+          },
+          {
+            "title": "Servicios de alquiler de líneas al por mayor",
+            "url": "https://www.agcom.it/servizi-wholesale-line-rental"
+          }
+        ]
       },
       {
-        "name": "App",
-        "links": []
+        "name": "Plataformas digitales",
+        "links": [
+          {
+            "title": "Prohibición de la publicidad de juegos de efectivo en línea",
+            "url": "https://www.agcom.it/divieto-di-pubblicita-di-giochi-con-vincite-in-denaro-online"
+          }
+        ]
+      },
+      {
+        "name": "Tecnologías emergentes",
+        "links": [
+          {
+            "title": "Encuesta de investigación sobre Big Data",
+            "url": "https://www.agcom.it/indagine-conoscitiva-sui-big-data"
+          },
+          {
+            "title": "Redes de Próxima Generación (NGN)",
+            "url": "https://www.agcom.it/reti-nuova-generazione-ngn"
+          }
+        ]
+      },
+      {
+        "name": "Asuntos relacionados con Internet",
+        "links": [
+          {
+            "title": "Los compromisos de Telecom de Italia",
+            "url": "https://www.agcom.it/impegni-di-telecom-italia"
+          },
+          {
+            "title": "Separación de los servicios de información de Telecom de Italia",
+            "url": "https://www.agcom.it/separazione-dei-sistemi-informativi-di-telecom-italia"
+          }
+        ]
+      },
+      {
+        "name": "Telecomunicaciones de emergencia",
+        "links": [
+          {
+            "title": "Protección de Usuarios en caso de emergencia",
+            "url": "https://www.agcom.it/tutela-degli-utenti-in-caso-di-calamita"
+          }
+        ]
       }
     ]
   },
@@ -3978,15 +3432,28 @@
     "country": "Uruguay",
     "entity": "Unidad Reguladora de Servicios de Comunicaciones",
     "acronym": "URSEC",
+    "detailUrl": "https://regulatel.indotel.gob.do/pagina/mejores-practicas-regulatorias",
+    "categories": [
+      {
+        "name": "Mejores prácticas regulatorias",
+        "links": [
+          {
+            "title": "URSEC - Unidad Reguladora de Servicios de Comunicaciones",
+            "url": "https://www.gub.uy/unidad-reguladora-servicios-comunicaciones"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "country": "Venezuela",
+    "entity": "Comisión Nacional de Telecomunicaciones",
+    "acronym": "CONATEL",
     "detailUrl": "https://regulatel.indotel.gob.do/pagina/detalle?id=200",
     "categories": [
       {
         "name": "Espectro Radioeléctrico",
         "links": [
-          {
-            "title": "Habilitación administrativa",
-            "url": "http://www.conatel.gob.ve/telecomunicaciones-2/?target=titulos"
-          },
           {
             "title": "Cuadro Nacional de Atribución de Bandas de Frecuencias (CUNABAF)",
             "url": "http://www.conatel.gob.ve/cunabaf-2/"
@@ -4027,16 +3494,8 @@
             "url": "http://www.conatel.gob.ve/reglamento-para-la-proteccion-de-los-derechos-de-los-usuarios-en-la-prestacion-de-los-servicios-de-telecomunicaciones/"
           },
           {
-            "title": "Servicio Universal",
-            "url": "http://www.conatel.gob.ve/servicio-universal/"
-          },
-          {
             "title": "Proyectos para la prestación del servicio universal",
             "url": "http://www.conatel.gob.ve/servicio-universal/?target=proyectos"
-          },
-          {
-            "title": "Organización de Usuarios",
-            "url": "http://www.conatel.gob.ve/responsabilidad-social/?target=organizaci%C3%B3n-de-usuarios"
           },
           {
             "title": "Oficina de Atención al Usuario y a la Usuaria",
@@ -4045,15 +3504,6 @@
           {
             "title": "Informes anuales sobre servicio universal",
             "url": "http://www.conatel.gob.ve/servicio-universal/?target=informe-anual"
-          }
-        ]
-      },
-      {
-        "name": "Asuntos relacionados con Internet",
-        "links": [
-          {
-            "title": "Sobre Internet",
-            "url": "http://www.conatel.gob.ve/sobre-internet-2/"
           }
         ]
       },
@@ -4080,73 +3530,6 @@
           {
             "title": "Guía para la Tramitación de la Homologación de Equipos de Telecomunicaciones",
             "url": "http://www.conatel.gob.ve/files/diccionario/guia_para_la_tramitacion_de_la_homologacion_de_equipos_de_telecomunicaciones.htm"
-          }
-        ]
-      },
-      {
-        "name": "Contáctanos",
-        "links": [
-          {
-            "title": "Consultar portal institucional del INDOTEL",
-            "url": "https://indotel.gob.do/"
-          }
-        ]
-      },
-      {
-        "name": "Internacionales@indotel.gob.do",
-        "links": []
-      },
-      {
-        "name": "Internacionales@indotel.gob.do",
-        "links": []
-      },
-      {
-        "name": "Oficina en Republica Dominicana:",
-        "links": []
-      },
-      {
-        "name": "Av. Abraham Lincoln No. 962 , Santo Domingo, R.D 10148",
-        "links": []
-      },
-      {
-        "name": "Oficina en Republica Dominicana: (809) 200-9707",
-        "links": [
-          {
-            "title": "Consultar portal institucional del INDOTEL",
-            "url": "https://indotel.gob.do/"
-          }
-        ]
-      },
-      {
-        "name": "Oficina en Republica Dominicana: (809) 200-9707",
-        "links": []
-      },
-      {
-        "name": "Redes Sociales",
-        "links": []
-      },
-      {
-        "name": "App",
-        "links": []
-      }
-    ]
-  },
-  {
-    "country": "Venezuela",
-    "entity": "Comisión Nacional de Telecomunicaciones",
-    "acronym": "CONATEL",
-    "detailUrl": "https://regulatel.indotel.gob.do/pagina/detalle?id=201",
-    "categories": [
-      {
-        "name": "Mejores prácticas regulatorias",
-        "links": [
-          {
-            "title": "Ficha CONATEL en REGULATEL",
-            "url": "https://regulatel.indotel.gob.do/pagina/detalle?id=201"
-          },
-          {
-            "title": "Comisión Nacional de Telecomunicaciones (CONATEL Venezuela)",
-            "url": "https://www.conatel.gob.ve/"
           }
         ]
       }
