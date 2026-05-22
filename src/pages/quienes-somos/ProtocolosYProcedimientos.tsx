@@ -42,56 +42,6 @@ export default function ProtocolosYProcedimientos() {
           variants={fadeIn}
           className="space-y-12"
         >
-          {/* Sección 1: Estatutos: pendiente */}
-          <div>
-            <InstitutionalH2>Estatutos: pendiente</InstitutionalH2>
-            <div
-              className="rounded-xl border-2 border-dashed py-8 px-6 text-center"
-              style={{
-                borderColor: "var(--regu-gray-200)",
-                backgroundColor: "var(--regu-gray-50)",
-              }}
-            >
-              <p
-                className="text-base md:text-lg font-medium"
-                style={{ color: "var(--regu-gray-700)" }}
-              >
-                Contenido en elaboración.
-              </p>
-              <p
-                className="text-sm mt-1"
-                style={{ color: "var(--regu-gray-500)" }}
-              >
-                Esta sección estará disponible próximamente.
-              </p>
-            </div>
-          </div>
-
-          {/* Sección 2: Reglamento: pendiente */}
-          <div>
-            <InstitutionalH2>Reglamento: pendiente</InstitutionalH2>
-            <div
-              className="rounded-xl border-2 border-dashed py-8 px-6 text-center"
-              style={{
-                borderColor: "var(--regu-gray-200)",
-                backgroundColor: "var(--regu-gray-50)",
-              }}
-            >
-              <p
-                className="text-base md:text-lg font-medium"
-                style={{ color: "var(--regu-gray-700)" }}
-              >
-                Contenido en elaboración.
-              </p>
-              <p
-                className="text-sm mt-1"
-                style={{ color: "var(--regu-gray-500)" }}
-              >
-                Esta sección estará disponible próximamente.
-              </p>
-            </div>
-          </div>
-
           {/* Sección 3: Protocolos */}
           <div>
             <InstitutionalH2>Protocolos</InstitutionalH2>
