@@ -13,6 +13,8 @@ const fadeIn = {
 
 const PROTOCOLOS_PDF_URL = "/documents/Protocolos-de-REGULATEL-10julio-2014-final.pdf";
 const PROTOCOLOS_PDF_NAME = "Protocolos de REGULATEL _10julio_2014_final.pdf";
+const ACTA_CONSTITUTIVA_PDF_URL = "/documents/ACTA-CONSTITUTIVA-REGULATEL-octubre-2013.pdf";
+const ACTA_CONSTITUTIVA_PDF_NAME = "ACTA CONSTITUTIVA DE REGULATEL, octubre de 2013. (1).pdf";
 
 /** Resumen de los principales bloques del documento institucional (PDF 2014) */
 const PROTOCOLOS_TEMAS = [
@@ -125,6 +127,56 @@ export default function ProtocolosYProcedimientos() {
                 <a
                   href={PROTOCOLOS_PDF_URL}
                   download={PROTOCOLOS_PDF_NAME}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold text-white transition-all hover:opacity-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2"
+                  style={{ backgroundColor: "var(--regu-blue)" }}
+                >
+                  <Download className="w-4 h-4" />
+                  Descargar PDF
+                </a>
+              </div>
+            </InstitutionalCard>
+
+            <InstitutionalCard className="mt-8 flex flex-col sm:flex-row items-start sm:items-center gap-6">
+              <div
+                className="w-14 h-14 rounded-xl flex items-center justify-center flex-shrink-0"
+                style={{ backgroundColor: "rgba(68, 137, 198, 0.12)", color: "var(--regu-blue)" }}
+              >
+                <FileText className="w-7 h-7" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <h3
+                  className="text-lg font-bold mb-1"
+                  style={{ color: "var(--regu-gray-900)" }}
+                >
+                  Acta constitutiva de REGULATEL (octubre 2013)
+                </h3>
+                <p
+                  className="text-sm"
+                  style={{ color: "var(--regu-gray-500)" }}
+                >
+                  Documento institucional completo
+                </p>
+              </div>
+              <div className="flex flex-wrap gap-3">
+                <a
+                  href={ACTA_CONSTITUTIVA_PDF_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold transition-all hover:opacity-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2 border-2"
+                  style={{
+                    borderColor: "var(--regu-blue)",
+                    color: "var(--regu-blue)",
+                    backgroundColor: "transparent",
+                  }}
+                >
+                  <Eye className="w-4 h-4" />
+                  Vista previa
+                </a>
+                <a
+                  href={ACTA_CONSTITUTIVA_PDF_URL}
+                  download={ACTA_CONSTITUTIVA_PDF_NAME}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold text-white transition-all hover:opacity-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2"
