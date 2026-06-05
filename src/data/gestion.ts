@@ -122,6 +122,13 @@ export const gestionDocuments: GestionDocument[] = [
   },
   // —— Revista Digital ——
   {
+    id: "revista-2026-segunda-edicion",
+    title: "Revista REGULATEL - Segunda edición - Junio, 2026",
+    url: "/documents/Revista-REGULATEL-2026-Segunda-Edicion.pdf",
+    year: "2026",
+    category: "revista",
+  },
+  {
     id: "revista-2026-final",
     title: "Revista REGULATEL 2026 — edición final",
     url: "/documents/Revista-REGULATEL-2026-FINAL.pdf",
