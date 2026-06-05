@@ -12,7 +12,7 @@ import {
 } from "@/data/gestion";
 
 /** Nueva clave al cambiar la edición destacada (vuelve a mostrarse el aviso a quien la cerró). */
-const STORAGE_KEY = "regulatel_home_revista_2026_final_dismissed_at";
+const STORAGE_KEY = "regulatel_home_revista_2026_segunda_dismissed_at";
 const SHOW_AGAIN_AFTER_DAYS = 14;
 
 const CTA_PRIMARY_CLASS =
@@ -86,7 +86,7 @@ function EditorialCoverMini() {
             className="mt-[0.15rem] text-[6px] font-medium uppercase tracking-[0.16em] text-white/45"
             style={{ fontFamily: "var(--token-font-body)" }}
           >
-            Edición final
+            Segunda edición
           </p>
         </div>
       </div>
@@ -222,7 +222,7 @@ export default function HomeRevistaAnnouncement({ variant = "floating" }: HomeRe
             color: "rgba(35, 44, 52, 0.88)",
           }}
         >
-          Ya está disponible la edición final 2026 de la Revista REGULATEL.
+          Ya está disponible la segunda edición (junio 2026) de la Revista REGULATEL.
         </p>
 
         <div className="mt-[0.72rem] sm:mt-[0.78rem]">
