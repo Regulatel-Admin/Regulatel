@@ -24,7 +24,11 @@ function validateClientFile(file: File, kind: UploadKind) {
         "application/vnd.ms-excel",
         "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
       ];
-  const maxBytes = isImage ? 20 * 1024 * 1024 : 20 * 1024 * 1024;
+  // Las funciones serverless de Vercel limitan el cuerpo de la petición a ~4,5 MB.
+  // El archivo viaja codificado en base64 (~33% más grande), así que el tamaño
+  // real máximo del archivo es ~3 MB. Por encima de eso, Vercel responde con un
+  // error de plataforma en texto plano y la app muestra "respuesta no es JSON válido".
+  const maxBytes = 3 * 1024 * 1024;
 
   if (!allowedTypes.includes(file.type)) {
     throw new Error(
@@ -35,10 +39,11 @@ function validateClientFile(file: File, kind: UploadKind) {
   }
 
   if (file.size > maxBytes) {
+    const sizeMb = (file.size / (1024 * 1024)).toFixed(1);
     throw new Error(
-      isImage
-        ? "La imagen supera el tamaño máximo de 20 MB."
-        : "El documento supera el tamaño máximo de 20 MB."
+      `El archivo pesa ${sizeMb} MB y supera el límite de 3 MB para subidas desde el panel. ` +
+        "Comprime el PDF (o reduce la imagen) y vuelve a intentarlo. " +
+        "Para archivos más grandes, súbelos directamente a Vercel Blob y pega la URL en el campo manual."
     );
   }
 }
