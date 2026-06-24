@@ -424,5 +424,19 @@ export default {
     bulletinLabel: "Boletín",
     allGtaiBulletins: "Todos los boletines GTAI",
     dismissGtaiAnnouncement: "Cerrar aviso de boletín GTAI",
+    revistaBadge: "Publicación oficial",
+    revistaCoverLabel: "Revista",
+    revistaReadEdition: "Leer edición",
+    revistaViewEditions: "Ver ediciones",
+    revistaAllEditions: "Ver todas las ediciones",
+    dismissRevistaAnnouncement: "Cerrar aviso de publicación",
+    revistaReadEditionAria: "Leer edición de la Revista REGULATEL (PDF en nueva pestaña)",
+    revistaEditions: {
+      "revista-2026-segunda-edicion": {
+        title: "Revista REGULATEL - Segunda edición - Junio, 2026",
+        description: "Ya está disponible la segunda edición (junio 2026) de la Revista REGULATEL.",
+        coverEdition: "Segunda edición",
+      },
+    },
   },
 } as const;

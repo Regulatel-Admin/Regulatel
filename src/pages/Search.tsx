@@ -11,6 +11,8 @@ import type { SiteSearchResult, SiteSearchType } from "@/lib/siteSearch";
 import { useAdminData, useEvents, useMergedGestionDocuments } from "@/contexts/AdminDataContext";
 import { useAutoridadesActuales } from "@/contexts/SiteSettingsContext";
 import { noticiasData } from "./noticiasData";
+import { localizeNoticiaData } from "@/hooks/useLocalizedNews";
+import { useLocalizedEvents } from "@/hooks/useLocalizedEvents";
 import {
   Search as SearchIcon,
   FileText,
@@ -100,14 +102,19 @@ function ResultCard({ r }: { r: SiteSearchResult }) {
 }
 
 export default function Search() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { adminNews, contentSource } = useAdminData();
-  const events = useEvents();
+  const eventsRaw = useEvents();
+  const events = useLocalizedEvents(eventsRaw);
   const documents = useMergedGestionDocuments();
   const autoridadesActuales = useAutoridadesActuales();
   const [searchParams, setSearchParams] = useSearchParams();
   const q = searchParams.get("q") ?? "";
   const typeFilter = (searchParams.get("type") as SiteSearchType) || null;
+  const localizedNoticias = useMemo(
+    () => noticiasData.map((n) => localizeNoticiaData(n, t, i18n.language)),
+    [t, i18n.language]
+  );
   const searchDocs = useMemo(
     () =>
       buildSearchDocs({
@@ -126,11 +133,11 @@ export default function Search() {
                   category: n.category,
                   content: n.content,
                 }))
-            : noticiasData,
+            : localizedNoticias,
         events,
         documents,
       }),
-    [adminNews, autoridadesActuales, contentSource, documents, events]
+    [adminNews, autoridadesActuales, contentSource, documents, events, localizedNoticias]
   );
 
   const results = q.trim()

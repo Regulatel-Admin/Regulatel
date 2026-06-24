@@ -13,6 +13,12 @@ import {
   type DirectorioAutoridad,
 } from '@/data/directorioAutoridades';
 import { useEntesReguladoresMiembros } from '@/contexts/SiteSettingsContext';
+import {
+  localizeCountryName,
+  localizeDirectorioEntry,
+  localizeEnteRegulador,
+  localizeRole,
+} from '@/hooks/useLocalizedMiembros';
 
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },
@@ -103,7 +109,7 @@ const LogoImage: React.FC<{ name: string; route: string; logoUrl?: string }> = (
 };
 
 const Miembros: React.FC = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const entesReguladoresBase = useEntesReguladoresMiembros();
   const [directorioAutoridades, setDirectorioAutoridades] = useState<DirectorioAutoridad[]>(defaultDirectorioAutoridades);
   const [searchTerm, setSearchTerm] = useState('');
@@ -137,20 +143,29 @@ const Miembros: React.FC = () => {
   
   const filteredDirectorio = useMemo(() => {
     if (!searchTerm && !selectedCountry) return directorioAutoridades;
-    
+
+    const q = searchTerm.toLowerCase();
+
     return directorioAutoridades.filter(item => {
-      const matchesSearch = !searchTerm || 
-        item.pais.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.acronym.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.presidente.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.corresponsal.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.cargo.toLowerCase().includes(searchTerm.toLowerCase());
-      
+      const localizedPais = localizeCountryName(item.pais, t, i18n.language, false);
+      const localizedPaisUpper = localizeCountryName(item.pais, t, i18n.language, true);
+      const localizedCargo = localizeRole(item.cargo, t, i18n.language);
+
+      const matchesSearch = !searchTerm ||
+        item.pais.toLowerCase().includes(q) ||
+        localizedPais.toLowerCase().includes(q) ||
+        localizedPaisUpper.toLowerCase().includes(q) ||
+        item.acronym.toLowerCase().includes(q) ||
+        item.presidente.toLowerCase().includes(q) ||
+        item.corresponsal.toLowerCase().includes(q) ||
+        item.cargo.toLowerCase().includes(q) ||
+        localizedCargo.toLowerCase().includes(q);
+
       const matchesCountry = !selectedCountry || item.pais === selectedCountry;
-      
+
       return matchesSearch && matchesCountry;
     });
-  }, [directorioAutoridades, searchTerm, selectedCountry]);
+  }, [directorioAutoridades, searchTerm, selectedCountry, t, i18n.language]);
   
   const uniqueCountries = useMemo(() => {
     return Array.from(new Set(directorioAutoridades.map(item => item.pais))).sort();
@@ -163,17 +178,23 @@ const Miembros: React.FC = () => {
 
   // Filter for entes reguladores (sorted by country)
   const filteredEntesReguladores = useMemo(() => {
+    const q = enteSearchTerm.toLowerCase();
+
     return entesReguladores.filter(ente => {
-      const matchesSearch = !enteSearchTerm || 
-        ente.name.toLowerCase().includes(enteSearchTerm.toLowerCase()) ||
-        ente.country.toLowerCase().includes(enteSearchTerm.toLowerCase()) ||
-        (ente.fullName && ente.fullName.toLowerCase().includes(enteSearchTerm.toLowerCase()));
-      
+      const localized = localizeEnteRegulador(ente, t, i18n.language);
+
+      const matchesSearch = !enteSearchTerm ||
+        ente.name.toLowerCase().includes(q) ||
+        ente.country.toLowerCase().includes(q) ||
+        localized.country.toLowerCase().includes(q) ||
+        (ente.fullName && ente.fullName.toLowerCase().includes(q)) ||
+        (localized.fullName && localized.fullName.toLowerCase().includes(q));
+
       const matchesCountry = !selectedEnteCountry || ente.country === selectedEnteCountry;
-      
+
       return matchesSearch && matchesCountry;
     });
-  }, [entesReguladores, enteSearchTerm, selectedEnteCountry]);
+  }, [entesReguladores, enteSearchTerm, selectedEnteCountry, t, i18n.language]);
 
   const uniqueEnteCountries = useMemo(() => {
     return Array.from(new Set(entesReguladores.map((ente) => ente.country))).sort();
@@ -266,7 +287,7 @@ const Miembros: React.FC = () => {
                   <option value="">{t('pages.shared.allCountries')}</option>
                   {uniqueEnteCountries.map((country) => (
                     <option key={country} value={country}>
-                      {country}
+                      {localizeCountryName(country, t, i18n.language)}
                     </option>
                   ))}
                 </select>
@@ -311,6 +332,7 @@ const Miembros: React.FC = () => {
                     <div className="flex gap-6 md:gap-8 items-stretch min-w-max pb-4 px-1 md:pl-14 md:pr-14 py-2">
                       {filteredEntesReguladores.map((ente, index) => {
                         const key = `${ente.country}-${ente.name}-${index}`;
+                        const displayEnte = localizeEnteRegulador(ente, t, i18n.language);
                         const motionCard = (
                           <motion.div
                             initial={{ opacity: 0, x: -20 }}
@@ -325,10 +347,10 @@ const Miembros: React.FC = () => {
                               <LogoImage name={ente.name} route={ente.route} logoUrl={ente.logoUrl} />
                             </div>
                             <div className="text-center flex-1 flex flex-col justify-end min-h-0">
-                              {ente.fullName && (
-                                <p className="text-sm md:text-base mb-1.5 leading-snug line-clamp-2" style={{ color: "var(--regu-blue)" }}>{ente.fullName}</p>
+                              {displayEnte.fullName && (
+                                <p className="text-sm md:text-base mb-1.5 leading-snug line-clamp-2" style={{ color: "var(--regu-blue)" }}>{displayEnte.fullName}</p>
                               )}
-                              <p className="text-sm md:text-base font-medium mt-auto" style={{ color: "var(--regu-gray-700)" }}>{ente.country}</p>
+                              <p className="text-sm md:text-base font-medium mt-auto" style={{ color: "var(--regu-gray-700)" }}>{displayEnte.country}</p>
                               <div className="text-xs font-medium flex items-center justify-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity mt-2" style={{ color: "var(--regu-blue)" }}>
                                 {t('pages.miembros.seeMore')} <ExternalLink className="w-3 h-3" />
                               </div>
@@ -445,7 +467,7 @@ const Miembros: React.FC = () => {
                         : { backgroundColor: "var(--regu-gray-100)", color: "var(--regu-gray-700)" }
                     }
                   >
-                    {country}
+                    {localizeCountryName(country, t, i18n.language, true)}
                   </button>
                 ))}
               </div>
@@ -459,7 +481,7 @@ const Miembros: React.FC = () => {
                   className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm font-medium transition-colors"
                   style={{ backgroundColor: "rgba(68, 137, 198, 0.12)", color: "var(--regu-blue)" }}
                 >
-                  {selectedCountry}
+                  {localizeCountryName(selectedCountry, t, i18n.language, true)}
                   <X className="w-4 h-4" />
                 </button>
               </div>
@@ -469,7 +491,9 @@ const Miembros: React.FC = () => {
           {/* Grid de directorio — formato institucional: ACRÓNIMO - PAÍS / Presidente / Cargo / Corresponsal / Correo */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             <AnimatePresence mode="wait">
-              {filteredDirectorio.map((item, index) => (
+              {filteredDirectorio.map((item, index) => {
+                const displayItem = localizeDirectorioEntry(item, t, i18n.language);
+                return (
                 <motion.div
                   key={`${item.pais}-${item.acronym}-${index}`}
                   initial={{ opacity: 0, y: 20 }}
@@ -483,31 +507,32 @@ const Miembros: React.FC = () => {
                   <div className="p-6">
                     <div className="flex items-start justify-between mb-4">
                       <h3 className="text-base font-bold leading-snug" style={{ color: "var(--regu-navy)", fontFamily: "var(--token-font-heading)" }}>
-                        {item.acronym} – {item.pais}
+                        {displayItem.acronym} – {displayItem.pais}
                       </h3>
                       <Globe className="w-4 h-4 flex-shrink-0 mt-0.5 opacity-50" style={{ color: "var(--regu-blue)" }} aria-hidden />
                     </div>
                     <div className="space-y-4" style={{ color: "var(--regu-gray-900)" }}>
-                      <p className="text-sm font-medium leading-snug">{item.presidente}</p>
-                      <p className="text-sm leading-snug" style={{ color: "var(--regu-gray-700)" }}>{item.cargo}</p>
+                      <p className="text-sm font-medium leading-snug">{displayItem.presidente}</p>
+                      <p className="text-sm leading-snug" style={{ color: "var(--regu-gray-700)" }}>{displayItem.cargo}</p>
                       <div className="pt-2 border-t" style={{ borderColor: "rgba(22,61,89,0.08)" }}>
                         <p className="text-xs font-semibold uppercase tracking-wide mb-1" style={{ color: "var(--regu-gray-600)" }}>{t('pages.miembros.correspondent')}</p>
-                        <p className="text-sm font-medium">{item.corresponsal}</p>
+                        <p className="text-sm font-medium">{displayItem.corresponsal}</p>
                       </div>
                       <div>
                         <p className="text-xs font-semibold uppercase tracking-wide mb-1" style={{ color: "var(--regu-gray-600)" }}>{t('pages.miembros.email')}</p>
                         <a
-                          href={`mailto:${item.correo}`}
+                          href={`mailto:${displayItem.correo}`}
                           className="text-sm break-all transition-colors hover:opacity-90"
                           style={{ color: "var(--regu-blue)" }}
                         >
-                          {item.correo}
+                          {displayItem.correo}
                         </a>
                       </div>
                     </div>
                   </div>
                 </motion.div>
-              ))}
+                );
+              })}
             </AnimatePresence>
           </div>
 

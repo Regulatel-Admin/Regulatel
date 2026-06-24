@@ -21,7 +21,7 @@ export default function FeaturedEventsCarousel({
   events,
   autoplayIntervalMs = 7000,
 }: FeaturedEventsCarouselProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const featured = getFeaturedEvents(events);
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
@@ -60,7 +60,7 @@ export default function FeaturedEventsCarousel({
 
   const event = featured[activeIndex];
   const hasRegistrationUrl = Boolean(event.registrationUrl?.trim());
-  const dateLabel = formatEventDateRange(event.startDate, event.endDate);
+  const dateLabel = formatEventDateRange(event.startDate, event.endDate, i18n.language);
 
   return (
     <section

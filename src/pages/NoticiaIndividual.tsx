@@ -16,6 +16,7 @@ import ImageCarousel from "@/components/ImageCarousel";
 import { noticiasData } from "./noticiasData";
 import { useAdminData } from "@/contexts/AdminDataContext";
 import type { NoticiaData } from "./noticiasData";
+import { localizeNoticiaData } from "@/hooks/useLocalizedNews";
 
 const fadeIn = {
   hidden: { opacity: 0, y: 16 },
@@ -613,7 +614,7 @@ function ArticleWrapper({ children }: { children: React.ReactNode }) {
 }
 
 export default function NoticiaIndividual() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { slug } = useParams<{ slug: string }>();
   const { adminNews, contentSource } = useAdminData();
   if (contentSource === "loading") return null;
@@ -649,7 +650,7 @@ export default function NoticiaIndividual() {
     );
   }
 
-  const payload = normalizeStaticNoticia(noticiaStatic);
+  const payload = normalizeStaticNoticia(localizeNoticiaData(noticiaStatic, t, i18n.language));
   return (
     <ArticleWrapper>
       <ArticleLayout payload={payload} isStaticCumbre />

@@ -4,10 +4,12 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import PageHero from "@/components/PageHero";
 import ConveniosList from "@/components/convenios/ConveniosList";
 import { useConveniosPublic } from "@/contexts/SiteSettingsContext";
+import { useLocalizedConvenios } from "@/hooks/useLocalizedConvenios";
 
 export default function Convenios() {
   const { t } = useTranslation();
-  const convenios = useConveniosPublic();
+  const rawConvenios = useConveniosPublic();
+  const convenios = useLocalizedConvenios(rawConvenios);
   return (
     <>
       <PageHero

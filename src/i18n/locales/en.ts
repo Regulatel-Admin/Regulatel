@@ -23,7 +23,7 @@ export default {
     backToHome: "Back to home",
     backToHomeShort: "Back to home",
     goToHome: "Go to home",
-    whoWeAre: "Who we are",
+    whoWeAre: "About us",
     siteName: "REGULATEL",
     siteTagline: "Latin American Forum of Telecommunications Regulatory Authorities.",
     siteLogoAlt: "REGULATEL - Latin American Forum of Telecommunications Regulatory Authorities",
@@ -31,7 +31,7 @@ export default {
     privacyPolicy: "Privacy statement",
     footer: {
       sections: {
-        whoWeAre: "Who we are",
+        whoWeAre: "About us",
         content: "Content",
         support: "Support",
       },
@@ -84,13 +84,13 @@ export default {
     },
     institutional: {
       footerHome: "Home",
-      footerWhoWeAre: "Who we are",
+      footerWhoWeAre: "About us",
       leadSource: "Source: {{source}}",
     },
   },
 
   nav: {
-    whoWeAre: "Who we are",
+    whoWeAre: "About us",
     news: "News",
     events: "Events",
     resources: "Resources",
@@ -315,6 +315,25 @@ export default {
       },
     },
     carousel: {
+      labels: {
+        past: "Past",
+        upcoming: "Upcoming",
+        news: "News",
+        summit: "Summit",
+      },
+      aria: {
+        carousel: "Featured carousel",
+        slides: "Slides",
+        goToSlide: "Go to slide {{n}}",
+        controls: "Carousel controls",
+        previousSlide: "Previous slide",
+        nextSlide: "Next slide",
+        pauseSlideshow: "Pause slideshow",
+        resumeSlideshow: "Resume slideshow",
+        viewImage: "View full background image",
+        close: "Close",
+        lightbox: "Summit image at full size",
+      },
       puntaCana: {
         title: "Regulatel, ASIET, COMTELCA Summit",
         date: "December 11, 2025",
@@ -325,19 +344,23 @@ export default {
         title: "REGULATEL PRAI Summit 2025",
         date: "November 13, 2025",
         location: "Virtual via Microsoft Teams",
+        cta: "Read more",
       },
       berecEapereg: {
         title: "Quadrilateral BEREC, EaPeReg, REGULATEL and EMERG Summit",
         date: "March 5, 2025",
         location: "Barcelona, Spain",
+        cta: "Read more",
       },
       asietCartagena: {
         title: "REGULATEL - ASIET Cartagena Dec 2024",
         date: "DEC 2024",
+        cta: "Read more",
       },
       berecBolivia: {
         title: "BEREC - REGULATEL Bolivia June 2025",
         date: "JUN 2025",
+        cta: "Read more",
       },
     },
     heroSlides: {
@@ -376,7 +399,7 @@ export default {
 
   grupos: {
     pageTitle: "Working Groups",
-    pageSubtitle: "WHO WE ARE",
+    pageSubtitle: "ABOUT US",
     pageDescription:
       "Specialized collaboration spaces where member countries share experiences and develop common regulatory solutions.",
     activeGroups: "Active groups",
@@ -458,7 +481,7 @@ export default {
 
   comite: {
     heroTitle: "Executive Committee",
-    heroSubtitle: "WHO WE ARE",
+    heroSubtitle: "ABOUT US",
     heroDescription:
       "Regulatory bodies that lead the Forum's strategic direction and coordinate the annual work plan.",
     presidenciaTitle: "Presidency and Vice-Presidencies",
@@ -483,9 +506,9 @@ export default {
   pages: {
     queSomos: {
       title: "What is REGULATEL?",
-      subtitle: "WHO WE ARE",
+      subtitle: "ABOUT US",
       breadcrumb: "About us",
-      sectionTitle: "Who we are",
+      sectionTitle: "About us",
       paragraphs: [
         "The Latin American Forum of Telecommunications Regulatory Authorities (REGULATEL) serves as a multilateral cooperation space among telecommunications regulatory authorities from Latin America, Spain, Portugal, and Italy.",
         "It operates as a flexible and efficient collaboration mechanism based on the existing institutional infrastructures in each member country. REGULATEL facilitates the exchange of information, experiences, and regulatory best practices among its members.",
@@ -531,7 +554,7 @@ export default {
     },
     visionMision: {
       title: "REGULATEL vision and mission",
-      subtitle: "WHO WE ARE",
+      subtitle: "ABOUT US",
       breadcrumb: "Vision and mission",
       missionTitle: "Mission",
       missionText:
@@ -560,7 +583,7 @@ export default {
     },
     objetivosYFunciones: {
       title: "Objectives and Functions of the REGULATEL Forum",
-      subtitle: "WHO WE ARE",
+      subtitle: "ABOUT US",
       breadcrumb: "Objectives and Functions",
       lead:
         "Below are the objectives and functions that guide the REGULATEL Forum's work in the region.",
@@ -591,7 +614,7 @@ export default {
     },
     protocolos: {
       title: "REGULATEL forum protocols and procedures",
-      subtitle: "WHO WE ARE",
+      subtitle: "ABOUT US",
       breadcrumb: "Protocols and procedures",
       sectionTitle: "Protocols",
       intro: [
@@ -661,7 +684,7 @@ export default {
       quickLinks: {
         home: "Home",
         news: "News",
-        whoWeAre: "Who we are",
+        whoWeAre: "About us",
         documents: "Documents",
         search: "Search the site",
       },
@@ -712,6 +735,15 @@ export default {
   },
 
   convenios: {
+    detail: {
+      badge: "Cooperation agreement",
+      areasTitle: "Cooperation areas",
+      mainDocument: "Main document",
+      reportAnnex: "Report or annex",
+      allAgreements: "All agreements",
+      otherAgreements: "Other agreements",
+      moreAreas: "+{{count}} more",
+    },
     menu: {
       aria: "Agreements",
       title: "Cooperation agreements",
@@ -742,6 +774,63 @@ export default {
           shortDescription:
             "Cooperation for the protection and empowerment of children and adolescents in digital environments, through the exchange of experiences and best practices among regulators.",
         },
+      },
+    },
+    items: {
+      berec: {
+        title: "European Regulators for Electronic Communications",
+        shortDescription:
+          "Promote efforts to address current and future joint regulatory challenges in Latin America and Europe, and develop working and collegial relationships among experts from both sides.",
+        areas: [
+          "Exchange of information and regulatory best practices",
+          "Cooperation on electronic markets and networks",
+          "Dialogue on competition and user policies",
+          "Training activities and technical coordination",
+        ],
+      },
+      icann: {
+        title: "Internet Corporation for Assigned Names and Numbers",
+        shortDescription:
+          "Strengthen ties between the parties, share experiences, and promote cooperation actions in accordance with their respective missions and bylaws.",
+        areas: [
+          "Internet governance and naming and numbering systems",
+          "Exchange of experiences in DNS policies",
+          "Training and participation in global forums",
+          "Technical cooperation on standards and best practices",
+        ],
+      },
+      fcc: {
+        title: "Federal Communications Commission",
+        shortDescription:
+          "Strengthen ties between the FCC and REGULATEL, share experiences, and promote cooperation actions in telecommunications and ICT regulation.",
+        areas: [
+          "Telecommunications and spectrum regulation",
+          "Exchange of experiences in ICT policies",
+          "Monitoring of regulatory trends",
+          "Cooperation on competition and user issues",
+        ],
+      },
+      comtelca: {
+        title: "Regional Technical Commission for Telecommunications",
+        shortDescription:
+          "Strengthen ties between COMTELCA and REGULATEL, share experiences, and promote cooperation actions in telecommunications and ICT regulation in the region.",
+        areas: [
+          "Regulatory harmonization in Central America",
+          "Exchange of technical and regulatory information",
+          "Joint training projects",
+          "Coordination in regional forums",
+        ],
+      },
+      prai: {
+        title: "REGULATEL – PRAI Memorandum of Understanding",
+        shortDescription:
+          "Cooperation for the protection and empowerment of children and adolescents in digital environments, through the exchange of experiences and best practices among regulators.",
+        areas: [
+          "Protection of children in digital environments",
+          "Exchange of experiences and best practices",
+          "Cooperation among Ibero-American regulators",
+          "Strengthening online protection frameworks",
+        ],
       },
     },
   },

@@ -6,6 +6,14 @@ import ptBase from "./locales/pt";
 import esPagesExtra from "./locales/pagesExtra/es";
 import enPagesExtra from "./locales/pagesExtra/en";
 import ptPagesExtra from "./locales/pagesExtra/pt";
+import enNews from "./locales/news/en";
+import ptNews from "./locales/news/pt";
+import enEvents from "./locales/events/en";
+import ptEvents from "./locales/events/pt";
+import enMiembros from "./locales/miembros/en";
+import ptMiembros from "./locales/miembros/pt";
+import enBoletines from "./locales/boletines/en";
+import ptBoletines from "./locales/boletines/pt";
 
 export const LANGUAGE_STORAGE_KEY = "regulatel-lang";
 export const SUPPORTED_LANGUAGES = ["es", "en", "pt"] as const;
@@ -33,8 +41,20 @@ function mergeDeep<T extends Record<string, unknown>>(base: T, extra: Record<str
 }
 
 const es = mergeDeep(esBase as Record<string, unknown>, esPagesExtra as Record<string, unknown>);
-const en = mergeDeep(enBase as Record<string, unknown>, enPagesExtra as Record<string, unknown>);
-const pt = mergeDeep(ptBase as Record<string, unknown>, ptPagesExtra as Record<string, unknown>);
+const en = mergeDeep(
+  mergeDeep(enBase as Record<string, unknown>, enPagesExtra as Record<string, unknown>),
+  mergeDeep(
+    mergeDeep(enNews as Record<string, unknown>, enEvents as Record<string, unknown>),
+    mergeDeep(enMiembros as Record<string, unknown>, enBoletines as Record<string, unknown>)
+  )
+);
+const pt = mergeDeep(
+  mergeDeep(ptBase as Record<string, unknown>, ptPagesExtra as Record<string, unknown>),
+  mergeDeep(
+    mergeDeep(ptNews as Record<string, unknown>, ptEvents as Record<string, unknown>),
+    mergeDeep(ptMiembros as Record<string, unknown>, ptBoletines as Record<string, unknown>)
+  )
+);
 
 function getStoredLanguage(): SupportedLanguage {
   if (typeof window === "undefined") return "es";

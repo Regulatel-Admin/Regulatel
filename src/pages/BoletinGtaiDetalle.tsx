@@ -4,53 +4,38 @@ import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import { ArrowLeft, Calendar, Download, ExternalLink, FileText } from "lucide-react";
 import PageHero from "@/components/PageHero";
-import { api } from "@/lib/api";
 import NotFound from "@/pages/NotFound";
+import { useBoletinesGtai } from "@/hooks/useBoletinesGtai";
+import { useLocalizedBoletin } from "@/hooks/useLocalizedBoletines";
 import {
   BOLETINES_GTAI_LIST_PATH,
-  BOLETINES_GTAI_SETTINGS_KEY,
-  defaultBoletinesGtai,
-  mergeBoletinesGtaiWithDefaults,
-  parseBoletinesGtaiFromSettingValue,
+  resolveBoletinBySlug,
   type BoletinGtaiSerialized,
 } from "@/data/boletinesGtai";
 
 export default function BoletinGtaiDetalle() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { slug } = useParams<{ slug: string }>();
+  const { entries, loading } = useBoletinesGtai();
   const [entry, setEntry] = useState<BoletinGtaiSerialized | null | undefined>(undefined);
 
   useEffect(() => {
-    let cancelled = false;
-    (async () => {
-      if (!slug) {
-        if (!cancelled) setEntry(null);
-        return;
-      }
-      const res = await api.settings.get(BOLETINES_GTAI_SETTINGS_KEY);
-      let list = defaultBoletinesGtai;
-      if (res.ok && res.data && res.data.value != null) {
-        const parsed = parseBoletinesGtaiFromSettingValue(res.data.value);
-        list = mergeBoletinesGtaiWithDefaults(parsed);
-      }
-      if (cancelled) return;
-      const found = list.find((b) => b.slug === slug);
-      if (!found || !found.isPublished) {
-        setEntry(null);
-        return;
-      }
-      setEntry(found);
-    })();
-    return () => {
-      cancelled = true;
-    };
-  }, [slug]);
+    if (!slug) {
+      setEntry(null);
+      return;
+    }
+    if (loading) return;
+    setEntry(resolveBoletinBySlug(slug, entries));
+  }, [slug, entries, loading]);
+
+  const resolvedEntry = slug && !loading && entry !== undefined ? entry : null;
+  const localizedEntry = useLocalizedBoletin(resolvedEntry);
 
   if (!slug) {
     return <NotFound />;
   }
 
-  if (entry === undefined) {
+  if (loading || entry === undefined) {
     return (
       <>
         <PageHero
@@ -68,19 +53,21 @@ export default function BoletinGtaiDetalle() {
     );
   }
 
-  if (!entry) return <NotFound />;
+  if (!localizedEntry) return <NotFound />;
+
+  const dateLocale = i18n.language === "en" ? "en-GB" : i18n.language === "pt" ? "pt-PT" : "es-ES";
 
   return (
     <>
       <PageHero
-        title={entry.title}
+        title={localizedEntry.title}
         subtitle={t("pages.boletinesGtai.breadcrumb").toUpperCase()}
         breadcrumb={[
           { label: t("pages.boletinesGtai.resourcesBreadcrumb"), path: "/gestion" },
           { label: t("pages.boletinesGtai.breadcrumb"), path: BOLETINES_GTAI_LIST_PATH },
-          { label: entry.title },
+          { label: localizedEntry.title },
         ]}
-        description={entry.shortSummary}
+        description={localizedEntry.shortSummary}
       />
 
       <div
@@ -116,27 +103,27 @@ export default function BoletinGtaiDetalle() {
             >
               <div className="border-b px-6 py-4 md:px-8" style={{ borderColor: "rgba(22,61,89,0.07)", backgroundColor: "#FAFBFC" }}>
                 <div className="flex flex-wrap items-center gap-3 text-xs font-bold uppercase tracking-[0.08em]">
-                  <span style={{ color: "var(--regu-blue)" }}>{entry.contentType}</span>
+                  <span style={{ color: "var(--regu-blue)" }}>{localizedEntry.contentType}</span>
                   <span style={{ color: "var(--regu-gray-400)" }} aria-hidden>
                     ·
                   </span>
                   <span style={{ color: "var(--regu-gray-600)" }}>
-                    {t("pages.boletinesGtai.edition", { number: entry.issueNumber, year: entry.year })}
+                    {t("pages.boletinesGtai.edition", { number: localizedEntry.issueNumber, year: localizedEntry.year })}
                   </span>
                 </div>
                 <h1
                   className="mt-3 text-2xl font-bold md:text-3xl"
                   style={{ color: "var(--regu-navy)", fontFamily: "var(--token-font-heading)" }}
                 >
-                  {entry.title}
+                  {localizedEntry.title}
                 </h1>
                 <p className="mt-2 text-sm font-semibold" style={{ color: "var(--regu-gray-600)" }}>
-                  {entry.groupName}
+                  {localizedEntry.groupName}
                 </p>
                 <p className="mt-2 flex items-center gap-2 text-sm" style={{ color: "var(--regu-gray-500)" }}>
                   <Calendar className="h-4 w-4" aria-hidden />
                   {t("pages.boletinesGtai.publishedOn")}{" "}
-                  {new Date(entry.publicationDate + "T12:00:00").toLocaleDateString("es", {
+                  {new Date(localizedEntry.publicationDate + "T12:00:00").toLocaleDateString(dateLocale, {
                     day: "numeric",
                     month: "long",
                     year: "numeric",
@@ -148,7 +135,7 @@ export default function BoletinGtaiDetalle() {
                   {t("pages.boletinesGtai.summary")}
                 </h2>
                 <p className="text-base leading-relaxed" style={{ color: "var(--regu-gray-700)" }}>
-                  {entry.description}
+                  {localizedEntry.description}
                 </p>
               </div>
             </motion.div>
@@ -171,7 +158,7 @@ export default function BoletinGtaiDetalle() {
                   </h2>
                   <div className="flex flex-col gap-3">
                     <a
-                      href={entry.pdfFile}
+                      href={localizedEntry.pdfFile}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex w-full items-center justify-center gap-2 rounded-xl px-5 py-3 text-sm font-bold uppercase tracking-[0.06em] text-white transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2"
@@ -181,7 +168,7 @@ export default function BoletinGtaiDetalle() {
                       {t("pages.boletinesGtai.openPdf")}
                     </a>
                     <a
-                      href={entry.pdfFile}
+                      href={localizedEntry.pdfFile}
                       download
                       className="inline-flex w-full items-center justify-center gap-2 rounded-xl border-2 px-5 py-3 text-sm font-bold uppercase tracking-[0.06em] transition hover:bg-[rgba(68,137,198,0.07)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2"
                       style={{ borderColor: "var(--regu-blue)", color: "var(--regu-blue)" }}
@@ -193,9 +180,9 @@ export default function BoletinGtaiDetalle() {
                 </div>
               </div>
 
-              {entry.coverImage && (
+              {localizedEntry.coverImage && (
                 <div className="overflow-hidden rounded-2xl border bg-white p-2" style={{ borderColor: "rgba(22,61,89,0.10)" }}>
-                  <img src={entry.coverImage} alt="" className="w-full rounded-xl object-cover" />
+                  <img src={localizedEntry.coverImage} alt="" className="w-full rounded-xl object-cover" />
                 </div>
               )}
             </motion.aside>
@@ -214,8 +201,8 @@ export default function BoletinGtaiDetalle() {
             </div>
             <div className="bg-[#e8e8e8] p-2 md:p-4">
               <iframe
-                title={`PDF — ${entry.title}`}
-                src={`${entry.pdfFile}#toolbar=1`}
+                title={`PDF — ${localizedEntry.title}`}
+                src={`${localizedEntry.pdfFile}#toolbar=1`}
                 className="h-[min(78vh,720px)] w-full rounded-lg border-0 bg-white shadow-sm"
               />
             </div>

@@ -1,5 +1,6 @@
 import type { AnchorHTMLAttributes } from "react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { ArrowLeft, Download, CheckCircle2, ArrowRight } from "lucide-react";
 import type { Convenio } from "@/data/convenios";
 import { convenios as defaultConvenios } from "@/data/convenios";
@@ -21,6 +22,7 @@ interface ConvenioDetailProps {
  * Vista detalle de un convenio: diseño institucional premium.
  */
 export default function ConvenioDetail({ convenio, allConvenios }: ConvenioDetailProps) {
+  const { t } = useTranslation();
   const list = allConvenios ?? defaultConvenios;
   const otherConvenios = list.filter((c) => c.slug !== convenio.slug);
 
@@ -79,7 +81,7 @@ export default function ConvenioDetail({ convenio, allConvenios }: ConvenioDetai
                 className="mb-2 inline-block rounded-sm px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.12em]"
                 style={{ backgroundColor: "rgba(68,137,198,0.10)", color: "var(--regu-blue)" }}
               >
-                Convenio de cooperación
+                {t("convenios.detail.badge")}
               </span>
               <h1
                 className="mt-1 text-2xl font-bold leading-tight md:text-3xl"
@@ -121,7 +123,7 @@ export default function ConvenioDetail({ convenio, allConvenios }: ConvenioDetai
               className="text-lg font-bold md:text-xl"
               style={{ color: "var(--regu-navy)", fontFamily: "var(--token-font-heading)" }}
             >
-              Áreas de cooperación
+              {t("convenios.detail.areasTitle")}
             </h2>
           </div>
           <ul className="space-y-3">
@@ -152,7 +154,7 @@ export default function ConvenioDetail({ convenio, allConvenios }: ConvenioDetai
               {...docAnchorProps(convenio.downloadUrl)}
             >
               <Download className="h-4 w-4 shrink-0" aria-hidden />
-              Documento principal
+              {t("convenios.detail.mainDocument")}
             </a>
           )}
           {convenio.informeUrl && (
@@ -163,7 +165,7 @@ export default function ConvenioDetail({ convenio, allConvenios }: ConvenioDetai
               {...docAnchorProps(convenio.informeUrl)}
             >
               <Download className="h-4 w-4 shrink-0" aria-hidden />
-              Informe u anexo
+              {t("convenios.detail.reportAnnex")}
             </a>
           )}
           <Link
@@ -172,7 +174,7 @@ export default function ConvenioDetail({ convenio, allConvenios }: ConvenioDetai
             style={{ borderColor: "var(--regu-blue)", color: "var(--regu-blue)" }}
           >
             <ArrowLeft className="h-4 w-4 shrink-0" aria-hidden />
-            Todos los convenios
+            {t("convenios.detail.allAgreements")}
           </Link>
         </div>
 
@@ -188,7 +190,7 @@ export default function ConvenioDetail({ convenio, allConvenios }: ConvenioDetai
                 style={{ backgroundColor: "var(--regu-blue)" }}
                 aria-hidden
               />
-              Otros convenios
+              {t("convenios.detail.otherAgreements")}
             </h2>
             <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3">
               {otherConvenios.map((c) => (

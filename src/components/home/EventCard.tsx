@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { ChevronRight } from "lucide-react";
 import type { Event } from "@/types/event";
-import { EVENT_STATUS_LABEL, formatEventDateRange } from "@/types/event";
+import { formatEventDateRange } from "@/types/event";
 
 interface EventCardProps {
   event: Event;
@@ -19,9 +20,10 @@ const cardStyle = {
 } as const;
 
 export default function EventCard({ event }: EventCardProps) {
+  const { t, i18n } = useTranslation();
   const isUpcoming = event.status === "upcoming";
   const hasRegistrationUrl = Boolean(event.registrationUrl?.trim());
-  const dateLabel = formatEventDateRange(event.startDate, event.endDate);
+  const dateLabel = formatEventDateRange(event.startDate, event.endDate, i18n.language);
 
   const content = (
     <>
@@ -38,7 +40,7 @@ export default function EventCard({ event }: EventCardProps) {
             color: isUpcoming ? "var(--regu-blue)" : "var(--regu-gray-600)",
           }}
         >
-          {EVENT_STATUS_LABEL[event.status]}
+          {isUpcoming ? t("pages.eventos.upcoming") : t("pages.eventos.past")}
         </span>
         <span className="text-xs font-semibold tabular-nums" style={{ color: "var(--regu-gray-500)" }}>
           {event.year}
@@ -85,16 +87,16 @@ export default function EventCard({ event }: EventCardProps) {
               onClick={(e) => e.stopPropagation()}
               className="inline-flex items-center justify-center rounded-lg px-3 py-1.5 text-xs font-semibold uppercase tracking-wide text-white transition hover:opacity-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2"
               style={{ backgroundColor: "var(--regu-blue)" }}
-              aria-label={`Registrarse a ${event.title}`}
+              aria-label={t("pages.eventos.registerFor", { title: event.title, defaultValue: `Register for ${event.title}` })}
             >
-              Registrarse
+              {t("pages.eventos.register")}
             </a>
           ) : (
             <span
               className="inline-flex items-center rounded-lg border border-dashed px-3 py-1.5 text-xs font-medium text-[var(--regu-gray-500)]"
               aria-hidden
             >
-              Por definir
+              {t("homeSections.toBeDefined")}
             </span>
           )
         )}
@@ -102,7 +104,7 @@ export default function EventCard({ event }: EventCardProps) {
           className="flex items-center gap-0.5 text-sm font-bold transition-colors group-hover:text-[var(--regu-blue)]"
           style={{ color: "var(--regu-blue)" }}
         >
-          Leer más
+          {t("pages.noticias.readMore")}
           <ChevronRight className="h-4 w-4" aria-hidden />
         </span>
       </div>
@@ -114,7 +116,7 @@ export default function EventCard({ event }: EventCardProps) {
       to={`/eventos/${event.id}`}
       className={cardClass}
       style={cardStyle}
-      aria-label={`Leer más: ${event.title}`}
+      aria-label={`${t("pages.noticias.readMore")}: ${event.title}`}
     >
       {content}
     </Link>

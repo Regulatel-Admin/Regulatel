@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Search, Filter, Calendar } from "lucide-react";
 import EventCard from "@/components/home/EventCard";
 import { useEvents } from "@/contexts/AdminDataContext";
+import { useLocalizedEvents } from "@/hooks/useLocalizedEvents";
 import type { Event } from "@/types/event";
 import { normalizeEvent } from "@/types/event";
 
@@ -62,7 +63,8 @@ export default function Eventos() {
   const [searchParams] = useSearchParams();
   const qFromUrl = searchParams.get("q") ?? "";
   const tabFromUrl = searchParams.get("tab");
-  const events = useEvents();
+  const eventsRaw = useEvents();
+  const events = useLocalizedEvents(eventsRaw);
   const [segment, setSegment] = useState<Segment>(() => {
     if (tabFromUrl === "pasados") return "past";
     if (tabFromUrl === "todos") return "all";

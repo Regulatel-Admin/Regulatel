@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 import { motion, useReducedMotion } from "framer-motion";
 import { X } from "lucide-react";
 import { useBoletinesGtai } from "@/hooks/useBoletinesGtai";
+import { useLocalizedBoletin } from "@/hooks/useLocalizedBoletines";
 import {
   BOLETINES_GTAI_LIST_PATH,
   getBoletinesGtaiPublished,
@@ -112,11 +113,11 @@ export default function HomeBoletinGtaiAnnouncement() {
     setAllowShow(false);
   };
 
-  if (!allowShow || loading) return null;
-
   const pub = sortBoletinesByDateDesc(getBoletinesGtaiPublished(entries));
-  const featured = getFeaturedBoletin(entries) ?? pub[0];
-  if (!featured) return null;
+  const featuredRaw = !loading ? getFeaturedBoletin(entries) ?? pub[0] ?? null : null;
+  const featured = useLocalizedBoletin(featuredRaw);
+
+  if (!allowShow || loading || !featured) return null;
 
   const motionFrom = reduceMotion ? false : { opacity: 0, y: 12, scale: 0.98 };
   const motionTo = reduceMotion ? undefined : { opacity: 1, y: 0, scale: 1 };

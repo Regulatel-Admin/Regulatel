@@ -315,6 +315,25 @@ export default {
       },
     },
     carousel: {
+      labels: {
+        past: "Passado",
+        upcoming: "Próxima",
+        news: "Notícias",
+        summit: "Cúpula",
+      },
+      aria: {
+        carousel: "Carrossel em destaque",
+        slides: "Slides",
+        goToSlide: "Ir para o slide {{n}}",
+        controls: "Controles do carrossel",
+        previousSlide: "Slide anterior",
+        nextSlide: "Próximo slide",
+        pauseSlideshow: "Pausar slideshow",
+        resumeSlideshow: "Retomar slideshow",
+        viewImage: "Ver imagem de fundo completa",
+        close: "Fechar",
+        lightbox: "Imagem da cúpula em tamanho completo",
+      },
       puntaCana: {
         title: "Cúpula Regulatel, Asiet, Comtelca",
         date: "11 de dezembro de 2025",
@@ -325,19 +344,23 @@ export default {
         title: "Cúpula REGULATEL PRAI 2025",
         date: "13 de novembro de 2025",
         location: "Virtual através do Microsoft Teams",
+        cta: "Ler mais",
       },
       berecEapereg: {
         title: "Cúpula quadrilateral BEREC, EaPeReg, REGULATEL e EMERG",
         date: "5 de março de 2025",
         location: "Barcelona, Espanha",
+        cta: "Ler mais",
       },
       asietCartagena: {
         title: "REGULATEL - ASIET Cartagena Dez 2024",
         date: "DEZ 2024",
+        cta: "Ler mais",
       },
       berecBolivia: {
         title: "BEREC - REGULATEL Bolívia Junho 2025",
         date: "JUN 2025",
+        cta: "Ler mais",
       },
     },
     heroSlides: {
@@ -712,6 +735,15 @@ export default {
   },
 
   convenios: {
+    detail: {
+      badge: "Convénio de cooperação",
+      areasTitle: "Áreas de cooperação",
+      mainDocument: "Documento principal",
+      reportAnnex: "Relatório ou anexo",
+      allAgreements: "Todos os convénios",
+      otherAgreements: "Outros convénios",
+      moreAreas: "+{{count}} mais",
+    },
     menu: {
       aria: "Convénios",
       title: "Convénios de cooperação",
@@ -742,6 +774,63 @@ export default {
           shortDescription:
             "Cooperação para a proteção e o empoderamento da criança e da adolescência em ambientes digitais, mediante o intercâmbio de experiências e boas práticas entre reguladores.",
         },
+      },
+    },
+    items: {
+      berec: {
+        title: "European Regulators for Electronic Communications",
+        shortDescription:
+          "Fomentar esforços para abordar os desafios regulatórios conjuntos atuais e futuros na América Latina e na Europa, e o desenvolvimento de relações laborais e colegiais entre especialistas de ambas as partes.",
+        areas: [
+          "Intercâmbio de informação e melhores práticas regulatórias",
+          "Cooperação em temas de mercados eletrónicos e redes",
+          "Diálogo sobre políticas de concorrência e utilizadores",
+          "Atividades de formação e coordenação técnica",
+        ],
+      },
+      icann: {
+        title: "Internet Corporation for Assigned Names and Numbers",
+        shortDescription:
+          "Fortalecer os vínculos entre as partes, partilhar experiências e promover ações de cooperação de conformidade com as respetivas missões e estatutos.",
+        areas: [
+          "Governança da Internet e sistemas de nomes e números",
+          "Intercâmbio de experiências em políticas DNS",
+          "Formação e participação em fóruns globais",
+          "Cooperação técnica em normas e boas práticas",
+        ],
+      },
+      fcc: {
+        title: "Federal Communications Commission",
+        shortDescription:
+          "Fortalecer os vínculos entre a FCC e a REGULATEL, partilhar experiências e promover ações de cooperação em regulação de telecomunicações e TIC.",
+        areas: [
+          "Regulação de telecomunicações e espetro",
+          "Intercâmbio de experiências em políticas TIC",
+          "Acompanhamento de tendências regulatórias",
+          "Cooperação em temas de concorrência e utilizadores",
+        ],
+      },
+      comtelca: {
+        title: "Comissão Técnica Regional de Telecomunicações",
+        shortDescription:
+          "Fortalecer os vínculos entre a COMTELCA e a REGULATEL, partilhar experiências e promover ações de cooperação em regulação de telecomunicações e TIC na região.",
+        areas: [
+          "Harmonização regulatória na América Central",
+          "Intercâmbio de informação técnica e regulatória",
+          "Projetos de formação conjunta",
+          "Coordenação em fóruns regionais",
+        ],
+      },
+      prai: {
+        title: "Memorando de entendimento REGULATEL – PRAI",
+        shortDescription:
+          "Cooperação para a proteção e o empoderamento da criança e da adolescência em ambientes digitais, mediante o intercâmbio de experiências e boas práticas entre reguladores.",
+        areas: [
+          "Proteção da criança em ambientes digitais",
+          "Intercâmbio de experiências e boas práticas",
+          "Cooperação entre reguladores ibero-americanos",
+          "Fortalecimento de quadros de proteção online",
+        ],
       },
     },
   },

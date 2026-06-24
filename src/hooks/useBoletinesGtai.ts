@@ -9,7 +9,7 @@ import {
 } from "@/data/boletinesGtai";
 
 export function useBoletinesGtai(): { entries: BoletinGtaiSerialized[]; loading: boolean; reload: () => Promise<void> } {
-  const [entries, setEntries] = useState<BoletinGtaiSerialized[]>(defaultBoletinesGtai);
+  const [entries, setEntries] = useState<BoletinGtaiSerialized[]>([]);
   const [loading, setLoading] = useState(true);
 
   const load = useCallback(async () => {

@@ -120,7 +120,7 @@ export default {
       directorySubtitle: "Contactos oficiais por país membro",
       searchDirectory: "Buscar por país, nome, cargo...",
       correspondent: "Correspondente",
-      email: "Correo",
+      email: "E-mail",
       aboutMembersTitle: "Sobre os Membros",
       aboutMembersP1: "Os países membros da REGULATEL representam os principais entes reguladores de telecomunicações da América Latina e Europa. Cada membro contribui com a sua experiência e conhecimento para avançar nos objetivos comuns do Fórum.",
       aboutMembersP2: "A adesão está aberta aos entes reguladores de telecomunicações que partilhem os princípios e objetivos do Fórum, promovendo a cooperação e a troca de experiências no setor.",
@@ -424,5 +424,19 @@ export default {
     bulletinLabel: "Boletim",
     allGtaiBulletins: "Todos os boletins GTAI",
     dismissGtaiAnnouncement: "Fechar aviso de boletim GTAI",
+    revistaBadge: "Publicação oficial",
+    revistaCoverLabel: "Revista",
+    revistaReadEdition: "Ler edição",
+    revistaViewEditions: "Ver edições",
+    revistaAllEditions: "Ver todas as edições",
+    dismissRevistaAnnouncement: "Fechar aviso de publicação",
+    revistaReadEditionAria: "Ler edição da Revista REGULATEL (PDF em nova aba)",
+    revistaEditions: {
+      "revista-2026-segunda-edicion": {
+        title: "Revista REGULATEL — Segunda edição — Junho de 2026",
+        description: "Já está disponível a segunda edição (junho de 2026) da Revista REGULATEL.",
+        coverEdition: "Segunda edição",
+      },
+    },
   },
 } as const;

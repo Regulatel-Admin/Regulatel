@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { ArrowRight } from "lucide-react";
 import type { Event } from "@/types/event";
 import { formatEventDateRange } from "@/types/event";
@@ -12,9 +13,10 @@ interface HomeEventCardProps {
  * Estructura: badge + año → organizador/lugar/fecha → título → (descripción opcional 1–2 líneas) → botones al pie.
  */
 export default function HomeEventCard({ event }: HomeEventCardProps) {
+  const { t, i18n } = useTranslation();
   const isUpcoming = event.status === "upcoming";
   const hasRegistrationUrl = Boolean(event.registrationUrl?.trim());
-  const dateLabel = formatEventDateRange(event.startDate, event.endDate);
+  const dateLabel = formatEventDateRange(event.startDate, event.endDate, i18n.language);
   const metaLine = `${event.organizer} · ${event.location} · ${dateLabel}`;
   let shortDescription: string | null = null;
   if (event.description) {
@@ -58,7 +60,7 @@ export default function HomeEventCard({ event }: HomeEventCardProps) {
             color: isUpcoming ? "var(--regu-blue)" : "var(--regu-gray-600)",
           }}
         >
-          {isUpcoming ? "Próximo" : "Pasado"}
+          {isUpcoming ? t("pages.eventos.upcoming") : t("pages.eventos.past")}
         </span>
         <span className="text-xs font-semibold tabular-nums" style={{ color: "var(--regu-gray-500)" }}>
           {event.year}
@@ -114,9 +116,9 @@ export default function HomeEventCard({ event }: HomeEventCardProps) {
               onClick={(e) => e.stopPropagation()}
               className="inline-flex h-9 items-center justify-center rounded-lg px-4 text-xs font-semibold uppercase tracking-wide text-white transition hover:opacity-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2"
               style={{ backgroundColor: "var(--regu-blue)" }}
-              aria-label={`Registrarse a ${event.title}`}
+              aria-label={t("pages.eventos.registerFor", { title: event.title, defaultValue: `Register for ${event.title}` })}
             >
-              Registrarse
+              {t("pages.eventos.register")}
             </a>
           ) : (
             <span
@@ -124,7 +126,7 @@ export default function HomeEventCard({ event }: HomeEventCardProps) {
               style={{ color: "var(--regu-gray-500)", borderColor: "var(--regu-gray-100)" }}
               aria-hidden
             >
-              Por definir
+              {t("homeSections.toBeDefined")}
             </span>
           )
         )}
@@ -133,7 +135,7 @@ export default function HomeEventCard({ event }: HomeEventCardProps) {
           className="inline-flex h-9 items-center gap-1.5 text-sm font-semibold transition-colors hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2 rounded"
           style={{ color: "var(--regu-blue)" }}
         >
-          Leer más
+          {t("pages.noticias.readMore")}
           <ArrowRight className="h-4 w-4 shrink-0" aria-hidden />
         </Link>
       </div>

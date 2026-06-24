@@ -21,7 +21,9 @@ import { useHomeHero, useHomeQuickLinks, useFeaturedCarouselSettings, useSiteSet
 import { quickLinkItemsFromSetting } from "@/lib/quickLinks";
 import { quickLinks as staticQuickLinks, featuredCarouselItems as fallbackCarouselItems } from "@/data/home";
 import type { FeaturedCarouselItem } from "@/components/home/FeaturedCarousel";
-import { localizeQuickLinkItems, useLocalizedHomeHeroSettings } from "@/hooks/useLocalizedHome";
+import { localizeFeaturedCarouselItems, localizeQuickLinkItems, useLocalizedHomeHeroSettings } from "@/hooks/useLocalizedHome";
+import { useLocalizedNewsList } from "@/hooks/useLocalizedNews";
+import { useLocalizedEvents } from "@/hooks/useLocalizedEvents";
 
 export default function Home() {
   const { t, i18n } = useTranslation();
@@ -30,8 +32,10 @@ export default function Home() {
     void refetchSettings();
   }, [refetchSettings]);
 
-  const homeNews = useMergedNews();
-  const allEvents = useEvents();
+  const homeNewsRaw = useMergedNews();
+  const homeNews = useLocalizedNewsList(homeNewsRaw);
+  const allEventsRaw = useEvents();
+  const allEvents = useLocalizedEvents(allEventsRaw);
   const homeEvents = useMemo(() => allEvents.filter((e) => e.year === 2026), [allEvents]);
 
   const rawHero = useHomeHero();
@@ -64,7 +68,10 @@ export default function Home() {
     [carouselSettings]
   );
 
-  const carouselItems = featuredItems.length > 0 ? featuredItems : (fallbackCarouselItems as FeaturedCarouselItem[]);
+  const carouselItems = useMemo(() => {
+    const raw = featuredItems.length > 0 ? featuredItems : (fallbackCarouselItems as FeaturedCarouselItem[]);
+    return localizeFeaturedCarouselItems(raw, t, i18n.language);
+  }, [featuredItems, t, i18n.language]);
 
   return (
     <>

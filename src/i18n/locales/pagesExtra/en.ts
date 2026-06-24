@@ -2,7 +2,7 @@
 export default {
   pages: {
     shared: {
-      whoWeAreSubtitle: "WHO WE ARE",
+      whoWeAreSubtitle: "ABOUT US",
       breadcrumbHome: "Home",
       viewProfile: "View full profile",
       filters: "Filters",
@@ -97,7 +97,7 @@ export default {
     },
     miembros: {
       title: "Members",
-      subtitle: "WHO WE ARE",
+      subtitle: "ABOUT US",
       breadcrumb: "Members",
       description: "Telecommunications regulatory authorities that make up REGULATEL.",
       searchPlaceholder: "Search by country or entity…",
@@ -128,7 +128,7 @@ export default {
     },
     autoridades: {
       title: "Authorities",
-      subtitle: "WHO WE ARE",
+      subtitle: "ABOUT US",
       breadcrumb: "Current authorities",
       description: "President and Vice-Presidents for the current Forum period",
       sectionTitle: "Current Forum authorities",
@@ -424,5 +424,19 @@ export default {
     bulletinLabel: "Bulletin",
     allGtaiBulletins: "All GTAI bulletins",
     dismissGtaiAnnouncement: "Dismiss GTAI bulletin notice",
+    revistaBadge: "Official publication",
+    revistaCoverLabel: "Magazine",
+    revistaReadEdition: "Read edition",
+    revistaViewEditions: "View editions",
+    revistaAllEditions: "See all editions",
+    dismissRevistaAnnouncement: "Dismiss publication notice",
+    revistaReadEditionAria: "Read REGULATEL Magazine edition (opens in new tab)",
+    revistaEditions: {
+      "revista-2026-segunda-edicion": {
+        title: "REGULATEL Magazine — Second edition — June 2026",
+        description: "The second edition (June 2026) of the REGULATEL Magazine is now available.",
+        coverEdition: "Second edition",
+      },
+    },
   },
 } as const;

@@ -149,7 +149,8 @@ export const convenios: Convenio[] = [
 ].sort((a, b) => a.order - b.order);
 
 export function getConvenioBySlug(slug: string, list: Convenio[] = convenios): Convenio | undefined {
-  return list.find((c) => c.slug === slug);
+  const normalized = slug.trim().toLowerCase();
+  return list.find((c) => c.slug.trim().toLowerCase() === normalized);
 }
 
 export function getConvenioSlugs(list: Convenio[] = convenios): ConvenioSlug[] {

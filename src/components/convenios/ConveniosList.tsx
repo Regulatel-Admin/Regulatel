@@ -1,5 +1,6 @@
 import type { AnchorHTMLAttributes } from "react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { ArrowRight, Download } from "lucide-react";
 import type { Convenio } from "@/data/convenios";
 
@@ -18,6 +19,7 @@ interface ConveniosListProps {
  * Lista de convenios con diseño institucional premium.
  */
 export default function ConveniosList({ convenios }: ConveniosListProps) {
+  const { t } = useTranslation();
   return (
     <ul className="list-none m-0 p-0 space-y-5">
       {convenios.map((c, index) => (
@@ -70,7 +72,7 @@ export default function ConveniosList({ convenios }: ConveniosListProps) {
                     className="text-[10px] font-bold uppercase tracking-[0.10em]"
                     style={{ color: "var(--regu-gray-500)" }}
                   >
-                    Convenio de cooperación
+                    {t("convenios.detail.badge")}
                   </span>
                 </div>
 
@@ -110,7 +112,7 @@ export default function ConveniosList({ convenios }: ConveniosListProps) {
                         className="inline-block rounded-full px-3 py-1 text-xs font-medium"
                         style={{ backgroundColor: "rgba(68,137,198,0.08)", color: "var(--regu-blue)" }}
                       >
-                        +{c.areas.length - 3} más
+                        {t("convenios.detail.moreAreas", { count: c.areas.length - 3 })}
                       </span>
                     )}
                   </div>
@@ -126,7 +128,7 @@ export default function ConveniosList({ convenios }: ConveniosListProps) {
                     className="inline-flex items-center gap-1.5 rounded-lg px-4 py-2 text-xs font-bold uppercase tracking-[0.07em] text-white transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2"
                     style={{ backgroundColor: "var(--regu-blue)" }}
                   >
-                    Ver convenio
+                    {t("pages.conveniosPage.viewAgreement")}
                     <ArrowRight className="h-3.5 w-3.5 shrink-0 transition-transform group-hover:translate-x-0.5" aria-hidden />
                   </Link>
                   {c.downloadUrl && (
@@ -137,7 +139,7 @@ export default function ConveniosList({ convenios }: ConveniosListProps) {
                       {...docAnchorProps(c.downloadUrl)}
                     >
                       <Download className="h-3.5 w-3.5 shrink-0" aria-hidden />
-                      Documento principal
+                      {t("convenios.detail.mainDocument")}
                     </a>
                   )}
                   {c.informeUrl && (
@@ -148,7 +150,7 @@ export default function ConveniosList({ convenios }: ConveniosListProps) {
                       {...docAnchorProps(c.informeUrl)}
                     >
                       <Download className="h-3.5 w-3.5 shrink-0" aria-hidden />
-                      Informe u anexo
+                      {t("convenios.detail.reportAnnex")}
                     </a>
                   )}
                 </div>

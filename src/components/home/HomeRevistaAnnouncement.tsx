@@ -2,8 +2,9 @@
  * Tarjeta editorial destacada en el hero: nueva edición de la Revista REGULATEL.
  * Diseño institucional premium (no modal genérico). Cierre con localStorage + caducidad.
  */
-import { useEffect, useState, type CSSProperties } from "react";
+import { useEffect, useMemo, useState, type CSSProperties } from "react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { motion, useReducedMotion } from "framer-motion";
 import { X } from "lucide-react";
 import {
@@ -14,6 +15,7 @@ import {
 /** Nueva clave al cambiar la edición destacada (vuelve a mostrarse el aviso a quien la cerró). */
 const STORAGE_KEY = "regulatel_home_revista_2026_segunda_dismissed_at";
 const SHOW_AGAIN_AFTER_DAYS = 14;
+const FEATURED_EDITION_ID = "revista-2026-segunda-edicion";
 
 const CTA_PRIMARY_CLASS =
   "group/cta relative flex w-full items-center justify-center overflow-hidden rounded-[6px] px-3.5 py-[4px] text-center text-[10.5px] font-normal leading-tight tracking-[0.025em] text-white transition-[box-shadow,transform,filter] duration-200 ease-out hover:-translate-y-px hover:brightness-[1.02] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.1),0_1px_2px_rgba(22,61,89,0.05),0_6px_18px_-10px_rgba(68,137,198,0.28),0_4px_14px_-12px_rgba(34,30,27,0.08)] active:translate-y-0 active:scale-[0.995] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2 focus-visible:ring-offset-[#f4f1eb] sm:text-[10.5px] sm:tracking-[0.022em]";
@@ -43,7 +45,13 @@ function shouldShowAnnouncement(): boolean {
 }
 
 /** Mini “portada” tipográfica — escala acorde a la tarjeta compacta. */
-function EditorialCoverMini() {
+function EditorialCoverMini({
+  coverLabel,
+  coverEdition,
+}: {
+  coverLabel: string;
+  coverEdition: string;
+}) {
   return (
     <div
       className="relative shrink-0 overflow-hidden rounded-[2px] select-none"
@@ -73,7 +81,7 @@ function EditorialCoverMini() {
           className="text-[5px] font-bold uppercase leading-tight tracking-[0.2em] text-white/85"
           style={{ fontFamily: "var(--token-font-body)" }}
         >
-          Revista
+          {coverLabel}
         </p>
         <div>
           <p
@@ -86,7 +94,7 @@ function EditorialCoverMini() {
             className="mt-[0.15rem] text-[6px] font-medium uppercase tracking-[0.16em] text-white/45"
             style={{ fontFamily: "var(--token-font-body)" }}
           >
-            Segunda edición
+            {coverEdition}
           </p>
         </div>
       </div>
@@ -100,12 +108,33 @@ export interface HomeRevistaAnnouncementProps {
 }
 
 export default function HomeRevistaAnnouncement({ variant = "floating" }: HomeRevistaAnnouncementProps) {
+  const { t } = useTranslation();
   const reduceMotion = useReducedMotion();
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     setVisible(shouldShowAnnouncement());
   }, []);
+
+  const featured = getLatestRevistaEdition();
+  const editionId = featured?.id ?? FEATURED_EDITION_ID;
+  const editionPrefix = `homeSections.revistaEditions.${editionId}`;
+
+  const editionCopy = useMemo(
+    () => ({
+      title: t(`${editionPrefix}.title`, {
+        defaultValue: featured?.title ?? "Revista REGULATEL 2026",
+      }),
+      description: t(`${editionPrefix}.description`, {
+        defaultValue:
+          "Ya está disponible la segunda edición (junio 2026) de la Revista REGULATEL.",
+      }),
+      coverEdition: t(`${editionPrefix}.coverEdition`, {
+        defaultValue: "Segunda edición",
+      }),
+    }),
+    [t, editionPrefix, featured?.title]
+  );
 
   const dismiss = () => {
     try {
@@ -118,7 +147,6 @@ export default function HomeRevistaAnnouncement({ variant = "floating" }: HomeRe
 
   if (!visible) return null;
 
-  const featured = getLatestRevistaEdition();
   const detailPath = featured?.publicDetailPath;
   const editionUrl = featured?.url;
   const motionFrom = reduceMotion
@@ -171,7 +199,7 @@ export default function HomeRevistaAnnouncement({ variant = "floating" }: HomeRe
         type="button"
         onClick={dismiss}
         className="group absolute right-[7px] top-[7px] z-10 flex h-[18px] w-[18px] items-center justify-center rounded-full text-[rgba(58,54,50,0.32)] transition-[color,background-color,opacity] duration-300 ease-out hover:bg-[rgba(90,82,74,0.08)] hover:text-[rgba(46,42,38,0.56)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-1 focus-visible:ring-offset-[#f6f2eb]"
-        aria-label="Cerrar aviso de publicación"
+        aria-label={t("homeSections.dismissRevistaAnnouncement")}
       >
         <X
           className="h-2.5 w-2.5 transition-[transform,opacity] duration-300 ease-out group-hover:opacity-[0.9] group-hover:scale-[0.97]"
@@ -182,7 +210,10 @@ export default function HomeRevistaAnnouncement({ variant = "floating" }: HomeRe
 
       <div className="px-3.5 pb-3 pt-3.5 pr-9 sm:px-[0.9rem] sm:pb-[0.85rem] sm:pt-[0.95rem] sm:pr-9">
         <div className="flex gap-2.5">
-          <EditorialCoverMini />
+          <EditorialCoverMini
+            coverLabel={t("homeSections.revistaCoverLabel")}
+            coverEdition={editionCopy.coverEdition}
+          />
 
           <div className="min-w-0 flex-1 pt-[1px]">
             <p
@@ -192,7 +223,7 @@ export default function HomeRevistaAnnouncement({ variant = "floating" }: HomeRe
                 textShadow: "0 1px 0 rgba(255, 252, 248, 0.45)",
               }}
             >
-              Publicación oficial
+              {t("homeSections.revistaBadge")}
             </p>
             <div
               className="mb-[0.35rem] mt-[0.35rem] h-px w-[1.45rem] max-w-[46%] rounded-full opacity-[0.78]"
@@ -210,7 +241,7 @@ export default function HomeRevistaAnnouncement({ variant = "floating" }: HomeRe
                 color: "#122d42",
               }}
             >
-              {featured?.title ?? "Revista REGULATEL 2026"}
+              {editionCopy.title}
             </h2>
           </div>
         </div>
@@ -222,7 +253,7 @@ export default function HomeRevistaAnnouncement({ variant = "floating" }: HomeRe
             color: "rgba(35, 44, 52, 0.88)",
           }}
         >
-          Ya está disponible la segunda edición (junio 2026) de la Revista REGULATEL.
+          {editionCopy.description}
         </p>
 
         <div className="mt-[0.72rem] sm:mt-[0.78rem]">
@@ -236,7 +267,7 @@ export default function HomeRevistaAnnouncement({ variant = "floating" }: HomeRe
                 }}
                 aria-hidden
               />
-              <span className="relative">Leer edición</span>
+              <span className="relative">{t("homeSections.revistaReadEdition")}</span>
             </Link>
           ) : editionUrl ? (
             <a
@@ -245,7 +276,7 @@ export default function HomeRevistaAnnouncement({ variant = "floating" }: HomeRe
               rel="noopener noreferrer"
               className={CTA_PRIMARY_CLASS}
               style={CTA_PRIMARY_STYLE}
-              aria-label="Leer edición de la Revista REGULATEL (PDF en nueva pestaña)"
+              aria-label={t("homeSections.revistaReadEditionAria")}
             >
               <span
                 className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-200 ease-out group-hover/cta:opacity-100"
@@ -255,7 +286,7 @@ export default function HomeRevistaAnnouncement({ variant = "floating" }: HomeRe
                 }}
                 aria-hidden
               />
-              <span className="relative">Leer edición</span>
+              <span className="relative">{t("homeSections.revistaReadEdition")}</span>
             </a>
           ) : (
             <Link
@@ -271,7 +302,7 @@ export default function HomeRevistaAnnouncement({ variant = "floating" }: HomeRe
                 }}
                 aria-hidden
               />
-              <span className="relative">Ver ediciones</span>
+              <span className="relative">{t("homeSections.revistaViewEditions")}</span>
             </Link>
           )}
           {(detailPath || editionUrl) && (
@@ -280,7 +311,7 @@ export default function HomeRevistaAnnouncement({ variant = "floating" }: HomeRe
               className="mt-2 block text-center text-[8.5px] font-normal leading-snug tracking-[0.02em] text-[rgba(22,61,89,0.58)] underline-offset-[3px] decoration-[rgba(22,61,89,0.3)] decoration-1 transition-colors duration-200 hover:text-[rgba(22,61,89,0.74)] hover:decoration-[rgba(22,61,89,0.42)] focus-visible:outline-none focus-visible:underline"
               style={{ fontFamily: "var(--token-font-body)" }}
             >
-              Ver todas las ediciones
+              {t("homeSections.revistaAllEditions")}
             </Link>
           )}
         </div>

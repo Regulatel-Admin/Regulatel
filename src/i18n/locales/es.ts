@@ -315,6 +315,25 @@ export default {
       },
     },
     carousel: {
+      labels: {
+        past: "Pasado",
+        upcoming: "Próxima",
+        news: "Noticias",
+        summit: "Cumbre",
+      },
+      aria: {
+        carousel: "Carrusel destacado",
+        slides: "Slides",
+        goToSlide: "Ir al slide {{n}}",
+        controls: "Controles del carrusel",
+        previousSlide: "Slide anterior",
+        nextSlide: "Slide siguiente",
+        pauseSlideshow: "Pausar slideshow",
+        resumeSlideshow: "Reanudar slideshow",
+        viewImage: "Ver imagen de fondo completa",
+        close: "Cerrar",
+        lightbox: "Imagen de la cumbre a tamaño completo",
+      },
       puntaCana: {
         title: "Cumbre Regulatel, Asiet, Comtelca",
         date: "11 de diciembre de 2025",
@@ -712,6 +731,15 @@ export default {
   },
 
   convenios: {
+    detail: {
+      badge: "Convenio de cooperación",
+      areasTitle: "Áreas de cooperación",
+      mainDocument: "Documento principal",
+      reportAnnex: "Informe u anexo",
+      allAgreements: "Todos los convenios",
+      otherAgreements: "Otros convenios",
+      moreAreas: "+{{count}} más",
+    },
     menu: {
       aria: "Convenios",
       title: "Convenios de cooperación",
@@ -742,6 +770,63 @@ export default {
           shortDescription:
             "Cooperación para la protección y el empoderamiento de la niñez y la adolescencia en entornos digitales, mediante el intercambio de experiencias y buenas prácticas entre reguladores.",
         },
+      },
+    },
+    items: {
+      berec: {
+        title: "European Regulators for Electronic Communications",
+        shortDescription:
+          "Fomentar esfuerzos para abordar los desafíos regulatorios conjuntos actuales y futuros en Latinoamérica y Europa, y el desarrollo de relaciones laborales y colegiales entre expertos de ambas partes.",
+        areas: [
+          "Intercambio de información y mejores prácticas regulatorias",
+          "Cooperación en temas de mercados electrónicos y redes",
+          "Diálogo sobre políticas de competencia y usuarios",
+          "Actividades de formación y coordinación técnica",
+        ],
+      },
+      icann: {
+        title: "Internet Corporation for Assigned Names and Numbers",
+        shortDescription:
+          "Fortalecer los vínculos entre las partes, compartir experiencias y promover acciones de cooperación de conformidad con sus respectivas misiones y ordenanzas.",
+        areas: [
+          "Gobernanza de Internet y sistemas de nombres y números",
+          "Intercambio de experiencias en políticas DNS",
+          "Formación y participación en foros globales",
+          "Cooperación técnica en estándares y buenas prácticas",
+        ],
+      },
+      fcc: {
+        title: "Federal Communications Commission",
+        shortDescription:
+          "Fortalecer los vínculos entre la FCC y REGULATEL, compartir experiencias y promover acciones de cooperación en regulación de telecomunicaciones y TIC.",
+        areas: [
+          "Regulación de telecomunicaciones y espectro",
+          "Intercambio de experiencias en políticas TIC",
+          "Seguimiento de tendencias regulatorias",
+          "Cooperación en temas de competencia y usuarios",
+        ],
+      },
+      comtelca: {
+        title: "Comisión Técnica Regional de Telecomunicaciones",
+        shortDescription:
+          "Fortalecer los vínculos entre COMTELCA y REGULATEL, compartir experiencias y promover acciones de cooperación en regulación de telecomunicaciones y TIC en la región.",
+        areas: [
+          "Armonización regulatoria en Centroamérica",
+          "Intercambio de información técnica y regulatoria",
+          "Proyectos de formación conjunta",
+          "Coordinación en foros regionales",
+        ],
+      },
+      prai: {
+        title: "Memorando de entendimiento REGULATEL – PRAI",
+        shortDescription:
+          "Cooperación para la protección y el empoderamiento de la niñez y la adolescencia en entornos digitales, mediante el intercambio de experiencias y buenas prácticas entre reguladores.",
+        areas: [
+          "Protección de la niñez en entornos digitales",
+          "Intercambio de experiencias y buenas prácticas",
+          "Cooperación entre reguladores iberoamericanos",
+          "Fortalecimiento de marcos de protección en línea",
+        ],
       },
     },
   },

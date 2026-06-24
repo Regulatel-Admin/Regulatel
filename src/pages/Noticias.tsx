@@ -5,6 +5,7 @@ import { ChevronDown, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react
 import ImageCarousel from "@/components/ImageCarousel";
 import { noticiasData } from "./noticiasData";
 import { useAdminData } from "@/contexts/AdminDataContext";
+import { localizeNewsFields } from "@/hooks/useLocalizedNews";
 
 /** Item para listado: estático o admin (misma forma). */
 export interface NewsListItem {
@@ -61,7 +62,7 @@ function CategoryBadge({ label }: { label: string }) {
 }
 
 function Noticias() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { adminNews, contentSource } = useAdminData();
   const [sidebarFilter, setSidebarFilter] = useState<SidebarFilter>("Todas");
   const [yearFilter, setYearFilter] = useState<string>("all");
@@ -70,7 +71,7 @@ function Noticias() {
 
   useEffect(() => setPage(1), [sidebarFilter, yearFilter]);
 
-  const mergedList = useMemo(() => {
+  const mergedListRaw = useMemo(() => {
     const staticItems: NewsListItem[] = noticiasData.map((n) => ({
       slug: n.slug,
       title: n.title,
@@ -103,12 +104,12 @@ function Noticias() {
   }, [adminNews, contentSource]);
 
   const yearOptions = useMemo(() => {
-    const years = new Set(mergedList.map((n) => extractYear(n.date)).filter(Boolean));
+    const years = new Set(mergedListRaw.map((n) => extractYear(n.date)).filter(Boolean));
     return ["all", ...Array.from(years).sort((a, b) => b.localeCompare(a))];
-  }, [mergedList]);
+  }, [mergedListRaw]);
 
   const filtered = useMemo(() => {
-    let list = mergedList;
+    let list = mergedListRaw;
     if (sidebarFilter !== "Todas") {
       const norm = sidebarFilter.toLowerCase();
       list = list.filter((n) => n.category.toLowerCase() === norm);
@@ -116,8 +117,8 @@ function Noticias() {
     if (yearFilter !== "all") {
       list = list.filter((n) => extractYear(n.date) === yearFilter);
     }
-    return list;
-  }, [mergedList, sidebarFilter, yearFilter]);
+    return list.map((item) => localizeNewsFields(item, t, i18n.language));
+  }, [mergedListRaw, sidebarFilter, yearFilter, t, i18n.language]);
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / ITEMS_PER_PAGE));
   const currentPage = Math.min(page, totalPages);

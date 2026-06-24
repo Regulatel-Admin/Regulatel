@@ -81,32 +81,53 @@ export function createEvent(
 
 const FALLBACK_DATE_LABEL = "—";
 
+const LOCALE_MAP: Record<string, string> = {
+  es: "es-ES",
+  en: "en-GB",
+  pt: "pt-PT",
+};
+
+function monthLabel(date: Date, language: string): string {
+  const locale = LOCALE_MAP[language] ?? "es-ES";
+  const raw = date.toLocaleDateString(locale, { month: "long" });
+  return language === "es" ? raw.charAt(0).toUpperCase() + raw.slice(1) : raw;
+}
+
 /** Formatea rango de fechas para UI (ej. "25 de Febrero", "2-5 de marzo"). Si la fecha es inválida, devuelve "—". */
-export function formatEventDateRange(startDate: string, endDate: string | null): string {
+export function formatEventDateRange(
+  startDate: string,
+  endDate: string | null,
+  language = "es"
+): string {
   if (!startDate || typeof startDate !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(startDate.trim())) {
     return FALLBACK_DATE_LABEL;
   }
   const s = new Date(startDate.trim() + "T12:00:00");
   if (Number.isNaN(s.getTime())) return FALLBACK_DATE_LABEL;
-  const months = [
-    "enero", "febrero", "marzo", "abril", "mayo", "junio",
-    "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre",
-  ];
   const d = s.getDate();
-  const m = months[s.getMonth()];
+  const m = monthLabel(s, language);
   const y = s.getFullYear();
+  const dePrefix = language === "es" ? " de " : " ";
   if (!endDate || endDate === startDate) {
-    return `${d} de ${m.charAt(0).toUpperCase() + m.slice(1)}`;
+    return language === "es" ? `${d} de ${m}` : `${d}${dePrefix}${m}`;
   }
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(endDate.trim())) return `${d} de ${m.charAt(0).toUpperCase() + m.slice(1)}`;
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(endDate.trim())) {
+    return language === "es" ? `${d} de ${m}` : `${d}${dePrefix}${m}`;
+  }
   const e = new Date(endDate.trim() + "T12:00:00");
-  if (Number.isNaN(e.getTime())) return `${d} de ${m.charAt(0).toUpperCase() + m.slice(1)}`;
-  const de = e.getDate();
-  const me = months[e.getMonth()];
-  if (m === me && y === e.getFullYear()) {
-    return `${d}-${de} de ${m.charAt(0).toUpperCase() + m.slice(1)}`;
+  if (Number.isNaN(e.getTime())) {
+    return language === "es" ? `${d} de ${m}` : `${d}${dePrefix}${m}`;
   }
-  return `${d} ${m} - ${de} ${me} ${y}`;
+  const de = e.getDate();
+  const me = monthLabel(e, language);
+  if (m === me && y === e.getFullYear()) {
+    return language === "es"
+      ? `${d}-${de} de ${m}`
+      : `${d}-${de}${dePrefix}${m}${y !== new Date().getFullYear() ? ` ${y}` : ""}`;
+  }
+  return language === "es"
+    ? `${d} ${m} - ${de} ${me} ${y}`
+    : `${d}${dePrefix}${m} - ${de}${dePrefix}${me} ${y}`;
 }
 
 export const EVENT_STATUS_LABEL: Record<EventStatus, string> = {

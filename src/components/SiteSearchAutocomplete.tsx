@@ -1,5 +1,6 @@
 import { useRef, useState, useEffect, useCallback, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import {
   buildSearchDocs,
   searchSiteDocs,
@@ -10,6 +11,8 @@ import {
 import { useAdminData, useEvents, useMergedGestionDocuments } from "@/contexts/AdminDataContext";
 import { useAutoridadesActuales } from "@/contexts/SiteSettingsContext";
 import { noticiasData } from "@/pages/noticiasData";
+import { localizeNoticiaData } from "@/hooks/useLocalizedNews";
+import { useLocalizedEvents } from "@/hooks/useLocalizedEvents";
 
 const DEBOUNCE_MS = 200;
 const AUTCOMPLETE_LIMIT = 8;
@@ -50,14 +53,20 @@ export default function SiteSearchAutocomplete({
   compact = false,
 }: SiteSearchAutocompleteProps) {
   const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
   const { adminNews, contentSource } = useAdminData();
-  const events = useEvents();
+  const eventsRaw = useEvents();
+  const events = useLocalizedEvents(eventsRaw);
   const documents = useMergedGestionDocuments();
   const autoridadesActuales = useAutoridadesActuales();
   const [open, setOpen] = useState(false);
   const [results, setResults] = useState<SiteSearchResult[]>([]);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const localizedNoticias = useMemo(
+    () => noticiasData.map((n) => localizeNoticiaData(n, t, i18n.language)),
+    [t, i18n.language]
+  );
   const searchDocs = useMemo(
     () =>
       buildSearchDocs({
@@ -76,11 +85,11 @@ export default function SiteSearchAutocomplete({
                   category: n.category,
                   content: n.content,
                 }))
-            : noticiasData,
+            : localizedNoticias,
         events,
         documents,
       }),
-    [adminNews, autoridadesActuales, contentSource, documents, events]
+    [adminNews, autoridadesActuales, contentSource, documents, events, localizedNoticias]
   );
 
   const runSearch = useCallback((q: string) => {

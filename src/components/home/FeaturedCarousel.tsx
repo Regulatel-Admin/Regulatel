@@ -1,6 +1,9 @@
 import { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { ChevronLeft, ChevronRight, Play, Pause, MapPin, Expand, X } from "lucide-react";
+import { formatCarouselDisplayDate, isCarouselDatePast } from "@/lib/carouselDate";
+import { localizeCarouselCta } from "@/hooks/useLocalizedHome";
 
 export interface FeaturedCarouselItem {
   id: string;
@@ -23,75 +26,11 @@ interface FeaturedCarouselProps {
   autoplayIntervalMs?: number;
 }
 
-const MESES: Record<string, number> = {
-  ENE: 0, FEB: 1, MAR: 2, ABR: 3, MAY: 4, JUN: 5,
-  JUL: 6, AGO: 7, SEP: 8, OCT: 9, NOV: 10, DIC: 11,
-};
-const MESES_LARGO: Record<string, number> = {
-  enero: 0, febrero: 1, marzo: 2, abril: 3, mayo: 4, junio: 5,
-  julio: 6, agosto: 7, septiembre: 8, octubre: 9, noviembre: 10, diciembre: 11,
-};
-
-function parseDateForPastCheck(dateStr: string): Date | null {
-  if (!dateStr || !dateStr.trim()) return null;
-  const s = dateStr.trim();
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-
-  // Solo año: "2025" o "2024"
-  const onlyYear = /^\d{4}$/.exec(s);
-  if (onlyYear) {
-    const year = parseInt(onlyYear[0], 10);
-    return new Date(year, 11, 31); // fin de ese año para comparar
-  }
-
-  // "11 de diciembre de 2025" / "28 octubre 2025"
-  const matchLong = s.match(/^(\d{1,2})\s+de?\s+(\w+)\s+de?\s+(\d{4})$/i) ?? s.match(/^(\d{1,2})\s+(\w+)\s+(\d{4})$/i);
-  if (matchLong) {
-    const day = parseInt(matchLong[1], 10);
-    const year = parseInt(matchLong[3], 10);
-    const mesStr = matchLong[2].toLowerCase();
-    const mes = MESES_LARGO[mesStr] ?? MESES[mesStr.slice(0, 3).toUpperCase()];
-    if (Number.isNaN(day) || Number.isNaN(year) || mes === undefined) return null;
-    return new Date(year, mes, day);
-  }
-
-  // "DIC 2024" / "JUN 2025" (mes abreviado + año)
-  const parts = s.split(/\s+/);
-  if (parts.length >= 2) {
-    const mesStr = (parts[0] || "").toUpperCase().slice(0, 3);
-    const year = parseInt(parts[parts.length - 1], 10);
-    if (MESES[mesStr] !== undefined && !Number.isNaN(year)) {
-      return new Date(year, MESES[mesStr], 1);
-    }
-  }
-
-  // "11 DIC 2025" (día + mes + año)
-  if (parts.length >= 3) {
-    const day = parseInt(parts[0], 10);
-    const mesStr = (parts[1] || "").toUpperCase().slice(0, 3);
-    const year = parseInt(parts[2], 10);
-    if (!Number.isNaN(day) && MESES[mesStr] !== undefined && !Number.isNaN(year)) {
-      return new Date(year, MESES[mesStr], day);
-    }
-  }
-
-  return null;
-}
-
-function isSlideDatePast(dateStr: string): boolean {
-  const d = parseDateForPastCheck(dateStr);
-  if (!d) return false;
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  d.setHours(0, 0, 0, 0);
-  return d.getTime() < today.getTime();
-}
-
 export default function FeaturedCarousel({
   items,
   autoplayIntervalMs = 6000,
 }: FeaturedCarouselProps) {
+  const { t, i18n } = useTranslation();
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
@@ -133,11 +72,17 @@ export default function FeaturedCarousel({
   if (!items.length) return null;
 
   const slide = items[activeIndex];
-  const isEventPast = slide.type === "eventos" && isSlideDatePast(slide.date);
+  const isEventPast = slide.type === "eventos" && isCarouselDatePast(slide.date);
   const defaultCategoryLabel =
-    slide.type === "eventos" ? (isEventPast ? "Pasado" : "Próxima") : "Noticias";
+    slide.type === "eventos"
+      ? isEventPast
+        ? t("home.carousel.labels.past")
+        : t("home.carousel.labels.upcoming")
+      : t("home.carousel.labels.news");
   const categoryLabel = slide.categoryLabel ?? defaultCategoryLabel;
   const showCumbreLabel = slide.type === "eventos";
+  const displayDate = formatCarouselDisplayDate(slide.date, i18n.language);
+  const primaryCtaLabel = localizeCarouselCta(slide.ctaPrimaryLabel, t, i18n.language);
 
   return (
     <section
@@ -145,7 +90,7 @@ export default function FeaturedCarousel({
       style={{ minHeight: "380px", height: "clamp(380px, 46vh, 560px)" }}
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
-      aria-label="Carrusel destacado"
+      aria-label={t("home.carousel.aria.carousel")}
     >
       {/* Slides con crossfade */}
       {items.map((item, i) => (
@@ -215,14 +160,14 @@ export default function FeaturedCarousel({
                     color: "var(--regu-navy)",
                   }}
                 >
-                  Cumbre
+                  {t("home.carousel.labels.summit")}
                 </span>
               )}
               <span
                 className="text-xs font-semibold uppercase tracking-[0.08em]"
                 style={{ color: "var(--regu-gray-500)" }}
               >
-                {slide.date}
+                {displayDate}
               </span>
             </div>
 
@@ -259,7 +204,7 @@ export default function FeaturedCarousel({
                   className="inline-flex items-center justify-center rounded-lg px-4 py-2 text-xs font-bold uppercase tracking-[0.08em] text-white transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2"
                   style={{ backgroundColor: "var(--regu-blue)" }}
                 >
-                  {slide.ctaPrimaryLabel ?? "Leer más"}
+                  {primaryCtaLabel}
                 </a>
               ) : (
                 <Link
@@ -267,7 +212,7 @@ export default function FeaturedCarousel({
                   className="inline-flex items-center justify-center rounded-lg px-4 py-2 text-xs font-bold uppercase tracking-[0.08em] text-white transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2"
                   style={{ backgroundColor: "var(--regu-blue)" }}
                 >
-                  {slide.ctaPrimaryLabel ?? "Leer más"}
+                  {primaryCtaLabel}
                 </Link>
               )}
               {slide.ctaSecondary && (
@@ -285,12 +230,12 @@ export default function FeaturedCarousel({
 
             {/* Dots de paginación — dentro de la card, fila inferior */}
             {items.length > 1 && (
-              <div className="mt-5 flex items-center gap-1.5" aria-label="Slides">
+              <div className="mt-5 flex items-center gap-1.5" aria-label={t("home.carousel.aria.slides")}>
                 {items.slice(0, 7).map((_, i) => (
                   <button
                     key={items[i].id}
                     type="button"
-                    aria-label={`Ir al slide ${i + 1}`}
+                    aria-label={t("home.carousel.aria.goToSlide", { n: i + 1 })}
                     aria-current={i === activeIndex ? "true" : undefined}
                     className="h-1 rounded-full transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2"
                     style={{
@@ -310,12 +255,12 @@ export default function FeaturedCarousel({
           <button
             type="button"
             onClick={() => setLightboxOpen(true)}
-            aria-label="Ver imagen de fondo completa"
+            aria-label={t("home.carousel.aria.viewImage")}
             className="inline-flex items-center gap-2 rounded-xl border-2 px-4 py-2.5 text-xs font-semibold uppercase tracking-[0.06em] transition-all hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
             style={{ borderColor: "rgba(255,255,255,0.5)", color: "#fff" }}
           >
             <Expand className="h-4 w-4" aria-hidden />
-            Ver imagen
+            {t("home.carousel.aria.viewImage")}
           </button>
         </div>
       </div>
@@ -326,13 +271,13 @@ export default function FeaturedCarousel({
           className="fixed inset-0 z-[100] flex items-center justify-center bg-black/85 p-4"
           role="dialog"
           aria-modal="true"
-          aria-label="Imagen de la cumbre a tamaño completo"
+          aria-label={t("home.carousel.aria.lightbox")}
           onClick={() => setLightboxOpen(false)}
         >
           <button
             type="button"
             onClick={() => setLightboxOpen(false)}
-            aria-label="Cerrar"
+            aria-label={t("home.carousel.aria.close")}
             className="absolute right-4 top-4 z-10 flex h-10 w-10 items-center justify-center rounded-full border-2 border-white/30 bg-black/40 text-white transition hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
           >
             <X className="h-5 w-5" />
@@ -356,11 +301,11 @@ export default function FeaturedCarousel({
         <div
           className="absolute bottom-5 right-5 z-20 flex items-center justify-center gap-1 rounded-full px-3 py-2.5 shadow-[0_2px_12px_rgba(68,137,198,0.45),0_0_0_1px_rgba(255,255,255,0.12)_inset]"
           style={{ backgroundColor: "var(--regu-blue)" }}
-          aria-label="Controles del carrusel"
+          aria-label={t("home.carousel.aria.controls")}
         >
           <button
             type="button"
-            aria-label="Slide anterior"
+            aria-label={t("home.carousel.aria.previousSlide")}
             className="flex h-8 w-8 items-center justify-center rounded-full text-white transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--regu-blue)]"
             onClick={prev}
           >
@@ -368,7 +313,7 @@ export default function FeaturedCarousel({
           </button>
           <button
             type="button"
-            aria-label={isPaused ? "Reanudar slideshow" : "Pausar slideshow"}
+            aria-label={isPaused ? t("home.carousel.aria.resumeSlideshow") : t("home.carousel.aria.pauseSlideshow")}
             className="flex h-8 w-8 items-center justify-center rounded-full text-white transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--regu-blue)]"
             onClick={() => setIsPaused((p) => !p)}
           >
@@ -376,7 +321,7 @@ export default function FeaturedCarousel({
           </button>
           <button
             type="button"
-            aria-label="Slide siguiente"
+            aria-label={t("home.carousel.aria.nextSlide")}
             className="flex h-8 w-8 items-center justify-center rounded-full text-white transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--regu-blue)]"
             onClick={next}
           >

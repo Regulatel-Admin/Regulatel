@@ -2,16 +2,18 @@ import { useState, useEffect } from "react";
 import { useParams, Link, Navigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useEvents } from "@/contexts/AdminDataContext";
-import { formatEventDateRange, EVENT_STATUS_LABEL } from "@/types/event";
+import { formatEventDateRange } from "@/types/event";
 import type { Event } from "@/types/event";
 import { Calendar, MapPin, Building2, ArrowRight, ArrowLeft, ExternalLink } from "lucide-react";
 import { normalizeEvent } from "@/types/event";
+import { useLocalizedEvents, useLocalizedEvent } from "@/hooks/useLocalizedEvents";
 import { api } from "@/lib/api";
 
 export default function EventoDetalle() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { id } = useParams<{ id: string }>();
-  const events = useEvents();
+  const eventsRaw = useEvents();
+  const events = useLocalizedEvents(eventsRaw);
   const eventFromList = id ? events.find((e) => e.id === id) : null;
   const [fetchedEvent, setFetchedEvent] = useState<Event | null>(null);
   const [loading, setLoading] = useState(false);
@@ -43,7 +45,8 @@ export default function EventoDetalle() {
     };
   }, [id, eventFromList]);
 
-  const event = eventFromList ?? fetchedEvent;
+  const eventRaw = eventFromList ?? fetchedEvent;
+  const event = useLocalizedEvent(eventRaw);
 
   if (!id) {
     return <Navigate to="/eventos" replace />;
@@ -62,7 +65,7 @@ export default function EventoDetalle() {
     );
   }
 
-  const dateLabel = formatEventDateRange(event.startDate, event.endDate);
+  const dateLabel = formatEventDateRange(event.startDate, event.endDate, i18n.language);
   const hasRegistrationUrl = Boolean(event.registrationUrl?.trim());
   const isUpcoming = event.status === "upcoming";
 
@@ -103,7 +106,7 @@ export default function EventoDetalle() {
                   color: isUpcoming ? "var(--regu-blue)" : "var(--regu-gray-600)",
                 }}
               >
-                {EVENT_STATUS_LABEL[event.status]}
+                {event.status === "upcoming" ? t("pages.eventos.upcoming") : t("pages.eventos.past")}
               </span>
               <span className="text-xs font-semibold tabular-nums" style={{ color: "var(--regu-gray-500)" }}>
                 {event.year}

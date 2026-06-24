@@ -199,3 +199,14 @@ export function uniqueYearsDesc(entries: BoletinGtaiSerialized[]): number[] {
   for (const e of getBoletinesGtaiPublished(entries)) years.add(e.year);
   return Array.from(years).sort((a, b) => b - a);
 }
+
+/** Resuelve un boletín publicado por slug (lista ya mergeada con defaults). */
+export function resolveBoletinBySlug(
+  slug: string,
+  mergedEntries: BoletinGtaiSerialized[]
+): BoletinGtaiSerialized | null {
+  const key = slug.trim().toLowerCase();
+  if (!key) return null;
+  const found = mergedEntries.find((b) => b.slug.toLowerCase() === key);
+  return found?.isPublished ? found : null;
+}

@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useConveniosPublic } from "@/contexts/SiteSettingsContext";
+import { useLocalizedConvenios } from "@/hooks/useLocalizedConvenios";
 
 interface ConveniosMenuProps {
   panelId: string;
@@ -20,7 +21,8 @@ export default function ConveniosMenu({
   variant,
 }: ConveniosMenuProps) {
   const { t } = useTranslation();
-  const convenios = useConveniosPublic();
+  const rawConvenios = useConveniosPublic();
+  const convenios = useLocalizedConvenios(rawConvenios);
   const isDesktop = variant === "desktop";
 
   if (isDesktop) {
@@ -121,7 +123,7 @@ export default function ConveniosMenu({
                       color: "var(--regu-gray-500)",
                     }}
                   >
-                    {t(`convenios.menu.items.${c.slug}.shortDescription`, { defaultValue: c.title })}
+                    {c.shortDescription}
                   </p>
                 </div>
               </Link>
@@ -190,7 +192,7 @@ export default function ConveniosMenu({
             className={linkClass}
             style={{ ...linkStyle, fontWeight: 700, color: "var(--regu-blue)" }}
           >
-            Ver todos los convenios
+            {t("convenios.menu.viewAll")}
             <ArrowRight className="h-3.5 w-3.5 ml-auto" aria-hidden />
           </Link>
         </li>

@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { ArrowRight, Calendar, Download, Eye, FileText, Layers, Sparkles } from "lucide-react";
 import PageHero from "@/components/PageHero";
 import { useBoletinesGtai } from "@/hooks/useBoletinesGtai";
+import { useLocalizedBoletines } from "@/hooks/useLocalizedBoletines";
 import {
   BOLETINES_GTAI_LIST_PATH,
   getBoletinesGtaiPublished,
@@ -14,23 +15,30 @@ import {
 } from "@/data/boletinesGtai";
 
 export default function BoletinesGtai() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { entries, loading } = useBoletinesGtai();
   const [yearFilter, setYearFilter] = useState<number | "all">("all");
 
   const published = useMemo(() => sortBoletinesByDateDesc(getBoletinesGtaiPublished(entries)), [entries]);
+  const localizedPublished = useLocalizedBoletines(published);
   const featured = useMemo(() => getFeaturedBoletin(entries), [entries]);
+  const localizedFeatured = useMemo(() => {
+    if (!featured) return null;
+    return localizedPublished.find((b) => b.slug === featured.slug) ?? null;
+  }, [featured, localizedPublished]);
   const years = useMemo(() => uniqueYearsDesc(entries), [entries]);
 
   const listFiltered = useMemo(() => {
-    if (yearFilter === "all") return published;
-    return published.filter((b) => b.year === yearFilter);
-  }, [published, yearFilter]);
+    if (yearFilter === "all") return localizedPublished;
+    return localizedPublished.filter((b) => b.year === yearFilter);
+  }, [localizedPublished, yearFilter]);
 
   const restAfterFeatured = useMemo(() => {
-    if (!featured) return listFiltered;
-    return listFiltered.filter((b) => b.slug !== featured.slug);
-  }, [listFiltered, featured]);
+    if (!localizedFeatured) return listFiltered;
+    return listFiltered.filter((b) => b.slug !== localizedFeatured.slug);
+  }, [listFiltered, localizedFeatured]);
+
+  const dateLocale = i18n.language === "en" ? "en-GB" : i18n.language === "pt" ? "pt-PT" : "es-ES";
 
   return (
     <>
@@ -53,13 +61,13 @@ export default function BoletinesGtai() {
         }}
       >
         <div className="mx-auto px-4 md:px-6 lg:px-8" style={{ maxWidth: "1180px" }}>
-          {loading && (
-            <p className="mb-8 text-sm font-medium" style={{ color: "var(--regu-gray-500)" }}>
+          {loading ? (
+            <p className="mb-8 py-12 text-center text-sm font-medium" style={{ color: "var(--regu-gray-500)" }}>
               {t("pages.boletinesGtai.loading")}
             </p>
-          )}
-
-          {featured && (yearFilter === "all" || featured.year === yearFilter) && (
+          ) : (
+            <>
+          {localizedFeatured && (yearFilter === "all" || localizedFeatured.year === yearFilter) && (
             <motion.section
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
@@ -76,9 +84,9 @@ export default function BoletinesGtai() {
                   className="relative min-h-[200px] md:min-h-[280px]"
                   style={{ background: "linear-gradient(145deg, rgba(68,137,198,0.14) 0%, rgba(22,61,89,0.12) 100%)" }}
                 >
-                  {featured.coverImage ? (
+                  {localizedFeatured.coverImage ? (
                     <img
-                      src={featured.coverImage}
+                      src={localizedFeatured.coverImage}
                       alt=""
                       className="absolute inset-0 h-full w-full object-cover"
                     />
@@ -92,7 +100,7 @@ export default function BoletinesGtai() {
                       {t("pages.boletinesGtai.featured")}
                     </span>
                     <p className="text-lg font-bold leading-tight text-white" style={{ fontFamily: "var(--token-font-heading)" }}>
-                      {featured.title}
+                      {localizedFeatured.title}
                     </p>
                   </div>
                 </div>
@@ -102,10 +110,10 @@ export default function BoletinesGtai() {
                       className="rounded-md px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.1em]"
                       style={{ backgroundColor: "rgba(68,137,198,0.12)", color: "var(--regu-blue)" }}
                     >
-                      {featured.contentType}
+                      {localizedFeatured.contentType}
                     </span>
                     <span className="text-xs font-semibold" style={{ color: "var(--regu-gray-500)" }}>
-                      {t("pages.boletinesGtai.edition", { number: featured.issueNumber, year: featured.year })}
+                      {t("pages.boletinesGtai.edition", { number: localizedFeatured.issueNumber, year: localizedFeatured.year })}
                     </span>
                   </div>
                   <h2
@@ -115,22 +123,22 @@ export default function BoletinesGtai() {
                     {t("pages.boletinesGtai.latestPublication")}
                   </h2>
                   <p className="mb-2 text-sm font-semibold" style={{ color: "var(--regu-gray-600)" }}>
-                    {featured.groupName}
+                    {localizedFeatured.groupName}
                   </p>
                   <p className="mb-6 flex items-center gap-2 text-sm" style={{ color: "var(--regu-gray-500)" }}>
                     <Calendar className="h-4 w-4 shrink-0" aria-hidden />
-                    {new Date(featured.publicationDate + "T12:00:00").toLocaleDateString("es", {
+                    {new Date(localizedFeatured.publicationDate + "T12:00:00").toLocaleDateString(dateLocale, {
                       day: "numeric",
                       month: "long",
                       year: "numeric",
                     })}
                   </p>
                   <p className="mb-8 max-w-2xl flex-1 text-base leading-relaxed" style={{ color: "var(--regu-gray-700)" }}>
-                    {featured.shortSummary}
+                    {localizedFeatured.shortSummary}
                   </p>
                   <div className="flex flex-wrap gap-3">
                     <Link
-                      to={`${BOLETINES_GTAI_LIST_PATH}/${featured.slug}`}
+                      to={`${BOLETINES_GTAI_LIST_PATH}/${localizedFeatured.slug}`}
                       className="inline-flex items-center gap-2 rounded-xl px-5 py-3 text-sm font-bold uppercase tracking-[0.06em] text-white transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2"
                       style={{ backgroundColor: "var(--regu-blue)" }}
                     >
@@ -138,7 +146,7 @@ export default function BoletinesGtai() {
                       {t("pages.boletinesGtai.viewBulletin")}
                     </Link>
                     <a
-                      href={featured.pdfFile}
+                      href={localizedFeatured.pdfFile}
                       download
                       className="inline-flex items-center gap-2 rounded-xl border-2 px-5 py-3 text-sm font-bold uppercase tracking-[0.06em] transition hover:bg-[rgba(68,137,198,0.07)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2"
                       style={{ borderColor: "var(--regu-blue)", color: "var(--regu-blue)" }}
@@ -297,6 +305,8 @@ export default function BoletinesGtai() {
             <p className="rounded-xl border bg-white p-10 text-center text-sm font-medium" style={{ borderColor: "rgba(22,61,89,0.10)", color: "var(--regu-gray-600)" }}>
               {t("pages.boletinesGtai.noResults")}
             </p>
+          )}
+            </>
           )}
 
           <nav
