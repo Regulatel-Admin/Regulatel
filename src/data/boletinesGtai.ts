@@ -127,6 +127,38 @@ export function parseBoletinesGtaiFromSettingValue(value: unknown): BoletinGtaiS
   return out.length > 0 ? out : null;
 }
 
+/**
+ * Combina entradas del CMS con defaults del código.
+ * Añade boletines nuevos desplegados (p. ej. boletín 3) y aplica el destacado definido en código.
+ */
+export function mergeBoletinesGtaiWithDefaults(
+  cmsEntries: BoletinGtaiSerialized[] | null
+): BoletinGtaiSerialized[] {
+  if (!cmsEntries || cmsEntries.length === 0) {
+    return defaultBoletinesGtai.map((e) => ({ ...e }));
+  }
+
+  const bySlug = new Map(cmsEntries.map((e) => [e.slug, { ...e }]));
+
+  for (const def of defaultBoletinesGtai) {
+    if (!bySlug.has(def.slug)) {
+      bySlug.set(def.slug, { ...def });
+    }
+  }
+
+  const defaultFeatured = defaultBoletinesGtai.find((e) => e.isFeatured);
+  const merged = Array.from(bySlug.values());
+
+  if (!defaultFeatured || !merged.some((e) => e.slug === defaultFeatured.slug)) {
+    return merged;
+  }
+
+  return merged.map((e) => ({
+    ...e,
+    isFeatured: e.slug === defaultFeatured.slug,
+  }));
+}
+
 export function getBoletinesGtaiPublished(entries: BoletinGtaiSerialized[]): BoletinGtaiSerialized[] {
   return entries.filter((e) => e.isPublished);
 }

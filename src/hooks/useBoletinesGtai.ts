@@ -3,6 +3,7 @@ import { api } from "@/lib/api";
 import {
   BOLETINES_GTAI_SETTINGS_KEY,
   defaultBoletinesGtai,
+  mergeBoletinesGtaiWithDefaults,
   parseBoletinesGtaiFromSettingValue,
   type BoletinGtaiSerialized,
 } from "@/data/boletinesGtai";
@@ -16,7 +17,7 @@ export function useBoletinesGtai(): { entries: BoletinGtaiSerialized[]; loading:
     if (res.ok && res.data && res.data.value != null) {
       const parsed = parseBoletinesGtaiFromSettingValue(res.data.value);
       if (parsed !== null) {
-        setEntries(parsed);
+        setEntries(mergeBoletinesGtaiWithDefaults(parsed));
         setLoading(false);
         return;
       }

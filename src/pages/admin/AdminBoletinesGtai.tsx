@@ -4,6 +4,7 @@ import { uploadAdminFile } from "@/lib/uploads";
 import {
   BOLETINES_GTAI_SETTINGS_KEY,
   defaultBoletinesGtai,
+  mergeBoletinesGtaiWithDefaults,
   parseBoletinesGtaiFromSettingValue,
   type BoletinGtaiSerialized,
 } from "@/data/boletinesGtai";
@@ -47,7 +48,7 @@ export default function AdminBoletinesGtai() {
       if (res.ok && res.data && res.data.value != null) {
         const parsed = parseBoletinesGtaiFromSettingValue(res.data.value);
         if (parsed !== null) {
-          setEntries(parsed.map((b) => ({ ...b })));
+          setEntries(mergeBoletinesGtaiWithDefaults(parsed).map((b) => ({ ...b })));
         } else {
           setEntries(cloneDefaults());
         }
