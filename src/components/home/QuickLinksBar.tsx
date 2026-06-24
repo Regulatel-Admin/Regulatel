@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { ArrowUpRight, ArrowRight } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import type { LucideIcon } from "lucide-react";
 
 export interface QuickLinkItem {
@@ -21,6 +22,9 @@ export default function QuickLinksBar({
   title = "ACCESOS PRINCIPALES",
   seeMoreHref = "/recursos",
 }: QuickLinksBarProps) {
+  const { t } = useTranslation();
+  const sectionTitle = title ?? t("home.quickLinks.title");
+
   return (
     <section
       className="quickLinksBar w-full"
@@ -31,7 +35,7 @@ export default function QuickLinksBar({
         paddingTop: "56px",
         paddingBottom: "56px",
       }}
-      aria-label={title}
+      aria-label={sectionTitle}
     >
       <div
         className="mx-auto w-full px-4 md:px-8 lg:px-10"
@@ -48,13 +52,13 @@ export default function QuickLinksBar({
                 color: "var(--regu-gray-900)",
               }}
             >
-              {title}
+              {sectionTitle}
             </h2>
             <p
               className="mt-2 text-base leading-relaxed"
               style={{ color: "var(--regu-gray-500)", maxWidth: "42ch" }}
             >
-              Accesos rápidos a herramientas, documentos y recursos clave de REGULATEL.
+              {t("home.quickLinks.subtitle")}
             </p>
           </div>
           {seeMoreHref && (
@@ -63,7 +67,7 @@ export default function QuickLinksBar({
               className="quickLinksVerMas inline-flex shrink-0 items-center gap-1.5 text-base font-semibold transition-colors hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2 rounded"
               style={{ color: "var(--regu-blue)" }}
             >
-              Ver más <ArrowRight className="h-4 w-4" />
+              {t("common.seeMore")} <ArrowRight className="h-4 w-4" />
             </Link>
           )}
         </div>

@@ -5,8 +5,7 @@ import NavMegaPanel from "@/components/layout/NavMegaPanel";
 import MegaMenuEvents from "@/components/layout/MegaMenuEvents";
 import ConveniosMenu from "@/components/convenios/ConveniosMenu";
 import TopBarBerecLike from "@/components/layout/TopBarBerecLike";
-import { navigationItems, type NavigationItem } from "@/data/navigation";
-import { useNavigationSettings } from "@/contexts/SiteSettingsContext";
+import { useLocalizedNavigation } from "@/hooks/useLocalizedNavigation";
 
 /** Histéresis: evita flicker al hacer scroll cerca del umbral. Ocultar solo al bajar pasado HIDE; mostrar solo al subir hasta SHOW o menos. */
 const SCROLL_THRESHOLD_HIDE = 80; // px — al bajar pasado esto se oculta la top bar
@@ -22,10 +21,7 @@ function isPathActive(currentPath: string, href?: string): boolean {
 
 export default function HeaderMegaMenu() {
   const location = useLocation();
-  const apiNav = useNavigationSettings();
-  const navItems: NavigationItem[] = (apiNav && Array.isArray(apiNav) && apiNav.length > 0
-    ? apiNav
-    : navigationItems) as NavigationItem[];
+  const navItems = useLocalizedNavigation();
   const navRef = useRef<HTMLDivElement>(null);
   const topbarWrapperRef = useRef<HTMLDivElement>(null);
   const [openDesktopMenu, setOpenDesktopMenu] = useState<string | null>(null);

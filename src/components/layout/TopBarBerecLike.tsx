@@ -23,6 +23,8 @@ function XLogo({ size = 16 }: { size?: number }) {
 }
 
 import SiteSearchAutocomplete from "@/components/SiteSearchAutocomplete";
+import LanguageSwitcher from "@/components/layout/LanguageSwitcher";
+import { useTranslation } from "react-i18next";
 
 const FONT_SIZE_KEY = "regulatel-font-size";
 export type FontSizeMode = "sm" | "md" | "lg";
@@ -49,6 +51,7 @@ export default function TopBarBerecLike({
   mobileMenuOpen = false,
   onMobileMenuToggle,
 }: TopBarBerecLikeProps) {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [fontMode, setFontMode] = useState<FontSizeMode>(getStoredFontSize);
   const [searchWebsite, setSearchWebsite] = useState("");
@@ -131,7 +134,7 @@ export default function TopBarBerecLike({
           <Link
             to="/"
             className="topbarLogoLink shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2 rounded"
-            aria-label="REGULATEL inicio"
+            aria-label={t("common.topbar.homeAria")}
           >
               <img
                 src="/images/regulatel-logo.png"
@@ -160,7 +163,7 @@ export default function TopBarBerecLike({
           <form
             onSubmit={handleSearchWebsite}
             role="search"
-            aria-label="Buscar en el sitio"
+            aria-label={t("common.topbar.searchSiteAria")}
             className="flex items-center flex-1 rounded-xl bg-[#F4F6F8] transition-all focus-within:bg-white focus-within:ring-2 focus-within:ring-[var(--regu-blue)]/30"
             style={{
               minWidth: "210px",
@@ -179,7 +182,7 @@ export default function TopBarBerecLike({
             <SiteSearchAutocomplete
               value={searchWebsite}
               onChange={setSearchWebsite}
-              placeholder="Buscar en el sitio"
+              placeholder={t("common.topbar.searchSite")}
             />
           </form>
 
@@ -187,7 +190,7 @@ export default function TopBarBerecLike({
           <form
             onSubmit={handleSearchDocuments}
             role="search"
-            aria-label="Buscar documentos"
+            aria-label={t("common.topbar.searchDocumentsAria")}
             className="flex items-center flex-1 rounded-xl bg-[#F4F6F8] transition-all focus-within:bg-white focus-within:ring-2 focus-within:ring-[var(--regu-blue)]/30"
             style={{
               minWidth: "210px",
@@ -205,7 +208,7 @@ export default function TopBarBerecLike({
             />
             <input
               type="search"
-              placeholder="Buscar documento"
+              placeholder={t("common.topbar.searchDocuments")}
               value={searchDocuments}
               onChange={(e) => setSearchDocuments(e.target.value)}
               className="flex-1 min-w-0 border-0 p-0 outline-none bg-transparent"
@@ -217,18 +220,20 @@ export default function TopBarBerecLike({
         {/* ── (3) Right: a11y + socials + login + subscribe ── */}
         <div className="topbarRight flex items-center shrink-0" style={{ gap: "10px" }}>
 
+          <LanguageSwitcher />
+
           {/* Font size controls */}
           <div
             className="a11yControls hidden md:flex items-center rounded-lg overflow-hidden"
             role="group"
-            aria-label="Tamaño de fuente"
+            aria-label={t("common.topbar.fontSize")}
             style={{ border: "1px solid rgba(22,61,89,0.12)", backgroundColor: "#F4F6F8", gap: 0 }}
           >
             {(["sm", "md", "lg"] as const).map((mode, idx) => (
               <button
                 key={mode}
                 type="button"
-                aria-label={mode === "sm" ? "Fuente pequeña" : mode === "md" ? "Fuente mediana" : "Fuente grande"}
+                aria-label={mode === "sm" ? t("common.topbar.fontSmall") : mode === "md" ? t("common.topbar.fontMedium") : t("common.topbar.fontLarge")}
                 aria-pressed={fontMode === mode}
                 onClick={() => setFontMode(mode)}
                 className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-1 transition-colors"
@@ -319,7 +324,7 @@ export default function TopBarBerecLike({
           {/* Login icon */}
           <Link
             to="/login"
-            aria-label="Iniciar sesión"
+            aria-label={t("common.topbar.login")}
             className="hidden md:inline-flex items-center justify-center rounded-md p-1.5 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-1 shrink-0"
             style={{ color: iconColor }}
           >
@@ -343,13 +348,13 @@ export default function TopBarBerecLike({
             }}
           >
             <Bell style={{ width: "13px", height: "13px" }} aria-hidden />
-            Suscribirse
+            {t("common.topbar.subscribe")}
           </Link>
 
           {/* Mobile: search toggle */}
           <button
             type="button"
-            aria-label={mobileSearchOpen ? "Cerrar búsqueda" : "Buscar"}
+            aria-label={mobileSearchOpen ? t("common.topbar.closeSearch") : t("common.topbar.openSearch")}
             aria-expanded={mobileSearchOpen}
             onClick={() => setMobileSearchOpen((v) => !v)}
             className="inline-flex rounded-md p-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] md:hidden"
@@ -362,7 +367,7 @@ export default function TopBarBerecLike({
           {onMobileMenuToggle ? (
             <button
               type="button"
-              aria-label={mobileMenuOpen ? "Cerrar menú" : "Abrir menú"}
+              aria-label={mobileMenuOpen ? t("common.topbar.closeMenu") : t("common.topbar.openMenu")}
               aria-expanded={mobileMenuOpen}
               onClick={onMobileMenuToggle}
               className="inline-flex rounded-md p-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] md:hidden"
@@ -390,7 +395,7 @@ export default function TopBarBerecLike({
                 value={searchWebsite}
                 onChange={setSearchWebsite}
                 onResultSelect={() => setMobileSearchOpen(false)}
-                placeholder="Buscar en el sitio"
+                placeholder={t("common.topbar.searchSite")}
                 compact
               />
             </div>
@@ -403,7 +408,7 @@ export default function TopBarBerecLike({
               <FileText style={{ width: "18px", height: "18px", color: "#8A97A3", marginRight: "8px", flexShrink: 0 }} aria-hidden />
               <input
                 type="search"
-                placeholder="Buscar documento"
+                placeholder={t("common.topbar.searchDocuments")}
                 value={searchDocuments}
                 onChange={(e) => setSearchDocuments(e.target.value)}
                 className="flex-1 min-w-0 border-0 p-0 outline-none bg-transparent"

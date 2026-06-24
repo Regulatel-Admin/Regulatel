@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight, Users, Globe, BookOpen } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import InstitutionalLayout, {
   InstitutionalSection,
   InstitutionalH2,
@@ -12,34 +13,28 @@ const fadeIn = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.4 } },
 };
 
-const OBJETIVOS = [
-  {
-    icon: BookOpen,
-    label: "Objetivo 1",
-    text: "Generar, facilitar e intercambiar información y experiencias sobre marcos regulatorios y gestión regulatoria en un entorno de convergencia tecnológica.",
-  },
-  {
-    icon: Globe,
-    label: "Objetivo 2",
-    text: "Promover la armonización de la regulación de las telecomunicaciones para contribuir a la integración regional.",
-  },
-  {
-    icon: Users,
-    label: "Objetivo 3",
-    text: "Identificar y defender intereses regionales mediante posiciones comunes en foros internacionales.",
-  },
-];
+const OBJECTIVE_ICONS = [BookOpen, Globe, Users] as const;
 
 export default function QueSomos() {
+  const { t } = useTranslation();
+  const objectives = t("pages.queSomos.objectives", { returnObjects: true }) as Array<{ label: string; text: string }>;
+  const paragraphs = t("pages.queSomos.paragraphs", { returnObjects: true }) as string[];
+
+  const learnMoreLinks = [
+    { to: "/vision-mision", label: t("pages.queSomos.learnMore.visionMission.label"), desc: t("pages.queSomos.learnMore.visionMission.desc") },
+    { to: "/autoridades", label: t("pages.queSomos.learnMore.authorities.label"), desc: t("pages.queSomos.learnMore.authorities.desc") },
+    { to: "/miembros", label: t("pages.queSomos.learnMore.members.label"), desc: t("pages.queSomos.learnMore.members.desc") },
+    { to: "/objetivos-y-funciones", label: t("pages.queSomos.learnMore.objectives.label"), desc: t("pages.queSomos.learnMore.objectives.desc") },
+  ];
+
   return (
     <InstitutionalLayout
-      title="¿Qué es REGULATEL?"
-      subtitle="QUIÉNES SOMOS"
-      breadcrumb={[{ label: "Qué somos" }]}
+      title={t("pages.queSomos.title")}
+      subtitle={t("pages.queSomos.subtitle")}
+      breadcrumb={[{ label: t("pages.queSomos.breadcrumb") }]}
     >
-      {/* Descripción institucional */}
       <InstitutionalSection>
-        <InstitutionalH2>Quiénes somos</InstitutionalH2>
+        <InstitutionalH2>{t("pages.queSomos.sectionTitle")}</InstitutionalH2>
         <motion.div
           initial="hidden"
           animate="visible"
@@ -47,40 +42,19 @@ export default function QueSomos() {
           className="space-y-5 text-base md:text-lg leading-relaxed"
           style={{ color: "var(--regu-gray-700)" }}
         >
-          <p>
-            El Foro Latinoamericano de Entes Reguladores en Telecomunicaciones (REGULATEL) funciona
-            como un espacio multilateral de cooperación entre autoridades reguladoras de
-            telecomunicaciones de América Latina, España, Portugal e Italia.
-          </p>
-          <p>
-            Constituye como un mecanismo flexible y eficiente de colaboración basado en las
-            infraestructuras institucionales existentes en cada país miembro. REGULATEL facilita el
-            intercambio de información, experiencias y buenas prácticas regulatorias entre sus
-            miembros.
-          </p>
-          <p>
-            A través de este foro se promueve el análisis conjunto de políticas públicas, estrategias
-            regulatorias, evolución de los mercados y desarrollo de los servicios de
-            telecomunicaciones en la región.
-          </p>
-          <p>
-            REGULATEL permite que los reguladores de la región dispongan de un marco permanente de
-            diálogo técnico que fortalece la cooperación regional y el desarrollo del ecosistema
-            digital.
-          </p>
+          {paragraphs.map((p) => (
+            <p key={p.slice(0, 40)}>{p}</p>
+          ))}
         </motion.div>
       </InstitutionalSection>
 
-      {/* Objetivos — cards visuales */}
       <InstitutionalSection>
-        <InstitutionalH2
-          subtitle="Extraídos del Acta Constitutiva de REGULATEL, octubre de 2013"
-        >
-          Objetivos
+        <InstitutionalH2 subtitle={t("pages.queSomos.objectivesSubtitle")}>
+          {t("pages.queSomos.objectivesTitle")}
         </InstitutionalH2>
         <ul className="space-y-4 list-none p-0 m-0">
-          {OBJETIVOS.map((obj, index) => {
-            const Icon = obj.icon;
+          {objectives.map((obj, index) => {
+            const Icon = OBJECTIVE_ICONS[index] ?? BookOpen;
             return (
               <motion.li
                 key={obj.label}
@@ -121,22 +95,16 @@ export default function QueSomos() {
             className="inline-flex items-center gap-1.5 text-sm font-semibold transition-all hover:gap-2.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2"
             style={{ color: "var(--regu-blue)" }}
           >
-            Ver objetivos y funciones completos
+            {t("pages.queSomos.viewFullObjectives")}
             <ArrowRight className="h-4 w-4" aria-hidden />
           </Link>
         </div>
       </InstitutionalSection>
 
-      {/* Links a otras secciones */}
       <InstitutionalSection>
-        <InstitutionalH2>Conoce más sobre REGULATEL</InstitutionalH2>
+        <InstitutionalH2>{t("pages.queSomos.learnMoreTitle")}</InstitutionalH2>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          {[
-            { to: "/vision-mision", label: "Visión y Misión", desc: "Los valores y principios que guían al Foro" },
-            { to: "/autoridades", label: "Autoridades actuales", desc: "Presidente y Vicepresidentes del período" },
-            { to: "/miembros", label: "Miembros", desc: "Los entes reguladores que conforman REGULATEL" },
-            { to: "/objetivos-y-funciones", label: "Objetivos y Funciones", desc: "El mandato institucional completo" },
-          ].map((item) => (
+          {learnMoreLinks.map((item) => (
             <Link
               key={item.to}
               to={item.to}

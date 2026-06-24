@@ -4,6 +4,7 @@
  * Hero, accesos y cumbres pueden venir de /api/settings (CMS) o de datos estáticos.
  */
 import { useEffect, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import QuickLinksBar from "@/components/home/QuickLinksBar";
 import EventsSection from "@/components/home/EventsSection";
 import FeaturedCarousel from "@/components/home/FeaturedCarousel";
@@ -22,6 +23,7 @@ import { quickLinks as staticQuickLinks, featuredCarouselItems as fallbackCarous
 import type { FeaturedCarouselItem } from "@/components/home/FeaturedCarousel";
 
 export default function Home() {
+  const { t } = useTranslation();
   const { refetch: refetchSettings } = useSiteSettings();
   useEffect(() => {
     void refetchSettings();
@@ -80,13 +82,13 @@ export default function Home() {
           className="text-xl font-bold uppercase tracking-wide md:text-2xl"
           style={{ color: "var(--regu-gray-900)", fontFamily: "var(--token-font-heading)" }}
         >
-          CUMBRES DESTACADAS
+          {t("home.featuredSummits.title")}
         </h2>
         <p
           className="mt-1 text-sm md:mt-1.5 md:text-base"
           style={{ color: "var(--regu-gray-700)", fontFamily: "var(--token-font-body)" }}
         >
-          Próximas y recientes cumbres de REGULATEL y organismos aliados.
+          {t("home.featuredSummits.subtitle")}
         </p>
       </div>
       <FeaturedCarousel items={carouselItems} />

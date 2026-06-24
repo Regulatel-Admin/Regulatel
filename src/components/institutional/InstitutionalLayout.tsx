@@ -1,6 +1,7 @@
 import { type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import PageHero from "@/components/PageHero";
 
 const CONTENT_MAX_WIDTH = "1180px";
@@ -18,6 +19,8 @@ export default function InstitutionalLayout({
   breadcrumb,
   children,
 }: InstitutionalLayoutProps) {
+  const { t } = useTranslation();
+
   return (
     <>
       <PageHero
@@ -42,7 +45,7 @@ export default function InstitutionalLayout({
           <footer
             className="mt-16 md:mt-20 lg:mt-24 pt-10 pb-4 border-t flex flex-wrap items-center gap-4"
             style={{ borderColor: "rgba(22,61,89,0.08)" }}
-            aria-label="Cierre de página"
+            aria-label={t("common.pageFooter")}
           >
             <Link
               to="/"
@@ -53,14 +56,14 @@ export default function InstitutionalLayout({
                 backgroundColor: "rgba(68,137,198,0.06)",
               }}
             >
-              Inicio
+              {t("common.institutional.footerHome")}
             </Link>
             <Link
               to="/que-somos"
               className="inline-flex items-center gap-1.5 text-sm font-semibold transition-colors hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2"
               style={{ color: "var(--regu-gray-500)" }}
             >
-              Quiénes somos <ArrowRight className="h-3.5 w-3.5" aria-hidden />
+              {t("common.institutional.footerWhoWeAre")} <ArrowRight className="h-3.5 w-3.5" aria-hidden />
             </Link>
           </footer>
         </div>
@@ -83,7 +86,6 @@ export function InstitutionalSection({
   );
 }
 
-/** Título de sección con barra accent izquierda — mismo sistema que el home */
 export function InstitutionalH2({
   children,
   subtitle,
@@ -118,7 +120,6 @@ export function InstitutionalH2({
   );
 }
 
-/** Card institucional con acento top opcional */
 export function InstitutionalCard({
   children,
   className = "",
@@ -162,7 +163,6 @@ export function InstitutionalCard({
   );
 }
 
-/** Lead editorial con borde izquierdo — para introducción de páginas */
 export function InstitutionalLead({
   children,
   source,
@@ -170,6 +170,8 @@ export function InstitutionalLead({
   children: ReactNode;
   source?: string;
 }) {
+  const { t } = useTranslation();
+
   return (
     <div
       className="mb-12 rounded-r-xl border-l-4 py-6 pl-6 pr-6 md:py-7 md:pl-8"
@@ -186,7 +188,7 @@ export function InstitutionalLead({
       </div>
       {source && (
         <p className="mt-4 text-xs font-medium uppercase tracking-[0.08em]" style={{ color: "var(--regu-gray-500)" }}>
-          Fuente: {source}
+          {t("common.institutional.leadSource", { source })}
         </p>
       )}
     </div>

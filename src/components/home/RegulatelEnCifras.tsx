@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { useTranslation } from "react-i18next";
 import { Users, Building2, BookOpen, Globe } from "lucide-react";
 import {
   getCifrasAnos,
@@ -8,8 +9,8 @@ import {
 } from "@/data/home";
 import { useAdminData } from "@/contexts/AdminDataContext";
 
-const TITLE = "REGULATEL EN CIFRAS";
-const SUBTITLE = "Indicadores institucionales clave para seguimiento público.";
+import { useLocalizedCifrasCards } from "@/hooks/useLocalizedHome";
+
 /** Duración del conteo al entrar en vista o al cambiar de año */
 const COUNT_DURATION_MS = 1100;
 const FADE_OUT_MS = 120;
@@ -94,6 +95,7 @@ interface RegulatelEnCifrasProps {
 }
 
 export default function RegulatelEnCifras({ initialYear }: RegulatelEnCifrasProps = {}) {
+  const { t } = useTranslation();
   const { getCifrasForYear } = useAdminData();
   const anos = getCifrasAnos();
   const [selectedYear, setSelectedYear] = useState<number>(initialYear ?? anos[0] ?? 2026);
@@ -101,7 +103,8 @@ export default function RegulatelEnCifras({ initialYear }: RegulatelEnCifrasProp
   const reduceMotion = useReducedMotion();
 
   const cifras = getCifrasForYear(selectedYear);
-  const cardsConfig = cifrasCardsConfig[selectedYear];
+  const localizedCards = useLocalizedCifrasCards(selectedYear);
+  const cardsConfig = localizedCards ?? cifrasCardsConfig[selectedYear];
   if (!cifras || !cardsConfig?.length) return null;
 
   const handleYearChange = (year: number) => {
@@ -122,7 +125,7 @@ export default function RegulatelEnCifras({ initialYear }: RegulatelEnCifrasProp
         borderTop: "1px solid rgba(68, 137, 198, 0.08)",
         borderBottom: "1px solid rgba(68, 137, 198, 0.08)",
       }}
-      aria-label={TITLE}
+      aria-label={t("home.cifras.title")}
     >
     <div style={{ maxWidth: "1520px", margin: "0 auto" }}>
       {/* Header: mismo tamaño que Accesos Principales para jerarquía consistente */}
@@ -135,13 +138,13 @@ export default function RegulatelEnCifras({ initialYear }: RegulatelEnCifrasProp
               fontSize: "clamp(1.25rem, 2vw, 1.75rem)",
             }}
           >
-            {TITLE}
+            {t("home.cifras.title")}
           </h2>
           <p
             className="mt-2 text-sm text-[var(--regu-gray-500)] md:text-base md:leading-relaxed"
             style={{ fontFamily: "var(--token-font-body)", maxWidth: "42ch" }}
           >
-            {SUBTITLE}
+            {t("home.cifras.subtitle")}
           </p>
         </div>
 

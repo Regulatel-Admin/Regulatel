@@ -14,6 +14,7 @@ import {
   ExternalLink,
   Newspaper,
 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import PageHero from "@/components/PageHero";
 import { api } from "@/lib/api";
 import {
@@ -29,8 +30,10 @@ import {
   getBoletinesGtaiPublished,
   sortBoletinesByDateDesc,
 } from "@/data/boletinesGtai";
+import { useLocalizedGrupos } from "@/hooks/useLocalizedGrupos";
 
 export default function GruposTrabajo() {
+  const { t } = useTranslation();
   const [previewDoc, setPreviewDoc] = useState<{ url: string; title: string } | null>(null);
   const [grupos, setGrupos] = useState<GrupoTrabajoSerialized[]>(defaultGruposTrabajo);
   const { entries: boletinesGtai } = useBoletinesGtai();
@@ -63,13 +66,15 @@ export default function GruposTrabajo() {
     return () => document.removeEventListener("visibilitychange", onVis);
   }, [loadGrupos]);
 
+  const localizedGrupos = useLocalizedGrupos(grupos);
+
   return (
     <>
       <PageHero
-        title="Grupos de Trabajo"
-        subtitle="QUIÉNES SOMOS"
-        breadcrumb={[{ label: "Grupos de Trabajo" }]}
-        description="Espacios de colaboración especializada donde los países miembros comparten experiencias y desarrollan soluciones regulatorias comunes."
+        title={t("grupos.pageTitle")}
+        subtitle={t("grupos.pageSubtitle")}
+        breadcrumb={[{ label: t("grupos.pageTitle") }]}
+        description={t("grupos.pageDescription")}
       />
 
       <div
@@ -92,10 +97,10 @@ export default function GruposTrabajo() {
                 className="text-xl font-bold md:text-2xl"
                 style={{ color: "var(--regu-navy)", fontFamily: "var(--token-font-heading)" }}
               >
-                Grupos activos
+                {t("grupos.activeGroups")}
               </h2>
               <p className="mt-1 text-sm" style={{ color: "var(--regu-gray-500)" }}>
-                {grupos.length} grupos de trabajo en funcionamiento
+                {t("grupos.activeCount", { count: localizedGrupos.length })}
               </p>
             </div>
           </div>
@@ -111,16 +116,16 @@ export default function GruposTrabajo() {
                 className="text-xl font-bold md:text-2xl"
                 style={{ color: "var(--regu-navy)", fontFamily: "var(--token-font-heading)" }}
               >
-                Informes finales de los grupos 2025
+                {t("grupos.reports2025")}
               </h2>
               <p className="mt-1 text-sm" style={{ color: "var(--regu-gray-500)" }}>
-                Vista previa y descarga del informe de cada grupo de trabajo
+                {t("grupos.reports2025Subtitle")}
               </p>
             </div>
           </div>
 
           <div className="mb-12 space-y-5">
-            {grupos.map((grupo, index) => {
+            {localizedGrupos.map((grupo, index) => {
               const Icon = getGrupoTrabajoIcon(grupo.iconKey);
               return (
                 <motion.article
@@ -173,7 +178,7 @@ export default function GruposTrabajo() {
                           className="mt-0.5 inline-block flex-shrink-0 rounded-sm px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.10em]"
                           style={{ backgroundColor: "rgba(68,137,198,0.10)", color: "var(--regu-blue)" }}
                         >
-                          GT {String(index + 1).padStart(2, "0")}
+                          {t("grupos.badge", { number: String(index + 1).padStart(2, "0") })}
                         </span>
                         <h3
                           className="font-bold leading-tight"
@@ -199,7 +204,7 @@ export default function GruposTrabajo() {
                               className="text-[10px] font-bold uppercase tracking-[0.10em]"
                               style={{ color: "var(--regu-gray-500)" }}
                             >
-                              Coordinadores
+                              {t("grupos.coordinators")}
                             </span>
                           </div>
                           <div className="space-y-1">
@@ -217,7 +222,7 @@ export default function GruposTrabajo() {
                               className="text-[10px] font-bold uppercase tracking-[0.10em]"
                               style={{ color: "var(--regu-gray-500)" }}
                             >
-                              Miembros
+                              {t("grupos.members")}
                             </span>
                           </div>
                           <div className="space-y-1">
@@ -252,10 +257,10 @@ export default function GruposTrabajo() {
                                   className="text-[10px] font-bold uppercase tracking-[0.12em]"
                                   style={{ color: "var(--regu-blue)" }}
                                 >
-                                  Boletines del grupo
+                                  {t("grupos.gtaiBulletins.title")}
                                 </p>
                                 <p className="text-xs" style={{ color: "var(--regu-gray-500)" }}>
-                                  Publicación más reciente del GTAI
+                                  {t("grupos.gtaiBulletins.subtitle")}
                                 </p>
                               </div>
                             </div>
@@ -264,7 +269,7 @@ export default function GruposTrabajo() {
                               className="inline-flex items-center gap-1.5 rounded-lg border-2 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.08em] transition hover:bg-white"
                               style={{ borderColor: "var(--regu-blue)", color: "var(--regu-blue)" }}
                             >
-                              Ver todos los boletines
+                              {t("grupos.gtaiBulletins.viewAll")}
                               <ArrowRight className="h-3 w-3" aria-hidden />
                             </Link>
                           </div>
@@ -298,7 +303,7 @@ export default function GruposTrabajo() {
                                   className="inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.07em] text-white transition hover:opacity-90"
                                   style={{ backgroundColor: "var(--regu-blue)" }}
                                 >
-                                  Ver boletín
+                                  {t("grupos.gtaiBulletins.viewBulletin")}
                                 </Link>
                                 <a
                                   href={latestGtaiBoletin.pdfFile}
@@ -324,13 +329,13 @@ export default function GruposTrabajo() {
                             <button
                               type="button"
                               onClick={() =>
-                                setPreviewDoc({ url: grupo.termsUrl!, title: `Términos de referencia — ${grupo.title}` })
+                                setPreviewDoc({ url: grupo.termsUrl!, title: t("grupos.termsPreviewTitle", { title: grupo.title }) })
                               }
                               className="inline-flex items-center gap-1.5 rounded-lg px-4 py-2 text-xs font-bold uppercase tracking-[0.07em] text-white transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2"
                               style={{ backgroundColor: "var(--regu-blue)" }}
                             >
                               <Eye className="h-3.5 w-3.5 shrink-0" />
-                              Vista previa
+                              {t("common.preview")}
                             </button>
                             <a
                               href={grupo.termsUrl}
@@ -339,7 +344,7 @@ export default function GruposTrabajo() {
                               style={{ borderColor: "var(--regu-blue)", color: "var(--regu-blue)" }}
                             >
                               <Download className="h-3.5 w-3.5 shrink-0" />
-                              Términos de referencia
+                              {t("grupos.termsOfReference")}
                             </a>
                           </>
                         )}
@@ -349,13 +354,13 @@ export default function GruposTrabajo() {
                               <button
                                 type="button"
                                 onClick={() =>
-                                  setPreviewDoc({ url: grupo.informeUrl!, title: `Informe 2025 — ${grupo.title}` })
+                                  setPreviewDoc({ url: grupo.informeUrl!, title: t("grupos.report2025Title", { title: grupo.title }) })
                                 }
                                 className="inline-flex items-center gap-1.5 rounded-lg px-4 py-2 text-xs font-bold uppercase tracking-[0.07em] text-white transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2"
                                 style={{ backgroundColor: "var(--regu-navy)" }}
                               >
                                 <FileText className="h-3.5 w-3.5 shrink-0" />
-                                Ver informe
+                                {t("grupos.viewReport")}
                               </button>
                             ) : (
                               <a
@@ -364,10 +369,10 @@ export default function GruposTrabajo() {
                                 rel="noopener noreferrer"
                                 className="inline-flex items-center gap-1.5 rounded-lg px-4 py-2 text-xs font-bold uppercase tracking-[0.07em] text-white transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-navy)] focus-visible:ring-offset-2"
                                 style={{ backgroundColor: "var(--regu-navy)" }}
-                                title="Los archivos PPTX se abren en nueva pestaña o se descargan según el navegador"
+                                title={t("grupos.openReportTitle")}
                               >
                                 <ExternalLink className="h-3.5 w-3.5 shrink-0" />
-                                Abrir informe
+                                {t("grupos.openReport")}
                               </a>
                             )}
                             <a
@@ -377,7 +382,7 @@ export default function GruposTrabajo() {
                               style={{ borderColor: "var(--regu-navy)", color: "var(--regu-navy)" }}
                             >
                               <Download className="h-3.5 w-3.5 shrink-0" />
-                              Descargar informe
+                              {t("grupos.downloadReport")}
                             </a>
                           </>
                         )}
@@ -402,24 +407,18 @@ export default function GruposTrabajo() {
                 style={{ backgroundColor: "var(--regu-blue)" }}
                 aria-hidden
               />
-              Sobre los Grupos de Trabajo
+              {t("grupos.aboutTitle")}
             </h2>
             <div className="space-y-4 text-base leading-relaxed" style={{ color: "var(--regu-gray-600)" }}>
-              <p>
-                Los grupos de trabajo son espacios especializados donde los países miembros trabajan en temas del sector
-                de las telecomunicaciones, compartiendo experiencias y desarrollando soluciones comunes.
-              </p>
-              <p>
-                Cada grupo cuenta con al menos un organismo coordinador y miembros que participan activamente en el
-                intercambio de conocimientos, elaboración de recomendaciones técnicas y documentos de referencia.
-              </p>
+              <p>{t("grupos.aboutP1")}</p>
+              <p>{t("grupos.aboutP2")}</p>
             </div>
           </section>
 
           <nav
             className="mt-10 flex flex-wrap items-center gap-4 border-t pt-8"
             style={{ borderColor: "rgba(22,61,89,0.08)" }}
-            aria-label="Navegación final"
+            aria-label={t("common.finalNavigation")}
           >
             <Link
               to="/"
@@ -431,7 +430,7 @@ export default function GruposTrabajo() {
               }}
             >
               <ArrowLeft className="h-4 w-4 shrink-0" aria-hidden />
-              Inicio
+              {t("common.home")}
             </Link>
             <Link
               to="/miembros"

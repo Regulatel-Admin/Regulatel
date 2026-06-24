@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { useConveniosPublic } from "@/contexts/SiteSettingsContext";
 
 interface ConveniosMenuProps {
@@ -18,6 +19,7 @@ export default function ConveniosMenu({
   onLinkClick,
   variant,
 }: ConveniosMenuProps) {
+  const { t } = useTranslation();
   const convenios = useConveniosPublic();
   const isDesktop = variant === "desktop";
 
@@ -26,7 +28,7 @@ export default function ConveniosMenu({
       <div
         id={panelId}
         role="region"
-        aria-label="Convenios"
+        aria-label={t("convenios.menu.aria")}
         className={[
           "absolute left-0 right-0 top-full z-50 w-full transition-[visibility,opacity,transform] duration-150 motion-reduce:transition-none",
           isOpen ? "visible translate-y-0 opacity-100" : "invisible -translate-y-0.5 opacity-0",
@@ -58,7 +60,7 @@ export default function ConveniosMenu({
               className="text-[11px] font-bold uppercase tracking-[0.12em]"
               style={{ color: "var(--regu-gray-500)", fontFamily: "var(--token-font-body)", margin: 0 }}
             >
-              Convenios de cooperación
+              {t("convenios.menu.title")}
             </h3>
           </div>
 
@@ -119,7 +121,7 @@ export default function ConveniosMenu({
                       color: "var(--regu-gray-500)",
                     }}
                   >
-                    {c.title}
+                    {t(`convenios.menu.items.${c.slug}.shortDescription`, { defaultValue: c.title })}
                   </p>
                 </div>
               </Link>
@@ -137,7 +139,7 @@ export default function ConveniosMenu({
               className="group inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-bold uppercase tracking-[0.10em] transition-all hover:bg-[rgba(68,137,198,0.07)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2"
               style={{ color: "var(--regu-blue)" }}
             >
-              Ver todos los convenios
+              {t("convenios.menu.viewAll")}
               <ArrowRight
                 className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5"
                 aria-hidden

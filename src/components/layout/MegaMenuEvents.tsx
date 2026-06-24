@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { useEvents } from "@/contexts/AdminDataContext";
 import { formatBERECDate } from "@/utils/date";
 
@@ -30,6 +31,7 @@ export default function MegaMenuEvents({
   onLinkClick,
   variant = "desktop",
 }: MegaMenuEventsProps) {
+  const { t } = useTranslation();
   const events = useEvents();
   const upcoming = getUpcomingEvents(events);
 
@@ -63,7 +65,7 @@ export default function MegaMenuEvents({
                 color: "var(--regu-blue)",
               }}
             >
-              All Events
+              {t("events.menu.allEvents")}
             </h3>
             <ul className="list-none p-0 m-0 space-y-2">
               <li>
@@ -76,7 +78,7 @@ export default function MegaMenuEvents({
                     textUnderlineOffset: 4,
                   }}
                 >
-                  Ver todos los eventos
+                  {t("events.menu.viewAllEvents")}
                 </Link>
               </li>
               <li>
@@ -89,7 +91,7 @@ export default function MegaMenuEvents({
                     textUnderlineOffset: 4,
                   }}
                 >
-                  Próximos eventos
+                  {t("events.menu.upcoming")}
                 </Link>
               </li>
               <li>
@@ -102,7 +104,7 @@ export default function MegaMenuEvents({
                     textUnderlineOffset: 4,
                   }}
                 >
-                  Eventos pasados
+                  {t("events.menu.past")}
                 </Link>
               </li>
             </ul>
@@ -116,11 +118,11 @@ export default function MegaMenuEvents({
                 color: "var(--regu-gray-900)",
               }}
             >
-              Upcoming Events
+              {t("events.menu.upcomingEvents")}
             </h3>
             {upcoming.length === 0 ? (
               <p className="text-sm mb-2" style={{ color: "var(--regu-gray-500)" }}>
-                No hay eventos próximos.
+                {t("events.menu.noUpcoming")}
               </p>
             ) : (
               <ul className="list-none p-0 m-0 space-y-0">
@@ -162,7 +164,7 @@ export default function MegaMenuEvents({
                 className="inline-block mt-3 text-sm font-semibold"
                 style={{ color: "var(--regu-blue)" }}
               >
-                Ver todos
+                {t("events.menu.viewAll")}
               </Link>
             )}
           </div>
@@ -184,7 +186,7 @@ export default function MegaMenuEvents({
                 color: "var(--regu-blue)",
               }}
             >
-              All Events
+              {t("events.menu.allEvents")}
             </h3>
             <ul className="list-none p-0 m-0 space-y-2">
               <li>
@@ -199,7 +201,7 @@ export default function MegaMenuEvents({
                     textUnderlineOffset: 4,
                   }}
                 >
-                  Ver todos los eventos
+                  {t("events.menu.viewAllEvents")}
                 </Link>
               </li>
               <li>
@@ -214,7 +216,7 @@ export default function MegaMenuEvents({
                     textUnderlineOffset: 4,
                   }}
                 >
-                  Próximos eventos
+                  {t("events.menu.upcoming")}
                 </Link>
               </li>
               <li>
@@ -229,7 +231,7 @@ export default function MegaMenuEvents({
                     textUnderlineOffset: 4,
                   }}
                 >
-                  Eventos pasados
+                  {t("events.menu.past")}
                 </Link>
               </li>
             </ul>
@@ -245,11 +247,11 @@ export default function MegaMenuEvents({
                 color: "var(--regu-gray-900)",
               }}
             >
-              UPCOMING EVENTS
+              {t("events.menu.upcomingEvents")}
             </h3>
             {upcoming.length === 0 ? (
               <p className="text-sm mb-3" style={{ color: "var(--regu-gray-500)" }}>
-                No hay eventos próximos.
+                {t("events.menu.noUpcoming")}
               </p>
             ) : (
               <ul className="list-none p-0 m-0">
@@ -292,7 +294,7 @@ export default function MegaMenuEvents({
                 className="inline-block mt-4 text-sm font-semibold transition-colors hover:underline"
                 style={{ color: "var(--regu-blue)", textUnderlineOffset: 4 }}
               >
-                Ver todos
+                {t("events.menu.viewAll")}
               </Link>
             )}
           </div>
@@ -305,7 +307,7 @@ export default function MegaMenuEvents({
     <div
       id={panelId}
       role="region"
-      aria-label="Eventos"
+      aria-label={t("events.menu.aria")}
       className={panelClass}
     >
       {content}

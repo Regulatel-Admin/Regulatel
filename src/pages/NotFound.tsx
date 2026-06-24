@@ -1,17 +1,19 @@
 import { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Home, Search, FileText, Users, Newspaper, ArrowRight } from "lucide-react";
-
-const quickLinks = [
-  { label: "Inicio", to: "/", icon: <Home size={16} /> },
-  { label: "Noticias", to: "/noticias", icon: <Newspaper size={16} /> },
-  { label: "Quiénes somos", to: "/que-somos", icon: <Users size={16} /> },
-  { label: "Documentos", to: "/gestion", icon: <FileText size={16} /> },
-  { label: "Buscar en el sitio", to: "/search", icon: <Search size={16} /> },
-];
+import { useTranslation } from "react-i18next";
 
 export default function NotFound() {
   const { pathname } = useLocation();
+  const { t } = useTranslation();
+
+  const quickLinks = [
+    { label: t("pages.notFound.quickLinks.home"), to: "/", icon: <Home size={16} /> },
+    { label: t("pages.notFound.quickLinks.news"), to: "/noticias", icon: <Newspaper size={16} /> },
+    { label: t("pages.notFound.quickLinks.whoWeAre"), to: "/que-somos", icon: <Users size={16} /> },
+    { label: t("pages.notFound.quickLinks.documents"), to: "/gestion", icon: <FileText size={16} /> },
+    { label: t("pages.notFound.quickLinks.search"), to: "/search", icon: <Search size={16} /> },
+  ];
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -26,7 +28,6 @@ export default function NotFound() {
         fontFamily: "var(--token-font-body)",
       }}
     >
-      {/* 4px accent bar */}
       <div style={{ height: 4, background: "var(--regu-blue)", width: "100%" }} />
 
       <div
@@ -37,7 +38,6 @@ export default function NotFound() {
           textAlign: "center",
         }}
       >
-        {/* Large 404 number */}
         <div
           style={{
             fontSize: "clamp(5rem, 14vw, 9rem)",
@@ -55,7 +55,6 @@ export default function NotFound() {
           404
         </div>
 
-        {/* Lime accent divider */}
         <div
           style={{
             width: 48,
@@ -66,7 +65,6 @@ export default function NotFound() {
           }}
         />
 
-        {/* Message */}
         <h1
           style={{
             fontSize: "clamp(1.25rem, 3vw, 1.75rem)",
@@ -76,7 +74,7 @@ export default function NotFound() {
             fontFamily: "var(--token-font-heading)",
           }}
         >
-          Página no encontrada
+          {t("pages.notFound.title")}
         </h1>
         <p
           style={{
@@ -87,7 +85,7 @@ export default function NotFound() {
             margin: "0 auto 12px",
           }}
         >
-          La dirección{" "}
+          {t("pages.notFound.message")}{" "}
           <code
             style={{
               fontSize: "0.875rem",
@@ -100,7 +98,7 @@ export default function NotFound() {
           >
             {pathname}
           </code>{" "}
-          no existe o fue movida.
+          {t("pages.notFound.messageSuffix")}
         </p>
         <p
           style={{
@@ -109,10 +107,9 @@ export default function NotFound() {
             marginBottom: 44,
           }}
         >
-          Verifique la URL o utilice los accesos rápidos de abajo.
+          {t("pages.notFound.hint")}
         </p>
 
-        {/* Primary CTA */}
         <Link
           to="/"
           style={{
@@ -133,10 +130,9 @@ export default function NotFound() {
           className="hover:!bg-[var(--regu-navy)]"
         >
           <Home size={17} />
-          Volver al inicio
+          {t("common.backToHome")}
         </Link>
 
-        {/* Quick links card */}
         <div
           style={{
             background: "#fff",
@@ -175,7 +171,7 @@ export default function NotFound() {
                 margin: 0,
               }}
             >
-              Accesos rápidos
+              {t("pages.notFound.quickLinksTitle")}
             </p>
           </div>
           {quickLinks.map((link) => (
