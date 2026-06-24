@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { FileText, Download, Eye, X, Maximize2, ArrowLeft, ArrowRight } from "lucide-react";
 import PageHero from "@/components/PageHero";
 
@@ -20,15 +21,16 @@ const DOCUMENTOS_ESTUDIOS = [
 ];
 
 export default function EstudiosInvestigacion() {
+  const { t } = useTranslation();
   const [previewDoc, setPreviewDoc] = useState<{ url: string; title: string } | null>(null);
 
   return (
     <>
       <PageHero
-        title="Estudios e investigación"
-        subtitle="CONOCIMIENTO"
-        breadcrumb={[{ label: "Estudios e investigación" }]}
-        description="Análisis y estudios regulatorios comparados elaborados por REGULATEL."
+        title={t("pages.estudios.title")}
+        subtitle={t("pages.estudios.subtitle")}
+        breadcrumb={[{ label: t("pages.estudios.breadcrumb") }]}
+        description={t("pages.estudios.description")}
       />
 
       <div
@@ -90,7 +92,7 @@ export default function EstudiosInvestigacion() {
                       style={{ backgroundColor: "var(--regu-blue)" }}
                     >
                       <Eye className="h-3.5 w-3.5 shrink-0" />
-                      Vista previa
+                      {t("common.preview")}
                     </button>
                     <a
                       href={doc.url}
@@ -99,7 +101,7 @@ export default function EstudiosInvestigacion() {
                       style={{ borderColor: "var(--regu-blue)", color: "var(--regu-blue)" }}
                     >
                       <Download className="h-3.5 w-3.5 shrink-0" />
-                      Descargar
+                      {t("common.download")}
                     </a>
                   </div>
                 </div>
@@ -118,14 +120,14 @@ export default function EstudiosInvestigacion() {
               style={{ color: "var(--regu-blue)", borderColor: "var(--regu-blue)", backgroundColor: "rgba(68,137,198,0.06)" }}
             >
               <ArrowLeft className="h-4 w-4 shrink-0" aria-hidden />
-              Inicio
+              {t("common.home")}
             </Link>
             <Link
               to="/gestion?tipo=revista"
               className="inline-flex items-center gap-1.5 text-sm font-semibold transition-all hover:gap-2.5"
               style={{ color: "var(--regu-gray-500)" }}
             >
-              Revista Digital REGULATEL <ArrowRight className="h-3.5 w-3.5" aria-hidden />
+              {t("pages.estudios.revistaLink")} <ArrowRight className="h-3.5 w-3.5" aria-hidden />
             </Link>
           </nav>
         </div>
@@ -165,7 +167,7 @@ export default function EstudiosInvestigacion() {
                       {previewDoc.title}
                     </h3>
                     <p className="text-xs" style={{ color: "var(--regu-gray-500)" }}>
-                      Vista previa del documento
+                      {t("pages.shared.documentPreviewSubtitle")}
                     </p>
                   </div>
                 </div>
@@ -177,13 +179,13 @@ export default function EstudiosInvestigacion() {
                     style={{ backgroundColor: "var(--regu-blue)" }}
                   >
                     <Download className="h-4 w-4" />
-                    <span className="hidden sm:inline">Descargar</span>
+                    <span className="hidden sm:inline">{t("common.download")}</span>
                   </a>
                   <button
                     onClick={() => setPreviewDoc(null)}
                     className="flex h-9 w-9 items-center justify-center rounded-lg border transition hover:bg-[var(--regu-gray-100)]"
                     style={{ borderColor: "rgba(22,61,89,0.12)", color: "var(--regu-gray-700)" }}
-                    aria-label="Cerrar"
+                    aria-label={t("common.close")}
                   >
                     <X className="h-5 w-5" />
                   </button>
@@ -202,14 +204,14 @@ export default function EstudiosInvestigacion() {
                 style={{ borderColor: "rgba(22,61,89,0.08)", backgroundColor: "#FAFBFC" }}
               >
                 <p className="text-xs" style={{ color: "var(--regu-gray-500)" }}>
-                  Usa los controles del visor para navegar
+                  {t("pages.shared.viewerControlsHint")}
                 </p>
                 <button
                   onClick={() => window.open(previewDoc.url, "_blank")}
                   className="inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-semibold transition hover:bg-white"
                   style={{ color: "var(--regu-blue)" }}
                 >
-                  <Maximize2 className="h-4 w-4" /> Abrir en nueva pestaña
+                  <Maximize2 className="h-4 w-4" /> {t("common.openInNewTab")}
                 </button>
               </div>
             </motion.div>

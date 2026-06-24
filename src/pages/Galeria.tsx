@@ -1,18 +1,20 @@
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { Home } from "lucide-react";
 import PageHero from "@/components/PageHero";
 import AlbumCard from "@/components/galeria/AlbumCard";
 import { useGalleryAlbums } from "@/contexts/SiteSettingsContext";
 
 export default function Galeria() {
+  const { t } = useTranslation();
   const albumesGaleria = useGalleryAlbums();
   return (
     <>
       <PageHero
-        title="Galería"
-        subtitle="CONOCIMIENTO"
-        breadcrumb={[{ label: "Galería" }]}
-        description="Cumbres, asambleas y momentos destacados de REGULATEL."
+        title={t("pages.galeria.breadcrumb")}
+        subtitle={t("pages.galeria.subtitle")}
+        breadcrumb={[{ label: t("pages.galeria.breadcrumb") }]}
+        description={t("pages.galeria.pageDescription")}
       />
 
       <div
@@ -35,10 +37,10 @@ export default function Galeria() {
                 className="text-xl font-bold md:text-2xl"
                 style={{ color: "var(--regu-navy)", fontFamily: "var(--token-font-heading)" }}
               >
-                Álbumes
+                {t("pages.galeria.albums")}
               </h2>
               <p className="mt-1 text-sm" style={{ color: "var(--regu-gray-500)" }}>
-                {albumesGaleria.length} álbumes
+                {t("pages.galeria.albumsCount", { count: albumesGaleria.length })}
               </p>
             </div>
           </div>
@@ -64,7 +66,7 @@ export default function Galeria() {
               }}
             >
               <Home className="h-4 w-4 shrink-0" aria-hidden />
-              Volver al home
+              {t("pages.galeria.backToHome")}
             </Link>
           </nav>
         </div>

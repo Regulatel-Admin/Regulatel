@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { ChevronLeft, ChevronRight, Play, Pause } from "lucide-react";
 import type { Event } from "@/types/event";
 import { formatEventDateRange } from "@/types/event";
@@ -20,6 +21,7 @@ export default function FeaturedEventsCarousel({
   events,
   autoplayIntervalMs = 7000,
 }: FeaturedEventsCarouselProps) {
+  const { t } = useTranslation();
   const featured = getFeaturedEvents(events);
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
@@ -66,7 +68,7 @@ export default function FeaturedEventsCarousel({
       style={{ minHeight: "300px", height: "clamp(300px, 40vh, 480px)" }}
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
-      aria-label="Eventos destacados"
+      aria-label={t("homeSections.featuredEvents")}
     >
       {/* Crossfade entre slides */}
       {featured.map((ev, i) => (
@@ -122,7 +124,7 @@ export default function FeaturedEventsCarousel({
                 className="inline-block rounded-sm px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.10em]"
                 style={{ backgroundColor: "rgba(68,137,198,0.10)", color: "var(--regu-blue)" }}
               >
-                Próximo
+                {t("homeSections.upcomingBadge")}
               </span>
               <span
                 className="text-xs font-semibold uppercase tracking-[0.08em]"
@@ -163,7 +165,7 @@ export default function FeaturedEventsCarousel({
                 className="inline-flex items-center justify-center rounded-lg px-4 py-2 text-xs font-bold uppercase tracking-[0.08em] text-white transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2"
                 style={{ backgroundColor: "var(--regu-blue)" }}
               >
-                Leer más
+                {t("pages.noticias.readMore")}
               </Link>
               {hasRegistrationUrl ? (
                 <a
@@ -173,21 +175,21 @@ export default function FeaturedEventsCarousel({
                   className="inline-flex items-center justify-center rounded-lg border px-4 py-2 text-xs font-bold uppercase tracking-[0.08em] transition hover:bg-[var(--regu-navy)] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-navy)] focus-visible:ring-offset-2"
                   style={{ borderColor: "var(--regu-navy)", color: "var(--regu-navy)" }}
                 >
-                  Registrarse
+                  {t("pages.eventos.register")}
                 </a>
               ) : (
-                <span className="text-xs font-medium text-[var(--regu-gray-500)]">Por definir</span>
+                <span className="text-xs font-medium text-[var(--regu-gray-500)]">{t("homeSections.toBeDefined")}</span>
               )}
             </div>
 
             {/* Dots */}
             {featured.length > 1 && (
-              <div className="mt-5 flex items-center gap-1.5" aria-label="Slides de eventos">
+              <div className="mt-5 flex items-center gap-1.5" aria-label={t("homeSections.eventSlides")}>
                 {featured.slice(0, 8).map((ev, i) => (
                   <button
                     key={ev.id}
                     type="button"
-                    aria-label={`Evento ${i + 1}`}
+                    aria-label={t("homeSections.eventNumber", { n: i + 1 })}
                     aria-current={i === activeIndex ? "true" : undefined}
                     className="h-1 rounded-full transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2"
                     style={{
@@ -207,11 +209,11 @@ export default function FeaturedEventsCarousel({
       {featured.length > 1 && (
         <div
           className="absolute bottom-5 right-5 z-20 flex items-center gap-0.5 rounded-xl border border-white/20 bg-black/25 px-1 py-1 backdrop-blur-sm"
-          aria-label="Controles del carrusel"
+          aria-label={t("homeSections.carouselControls")}
         >
           <button
             type="button"
-            aria-label="Evento anterior"
+            aria-label={t("homeSections.previousEvent")}
             className="flex h-8 w-8 items-center justify-center rounded-lg text-white/90 transition-colors hover:bg-white/20 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
             onClick={prev}
           >
@@ -219,7 +221,7 @@ export default function FeaturedEventsCarousel({
           </button>
           <button
             type="button"
-            aria-label={isPaused ? "Reanudar slideshow" : "Pausar slideshow"}
+            aria-label={isPaused ? t("homeSections.resumeSlideshow") : t("homeSections.pauseSlideshow")}
             className="flex h-8 w-8 items-center justify-center rounded-lg text-white/90 transition-colors hover:bg-white/20 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
             onClick={() => setIsPaused((p) => !p)}
           >
@@ -227,7 +229,7 @@ export default function FeaturedEventsCarousel({
           </button>
           <button
             type="button"
-            aria-label="Evento siguiente"
+            aria-label={t("homeSections.nextEvent")}
             className="flex h-8 w-8 items-center justify-center rounded-lg text-white/90 transition-colors hover:bg-white/20 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
             onClick={next}
           >

@@ -1,5 +1,6 @@
 import { useState, useMemo, useEffect } from "react";
 import { Link, useSearchParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, Filter, Calendar } from "lucide-react";
 import EventCard from "@/components/home/EventCard";
@@ -57,6 +58,7 @@ function filterAndSort(
 }
 
 export default function Eventos() {
+  const { t } = useTranslation();
   const [searchParams] = useSearchParams();
   const qFromUrl = searchParams.get("q") ?? "";
   const tabFromUrl = searchParams.get("tab");
@@ -96,9 +98,9 @@ export default function Eventos() {
 
       <div className="mx-auto px-4 pb-14 pt-10 md:px-6 md:pt-14" style={{ maxWidth: "var(--token-container-max)" }}>
         <nav className="mb-6 flex items-center gap-2 text-sm" style={{ color: "var(--regu-gray-400)" }} aria-label="Breadcrumb">
-          <Link to="/" className="hover:underline" style={{ color: "var(--regu-gray-500)" }}>Inicio</Link>
+          <Link to="/" className="hover:underline" style={{ color: "var(--regu-gray-500)" }}>{t("pages.shared.breadcrumbHome")}</Link>
           <span aria-hidden>/</span>
-          <span style={{ color: "var(--regu-blue)", fontWeight: 600 }}>Eventos</span>
+          <span style={{ color: "var(--regu-blue)", fontWeight: 600 }}>{t("pages.eventos.breadcrumb")}</span>
         </nav>
 
         <header className="mb-8">
@@ -116,7 +118,7 @@ export default function Eventos() {
             }}
           >
             <Calendar size={12} style={{ color: "var(--regu-blue)" }} />
-            Cronograma REGULATEL
+            {t("pages.eventos.eyebrow")}
           </p>
           <div style={{ display: "flex", gap: 14, alignItems: "flex-start" }}>
             <div
@@ -140,7 +142,7 @@ export default function Eventos() {
                   fontFamily: "var(--token-font-heading)",
                 }}
               >
-                Eventos
+                {t("pages.eventos.title")}
               </h1>
               <p
                 style={{
@@ -151,10 +153,10 @@ export default function Eventos() {
                   maxWidth: 560,
                 }}
               >
-                Cumbres, talleres, seminarios y actividades de cooperación de REGULATEL y organizaciones aliadas.
+                {t("pages.eventos.description")}
               </p>
               <p className="mt-2 text-sm font-medium" style={{ color: "var(--regu-gray-500)" }}>
-                {filtered.length} {filtered.length === 1 ? "evento" : "eventos"} con los filtros actuales
+                {t("pages.eventos.count", { count: filtered.length })}
               </p>
             </div>
           </div>
@@ -173,20 +175,20 @@ export default function Eventos() {
             <div className="flex items-center gap-2">
               <Filter className="h-5 w-5" style={{ color: "var(--regu-blue)" }} aria-hidden />
               <span className="text-xs font-bold uppercase tracking-wider" style={{ color: "var(--regu-gray-500)" }}>
-                Filtros
+                {t("pages.shared.filters")}
               </span>
             </div>
             <div
               className="flex rounded-xl border p-0.5"
               style={{ borderColor: "rgba(22,61,89,0.12)" }}
               role="tablist"
-              aria-label="Segmento de eventos"
+              aria-label={t("pages.eventos.segmentAria")}
             >
               {(
                 [
-                  { value: "upcoming" as Segment, label: "Próximos" },
-                  { value: "past" as Segment, label: "Pasados" },
-                  { value: "all" as Segment, label: "Todos" },
+                  { value: "upcoming" as Segment, label: t("pages.eventos.upcoming") },
+                  { value: "past" as Segment, label: t("pages.eventos.past") },
+                  { value: "all" as Segment, label: t("pages.eventos.allSegment") },
                 ] as const
               ).map(({ value, label }) => (
                 <button
@@ -208,7 +210,7 @@ export default function Eventos() {
             <select
               value={yearFilter}
               onChange={(e) => setYearFilter(e.target.value)}
-              aria-label="Filtrar por año"
+              aria-label={t("pages.shared.filterByYear")}
               className="rounded-xl border px-3 py-2 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[var(--regu-blue)]"
               style={{
                 borderColor: "rgba(22,61,89,0.12)",
@@ -216,18 +218,18 @@ export default function Eventos() {
                 color: "var(--regu-navy)",
               }}
             >
-              <option value="all">Todos los años</option>
+              <option value="all">{t("pages.shared.allYears")}</option>
               {years.map((y) => (
                 <option key={y} value={y}>{y}</option>
               ))}
             </select>
-            <label htmlFor="eventos-search" className="sr-only">Buscar eventos</label>
+            <label htmlFor="eventos-search" className="sr-only">{t("pages.eventos.searchLabel")}</label>
             <div className="relative min-w-0 flex-1 max-w-xs w-full">
               <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2" style={{ color: "var(--regu-gray-400)" }} aria-hidden />
               <input
                 id="eventos-search"
                 type="search"
-                placeholder="Buscar por título, organizador o lugar..."
+                placeholder={t("pages.eventos.searchPlaceholder")}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full rounded-xl border py-2.5 pl-10 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-[rgba(68,137,198,0.30)]"
@@ -277,9 +279,9 @@ export default function Eventos() {
                 borderTop: "3px solid var(--regu-blue)",
               }}
             >
-              <p className="text-lg font-bold" style={{ color: "var(--regu-navy)" }}>No se encontraron eventos</p>
+              <p className="text-lg font-bold" style={{ color: "var(--regu-navy)" }}>{t("pages.eventos.noResults")}</p>
               <p className="mt-2 text-sm" style={{ color: "var(--regu-gray-500)" }}>
-                {searchQuery.trim() ? "Pruebe con otro término de búsqueda o ajuste los filtros." : "No hay eventos con los filtros seleccionados."}
+                {searchQuery.trim() ? t("pages.eventos.noResultsSearch") : t("pages.eventos.noResultsFiltered")}
               </p>
             </motion.div>
           )}

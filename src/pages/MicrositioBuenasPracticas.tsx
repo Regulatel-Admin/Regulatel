@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import PageHero from "@/components/PageHero";
 import MejoresPracticasSearch from "@/components/mejoresPracticas/MejoresPracticasSearch";
 import MejoresPracticasSidebar from "@/components/mejoresPracticas/MejoresPracticasSidebar";
@@ -49,6 +50,7 @@ function countryMatchesSearch(data: CountryPracticesData, query: string): boolea
 }
 
 export default function MicrositioBuenasPracticas() {
+  const { t } = useTranslation();
   const { buenasPracticasRegulatorias, loading: settingsLoading } = useSiteSettings();
   const [dataList, setDataList] = useState<CountryPracticesData[]>(mejoresPracticasData);
   const [searchQuery, setSearchQuery] = useState("");
@@ -175,9 +177,9 @@ export default function MicrositioBuenasPracticas() {
         title={pageTitle}
         description={pageDescription}
         breadcrumb={[
-          { label: "Inicio", path: "/" },
-          { label: "Recursos", path: "/gestion" },
-          { label: "Buenas Prácticas Regulatorias" },
+          { label: t("pages.shared.breadcrumbHome"), path: "/" },
+          { label: t("pages.buenasPracticas.resourcesBreadcrumb"), path: "/gestion" },
+          { label: t("pages.buenasPracticas.breadcrumbLabel") },
         ]}
       />
 
@@ -191,13 +193,13 @@ export default function MicrositioBuenasPracticas() {
             <MejoresPracticasSearch
               value={searchQuery}
               onChange={setSearchQuery}
-              placeholder="Buscar por país, categoría o recurso…"
+              placeholder={t("pages.buenasPracticas.searchPlaceholder")}
             />
           </div>
           <div className="flex flex-wrap items-center gap-3">
             <div className="flex items-center gap-2">
               <label htmlFor="cat-filter" className="text-sm font-medium" style={{ color: "var(--regu-gray-600)" }}>
-                Categoría:
+                {t("pages.buenasPracticas.categoryLabel")}
               </label>
               <select
                 id="cat-filter"
@@ -206,7 +208,7 @@ export default function MicrositioBuenasPracticas() {
                 className="rounded-lg border px-3 py-2 text-sm"
                 style={{ borderColor: "rgba(22,61,89,0.12)", color: "var(--regu-gray-800)" }}
               >
-                <option value="">Todas</option>
+                <option value="">{t("pages.buenasPracticas.allCategories")}</option>
                 {categoriesForFilter.map((name) => (
                   <option key={name} value={name}>{name}</option>
                 ))}
@@ -220,7 +222,7 @@ export default function MicrositioBuenasPracticas() {
                 style={{ borderColor: "rgba(22,61,89,0.12)", color: "var(--regu-gray-700)" }}
               >
                 <ChevronDown className="h-4 w-4" />
-                Expandir todo
+                {t("pages.buenasPracticas.expandAll")}
               </button>
               <button
                 type="button"
@@ -229,7 +231,7 @@ export default function MicrositioBuenasPracticas() {
                 style={{ borderColor: "rgba(22,61,89,0.12)", color: "var(--regu-gray-700)" }}
               >
                 <ChevronUp className="h-4 w-4" />
-                Colapsar todo
+                {t("pages.buenasPracticas.collapseAll")}
               </button>
             </div>
           </div>
@@ -239,11 +241,11 @@ export default function MicrositioBuenasPracticas() {
         <div className="mb-8 flex flex-wrap gap-6 text-sm" style={{ color: "var(--regu-gray-500)" }}>
           <span className="flex items-center gap-2">
             <Globe className="h-4 w-4" style={{ color: "var(--regu-blue)" }} />
-            {dataList.length} países
+            {t("pages.buenasPracticas.countriesCount", { count: dataList.length })}
           </span>
           <span className="flex items-center gap-2">
             <LayoutList className="h-4 w-4" style={{ color: "var(--regu-blue)" }} />
-            {totalLinks} recursos en total
+            {t("pages.buenasPracticas.totalResources", { count: totalLinks })}
           </span>
         </div>
 
@@ -260,7 +262,7 @@ export default function MicrositioBuenasPracticas() {
           >
             <div className="flex items-center justify-between gap-2 mb-3">
               <h2 className="text-sm font-bold uppercase tracking-wide" style={{ color: "var(--regu-gray-600)" }}>
-                Países
+                {t("pages.buenasPracticas.countries")}
               </h2>
               <button
                 type="button"
@@ -268,7 +270,7 @@ export default function MicrositioBuenasPracticas() {
                 className="lg:hidden flex items-center justify-center w-9 h-9 rounded-lg border"
                 style={{ borderColor: "rgba(22,61,89,0.12)" }}
                 aria-expanded={sidebarOpen}
-                aria-label={sidebarOpen ? "Cerrar lista de países" : "Abrir lista de países"}
+                aria-label={sidebarOpen ? t("pages.buenasPracticas.closeCountries") : t("pages.buenasPracticas.openCountries")}
               >
                 <ChevronDown className={`h-5 w-5 transition ${sidebarOpen ? "rotate-180" : ""}`} />
               </button>
@@ -297,7 +299,10 @@ export default function MicrositioBuenasPracticas() {
                       {selectedCountry.name}
                     </h1>
                     <p className="text-sm mt-1" style={{ color: "var(--regu-gray-500)" }}>
-                      {getLinkCountByCountry(selectedCountry)} recursos en {selectedCountry.categories.filter((c) => c.links.length > 0).length} categorías
+                      {t("pages.buenasPracticas.resourcesInCategories", {
+                        resources: getLinkCountByCountry(selectedCountry),
+                        categories: selectedCountry.categories.filter((c) => c.links.length > 0).length,
+                      })}
                     </p>
                   </div>
                 </header>
@@ -317,8 +322,8 @@ export default function MicrositioBuenasPracticas() {
                       className="rounded-xl border border-dashed py-12 text-center"
                       style={{ borderColor: "rgba(22,61,89,0.12)", color: "var(--regu-gray-500)" }}
                     >
-                      <p className="font-medium">No hay recursos que coincidan con la búsqueda o el filtro.</p>
-                      <p className="text-sm mt-1">Pruebe otro país o quite filtros.</p>
+                      <p className="font-medium">{t("pages.buenasPracticas.noMatchingResources")}</p>
+                      <p className="text-sm mt-1">{t("pages.buenasPracticas.tryAnotherCountry")}</p>
                     </div>
                   )}
                 </div>
@@ -328,7 +333,7 @@ export default function MicrositioBuenasPracticas() {
                 className="rounded-xl border border-dashed py-12 text-center"
                 style={{ borderColor: "rgba(22,61,89,0.12)", color: "var(--regu-gray-500)" }}
               >
-                <p className="font-medium">Seleccione un país en el panel izquierdo.</p>
+                <p className="font-medium">{t("pages.buenasPracticas.selectCountry")}</p>
               </div>
             )}
           </main>
@@ -344,14 +349,14 @@ export default function MicrositioBuenasPracticas() {
             className="inline-flex items-center gap-2 rounded-xl border-2 px-4 py-2.5 text-sm font-semibold transition hover:opacity-90"
             style={{ borderColor: "var(--regu-blue)", color: "var(--regu-blue)", backgroundColor: "rgba(22,61,89,0.06)" }}
           >
-            ← Volver a inicio
+            ← {t("common.backToHomeShort")}
           </Link>
           <Link
             to="/miembros"
             className="inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold text-white transition hover:opacity-90"
             style={{ backgroundColor: "var(--regu-blue)" }}
           >
-            Ver miembros REGULATEL →
+            {t("pages.buenasPracticas.viewMembers")}
           </Link>
         </div>
       </div>

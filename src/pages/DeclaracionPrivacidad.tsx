@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { ArrowLeft, Shield, Mail } from "lucide-react";
 import PageHero from "@/components/PageHero";
 
@@ -54,12 +55,14 @@ const SECTIONS = [
 ];
 
 export default function DeclaracionPrivacidad() {
+  const { t } = useTranslation();
+
   return (
     <>
       <PageHero
-        title="Declaración de privacidad"
-        subtitle="Tratamiento y protección de datos personales en el portal REGULATEL"
-        breadcrumb={[{ label: "Declaración de privacidad" }]}
+        title={t("pages.declaracionPrivacidad.title")}
+        subtitle={t("pages.declaracionPrivacidad.subtitle")}
+        breadcrumb={[{ label: t("pages.declaracionPrivacidad.breadcrumb") }]}
       />
 
       <div
@@ -93,7 +96,7 @@ export default function DeclaracionPrivacidad() {
                     className="text-[10px] font-bold uppercase tracking-[0.12em] mb-0.5"
                     style={{ color: "var(--regu-gray-400)" }}
                   >
-                    Compromiso institucional
+                    {t("pages.declaracionPrivacidad.institutionalCommitment")}
                   </p>
                   <p
                     className="text-base leading-relaxed md:text-lg"
@@ -178,7 +181,7 @@ export default function DeclaracionPrivacidad() {
               className="text-xs mb-4"
               style={{ color: "var(--regu-gray-500)" }}
             >
-              Última actualización: 2026. REGULATEL se reserva el derecho de actualizar esta declaración cuando sea necesario; se recomienda su consulta periódica.
+              {t("pages.declaracionPrivacidad.lastUpdate")}
             </p>
             <Link
               to="/contacto"
@@ -186,7 +189,7 @@ export default function DeclaracionPrivacidad() {
               style={{ backgroundColor: "var(--regu-blue)" }}
             >
               <Mail className="h-4 w-4" />
-              Ir a Contacto
+              {t("pages.declaracionPrivacidad.goToContact")}
             </Link>
           </div>
 
@@ -202,7 +205,7 @@ export default function DeclaracionPrivacidad() {
               style={{ color: "var(--regu-blue)" }}
             >
               <ArrowLeft className="h-4 w-4" />
-              Volver a inicio
+              {t("common.backToHomeShort")}
             </Link>
           </nav>
         </div>

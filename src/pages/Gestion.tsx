@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useSearchParams, Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   FileText,
@@ -20,8 +21,6 @@ import PageHero from "@/components/PageHero";
 import {
   filterByTipo,
   GESTION_TIPO_VALUES,
-  GESTION_TAB_LABELS,
-  GESTION_BLOCK_TITLES,
   getCategoryDisplayLabel,
   type GestionTipo,
   type GestionDocument,
@@ -80,6 +79,7 @@ const CATEGORY_BADGE: Record<string, { bg: string; color: string }> = {
 };
 
 export default function Gestion() {
+  const { t } = useTranslation();
   const rawDocuments = useMergedGestionDocuments();
   const allDocuments = Array.isArray(rawDocuments) ? rawDocuments : [];
   const [searchParams, setSearchParams] = useSearchParams();
@@ -169,15 +169,15 @@ export default function Gestion() {
 
   const blockTitle =
     validTipo === "todo"
-      ? "Todos los documentos"
-      : GESTION_BLOCK_TITLES[validTipo as Exclude<GestionTipo, "todo">];
+      ? t("pages.gestion.allDocuments")
+      : t(`pages.gestion.blocks.${validTipo}`);
 
   return (
     <>
       <PageHero
-        title="Gestión"
-        breadcrumb={[{ label: "Gestión" }]}
-        description="Documentos, informes y recursos institucionales de REGULATEL"
+        title={t("pages.gestion.title")}
+        breadcrumb={[{ label: t("pages.gestion.breadcrumb") }]}
+        description={t("pages.gestion.description")}
       />
 
       <div
@@ -208,12 +208,12 @@ export default function Gestion() {
               <input
                 id="gestion-search"
                 type="search"
-                placeholder="Buscar por título, año o categoría…"
+                placeholder={t("pages.gestion.searchPlaceholder")}
                 value={searchInput}
                 onChange={(e) => setSearchInput(e.target.value)}
                 className="flex-1 min-w-0 border-0 bg-transparent text-base outline-none placeholder:text-[var(--regu-gray-400)]"
                 style={{ color: "var(--regu-gray-900)" }}
-                aria-label="Buscar documentos"
+                aria-label={t("pages.gestion.searchLabel")}
               />
               {searchInput && (
                 <button
@@ -221,7 +221,7 @@ export default function Gestion() {
                   onClick={() => setSearchInput("")}
                   className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full transition-colors hover:bg-[rgba(22,61,89,0.08)]"
                   style={{ color: "var(--regu-gray-500)" }}
-                  aria-label="Limpiar búsqueda"
+                  aria-label={t("pages.shared.clearSearch")}
                 >
                   <X className="h-3.5 w-3.5" />
                 </button>
@@ -232,7 +232,7 @@ export default function Gestion() {
             <div
               className="flex flex-wrap gap-2"
               role="tablist"
-              aria-label="Filtrar por categoría"
+              aria-label={t("pages.gestion.filterCategory")}
             >
               {GESTION_TIPO_VALUES.map((value) => {
                 const isActive = validTipo === value;
@@ -251,7 +251,7 @@ export default function Gestion() {
                       border: "none",
                     }}
                   >
-                    {GESTION_TAB_LABELS[value]}
+                    {t(`pages.gestion.tabs.${value}`)}
                   </button>
                 );
               })}
@@ -277,12 +277,10 @@ export default function Gestion() {
                 <Search className="h-7 w-7" />
               </div>
               <p className="text-lg font-bold" style={{ color: "var(--regu-gray-900)" }}>
-                {searchQuery ? "Sin resultados para esa búsqueda" : "No hay documentos en esta categoría"}
+                {searchQuery ? t("pages.gestion.noSearchResults") : t("pages.gestion.noCategoryResults")}
               </p>
               <p className="mt-2 text-sm" style={{ color: "var(--regu-gray-500)" }}>
-                {searchQuery
-                  ? "Prueba otro término o quita el filtro de búsqueda."
-                  : "Selecciona otra categoría o vuelve a \"Todo\" para ver todos los documentos."}
+                {searchQuery ? t("pages.gestion.noSearchHint") : t("pages.gestion.noCategoryHint")}
               </p>
             </div>
           ) : (
@@ -304,7 +302,7 @@ export default function Gestion() {
                       {blockTitle}
                     </Link>
                     <p className="mt-0.5 text-sm" style={{ color: "var(--regu-gray-500)" }}>
-                      {displayList.length} {displayList.length === 1 ? "documento" : "documentos"}
+                      {t("pages.gestion.documentCount", { count: displayList.length })}
                     </p>
                   </div>
                 </div>
@@ -373,7 +371,7 @@ export default function Gestion() {
                     <h3 className="truncate text-base font-bold md:text-lg" style={{ color: "var(--regu-gray-900)" }}>
                       {previewDoc.title}
                     </h3>
-                    <p className="text-xs" style={{ color: "var(--regu-gray-500)" }}>Vista previa del documento</p>
+                    <p className="text-xs" style={{ color: "var(--regu-gray-500)" }}>{t("pages.shared.documentPreviewSubtitle")}</p>
                   </div>
                 </div>
                 <div className="flex flex-shrink-0 items-center gap-2">
@@ -384,13 +382,13 @@ export default function Gestion() {
                     style={{ backgroundColor: "var(--regu-blue)" }}
                   >
                     <Download className="h-4 w-4" />
-                    <span className="hidden sm:inline">Descargar</span>
+                    <span className="hidden sm:inline">{t("common.download")}</span>
                   </a>
                   <button
                     onClick={() => setPreviewDoc(null)}
                     className="flex h-9 w-9 items-center justify-center rounded-lg border transition hover:bg-[var(--regu-gray-100)]"
                     style={{ borderColor: "rgba(22,61,89,0.12)", color: "var(--regu-gray-700)" }}
-                    aria-label="Cerrar"
+                    aria-label={t("common.close")}
                   >
                     <X className="h-5 w-5" />
                   </button>
@@ -413,7 +411,7 @@ export default function Gestion() {
                 style={{ borderColor: "rgba(22,61,89,0.08)", backgroundColor: "#FAFBFC" }}
               >
                 <p className="text-xs" style={{ color: "var(--regu-gray-500)" }}>
-                  Usa los controles del visor para navegar el documento
+                  {t("pages.shared.viewerControlsHint")}
                 </p>
                 <button
                   onClick={() => window.open(previewDoc.url, "_blank")}
@@ -421,7 +419,7 @@ export default function Gestion() {
                   style={{ color: "var(--regu-blue)" }}
                 >
                   <Maximize2 className="h-4 w-4" />
-                  Abrir en nueva pestaña
+                  {t("common.openInNewTab")}
                 </button>
               </div>
             </motion.div>
@@ -448,6 +446,7 @@ function DocCard({
   onPreview: () => void;
   isSelectedRevista?: boolean;
 }) {
+  const { t } = useTranslation();
   const isRestrictedDoc = getRestrictedDocument(doc.id) !== null;
   const isUnlocked = isRestrictedDoc && isRestrictedUnlocked(doc.id);
   const isRestricted = isRestrictedDoc && !isUnlocked;
@@ -485,7 +484,7 @@ function DocCard({
             style={{ backgroundColor: "rgba(68,137,198,0.10)", color: "var(--regu-blue)", border: "1px solid rgba(68,137,198,0.20)" }}
           >
             <Check className="h-3 w-3 shrink-0" strokeWidth={2.5} aria-hidden />
-            Seleccionada
+            {t("pages.gestion.selectedBadge")}
           </div>
         )}
 
@@ -531,7 +530,7 @@ function DocCard({
             style={{ backgroundColor: "rgba(22,61,89,0.04)", color: "var(--regu-gray-600)" }}
           >
             <Lock className="h-3.5 w-3.5 flex-shrink-0 opacity-70" aria-hidden />
-            <span className="text-xs font-medium">Acceso restringido</span>
+            <span className="text-xs font-medium">{t("pages.shared.restrictedAccess")}</span>
           </div>
         )}
 
@@ -548,14 +547,14 @@ function DocCard({
                 style={{ backgroundColor: "var(--regu-blue)" }}
               >
                 <Lock className="h-3.5 w-3.5 shrink-0" />
-                Solicitar acceso
+                {t("pages.gestion.requestAccess")}
               </Link>
               <span
                 className="inline-flex items-center gap-1.5 rounded-lg border px-4 py-2 text-xs font-bold uppercase tracking-[0.07em] opacity-40 cursor-not-allowed"
                 style={{ borderColor: "rgba(22,61,89,0.15)", color: "var(--regu-gray-500)" }}
               >
                 <FileDown className="h-3.5 w-3.5 shrink-0" />
-                Descargar
+                {t("common.download")}
               </span>
             </>
           ) : (
@@ -566,7 +565,7 @@ function DocCard({
                 style={{ backgroundColor: "var(--regu-blue)" }}
               >
                 <Eye className="h-3.5 w-3.5 shrink-0" />
-                Vista previa
+                {t("common.preview")}
               </button>
               <a
                 href={doc.url}
@@ -577,15 +576,15 @@ function DocCard({
                 style={{ borderColor: "var(--regu-blue)", color: "var(--regu-blue)" }}
               >
                 <FileDown className="h-3.5 w-3.5 shrink-0" />
-                Descargar
+                {t("common.download")}
               </a>
               <Link
                 to={deepLink}
                 className="ml-auto inline-flex items-center gap-1 text-xs font-semibold transition-all duration-150 hover:gap-2 opacity-60 hover:opacity-100"
                 style={{ color: "var(--regu-blue)" }}
-                aria-label={`Ver detalles de ${doc.title}`}
+                aria-label={`${t("common.view")} ${doc.title}`}
               >
-                Ver <ArrowRight className="h-3.5 w-3.5" aria-hidden />
+                {t("common.view")} <ArrowRight className="h-3.5 w-3.5" aria-hidden />
               </Link>
             </>
           )}

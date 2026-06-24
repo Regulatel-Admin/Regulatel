@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from "react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { ChevronDown, ChevronUp, Mail, Linkedin, Twitter, Rss, Send, Bell } from "lucide-react";
 
 function SubscribeAccordion({
@@ -59,6 +60,7 @@ function SubscribeAccordion({
 }
 
 export default function Subscribe() {
+  const { t } = useTranslation();
   const [accordionOpen, setAccordionOpen] = useState(true);
   const [email, setEmail] = useState("");
   const [agree, setAgree] = useState(false);
@@ -78,16 +80,16 @@ export default function Subscribe() {
       const data = await res.json().catch(() => ({}));
       if (res.ok && data.ok) {
         setStatus("success");
-        setMessage("Gracias por suscribirte. Recibirás noticias, eventos y publicaciones de REGULATEL por correo.");
+        setMessage(t("pages.subscribe.successDetail"));
         setEmail("");
         setAgree(false);
       } else {
         setStatus("error");
-        setMessage(typeof data.error === "string" ? data.error : "No se pudo completar la suscripción. Intente de nuevo.");
+        setMessage(typeof data.error === "string" ? data.error : t("pages.subscribe.errorDefault"));
       }
     } catch {
       setStatus("error");
-      setMessage("Error de conexión. Intente más tarde.");
+      setMessage(t("pages.subscribe.connectionError"));
     }
   };
 
@@ -125,10 +127,10 @@ export default function Subscribe() {
           style={{ color: "var(--regu-gray-400)" }}
         >
           <Link to="/" className="hover:underline" style={{ color: "var(--regu-gray-500)" }}>
-            Inicio
+            {t("common.home")}
           </Link>
           <span aria-hidden>/</span>
-          <span style={{ color: "var(--regu-blue)", fontWeight: 600 }}>Suscribirse</span>
+          <span style={{ color: "var(--regu-blue)", fontWeight: 600 }}>{t("pages.subscribe.breadcrumb")}</span>
         </nav>
 
         <header className="mb-10">
@@ -146,7 +148,7 @@ export default function Subscribe() {
             }}
           >
             <Bell size={12} style={{ color: "var(--regu-blue)" }} />
-            Actualizaciones REGULATEL
+            {t("pages.subscribe.eyebrow")}
           </p>
           <div style={{ display: "flex", gap: 14, alignItems: "flex-start" }}>
             <div
@@ -170,7 +172,7 @@ export default function Subscribe() {
                   fontFamily: "var(--token-font-heading)",
                 }}
               >
-                Suscribirse a actualizaciones
+                {t("pages.subscribe.pageTitle")}
               </h1>
               <p
                 style={{
@@ -181,7 +183,7 @@ export default function Subscribe() {
                   maxWidth: 520,
                 }}
               >
-                Reciba noticias, eventos y comunicados de REGULATEL por correo electrónico. Puede darse de baja en cualquier momento.
+                {t("pages.subscribe.pageDescription")}
               </p>
             </div>
           </div>
@@ -189,12 +191,12 @@ export default function Subscribe() {
 
         <div className="space-y-6">
           <SubscribeAccordion
-            title="Actualizaciones del sitio"
+            title={t("pages.subscribe.accordionTitle")}
             open={accordionOpen}
             onToggle={() => setAccordionOpen((v) => !v)}
           >
             <p className="mb-4 text-sm leading-relaxed" style={{ color: "var(--regu-gray-600)" }}>
-              Manténgase informado sobre las últimas noticias, publicaciones y eventos de REGULATEL. Todos los campos marcados con * son obligatorios.
+              {t("pages.subscribe.accordionIntro")}
             </p>
             {status === "success" && (
               <div
@@ -215,7 +217,7 @@ export default function Subscribe() {
             <form onSubmit={handleSubmit} className="space-y-5">
               <div>
                 <label htmlFor="subscribe-email" className="block" style={labelStyle}>
-                  Correo electrónico <span style={{ color: "var(--regu-blue)" }}>*</span>
+                  {t("pages.subscribe.emailLabel")} <span style={{ color: "var(--regu-blue)" }}>*</span>
                 </label>
                 <input
                   id="subscribe-email"
@@ -225,7 +227,7 @@ export default function Subscribe() {
                   onChange={(e) => setEmail(e.target.value)}
                   className={inputClass}
                   style={inputStyle}
-                  placeholder="su@correo.com"
+                  placeholder={t("pages.accesoDocumentos.emailPlaceholder")}
                   disabled={status === "loading"}
                 />
               </div>
@@ -241,11 +243,11 @@ export default function Subscribe() {
                   disabled={status === "loading"}
                 />
                 <label htmlFor="agree-privacy" className="text-sm" style={{ color: "var(--regu-gray-600)" }}>
-                  He leído y acepto el tratamiento de mis datos personales conforme a la{" "}
+                  {t("pages.subscribe.privacyAgree")}{" "}
                   <Link to="/declaracion-de-privacidad" className="font-semibold underline" style={{ color: "var(--regu-blue)" }}>
-                    declaración de privacidad
+                    {t("pages.subscribe.privacyLink")}
                   </Link>{" "}
-                  de REGULATEL. <span style={{ color: "var(--regu-blue)" }}>*</span>
+                  {t("pages.subscribe.privacySuffix")} <span style={{ color: "var(--regu-blue)" }}>*</span>
                 </label>
               </div>
               <button
@@ -255,7 +257,7 @@ export default function Subscribe() {
                 style={{ backgroundColor: "var(--regu-blue)" }}
               >
                 <Send size={16} />
-                {status === "loading" ? "Enviando…" : "Suscribirse a actualizaciones"}
+                {status === "loading" ? t("pages.subscribe.submitting") : t("pages.subscribe.submitLong")}
               </button>
             </form>
           </SubscribeAccordion>
@@ -274,12 +276,12 @@ export default function Subscribe() {
             className="mb-4 text-[10px] font-bold uppercase tracking-wider"
             style={{ color: "var(--regu-gray-500)" }}
           >
-            Compartir
+            {t("pages.subscribe.share")}
           </p>
           <div className="flex items-center justify-center gap-6" style={{ color: "var(--regu-gray-500)" }}>
             <a
               href="mailto:?subject=REGULATEL Suscribirse"
-              aria-label="Compartir por correo"
+              aria-label={t("pages.subscribe.shareEmail")}
               className="transition-colors hover:text-[var(--regu-blue)]"
             >
               <Mail size={22} />
@@ -333,7 +335,7 @@ export default function Subscribe() {
             }}
             className="hover:border-[var(--regu-blue)] hover:text-[var(--regu-blue)]"
           >
-            ← Volver a inicio
+            ← {t("common.backToHomeShort")}
           </Link>
           <Link
             to="/contacto"
@@ -350,7 +352,7 @@ export default function Subscribe() {
               textDecoration: "none",
             }}
           >
-            Contacto →
+            {t("pages.subscribe.contact")}
           </Link>
         </div>
       </div>

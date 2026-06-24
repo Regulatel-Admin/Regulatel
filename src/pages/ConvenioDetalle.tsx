@@ -1,10 +1,12 @@
 import { useParams, Navigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import PageHero from "@/components/PageHero";
 import ConvenioDetail from "@/components/convenios/ConvenioDetail";
 import { getConvenioBySlug } from "@/data/convenios";
 import { useConveniosPublic } from "@/contexts/SiteSettingsContext";
 
 export default function ConvenioDetalle() {
+  const { t } = useTranslation();
   const convenios = useConveniosPublic();
   const { slug } = useParams<{ slug: string }>();
   const convenio = slug ? getConvenioBySlug(slug, convenios) : undefined;
@@ -19,7 +21,7 @@ export default function ConvenioDetalle() {
         title={convenio.acronym}
         subtitle={convenio.title}
         breadcrumb={[
-          { label: "CONVENIOS", path: "/convenios" },
+          { label: t("pages.conveniosPage.breadcrumbLabel"), path: "/convenios" },
           { label: convenio.acronym },
         ]}
       />

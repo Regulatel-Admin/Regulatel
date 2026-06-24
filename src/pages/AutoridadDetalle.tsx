@@ -1,4 +1,5 @@
 import { useParams, Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import {
   getAuthorityBySlug,
   getOtherAuthorities,
@@ -116,10 +117,11 @@ function DetailHero({ a }: { a: Authority }) {
 }
 
 function BioSections({ a }: { a: Authority }) {
+  const { t } = useTranslation();
   const sections =
     a.sections && a.sections.length > 0
       ? a.sections
-      : [{ title: "Perfil", content: a.fullBio }];
+      : [{ title: t("pages.autoridades.profile"), content: a.fullBio }];
 
   return (
     <div className="space-y-8">
@@ -159,6 +161,7 @@ function BioSections({ a }: { a: Authority }) {
 }
 
 function OtrasAutoridades({ currentSlug, authoritiesList }: { currentSlug: string; authoritiesList: Authority[] }) {
+  const { t } = useTranslation();
   const others = getOtherAuthorities(currentSlug, 4, authoritiesList);
 
   if (others.length === 0) return null;
@@ -175,7 +178,7 @@ function OtrasAutoridades({ currentSlug, authoritiesList }: { currentSlug: strin
           className="text-lg font-bold"
           style={{ color: "var(--regu-navy)", fontFamily: "var(--token-font-heading)" }}
         >
-          Otras autoridades
+          {t("pages.autoridades.otherAuthorities")}
         </h2>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -233,7 +236,7 @@ function OtrasAutoridades({ currentSlug, authoritiesList }: { currentSlug: strin
           className="inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold text-white transition hover:opacity-95"
           style={{ backgroundColor: "var(--regu-blue)", textDecoration: "none" }}
         >
-          Ver todas las autoridades
+          {t("pages.autoridades.viewAllAuthorities")}
           <ArrowRight size={16} />
         </Link>
       </div>
@@ -242,6 +245,7 @@ function OtrasAutoridades({ currentSlug, authoritiesList }: { currentSlug: strin
 }
 
 export default function AutoridadDetalle() {
+  const { t } = useTranslation();
   const { slug } = useParams<{ slug: string }>();
   const authoritiesList = useAutoridadesActuales();
   const authority = slug ? getAuthorityBySlug(slug, authoritiesList) : undefined;
@@ -258,10 +262,10 @@ export default function AutoridadDetalle() {
             <User size={28} style={{ color: "var(--regu-blue)" }} />
           </div>
           <h1 className="text-xl font-bold" style={{ color: "var(--regu-navy)", fontFamily: "var(--token-font-heading)" }}>
-            Autoridad no encontrada
+            {t("pages.autoridades.notFound")}
           </h1>
           <p className="mt-2 text-sm" style={{ color: "var(--regu-gray-500)" }}>
-            La autoridad solicitada no existe o no está disponible.
+            {t("pages.autoridades.notFoundDesc")}
           </p>
           <Link
             to="/autoridades"
@@ -269,7 +273,7 @@ export default function AutoridadDetalle() {
             style={{ backgroundColor: "var(--regu-blue)", textDecoration: "none" }}
           >
             <ArrowLeft size={16} />
-            Volver a Autoridades
+            {t("pages.autoridades.backToAuthorities")}
           </Link>
         </div>
       </div>
@@ -294,11 +298,11 @@ export default function AutoridadDetalle() {
           aria-label="Breadcrumb"
         >
           <Link to="/" className="hover:underline" style={{ color: "var(--regu-gray-500)" }}>
-            Inicio
+            {t("common.home")}
           </Link>
           <span aria-hidden>/</span>
           <Link to="/autoridades" className="hover:underline" style={{ color: "var(--regu-gray-500)" }}>
-            Autoridades
+            {t("pages.autoridades.title")}
           </Link>
           <span aria-hidden>/</span>
           <span style={{ color: "var(--regu-blue)", fontWeight: 600 }}>
@@ -324,14 +328,14 @@ export default function AutoridadDetalle() {
             style={{ borderColor: "rgba(22,61,89,0.12)", color: "var(--regu-gray-700)", textDecoration: "none" }}
           >
             <ArrowLeft size={16} />
-            Volver a Autoridades
+            {t("pages.autoridades.backToAuthorities")}
           </Link>
           <Link
             to="/comite-ejecutivo"
             className="inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold text-white transition hover:opacity-95"
             style={{ backgroundColor: "var(--regu-blue)", textDecoration: "none" }}
           >
-            Comité Ejecutivo
+            {t("pages.autoridades.viewCommitteeLink")}
             <ChevronRight size={16} />
           </Link>
         </div>

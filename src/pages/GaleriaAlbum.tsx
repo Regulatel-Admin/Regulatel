@@ -1,5 +1,6 @@
 import { useState, useCallback } from "react";
 import { Link, useParams, Navigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { AnimatePresence } from "framer-motion";
 import { ArrowLeft, Home, Images } from "lucide-react";
 import PageHero from "@/components/PageHero";
@@ -9,6 +10,7 @@ import { getAlbumImageUrls } from "@/data/galeria";
 import { useGalleryAlbums, useSiteSettings } from "@/contexts/SiteSettingsContext";
 
 export default function GaleriaAlbum() {
+  const { t } = useTranslation();
   const { slug } = useParams<{ slug: string }>();
   const { loading: settingsLoading } = useSiteSettings();
   const albums = useGalleryAlbums();
@@ -21,7 +23,7 @@ export default function GaleriaAlbum() {
   if (settingsLoading) {
     return (
       <div className="flex min-h-[40vh] items-center justify-center">
-        <p style={{ color: "var(--regu-gray-500)" }}>Cargando álbum...</p>
+        <p style={{ color: "var(--regu-gray-500)" }}>{t("pages.galeria.loadingAlbum")}</p>
       </div>
     );
   }
@@ -36,9 +38,9 @@ export default function GaleriaAlbum() {
     <>
       <PageHero
         title={album.title}
-        subtitle="GALERÍA"
+        subtitle={t("pages.galeria.breadcrumb").toUpperCase()}
         breadcrumb={[
-          { label: "Galería", path: "/galeria" },
+          { label: t("pages.galeria.breadcrumb"), path: "/galeria" },
           { label: album.title },
         ]}
         description={album.date}
@@ -63,7 +65,7 @@ export default function GaleriaAlbum() {
             }}
           >
             <ArrowLeft className="h-4 w-4 shrink-0" aria-hidden />
-            Volver a galería
+            {t("pages.galeria.backToGallery")}
           </Link>
 
           <GalleryGrid imageUrls={imageUrls} onImageClick={openLightbox} />
@@ -83,7 +85,7 @@ export default function GaleriaAlbum() {
               }}
             >
               <Home className="h-4 w-4 shrink-0" aria-hidden />
-              Volver al home
+              {t("pages.galeria.backToHome")}
             </Link>
             <Link
               to="/galeria"
@@ -95,7 +97,7 @@ export default function GaleriaAlbum() {
               }}
             >
               <Images className="h-4 w-4 shrink-0" aria-hidden />
-              Galería
+              {t("pages.galeria.breadcrumb")}
             </Link>
           </nav>
         </div>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { Globe, ExternalLink, Search, X, ChevronRight, ChevronLeft, ArrowLeft, ArrowRight } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import PageHero from '@/components/PageHero';
@@ -102,6 +103,7 @@ const LogoImage: React.FC<{ name: string; route: string; logoUrl?: string }> = (
 };
 
 const Miembros: React.FC = () => {
+  const { t } = useTranslation();
   const entesReguladoresBase = useEntesReguladoresMiembros();
   const [directorioAutoridades, setDirectorioAutoridades] = useState<DirectorioAutoridad[]>(defaultDirectorioAutoridades);
   const [searchTerm, setSearchTerm] = useState('');
@@ -210,10 +212,10 @@ const Miembros: React.FC = () => {
   return (
     <>
       <PageHero
-        title="Miembros"
-        subtitle="QUIÉNES SOMOS"
-        breadcrumb={[{ label: "Miembros" }]}
-        description="23 entes reguladores de América Latina y Europa trabajan juntos a través del Foro REGULATEL."
+        title={t('pages.miembros.title')}
+        subtitle={t('pages.miembros.subtitle')}
+        breadcrumb={[{ label: t('pages.miembros.breadcrumb') }]}
+        description={t('pages.miembros.longDescription')}
       />
       <div className="w-full py-12 md:py-16 lg:py-20" style={{ backgroundColor: "#FAFBFC", borderTop: "1px solid rgba(22,61,89,0.07)", fontFamily: "var(--token-font-body)" }}>
         <div className="container px-4 md:px-6 mx-auto" style={{ maxWidth: "1180px" }}>
@@ -222,8 +224,8 @@ const Miembros: React.FC = () => {
         <div className="mb-8 flex items-start gap-4">
           <div className="mt-1 h-8 w-[3px] flex-shrink-0 rounded-full" style={{ backgroundColor: "var(--regu-blue)" }} aria-hidden />
           <div>
-            <h2 className="text-xl font-bold md:text-2xl" style={{ color: "var(--regu-navy)", fontFamily: "var(--token-font-heading)" }}>Entes Reguladores Miembros</h2>
-            <p className="mt-1 text-sm" style={{ color: "var(--regu-gray-500)" }}>Organismos oficiales de telecomunicaciones por país</p>
+            <h2 className="text-xl font-bold md:text-2xl" style={{ color: "var(--regu-navy)", fontFamily: "var(--token-font-heading)" }}>{t('pages.miembros.regulatorsSectionTitle')}</h2>
+            <p className="mt-1 text-sm" style={{ color: "var(--regu-gray-500)" }}>{t('pages.miembros.regulatorsSectionDesc')}</p>
           </div>
         </div>
 
@@ -236,7 +238,7 @@ const Miembros: React.FC = () => {
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5" style={{ color: "var(--regu-gray-500)" }} />
                 <Input
                   type="text"
-                  placeholder="Buscar por país o agencia..."
+                  placeholder={t('pages.miembros.searchCountryAgency')}
                   value={enteSearchTerm}
                   onChange={(e) => setEnteSearchTerm(e.target.value)}
                   className="pl-10 pr-4 py-2.5 w-full rounded-lg border focus:ring-2 focus:ring-offset-0"
@@ -261,7 +263,7 @@ const Miembros: React.FC = () => {
                   className="w-full md:w-48 px-4 py-2.5 border rounded-lg bg-white focus:ring-2 focus:ring-offset-0"
                   style={{ borderColor: "var(--regu-gray-100)", color: "var(--regu-gray-900)" }}
                 >
-                  <option value="">Todos los países</option>
+                  <option value="">{t('pages.shared.allCountries')}</option>
                   {uniqueEnteCountries.map((country) => (
                     <option key={country} value={country}>
                       {country}
@@ -279,7 +281,7 @@ const Miembros: React.FC = () => {
                 className="mt-4 text-sm"
                 style={{ color: "var(--regu-blue)" }}
               >
-                {filteredEntesReguladores.length} {filteredEntesReguladores.length === 1 ? 'resultado encontrado' : 'resultados encontrados'}
+                {t('pages.miembros.resultsFound', { count: filteredEntesReguladores.length })}
               </motion.div>
             )}
           </div>
@@ -294,7 +296,7 @@ const Miembros: React.FC = () => {
                     type="button"
                     onClick={() => scrollCarousel('left')}
                     disabled={!carouselCanScrollLeft}
-                    aria-label="Ver miembros anteriores"
+                    aria-label={t('pages.miembros.prevMembers')}
                     className="carousel-arrow absolute left-0 top-1/2 -translate-y-1/2 z-10 hidden md:flex w-11 h-11 items-center justify-center rounded-full border-2 bg-white shadow-md transition-all hover:bg-[var(--regu-gray-50)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-40"
                     style={{ borderColor: "var(--regu-gray-200)", color: "var(--regu-blue)" }}
                   >
@@ -328,7 +330,7 @@ const Miembros: React.FC = () => {
                               )}
                               <p className="text-sm md:text-base font-medium mt-auto" style={{ color: "var(--regu-gray-700)" }}>{ente.country}</p>
                               <div className="text-xs font-medium flex items-center justify-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity mt-2" style={{ color: "var(--regu-blue)" }}>
-                                Ver más <ExternalLink className="w-3 h-3" />
+                                {t('pages.miembros.seeMore')} <ExternalLink className="w-3 h-3" />
                               </div>
                             </div>
                           </motion.div>
@@ -352,7 +354,7 @@ const Miembros: React.FC = () => {
                     type="button"
                     onClick={() => scrollCarousel('right')}
                     disabled={!carouselCanScrollRight}
-                    aria-label="Ver más miembros"
+                    aria-label={t('pages.miembros.nextMembers')}
                     className="carousel-arrow absolute right-0 top-1/2 -translate-y-1/2 z-10 hidden md:flex w-11 h-11 items-center justify-center rounded-full border-2 bg-white shadow-md transition-all hover:bg-[var(--regu-gray-50)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-40"
                     style={{ borderColor: "var(--regu-gray-200)", color: "var(--regu-blue)" }}
                   >
@@ -362,14 +364,14 @@ const Miembros: React.FC = () => {
                 <div className="flex flex-wrap items-center justify-between gap-3 mt-4 pt-3 border-t" style={{ borderColor: "var(--regu-gray-100)" }}>
                   <span className="inline-flex items-center gap-1.5 text-sm font-medium" style={{ color: "var(--regu-gray-500)" }}>
                     <ChevronRight className="w-4 h-4 md:hidden" style={{ color: "var(--regu-blue)" }} aria-hidden />
-                    Desliza para ver más
+                    {t('pages.miembros.scrollToSeeMore')}
                   </span>
                   <div className="flex items-center gap-2 md:hidden">
                     <button
                       type="button"
                       onClick={() => scrollCarousel('left')}
                       disabled={!carouselCanScrollLeft}
-                      aria-label="Anterior"
+                      aria-label={t('common.previous')}
                       className="w-10 h-10 rounded-full border-2 bg-white flex items-center justify-center disabled:opacity-40"
                       style={{ borderColor: "var(--regu-gray-200)", color: "var(--regu-blue)" }}
                     >
@@ -379,7 +381,7 @@ const Miembros: React.FC = () => {
                       type="button"
                       onClick={() => scrollCarousel('right')}
                       disabled={!carouselCanScrollRight}
-                      aria-label="Siguiente"
+                      aria-label={t('common.next')}
                       className="w-10 h-10 rounded-full border-2 bg-white flex items-center justify-center disabled:opacity-40"
                       style={{ borderColor: "var(--regu-gray-200)", color: "var(--regu-blue)" }}
                     >
@@ -391,8 +393,7 @@ const Miembros: React.FC = () => {
             ) : (
               <div className="text-center py-12">
                 <Globe className="w-16 h-16 mx-auto mb-4" style={{ color: "var(--regu-gray-500)" }} />
-                <p className="text-lg font-medium" style={{ color: "var(--regu-gray-700)" }}>No se encontraron resultados</p>
-                <p className="text-sm mt-2" style={{ color: "var(--regu-gray-500)" }}>Intenta con otros términos de búsqueda</p>
+                <p className="text-lg font-medium" style={{ color: "var(--regu-gray-700)" }}>{t('pages.shared.noResults')}</p>
                 <button
                   onClick={() => {
                     setEnteSearchTerm('');
@@ -401,7 +402,7 @@ const Miembros: React.FC = () => {
                   className="mt-4 font-medium text-sm hover:opacity-90"
                   style={{ color: "var(--regu-blue)" }}
                 >
-                  Limpiar filtros
+                  {t('pages.shared.clearFilters')}
                 </button>
               </div>
             )}
@@ -413,8 +414,8 @@ const Miembros: React.FC = () => {
           <div className="mb-8 flex items-start gap-4">
             <div className="mt-1 h-8 w-[3px] flex-shrink-0 rounded-full" style={{ backgroundColor: "var(--regu-blue)" }} aria-hidden />
             <div>
-              <h2 className="text-xl font-bold md:text-2xl" style={{ color: "var(--regu-navy)", fontFamily: "var(--token-font-heading)" }}>Directorio de Autoridades</h2>
-              <p className="mt-1 text-sm" style={{ color: "var(--regu-gray-500)" }}>Contactos oficiales por país miembro</p>
+              <h2 className="text-xl font-bold md:text-2xl" style={{ color: "var(--regu-navy)", fontFamily: "var(--token-font-heading)" }}>{t('pages.miembros.authoritiesDirectory')}</h2>
+              <p className="mt-1 text-sm" style={{ color: "var(--regu-gray-500)" }}>{t('pages.miembros.directorySubtitle')}</p>
             </div>
           </div>
 
@@ -425,7 +426,7 @@ const Miembros: React.FC = () => {
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" style={{ color: "var(--regu-gray-500)" }} />
                 <Input
                   type="text"
-                  placeholder="Buscar por país, nombre, cargo..."
+                  placeholder={t('pages.miembros.searchDirectory')}
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="pl-10 w-full rounded-lg border focus:ring-2 focus:ring-offset-0"
@@ -452,7 +453,7 @@ const Miembros: React.FC = () => {
             
             {selectedCountry && (
               <div className="flex items-center gap-2 mb-4">
-                <span className="text-sm" style={{ color: "var(--regu-gray-700)" }}>Filtro activo:</span>
+                <span className="text-sm" style={{ color: "var(--regu-gray-700)" }}>{t('pages.shared.activeFilter')}</span>
                 <button
                   onClick={() => setSelectedCountry(null)}
                   className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm font-medium transition-colors"
@@ -490,11 +491,11 @@ const Miembros: React.FC = () => {
                       <p className="text-sm font-medium leading-snug">{item.presidente}</p>
                       <p className="text-sm leading-snug" style={{ color: "var(--regu-gray-700)" }}>{item.cargo}</p>
                       <div className="pt-2 border-t" style={{ borderColor: "rgba(22,61,89,0.08)" }}>
-                        <p className="text-xs font-semibold uppercase tracking-wide mb-1" style={{ color: "var(--regu-gray-600)" }}>Corresponsal</p>
+                        <p className="text-xs font-semibold uppercase tracking-wide mb-1" style={{ color: "var(--regu-gray-600)" }}>{t('pages.miembros.correspondent')}</p>
                         <p className="text-sm font-medium">{item.corresponsal}</p>
                       </div>
                       <div>
-                        <p className="text-xs font-semibold uppercase tracking-wide mb-1" style={{ color: "var(--regu-gray-600)" }}>Correo</p>
+                        <p className="text-xs font-semibold uppercase tracking-wide mb-1" style={{ color: "var(--regu-gray-600)" }}>{t('pages.miembros.email')}</p>
                         <a
                           href={`mailto:${item.correo}`}
                           className="text-sm break-all transition-colors hover:opacity-90"
@@ -512,7 +513,7 @@ const Miembros: React.FC = () => {
 
           {filteredDirectorio.length === 0 && (
             <div className="text-center py-12">
-              <p className="text-lg mb-4 font-medium" style={{ color: "var(--regu-gray-700)" }}>No se encontraron resultados</p>
+              <p className="text-lg mb-4 font-medium" style={{ color: "var(--regu-gray-700)" }}>{t('pages.shared.noResults')}</p>
               <button
                 onClick={() => {
                   setSearchTerm('');
@@ -521,7 +522,7 @@ const Miembros: React.FC = () => {
                 className="font-medium hover:opacity-90"
                 style={{ color: "var(--regu-blue)" }}
               >
-                Limpiar filtros
+                {t('pages.shared.clearFilters')}
               </button>
             </div>
           )}
@@ -534,18 +535,14 @@ const Miembros: React.FC = () => {
         >
           <h2 className="mb-5 flex items-center gap-3 text-lg font-bold md:text-xl" style={{ color: "var(--regu-navy)", fontFamily: "var(--token-font-heading)" }}>
             <span className="inline-block h-5 w-[3px] flex-shrink-0 rounded-full" style={{ backgroundColor: "var(--regu-blue)" }} aria-hidden />
-            Sobre los Miembros
+            {t('pages.miembros.aboutMembersTitle')}
           </h2>
           <div className="space-y-4 text-base leading-relaxed" style={{ color: "var(--regu-gray-600)" }}>
             <p>
-              Los países miembros de REGULATEL representan a los principales entes reguladores de
-              telecomunicaciones de América Latina y Europa. Cada miembro contribuye con su experiencia
-              y conocimiento para avanzar en los objetivos comunes del Foro.
+              {t('pages.miembros.aboutMembersP1')}
             </p>
             <p>
-              La membresía está abierta a los entes reguladores de telecomunicaciones que compartan
-              los principios y objetivos del Foro, promoviendo la cooperación y el intercambio de
-              experiencias en el sector.
+              {t('pages.miembros.aboutMembersP2')}
             </p>
           </div>
         </motion.div>
@@ -561,14 +558,14 @@ const Miembros: React.FC = () => {
             style={{ color: "var(--regu-blue)", borderColor: "var(--regu-blue)", backgroundColor: "rgba(68,137,198,0.06)" }}
           >
             <ArrowLeft className="w-4 h-4 shrink-0" aria-hidden />
-            Inicio
+            {t('common.home')}
           </Link>
           <Link
             to="/comite-ejecutivo"
             className="inline-flex items-center gap-1.5 text-sm font-semibold transition-all hover:gap-2.5"
             style={{ color: "var(--regu-gray-500)" }}
           >
-            Ver Comité Ejecutivo <ArrowRight className="w-3.5 h-3.5" aria-hidden />
+            {t('pages.miembros.viewExecutiveCommittee')} <ArrowRight className="w-3.5 h-3.5" aria-hidden />
           </Link>
         </nav>
       </div>

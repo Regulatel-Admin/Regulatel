@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { ArrowLeft, ArrowRight, CheckCircle2 } from "lucide-react";
 import PageHero from "@/components/PageHero";
 import { api } from "@/lib/api";
@@ -11,6 +12,7 @@ import {
   type ComiteEjecutivoCmsDocument,
   type ComiteMemberLogo,
 } from "@/data/comiteEjecutivo";
+import { useLocalizedComiteFunciones, useLocalizedComiteUi } from "@/hooks/useLocalizedComite";
 
 type LogoCardSize = "xl" | "lg" | "md";
 
@@ -23,6 +25,7 @@ function LogoBlock({
   size: LogoCardSize;
   label?: string;
 }) {
+  const { t } = useTranslation();
   const card = (
     <div className="flex flex-col items-center gap-4">
       {label && (
@@ -69,7 +72,7 @@ function LogoBlock({
         target="_blank"
         rel="noreferrer"
         className="group focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2 rounded-2xl"
-        aria-label={`Sitio web de ${item.name}`}
+        aria-label={t("comite.websiteAria", { name: item.name })}
       >
         {card}
       </a>
@@ -104,6 +107,7 @@ function SectionHeader({ title, subtitle }: { title: string; subtitle?: string }
 }
 
 export default function ComiteEjecutivo() {
+  const { t } = useTranslation();
   const [doc, setDoc] = useState<ComiteEjecutivoCmsDocument>(() => defaultComiteEjecutivoCmsDocument());
 
   const load = useCallback(async () => {
@@ -130,7 +134,8 @@ export default function ComiteEjecutivo() {
     return () => document.removeEventListener("visibilitychange", onVis);
   }, [load]);
 
-  const ui = resolveComiteEjecutivoUi(doc);
+  const ui = useLocalizedComiteUi(resolveComiteEjecutivoUi(doc));
+  const funcionesData = useLocalizedComiteFunciones(doc);
   const miembrosOrdenados = [...doc.miembros].sort((a, b) =>
     (a.country || a.name).localeCompare(b.country || b.name, "es")
   );
@@ -166,7 +171,7 @@ export default function ComiteEjecutivo() {
                   className="inline-block rounded-sm px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.12em]"
                   style={{ backgroundColor: "rgba(68,137,198,0.10)", color: "var(--regu-blue)" }}
                 >
-                  Presidente
+                  {t("comite.presidente")}
                 </span>
                 <LogoBlock item={doc.presidente} size="xl" />
               </div>
@@ -176,7 +181,7 @@ export default function ComiteEjecutivo() {
                   className="inline-block rounded-sm px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.12em]"
                   style={{ backgroundColor: "rgba(22,61,89,0.07)", color: "var(--regu-navy)" }}
                 >
-                  Vicepresidencias
+                  {t("comite.vicepresidencias")}
                 </span>
                 <div className="flex flex-wrap items-center justify-center gap-10 md:gap-12">
                   {doc.vicepresidentes.map((v, i) => (
@@ -227,10 +232,10 @@ export default function ComiteEjecutivo() {
               className="mb-6 mt-3 text-base leading-relaxed md:text-[1.0625rem]"
               style={{ color: "var(--regu-gray-600)" }}
             >
-              {doc.funcionesIntro}
+              {funcionesData.funcionesIntro}
             </p>
             <ul className="space-y-3">
-              {doc.funciones.map((f, i) => (
+              {funcionesData.funciones.map((f, i) => (
                 <li
                   key={i}
                   className="flex items-start gap-3 text-base leading-relaxed md:text-[1.0625rem]"
@@ -251,7 +256,7 @@ export default function ComiteEjecutivo() {
           <nav
             className="mt-10 flex flex-wrap items-center gap-4 border-t pt-8"
             style={{ borderColor: "rgba(22,61,89,0.08)" }}
-            aria-label="Navegación final"
+            aria-label={t("common.finalNavigation")}
           >
             <Link
               to="/"
@@ -259,14 +264,14 @@ export default function ComiteEjecutivo() {
               style={{ color: "var(--regu-blue)", borderColor: "var(--regu-blue)", backgroundColor: "rgba(68,137,198,0.06)" }}
             >
               <ArrowLeft className="h-4 w-4 shrink-0" aria-hidden />
-              Inicio
+              {t("common.home")}
             </Link>
             <Link
               to="/autoridades"
               className="inline-flex items-center gap-1.5 text-sm font-semibold transition-all hover:gap-2.5"
               style={{ color: "var(--regu-gray-500)" }}
             >
-              Autoridades actuales <ArrowRight className="h-3.5 w-3.5" aria-hidden />
+              {t("comite.navAuthorities")} <ArrowRight className="h-3.5 w-3.5" aria-hidden />
             </Link>
           </nav>
         </div>

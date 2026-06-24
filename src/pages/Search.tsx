@@ -1,5 +1,6 @@
 import { useSearchParams, Link } from "react-router-dom";
 import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import {
   buildSearchDocs,
   searchSiteDocs,
@@ -42,6 +43,7 @@ function formatDate(dateStr: string, type: SiteSearchType): string {
 }
 
 function ResultCard({ r }: { r: SiteSearchResult }) {
+  const { t } = useTranslation();
   const content = (
     <div
       className="group flex h-full flex-col rounded-2xl border bg-white p-5 transition-all hover:border-[rgba(22,61,89,0.18)] hover:shadow-[0_4px_12px_rgba(22,61,89,0.08)]"
@@ -57,7 +59,7 @@ function ResultCard({ r }: { r: SiteSearchResult }) {
           style={{ backgroundColor: "rgba(68,137,198,0.10)", color: "var(--regu-blue)" }}
         >
           {TYPE_ICONS[r.type]}
-          {getTypeLabel(r.type)}
+          {getTypeLabel(r.type, t)}
         </span>
         {r.date && (
           <span className="text-xs font-medium tabular-nums" style={{ color: "var(--regu-gray-500)" }}>
@@ -77,7 +79,7 @@ function ResultCard({ r }: { r: SiteSearchResult }) {
         dangerouslySetInnerHTML={{ __html: r.snippetHighlighted }}
       />
       <span className="mt-3 inline-flex items-center gap-1 text-sm font-semibold" style={{ color: "var(--regu-blue)" }}>
-        Ver
+        {t("common.view")}
         <ArrowRight size={14} className="transition-transform group-hover:translate-x-0.5" />
       </span>
     </div>
@@ -98,6 +100,7 @@ function ResultCard({ r }: { r: SiteSearchResult }) {
 }
 
 export default function Search() {
+  const { t } = useTranslation();
   const { adminNews, contentSource } = useAdminData();
   const events = useEvents();
   const documents = useMergedGestionDocuments();
@@ -136,9 +139,9 @@ export default function Search() {
   const suggestion =
     results.length === 0 && q.trim().length >= 2 ? suggestQueryDocs(searchDocs, q) : null;
 
-  const setType = (t: SiteSearchType | null) => {
+  const setTypeFilter = (type: SiteSearchType | null) => {
     const next = new URLSearchParams(searchParams);
-    if (t) next.set("type", t);
+    if (type) next.set("type", type);
     else next.delete("type");
     next.set("page", "1");
     setSearchParams(next);
@@ -162,11 +165,11 @@ export default function Search() {
       <div className="mx-auto px-4 pb-14 pt-8 md:px-6 md:pt-10" style={{ maxWidth: 900 }}>
         <nav className="mb-6 flex items-center gap-2 text-sm" style={{ color: "var(--regu-gray-400)" }} aria-label="Breadcrumb">
           <Link to="/" className="hover:underline" style={{ color: "var(--regu-gray-500)" }}>
-            Inicio
+            {t("search.breadcrumbHome")}
           </Link>
           <span aria-hidden>/</span>
           <span style={{ color: "var(--regu-blue)", fontWeight: 600 }}>
-            {q.trim() ? "Resultados de búsqueda" : "Buscar en el sitio"}
+            {q.trim() ? t("search.resultsTitle") : t("search.searchTitle")}
           </span>
         </nav>
 
@@ -185,7 +188,7 @@ export default function Search() {
             }}
           >
             <SearchIcon size={12} style={{ color: "var(--regu-blue)" }} />
-            Búsqueda en el sitio · REGULATEL
+            {t("search.eyebrow")}
           </p>
           <div style={{ display: "flex", gap: 14, alignItems: "flex-start" }}>
             <div
@@ -209,20 +212,20 @@ export default function Search() {
                   fontFamily: "var(--token-font-heading)",
                 }}
               >
-                {q.trim() ? "Resultados de búsqueda" : "Buscar en el sitio"}
+                {q.trim() ? t("search.resultsTitle") : t("search.searchTitle")}
               </h1>
               {q.trim() ? (
                 <p className="mt-2 text-sm" style={{ color: "var(--regu-gray-500)" }}>
                   <strong style={{ color: "var(--regu-navy)" }}>&ldquo;{q}&rdquo;</strong>
                   {results.length > 0 && (
                     <span className="ml-1">
-                      — {results.length} {results.length === 1 ? "resultado" : "resultados"}
+                      — {t("search.resultCount", { count: results.length })}
                     </span>
                   )}
                 </p>
               ) : (
                 <p className="mt-2 text-sm" style={{ color: "var(--regu-gray-500)", maxWidth: 520 }}>
-                  Use la barra &quot;Buscar en el sitio&quot; del encabezado e ingrese un término (nombre, noticias, eventos, autoridades, etc.).
+                  {t("search.emptyHint")}
                 </p>
               )}
             </div>
@@ -246,22 +249,22 @@ export default function Search() {
               <SearchIcon size={28} style={{ color: "var(--regu-blue)" }} />
             </div>
             <p className="text-base font-semibold" style={{ color: "var(--regu-navy)" }}>
-              Escriba su búsqueda en el encabezado
+              {t("search.emptyTitle")}
             </p>
             <p className="mt-2 text-sm" style={{ color: "var(--regu-gray-500)", maxWidth: 400, margin: "0.5rem auto 0" }}>
-              Utilice el campo &quot;Buscar en el sitio&quot; en la parte superior de la página e ingrese un término (por ejemplo: miembros, noticias, eventos, autoridades).
+              {t("search.emptyDescription")}
             </p>
             <Link
               to="/"
               className="mt-6 inline-flex items-center gap-2 rounded-xl px-5 py-3 text-sm font-bold text-white transition hover:opacity-95"
               style={{ backgroundColor: "var(--regu-blue)", textDecoration: "none" }}
             >
-              Ir al inicio
+              {t("common.goToHome")}
             </Link>
             <p className="mt-6 text-xs" style={{ color: "var(--regu-gray-400)" }}>
-              Para buscar solo en documentos (revistas, planes, actas), use{" "}
+              {t("search.documentsHint")}{" "}
               <Link to="/buscar-documentos" className="font-semibold underline" style={{ color: "var(--regu-blue)" }}>
-                Buscar documentos
+                {t("search.searchDocuments")}
               </Link>
               .
             </p>
@@ -271,11 +274,11 @@ export default function Search() {
             {results.length > 0 && (
               <div className="mb-6 flex flex-wrap items-center gap-2">
                 <span className="text-[10px] font-bold uppercase tracking-wider" style={{ color: "var(--regu-gray-500)" }}>
-                  Filtrar por tipo:
+                  {t("search.filterByType")}
                 </span>
                 <button
                   type="button"
-                  onClick={() => setType(null)}
+                  onClick={() => setTypeFilter(null)}
                   className="rounded-xl border px-3.5 py-2 text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-[var(--regu-blue)] focus:ring-offset-2"
                   style={{
                     borderColor: !typeFilter ? "var(--regu-blue)" : "rgba(22,61,89,0.12)",
@@ -283,21 +286,21 @@ export default function Search() {
                     backgroundColor: !typeFilter ? "var(--regu-blue)" : "#F4F6F8",
                   }}
                 >
-                  Todo
+                  {t("common.all")}
                 </button>
-                {TYPES.map((t) => (
+                {TYPES.map((searchType) => (
                   <button
-                    key={t}
+                    key={searchType}
                     type="button"
-                    onClick={() => setType(t)}
+                    onClick={() => setTypeFilter(searchType)}
                     className="rounded-xl border px-3.5 py-2 text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-[var(--regu-blue)] focus:ring-offset-2"
                     style={{
-                      borderColor: typeFilter === t ? "var(--regu-blue)" : "rgba(22,61,89,0.12)",
-                      color: typeFilter === t ? "#fff" : "var(--regu-gray-700)",
-                      backgroundColor: typeFilter === t ? "var(--regu-blue)" : "#F4F6F8",
+                      borderColor: typeFilter === searchType ? "var(--regu-blue)" : "rgba(22,61,89,0.12)",
+                      color: typeFilter === searchType ? "#fff" : "var(--regu-gray-700)",
+                      backgroundColor: typeFilter === searchType ? "var(--regu-blue)" : "#F4F6F8",
                     }}
                   >
-                    {getTypeLabel(t)}
+                    {getTypeLabel(searchType, t)}
                   </button>
                 ))}
               </div>
@@ -328,11 +331,11 @@ export default function Search() {
                   <SearchIcon size={28} style={{ color: "var(--regu-gray-400)" }} />
                 </div>
                 <p className="text-base font-bold" style={{ color: "var(--regu-navy)" }}>
-                  No hay resultados para &ldquo;{q}&rdquo;
+                  {t("search.noResults", { query: q })}
                 </p>
                 {suggestion ? (
                   <p className="mt-3 text-sm" style={{ color: "var(--regu-gray-600)" }}>
-                    ¿Quisiste decir:{" "}
+                    {t("search.didYouMean")}{" "}
                     <Link
                       to={`/search?q=${encodeURIComponent(suggestion)}`}
                       className="font-bold underline"
@@ -344,7 +347,7 @@ export default function Search() {
                   </p>
                 ) : (
                   <p className="mt-3 text-sm" style={{ color: "var(--regu-gray-500)" }}>
-                    Pruebe con otros términos (por ejemplo: miembros, presidente, noticias, eventos, autoridades).
+                    {t("search.tryOtherTerms")}
                   </p>
                 )}
                 <Link
@@ -353,7 +356,7 @@ export default function Search() {
                   style={{ borderColor: "rgba(22,61,89,0.12)", color: "var(--regu-gray-700)", textDecoration: "none" }}
                 >
                   <BookOpen size={16} />
-                  Buscar en documentos
+                  {t("search.searchInDocuments")}
                 </Link>
               </div>
             )}
@@ -362,7 +365,7 @@ export default function Search() {
               <nav
                 className="mt-10 flex flex-wrap items-center justify-center gap-3 border-t pt-8"
                 style={{ borderColor: "rgba(22,61,89,0.08)" }}
-                aria-label="Paginación"
+                aria-label={t("search.pagination")}
               >
                 <button
                   type="button"
@@ -380,10 +383,10 @@ export default function Search() {
                   }}
                 >
                   <ChevronLeft size={18} />
-                  Anterior
+                  {t("common.previous")}
                 </button>
                 <span className="text-sm font-medium" style={{ color: "var(--regu-gray-500)" }}>
-                  Página {page} de {totalPages}
+                  {t("search.pageOf", { page, total: totalPages })}
                 </span>
                 <button
                   type="button"
@@ -400,7 +403,7 @@ export default function Search() {
                     backgroundColor: "#fff",
                   }}
                 >
-                  Siguiente
+                  {t("common.next")}
                   <ChevronRight size={18} />
                 </button>
               </nav>
@@ -414,14 +417,14 @@ export default function Search() {
             className="inline-flex items-center gap-2 rounded-xl border-2 px-4 py-2.5 text-sm font-semibold transition hover:border-[var(--regu-blue)] hover:text-[var(--regu-blue)]"
             style={{ borderColor: "rgba(22,61,89,0.12)", color: "var(--regu-gray-700)", textDecoration: "none" }}
           >
-            ← Volver al inicio
+            ← {t("common.backToHome")}
           </Link>
           <Link
             to="/buscar-documentos"
             className="inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold text-white transition hover:opacity-95"
             style={{ backgroundColor: "var(--regu-blue)", textDecoration: "none" }}
           >
-            Buscar documentos
+            {t("search.searchDocuments")}
             <ArrowRight size={16} />
           </Link>
         </div>

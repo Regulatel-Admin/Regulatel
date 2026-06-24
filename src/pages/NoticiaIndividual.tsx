@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { useParams, useLocation, Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { useCallback, useState } from "react";
 import {
   ArrowLeft,
@@ -94,11 +95,12 @@ function normalizeStaticNoticia(n: NoticiaData): ArticlePayload {
 }
 
 function ArticleBreadcrumb({ title }: { title: string }) {
+  const { t } = useTranslation();
   return (
     <nav aria-label="Breadcrumb" className="text-xs sm:text-[0.8125rem] mb-6 flex flex-wrap items-center gap-1" style={{ color: "var(--regu-gray-500)" }}>
-      <Link to="/" className="hover:text-[var(--regu-blue)] transition-colors">Inicio</Link>
+      <Link to="/" className="hover:text-[var(--regu-blue)] transition-colors">{t("pages.shared.breadcrumbHome")}</Link>
       <span aria-hidden className="mx-0.5">/</span>
-      <Link to="/noticias" className="hover:text-[var(--regu-blue)] transition-colors">Noticias</Link>
+      <Link to="/noticias" className="hover:text-[var(--regu-blue)] transition-colors">{t("pages.noticias.breadcrumb")}</Link>
       <span aria-hidden className="mx-0.5">/</span>
       <span className="font-semibold line-clamp-1" style={{ color: "var(--regu-blue)" }}>{title}</span>
     </nav>
@@ -182,6 +184,7 @@ const bodyTextStyle: React.CSSProperties = {
 };
 
 function ArticleBody({ payload, isStaticCumbre }: { payload: ArticlePayload; isStaticCumbre?: boolean }) {
+  const { t } = useTranslation();
   const urlRegex = /(https?:\/\/[^\s]+)/g;
 
   const renderParagraph = (text: string, key: number) => {
@@ -307,7 +310,7 @@ function ArticleBody({ payload, isStaticCumbre }: { payload: ArticlePayload; isS
       {payload.highlights && payload.highlights.length > 0 && (
         <div className="mt-10">
           <p className="text-[10px] font-bold uppercase tracking-[0.12em] mb-4" style={{ color: "var(--regu-gray-500)" }}>
-            Datos destacados
+            {t("pages.noticias.highlights")}
           </p>
           <div className="grid sm:grid-cols-2 gap-3">
             {payload.highlights.map((h, index) => (
@@ -364,7 +367,7 @@ function ArticleBody({ payload, isStaticCumbre }: { payload: ArticlePayload; isS
             style={{ backgroundColor: "var(--regu-blue)", color: "#fff" }}
           >
             <Maximize2 className="h-4 w-4" />
-            Ver enlace oficial
+            {t("pages.noticias.viewOfficialLink")}
           </a>
         </div>
       )}
@@ -380,7 +383,7 @@ function ArticleBody({ payload, isStaticCumbre }: { payload: ArticlePayload; isS
             style={{ backgroundColor: "var(--regu-navy)", color: "#fff" }}
           >
             <Play className="h-4 w-4" />
-            Ver video
+            {t("pages.noticias.viewVideo")}
           </a>
         </div>
       )}
@@ -394,6 +397,7 @@ function ArticleBody({ payload, isStaticCumbre }: { payload: ArticlePayload; isS
 }
 
 function CumbreExtraBlock() {
+  const { t } = useTranslation();
   return (
     <div className="mt-12 pt-10 border-t space-y-8" style={{ borderColor: "rgba(22,61,89,0.08)" }}>
       {/* YouTube */}
@@ -404,8 +408,8 @@ function CumbreExtraBlock() {
         <div className="flex items-start gap-4 mb-4">
           <Play className="h-5 w-5 flex-shrink-0 mt-0.5" style={{ color: "var(--regu-blue)" }} />
           <div className="flex-1">
-            <h4 className="text-base font-bold mb-1" style={{ color: "var(--regu-navy)" }}>Revive la Cumbre</h4>
-            <p className="text-sm" style={{ color: "var(--regu-gray-500)" }}>Transmisión oficial del evento</p>
+            <h4 className="text-base font-bold mb-1" style={{ color: "var(--regu-navy)" }}>{t("pages.noticias.cumbreReviveTitle")}</h4>
+            <p className="text-sm" style={{ color: "var(--regu-gray-500)" }}>{t("pages.noticias.cumbreReviveDesc")}</p>
           </div>
         </div>
         <a
@@ -416,7 +420,7 @@ function CumbreExtraBlock() {
           style={{ backgroundColor: "var(--regu-blue)" }}
         >
           <Play className="w-4 h-4" />
-          Ver en YouTube
+          {t("pages.noticias.viewOnYoutube")}
         </a>
       </div>
 
@@ -441,7 +445,7 @@ function CumbreExtraBlock() {
               className="inline-flex items-center gap-2 px-4 py-2 rounded-xl font-bold text-white text-xs transition-opacity hover:opacity-85"
               style={{ backgroundColor: "var(--regu-blue)" }}
             >
-              Ver álbum en Flickr
+              {t("pages.noticias.viewAlbumFlickr")}
               <ArrowRight className="h-3.5 w-3.5" />
             </a>
           </div>
@@ -452,7 +456,7 @@ function CumbreExtraBlock() {
       <div>
         <div className="flex items-center gap-3 mb-4">
           <FileText className="h-5 w-5" style={{ color: "var(--regu-blue)" }} />
-          <h3 className="text-base font-bold" style={{ color: "var(--regu-navy)" }}>Presentaciones de los Expositores</h3>
+          <h3 className="text-base font-bold" style={{ color: "var(--regu-navy)" }}>{t("pages.noticias.presentationsTitle")}</h3>
         </div>
         <div className="rounded-2xl border overflow-hidden" style={{ borderColor: "rgba(22,61,89,0.10)" }}>
           {[
@@ -501,7 +505,7 @@ function CumbreExtraBlock() {
           className="flex-shrink-0 px-4 py-2 rounded-xl font-bold text-white text-sm transition-opacity hover:opacity-85"
           style={{ backgroundColor: "var(--regu-blue)" }}
         >
-          Descargar PDF
+          {t("common.downloadPdf")}
         </a>
       </div>
 
@@ -513,6 +517,7 @@ function CumbreExtraBlock() {
 }
 
 function ArticleShareFooter({ title }: { title: string }) {
+  const { t } = useTranslation();
   const location = useLocation();
   const [copied, setCopied] = useState(false);
 
@@ -540,17 +545,17 @@ function ArticleShareFooter({ title }: { title: string }) {
         style={{ color: "var(--regu-gray-600)" }}
       >
         <ArrowLeft className="h-4 w-4" />
-        Volver a noticias
+        {t("pages.noticias.backToNews")}
       </Link>
       <button
         type="button"
         onClick={handleShare}
         className="flex items-center gap-2 text-sm font-semibold cursor-pointer border-0 bg-transparent p-0 hover:text-[var(--regu-blue)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2 rounded"
         style={{ color: "var(--regu-gray-500)" }}
-        aria-label="Compartir esta noticia"
+        aria-label={t("pages.noticias.shareArticle")}
       >
         <Share2 className="h-4 w-4" aria-hidden />
-        <span>{copied ? "Enlace copiado ✓" : "Compartir"}</span>
+        <span>{copied ? t("pages.shared.linkCopied") : t("pages.shared.share")}</span>
       </button>
     </div>
   );
@@ -608,6 +613,7 @@ function ArticleWrapper({ children }: { children: React.ReactNode }) {
 }
 
 export default function NoticiaIndividual() {
+  const { t } = useTranslation();
   const { slug } = useParams<{ slug: string }>();
   const { adminNews, contentSource } = useAdminData();
   if (contentSource === "loading") return null;
@@ -627,9 +633,9 @@ export default function NoticiaIndividual() {
   if (!noticiaStatic) {
     return (
       <ArticleWrapper>
-        <ArticleBreadcrumb title="Noticia no encontrada" />
+        <ArticleBreadcrumb title={t("pages.noticias.notFound")} />
         <h1 className="text-xl font-bold mt-2 mb-4" style={{ color: "var(--regu-navy)" }}>
-          Noticia no encontrada
+          {t("pages.noticias.notFound")}
         </h1>
         <Link
           to="/noticias"
@@ -637,7 +643,7 @@ export default function NoticiaIndividual() {
           style={{ color: "var(--regu-blue)" }}
         >
           <ArrowLeft className="h-4 w-4" />
-          Volver a noticias
+          {t("pages.noticias.backToNews")}
         </Link>
       </ArticleWrapper>
     );

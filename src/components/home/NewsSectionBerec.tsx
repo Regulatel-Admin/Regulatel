@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { ArrowRight } from "lucide-react";
 import ImageCarousel from "@/components/ImageCarousel";
 
@@ -34,6 +35,7 @@ const PLACEHOLDER_GRADIENT =
   "linear-gradient(135deg, var(--regu-navy) 0%, var(--regu-blue) 50%, var(--regu-navy-deep) 100%)";
 
 export default function NewsSectionBerec({ news }: NewsSectionBerecProps) {
+  const { t } = useTranslation();
   const sorted = [...news].sort((a, b) => (a.date > b.date ? -1 : 1));
   const featuredNews = sorted[0];
   const listNews = sorted.slice(1, 7);
@@ -67,10 +69,10 @@ export default function NewsSectionBerec({ news }: NewsSectionBerecProps) {
                 className="text-3xl font-bold tracking-tight md:text-4xl"
                 style={{ color: "var(--regu-navy)", fontFamily: "var(--token-font-heading)" }}
               >
-                Noticias
+                {t("homeSections.newsTitle")}
               </h2>
               <p className="mt-0.5 text-sm" style={{ color: "var(--regu-gray-500)" }}>
-                Últimas novedades de REGULATEL y el sector
+                {t("homeSections.newsSubtitle")}
               </p>
             </div>
           </div>
@@ -79,7 +81,7 @@ export default function NewsSectionBerec({ news }: NewsSectionBerecProps) {
             className="flex-shrink-0 text-xs font-bold uppercase tracking-[0.14em] transition hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2"
             style={{ color: "var(--regu-blue)" }}
           >
-            Ver todas
+            {t("homeSections.seeAllShort")}
           </Link>
         </div>
 
@@ -149,7 +151,7 @@ export default function NewsSectionBerec({ news }: NewsSectionBerecProps) {
                   className="inline-block rounded-sm px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.10em]"
                   style={{ backgroundColor: "rgba(68,137,198,0.10)", color: "var(--regu-blue)" }}
                 >
-                  Noticias
+                  {t("pages.noticias.sidebarNews")}
                 </span>
                 <span
                   className="text-xs font-medium uppercase tracking-[0.08em]"
@@ -176,7 +178,7 @@ export default function NewsSectionBerec({ news }: NewsSectionBerecProps) {
                 className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold transition-all duration-150 group-hover:gap-2.5"
                 style={{ color: "var(--regu-blue)" }}
               >
-                Leer más
+                {t("pages.noticias.readMore")}
                 <ArrowRight className="h-4 w-4" aria-hidden />
               </span>
             </Link>
@@ -206,7 +208,7 @@ export default function NewsSectionBerec({ news }: NewsSectionBerecProps) {
                           className="inline-block rounded-sm px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.10em]"
                           style={{ backgroundColor: "rgba(68,137,198,0.10)", color: "var(--regu-blue)" }}
                         >
-                          Noticias
+                          {t("pages.noticias.sidebarNews")}
                         </span>
                         <span
                           className="text-xs font-medium uppercase tracking-[0.08em]"
@@ -231,7 +233,7 @@ export default function NewsSectionBerec({ news }: NewsSectionBerecProps) {
                         className="mt-2 inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-[0.08em] transition-all duration-150 group-hover:gap-2"
                         style={{ color: "var(--regu-blue)", opacity: 0.75 }}
                       >
-                        Leer más
+                        {t("pages.noticias.readMore")}
                         <ArrowRight className="h-3.5 w-3.5" aria-hidden />
                       </span>
                     </div>
@@ -253,7 +255,7 @@ export default function NewsSectionBerec({ news }: NewsSectionBerecProps) {
             className="inline-flex items-center justify-center gap-2 rounded-lg px-6 py-3 text-xs font-bold uppercase tracking-[0.12em] text-white transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2"
             style={{ backgroundColor: "var(--regu-blue)" }}
           >
-            Ver todas las noticias
+            {t("homeSections.viewAllNewsLong")}
             <ArrowRight className="h-3.5 w-3.5" aria-hidden />
           </Link>
           {/* Secundarios: outline */}
@@ -262,14 +264,14 @@ export default function NewsSectionBerec({ news }: NewsSectionBerecProps) {
             className="inline-flex items-center justify-center rounded-lg border-2 px-6 py-3 text-xs font-bold uppercase tracking-[0.12em] transition hover:bg-[var(--regu-blue)] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2"
             style={{ borderColor: "var(--regu-blue)", color: "var(--regu-blue)" }}
           >
-            Ver comunicados
+            {t("homeSections.viewPressReleases")}
           </Link>
           <Link
             to="/noticias"
             className="inline-flex items-center justify-center rounded-lg border-2 px-6 py-3 text-xs font-bold uppercase tracking-[0.12em] transition hover:bg-[var(--regu-blue)] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2"
             style={{ borderColor: "var(--regu-blue)", color: "var(--regu-blue)" }}
           >
-            Ver publicaciones
+            {t("homeSections.viewPublications")}
           </Link>
         </div>
       </div>

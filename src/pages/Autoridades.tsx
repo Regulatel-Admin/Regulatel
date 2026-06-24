@@ -1,10 +1,12 @@
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { ArrowRight, ArrowLeft } from "lucide-react";
 import PageHero from "@/components/PageHero";
 import type { Authority } from "@/data/authorities";
 import { useAutoridadesActuales } from "@/contexts/SiteSettingsContext";
 
 function AuthorityCard({ authority, index }: { authority: Authority; index: number }) {
+  const { t } = useTranslation();
   const isCenter = index === 1;
   return (
     <Link
@@ -78,7 +80,7 @@ function AuthorityCard({ authority, index }: { authority: Authority; index: numb
           className="inline-flex items-center gap-1 text-xs font-semibold opacity-0 transition-all duration-200 group-hover:opacity-100 group-hover:gap-2"
           style={{ color: "var(--regu-blue)" }}
         >
-          Ver perfil completo <ArrowRight className="h-3.5 w-3.5" aria-hidden />
+          {t("pages.autoridades.viewProfile")} <ArrowRight className="h-3.5 w-3.5" aria-hidden />
         </span>
       </div>
     </Link>
@@ -86,14 +88,15 @@ function AuthorityCard({ authority, index }: { authority: Authority; index: numb
 }
 
 export default function Autoridades() {
+  const { t } = useTranslation();
   const authoritiesList = useAutoridadesActuales();
   return (
     <>
       <PageHero
-        title="Autoridades"
-        subtitle="QUIÉNES SOMOS"
-        breadcrumb={[{ label: "Autoridades actuales" }]}
-        description="Presidente y Vicepresidentes del período actual del Foro"
+        title={t("pages.autoridades.title")}
+        subtitle={t("pages.autoridades.subtitle")}
+        breadcrumb={[{ label: t("pages.autoridades.breadcrumb") }]}
+        description={t("pages.autoridades.description")}
       />
 
       <div
@@ -120,10 +123,10 @@ export default function Autoridades() {
                 className="text-xl font-bold md:text-2xl"
                 style={{ color: "var(--regu-navy)", fontFamily: "var(--token-font-heading)" }}
               >
-                Autoridades actuales del Foro
+                {t("pages.autoridades.sectionTitle")}
               </h2>
               <p className="mt-1 text-sm" style={{ color: "var(--regu-gray-500)" }}>
-                Comité Ejecutivo · Período vigente
+                {t("pages.autoridades.sectionSubtitle")}
               </p>
             </div>
           </div>
@@ -152,22 +155,14 @@ export default function Autoridades() {
                 style={{ backgroundColor: "var(--regu-blue)" }}
                 aria-hidden
               />
-              Sobre las Autoridades
+              {t("pages.autoridades.aboutTitle")}
             </h2>
             <div
               className="space-y-4 text-base leading-relaxed md:text-[1.0625rem]"
               style={{ color: "var(--regu-gray-700)" }}
             >
-              <p>
-                Las autoridades de REGULATEL están integradas por la presidencia de turno, el
-                presidente saliente y el próximo presidente. Son designadas por los países miembros
-                anualmente, en cada Asamblea y representan a los principales entes reguladores de
-                telecomunicaciones de América Latina.
-              </p>
-              <p>
-                Su función es fundamental para el desarrollo de políticas regionales, la promoción de
-                mejores prácticas y el fortalecimiento de la cooperación entre los países miembros.
-              </p>
+              <p>{t("pages.autoridades.aboutP1")}</p>
+              <p>{t("pages.autoridades.aboutP2")}</p>
             </div>
           </section>
 
@@ -175,7 +170,7 @@ export default function Autoridades() {
           <nav
             className="mt-10 flex flex-wrap items-center gap-4 border-t pt-8"
             style={{ borderColor: "rgba(22,61,89,0.08)" }}
-            aria-label="Navegación final"
+            aria-label={t("common.finalNavigation")}
           >
             <Link
               to="/"
@@ -187,14 +182,14 @@ export default function Autoridades() {
               }}
             >
               <ArrowLeft className="h-4 w-4 shrink-0" aria-hidden />
-              Inicio
+              {t("common.home")}
             </Link>
             <Link
               to="/comite-ejecutivo"
               className="inline-flex items-center gap-1.5 text-sm font-semibold transition-all hover:gap-2.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)]"
               style={{ color: "var(--regu-gray-500)" }}
             >
-              Comité Ejecutivo <ArrowRight className="h-3.5 w-3.5" aria-hidden />
+              {t("pages.autoridades.viewCommitteeLink")} <ArrowRight className="h-3.5 w-3.5" aria-hidden />
             </Link>
           </nav>
         </div>

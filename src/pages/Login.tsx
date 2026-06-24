@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { Lock, User, KeyRound, ArrowLeft } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 
 export default function Login() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { login, isAdmin, isChecking, isConfigured, bootstrapRequired, configError } = useAuth();
   const [username, setUsername] = useState("");
@@ -26,7 +28,7 @@ export default function Login() {
     if (ok) {
       navigate("/admin", { replace: true });
     } else {
-      setError("Usuario o contraseña incorrectos.");
+      setError(t("pages.login.invalidCredentials"));
     }
   };
 
@@ -37,7 +39,7 @@ export default function Login() {
         style={{ backgroundColor: "#FAFBFC", fontFamily: "var(--token-font-body)" }}
       >
         <p className="text-sm font-medium" style={{ color: "var(--regu-gray-500)" }}>
-          Redirigiendo al panel…
+          {t("pages.login.redirecting")}
         </p>
       </div>
     );
@@ -68,10 +70,10 @@ export default function Login() {
             className="text-xl font-bold md:text-2xl"
             style={{ color: "var(--regu-navy)", fontFamily: "var(--token-font-heading)" }}
           >
-            Iniciar sesión
+            {t("pages.login.title")}
           </h1>
           <p className="mt-1 text-sm" style={{ color: "var(--regu-gray-500)" }}>
-            Área de miembros · Portal de administración REGULATEL
+            {t("pages.login.subtitle")}
           </p>
         </div>
 
@@ -97,9 +99,9 @@ export default function Login() {
                   }}
                 >
                   <p className="font-semibold" style={{ color: "var(--regu-navy)" }}>
-                    El acceso de administración no está configurado en el servidor
+                    {t("pages.login.notConfiguredTitle")}
                   </p>
-                  <p>{configError ?? "No se pudo conectar con el servidor."}</p>
+                  <p>{configError ?? t("pages.login.notConfiguredDefault")}</p>
                   {(configError?.includes("DATABASE") ?? false) && (
                     <p className="text-xs mt-2">
                       En Vercel: <strong>Settings → Environment Variables</strong> → añade <code className="bg-black/10 px-1 rounded">DATABASE_URL</code> con la cadena de conexión de Neon y vuelve a desplegar.
@@ -122,13 +124,9 @@ export default function Login() {
                   }}
                 >
                   <p className="font-semibold" style={{ color: "var(--regu-navy)" }}>
-                    Configuración requerida
+                    {t("pages.login.bootstrapTitle")}
                   </p>
-                  <p>
-                    No se detectan usuarios administrador en la base de datos. Verifica la variable{" "}
-                    <strong>DATABASE_URL</strong> en Vercel y redeploya, o crea un usuario con{" "}
-                    <code className="rounded bg-black/5 px-1 text-xs">npm run admin:create</code>.
-                  </p>
+                  <p>{t("pages.login.bootstrapMessage")}</p>
                 </div>
               )}
 
@@ -153,7 +151,7 @@ export default function Login() {
                   className="text-xs font-bold uppercase tracking-[0.08em]"
                   style={{ color: "var(--regu-gray-600)" }}
                 >
-                  Usuario
+                  {t("pages.login.usernameLabel")}
                 </label>
                 <div className="relative">
                   <User
@@ -170,7 +168,7 @@ export default function Login() {
                     required
                     className="w-full rounded-xl border bg-[#F4F6F8] py-3 pl-10 pr-4 text-sm outline-none transition-all placeholder:text-[var(--regu-gray-400)] focus:bg-white focus:ring-2 focus:ring-[rgba(68,137,198,0.3)]"
                     style={{ borderColor: "rgba(22,61,89,0.12)", color: "var(--regu-navy)" }}
-                    placeholder="Nombre de usuario"
+                    placeholder={t("pages.login.usernamePlaceholder")}
                   />
                 </div>
               </div>
@@ -182,7 +180,7 @@ export default function Login() {
                   className="text-xs font-bold uppercase tracking-[0.08em]"
                   style={{ color: "var(--regu-gray-600)" }}
                 >
-                  Contraseña
+                  {t("pages.login.passwordLabel")}
                 </label>
                 <div className="relative">
                   <KeyRound
@@ -211,7 +209,7 @@ export default function Login() {
                 className="w-full rounded-xl py-3 text-sm font-bold text-white transition-opacity hover:opacity-90 disabled:opacity-60 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2"
                 style={{ backgroundColor: "var(--regu-blue)" }}
               >
-                {isSubmitting ? "Entrando…" : "Entrar"}
+                {isSubmitting ? t("pages.login.submitting") : t("pages.login.enter")}
               </button>
             </form>
 
@@ -223,7 +221,7 @@ export default function Login() {
                 style={{ color: "var(--regu-blue)" }}
               >
                 <ArrowLeft className="h-4 w-4" />
-                Volver al inicio
+                {t("common.backToHomeShort")}
               </Link>
             </p>
           </div>

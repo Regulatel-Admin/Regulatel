@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import { ArrowLeft, Calendar, Download, ExternalLink, FileText } from "lucide-react";
 import PageHero from "@/components/PageHero";
@@ -14,6 +15,7 @@ import {
 } from "@/data/boletinesGtai";
 
 export default function BoletinGtaiDetalle() {
+  const { t } = useTranslation();
   const { slug } = useParams<{ slug: string }>();
   const [entry, setEntry] = useState<BoletinGtaiSerialized | null | undefined>(undefined);
 
@@ -51,15 +53,15 @@ export default function BoletinGtaiDetalle() {
     return (
       <>
         <PageHero
-          title="Boletín GTAI"
-          subtitle="RECURSOS — CONOCIMIENTO"
+          title={t("pages.boletinesGtai.detailTitle")}
+          subtitle={t("pages.boletinesGtai.subtitle")}
           breadcrumb={[
-            { label: "Boletines GTAI", path: BOLETINES_GTAI_LIST_PATH },
+            { label: t("pages.boletinesGtai.breadcrumb"), path: BOLETINES_GTAI_LIST_PATH },
             { label: "…" },
           ]}
         />
         <div className="py-20 text-center text-sm" style={{ color: "var(--regu-gray-500)" }}>
-          Cargando…
+          {t("pages.shared.loading")}
         </div>
       </>
     );
@@ -71,10 +73,10 @@ export default function BoletinGtaiDetalle() {
     <>
       <PageHero
         title={entry.title}
-        subtitle="BOLETINES GTAI"
+        subtitle={t("pages.boletinesGtai.breadcrumb").toUpperCase()}
         breadcrumb={[
-          { label: "Gestión y recursos", path: "/gestion" },
-          { label: "Boletines GTAI", path: BOLETINES_GTAI_LIST_PATH },
+          { label: t("pages.boletinesGtai.resourcesBreadcrumb"), path: "/gestion" },
+          { label: t("pages.boletinesGtai.breadcrumb"), path: BOLETINES_GTAI_LIST_PATH },
           { label: entry.title },
         ]}
         description={entry.shortSummary}
@@ -96,7 +98,7 @@ export default function BoletinGtaiDetalle() {
               style={{ color: "var(--regu-blue)" }}
             >
               <ArrowLeft className="h-4 w-4" />
-              Volver a boletines GTAI
+              {t("pages.boletinesGtai.backToBulletins")}
             </Link>
           </div>
 
@@ -118,7 +120,7 @@ export default function BoletinGtaiDetalle() {
                     ·
                   </span>
                   <span style={{ color: "var(--regu-gray-600)" }}>
-                    Edición {entry.issueNumber} — {entry.year}
+                    {t("pages.boletinesGtai.edition", { number: entry.issueNumber, year: entry.year })}
                   </span>
                 </div>
                 <h1
@@ -132,7 +134,7 @@ export default function BoletinGtaiDetalle() {
                 </p>
                 <p className="mt-2 flex items-center gap-2 text-sm" style={{ color: "var(--regu-gray-500)" }}>
                   <Calendar className="h-4 w-4" aria-hidden />
-                  Publicado el{" "}
+                  {t("pages.boletinesGtai.publishedOn")}{" "}
                   {new Date(entry.publicationDate + "T12:00:00").toLocaleDateString("es", {
                     day: "numeric",
                     month: "long",
@@ -142,7 +144,7 @@ export default function BoletinGtaiDetalle() {
               </div>
               <div className="px-6 py-6 md:px-8 md:py-8">
                 <h2 className="mb-3 text-sm font-bold uppercase tracking-[0.1em]" style={{ color: "var(--regu-gray-500)" }}>
-                  Resumen
+                  {t("pages.boletinesGtai.summary")}
                 </h2>
                 <p className="text-base leading-relaxed" style={{ color: "var(--regu-gray-700)" }}>
                   {entry.description}
@@ -164,7 +166,7 @@ export default function BoletinGtaiDetalle() {
                 <div className="p-6">
                   <h2 className="mb-4 flex items-center gap-2 text-sm font-bold" style={{ color: "var(--regu-navy)" }}>
                     <FileText className="h-4 w-4" style={{ color: "var(--regu-blue)" }} aria-hidden />
-                    Documento oficial
+                    {t("common.officialDocument")}
                   </h2>
                   <div className="flex flex-col gap-3">
                     <a
@@ -175,7 +177,7 @@ export default function BoletinGtaiDetalle() {
                       style={{ backgroundColor: "var(--regu-blue)" }}
                     >
                       <ExternalLink className="h-4 w-4" />
-                      Abrir PDF
+                      {t("pages.boletinesGtai.openPdf")}
                     </a>
                     <a
                       href={entry.pdfFile}
@@ -184,7 +186,7 @@ export default function BoletinGtaiDetalle() {
                       style={{ borderColor: "var(--regu-blue)", color: "var(--regu-blue)" }}
                     >
                       <Download className="h-4 w-4" />
-                      Descargar PDF
+                      {t("common.downloadPdf")}
                     </a>
                   </div>
                 </div>
@@ -201,13 +203,13 @@ export default function BoletinGtaiDetalle() {
           <section
             className="mt-10 overflow-hidden rounded-2xl border bg-[#F4F6F8]"
             style={{ borderColor: "rgba(22,61,89,0.08)" }}
-            aria-label="Vista previa del PDF"
+            aria-label={t("pages.shared.documentPreviewSubtitle")}
           >
             <div
               className="border-b px-5 py-3 text-xs font-semibold"
               style={{ borderColor: "rgba(22,61,89,0.08)", color: "var(--regu-gray-600)" }}
             >
-              Vista previa
+              {t("pages.boletinesGtai.preview")}
             </div>
             <div className="bg-[#e8e8e8] p-2 md:p-4">
               <iframe

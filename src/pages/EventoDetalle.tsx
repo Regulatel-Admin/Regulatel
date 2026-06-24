@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, Link, Navigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { useEvents } from "@/contexts/AdminDataContext";
 import { formatEventDateRange, EVENT_STATUS_LABEL } from "@/types/event";
 import type { Event } from "@/types/event";
@@ -8,6 +9,7 @@ import { normalizeEvent } from "@/types/event";
 import { api } from "@/lib/api";
 
 export default function EventoDetalle() {
+  const { t } = useTranslation();
   const { id } = useParams<{ id: string }>();
   const events = useEvents();
   const eventFromList = id ? events.find((e) => e.id === id) : null;
@@ -55,7 +57,7 @@ export default function EventoDetalle() {
         className="flex min-h-[50vh] items-center justify-center"
         style={{ backgroundColor: "#FAFBFC", fontFamily: "var(--token-font-body)" }}
       >
-        <p className="text-sm font-medium" style={{ color: "var(--regu-gray-500)" }}>Cargando evento…</p>
+        <p className="text-sm font-medium" style={{ color: "var(--regu-gray-500)" }}>{t("pages.eventos.loading")}</p>
       </div>
     );
   }
@@ -77,9 +79,9 @@ export default function EventoDetalle() {
 
       <div className="mx-auto px-4 pb-14 pt-8 md:px-6 md:pt-10" style={{ maxWidth: 820 }}>
         <nav className="mb-6 flex items-center gap-2 text-sm" style={{ color: "var(--regu-gray-400)" }} aria-label="Breadcrumb">
-          <Link to="/" className="hover:underline" style={{ color: "var(--regu-gray-500)" }}>Inicio</Link>
+          <Link to="/" className="hover:underline" style={{ color: "var(--regu-gray-500)" }}>{t("common.home")}</Link>
           <span aria-hidden>/</span>
-          <Link to="/eventos" className="hover:underline" style={{ color: "var(--regu-gray-500)" }}>Eventos</Link>
+          <Link to="/eventos" className="hover:underline" style={{ color: "var(--regu-gray-500)" }}>{t("pages.eventos.breadcrumb")}</Link>
           <span aria-hidden>/</span>
           <span style={{ color: "var(--regu-blue)", fontWeight: 600 }}>{event.title}</span>
         </nav>
@@ -154,7 +156,7 @@ export default function EventoDetalle() {
                   className="mb-3 text-sm font-bold uppercase tracking-wider"
                   style={{ color: "var(--regu-gray-500)" }}
                 >
-                  Descripción
+                  {t("pages.eventos.descriptionLabel")}
                 </h2>
                 <p className="text-base leading-relaxed" style={{ color: "var(--regu-gray-700)" }}>
                   {event.description}
@@ -172,7 +174,7 @@ export default function EventoDetalle() {
                   style={{ backgroundColor: "var(--regu-blue)" }}
                 >
                   <ExternalLink size={16} />
-                  Registrarse
+                  {t("pages.eventos.register")}
                 </a>
               ) : (
                 <div
@@ -183,9 +185,9 @@ export default function EventoDetalle() {
                     color: "var(--regu-gray-700)",
                   }}
                 >
-                  <strong>Enlace de registro: por definir.</strong>
+                  <strong>{t("pages.eventos.registrationPendingTitle")}</strong>
                   <p className="mt-1 text-xs" style={{ color: "var(--regu-gray-500)" }}>
-                    El enlace de inscripción se publicará cuando esté disponible.
+                    {t("pages.eventos.registrationPendingHint")}
                   </p>
                 </div>
               )}
@@ -203,14 +205,14 @@ export default function EventoDetalle() {
             style={{ borderColor: "rgba(22,61,89,0.12)", color: "var(--regu-gray-700)", textDecoration: "none" }}
           >
             <ArrowLeft size={16} />
-            Volver a Eventos
+            {t("pages.eventos.backToEvents")}
           </Link>
           <Link
             to="/noticias"
             className="inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold text-white transition hover:opacity-95"
             style={{ backgroundColor: "var(--regu-blue)", textDecoration: "none" }}
           >
-            Ver noticias
+            {t("pages.eventos.viewNews")}
             <ArrowRight size={16} />
           </Link>
         </div>

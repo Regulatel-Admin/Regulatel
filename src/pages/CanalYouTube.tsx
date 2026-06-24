@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { ArrowLeft, Youtube } from "lucide-react";
 import PageHero from "@/components/PageHero";
 
@@ -7,11 +8,13 @@ import PageHero from "@/components/PageHero";
  * El enlace del icono YouTube en la topbar apunta aquí en lugar de un canal externo.
  */
 export default function CanalYouTube() {
+  const { t } = useTranslation();
+
   return (
     <>
       <PageHero
-        title="CANAL DE YOUTUBE"
-        breadcrumb={[{ label: "Canal de YouTube" }]}
+        title={t("pages.canalYoutube.pageTitle")}
+        breadcrumb={[{ label: t("pages.canalYoutube.breadcrumb") }]}
       />
       <div
         className="w-full py-16 md:py-24"
@@ -41,16 +44,16 @@ export default function CanalYouTube() {
               className="text-xl font-bold text-[var(--regu-gray-900)] md:text-2xl"
               style={{ fontFamily: "var(--token-font-heading)" }}
             >
-              Canal en preparación
+              {t("pages.canalYoutube.channelInPreparation")}
             </h2>
             <p
               className="mt-4 text-base leading-relaxed text-[var(--regu-gray-700)] md:text-lg"
               style={{ fontFamily: "var(--token-font-body)" }}
             >
-              REGULATEL está en creación de su canal de YouTube. Pronto podrá encontrar aquí nuestros contenidos en video, eventos y recursos institucionales.
+              {t("pages.canalYoutube.description")}
             </p>
             <p className="mt-3 text-sm text-[var(--regu-gray-500)]">
-              Agradecemos su interés. Le invitamos a seguirnos en nuestras demás redes oficiales.
+              {t("pages.canalYoutube.thankYou")}
             </p>
           </div>
 
@@ -61,7 +64,7 @@ export default function CanalYouTube() {
               style={{ color: "var(--regu-blue)" }}
             >
               <ArrowLeft className="w-4 h-4 shrink-0" aria-hidden />
-              Volver a inicio
+              {t("common.backToHomeShort")}
             </Link>
           </nav>
         </div>

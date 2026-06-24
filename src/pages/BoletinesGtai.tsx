@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import { ArrowRight, Calendar, Download, Eye, FileText, Layers, Sparkles } from "lucide-react";
 import PageHero from "@/components/PageHero";
@@ -13,6 +14,7 @@ import {
 } from "@/data/boletinesGtai";
 
 export default function BoletinesGtai() {
+  const { t } = useTranslation();
   const { entries, loading } = useBoletinesGtai();
   const [yearFilter, setYearFilter] = useState<number | "all">("all");
 
@@ -33,13 +35,13 @@ export default function BoletinesGtai() {
   return (
     <>
       <PageHero
-        title="Boletines GTAI"
-        subtitle="RECURSOS — CONOCIMIENTO"
+        title={t("pages.boletinesGtai.title")}
+        subtitle={t("pages.boletinesGtai.subtitle")}
         breadcrumb={[
-          { label: "Gestión y recursos", path: "/gestion" },
-          { label: "Boletines GTAI" },
+          { label: t("pages.boletinesGtai.resourcesBreadcrumb"), path: "/gestion" },
+          { label: t("pages.boletinesGtai.breadcrumb") },
         ]}
-        description="Publicaciones periódicas — Grupo de Asuntos de Internet (GTAI), REGULATEL."
+        description={t("pages.boletinesGtai.pageDescription")}
       />
 
       <div
@@ -53,7 +55,7 @@ export default function BoletinesGtai() {
         <div className="mx-auto px-4 md:px-6 lg:px-8" style={{ maxWidth: "1180px" }}>
           {loading && (
             <p className="mb-8 text-sm font-medium" style={{ color: "var(--regu-gray-500)" }}>
-              Cargando boletines…
+              {t("pages.boletinesGtai.loading")}
             </p>
           )}
 
@@ -87,7 +89,7 @@ export default function BoletinesGtai() {
                       style={{ backgroundColor: "rgba(255,255,255,0.22)" }}
                     >
                       <Sparkles className="h-3 w-3" aria-hidden />
-                      Destacado
+                      {t("pages.boletinesGtai.featured")}
                     </span>
                     <p className="text-lg font-bold leading-tight text-white" style={{ fontFamily: "var(--token-font-heading)" }}>
                       {featured.title}
@@ -103,14 +105,14 @@ export default function BoletinesGtai() {
                       {featured.contentType}
                     </span>
                     <span className="text-xs font-semibold" style={{ color: "var(--regu-gray-500)" }}>
-                      Edición {featured.issueNumber} · {featured.year}
+                      {t("pages.boletinesGtai.edition", { number: featured.issueNumber, year: featured.year })}
                     </span>
                   </div>
                   <h2
                     className="mb-3 text-2xl font-bold md:text-[1.65rem]"
                     style={{ color: "var(--regu-navy)", fontFamily: "var(--token-font-heading)" }}
                   >
-                    Última publicación
+                    {t("pages.boletinesGtai.latestPublication")}
                   </h2>
                   <p className="mb-2 text-sm font-semibold" style={{ color: "var(--regu-gray-600)" }}>
                     {featured.groupName}
@@ -133,7 +135,7 @@ export default function BoletinesGtai() {
                       style={{ backgroundColor: "var(--regu-blue)" }}
                     >
                       <Eye className="h-4 w-4" />
-                      Ver boletín
+                      {t("pages.boletinesGtai.viewBulletin")}
                     </Link>
                     <a
                       href={featured.pdfFile}
@@ -142,7 +144,7 @@ export default function BoletinesGtai() {
                       style={{ borderColor: "var(--regu-blue)", color: "var(--regu-blue)" }}
                     >
                       <Download className="h-4 w-4" />
-                      Descargar PDF
+                      {t("common.downloadPdf")}
                     </a>
                   </div>
                 </div>
@@ -162,10 +164,10 @@ export default function BoletinesGtai() {
                   className="text-xl font-bold md:text-2xl"
                   style={{ color: "var(--regu-navy)", fontFamily: "var(--token-font-heading)" }}
                 >
-                  Archivo de boletines
+                  {t("pages.boletinesGtai.archiveTitle")}
                 </h2>
                 <p className="mt-1 text-sm" style={{ color: "var(--regu-gray-500)" }}>
-                  Listado completo, del más reciente al más antiguo
+                  {t("pages.boletinesGtai.archiveDesc")}
                 </p>
               </div>
             </div>
@@ -173,7 +175,7 @@ export default function BoletinesGtai() {
             {years.length > 1 && (
               <div className="flex items-center gap-2">
                 <label htmlFor="boletin-year" className="text-xs font-bold uppercase tracking-[0.1em]" style={{ color: "var(--regu-gray-500)" }}>
-                  Año
+                  {t("pages.boletinesGtai.year")}
                 </label>
                 <select
                   id="boletin-year"
@@ -185,7 +187,7 @@ export default function BoletinesGtai() {
                   className="rounded-lg border bg-white px-3 py-2 text-sm font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)]"
                   style={{ borderColor: "rgba(22,61,89,0.15)", color: "var(--regu-navy)" }}
                 >
-                  <option value="all">Todos</option>
+                  <option value="all">{t("pages.shared.all")}</option>
                   {years.map((y) => (
                     <option key={y} value={y}>
                       {y}
@@ -273,7 +275,7 @@ export default function BoletinesGtai() {
                         style={{ backgroundColor: "var(--regu-navy)" }}
                       >
                         <Eye className="h-3.5 w-3.5" />
-                        Ver boletín
+                        {t("pages.boletinesGtai.viewBulletin")}
                       </Link>
                       <a
                         href={b.pdfFile}
@@ -282,7 +284,7 @@ export default function BoletinesGtai() {
                         style={{ borderColor: "var(--regu-navy)", color: "var(--regu-navy)" }}
                       >
                         <Download className="h-3.5 w-3.5" />
-                        Descargar PDF
+                        {t("common.downloadPdf")}
                       </a>
                     </div>
                   </div>
@@ -293,7 +295,7 @@ export default function BoletinesGtai() {
 
           {!loading && listFiltered.length === 0 && (
             <p className="rounded-xl border bg-white p-10 text-center text-sm font-medium" style={{ borderColor: "rgba(22,61,89,0.10)", color: "var(--regu-gray-600)" }}>
-              No hay boletines publicados para este criterio.
+              {t("pages.boletinesGtai.noResults")}
             </p>
           )}
 
@@ -307,7 +309,7 @@ export default function BoletinesGtai() {
               style={{ color: "var(--regu-blue)" }}
             >
               <Layers className="h-4 w-4" />
-              Grupos de trabajo
+              {t("pages.boletinesGtai.workingGroups")}
               <ArrowRight className="h-3.5 w-3.5" />
             </Link>
           </nav>

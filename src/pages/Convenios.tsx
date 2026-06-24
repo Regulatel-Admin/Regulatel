@@ -1,18 +1,20 @@
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import PageHero from "@/components/PageHero";
 import ConveniosList from "@/components/convenios/ConveniosList";
 import { useConveniosPublic } from "@/contexts/SiteSettingsContext";
 
 export default function Convenios() {
+  const { t } = useTranslation();
   const convenios = useConveniosPublic();
   return (
     <>
       <PageHero
-        title="Convenios y Memorandums"
-        subtitle="COOPERACIÓN INTERNACIONAL"
-        breadcrumb={[{ label: "Convenios" }]}
-        description="REGULATEL mantiene acuerdos de cooperación con organizaciones internacionales y regionales para fortalecer la regulación de telecomunicaciones."
+        title={t("pages.conveniosPage.pageTitle")}
+        subtitle={t("pages.conveniosPage.subtitle")}
+        breadcrumb={[{ label: t("pages.conveniosPage.breadcrumb") }]}
+        description={t("pages.conveniosPage.pageDescription")}
       />
 
       <div
@@ -39,10 +41,10 @@ export default function Convenios() {
                 className="text-xl font-bold md:text-2xl"
                 style={{ color: "var(--regu-navy)", fontFamily: "var(--token-font-heading)" }}
               >
-                Acuerdos activos
+                {t("pages.conveniosPage.activeAgreements")}
               </h2>
               <p className="mt-1 text-sm" style={{ color: "var(--regu-gray-500)" }}>
-                {convenios.length} convenios de cooperación vigentes
+                {t("pages.conveniosPage.agreementsCount", { count: convenios.length })}
               </p>
             </div>
           </div>
@@ -67,22 +69,14 @@ export default function Convenios() {
                 style={{ backgroundColor: "var(--regu-blue)" }}
                 aria-hidden
               />
-              Objetivos de los convenios
+              {t("pages.conveniosPage.objectivesTitle")}
             </h2>
             <div
               className="space-y-3 text-base leading-relaxed"
               style={{ color: "var(--regu-gray-600)" }}
             >
-              <p>
-                Los convenios y alianzas de REGULATEL buscan fortalecer la cooperación regional e internacional,
-                facilitando el intercambio de información, experiencias y mejores prácticas en el sector
-                de las telecomunicaciones.
-              </p>
-              <p>
-                A través de estos acuerdos, REGULATEL promueve el desarrollo de políticas comunes,
-                la capacitación de profesionales del sector y la coordinación de esfuerzos para
-                enfrentar los desafíos regulatorios en América Latina y Europa.
-              </p>
+              <p>{t("pages.conveniosPage.objectivesP1")}</p>
+              <p>{t("pages.conveniosPage.objectivesP2")}</p>
             </div>
           </section>
 
@@ -102,14 +96,14 @@ export default function Convenios() {
               }}
             >
               <ArrowLeft className="h-4 w-4 shrink-0" aria-hidden />
-              Inicio
+              {t("common.home")}
             </Link>
             <Link
               to="/miembros"
               className="inline-flex items-center gap-1.5 text-sm font-semibold transition-all hover:gap-2.5"
               style={{ color: "var(--regu-gray-500)" }}
             >
-              Ver miembros <ArrowRight className="h-3.5 w-3.5" aria-hidden />
+              {t("pages.conveniosPage.viewMembers")} <ArrowRight className="h-3.5 w-3.5" aria-hidden />
             </Link>
           </nav>
         </div>

@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useLocation, Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { ArrowLeft, Globe, ExternalLink, User, ArrowRight, Building2 } from 'lucide-react';
 
 const fadeIn = {
@@ -209,6 +210,7 @@ const routeToKey: Record<string, string> = {
 };
 
 const EnteRegulador: React.FC = () => {
+  const { t } = useTranslation();
   const location = useLocation();
   const routePath = location.pathname;
   const key = routeToKey[routePath] || routePath.replace('/', '');
@@ -224,14 +226,14 @@ const EnteRegulador: React.FC = () => {
         style={{ backgroundColor: '#FAFBFC', borderTop: '1px solid rgba(22,61,89,0.07)', fontFamily: 'var(--token-font-body)' }}
       >
         <Building2 className="h-10 w-10 mb-4" style={{ color: 'var(--regu-gray-300)' }} />
-        <h1 className="text-xl font-bold mb-4" style={{ color: 'var(--regu-navy)' }}>Ente no encontrado</h1>
+        <h1 className="text-xl font-bold mb-4" style={{ color: 'var(--regu-navy)' }}>{t('pages.enteRegulador.notFound')}</h1>
         <Link
           to="/miembros"
           className="inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-bold text-white transition-opacity hover:opacity-85"
           style={{ backgroundColor: 'var(--regu-blue)' }}
         >
           <ArrowLeft className="h-4 w-4" />
-          Volver a Miembros
+          {t('pages.enteRegulador.backToMembers')}
         </Link>
       </div>
     );
@@ -254,7 +256,7 @@ const EnteRegulador: React.FC = () => {
           style={{ color: 'var(--regu-gray-500)' }}
         >
           <ArrowLeft className="h-4 w-4" />
-          Volver a Miembros
+          {t('pages.enteRegulador.backToMembers')}
         </Link>
 
         <motion.div initial="hidden" animate="visible" variants={fadeIn}>
@@ -295,7 +297,7 @@ const EnteRegulador: React.FC = () => {
                       className="inline-block rounded-sm px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.10em]"
                       style={{ backgroundColor: 'rgba(22,61,89,0.06)', color: 'var(--regu-gray-500)' }}
                     >
-                      Miembro REGULATEL
+                      {t('pages.enteRegulador.memberBadge')}
                     </span>
                   </div>
 
@@ -321,7 +323,7 @@ const EnteRegulador: React.FC = () => {
                         className="mb-2 text-[10px] font-bold uppercase tracking-[0.12em]"
                         style={{ color: 'var(--regu-gray-400)' }}
                       >
-                        Autoridad{ente.authorities.length > 1 ? 'es' : ''}
+                        {t(ente.authorities.length > 1 ? 'pages.enteRegulador.authorities' : 'pages.enteRegulador.authority')}
                       </p>
                       <div className="space-y-2">
                         {ente.authorities.map((authority, index) => (
@@ -351,7 +353,7 @@ const EnteRegulador: React.FC = () => {
                       style={{ backgroundColor: 'var(--regu-blue)' }}
                     >
                       <ExternalLink className="h-4 w-4" />
-                      Visitar sitio web oficial
+                      {t('pages.enteRegulador.officialWebsite')}
                     </a>
                   )}
                 </div>
@@ -375,13 +377,13 @@ const EnteRegulador: React.FC = () => {
                       className="mb-3 text-lg font-bold"
                       style={{ color: 'var(--regu-navy)', fontFamily: 'var(--token-font-heading)' }}
                     >
-                      Sobre {ente.name}
+                      {t('pages.enteRegulador.aboutTitle', { name: ente.name })}
                     </h2>
                     <p className="text-[0.9375rem] leading-relaxed" style={{ color: 'var(--regu-gray-700)' }}>
                       {ente.description}
                     </p>
                     <p className="mt-3 text-[0.9375rem] leading-relaxed" style={{ color: 'var(--regu-gray-600)' }}>
-                      Como parte de REGULATEL, {ente.name} participa activamente en el intercambio de experiencias y buenas prácticas en el sector de las telecomunicaciones, contribuyendo al desarrollo y fortalecimiento del ecosistema digital en la región.
+                      {t('pages.enteRegulador.aboutParticipation', { name: ente.name })}
                     </p>
                   </div>
                 </div>
@@ -402,7 +404,7 @@ const EnteRegulador: React.FC = () => {
                   className="text-lg font-bold"
                   style={{ color: 'var(--regu-navy)', fontFamily: 'var(--token-font-heading)' }}
                 >
-                  Otros miembros de REGULATEL
+                  {t('pages.enteRegulador.otherMembers')}
                 </h2>
               </div>
               <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-6">
@@ -440,7 +442,7 @@ const EnteRegulador: React.FC = () => {
                   className="inline-flex items-center gap-1.5 text-sm font-bold transition-colors hover:opacity-80"
                   style={{ color: 'var(--regu-blue)' }}
                 >
-                  Ver todos los miembros
+                  {t('pages.enteRegulador.viewAllMembers')}
                   <ArrowRight className="h-3.5 w-3.5" />
                 </Link>
               </div>

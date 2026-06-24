@@ -4,6 +4,7 @@
  */
 
 import { authorities, type Authority } from "@/data/authorities";
+import type { TFunction } from "i18next";
 
 export type SiteSearchType = "autoridad" | "noticia" | "evento" | "documento";
 
@@ -256,7 +257,10 @@ const typeLabels: Record<SiteSearchType, string> = {
   documento: "Documento",
 };
 
-export function getTypeLabel(type: SiteSearchType): string {
+export function getTypeLabel(type: SiteSearchType, t?: TFunction): string {
+  if (t) {
+    return t(`search.types.${type}`);
+  }
   return typeLabels[type];
 }
 

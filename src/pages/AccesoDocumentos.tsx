@@ -1,10 +1,12 @@
 import { useState, FormEvent, useEffect } from "react";
 import { Link, useSearchParams, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { Lock, ArrowLeft, Mail, KeyRound } from "lucide-react";
 import { getRestrictedDocument, markRestrictedUnlocked } from "@/config/restrictedDocuments";
 import { api } from "@/lib/api";
 
 export default function AccesoDocumentos() {
+  const { t } = useTranslation();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const docId = searchParams.get("doc");
@@ -52,11 +54,11 @@ export default function AccesoDocumentos() {
     e.preventDefault();
     setError("");
     if (!email.trim()) {
-      setError("Ingrese su email.");
+      setError(t("pages.accesoDocumentos.enterEmail"));
       return;
     }
     if (!password) {
-      setError("Ingrese la contraseña.");
+      setError(t("pages.accesoDocumentos.enterPassword"));
       return;
     }
     setSubmitting(true);
@@ -70,7 +72,7 @@ export default function AccesoDocumentos() {
         navigate("/gestion?tipo=planes-actas");
       }
     } else {
-      setError(res.ok ? "Error inesperado." : (res.error ?? "Credenciales incorrectas. Intente de nuevo."));
+      setError(res.ok ? t("pages.accesoDocumentos.unexpectedError") : (res.error ?? t("pages.accesoDocumentos.invalidCredentials")));
     }
   };
 
@@ -81,7 +83,7 @@ export default function AccesoDocumentos() {
         style={{ fontFamily: "var(--token-font-body)", backgroundColor: "#FAFBFC" }}
       >
         <p className="text-sm font-medium" style={{ color: "var(--regu-gray-500)" }}>
-          Verificando sesión…
+          {t("pages.accesoDocumentos.checkingSession")}
         </p>
       </div>
     );
@@ -110,10 +112,10 @@ export default function AccesoDocumentos() {
             className="text-xl font-bold md:text-2xl"
             style={{ color: "var(--regu-navy)", fontFamily: "var(--token-font-heading)" }}
           >
-            Acceso a documentos restringidos
+            {t("pages.accesoDocumentos.restrictedTitle")}
           </h1>
           <p className="mt-1 text-sm" style={{ color: "var(--regu-gray-500)" }}>
-            Planes y actas de asambleas · Solo usuarios autorizados
+            {t("pages.accesoDocumentos.subtitle")}
           </p>
           {document && (
             <p className="mt-2 text-sm font-medium" style={{ color: "var(--regu-blue)" }}>
@@ -128,7 +130,7 @@ export default function AccesoDocumentos() {
         >
           <div className="p-6 md:p-8">
             <p className="mb-6 text-sm leading-relaxed" style={{ color: "var(--regu-gray-600)" }}>
-              Este contenido está disponible únicamente para usuarios autorizados. Ingrese sus credenciales para continuar.
+              {t("pages.accesoDocumentos.intro")}
             </p>
 
             <form onSubmit={handleSubmit} className="space-y-5">
@@ -138,7 +140,7 @@ export default function AccesoDocumentos() {
                   className="mb-1.5 block text-[10px] font-bold uppercase tracking-wider"
                   style={{ color: "var(--regu-gray-500)" }}
                 >
-                  Correo electrónico <span style={{ color: "var(--regu-blue)" }}>*</span>
+                  {t("pages.accesoDocumentos.emailLabel")} <span style={{ color: "var(--regu-blue)" }}>*</span>
                 </label>
                 <div className="relative">
                   <Mail
@@ -152,7 +154,7 @@ export default function AccesoDocumentos() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     autoComplete="email"
-                    placeholder="su@correo.com"
+                    placeholder={t("pages.accesoDocumentos.emailPlaceholder")}
                     className="w-full rounded-xl border py-3 pl-10 pr-4 text-base transition focus:outline-none focus:ring-2 focus:ring-[rgba(68,137,198,0.30)] disabled:opacity-70"
                     style={{
                       borderColor: "rgba(22,61,89,0.12)",
@@ -169,7 +171,7 @@ export default function AccesoDocumentos() {
                   className="mb-1.5 block text-[10px] font-bold uppercase tracking-wider"
                   style={{ color: "var(--regu-gray-500)" }}
                 >
-                  Contraseña <span style={{ color: "var(--regu-blue)" }}>*</span>
+                  {t("pages.accesoDocumentos.passwordLabel")} <span style={{ color: "var(--regu-blue)" }}>*</span>
                 </label>
                 <div className="relative">
                   <KeyRound
@@ -183,7 +185,7 @@ export default function AccesoDocumentos() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     autoComplete="current-password"
-                    placeholder="Contraseña"
+                    placeholder={t("pages.accesoDocumentos.passwordLabel")}
                     className="w-full rounded-xl border py-3 pl-10 pr-4 text-base transition focus:outline-none focus:ring-2 focus:ring-[rgba(68,137,198,0.30)] disabled:opacity-70"
                     style={{
                       borderColor: "rgba(22,61,89,0.12)",
@@ -211,7 +213,7 @@ export default function AccesoDocumentos() {
                   className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl px-5 py-3.5 text-sm font-bold text-white transition hover:opacity-95 focus:outline-none focus:ring-2 focus:ring-[rgba(68,137,198,0.40)] focus:ring-offset-2 disabled:opacity-70"
                   style={{ backgroundColor: "var(--regu-blue)" }}
                 >
-                  {submitting ? "Verificando…" : "Ingresar"}
+                  {submitting ? t("pages.accesoDocumentos.verifying") : t("pages.accesoDocumentos.enter")}
                 </button>
                 <Link
                   to="/gestion?tipo=planes-actas"
@@ -222,7 +224,7 @@ export default function AccesoDocumentos() {
                   }}
                 >
                   <ArrowLeft className="h-4 w-4" aria-hidden />
-                  Volver a Gestión
+                  {t("pages.accesoDocumentos.backToGestion")}
                 </Link>
               </div>
             </form>
@@ -231,7 +233,7 @@ export default function AccesoDocumentos() {
 
         <p className="mt-6 text-center text-xs" style={{ color: "var(--regu-gray-400)" }}>
           <Link to="/contacto" className="underline hover:no-underline" style={{ color: "var(--regu-blue)" }}>
-            ¿Problemas de acceso? Contacte al administrador
+            {t("pages.accesoDocumentos.contactAdmin")}
           </Link>
         </p>
       </div>

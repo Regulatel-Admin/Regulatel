@@ -1,5 +1,6 @@
 import React, { type FormEvent, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import {
   Mail,
@@ -17,32 +18,33 @@ const fadeIn = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.4 } },
 };
 
-const INFO_ITEMS = [
-  {
-    icon: <Building2 className="h-5 w-5" />,
-    label: 'Secretaría Ejecutiva',
-    value: 'Amparo Arango Echeverri',
-  },
-  {
-    icon: <Mail className="h-5 w-5" />,
-    label: 'Correo electrónico',
-    value: 'aarango@indotel.gob.do',
-    href: 'mailto:aarango@indotel.gob.do',
-  },
-  {
-    icon: <Clock className="h-5 w-5" />,
-    label: 'Horario de atención',
-    value: 'Lunes a Viernes · 8:00 AM – 5:00 PM',
-  },
-  {
-    icon: <MapPin className="h-5 w-5" />,
-    label: 'Sede',
-    value: 'Santo Domingo, República Dominicana',
-  },
-];
-
 const Contacto: React.FC = () => {
+  const { t } = useTranslation();
   const [submitted, setSubmitted] = useState(false);
+
+  const infoItems = [
+    {
+      icon: <Building2 className="h-5 w-5" />,
+      label: t('pages.contacto.fields.executiveSecretary'),
+      value: 'Amparo Arango Echeverri',
+    },
+    {
+      icon: <Mail className="h-5 w-5" />,
+      label: t('pages.contacto.fields.email'),
+      value: 'aarango@indotel.gob.do',
+      href: 'mailto:aarango@indotel.gob.do',
+    },
+    {
+      icon: <Clock className="h-5 w-5" />,
+      label: t('pages.contacto.fields.hours'),
+      value: t('pages.contacto.values.hours'),
+    },
+    {
+      icon: <MapPin className="h-5 w-5" />,
+      label: t('pages.contacto.fields.headquarters'),
+      value: t('pages.contacto.values.headquarters'),
+    },
+  ];
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -52,9 +54,9 @@ const Contacto: React.FC = () => {
   return (
     <>
       <PageHero
-        title="Contacto"
-        subtitle="Ponerse en contacto con el equipo de REGULATEL"
-        breadcrumb={[{ label: 'CONTACTO' }]}
+        title={t('pages.contacto.title')}
+        subtitle={t('pages.contacto.subtitle')}
+        breadcrumb={[{ label: t('pages.contacto.breadcrumb') }]}
       />
 
       <div
@@ -71,7 +73,6 @@ const Contacto: React.FC = () => {
         >
           <div className="grid gap-8 md:grid-cols-3">
 
-            {/* ── Left: info card ── */}
             <motion.aside
               initial="hidden"
               whileInView="visible"
@@ -88,7 +89,6 @@ const Contacto: React.FC = () => {
                 }}
               >
                 <div className="p-6 md:p-7">
-                  {/* Header */}
                   <div className="mb-6 flex items-start gap-3">
                     <div
                       className="mt-0.5 h-6 w-[3px] flex-shrink-0 rounded-full"
@@ -100,23 +100,22 @@ const Contacto: React.FC = () => {
                         className="text-[10px] font-bold uppercase tracking-[0.12em] mb-0.5"
                         style={{ color: 'var(--regu-gray-400)' }}
                       >
-                        Información
+                        {t('pages.contacto.infoLabel')}
                       </p>
                       <h2
                         className="text-lg font-bold"
                         style={{ color: 'var(--regu-navy)', fontFamily: 'var(--token-font-heading)' }}
                       >
-                        Oficina de contacto
+                        {t('pages.contacto.officeTitle')}
                       </h2>
                     </div>
                   </div>
 
-                  {/* Info list */}
                   <ul className="space-y-5">
-                    {INFO_ITEMS.map((item, i) => (
+                    {infoItems.map((item, i) => (
                       <li
                         key={i}
-                        className={`flex items-start gap-3 ${i < INFO_ITEMS.length - 1 ? 'pb-5 border-b' : ''}`}
+                        className={`flex items-start gap-3 ${i < infoItems.length - 1 ? 'pb-5 border-b' : ''}`}
                         style={{ borderColor: 'rgba(22,61,89,0.07)' }}
                       >
                         <div
@@ -154,7 +153,6 @@ const Contacto: React.FC = () => {
               </div>
             </motion.aside>
 
-            {/* ── Right: form ── */}
             <motion.div
               initial="hidden"
               whileInView="visible"
@@ -171,7 +169,6 @@ const Contacto: React.FC = () => {
                 }}
               >
                 <div className="p-6 md:p-8">
-                  {/* Form header */}
                   <div className="mb-6 flex items-start gap-3">
                     <div
                       className="mt-0.5 h-6 w-[3px] flex-shrink-0 rounded-full"
@@ -183,19 +180,18 @@ const Contacto: React.FC = () => {
                         className="text-[10px] font-bold uppercase tracking-[0.12em] mb-0.5"
                         style={{ color: 'var(--regu-gray-400)' }}
                       >
-                        Escríbenos
+                        {t('pages.contacto.writeUs')}
                       </p>
                       <h2
                         className="text-lg font-bold"
                         style={{ color: 'var(--regu-navy)', fontFamily: 'var(--token-font-heading)' }}
                       >
-                        Formulario de contacto
+                        {t('pages.contacto.formTitle')}
                       </h2>
                     </div>
                   </div>
 
                   {submitted ? (
-                    /* Success state */
                     <div className="py-10 text-center">
                       <div
                         className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-2xl"
@@ -207,10 +203,10 @@ const Contacto: React.FC = () => {
                         className="text-xl font-bold mb-2"
                         style={{ color: 'var(--regu-navy)', fontFamily: 'var(--token-font-heading)' }}
                       >
-                        Mensaje enviado
+                        {t('pages.contacto.successTitle')}
                       </h3>
                       <p className="text-sm mb-6" style={{ color: 'var(--regu-gray-500)' }}>
-                        Gracias por contactarnos. Responderemos a la brevedad posible.
+                        {t('pages.contacto.successMessage')}
                       </p>
                       <button
                         type="button"
@@ -218,44 +214,42 @@ const Contacto: React.FC = () => {
                         className="inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-bold text-white transition-opacity hover:opacity-85"
                         style={{ backgroundColor: 'var(--regu-blue)' }}
                       >
-                        Enviar otro mensaje
+                        {t('pages.contacto.sendAnother')}
                       </button>
                     </div>
                   ) : (
                     <form className="space-y-5" onSubmit={handleSubmit} noValidate>
                       <div className="grid gap-5 sm:grid-cols-2">
-                        {/* Nombre */}
                         <div className="flex flex-col gap-1.5">
                           <label
                             htmlFor="nombre"
                             className="text-xs font-bold uppercase tracking-[0.08em]"
                             style={{ color: 'var(--regu-gray-600)' }}
                           >
-                            Nombre completo <span style={{ color: 'var(--regu-blue)' }}>*</span>
+                            {t('pages.contacto.fields.fullName')} <span style={{ color: 'var(--regu-blue)' }}>*</span>
                           </label>
                           <input
                             id="nombre"
                             type="text"
-                            placeholder="Su nombre completo"
+                            placeholder={t('pages.contacto.placeholders.fullName')}
                             required
                             className="h-11 rounded-xl border bg-[#F4F6F8] px-4 text-sm outline-none transition-all placeholder:text-[var(--regu-gray-400)] focus:bg-white focus:ring-2 focus:ring-[rgba(68,137,198,0.30)]"
                             style={{ borderColor: 'rgba(22,61,89,0.12)', color: 'var(--regu-navy)' }}
                           />
                         </div>
 
-                        {/* Email */}
                         <div className="flex flex-col gap-1.5">
                           <label
                             htmlFor="email"
                             className="text-xs font-bold uppercase tracking-[0.08em]"
                             style={{ color: 'var(--regu-gray-600)' }}
                           >
-                            Correo electrónico <span style={{ color: 'var(--regu-blue)' }}>*</span>
+                            {t('pages.contacto.fields.email')} <span style={{ color: 'var(--regu-blue)' }}>*</span>
                           </label>
                           <input
                             id="email"
                             type="email"
-                            placeholder="ejemplo@correo.com"
+                            placeholder={t('pages.contacto.placeholders.email')}
                             required
                             className="h-11 rounded-xl border bg-[#F4F6F8] px-4 text-sm outline-none transition-all placeholder:text-[var(--regu-gray-400)] focus:bg-white focus:ring-2 focus:ring-[rgba(68,137,198,0.30)]"
                             style={{ borderColor: 'rgba(22,61,89,0.12)', color: 'var(--regu-navy)' }}
@@ -263,66 +257,65 @@ const Contacto: React.FC = () => {
                         </div>
                       </div>
 
-                      {/* Organización */}
                       <div className="flex flex-col gap-1.5">
                         <label
                           htmlFor="organizacion"
                           className="text-xs font-bold uppercase tracking-[0.08em]"
                           style={{ color: 'var(--regu-gray-600)' }}
                         >
-                          Organización <span className="font-normal normal-case" style={{ color: 'var(--regu-gray-400)' }}>(opcional)</span>
+                          {t('pages.contacto.fields.organization')}{' '}
+                          <span className="font-normal normal-case" style={{ color: 'var(--regu-gray-400)' }}>
+                            {t('pages.contacto.fields.organizationOptional')}
+                          </span>
                         </label>
                         <input
                           id="organizacion"
                           type="text"
-                          placeholder="Su institución u organización"
+                          placeholder={t('pages.contacto.placeholders.organization')}
                           className="h-11 rounded-xl border bg-[#F4F6F8] px-4 text-sm outline-none transition-all placeholder:text-[var(--regu-gray-400)] focus:bg-white focus:ring-2 focus:ring-[rgba(68,137,198,0.30)]"
                           style={{ borderColor: 'rgba(22,61,89,0.12)', color: 'var(--regu-navy)' }}
                         />
                       </div>
 
-                      {/* Asunto */}
                       <div className="flex flex-col gap-1.5">
                         <label
                           htmlFor="asunto"
                           className="text-xs font-bold uppercase tracking-[0.08em]"
                           style={{ color: 'var(--regu-gray-600)' }}
                         >
-                          Asunto <span style={{ color: 'var(--regu-blue)' }}>*</span>
+                          {t('pages.contacto.fields.subject')} <span style={{ color: 'var(--regu-blue)' }}>*</span>
                         </label>
                         <input
                           id="asunto"
                           type="text"
-                          placeholder="Describa brevemente el asunto"
+                          placeholder={t('pages.contacto.placeholders.subject')}
                           required
                           className="h-11 rounded-xl border bg-[#F4F6F8] px-4 text-sm outline-none transition-all placeholder:text-[var(--regu-gray-400)] focus:bg-white focus:ring-2 focus:ring-[rgba(68,137,198,0.30)]"
                           style={{ borderColor: 'rgba(22,61,89,0.12)', color: 'var(--regu-navy)' }}
                         />
                       </div>
 
-                      {/* Mensaje */}
                       <div className="flex flex-col gap-1.5">
                         <label
                           htmlFor="mensaje"
                           className="text-xs font-bold uppercase tracking-[0.08em]"
                           style={{ color: 'var(--regu-gray-600)' }}
                         >
-                          Mensaje <span style={{ color: 'var(--regu-blue)' }}>*</span>
+                          {t('pages.contacto.fields.message')} <span style={{ color: 'var(--regu-blue)' }}>*</span>
                         </label>
                         <textarea
                           id="mensaje"
-                          placeholder="Escriba su mensaje aquí..."
+                          placeholder={t('pages.contacto.placeholders.message')}
                           required
                           rows={6}
                           className="rounded-xl border bg-[#F4F6F8] px-4 py-3 text-sm outline-none transition-all resize-none placeholder:text-[var(--regu-gray-400)] focus:bg-white focus:ring-2 focus:ring-[rgba(68,137,198,0.30)]"
                           style={{ borderColor: 'rgba(22,61,89,0.12)', color: 'var(--regu-navy)' }}
                         />
                         <p className="text-[11px]" style={{ color: 'var(--regu-gray-400)' }}>
-                          * Campos obligatorios
+                          {t('common.requiredFields')}
                         </p>
                       </div>
 
-                      {/* Submit */}
                       <div className="pt-2">
                         <button
                           type="submit"
@@ -330,7 +323,7 @@ const Contacto: React.FC = () => {
                           style={{ backgroundColor: 'var(--regu-blue)' }}
                         >
                           <Send className="h-4 w-4" />
-                          Enviar mensaje
+                          {t('pages.contacto.submit')}
                         </button>
                       </div>
                     </form>
@@ -340,7 +333,6 @@ const Contacto: React.FC = () => {
             </motion.div>
           </div>
 
-          {/* ── Commitment note ── */}
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -358,18 +350,15 @@ const Contacto: React.FC = () => {
             >
               <p className="text-sm leading-relaxed" style={{ color: 'var(--regu-gray-700)' }}>
                 <strong className="font-bold" style={{ color: 'var(--regu-navy)' }}>REGULATEL</strong>{' '}
-                se compromete a responder todas las consultas en el menor tiempo posible. Los tiempos de respuesta
-                pueden variar según la complejidad de la consulta. Para consultas urgentes, favor contactar
-                directamente a través del correo electrónico indicado.
+                {t('pages.contacto.commitment')}
               </p>
             </div>
           </motion.div>
 
-          {/* ── Footer nav ── */}
           <nav
             className="mt-14 pt-8 border-t flex items-center justify-between flex-wrap gap-4"
             style={{ borderColor: 'rgba(22,61,89,0.08)' }}
-            aria-label="Navegación final"
+            aria-label={t('common.finalNavigation')}
           >
             <Link
               to="/"
@@ -377,14 +366,14 @@ const Contacto: React.FC = () => {
               style={{ color: 'var(--regu-gray-500)' }}
             >
               <ArrowLeft className="h-4 w-4" />
-              Volver a inicio
+              {t('common.backToHomeShort')}
             </Link>
             <Link
               to="/miembros"
               className="inline-flex items-center gap-1.5 text-sm font-bold transition-colors hover:opacity-75"
               style={{ color: 'var(--regu-blue)' }}
             >
-              Ver miembros de REGULATEL →
+              {t('pages.contacto.viewMembers')}
             </Link>
           </nav>
         </div>

@@ -1,5 +1,6 @@
 import { useState, useMemo, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { ChevronDown, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import ImageCarousel from "@/components/ImageCarousel";
 import { noticiasData } from "./noticiasData";
@@ -23,13 +24,23 @@ const COL_GAP = "48px";
 
 type SidebarFilter = "Todas" | "Noticias" | "Reuniones" | "Mesas" | "Eventos";
 
-const SIDEBAR_LINKS: { id: SidebarFilter; label: string }[] = [
-  { id: "Todas", label: "Últimas noticias" },
-  { id: "Noticias", label: "Noticias" },
-  { id: "Reuniones", label: "Reuniones" },
-  { id: "Mesas", label: "Mesas" },
-  { id: "Eventos", label: "Eventos" },
-];
+const SIDEBAR_FILTER_KEYS: Record<SidebarFilter, string> = {
+  Todas: "pages.noticias.sidebarAll",
+  Noticias: "pages.noticias.sidebarNews",
+  Reuniones: "pages.noticias.sidebarMeetings",
+  Mesas: "pages.noticias.sidebarTables",
+  Eventos: "pages.noticias.sidebarEvents",
+};
+
+const SIDEBAR_FILTERS: SidebarFilter[] = ["Todas", "Noticias", "Reuniones", "Mesas", "Eventos"];
+
+const PAGE_TITLE_KEYS: Record<SidebarFilter, string> = {
+  Todas: "pages.noticias.title",
+  Noticias: "pages.noticias.sidebarNews",
+  Reuniones: "pages.noticias.sidebarMeetings",
+  Mesas: "pages.noticias.sidebarTables",
+  Eventos: "pages.noticias.sidebarEvents",
+};
 
 const ITEMS_PER_PAGE = 8;
 
@@ -50,6 +61,7 @@ function CategoryBadge({ label }: { label: string }) {
 }
 
 function Noticias() {
+  const { t } = useTranslation();
   const { adminNews, contentSource } = useAdminData();
   const [sidebarFilter, setSidebarFilter] = useState<SidebarFilter>("Todas");
   const [yearFilter, setYearFilter] = useState<string>("all");
@@ -139,7 +151,7 @@ function Noticias() {
                 borderColor: "rgba(22,61,89,0.10)",
                 boxShadow: "0 2px 6px rgba(22,61,89,0.04)",
               }}
-              aria-label="Filtrar noticias"
+              aria-label={t("pages.shared.filterNews")}
             >
               {/* Header */}
               <div
@@ -150,11 +162,11 @@ function Noticias() {
                   className="text-[10px] font-bold uppercase tracking-[0.12em]"
                   style={{ color: "var(--regu-gray-500)" }}
                 >
-                  Categorías
+                  {t("pages.shared.categories")}
                 </p>
               </div>
               <ul className="list-none p-0 m-0 py-2">
-                {SIDEBAR_LINKS.map(({ id, label }) => {
+                {SIDEBAR_FILTERS.map((id) => {
                   const isActive = sidebarFilter === id;
                   return (
                     <li key={id}>
@@ -169,7 +181,7 @@ function Noticias() {
                           backgroundColor: isActive ? "rgba(68,137,198,0.05)" : "transparent",
                         }}
                       >
-                        {label}
+                        {t(SIDEBAR_FILTER_KEYS[id])}
                       </button>
                     </li>
                   );
@@ -189,7 +201,7 @@ function Noticias() {
                 style={{ borderColor: "rgba(22,61,89,0.10)", color: "var(--regu-navy)" }}
                 aria-expanded={mobileFilterOpen}
               >
-                {SIDEBAR_LINKS.find((l) => l.id === sidebarFilter)?.label ?? "Todas"}
+                {t(SIDEBAR_FILTER_KEYS[sidebarFilter])}
                 <ChevronDown className={`h-4 w-4 transition-transform ${mobileFilterOpen ? "rotate-180" : ""}`} />
               </button>
               {mobileFilterOpen && (
@@ -197,7 +209,7 @@ function Noticias() {
                   className="mt-1 rounded-xl border overflow-hidden list-none p-0 m-0 bg-white"
                   style={{ borderColor: "rgba(22,61,89,0.10)" }}
                 >
-                  {SIDEBAR_LINKS.map(({ id, label }) => (
+                  {SIDEBAR_FILTERS.map((id) => (
                     <li key={id}>
                       <button
                         type="button"
@@ -209,7 +221,7 @@ function Noticias() {
                           fontWeight: sidebarFilter === id ? 700 : 500,
                         }}
                       >
-                        {label}
+                        {t(SIDEBAR_FILTER_KEYS[id])}
                       </button>
                     </li>
                   ))}
@@ -229,17 +241,17 @@ function Noticias() {
                   className="text-2xl font-bold leading-tight md:text-[1.875rem]"
                   style={{ color: "var(--regu-navy)", fontFamily: "var(--token-font-heading)" }}
                 >
-                  {sidebarFilter === "Todas" ? "Noticias" : sidebarFilter}
+                  {t(PAGE_TITLE_KEYS[sidebarFilter])}
                 </h1>
                 <p className="mt-1 text-sm" style={{ color: "var(--regu-gray-500)" }}>
-                  {filtered.length} {filtered.length === 1 ? "publicación" : "publicaciones"}
+                  {t("pages.noticias.publicationsCount", { count: filtered.length })}
                 </p>
               </div>
             </div>
 
             {filtered.length === 0 ? (
               <p className="text-sm py-10" style={{ color: "var(--regu-gray-500)" }}>
-                No hay noticias en esta categoría.
+                {t("pages.noticias.noNewsCategory")}
               </p>
             ) : (
               <>
@@ -254,17 +266,17 @@ function Noticias() {
                 {yearOptions.length > 2 && (
                   <div className="flex items-center justify-between mb-6 pb-4 border-b" style={{ borderColor: "rgba(22,61,89,0.08)" }}>
                     <span className="text-[10px] font-bold uppercase tracking-[0.12em]" style={{ color: "var(--regu-gray-500)" }}>
-                      {rest.length} artículo{rest.length !== 1 ? "s" : ""} más
+                      {t("pages.noticias.moreArticles", { count: rest.length })}
                     </span>
                     <label className="flex items-center gap-2 text-sm" style={{ color: "var(--regu-gray-600)" }}>
-                      <span className="font-medium">Año:</span>
+                      <span className="font-medium">{t("pages.noticias.yearLabel")}</span>
                       <select
                         value={yearFilter}
                         onChange={(e) => setYearFilter(e.target.value)}
                         className="rounded-lg border px-3 h-9 text-sm font-semibold bg-white cursor-pointer focus:outline-none focus:ring-2 focus:ring-[var(--regu-blue)] focus:ring-offset-1"
                         style={{ borderColor: "rgba(22,61,89,0.12)", color: "var(--regu-navy)" }}
                       >
-                        <option value="all">Todos los años</option>
+                        <option value="all">{t("pages.noticias.allYears")}</option>
                         {yearOptions.filter((y) => y !== "all").map((y) => (
                           <option key={y} value={y}>{y}</option>
                         ))}
@@ -290,14 +302,14 @@ function Noticias() {
 
             {/* Pagination */}
             {totalPages > 1 && (
-              <nav className="flex flex-wrap items-center justify-center gap-1.5 mt-10" aria-label="Paginación">
+              <nav className="flex flex-wrap items-center justify-center gap-1.5 mt-10" aria-label={t("search.pagination")}>
                 <button
                   type="button"
                   onClick={() => setPage((p) => Math.max(1, p - 1))}
                   disabled={currentPage === 1}
                   className="flex h-9 w-9 items-center justify-center rounded-lg border transition-colors disabled:opacity-40 disabled:cursor-not-allowed hover:bg-[rgba(68,137,198,0.07)]"
                   style={{ borderColor: "rgba(22,61,89,0.12)", color: "var(--regu-gray-600)" }}
-                  aria-label="Anterior"
+                  aria-label={t("common.previous")}
                 >
                   <ChevronLeft className="h-4 w-4" />
                 </button>
@@ -323,7 +335,7 @@ function Noticias() {
                   disabled={currentPage === totalPages}
                   className="flex h-9 w-9 items-center justify-center rounded-lg border transition-colors disabled:opacity-40 disabled:cursor-not-allowed hover:bg-[rgba(68,137,198,0.07)]"
                   style={{ borderColor: "rgba(22,61,89,0.12)", color: "var(--regu-gray-600)" }}
-                  aria-label="Siguiente"
+                  aria-label={t("common.next")}
                 >
                   <ChevronRight className="h-4 w-4" />
                 </button>
@@ -342,6 +354,7 @@ interface NewsItemRowProps {
 }
 
 function NewsItemRow({ item, isFeatured }: NewsItemRowProps) {
+  const { t } = useTranslation();
   const href = `/noticias/${item.slug}`;
 
   return (
@@ -435,7 +448,7 @@ function NewsItemRow({ item, isFeatured }: NewsItemRowProps) {
               className="mt-3 inline-flex items-center gap-1 text-xs font-bold uppercase tracking-[0.08em] transition-all group-hover:gap-2"
               style={{ color: "var(--regu-blue)" }}
             >
-              Leer más
+              {t("pages.noticias.readMore")}
               <ArrowRight className="h-3.5 w-3.5" aria-hidden />
             </span>
           </div>

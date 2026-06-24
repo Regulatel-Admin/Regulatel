@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import type { Event } from "@/types/event";
 import EventCard from "./EventCard";
 import HomeEventCard from "./HomeEventCard";
@@ -29,10 +30,12 @@ function sortEvents(events: Event[]): Event[] {
  */
 export default function EventsSection({
   events,
-  title = "Todos los eventos",
+  title,
   variant = "page",
   maxEvents,
 }: EventsSectionProps) {
+  const { t } = useTranslation();
+  const resolvedTitle = title ?? t("homeSections.upcomingEvents");
   const sorted = useMemo(() => sortEvents(events), [events]);
   const displayList =
     variant === "home" && typeof maxEvents === "number"
@@ -66,13 +69,13 @@ export default function EventsSection({
                     fontFamily: "var(--token-font-heading)",
                   }}
                 >
-                  Próximos eventos 2026
+                  {t("homeSections.upcomingEventsTitle")}
                 </h2>
                 <p
                   className="mt-1.5 text-sm md:text-base"
                   style={{ color: "var(--regu-gray-500)" }}
                 >
-                  Agenda institucional y encuentros regionales de REGULATEL.
+                  {t("homeSections.upcomingEventsSubtitle")}
                 </p>
               </div>
             </header>
@@ -90,7 +93,7 @@ export default function EventsSection({
                   color: "var(--regu-blue)",
                 }}
               >
-                Ver todos los eventos
+                {t("homeSections.viewAllEvents")}
               </Link>
             </div>
           </>
@@ -104,14 +107,14 @@ export default function EventsSection({
                   fontSize: "var(--token-heading-h2-size)",
                 }}
               >
-                {title}
+                {resolvedTitle}
               </h2>
               <Link
                 to="/eventos"
                 className="text-sm font-bold transition-colors hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--token-accent)] focus-visible:ring-offset-2"
                 style={{ color: "var(--token-accent)" }}
               >
-                Ver todos
+                {t("homeSections.seeAll")}
               </Link>
             </div>
             <div
