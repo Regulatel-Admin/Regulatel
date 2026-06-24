@@ -10,6 +10,7 @@ import {
   BOLETINES_GTAI_LIST_PATH,
   BOLETINES_GTAI_SETTINGS_KEY,
   defaultBoletinesGtai,
+  mergeBoletinesGtaiWithDefaults,
   parseBoletinesGtaiFromSettingValue,
   type BoletinGtaiSerialized,
 } from "@/data/boletinesGtai";
@@ -30,7 +31,7 @@ export default function BoletinGtaiDetalle() {
       let list = defaultBoletinesGtai;
       if (res.ok && res.data && res.data.value != null) {
         const parsed = parseBoletinesGtaiFromSettingValue(res.data.value);
-        if (parsed) list = parsed;
+        list = mergeBoletinesGtaiWithDefaults(parsed);
       }
       if (cancelled) return;
       const found = list.find((b) => b.slug === slug);

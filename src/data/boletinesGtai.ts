@@ -30,6 +30,7 @@ export interface BoletinesGtaiSettingShape {
 }
 
 const PDF_BOLETIN_1 = "/documents/boletines-gtai/boletin-1-2026.pdf";
+const PDF_BOLETIN_2 = "/documents/boletines-gtai/boletin-2-2026.pdf";
 const PDF_BOLETIN_3 = "/documents/boletines-gtai/boletin-3-2026.pdf";
 
 export const defaultBoletinesGtai: BoletinGtaiSerialized[] = [
@@ -49,6 +50,23 @@ export const defaultBoletinesGtai: BoletinGtaiSerialized[] = [
     contentType: "Boletín",
     isPublished: true,
     isFeatured: true,
+  },
+  {
+    title: "Boletín 2",
+    slug: "boletin-2-2026",
+    groupName: "Grupo de Asuntos de Internet (GTAI)",
+    issueNumber: 2,
+    year: 2026,
+    publicationDate: "2026-05-13",
+    shortSummary:
+      "Selección de notas sobre redes sociales, regulación digital y conectividad, abordando la protección de menores, la privacidad en entornos conectados y el futuro de las redes en la región.",
+    description:
+      "Este segundo boletín del GTAI reúne una curaduría institucional de tendencias y hechos relevantes en materia de Internet: redes sociales, regulación digital, conectividad, protección de menores, privacidad en entornos conectados y evolución de las redes en la región. Su propósito es apoyar el intercambio técnico entre reguladores de la región REGULATEL.",
+    coverImage: "/grupos-trabajo/asuntos-internet.jpg",
+    pdfFile: PDF_BOLETIN_2,
+    contentType: "Boletín",
+    isPublished: true,
+    isFeatured: false,
   },
   {
     title: "Boletín 1",
@@ -129,29 +147,26 @@ export function parseBoletinesGtaiFromSettingValue(value: unknown): BoletinGtaiS
 
 /**
  * Combina entradas del CMS con defaults del código.
- * Añade boletines nuevos desplegados (p. ej. boletín 3) y aplica el destacado definido en código.
+ * Los defaults definen el catálogo completo (1, 2, 3); el CMS puede sobreescribir por slug.
  */
 export function mergeBoletinesGtaiWithDefaults(
   cmsEntries: BoletinGtaiSerialized[] | null
 ): BoletinGtaiSerialized[] {
-  if (!cmsEntries || cmsEntries.length === 0) {
-    return defaultBoletinesGtai.map((e) => ({ ...e }));
-  }
-
-  const bySlug = new Map(cmsEntries.map((e) => [e.slug, { ...e }]));
+  const bySlug = new Map<string, BoletinGtaiSerialized>();
 
   for (const def of defaultBoletinesGtai) {
-    if (!bySlug.has(def.slug)) {
-      bySlug.set(def.slug, { ...def });
-    }
+    bySlug.set(def.slug, { ...def });
+  }
+
+  for (const cms of cmsEntries ?? []) {
+    const existing = bySlug.get(cms.slug);
+    bySlug.set(cms.slug, existing ? { ...existing, ...cms } : { ...cms });
   }
 
   const defaultFeatured = defaultBoletinesGtai.find((e) => e.isFeatured);
   const merged = Array.from(bySlug.values());
 
-  if (!defaultFeatured || !merged.some((e) => e.slug === defaultFeatured.slug)) {
-    return merged;
-  }
+  if (!defaultFeatured) return merged;
 
   return merged.map((e) => ({
     ...e,
