@@ -6,6 +6,7 @@ import {
   type Authority,
 } from "@/data/authorities";
 import { useAutoridadesActuales } from "@/contexts/SiteSettingsContext";
+import { useLocalizedAuthorities, useLocalizedAuthority } from "@/hooks/useLocalizedAuthorities";
 import {
   User,
   Building2,
@@ -247,8 +248,10 @@ function OtrasAutoridades({ currentSlug, authoritiesList }: { currentSlug: strin
 export default function AutoridadDetalle() {
   const { t } = useTranslation();
   const { slug } = useParams<{ slug: string }>();
-  const authoritiesList = useAutoridadesActuales();
-  const authority = slug ? getAuthorityBySlug(slug, authoritiesList) : undefined;
+  const rawAuthoritiesList = useAutoridadesActuales();
+  const authoritiesList = useLocalizedAuthorities(rawAuthoritiesList);
+  const rawAuthority = slug ? getAuthorityBySlug(slug, rawAuthoritiesList) : undefined;
+  const authority = useLocalizedAuthority(rawAuthority);
 
   if (!authority) {
     return (

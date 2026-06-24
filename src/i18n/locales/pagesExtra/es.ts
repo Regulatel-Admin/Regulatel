@@ -315,6 +315,14 @@ export default {
       tryAnotherCountry: "Pruebe otro país o quite filtros.",
       selectCountry: "Seleccione un país en el panel izquierdo.",
       viewMembers: "Ver miembros REGULATEL →",
+      pageTitle: "Buenas Prácticas Regulatorias",
+      pageDescription:
+        "Consulte prácticas, iniciativas y recursos regulatorios de telecomunicaciones por país y categoría. Información proporcionada por los miembros de REGULATEL.",
+      resourceCount_one: "{{count}} recurso",
+      resourceCount_other: "{{count}} recursos",
+      emptyCategory: "No hay recursos en esta categoría.",
+      noCountriesMatch: "No hay países que coincidan con la búsqueda.",
+      countriesNavAriaLabel: "Países con prácticas regulatorias",
     },
     subscribe: {
       title: "Suscripción",

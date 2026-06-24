@@ -14,6 +14,10 @@ import enMiembros from "./locales/miembros/en";
 import ptMiembros from "./locales/miembros/pt";
 import enBoletines from "./locales/boletines/en";
 import ptBoletines from "./locales/boletines/pt";
+import enAutoridades from "./locales/autoridades/en";
+import ptAutoridades from "./locales/autoridades/pt";
+import enBuenasPracticas from "./locales/buenasPracticas/en";
+import ptBuenasPracticas from "./locales/buenasPracticas/pt";
 
 export const LANGUAGE_STORAGE_KEY = "regulatel-lang";
 export const SUPPORTED_LANGUAGES = ["es", "en", "pt"] as const;
@@ -45,14 +49,20 @@ const en = mergeDeep(
   mergeDeep(enBase as Record<string, unknown>, enPagesExtra as Record<string, unknown>),
   mergeDeep(
     mergeDeep(enNews as Record<string, unknown>, enEvents as Record<string, unknown>),
-    mergeDeep(enMiembros as Record<string, unknown>, enBoletines as Record<string, unknown>)
+    mergeDeep(
+      mergeDeep(enMiembros as Record<string, unknown>, enBoletines as Record<string, unknown>),
+      mergeDeep(enAutoridades as Record<string, unknown>, enBuenasPracticas as Record<string, unknown>)
+    )
   )
 );
 const pt = mergeDeep(
   mergeDeep(ptBase as Record<string, unknown>, ptPagesExtra as Record<string, unknown>),
   mergeDeep(
     mergeDeep(ptNews as Record<string, unknown>, ptEvents as Record<string, unknown>),
-    mergeDeep(ptMiembros as Record<string, unknown>, ptBoletines as Record<string, unknown>)
+    mergeDeep(
+      mergeDeep(ptMiembros as Record<string, unknown>, ptBoletines as Record<string, unknown>),
+      mergeDeep(ptAutoridades as Record<string, unknown>, ptBuenasPracticas as Record<string, unknown>)
+    )
   )
 );
 

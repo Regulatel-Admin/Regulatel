@@ -160,7 +160,8 @@ export function parseAuthoritiesFromSettingValue(value: unknown): Authority[] | 
 }
 
 export function getAuthorityBySlug(slug: string, list: Authority[] = authorities): Authority | undefined {
-  return list.find((a) => a.slug === slug);
+  const normalized = slug.trim().toLowerCase();
+  return list.find((a) => a.slug.trim().toLowerCase() === normalized);
 }
 
 export function getOtherAuthorities(currentSlug: string, limit = 4, list: Authority[] = authorities): Authority[] {

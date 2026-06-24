@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { ChevronDown, ChevronRight, ExternalLink, FileText } from "lucide-react";
 import type { CategoryWithLinks } from "@/data/mejoresPracticas";
+import { localizeBuenasPracticasCategory } from "@/hooks/useLocalizedBuenasPracticas";
 
 interface CategoryAccordionProps {
   category: CategoryWithLinks;
@@ -29,6 +31,8 @@ export default function CategoryAccordion({
   defaultOpen = false,
   searchNorm = "",
 }: CategoryAccordionProps) {
+  const { t, i18n } = useTranslation();
+  const language = i18n.resolvedLanguage ?? i18n.language;
   const [open, setOpen] = useState(defaultOpen);
   const filteredLinks = searchNorm
     ? category.links.filter((l) => linkMatchesSearch(l.title, l.url, searchNorm))
@@ -37,6 +41,7 @@ export default function CategoryAccordion({
     !searchNorm || normalizeForSearch(category.name).includes(searchNorm);
   const showCategory = categoryMatchesSearch || filteredLinks.length > 0;
   const displayLinks = categoryMatchesSearch ? category.links : filteredLinks;
+  const categoryLabel = localizeBuenasPracticasCategory(category.name, t, language);
 
   if (!showCategory) return null;
 
@@ -60,13 +65,13 @@ export default function CategoryAccordion({
           <ChevronRight className="h-5 w-5 shrink-0" style={{ color: "var(--regu-gray-400)" }} />
         )}
         <span className="font-semibold" style={{ fontSize: "0.9375rem" }}>
-          {category.name}
+          {categoryLabel}
         </span>
         <span
           className="ml-auto shrink-0 rounded-full px-2 py-0.5 text-xs font-medium"
           style={{ backgroundColor: "var(--regu-gray-100)", color: "var(--regu-gray-600)" }}
         >
-          {displayLinks.length} {displayLinks.length === 1 ? "recurso" : "recursos"}
+          {t("pages.buenasPracticas.resourceCount", { count: displayLinks.length })}
         </span>
       </button>
       {open && (
@@ -76,7 +81,7 @@ export default function CategoryAccordion({
         >
           {isEmpty ? (
             <p className="text-sm" style={{ color: "var(--regu-gray-500)" }}>
-              No hay recursos en esta categoría.
+              {t("pages.buenasPracticas.emptyCategory")}
             </p>
           ) : (
             <ul className="space-y-2">

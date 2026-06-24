@@ -4,6 +4,7 @@ import { ArrowRight, ArrowLeft } from "lucide-react";
 import PageHero from "@/components/PageHero";
 import type { Authority } from "@/data/authorities";
 import { useAutoridadesActuales } from "@/contexts/SiteSettingsContext";
+import { useLocalizedAuthorities } from "@/hooks/useLocalizedAuthorities";
 
 function AuthorityCard({ authority, index }: { authority: Authority; index: number }) {
   const { t } = useTranslation();
@@ -80,7 +81,7 @@ function AuthorityCard({ authority, index }: { authority: Authority; index: numb
           className="inline-flex items-center gap-1 text-xs font-semibold opacity-0 transition-all duration-200 group-hover:opacity-100 group-hover:gap-2"
           style={{ color: "var(--regu-blue)" }}
         >
-          {t("pages.autoridades.viewProfile")} <ArrowRight className="h-3.5 w-3.5" aria-hidden />
+          {t("pages.shared.viewProfile")} <ArrowRight className="h-3.5 w-3.5" aria-hidden />
         </span>
       </div>
     </Link>
@@ -89,7 +90,8 @@ function AuthorityCard({ authority, index }: { authority: Authority; index: numb
 
 export default function Autoridades() {
   const { t } = useTranslation();
-  const authoritiesList = useAutoridadesActuales();
+  const rawAuthoritiesList = useAutoridadesActuales();
+  const authoritiesList = useLocalizedAuthorities(rawAuthoritiesList);
   return (
     <>
       <PageHero

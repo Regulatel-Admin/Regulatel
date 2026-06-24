@@ -1,0 +1,22 @@
+export default {
+  buenasPracticasCategories: {
+    espectro_radioelectrico: "Espectro radioeléctrico",
+    competencia_economica: "Competição económica",
+    ciberseguridad: "Cibersegurança",
+    proteccion_usuario: "Protecção do utilizador",
+    tecnologias_emergentes: "Tecnologias emergentes",
+    comparticion_infraestructura: "Partilha de infraestruturas",
+    telecomunicaciones_emergencia: "Telecomunicações de emergência",
+    homologacion_productos: "Homologação de produtos e dispositivos",
+    tic: "Tecnologias de Informação e Comunicação (TIC)",
+    conectividad: "Conectividade",
+    plataformas_digitales: "Plataformas digitais",
+    radiodifusion: "Radiodifusão",
+    accesibilidad: "Acessibilidade",
+    asuntos_internet: "Assuntos relacionados com a Internet",
+    bases_datos_estadisticas: "Bases de dados, estatísticas e dados do sector",
+    colaboracion_justicia: "Colaboração com a Justiça",
+    participacion_ciudadana: "Participação cidadã e transparência",
+    mejores_practicas_regulatorias: "Melhores práticas regulatórias",
+  },
+} as const;

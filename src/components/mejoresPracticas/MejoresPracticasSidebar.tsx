@@ -1,6 +1,8 @@
+import { useTranslation } from "react-i18next";
 import type { CountryPracticesData } from "@/data/mejoresPracticas";
 import { getLinkCountByCountry } from "@/data/mejoresPracticas";
 import CountryFlag from "@/components/buenasPracticas/CountryFlag";
+import { localizeBuenasPracticasCountryName } from "@/hooks/useLocalizedBuenasPracticas";
 
 interface MejoresPracticasSidebarProps {
   countries: CountryPracticesData[];
@@ -36,6 +38,8 @@ export default function MejoresPracticasSidebar({
   onSelectCountry,
   searchQuery,
 }: MejoresPracticasSidebarProps) {
+  const { t, i18n } = useTranslation();
+  const language = i18n.resolvedLanguage ?? i18n.language;
   const filtered = searchQuery.trim()
     ? countries.filter((c) => countryMatchesSearch(c, searchQuery))
     : countries;
@@ -43,7 +47,7 @@ export default function MejoresPracticasSidebar({
   return (
     <nav
       className="space-y-0.5"
-      aria-label="Países con prácticas regulatorias"
+      aria-label={t("pages.buenasPracticas.countriesNavAriaLabel")}
     >
       {filtered.map((data) => {
         const count = getLinkCountByCountry(data);
@@ -59,7 +63,9 @@ export default function MejoresPracticasSidebar({
             }}
           >
             <CountryFlag flag={data.flag} size="xs" />
-            <span className="min-w-0 flex-1 truncate">{data.name}</span>
+            <span className="min-w-0 flex-1 truncate">
+              {localizeBuenasPracticasCountryName(data.name, t, language)}
+            </span>
             {count > 0 && (
               <span
                 className="shrink-0 rounded-full px-2 py-0.5 text-xs font-semibold"
@@ -76,7 +82,7 @@ export default function MejoresPracticasSidebar({
       })}
       {filtered.length === 0 && (
         <p className="px-3 py-4 text-sm" style={{ color: "var(--regu-gray-500)" }}>
-          No hay países que coincidan con la búsqueda.
+          {t("pages.buenasPracticas.noCountriesMatch")}
         </p>
       )}
     </nav>

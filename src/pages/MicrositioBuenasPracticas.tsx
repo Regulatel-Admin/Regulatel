@@ -16,6 +16,10 @@ import {
   type ScrapedRegulatelEntry,
 } from "@/data/mejoresPracticas";
 import { useSiteSettings } from "@/contexts/SiteSettingsContext";
+import {
+  localizeBuenasPracticasCategory,
+  localizeBuenasPracticasCountryName,
+} from "@/hooks/useLocalizedBuenasPracticas";
 import { Globe, ChevronDown, ChevronUp, LayoutList } from "lucide-react";
 
 function getUniqueCategoryNamesFromData(data: CountryPracticesData[]): string[] {
@@ -50,7 +54,9 @@ function countryMatchesSearch(data: CountryPracticesData, query: string): boolea
 }
 
 export default function MicrositioBuenasPracticas() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const language = i18n.resolvedLanguage ?? i18n.language;
+  const isSpanish = language.split("-")[0] === "es";
   const { buenasPracticasRegulatorias, loading: settingsLoading } = useSiteSettings();
   const [dataList, setDataList] = useState<CountryPracticesData[]>(mejoresPracticasData);
   const [searchQuery, setSearchQuery] = useState("");
@@ -58,14 +64,16 @@ export default function MicrositioBuenasPracticas() {
   const [expandAll, setExpandAll] = useState<boolean | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  const pageTitle =
-    !settingsLoading && buenasPracticasRegulatorias?.pageTitle?.trim()
+  const pageTitle = isSpanish
+    ? !settingsLoading && buenasPracticasRegulatorias?.pageTitle?.trim()
       ? buenasPracticasRegulatorias.pageTitle.trim()
-      : BUENAS_PRACTICAS_PAGE_DEFAULT_TITLE;
-  const pageDescription =
-    !settingsLoading && buenasPracticasRegulatorias?.pageDescription?.trim()
+      : BUENAS_PRACTICAS_PAGE_DEFAULT_TITLE
+    : t("pages.buenasPracticas.pageTitle");
+  const pageDescription = isSpanish
+    ? !settingsLoading && buenasPracticasRegulatorias?.pageDescription?.trim()
       ? buenasPracticasRegulatorias.pageDescription.trim()
-      : BUENAS_PRACTICAS_PAGE_DEFAULT_DESCRIPTION;
+      : BUENAS_PRACTICAS_PAGE_DEFAULT_DESCRIPTION
+    : t("pages.buenasPracticas.pageDescription");
 
   useEffect(() => {
     if (settingsLoading) return;
@@ -210,7 +218,9 @@ export default function MicrositioBuenasPracticas() {
               >
                 <option value="">{t("pages.buenasPracticas.allCategories")}</option>
                 {categoriesForFilter.map((name) => (
-                  <option key={name} value={name}>{name}</option>
+                  <option key={name} value={name}>
+                    {localizeBuenasPracticasCategory(name, t, language)}
+                  </option>
                 ))}
               </select>
             </div>
@@ -296,7 +306,7 @@ export default function MicrositioBuenasPracticas() {
                   <CountryFlag flag={selectedCountry.flag} size="md" />
                   <div>
                     <h1 className="text-2xl font-bold" style={{ color: "var(--regu-navy)" }}>
-                      {selectedCountry.name}
+                      {localizeBuenasPracticasCountryName(selectedCountry.name, t, language)}
                     </h1>
                     <p className="text-sm mt-1" style={{ color: "var(--regu-gray-500)" }}>
                       {t("pages.buenasPracticas.resourcesInCategories", {
