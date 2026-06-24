@@ -17,15 +17,16 @@ interface NewsSectionBerecProps {
   news: NewsItemBerec[];
 }
 
-function formatDateEditorial(dateStr: string, fallback: string): string {
+function formatDateEditorial(dateStr: string, fallback: string, language: string): string {
   if (!dateStr) return fallback;
   try {
-    const d = new Date(dateStr);
-    const day = d.getDate();
-    const months = "ENE,FEB,MAR,ABR,MAY,JUN,JUL,AGO,SEP,OCT,NOV,DIC".split(",");
-    const month = months[d.getMonth()] ?? "DIC";
-    const year = d.getFullYear();
-    return `${day} ${month} ${year}`;
+    const iso = /^\d{4}-\d{2}-\d{2}$/.test(dateStr) ? `${dateStr}T12:00:00` : dateStr;
+    const d = new Date(iso);
+    if (Number.isNaN(d.getTime())) return fallback;
+    const locale = language === "en" ? "en-GB" : language === "pt" ? "pt-PT" : "es-ES";
+    return d
+      .toLocaleDateString(locale, { day: "numeric", month: "short", year: "numeric" })
+      .toUpperCase();
   } catch {
     return fallback;
   }
@@ -35,14 +36,15 @@ const PLACEHOLDER_GRADIENT =
   "linear-gradient(135deg, var(--regu-navy) 0%, var(--regu-blue) 50%, var(--regu-navy-deep) 100%)";
 
 export default function NewsSectionBerec({ news }: NewsSectionBerecProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const sorted = [...news].sort((a, b) => (a.date > b.date ? -1 : 1));
   const featuredNews = sorted[0];
   const listNews = sorted.slice(1, 7);
 
   if (!featuredNews) return null;
 
-  const featuredDate = formatDateEditorial(featuredNews.date, featuredNews.dateFormatted);
+  const featuredDate = formatDateEditorial(featuredNews.date, featuredNews.dateFormatted, i18n.language);
+  const newsCategoryLabel = t("nav.news").toUpperCase();
 
   return (
     <section
@@ -151,7 +153,7 @@ export default function NewsSectionBerec({ news }: NewsSectionBerecProps) {
                   className="inline-block rounded-sm px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.10em]"
                   style={{ backgroundColor: "rgba(68,137,198,0.10)", color: "var(--regu-blue)" }}
                 >
-                  {t("pages.noticias.sidebarNews")}
+                  {newsCategoryLabel}
                 </span>
                 <span
                   className="text-xs font-medium uppercase tracking-[0.08em]"
@@ -187,7 +189,7 @@ export default function NewsSectionBerec({ news }: NewsSectionBerecProps) {
           {/* Columna derecha — Lista de noticias */}
           <div className="newsList col-span-12 flex flex-col divide-y lg:col-span-7" style={{ borderColor: "rgba(22,61,89,0.07)" }}>
             {listNews.map((item) => {
-              const itemDate = formatDateEditorial(item.date, item.dateFormatted);
+              const itemDate = formatDateEditorial(item.date, item.dateFormatted, i18n.language);
               return (
                 <Link
                   key={item.slug}
@@ -208,7 +210,7 @@ export default function NewsSectionBerec({ news }: NewsSectionBerecProps) {
                           className="inline-block rounded-sm px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.10em]"
                           style={{ backgroundColor: "rgba(68,137,198,0.10)", color: "var(--regu-blue)" }}
                         >
-                          {t("pages.noticias.sidebarNews")}
+                          {newsCategoryLabel}
                         </span>
                         <span
                           className="text-xs font-medium uppercase tracking-[0.08em]"

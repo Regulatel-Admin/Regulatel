@@ -420,5 +420,9 @@ export default {
     nextEvent: "Evento siguiente",
     pauseSlideshow: "Pausar slideshow",
     resumeSlideshow: "Reanudar slideshow",
+    gtaiGroupLabel: "Grupo de Asuntos de Internet",
+    bulletinLabel: "Boletín",
+    allGtaiBulletins: "Todos los boletines GTAI",
+    dismissGtaiAnnouncement: "Cerrar aviso de boletín GTAI",
   },
 } as const;

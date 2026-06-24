@@ -112,7 +112,7 @@ export default function EstudiosInvestigacion() {
           <nav
             className="flex flex-wrap items-center gap-4 border-t pt-8"
             style={{ borderColor: "rgba(22,61,89,0.08)" }}
-            aria-label="Navegación"
+            aria-label={t("common.finalNavigation")}
           >
             <Link
               to="/"

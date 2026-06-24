@@ -19,7 +19,7 @@ interface QuickLinksBarProps {
 
 export default function QuickLinksBar({
   items,
-  title = "ACCESOS PRINCIPALES",
+  title,
   seeMoreHref = "/recursos",
 }: QuickLinksBarProps) {
   const { t } = useTranslation();

@@ -3,6 +3,7 @@
  */
 import { useEffect, useState, type CSSProperties } from "react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { motion, useReducedMotion } from "framer-motion";
 import { X } from "lucide-react";
 import { useBoletinesGtai } from "@/hooks/useBoletinesGtai";
@@ -43,7 +44,7 @@ function shouldShowAnnouncement(): boolean {
   }
 }
 
-function GtaiCoverMini({ issue }: { issue: number }) {
+function GtaiCoverMini({ issue, bulletinLabel }: { issue: number; bulletinLabel: string }) {
   return (
     <div
       className="relative shrink-0 overflow-hidden rounded-[2px] select-none"
@@ -84,7 +85,7 @@ function GtaiCoverMini({ issue }: { issue: number }) {
             className="mt-[0.15rem] text-[6px] font-medium uppercase tracking-[0.14em] text-white/45"
             style={{ fontFamily: "var(--token-font-body)" }}
           >
-            Boletín
+            {bulletinLabel}
           </p>
         </div>
       </div>
@@ -93,6 +94,7 @@ function GtaiCoverMini({ issue }: { issue: number }) {
 }
 
 export default function HomeBoletinGtaiAnnouncement() {
+  const { t } = useTranslation();
   const reduceMotion = useReducedMotion();
   const { entries, loading } = useBoletinesGtai();
   const [allowShow, setAllowShow] = useState(false);
@@ -159,14 +161,14 @@ export default function HomeBoletinGtaiAnnouncement() {
         type="button"
         onClick={dismiss}
         className="group absolute right-[7px] top-[7px] z-10 flex h-[18px] w-[18px] items-center justify-center rounded-full text-[rgba(58,54,50,0.32)] transition-[color,background-color,opacity] duration-300 ease-out hover:bg-[rgba(90,82,74,0.08)] hover:text-[rgba(46,42,38,0.56)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-1 focus-visible:ring-offset-[#f6f2eb]"
-        aria-label="Cerrar aviso de boletín GTAI"
+        aria-label={t("homeSections.dismissGtaiAnnouncement")}
       >
         <X className="h-2.5 w-2.5 transition-[transform,opacity] duration-300 ease-out group-hover:opacity-[0.9] group-hover:scale-[0.97]" strokeWidth={1} aria-hidden />
       </button>
 
       <div className="px-3.5 pb-3 pt-3.5 pr-9 sm:px-[0.9rem] sm:pb-[0.85rem] sm:pt-[0.95rem] sm:pr-9">
         <div className="flex gap-2.5">
-          <GtaiCoverMini issue={featured.issueNumber} />
+          <GtaiCoverMini issue={featured.issueNumber} bulletinLabel={t("homeSections.bulletinLabel")} />
 
           <div className="min-w-0 flex-1 pt-[1px]">
             <p
@@ -176,7 +178,7 @@ export default function HomeBoletinGtaiAnnouncement() {
                 textShadow: "0 1px 0 rgba(255, 252, 248, 0.45)",
               }}
             >
-              Grupo de Asuntos de Internet
+              {t("homeSections.gtaiGroupLabel")}
             </p>
             <div
               className="mb-[0.35rem] mt-[0.35rem] h-px w-[1.45rem] max-w-[46%] rounded-full opacity-[0.78]"
@@ -218,14 +220,14 @@ export default function HomeBoletinGtaiAnnouncement() {
               }}
               aria-hidden
             />
-            <span className="relative">Ver boletín</span>
+            <span className="relative">{t("pages.boletinesGtai.viewBulletin")}</span>
           </Link>
           <Link
             to={BOLETINES_GTAI_LIST_PATH}
             className="mt-2 block text-center text-[8.5px] font-normal leading-snug tracking-[0.02em] text-[rgba(22,61,89,0.58)] underline-offset-[3px] decoration-[rgba(22,61,89,0.3)] decoration-1 transition-colors duration-200 hover:text-[rgba(22,61,89,0.74)] hover:decoration-[rgba(22,61,89,0.42)] focus-visible:outline-none focus-visible:underline"
             style={{ fontFamily: "var(--token-font-body)" }}
           >
-            Todos los boletines GTAI
+            {t("homeSections.allGtaiBulletins")}
           </Link>
         </div>
       </div>

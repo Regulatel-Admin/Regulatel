@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { Home, ChevronRight } from 'lucide-react';
 
 interface PageHeroProps {
@@ -14,6 +15,9 @@ interface PageHeroProps {
 }
 
 const PageHero: React.FC<PageHeroProps> = ({ title, subtitle, breadcrumb, description }) => {
+  const { t } = useTranslation();
+  const homeLabel = t("pages.shared.breadcrumbHome").toUpperCase();
+
   return (
     <section
       className="page-hero relative w-full overflow-hidden bg-cover bg-center bg-no-repeat"
@@ -38,7 +42,7 @@ const PageHero: React.FC<PageHeroProps> = ({ title, subtitle, breadcrumb, descri
           >
             <Link to="/" className="hover:text-white transition-colors flex items-center gap-2 font-medium">
               <Home className="w-5 h-5 md:w-5 md:h-5 shrink-0" aria-hidden />
-              <span>HOME</span>
+              <span>{homeLabel}</span>
             </Link>
             {breadcrumb.map((item, index) => (
               <React.Fragment key={index}>

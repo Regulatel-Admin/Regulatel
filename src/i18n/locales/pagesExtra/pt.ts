@@ -290,7 +290,7 @@ export default {
     estudios: {
       title: "Estudos e investigação",
       breadcrumb: "Estudos e investigação",
-      description: "Análises e estudos regulatórios comparados da região",
+      description: "Análises e estudos regulatórios comparados elaborados pela REGULATEL.",
       subtitle: "CONHECIMENTO",
       revistaLink: "Revista Digital REGULATEL",
     },
@@ -420,5 +420,9 @@ export default {
     nextEvent: "Próximo evento",
     pauseSlideshow: "Pausar slideshow",
     resumeSlideshow: "Retomar slideshow",
+    gtaiGroupLabel: "Grupo de Assuntos de Internet",
+    bulletinLabel: "Boletim",
+    allGtaiBulletins: "Todos os boletins GTAI",
+    dismissGtaiAnnouncement: "Fechar aviso de boletim GTAI",
   },
 } as const;

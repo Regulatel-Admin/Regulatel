@@ -290,7 +290,7 @@ export default {
     estudios: {
       title: "Studies and research",
       breadcrumb: "Studies and research",
-      description: "Comparative regulatory analysis and studies from the region",
+      description: "Comparative regulatory analysis and studies prepared by REGULATEL.",
       subtitle: "KNOWLEDGE",
       revistaLink: "REGULATEL Digital Magazine",
     },
@@ -420,5 +420,9 @@ export default {
     nextEvent: "Next event",
     pauseSlideshow: "Pause slideshow",
     resumeSlideshow: "Resume slideshow",
+    gtaiGroupLabel: "Internet Affairs Working Group",
+    bulletinLabel: "Bulletin",
+    allGtaiBulletins: "All GTAI bulletins",
+    dismissGtaiAnnouncement: "Dismiss GTAI bulletin notice",
   },
 } as const;

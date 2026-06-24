@@ -21,9 +21,10 @@ import { useHomeHero, useHomeQuickLinks, useFeaturedCarouselSettings, useSiteSet
 import { quickLinkItemsFromSetting } from "@/lib/quickLinks";
 import { quickLinks as staticQuickLinks, featuredCarouselItems as fallbackCarouselItems } from "@/data/home";
 import type { FeaturedCarouselItem } from "@/components/home/FeaturedCarousel";
+import { localizeQuickLinkItems, useLocalizedHomeHeroSettings } from "@/hooks/useLocalizedHome";
 
 export default function Home() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { refetch: refetchSettings } = useSiteSettings();
   useEffect(() => {
     void refetchSettings();
@@ -33,14 +34,18 @@ export default function Home() {
   const allEvents = useEvents();
   const homeEvents = useMemo(() => allEvents.filter((e) => e.year === 2026), [allEvents]);
 
-  const hero = useHomeHero();
+  const rawHero = useHomeHero();
+  const hero = useLocalizedHomeHeroSettings(rawHero);
   const quickLinksSetting = useHomeQuickLinks();
   const carouselSettings = useFeaturedCarouselSettings();
 
   const quickLinkItems = useMemo(() => {
-    if (quickLinksSetting.length === 0) return staticQuickLinks;
-    return quickLinkItemsFromSetting(quickLinksSetting);
-  }, [quickLinksSetting]);
+    const items =
+      quickLinksSetting.length === 0
+        ? staticQuickLinks
+        : quickLinkItemsFromSetting(quickLinksSetting);
+    return localizeQuickLinkItems(items, t, i18n.language);
+  }, [quickLinksSetting, t, i18n.language]);
 
   const featuredItems = useMemo<FeaturedCarouselItem[]>(() =>
     carouselSettings
@@ -73,7 +78,7 @@ export default function Home() {
         secondaryCta={hero.secondaryCta}
       />
 
-      <QuickLinksBar items={quickLinkItems} seeMoreHref="/recursos" />
+      <QuickLinksBar items={quickLinkItems} seeMoreHref="/recursos" title={t("home.quickLinks.title")} />
 
       <RegulatelEnCifras />
 
