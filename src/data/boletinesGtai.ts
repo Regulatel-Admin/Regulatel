@@ -30,8 +30,26 @@ export interface BoletinesGtaiSettingShape {
 }
 
 const PDF_BOLETIN_1 = "/documents/boletines-gtai/boletin-1-2026.pdf";
+const PDF_BOLETIN_3 = "/documents/boletines-gtai/boletin-3-2026.pdf";
 
 export const defaultBoletinesGtai: BoletinGtaiSerialized[] = [
+  {
+    title: "Boletín 3",
+    slug: "boletin-3-2026",
+    groupName: "Grupo de Asuntos de Internet (GTAI)",
+    issueNumber: 3,
+    year: 2026,
+    publicationDate: "2026-06-20",
+    shortSummary:
+      "Notas sobre apagones y restricciones de Internet, acceso clandestino a Starlink, derechos digitales, costos de banda ancha en Europa y regulación de redes sociales para menores, con mirada comparada regional e internacional.",
+    description:
+      "Este tercer boletín del GTAI reúne una curaduría institucional de tendencias y hechos relevantes en materia de Internet: cortes y restablecimientos del servicio móvil en Moscú, redes clandestinas con Starlink en Irán, bloqueos en Myanmar y Venezuela, desmentidos sobre restricciones en Cuba, debates sobre derechos digitales, precios de banda ancha en Europa, la prohibición de redes sociales para menores de 16 años en Reino Unido y mejoras de conectividad 5G en eventos masivos en España. Su propósito es apoyar el intercambio técnico entre reguladores de la región REGULATEL.",
+    coverImage: "/grupos-trabajo/asuntos-internet.jpg",
+    pdfFile: PDF_BOLETIN_3,
+    contentType: "Boletín",
+    isPublished: true,
+    isFeatured: true,
+  },
   {
     title: "Boletín 1",
     slug: "boletin-1-2026",
@@ -47,7 +65,7 @@ export const defaultBoletinesGtai: BoletinGtaiSerialized[] = [
     pdfFile: PDF_BOLETIN_1,
     contentType: "Boletín",
     isPublished: true,
-    isFeatured: true,
+    isFeatured: false,
   },
 ];
 
