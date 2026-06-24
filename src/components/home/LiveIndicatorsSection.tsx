@@ -1,13 +1,16 @@
+import { useTranslation } from "react-i18next";
 import { ExternalLink, BarChart2 } from "lucide-react";
 
 const POWER_BI_URL =
   "https://app.powerbi.com/view?r=eyJrIjoiOWM5NWI3YWEtZjk0MC00NDlhLWI0YmYtMDQ4MGQ2OTM1ZTQwIiwidCI6ImVjYzY2NjY1LTFiYjktNDgxOC04YWJjLWE0MDk0Njg5NDE3OCIsImMiOjR9";
 
 export default function LiveIndicatorsSection() {
+  const { t } = useTranslation();
+
   return (
     <section
       className="w-full"
-      aria-label="Indicadores en vivo"
+      aria-label={t("homeSections.liveIndicatorsAriaLabel")}
       style={{
         backgroundColor: "#FAFBFC",
         borderTop: "1px solid rgba(22,61,89,0.07)",
@@ -31,16 +34,16 @@ export default function LiveIndicatorsSection() {
                 className="mb-1 text-[10px] font-bold uppercase tracking-[0.14em]"
                 style={{ color: "var(--regu-gray-400)" }}
               >
-                Panel interactivo
+                {t("homeSections.liveIndicatorsEyebrow")}
               </p>
               <h2
                 className="text-xl font-bold md:text-2xl"
                 style={{ color: "var(--regu-navy)", fontFamily: "var(--token-font-heading)" }}
               >
-                Indicadores en vivo
+                {t("homeSections.liveIndicatorsTitle")}
               </h2>
               <p className="mt-1 text-sm" style={{ color: "var(--regu-gray-500)" }}>
-                Datos e indicadores interactivos de los países miembros de REGULATEL.
+                {t("homeSections.liveIndicatorsDescription")}
               </p>
             </div>
           </div>
@@ -52,7 +55,7 @@ export default function LiveIndicatorsSection() {
             style={{ borderColor: "rgba(22,61,89,0.14)", color: "var(--regu-blue)" }}
           >
             <ExternalLink className="h-4 w-4" />
-            Abrir panel completo
+            {t("homeSections.liveIndicatorsOpenPanel")}
           </a>
         </div>
 
@@ -76,7 +79,7 @@ export default function LiveIndicatorsSection() {
               <iframe
                 className="h-[540px] w-full border-0 md:h-[620px] lg:h-[680px]"
                 src={POWER_BI_URL}
-                title="Panel de indicadores REGULATEL - Power BI"
+                title={t("homeSections.liveIndicatorsIframeTitle")}
                 loading="lazy"
                 allowFullScreen
               />
@@ -104,10 +107,10 @@ export default function LiveIndicatorsSection() {
               className="text-lg font-bold mb-2"
               style={{ color: "var(--regu-navy)", fontFamily: "var(--token-font-heading)" }}
             >
-              Indicadores en vivo
+              {t("homeSections.liveIndicatorsTitle")}
             </h3>
             <p className="text-sm leading-relaxed mb-5" style={{ color: "var(--regu-gray-600)" }}>
-              Accede al panel interactivo de indicadores y visualizaciones de REGULATEL con datos actualizados de los países miembros.
+              {t("homeSections.liveIndicatorsMobileDescription")}
             </p>
             <a
               href={POWER_BI_URL}
@@ -117,7 +120,7 @@ export default function LiveIndicatorsSection() {
               style={{ backgroundColor: "var(--regu-blue)" }}
             >
               <ExternalLink className="h-4 w-4" />
-              Abrir panel completo
+              {t("homeSections.liveIndicatorsOpenPanel")}
             </a>
           </div>
         </div>
