@@ -130,7 +130,7 @@ export const gestionDocuments: GestionDocument[] = [
   },
   {
     id: "revista-2026-final",
-    title: "Revista Regulatel - Primera edicion - Abril 2026",
+    title: "Revista REGULATEL - Primera edicion - Abril 2026",
     url: "/documents/Revista-REGULATEL-2026-FINAL.pdf",
     year: "2026",
     category: "revista",
