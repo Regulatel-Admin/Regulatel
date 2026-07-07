@@ -1,10 +1,18 @@
 import { useTranslation } from "react-i18next";
 import { LANGUAGE_STORAGE_KEY, SUPPORTED_LANGUAGES, type SupportedLanguage } from "@/i18n";
 
+const ARIA_LABELS: Record<SupportedLanguage, string> = {
+  es: "Español",
+  en: "English",
+  pt: "Português",
+  it: "Italiano",
+};
+
 const LABELS: Record<SupportedLanguage, string> = {
   es: "ES",
   en: "EN",
   pt: "PT",
+  it: "IT",
 };
 
 export default function LanguageSwitcher() {
@@ -29,7 +37,7 @@ export default function LanguageSwitcher() {
         <button
           key={lng}
           type="button"
-          aria-label={lng === "es" ? "Español" : lng === "en" ? "English" : "Português"}
+          aria-label={ARIA_LABELS[lng]}
           aria-pressed={current === lng}
           onClick={() => setLanguage(lng)}
           className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-1 transition-colors"

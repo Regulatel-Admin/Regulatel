@@ -18,9 +18,17 @@ import enAutoridades from "./locales/autoridades/en";
 import ptAutoridades from "./locales/autoridades/pt";
 import enBuenasPracticas from "./locales/buenasPracticas/en";
 import ptBuenasPracticas from "./locales/buenasPracticas/pt";
+import itBase from "./locales/it";
+import itPagesExtra from "./locales/pagesExtra/it";
+import itNews from "./locales/news/it";
+import itEvents from "./locales/events/it";
+import itMiembros from "./locales/miembros/it";
+import itBoletines from "./locales/boletines/it";
+import itAutoridades from "./locales/autoridades/it";
+import itBuenasPracticas from "./locales/buenasPracticas/it";
 
 export const LANGUAGE_STORAGE_KEY = "regulatel-lang";
-export const SUPPORTED_LANGUAGES = ["es", "en", "pt"] as const;
+export const SUPPORTED_LANGUAGES = ["es", "en", "pt", "it"] as const;
 export type SupportedLanguage = (typeof SUPPORTED_LANGUAGES)[number];
 
 function mergeDeep<T extends Record<string, unknown>>(base: T, extra: Record<string, unknown>): T {
@@ -65,11 +73,21 @@ const pt = mergeDeep(
     )
   )
 );
+const it = mergeDeep(
+  mergeDeep(itBase as Record<string, unknown>, itPagesExtra as Record<string, unknown>),
+  mergeDeep(
+    mergeDeep(itNews as Record<string, unknown>, itEvents as Record<string, unknown>),
+    mergeDeep(
+      mergeDeep(itMiembros as Record<string, unknown>, itBoletines as Record<string, unknown>),
+      mergeDeep(itAutoridades as Record<string, unknown>, itBuenasPracticas as Record<string, unknown>)
+    )
+  )
+);
 
 function getStoredLanguage(): SupportedLanguage {
   if (typeof window === "undefined") return "es";
   const stored = localStorage.getItem(LANGUAGE_STORAGE_KEY);
-  if (stored === "en" || stored === "pt" || stored === "es") return stored;
+  if (stored === "en" || stored === "pt" || stored === "it" || stored === "es") return stored;
   return "es";
 }
 
@@ -78,6 +96,7 @@ void i18n.use(initReactI18next).init({
     es: { translation: es },
     en: { translation: en },
     pt: { translation: pt },
+    it: { translation: it },
   },
   lng: getStoredLanguage(),
   fallbackLng: "es",
