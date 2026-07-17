@@ -1,8 +1,17 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
+export type CarouselMediaItem = {
+  type: "image" | "video";
+  src: string;
+};
+
 interface ImageCarouselProps {
-  images: string[];
+  images?: string[];
+  /** Videos that appear after the images in the carousel. */
+  videos?: string[];
+  /** Explicit media list (overrides images/videos when provided). */
+  items?: CarouselMediaItem[];
   /** Clase del contenedor. */
   className?: string;
   /** Proporción del slide (ej. "16/9", "1"). */
@@ -17,8 +26,22 @@ interface ImageCarouselProps {
   fillContainer?: boolean;
 }
 
+function buildItems(
+  images: string[] | undefined,
+  videos: string[] | undefined,
+  items: CarouselMediaItem[] | undefined
+): CarouselMediaItem[] {
+  if (items && items.length > 0) return items;
+  return [
+    ...(images ?? []).map((src) => ({ type: "image" as const, src })),
+    ...(videos ?? []).map((src) => ({ type: "video" as const, src })),
+  ];
+}
+
 export default function ImageCarousel({
-  images,
+  images = [],
+  videos = [],
+  items,
   className = "",
   aspectRatio = "16/9",
   slideHeight,
@@ -26,8 +49,11 @@ export default function ImageCarousel({
   variant = "article",
   fillContainer = false,
 }: ImageCarouselProps) {
+  const media = buildItems(images, videos, items);
   const [index, setIndex] = useState(0);
-  const total = images.length;
+  const total = media.length;
+  const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
+  const touchStartX = useRef<number | null>(null);
 
   const go = useCallback(
     (delta: number) => {
@@ -37,13 +63,25 @@ export default function ImageCarousel({
   );
 
   useEffect(() => {
+    videoRefs.current.forEach((video, i) => {
+      if (!video) return;
+      if (i !== index) {
+        video.pause();
+      }
+    });
+  }, [index]);
+
+  useEffect(() => {
     if (autoPlayMs <= 0 || total <= 1) return;
+    if (media[index]?.type === "video") return;
     const t = setInterval(() => go(1), autoPlayMs);
     return () => clearInterval(t);
-  }, [autoPlayMs, go, total]);
+  }, [autoPlayMs, go, total, index, media]);
 
   if (total === 0) return null;
+
   if (total === 1) {
+    const only = media[0];
     return (
       <figure className={`mb-0 w-full overflow-hidden ${className}`}>
         <div
@@ -53,14 +91,23 @@ export default function ImageCarousel({
             ...(slideHeight ? { minHeight: slideHeight, maxHeight: slideHeight } : {}),
           }}
         >
-          <img
-            src={images[0]}
-            alt=""
-            className="h-full w-full max-h-[70vh] object-contain"
-            onError={(e) => {
-              e.currentTarget.style.display = "none";
-            }}
-          />
+          {only.type === "video" ? (
+            <video
+              src={only.src}
+              controls
+              playsInline
+              className="h-full w-full max-h-[70vh] object-contain bg-black"
+            />
+          ) : (
+            <img
+              src={only.src}
+              alt=""
+              className="h-full w-full max-h-[70vh] object-contain"
+              onError={(e) => {
+                e.currentTarget.style.display = "none";
+              }}
+            />
+          )}
         </div>
       </figure>
     );
@@ -73,36 +120,61 @@ export default function ImageCarousel({
       <div
         className={`relative w-full bg-[var(--regu-gray-100)] ${fillContainer ? "h-full min-h-0" : ""}`}
         style={{
-          ...(fillContainer ? {} : { aspectRatio: isCard ? "16/9" : aspectRatio === "auto" ? undefined : aspectRatio }),
-          ...(slideHeight && !isCard && !fillContainer ? { minHeight: slideHeight, maxHeight: slideHeight } : {}),
+          ...(fillContainer
+            ? {}
+            : { aspectRatio: isCard ? "16/9" : aspectRatio === "auto" ? undefined : aspectRatio }),
+          ...(slideHeight && !isCard && !fillContainer
+            ? { minHeight: slideHeight, maxHeight: slideHeight }
+            : {}),
+        }}
+        onTouchStart={(e) => {
+          touchStartX.current = e.changedTouches[0]?.clientX ?? null;
+        }}
+        onTouchEnd={(e) => {
+          if (touchStartX.current == null) return;
+          const delta = (e.changedTouches[0]?.clientX ?? 0) - touchStartX.current;
+          touchStartX.current = null;
+          if (Math.abs(delta) < 40) return;
+          go(delta < 0 ? 1 : -1);
         }}
       >
-        {images.map((src, i) => (
+        {media.map((item, i) => (
           <div
-            key={i}
+            key={`${item.type}-${item.src}-${i}`}
             className="absolute inset-0 flex items-center justify-center transition-opacity duration-300 ease-out"
             style={{
               opacity: i === index ? 1 : 0,
               pointerEvents: i === index ? "auto" : "none",
             }}
           >
-            <img
-              src={src}
-              alt=""
-              className="h-full w-full object-contain"
-              onError={(e) => {
-                e.currentTarget.style.display = "none";
-              }}
-            />
+            {item.type === "video" ? (
+              <video
+                ref={(el) => {
+                  videoRefs.current[i] = el;
+                }}
+                src={item.src}
+                controls
+                playsInline
+                className="h-full w-full object-contain bg-black"
+              />
+            ) : (
+              <img
+                src={item.src}
+                alt=""
+                className="h-full w-full object-contain"
+                onError={(e) => {
+                  e.currentTarget.style.display = "none";
+                }}
+              />
+            )}
           </div>
         ))}
 
-        {/* Flechas */}
         <button
           type="button"
           onClick={() => go(-1)}
           className="absolute left-0 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-black/40 text-white shadow transition hover:bg-black/55 focus:outline-none focus:ring-2 focus:ring-[var(--regu-blue)] focus:ring-offset-2"
-          aria-label="Imagen anterior"
+          aria-label="Anterior"
         >
           <ChevronLeft className="h-6 w-6" />
         </button>
@@ -110,16 +182,15 @@ export default function ImageCarousel({
           type="button"
           onClick={() => go(1)}
           className="absolute right-0 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-black/40 text-white shadow transition hover:bg-black/55 focus:outline-none focus:ring-2 focus:ring-[var(--regu-blue)] focus:ring-offset-2"
-          aria-label="Siguiente imagen"
+          aria-label="Siguiente"
         >
           <ChevronRight className="h-6 w-6" />
         </button>
 
-        {/* Dots */}
         <div className="absolute bottom-3 left-0 right-0 z-10 flex justify-center gap-1.5">
-          {images.map((_, i) => (
+          {media.map((item, i) => (
             <button
-              key={i}
+              key={`dot-${i}`}
               type="button"
               onClick={() => setIndex(i)}
               className="h-2 w-2 rounded-full transition-all"
@@ -127,7 +198,7 @@ export default function ImageCarousel({
                 backgroundColor: i === index ? "white" : "rgba(255,255,255,0.5)",
                 boxShadow: "0 1px 2px rgba(0,0,0,0.2)",
               }}
-              aria-label={`Ir a imagen ${i + 1}`}
+              aria-label={item.type === "video" ? `Ir al video ${i + 1}` : `Ir a imagen ${i + 1}`}
             />
           ))}
         </div>

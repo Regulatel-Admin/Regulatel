@@ -22,6 +22,8 @@ export interface NoticiaData {
   highlights?: Highlight[];
   tags?: string[];
   link?: string;
+  /** Video embebido en el carrusel de la noticia (después de la imagen). */
+  videoUrl?: string;
 }
 
 export const noticiasData: NoticiaData[] = [
@@ -33,6 +35,7 @@ export const noticiasData: NoticiaData[] = [
     category: 'Noticias',
     excerpt: 'La iniciativa reunirá periódicamente a autoridades regulatorias para compartir experiencias, analizar tendencias y reflexionar sobre la evolución de las telecomunicaciones y los mercados digitales.',
     imageUrl: '/images/noticias/habla-el-regulador-nota-de-prensa.png',
+    videoUrl: '/videos/promo-regulatel-1.mp4',
     author: 'REGULATEL',
     content: [
       'El Foro Latinoamericano de Entes Reguladores de Telecomunicaciones (Regulatel) presentó Habla el Regulador, una nueva serie de entrevistas concebida como un espacio permanente de diálogo para conocer las perspectivas de autoridades regulatorias sobre los principales desafíos que enfrenta el sector de las telecomunicaciones y la transformación digital.',

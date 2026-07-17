@@ -92,6 +92,7 @@ function normalizeStaticNoticia(n: NoticiaData): ArticlePayload {
     tags: n.tags,
     slug: n.slug,
     link: n.link,
+    videoUrl: n.videoUrl,
   };
 }
 
@@ -373,8 +374,8 @@ function ArticleBody({ payload, isStaticCumbre }: { payload: ArticlePayload; isS
         </div>
       )}
 
-      {/* Video */}
-      {payload.videoUrl && (
+      {/* External video link (skip when the video is already embedded in the carousel) */}
+      {payload.videoUrl && !payload.videoUrl.startsWith("/") && (
         <div className="mt-4">
           <a
             href={payload.videoUrl}
@@ -568,23 +569,48 @@ function ArticleLayout({ payload, isStaticCumbre }: { payload: ArticlePayload; i
       <ArticleBreadcrumb title={payload.title} />
       <ArticleHeader payload={payload} />
 
-      {/* Main image */}
+      {/* Main image / video carousel */}
       {(() => {
         const allImages = [payload.imageUrl, ...(payload.additionalImages ?? [])].filter(Boolean) as string[];
-        if (allImages.length === 0) return null;
-        if (allImages.length === 1) return (
-          <div className="mb-8">
-            <ArticleImage imageUrl={allImages[0]} />
-          </div>
-        );
+        const videos = payload.videoUrl?.startsWith("/") ? [payload.videoUrl] : [];
+        const hasCarousel = allImages.length + videos.length > 1;
+
+        if (allImages.length === 0 && videos.length === 0) return null;
+
+        if (!hasCarousel) {
+          if (videos.length === 1) {
+            return (
+              <div className="mb-8">
+                <figure
+                  className="mb-0 w-full overflow-hidden rounded-2xl"
+                  style={{ boxShadow: "0 4px 16px rgba(22,61,89,0.08)" }}
+                >
+                  <video
+                    src={videos[0]}
+                    controls
+                    playsInline
+                    className="w-full h-auto max-h-[60vh] bg-black"
+                  />
+                </figure>
+              </div>
+            );
+          }
+          return (
+            <div className="mb-8">
+              <ArticleImage imageUrl={allImages[0]} />
+            </div>
+          );
+        }
+
         return (
           <div className="mb-8">
             <ImageCarousel
               images={allImages}
+              videos={videos}
               variant="article"
               aspectRatio="auto"
               slideHeight="60vh"
-              autoPlayMs={6000}
+              autoPlayMs={videos.length > 0 ? 0 : 6000}
               className="rounded-2xl overflow-hidden"
             />
           </div>
