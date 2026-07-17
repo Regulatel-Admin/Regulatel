@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Pause, Play } from "lucide-react";
 
 export type CarouselMediaItem = {
   type: "image" | "video";
@@ -51,6 +51,7 @@ export default function ImageCarousel({
 }: ImageCarouselProps) {
   const media = buildItems(images, videos, items);
   const [index, setIndex] = useState(0);
+  const [videoPlaying, setVideoPlaying] = useState(false);
   const total = media.length;
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
   const touchStartX = useRef<number | null>(null);
@@ -69,6 +70,7 @@ export default function ImageCarousel({
         video.pause();
       }
     });
+    setVideoPlaying(false);
   }, [index]);
 
   useEffect(() => {
@@ -78,47 +80,113 @@ export default function ImageCarousel({
     return () => clearInterval(t);
   }, [autoPlayMs, go, total, index, media]);
 
+  const toggleCurrentVideo = useCallback(() => {
+    const video = videoRefs.current[index];
+    if (!video) return;
+    if (video.paused) {
+      void video.play().then(() => setVideoPlaying(true)).catch(() => setVideoPlaying(false));
+    } else {
+      video.pause();
+      setVideoPlaying(false);
+    }
+  }, [index]);
+
   if (total === 0) return null;
+
+  const isCard = variant === "card";
+
+  const renderSlide = (item: CarouselMediaItem, i: number, single: boolean) => {
+    if (item.type === "video") {
+      return (
+        <div className={`relative ${single ? "w-full" : "h-full w-full"} bg-black`}>
+          <video
+            ref={(el) => {
+              videoRefs.current[i] = el;
+            }}
+            src={item.src}
+            controls
+            playsInline
+            className={
+              single
+                ? "h-full w-full max-h-[70vh] object-contain bg-black"
+                : "h-full w-full object-contain bg-black"
+            }
+            onPlay={() => {
+              if (i === index) setVideoPlaying(true);
+            }}
+            onPause={() => {
+              if (i === index) setVideoPlaying(false);
+            }}
+            onEnded={() => {
+              if (i === index) setVideoPlaying(false);
+            }}
+          />
+          {i === index && !videoPlaying && (
+            <button
+              type="button"
+              onClick={toggleCurrentVideo}
+              className="absolute inset-0 z-[2] flex items-center justify-center border-0 cursor-pointer bg-black/20"
+              aria-label="Reproducir video"
+            >
+              <span
+                className="inline-flex h-14 w-14 items-center justify-center rounded-full shadow-lg"
+                style={{ backgroundColor: "var(--regu-blue)", color: "#fff" }}
+              >
+                <Play className="h-6 w-6 fill-current ml-0.5" />
+              </span>
+            </button>
+          )}
+          {i === index && videoPlaying && (
+            <button
+              type="button"
+              onClick={toggleCurrentVideo}
+              className="absolute right-3 top-3 z-[2] inline-flex h-10 w-10 items-center justify-center rounded-full border-0 cursor-pointer bg-black/45 text-white hover:bg-black/60"
+              aria-label="Pausar video"
+            >
+              <Pause className="h-5 w-5 fill-current" />
+            </button>
+          )}
+        </div>
+      );
+    }
+
+    return (
+      <img
+        src={item.src}
+        alt=""
+        className={
+          single
+            ? "h-full w-full max-h-[70vh] object-cover"
+            : "h-full w-full object-cover"
+        }
+        onError={(e) => {
+          e.currentTarget.style.display = "none";
+        }}
+      />
+    );
+  };
 
   if (total === 1) {
     const only = media[0];
     return (
       <figure className={`mb-0 w-full overflow-hidden ${className}`}>
         <div
-          className="relative w-full flex items-center justify-center bg-[var(--regu-gray-100)]"
+          className="relative w-full flex items-center justify-center bg-black"
           style={{
             ...(aspectRatio !== "auto" ? { aspectRatio } : {}),
             ...(slideHeight ? { minHeight: slideHeight, maxHeight: slideHeight } : {}),
           }}
         >
-          {only.type === "video" ? (
-            <video
-              src={only.src}
-              controls
-              playsInline
-              className="h-full w-full max-h-[70vh] object-contain bg-black"
-            />
-          ) : (
-            <img
-              src={only.src}
-              alt=""
-              className="h-full w-full max-h-[70vh] object-contain"
-              onError={(e) => {
-                e.currentTarget.style.display = "none";
-              }}
-            />
-          )}
+          {renderSlide(only, 0, true)}
         </div>
       </figure>
     );
   }
 
-  const isCard = variant === "card";
-
   return (
-    <figure className={`relative w-full overflow-hidden ${fillContainer ? "h-full" : ""} ${className}`}>
+    <figure className={`relative w-full ${fillContainer ? "h-full" : ""} ${className}`}>
       <div
-        className={`relative w-full bg-[var(--regu-gray-100)] ${fillContainer ? "h-full min-h-0" : ""}`}
+        className={`relative w-full overflow-hidden bg-black ${fillContainer ? "h-full min-h-0" : ""}`}
         style={{
           ...(fillContainer
             ? {}
@@ -147,33 +215,14 @@ export default function ImageCarousel({
               pointerEvents: i === index ? "auto" : "none",
             }}
           >
-            {item.type === "video" ? (
-              <video
-                ref={(el) => {
-                  videoRefs.current[i] = el;
-                }}
-                src={item.src}
-                controls
-                playsInline
-                className="h-full w-full object-contain bg-black"
-              />
-            ) : (
-              <img
-                src={item.src}
-                alt=""
-                className="h-full w-full object-contain"
-                onError={(e) => {
-                  e.currentTarget.style.display = "none";
-                }}
-              />
-            )}
+            {renderSlide(item, i, false)}
           </div>
         ))}
 
         <button
           type="button"
           onClick={() => go(-1)}
-          className="absolute left-0 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-black/40 text-white shadow transition hover:bg-black/55 focus:outline-none focus:ring-2 focus:ring-[var(--regu-blue)] focus:ring-offset-2"
+          className="absolute left-2 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-black/45 text-white shadow transition hover:bg-black/60 focus:outline-none focus:ring-2 focus:ring-[var(--regu-blue)] focus:ring-offset-2"
           aria-label="Anterior"
         >
           <ChevronLeft className="h-6 w-6" />
@@ -181,27 +230,28 @@ export default function ImageCarousel({
         <button
           type="button"
           onClick={() => go(1)}
-          className="absolute right-0 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-black/40 text-white shadow transition hover:bg-black/55 focus:outline-none focus:ring-2 focus:ring-[var(--regu-blue)] focus:ring-offset-2"
+          className="absolute right-2 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-black/45 text-white shadow transition hover:bg-black/60 focus:outline-none focus:ring-2 focus:ring-[var(--regu-blue)] focus:ring-offset-2"
           aria-label="Siguiente"
         >
           <ChevronRight className="h-6 w-6" />
         </button>
+      </div>
 
-        <div className="absolute bottom-3 left-0 right-0 z-10 flex justify-center gap-1.5">
-          {media.map((item, i) => (
-            <button
-              key={`dot-${i}`}
-              type="button"
-              onClick={() => setIndex(i)}
-              className="h-2 w-2 rounded-full transition-all"
-              style={{
-                backgroundColor: i === index ? "white" : "rgba(255,255,255,0.5)",
-                boxShadow: "0 1px 2px rgba(0,0,0,0.2)",
-              }}
-              aria-label={item.type === "video" ? `Ir al video ${i + 1}` : `Ir a imagen ${i + 1}`}
-            />
-          ))}
-        </div>
+      {/* Dots below media so they don't sit as white marks on the photo */}
+      <div className="mt-3 flex justify-center gap-2">
+        {media.map((item, i) => (
+          <button
+            key={`dot-${i}`}
+            type="button"
+            onClick={() => setIndex(i)}
+            className="h-2.5 rounded-full transition-all border-0 cursor-pointer"
+            style={{
+              width: i === index ? 22 : 10,
+              backgroundColor: i === index ? "var(--regu-blue)" : "rgba(22,61,89,0.25)",
+            }}
+            aria-label={item.type === "video" ? `Ir al video ${i + 1}` : `Ir a imagen ${i + 1}`}
+          />
+        ))}
       </div>
     </figure>
   );

@@ -1,12 +1,13 @@
 import { motion } from "framer-motion";
 import { useParams, useLocation, Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   ArrowLeft,
   Maximize2,
   FileText,
   Image as ImageIcon,
+  Pause,
   Play,
   Share2,
   Tag,
@@ -360,58 +361,11 @@ function ArticleBody({ payload, isStaticCumbre }: { payload: ArticlePayload; isS
 
       {/* Embedded video at end of article */}
       {payload.videoUrl?.startsWith("/") && (
-        <div className="mt-10 pt-8 border-t" style={{ borderColor: "rgba(22,61,89,0.08)" }}>
-          <div
-            className="overflow-hidden rounded-2xl border"
-            style={{
-              borderColor: "rgba(22,61,89,0.10)",
-              backgroundColor: "#fff",
-              boxShadow: "0 8px 28px rgba(22,61,89,0.08)",
-            }}
-          >
-            <div
-              className="flex items-center gap-3 px-5 py-4 border-b"
-              style={{
-                borderColor: "rgba(22,61,89,0.08)",
-                background:
-                  "linear-gradient(135deg, rgba(68,137,198,0.10) 0%, rgba(22,61,89,0.04) 100%)",
-              }}
-            >
-              <span
-                className="inline-flex h-9 w-9 items-center justify-center rounded-full flex-shrink-0"
-                style={{ backgroundColor: "var(--regu-blue)", color: "#fff" }}
-                aria-hidden
-              >
-                <Play className="h-4 w-4 fill-current" />
-              </span>
-              <div className="min-w-0">
-                <p
-                  className="text-[10px] font-bold uppercase tracking-[0.14em] m-0"
-                  style={{ color: "var(--regu-blue)" }}
-                >
-                  {t("pages.noticias.videoSectionTitle")}
-                </p>
-                <p
-                  className="text-sm font-semibold m-0 truncate"
-                  style={{ color: "var(--regu-navy)" }}
-                >
-                  {t("pages.noticias.videoSectionDesc")}
-                </p>
-              </div>
-            </div>
-            <div className="bg-black">
-              <video
-                src={payload.videoUrl}
-                controls
-                playsInline
-                preload="metadata"
-                className="w-full h-auto max-h-[70vh] block"
-              >
-                <track kind="captions" />
-              </video>
-            </div>
-          </div>
-        </div>
+        <ArticleEndVideo
+          src={payload.videoUrl}
+          title={t("pages.noticias.videoSectionTitle")}
+          subtitle={t("pages.noticias.videoSectionDesc")}
+        />
       )}
 
       {/* External link */}
@@ -450,6 +404,120 @@ function ArticleBody({ payload, isStaticCumbre }: { payload: ArticlePayload; isS
       {isStaticCumbre && STATIC_CUMBRE_EXTRA_SLUGS.has(payload.slug) && (
         <CumbreExtraBlock />
       )}
+    </div>
+  );
+}
+
+function ArticleEndVideo({
+  src,
+  title,
+  subtitle,
+}: {
+  src: string;
+  title: string;
+  subtitle: string;
+}) {
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const [playing, setPlaying] = useState(false);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    const onPlay = () => setPlaying(true);
+    const onPause = () => setPlaying(false);
+    const onEnded = () => setPlaying(false);
+    video.addEventListener("play", onPlay);
+    video.addEventListener("pause", onPause);
+    video.addEventListener("ended", onEnded);
+    return () => {
+      video.removeEventListener("play", onPlay);
+      video.removeEventListener("pause", onPause);
+      video.removeEventListener("ended", onEnded);
+    };
+  }, []);
+
+  const togglePlay = useCallback(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    if (video.paused) {
+      void video.play();
+    } else {
+      video.pause();
+    }
+  }, []);
+
+  return (
+    <div className="mt-10 pt-8 border-t" style={{ borderColor: "rgba(22,61,89,0.08)" }}>
+      <div
+        className="overflow-hidden rounded-2xl border"
+        style={{
+          borderColor: "rgba(22,61,89,0.10)",
+          backgroundColor: "#fff",
+          boxShadow: "0 8px 28px rgba(22,61,89,0.08)",
+        }}
+      >
+        <div
+          className="flex items-center gap-3 px-5 py-4 border-b"
+          style={{
+            borderColor: "rgba(22,61,89,0.08)",
+            background:
+              "linear-gradient(135deg, rgba(68,137,198,0.10) 0%, rgba(22,61,89,0.04) 100%)",
+          }}
+        >
+          <button
+            type="button"
+            onClick={togglePlay}
+            className="inline-flex h-9 w-9 items-center justify-center rounded-full flex-shrink-0 border-0 cursor-pointer transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2"
+            style={{ backgroundColor: "var(--regu-blue)", color: "#fff" }}
+            aria-label={playing ? "Pausar video" : "Reproducir video"}
+          >
+            {playing ? (
+              <Pause className="h-4 w-4 fill-current" />
+            ) : (
+              <Play className="h-4 w-4 fill-current" />
+            )}
+          </button>
+          <div className="min-w-0 flex-1">
+            <p
+              className="text-[10px] font-bold uppercase tracking-[0.14em] m-0"
+              style={{ color: "var(--regu-blue)" }}
+            >
+              {title}
+            </p>
+            <p
+              className="text-sm font-semibold m-0 truncate"
+              style={{ color: "var(--regu-navy)" }}
+            >
+              {subtitle}
+            </p>
+          </div>
+        </div>
+        <div className="relative bg-black">
+          <video
+            ref={videoRef}
+            src={src}
+            controls
+            playsInline
+            preload="metadata"
+            className="w-full h-auto max-h-[70vh] block"
+          />
+          {!playing && (
+            <button
+              type="button"
+              onClick={togglePlay}
+              className="absolute inset-0 z-[1] flex items-center justify-center border-0 cursor-pointer bg-black/25 transition-opacity hover:bg-black/35"
+              aria-label="Reproducir video"
+            >
+              <span
+                className="inline-flex h-16 w-16 items-center justify-center rounded-full shadow-lg"
+                style={{ backgroundColor: "var(--regu-blue)", color: "#fff" }}
+              >
+                <Play className="h-7 w-7 fill-current ml-0.5" />
+              </span>
+            </button>
+          )}
+        </div>
+      </div>
     </div>
   );
 }
