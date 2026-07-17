@@ -358,6 +358,62 @@ function ArticleBody({ payload, isStaticCumbre }: { payload: ArticlePayload; isS
         </div>
       )}
 
+      {/* Embedded video at end of article */}
+      {payload.videoUrl?.startsWith("/") && (
+        <div className="mt-10 pt-8 border-t" style={{ borderColor: "rgba(22,61,89,0.08)" }}>
+          <div
+            className="overflow-hidden rounded-2xl border"
+            style={{
+              borderColor: "rgba(22,61,89,0.10)",
+              backgroundColor: "#fff",
+              boxShadow: "0 8px 28px rgba(22,61,89,0.08)",
+            }}
+          >
+            <div
+              className="flex items-center gap-3 px-5 py-4 border-b"
+              style={{
+                borderColor: "rgba(22,61,89,0.08)",
+                background:
+                  "linear-gradient(135deg, rgba(68,137,198,0.10) 0%, rgba(22,61,89,0.04) 100%)",
+              }}
+            >
+              <span
+                className="inline-flex h-9 w-9 items-center justify-center rounded-full flex-shrink-0"
+                style={{ backgroundColor: "var(--regu-blue)", color: "#fff" }}
+                aria-hidden
+              >
+                <Play className="h-4 w-4 fill-current" />
+              </span>
+              <div className="min-w-0">
+                <p
+                  className="text-[10px] font-bold uppercase tracking-[0.14em] m-0"
+                  style={{ color: "var(--regu-blue)" }}
+                >
+                  {t("pages.noticias.videoSectionTitle")}
+                </p>
+                <p
+                  className="text-sm font-semibold m-0 truncate"
+                  style={{ color: "var(--regu-navy)" }}
+                >
+                  {t("pages.noticias.videoSectionDesc")}
+                </p>
+              </div>
+            </div>
+            <div className="bg-black">
+              <video
+                src={payload.videoUrl}
+                controls
+                playsInline
+                preload="metadata"
+                className="w-full h-auto max-h-[70vh] block"
+              >
+                <track kind="captions" />
+              </video>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* External link */}
       {payload.link && (
         <div className="mt-6 pt-4 border-t" style={{ borderColor: "rgba(22,61,89,0.08)" }}>
@@ -374,7 +430,7 @@ function ArticleBody({ payload, isStaticCumbre }: { payload: ArticlePayload; isS
         </div>
       )}
 
-      {/* External video link (skip when the video is already embedded in the carousel) */}
+      {/* External video link (skip when the video is already embedded) */}
       {payload.videoUrl && !payload.videoUrl.startsWith("/") && (
         <div className="mt-4">
           <a

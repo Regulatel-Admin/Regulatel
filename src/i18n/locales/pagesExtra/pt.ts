@@ -88,6 +88,8 @@ export default {
       highlights: "Destaques",
       viewOfficialLink: "Ver ligação oficial",
       viewVideo: "Ver vídeo",
+      videoSectionTitle: "Assista ao vídeo",
+      videoSectionDesc: "Promo Habla el Regulador",
       shareArticle: "Partilhar esta notícia",
       cumbreReviveTitle: "Reviva a Cúpula",
       cumbreReviveDesc: "Transmissão oficial do evento",

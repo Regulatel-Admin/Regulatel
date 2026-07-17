@@ -88,6 +88,8 @@ export default {
       highlights: "Punti salienti",
       viewOfficialLink: "Visualizza link ufficiale",
       viewVideo: "Guarda il video",
+      videoSectionTitle: "Guarda il video",
+      videoSectionDesc: "Promo Habla el Regulador",
       shareArticle: "Condividi questo articolo",
       cumbreReviveTitle: "Rivivi il Summit",
       cumbreReviveDesc: "Trasmissione ufficiale dell'evento",

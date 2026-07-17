@@ -88,6 +88,8 @@ export default {
       highlights: "Key highlights",
       viewOfficialLink: "View official link",
       viewVideo: "Watch video",
+      videoSectionTitle: "Watch the video",
+      videoSectionDesc: "Habla el Regulador promo",
       shareArticle: "Share this article",
       cumbreReviveTitle: "Relive the Summit",
       cumbreReviveDesc: "Official event broadcast",

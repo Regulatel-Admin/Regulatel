@@ -88,6 +88,8 @@ export default {
       highlights: "Datos destacados",
       viewOfficialLink: "Ver enlace oficial",
       viewVideo: "Ver video",
+      videoSectionTitle: "Mira el video",
+      videoSectionDesc: "Promo Habla el Regulador",
       shareArticle: "Compartir esta noticia",
       cumbreReviveTitle: "Revive la Cumbre",
       cumbreReviveDesc: "Transmisión oficial del evento",
