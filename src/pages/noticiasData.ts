@@ -26,6 +26,23 @@ export interface NoticiaData {
 
 export const noticiasData: NoticiaData[] = [
   {
+    slug: 'habla-el-regulador-nota-de-prensa',
+    title: 'Regulatel lanza ‘Habla el Regulador’, una nueva serie de entrevistas sobre los desafíos de la transformación digital',
+    date: '2026-07-15',
+    dateFormatted: '15 julio 2026',
+    category: 'Noticias',
+    excerpt: 'La iniciativa reunirá periódicamente a autoridades regulatorias para compartir experiencias, analizar tendencias y reflexionar sobre la evolución de las telecomunicaciones y los mercados digitales.',
+    imageUrl: '/images/noticias/habla-el-regulador-nota-de-prensa.jpeg',
+    author: 'REGULATEL',
+    content: [
+      'El Foro Latinoamericano de Entes Reguladores de Telecomunicaciones (Regulatel) presentó Habla el Regulador, una nueva serie de entrevistas concebida como un espacio permanente de diálogo para conocer las perspectivas de autoridades regulatorias sobre los principales desafíos que enfrenta el sector de las telecomunicaciones y la transformación digital.',
+      'A través de conversaciones con presidentes, directores ejecutivos y especialistas de los organismos miembros e instituciones invitadas, la iniciativa busca promover el intercambio de experiencias, responder a las principales preguntas que plantea la transformación digital y compartir los enfoques regulatorios que orientan las decisiones de las autoridades del sector.',
+      'Las entrevistas abordarán temas como el rol del regulador de las telecomunicaciones en el contexto actual de convergencia, conectividad significativa, inversión, competencia, innovación, ciberseguridad, inteligencia artificial, inclusión digital y protección de los usuarios, entre otros asuntos que integran la agenda del ecosistema digital y de las telecomunicaciones.',
+      'Los contenidos estarán disponibles en las plataformas digitales de Regulatel y se incorporarán de manera periódica, con el propósito de consolidar un espacio de referencia para el intercambio de conocimiento y la cooperación entre las autoridades regulatorias de la región.'
+    ],
+    tags: ['Habla el Regulador', 'Entrevistas', 'Transformación digital', 'REGULATEL', 'Nota de prensa']
+  },
+  {
     slug: 'cumbre-regulatel-asiet-comtelca',
     title: 'Cumbre Regulatel, Asiet, Comtelca',
     date: '2025-10-28',

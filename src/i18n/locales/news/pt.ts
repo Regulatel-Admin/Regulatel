@@ -6,6 +6,19 @@ export default {
     Eventos: "Eventos",
   },
   newsArticles: {
+    "habla-el-regulador-nota-de-prensa": {
+      title:
+        "Regulatel lança ‘Habla el Regulador’, uma nova série de entrevistas sobre os desafios da transformação digital",
+      excerpt:
+        "A iniciativa reunirá periodicamente autoridades regulatórias para partilhar experiências, analisar tendências e refletir sobre a evolução das telecomunicações e dos mercados digitais.",
+      category: "Notícias",
+      content: [
+        "O Fórum Latino-Americano de Entidades Reguladoras de Telecomunicações (Regulatel) apresentou Habla el Regulador, uma nova série de entrevistas concebida como um espaço permanente de diálogo para conhecer as perspetivas de autoridades regulatórias sobre os principais desafios que o setor das telecomunicações e a transformação digital enfrentam.",
+        "Através de conversas com presidentes, diretores executivos e especialistas dos organismos membros e instituições convidadas, a iniciativa procura promover o intercâmbio de experiências, responder às principais perguntas que a transformação digital coloca e partilhar as abordagens regulatórias que orientam as decisões das autoridades do setor.",
+        "As entrevistas abordarão temas como o papel do regulador das telecomunicações no contexto atual de convergência, conectividade significativa, investimento, concorrência, inovação, cibersegurança, inteligência artificial, inclusão digital e proteção dos utilizadores, entre outros assuntos que integram a agenda do ecossistema digital e das telecomunicações.",
+        "Os conteúdos estarão disponíveis nas plataformas digitais da Regulatel e serão incorporados de forma periódica, com o propósito de consolidar um espaço de referência para o intercâmbio de conhecimento e a cooperação entre as autoridades regulatórias da região.",
+      ],
+    },
     "cumbre-regulatel-asiet-comtelca": {
       title: "Cúpula REGULATEL, ASIET, COMTELCA",
       excerpt:
