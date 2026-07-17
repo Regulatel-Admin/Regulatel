@@ -460,7 +460,8 @@ function ArticleEndVideo({
           className="flex items-center gap-3 px-5 py-4 border-b"
           style={{
             borderColor: "rgba(22,61,89,0.08)",
-            backgroundColor: "#F4F8FC",
+            background:
+              "linear-gradient(135deg, rgba(68,137,198,0.10) 0%, rgba(22,61,89,0.04) 100%)",
           }}
         >
           <button
