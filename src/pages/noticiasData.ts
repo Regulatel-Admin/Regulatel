@@ -34,7 +34,7 @@ export const noticiasData: NoticiaData[] = [
     dateFormatted: '15 julio 2026',
     category: 'Noticias',
     excerpt: 'La iniciativa reunirá periódicamente a autoridades regulatorias para compartir experiencias, analizar tendencias y reflexionar sobre la evolución de las telecomunicaciones y los mercados digitales.',
-    imageUrl: '/images/noticias/habla-el-regulador-nota-de-prensa.png',
+    imageUrl: '/images/noticias/habla-el-regulador-nota-de-prensa.png?v=2',
     videoUrl: '/videos/promo-regulatel-1.mp4',
     author: 'REGULATEL',
     content: [
