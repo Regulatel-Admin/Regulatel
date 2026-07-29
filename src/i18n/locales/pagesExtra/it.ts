@@ -29,6 +29,47 @@ export default {
       viewerControlsHint: "Usa i controlli del visualizzatore per navigare nel documento",
       activeFilter: "Filtro attivo:",
     },
+    hablaRegulador: {
+      title: "Habla El Regulador",
+      breadcrumb: "Habla El Regulador",
+      eyebrow: "LE VOCI DELLA REGOLAMENTAZIONE",
+      heroDescription:
+        "Conversazioni in prima persona con chi guida la trasformazione regolamentare e digitale nella nostra regione.",
+      watchTeaser: "Guarda l'anteprima",
+      browseInterviews: "Esplora le interviste",
+      teaserLabel: "Anteprima della serie",
+      teaserTitle: "Scopri le voci che stanno delineando il futuro della regolamentazione nella regione",
+      teaserDuration: "1:32",
+      statsInterviews: "Interviste",
+      statsCountries: "Paesi rappresentati",
+      statsConversation: "Dialogo regionale",
+      introEyebrow: "IL NOSTRO OBIETTIVO",
+      introTitle: "Un dialogo regionale, in prima persona",
+      introDescription:
+        "Habla El Regulador avvicina il pubblico alle idee, alle esperienze e alle priorità di chi guida la regolamentazione delle telecomunicazioni nella regione.",
+      collectionEyebrow: "LA SERIE",
+      collectionTitle: "Scopri le voci della regolamentazione",
+      collectionDescription:
+        "Interviste che uniscono leadership, esperienza e visione per comprendere le sfide e le opportunità dell'ecosistema digitale.",
+      episodeLabel: "Episodio {{number}}",
+      firstEdition: "Prima edizione",
+      watchInterview: "Guarda l'intervista",
+      watchInterviewAria: "Guarda l'intervista con {{name}}",
+      durationLabel: "Durata",
+      closePlayer: "Chiudi il lettore",
+      modalEyebrow: "Habla El Regulador",
+      modalTitle: "Intervista con {{name}}",
+      homeEyebrow: "NUOVA SERIE",
+      homeTitle: "Habla El Regulador",
+      homeDescription:
+        "Conversazioni con chi guida la regolamentazione e la trasformazione digitale nella nostra regione.",
+      viewAll: "Guarda tutte le interviste",
+      featuredLabel: "INTERVISTA IN PRIMO PIANO",
+      featuredDescription:
+        "Idee, esperienza e visione di chi guida la regolamentazione delle telecomunicazioni.",
+      footerNote:
+        "Un'iniziativa di REGULATEL per avvicinare le voci della regolamentazione a tutta la regione.",
+    },
     objetivosYFunciones: {
       foundingActDocSubtitle: "Documento ufficiale",
     },

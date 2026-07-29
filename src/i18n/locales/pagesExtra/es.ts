@@ -29,6 +29,47 @@ export default {
       viewerControlsHint: "Usa los controles del visor para navegar el documento",
       activeFilter: "Filtro activo:",
     },
+    hablaRegulador: {
+      title: "Habla El Regulador",
+      breadcrumb: "Habla El Regulador",
+      eyebrow: "VOCES DE LA REGULACIÓN",
+      heroDescription:
+        "Conversaciones en primera persona con quienes lideran la transformación regulatoria y digital de nuestra región.",
+      watchTeaser: "Ver adelanto",
+      browseInterviews: "Explorar entrevistas",
+      teaserLabel: "Adelanto de la serie",
+      teaserTitle: "Las voces que están trazando el futuro regulatorio de la región",
+      teaserDuration: "1:32",
+      statsInterviews: "Entrevistas",
+      statsCountries: "Países representados",
+      statsConversation: "Conversación regional",
+      introEyebrow: "EL PROPÓSITO",
+      introTitle: "Una conversación regional, en primera persona",
+      introDescription:
+        "Habla El Regulador acerca a la ciudadanía las ideas, experiencias y prioridades de quienes conducen la regulación de las telecomunicaciones en la región.",
+      collectionEyebrow: "LA SERIE",
+      collectionTitle: "Conoce las voces de la regulación",
+      collectionDescription:
+        "Entrevistas que conectan liderazgo, experiencia y visión para comprender los desafíos y las oportunidades del ecosistema digital.",
+      episodeLabel: "Episodio {{number}}",
+      firstEdition: "Primera edición",
+      watchInterview: "Ver entrevista",
+      watchInterviewAria: "Ver entrevista con {{name}}",
+      durationLabel: "Duración",
+      closePlayer: "Cerrar reproductor",
+      modalEyebrow: "Habla El Regulador",
+      modalTitle: "Entrevista con {{name}}",
+      homeEyebrow: "NUEVA SERIE",
+      homeTitle: "Habla El Regulador",
+      homeDescription:
+        "Conversaciones con quienes lideran la regulación y la transformación digital de nuestra región.",
+      viewAll: "Ver todas las entrevistas",
+      featuredLabel: "ENTREVISTA DESTACADA",
+      featuredDescription:
+        "Ideas, experiencia y visión de quienes lideran la regulación de las telecomunicaciones.",
+      footerNote:
+        "Una iniciativa de REGULATEL para acercar las voces de la regulación a toda la región.",
+    },
     objetivosYFunciones: {
       foundingActDocSubtitle: "Documento oficial",
     },

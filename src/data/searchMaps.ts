@@ -25,6 +25,17 @@ export const siteSearchEntries: SiteSearchEntry[] = [
   { keywords: ["estatutos", "reglamento", "protocolos", "procedimientos"], path: "/protocolos-y-procedimientos", label: "Protocolos y procedimientos" },
   { keywords: ["convenios"], path: "/convenios", label: "Convenios" },
   { keywords: ["revista", "revistas"], path: "/gestion?tipo=revista", label: "Revista Digital (Recursos)" },
+  {
+    keywords: [
+      "habla el regulador",
+      "entrevistas",
+      "guido gomez mazara",
+      "johnny marchan",
+      "carlos watson",
+    ],
+    path: "/habla-el-regulador",
+    label: "Habla El Regulador",
+  },
   { keywords: ["buenas prácticas", "micrositio", "power bi", "indicadores"], path: "https://sutel.go.cr/pagina/indicadores-internacionales-regulatel", label: "Micrositio Buenas prácticas Power BI" },
 ];
 

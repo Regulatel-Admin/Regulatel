@@ -59,6 +59,7 @@ import GaleriaAlbum from '@/pages/GaleriaAlbum';
 import Subscribe from '@/pages/Subscribe';
 import CanalYouTube from '@/pages/CanalYouTube';
 import DeclaracionPrivacidad from '@/pages/DeclaracionPrivacidad';
+import HablaElRegulador from '@/pages/HablaElRegulador';
 import QueSomos from '@/pages/quienes-somos/QueSomos';
 import VisionMision from '@/pages/quienes-somos/VisionMision';
 import ObjetivosYFunciones from '@/pages/quienes-somos/ObjetivosYFunciones';
@@ -130,6 +131,7 @@ function App() {
           <Route path="/contacto" element={<Contacto />} />
               <Route path="/subscribe" element={<Subscribe />} />
               <Route path="/canal-youtube" element={<CanalYouTube />} />
+              <Route path="/habla-el-regulador" element={<HablaElRegulador />} />
               <Route path="/declaracion-de-privacidad" element={<DeclaracionPrivacidad />} />
               <Route path="/pendiente/:slug" element={<TodoPlaceholder />} />
               {/* Rutas individuales de entes reguladores */}

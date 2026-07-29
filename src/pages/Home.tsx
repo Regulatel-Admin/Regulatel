@@ -13,6 +13,7 @@ import FeaturedEventsCarousel from "@/components/home/FeaturedEventsCarousel";
 import HomeHeroInstitucional from "@/components/home/HomeHeroInstitucional";
 import NewsSectionBerec from "@/components/home/NewsSectionBerec";
 import RegulatelEnCifras from "@/components/home/RegulatelEnCifras";
+import HablaElReguladorHome from "@/components/home/HablaElReguladorHome";
 import {
   useEvents,
   useMergedNews,
@@ -109,7 +110,10 @@ export default function Home() {
 
       <section className="bg-white">
         <NewsSectionBerec news={homeNews} />
-        </section>
+      </section>
+
+      <HablaElReguladorHome />
+
       {/* Eventos: carrusel destacados + grid "Próximos eventos" */}
       <section style={{ backgroundColor: "var(--regu-offwhite)", borderTop: "1px solid rgba(22,61,89,0.07)" }}>
         <FeaturedEventsCarousel events={homeEvents} autoplayIntervalMs={7000} />

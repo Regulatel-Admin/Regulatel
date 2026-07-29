@@ -114,6 +114,11 @@ export const navigationItems: NavigationItem[] = [
             description: "Publicaciones periódicas",
           },
           {
+            label: "Habla El Regulador",
+            href: "/habla-el-regulador",
+            description: "Entrevistas con líderes regulatorios de la región",
+          },
+          {
             label: "Galería fotográfica",
             href: "/galeria",
             description: "Imágenes de eventos y actividades",

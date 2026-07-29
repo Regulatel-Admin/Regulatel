@@ -29,6 +29,47 @@ export default {
       viewerControlsHint: "Use the viewer controls to navigate the document",
       activeFilter: "Active filter:",
     },
+    hablaRegulador: {
+      title: "Habla El Regulador",
+      breadcrumb: "Habla El Regulador",
+      eyebrow: "VOICES SHAPING REGULATION",
+      heroDescription:
+        "First-hand conversations with the leaders driving regulatory and digital transformation across our region.",
+      watchTeaser: "Watch the teaser",
+      browseInterviews: "Browse interviews",
+      teaserLabel: "Series preview",
+      teaserTitle: "Meet the voices shaping the region's regulatory future",
+      teaserDuration: "1:32",
+      statsInterviews: "Interviews",
+      statsCountries: "Countries represented",
+      statsConversation: "Regional conversation",
+      introEyebrow: "OUR PURPOSE",
+      introTitle: "A regional conversation, in their own words",
+      introDescription:
+        "Habla El Regulador brings the public closer to the ideas, experience, and priorities of those leading telecommunications regulation across the region.",
+      collectionEyebrow: "THE SERIES",
+      collectionTitle: "Meet the voices of regulation",
+      collectionDescription:
+        "Interviews connecting leadership, experience, and vision to explore the challenges and opportunities shaping the digital ecosystem.",
+      episodeLabel: "Episode {{number}}",
+      firstEdition: "First edition",
+      watchInterview: "Watch interview",
+      watchInterviewAria: "Watch interview with {{name}}",
+      durationLabel: "Duration",
+      closePlayer: "Close player",
+      modalEyebrow: "Habla El Regulador",
+      modalTitle: "Interview with {{name}}",
+      homeEyebrow: "NEW SERIES",
+      homeTitle: "Habla El Regulador",
+      homeDescription:
+        "Conversations with the leaders shaping regulation and digital transformation across our region.",
+      viewAll: "View all interviews",
+      featuredLabel: "FEATURED INTERVIEW",
+      featuredDescription:
+        "Ideas, experience, and vision from those leading telecommunications regulation.",
+      footerNote:
+        "A REGULATEL initiative bringing the voices of regulation closer to the entire region.",
+    },
     objetivosYFunciones: {
       foundingActDocSubtitle: "Official document",
     },
