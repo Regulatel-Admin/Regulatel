@@ -91,10 +91,30 @@ export const hablaElReguladorTeaser = {
   videoSrc: "/videos/habla-el-regulador/teaser-habla-el-regulador.mp4",
 };
 
+/** Local flag files in /public/flags (when available). */
+const LOCAL_FLAG_BY_CODE: Record<string, string> = {
+  AR: "argentina.png",
+  BO: "bolivia.png",
+  BR: "brasil.png",
+  CL: "chile.png",
+  CO: "colombia.png",
+  EC: "ecuador.png",
+  MX: "mexico.png",
+  PY: "paraguay.png",
+  PE: "peru.png",
+  DO: "rep_dominicana.png",
+  UY: "uruguay.png",
+};
+
+/** Returns a reliable flag image URL (local first, CDN fallback). */
+export function countryFlagSrc(countryCode: string): string {
+  const code = countryCode.trim().toUpperCase();
+  const local = LOCAL_FLAG_BY_CODE[code];
+  if (local) return `/flags/${local}`;
+  return `https://flagcdn.com/w40/${code.toLowerCase()}.png`;
+}
+
+/** @deprecated Use countryFlagSrc + <img>. Kept for compatibility. */
 export function countryFlag(countryCode: string): string {
-  return countryCode
-    .toUpperCase()
-    .replace(/[A-Z]/g, (letter) =>
-      String.fromCodePoint(127397 + letter.charCodeAt(0)),
-    );
+  return countryFlagSrc(countryCode);
 }

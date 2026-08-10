@@ -2,6 +2,7 @@ import { useCallback, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   ArrowDown,
+  ArrowRight,
   CalendarDays,
   Clock3,
   Home,
@@ -12,7 +13,7 @@ import {
 import { useTranslation } from "react-i18next";
 import InterviewPlayerDialog from "@/components/hablaElRegulador/InterviewPlayerDialog";
 import {
-  countryFlag,
+  countryFlagSrc,
   hablaElReguladorInterviews,
   hablaElReguladorTeaser,
   type HablaElReguladorInterview,
@@ -245,7 +246,7 @@ export default function HablaElRegulador() {
       <section
         id="entrevistas"
         aria-labelledby="interviews-title"
-        className="scroll-mt-36 border-t border-[rgba(22,61,89,0.07)] bg-[var(--regu-offwhite)] py-14 md:py-20"
+        className="scroll-mt-36 border-t border-[rgba(22,61,89,0.07)] bg-[#F5F7FA] py-14 md:py-20"
       >
         <div className="mx-auto w-full max-w-[1280px] px-4 md:px-6">
           <div className="mb-9 max-w-3xl md:mb-12">
@@ -269,71 +270,86 @@ export default function HablaElRegulador() {
               <article
                 key={interview.slug}
                 id={interview.slug}
-                className={[
-                  "group overflow-hidden rounded-[20px] border border-[rgba(22,61,89,0.09)] bg-white shadow-[0_8px_28px_rgba(22,61,89,0.07)] transition-[transform,box-shadow,border-color] duration-300 hover:-translate-y-1 hover:border-[rgba(68,137,198,0.28)] hover:shadow-[0_18px_42px_rgba(22,61,89,0.12)] motion-reduce:transition-none",
-                  index === 0 ? "sm:col-span-2 lg:col-span-1" : "",
-                ].join(" ")}
+                className="flex h-full flex-col border border-[rgba(22,61,89,0.12)] bg-white"
               >
                 <button
                   type="button"
                   onClick={() => setPlayer({ kind: "interview", interview })}
-                  className="block w-full text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--regu-blue)]"
+                  className="flex h-full w-full flex-col text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--regu-blue)]"
                   aria-label={t("pages.hablaRegulador.watchInterviewAria", {
                     name: interview.name,
                   })}
                 >
-                  <span className="relative block aspect-video overflow-hidden bg-[var(--regu-navy)]">
+                  <span className="relative block aspect-[16/10] overflow-hidden bg-[var(--regu-navy)]">
                     <img
                       src={interview.poster}
                       alt=""
                       loading={index < 3 ? "eager" : "lazy"}
-                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.035] motion-reduce:transition-none"
+                      className="h-full w-full object-cover"
                     />
-                    <span className="absolute inset-0 bg-gradient-to-t from-[#071622]/70 via-transparent to-[#071622]/5" />
-                    <span className="absolute left-4 top-4 rounded-full bg-[#071622]/76 px-3 py-1.5 text-[0.62rem] font-bold uppercase tracking-[0.12em] text-white backdrop-blur-sm">
-                      {t("pages.hablaRegulador.episodeLabel", {
-                        number: interview.episode,
-                      })}
-                    </span>
-                    <span className="absolute right-4 top-4 rounded-full bg-white/92 px-2.5 py-1.5 text-[0.65rem] font-bold text-[var(--regu-navy)] shadow-sm">
-                      {countryFlag(interview.countryCode)} {interview.country}
-                    </span>
-                    <span className="absolute inset-0 flex items-center justify-center">
-                      <span className="flex h-14 w-14 items-center justify-center rounded-full border border-white/35 bg-white/95 text-[var(--regu-blue)] shadow-xl transition-transform group-hover:scale-110 motion-reduce:transition-none">
+                    <span className="absolute inset-0 flex items-center justify-center bg-black/15 transition-colors hover:bg-black/25">
+                      <span className="flex h-11 w-11 items-center justify-center rounded-full bg-[var(--regu-blue)] text-white">
                         <Play
-                          className="ml-0.5 h-5 w-5 fill-current"
+                          className="ml-0.5 h-4 w-4 fill-current"
                           aria-hidden
                         />
                       </span>
                     </span>
-                    <span className="absolute bottom-3 right-3 inline-flex items-center gap-1.5 rounded-full bg-[#071622]/80 px-2.5 py-1.5 text-[0.66rem] font-semibold text-white backdrop-blur-sm">
-                      <Clock3 className="h-3 w-3" aria-hidden />
-                      {interview.duration}
-                    </span>
                   </span>
 
-                  <span className="block px-5 pb-5 pt-5 md:px-6 md:pb-6">
+                  <span className="flex flex-1 flex-col px-4 py-4 md:px-5 md:py-5">
+                    <span className="inline-flex items-center gap-1.5 text-[0.72rem] font-bold uppercase tracking-[0.1em] text-[var(--regu-navy)]">
+                      <span className="text-[var(--regu-blue)]">
+                        {t("pages.hablaRegulador.episodeLabel", {
+                          number: interview.episode,
+                        })}
+                      </span>
+                      <span className="text-[rgba(22,61,89,0.35)]" aria-hidden>
+                        -
+                      </span>
+                      <img
+                        src={countryFlagSrc(interview.countryCode)}
+                        alt=""
+                        width={14}
+                        height={10}
+                        className="h-2.5 w-3.5 object-cover"
+                        loading="lazy"
+                      />
+                      <span className="text-[var(--regu-gray-700)]">
+                        {interview.country}
+                      </span>
+                    </span>
+
                     <span
-                      className="block text-xl font-bold leading-tight text-[var(--regu-navy)]"
+                      className="mt-2 block text-lg font-bold leading-snug text-[var(--regu-navy)]"
                       style={{ fontFamily: "var(--token-font-heading)" }}
                     >
                       {interview.name}
                     </span>
-                    <span className="mt-2 block text-sm font-semibold leading-relaxed text-[var(--regu-gray-700)]">
+                    <span className="mt-1.5 block text-sm leading-relaxed text-[var(--regu-gray-600)]">
                       {interview.role}
                     </span>
-                    <span className="mt-1 block text-sm text-[var(--regu-blue)]">
+                    <span className="mt-0.5 block text-sm font-semibold text-[var(--regu-blue)]">
                       {interview.organization}
                     </span>
-                    <span className="mt-4 flex items-center justify-between gap-3 border-t border-[rgba(22,61,89,0.07)] pt-4">
+
+                    <span className="mt-auto mt-4 flex items-center justify-between gap-3 border-t border-[rgba(22,61,89,0.1)] pt-3.5">
                       <span className="inline-flex items-center gap-1.5 text-xs text-[var(--regu-gray-500)]">
-                        <CalendarDays className="h-3.5 w-3.5" aria-hidden />
-                        {interview.date
-                          ? formatDate(interview.date, i18n.language)
-                          : t("pages.hablaRegulador.firstEdition")}
+                        {interview.date ? (
+                          <>
+                            <CalendarDays className="h-3.5 w-3.5" aria-hidden />
+                            {formatDate(interview.date, i18n.language)}
+                          </>
+                        ) : (
+                          <>
+                            <Clock3 className="h-3.5 w-3.5" aria-hidden />
+                            {interview.duration}
+                          </>
+                        )}
                       </span>
-                      <span className="text-xs font-bold text-[var(--regu-blue)]">
+                      <span className="inline-flex items-center gap-1 text-xs font-semibold text-[var(--regu-blue)]">
                         {t("pages.hablaRegulador.watchInterview")}
+                        <ArrowRight className="h-3.5 w-3.5" aria-hidden />
                       </span>
                     </span>
                   </span>

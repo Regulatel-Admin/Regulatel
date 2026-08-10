@@ -2,7 +2,7 @@ import { ArrowUpRight, Clock3, Play } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import {
-  countryFlag,
+  countryFlagSrc,
   hablaElReguladorInterviews,
 } from "@/data/hablaElRegulador";
 
@@ -86,8 +86,15 @@ export default function HablaElReguladorHome() {
             </span>
             <span className="absolute inset-x-0 bottom-0 p-5 md:p-7">
               <span className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.08em] text-white/70">
-                <span>
-                  {countryFlag(featured.countryCode)} {featured.country}
+                <span className="inline-flex items-center gap-1.5">
+                  <img
+                    src={countryFlagSrc(featured.countryCode)}
+                    alt=""
+                    width={16}
+                    height={12}
+                    className="h-3 w-4 object-cover"
+                  />
+                  {featured.country}
                 </span>
                 <span aria-hidden>•</span>
                 <span>{featured.duration}</span>

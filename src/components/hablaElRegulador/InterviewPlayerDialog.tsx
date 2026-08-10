@@ -8,7 +8,7 @@ import { createPortal } from "react-dom";
 import { Clock3, X } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import type { HablaElReguladorInterview } from "@/data/hablaElRegulador";
-import { countryFlag } from "@/data/hablaElRegulador";
+import { countryFlagSrc } from "@/data/hablaElRegulador";
 
 interface InterviewPlayerDialogProps {
   interview: HablaElReguladorInterview;
@@ -152,8 +152,15 @@ export default function InterviewPlayerDialog({
                 {!isTeaser && (
                   <>
                     <span aria-hidden>•</span>
-                    <span>
-                      {countryFlag(interview.countryCode)} {interview.country}
+                    <span className="inline-flex items-center gap-1.5">
+                      <img
+                        src={countryFlagSrc(interview.countryCode)}
+                        alt=""
+                        width={16}
+                        height={12}
+                        className="h-3 w-4 object-cover"
+                      />
+                      {interview.country}
                     </span>
                   </>
                 )}
