@@ -14,37 +14,10 @@ export interface HablaElReguladorInterview {
 }
 
 /**
- * Episodios finales de la serie. Los cinco videos publicados se reproducen
- * desde YouTube; los dos restantes usan copias web optimizadas del archivo
- * maestro entregado por REGULATEL.
+ * Episodios finales de la serie. Los videos publicados se reproducen
+ * desde YouTube.
  */
 export const hablaElReguladorInterviews: HablaElReguladorInterview[] = [
-  {
-    slug: "johnny-marchan-pena",
-    episode: 7,
-    name: "Johnny Marchán Peña",
-    role: "Gerente General",
-    organization: "OSIPTEL",
-    country: "Perú",
-    countryCode: "PE",
-    date: "2026-07-15",
-    duration: "27:38",
-    poster: "/images/habla-el-regulador/johnny-marchan-pena.jpg",
-    videoSrc: "/videos/habla-el-regulador/johnny-marchan-pena.mp4",
-  },
-  {
-    slug: "carlos-watson-carazo",
-    episode: 6,
-    name: "Carlos Watson Carazo",
-    role: "Presidente del Consejo",
-    organization: "SUTEL",
-    country: "Costa Rica",
-    countryCode: "CR",
-    date: "2026-07-14",
-    duration: "17:50",
-    poster: "/images/habla-el-regulador/carlos-watson-carazo.jpg",
-    videoSrc: "/videos/habla-el-regulador/carlos-watson-carazo.mp4",
-  },
   {
     slug: "angel-garcia-castillejo",
     episode: 5,
