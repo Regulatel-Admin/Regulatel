@@ -231,7 +231,7 @@ export default function HablaElRegulador() {
               {t("pages.hablaRegulador.introTitle")}
             </h2>
           </div>
-          <div className="rounded-2xl border border-[rgba(22,61,89,0.08)] bg-[var(--regu-offwhite)] p-6 md:p-8">
+          <div className="rounded-2xl border border-[rgba(22,61,89,0.10)] bg-white p-6 shadow-[0_4px_16px_rgba(22,61,89,0.05)] md:p-8">
             <Sparkles
               className="mb-4 h-6 w-6 text-[var(--regu-blue)]"
               aria-hidden
@@ -270,7 +270,7 @@ export default function HablaElRegulador() {
               <article
                 key={interview.slug}
                 id={interview.slug}
-                className="flex h-full flex-col border border-[rgba(22,61,89,0.12)] bg-white"
+                className="flex h-full flex-col overflow-hidden rounded-[24px] border border-[rgba(22,61,89,0.10)] bg-white shadow-[0_8px_28px_rgba(22,61,89,0.08)]"
               >
                 <button
                   type="button"
@@ -280,14 +280,14 @@ export default function HablaElRegulador() {
                     name: interview.name,
                   })}
                 >
-                  <span className="relative block aspect-[16/10] overflow-hidden bg-[var(--regu-navy)]">
+                  <span className="relative block aspect-video overflow-hidden bg-[var(--regu-navy)]">
                     <img
                       src={interview.poster}
                       alt=""
                       loading={index < 3 ? "eager" : "lazy"}
-                      className="h-full w-full object-cover"
+                      className="h-full w-full object-contain"
                     />
-                    <span className="absolute inset-0 flex items-center justify-center bg-black/15 transition-colors hover:bg-black/25">
+                    <span className="absolute inset-0 flex items-center justify-center bg-black/10 transition-colors hover:bg-black/20">
                       <span className="flex h-11 w-11 items-center justify-center rounded-full bg-[var(--regu-blue)] text-white">
                         <Play
                           className="ml-0.5 h-4 w-4 fill-current"
