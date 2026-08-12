@@ -27,6 +27,9 @@ export default {
       linkCopied: "Link copied ✓",
       documentPreviewSubtitle: "Document preview",
       viewerControlsHint: "Use the viewer controls to navigate the document",
+      wordPreviewLoading: "Loading preview…",
+      wordPreviewError: "The document could not be displayed. You can download it from the button above.",
+      wordPreviewHint: "Scroll to read the document",
       activeFilter: "Active filter:",
     },
     hablaRegulador: {

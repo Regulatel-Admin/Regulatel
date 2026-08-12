@@ -27,6 +27,9 @@ export default {
       linkCopied: "Ligação copiada ✓",
       documentPreviewSubtitle: "Pré-visualização do documento",
       viewerControlsHint: "Use os controlos do visualizador para navegar no documento",
+      wordPreviewLoading: "A carregar pré-visualização…",
+      wordPreviewError: "Não foi possível mostrar o documento. Pode descarregá-lo no botão acima.",
+      wordPreviewHint: "Desloque para ler o documento",
       activeFilter: "Filtro ativo:",
     },
     hablaRegulador: {

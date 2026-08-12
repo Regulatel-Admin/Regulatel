@@ -4,11 +4,9 @@ import { useTranslation } from "react-i18next";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   FileText,
-  Download,
   FileDown,
   Eye,
   X,
-  Maximize2,
   BookOpen,
   Search,
   Lock,
@@ -20,6 +18,8 @@ import {
 import { getRestrictedDocument, isRestrictedUnlocked, markAllRestrictedUnlocked } from "@/config/restrictedDocuments";
 import { api } from "@/lib/api";
 import PageHero from "@/components/PageHero";
+import DocumentPreviewModal from "@/components/DocumentPreviewModal";
+import { canPreviewDocument, type DocumentPreviewTarget } from "@/lib/documentPreview";
 import {
   filterByTipo,
   GESTION_TIPO_VALUES,
@@ -101,7 +101,7 @@ export default function Gestion() {
       }, { replace: true });
     }
   }, [searchParams, setSearchParams]);
-  const [previewDoc, setPreviewDoc] = useState<{ url: string; title: string } | null>(null);
+  const [previewDoc, setPreviewDoc] = useState<DocumentPreviewTarget | null>(null);
   const [searchInput, setSearchInput] = useState(searchQuery);
   const [, setRestrictedSessionTick] = useState(0);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -351,7 +351,14 @@ export default function Gestion() {
                           doc={doc}
                           index={index}
                           deepLink={`/gestion?tipo=${doc.category}&id=${doc.id}`}
-                          onPreview={() => setPreviewDoc({ url: doc.url, title: doc.title })}
+                          onPreview={() =>
+                            setPreviewDoc({
+                              url: doc.url,
+                              title: doc.title,
+                              fileType: doc.fileType,
+                              fileName: doc.fileName,
+                            })
+                          }
                           isSelectedRevista={isSelectedRevista}
                         />
                       </div>
@@ -364,95 +371,7 @@ export default function Gestion() {
         </div>
       </div>
 
-      {/* Modal de Preview de PDF */}
-      <AnimatePresence>
-        {previewDoc && (
-          <>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setPreviewDoc(null)}
-              className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm"
-            />
-            <motion.div
-              initial={{ opacity: 0, scale: 0.96, y: 16 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.96, y: 16 }}
-              transition={{ type: "spring", damping: 28, stiffness: 320 }}
-              className="fixed inset-4 z-50 flex flex-col overflow-hidden rounded-2xl bg-white shadow-2xl md:inset-8 lg:inset-12"
-            >
-              {/* Header del modal */}
-              <div
-                className="flex items-center justify-between border-b px-5 py-4 md:px-6"
-                style={{ borderColor: "rgba(22,61,89,0.08)", backgroundColor: "#FAFBFC" }}
-              >
-                <div className="flex min-w-0 flex-1 items-center gap-3">
-                  <div
-                    className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl"
-                    style={{ backgroundColor: "rgba(68,137,198,0.10)", color: "var(--regu-blue)" }}
-                  >
-                    <FileText className="h-5 w-5" />
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <h3 className="truncate text-base font-bold md:text-lg" style={{ color: "var(--regu-gray-900)" }}>
-                      {previewDoc.title}
-                    </h3>
-                    <p className="text-xs" style={{ color: "var(--regu-gray-500)" }}>{t("pages.shared.documentPreviewSubtitle")}</p>
-                  </div>
-                </div>
-                <div className="flex flex-shrink-0 items-center gap-2">
-                  <a
-                    href={previewDoc.url}
-                    download
-                    className="inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold text-white transition hover:opacity-90"
-                    style={{ backgroundColor: "var(--regu-blue)" }}
-                  >
-                    <Download className="h-4 w-4" />
-                    <span className="hidden sm:inline">{t("common.download")}</span>
-                  </a>
-                  <button
-                    onClick={() => setPreviewDoc(null)}
-                    className="flex h-9 w-9 items-center justify-center rounded-lg border transition hover:bg-[var(--regu-gray-100)]"
-                    style={{ borderColor: "rgba(22,61,89,0.12)", color: "var(--regu-gray-700)" }}
-                    aria-label={t("common.close")}
-                  >
-                    <X className="h-5 w-5" />
-                  </button>
-                </div>
-              </div>
-
-              {/* Iframe PDF */}
-              <div className="flex-1 overflow-hidden bg-[#F0F0F0]">
-                <iframe
-                  src={`${previewDoc.url}#toolbar=1&navpanes=1&scrollbar=1`}
-                  className="h-full w-full border-0"
-                  title={`Preview de ${previewDoc.title}`}
-                  style={{ minHeight: "400px" }}
-                />
-              </div>
-
-              {/* Footer del modal */}
-              <div
-                className="flex flex-wrap items-center justify-between gap-2 border-t px-5 py-3"
-                style={{ borderColor: "rgba(22,61,89,0.08)", backgroundColor: "#FAFBFC" }}
-              >
-                <p className="text-xs" style={{ color: "var(--regu-gray-500)" }}>
-                  {t("pages.shared.viewerControlsHint")}
-                </p>
-                <button
-                  onClick={() => window.open(previewDoc.url, "_blank")}
-                  className="inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-semibold transition hover:bg-white"
-                  style={{ color: "var(--regu-blue)" }}
-                >
-                  <Maximize2 className="h-4 w-4" />
-                  {t("common.openInNewTab")}
-                </button>
-              </div>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
+      <DocumentPreviewModal doc={previewDoc} onClose={() => setPreviewDoc(null)} />
     </>
   );
 }
@@ -478,8 +397,7 @@ function DocCard({
   const isUnlocked = isRestrictedDoc && isRestrictedUnlocked(doc.id);
   const isRestricted = isRestrictedDoc && !isUnlocked;
   const accessUrl = `/acceso-documentos?doc=${encodeURIComponent(doc.id)}&solicitar=1`;
-  const canPreview =
-    (doc.fileType ?? "").toLowerCase().includes("pdf") || doc.url.toLowerCase().endsWith(".pdf");
+  const canPreview = canPreviewDocument(doc.url, doc.fileType, doc.fileName);
 
   const TypeIcon = isRestricted
     ? Lock
@@ -590,6 +508,7 @@ function DocCard({
             <>
               {canPreview && (
               <button
+                type="button"
                 onClick={onPreview}
                 className="inline-flex items-center gap-1.5 rounded-lg px-4 py-2 text-xs font-bold uppercase tracking-[0.07em] text-white transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2"
                 style={{ backgroundColor: "var(--regu-blue)" }}
@@ -609,14 +528,26 @@ function DocCard({
                 <FileDown className="h-3.5 w-3.5 shrink-0" />
                 {t("common.download")}
               </a>
-              <Link
-                to={deepLink}
-                className="ml-auto inline-flex items-center gap-1 text-xs font-semibold transition-all duration-150 hover:gap-2 opacity-60 hover:opacity-100"
-                style={{ color: "var(--regu-blue)" }}
-                aria-label={`${t("common.view")} ${doc.title}`}
-              >
-                {t("common.view")} <ArrowRight className="h-3.5 w-3.5" aria-hidden />
-              </Link>
+              {canPreview ? (
+                <button
+                  type="button"
+                  onClick={onPreview}
+                  className="ml-auto inline-flex items-center gap-1 text-xs font-semibold transition-all duration-150 hover:gap-2 opacity-60 hover:opacity-100"
+                  style={{ color: "var(--regu-blue)" }}
+                  aria-label={`${t("common.view")} ${doc.title}`}
+                >
+                  {t("common.view")} <ArrowRight className="h-3.5 w-3.5" aria-hidden />
+                </button>
+              ) : (
+                <Link
+                  to={deepLink}
+                  className="ml-auto inline-flex items-center gap-1 text-xs font-semibold transition-all duration-150 hover:gap-2 opacity-60 hover:opacity-100"
+                  style={{ color: "var(--regu-blue)" }}
+                  aria-label={`${t("common.view")} ${doc.title}`}
+                >
+                  {t("common.view")} <ArrowRight className="h-3.5 w-3.5" aria-hidden />
+                </Link>
+              )}
             </>
           )}
         </div>
