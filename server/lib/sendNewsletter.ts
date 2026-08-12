@@ -4,6 +4,7 @@
  */
 
 import { getActiveSubscriberEmails } from "./subscribers.js";
+import { emailButton, siteBaseUrl, wrapEmailHtml } from "./emailLayout.js";
 
 const FROM_EMAIL = process.env.NEWSLETTER_FROM_EMAIL ?? "REGULATEL <onboarding@resend.dev>";
 const SITE_NAME = "REGULATEL";
@@ -33,21 +34,19 @@ export async function notifySubscribersNewContent(params: {
 
   const typeLabel = params.type === "noticia" ? "Nueva noticia" : params.type === "evento" ? "Nuevo evento" : "Nueva publicación";
   const subject = `${SITE_NAME} – ${typeLabel}: ${params.title}`;
-  const baseUrl = process.env.SITE_URL || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "https://regulatel.org");
+  const baseUrl = siteBaseUrl();
   const fullUrl = params.url ? (params.url.startsWith("http") ? params.url : `${baseUrl}${params.url.startsWith("/") ? "" : "/"}${params.url}`) : "";
-  const linkHtml = fullUrl
-    ? `<p><a href="${fullUrl}" style="color:#4489c6;font-weight:600;">Ver en el sitio</a></p>`
-    : "";
-  const html = `
-    <div style="font-family:sans-serif;max-width:560px;margin:0 auto;">
-      <p style="color:#163d59;font-size:14px;">${typeLabel} en ${SITE_NAME}:</p>
-      <h2 style="color:#163d59;font-size:18px;">${params.title}</h2>
-      ${params.date ? `<p style="color:#666;font-size:12px;">${params.date}</p>` : ""}
-      ${params.excerpt ? `<p style="color:#444;font-size:14px;line-height:1.5;">${params.excerpt}</p>` : ""}
-      ${linkHtml}
-      <p style="color:#888;font-size:12px;margin-top:24px;">Recibes este correo porque te suscribiste a las actualizaciones en regulatel.org. Puedes darte de baja en el pie de este mensaje.</p>
-    </div>
-  `;
+  const html = wrapEmailHtml({
+    preheader: `${typeLabel}: ${params.title}`,
+    title: typeLabel,
+    footerNote: "Recibe este correo porque se suscribió a las actualizaciones en regulatel.org.",
+    bodyHtml: `
+      <h2 style="margin:0 0 8px;font-family:Arial,Helvetica,sans-serif;font-size:18px;line-height:1.4;color:#163d59;">${params.title}</h2>
+      ${params.date ? `<p style="margin:0 0 12px;font-family:Arial,Helvetica,sans-serif;font-size:12px;color:#6b7c8a;">${params.date}</p>` : ""}
+      ${params.excerpt ? `<p style="margin:0 0 20px;font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.6;color:#2c3a47;">${params.excerpt}</p>` : ""}
+      ${fullUrl ? emailButton(fullUrl, "Ver en el sitio") : ""}
+    `,
+  });
 
   let sent = 0;
   for (const to of emails) {

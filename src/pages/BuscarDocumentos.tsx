@@ -14,14 +14,17 @@ import {
   Archive,
   Files,
   Search,
+  Lock,
 } from "lucide-react";
 import { resolveDocumentSearch } from "@/data/searchMaps";
 import { searchDocumentsInList, type GestionDocument } from "@/data/gestion";
 import { useMergedGestionDocuments } from "@/contexts/AdminDataContext";
+import { getRestrictedDocument, isRestrictedUnlocked } from "@/config/restrictedDocuments";
 
 const CATEGORY_ICONS: Record<string, React.ReactNode> = {
   revista: <BookOpen className="h-5 w-5" />,
   "planes-actas": <ClipboardList className="h-5 w-5" />,
+  "comite-ejecutivo": <Archive className="h-5 w-5" />,
   asamblea: <Archive className="h-5 w-5" />,
 };
 
@@ -33,6 +36,7 @@ function getCategoryLabel(category: string, t: (key: string) => string) {
   if (category === "revista") return t("pages.buscarDocumentos.categories.revista");
   if (category === "planes-actas") return t("pages.buscarDocumentos.categories.planesActas");
   if (category === "asamblea") return t("pages.buscarDocumentos.categories.asamblea");
+  if (category === "comite-ejecutivo") return t("pages.buscarDocumentos.categories.comiteEjecutivo");
   return t("pages.buscarDocumentos.categories.documento");
 }
 
@@ -340,6 +344,9 @@ function DocResultCard({
   const { t } = useTranslation();
   const icon = getCategoryIcon(doc.category);
   const categoryLabel = getCategoryLabel(doc.category, t);
+  const isRestrictedDoc = getRestrictedDocument(doc.id) !== null;
+  const isRestricted = isRestrictedDoc && !isRestrictedUnlocked(doc.id);
+  const accessUrl = `/acceso-documentos?doc=${encodeURIComponent(doc.id)}&solicitar=1`;
 
   return (
     <motion.div
@@ -391,6 +398,17 @@ function DocResultCard({
           </div>
 
           <div className="mt-auto flex flex-wrap gap-2">
+            {isRestricted ? (
+              <Link
+                to={accessUrl}
+                className="inline-flex items-center gap-1.5 rounded-xl px-4 py-2 text-xs font-bold text-white transition-opacity hover:opacity-85"
+                style={{ backgroundColor: "var(--regu-blue)" }}
+              >
+                <Lock className="h-3.5 w-3.5" />
+                {t("pages.gestion.requestAccess")}
+              </Link>
+            ) : (
+              <>
             <button
               onClick={onPreview}
               className="inline-flex items-center gap-1.5 rounded-xl px-4 py-2 text-xs font-bold text-white transition-opacity hover:opacity-85"
@@ -410,6 +428,8 @@ function DocResultCard({
               <Download className="h-3.5 w-3.5" />
               {t("common.download")}
             </a>
+              </>
+            )}
           </div>
         </div>
       </div>

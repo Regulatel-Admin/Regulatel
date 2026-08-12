@@ -89,6 +89,12 @@ export const navigationItems: NavigationItem[] = [
             restricted: true,
           },
           {
+            label: "Comité Ejecutivo",
+            href: "/acceso-documentos?tipo=comite-ejecutivo",
+            description: "Actas de las reuniones ordinarias.",
+            restricted: true,
+          },
+          {
             label: "Declaraciones",
             href: "/gestion?tipo=documentos",
             description: "Declaraciones y pronunciamientos oficiales",

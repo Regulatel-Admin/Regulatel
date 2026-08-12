@@ -62,9 +62,15 @@ export const documentSearchEntries: DocumentSearchEntry[] = [
   },
   {
     keywords: ["acta", "actas", "asamblea"],
-    path: "/gestion?tipo=planes-actas",
+    path: "/acceso-documentos",
     label: "Actas de asambleas",
-    description: "Actas de las asambleas plenarias.",
+    description: "Actas de las asambleas plenarias (acceso restringido).",
+  },
+  {
+    keywords: ["comité ejecutivo", "comite ejecutivo", "actas comité", "reuniones ordinarias"],
+    path: "/acceso-documentos?tipo=comite-ejecutivo",
+    label: "Comité Ejecutivo",
+    description: "Actas de las reuniones ordinarias.",
   },
   {
     keywords: ["documento", "documentos", "publicación", "publicaciones"],

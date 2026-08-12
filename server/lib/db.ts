@@ -5,9 +5,8 @@
 
 import postgres from "postgres";
 
-const connectionString = process.env.DATABASE_URL;
-
 function getSql() {
+  const connectionString = process.env.DATABASE_URL;
   if (!connectionString) {
     throw new Error("DATABASE_URL is not set");
   }
@@ -28,5 +27,5 @@ export function getDb() {
 }
 
 export function isDbConfigured(): boolean {
-  return Boolean(connectionString);
+  return Boolean(process.env.DATABASE_URL);
 }

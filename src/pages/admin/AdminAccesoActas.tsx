@@ -145,7 +145,7 @@ export default function AdminAccesoActas() {
           Acceso a actas restringidas
         </h1>
         <p className="mt-1 text-sm" style={{ color: "var(--regu-gray-600)" }}>
-          Crea cuentas para personas que puedan desbloquear las actas (Acta No. 26, 27, 28, etc.) desde la página pública. Estas cuentas <strong>no</strong> tienen acceso al panel de administración.
+          Crea cuentas para personas que puedan desbloquear las actas (Asambleas y Comité Ejecutivo) desde la página pública. Estas cuentas <strong>no</strong> tienen acceso al panel de administración. Las solicitudes enviadas desde el sitio llegan a <strong>dcuervo@indotel.gob.do</strong> para autorizar o denegar.
         </p>
       </div>
 

@@ -8,6 +8,7 @@ import { api } from "@/lib/api";
 
 const CATEGORY_OPTIONS: { value: GestionCategory; label: string }[] = [
   { value: "planes-actas", label: GESTION_TAB_LABELS["planes-actas"] },
+  { value: "comite-ejecutivo", label: GESTION_TAB_LABELS["comite-ejecutivo"] },
   { value: "documentos", label: GESTION_TAB_LABELS.documentos },
   { value: "revista", label: GESTION_TAB_LABELS.revista },
   { value: "otros", label: GESTION_TAB_LABELS.otros },
@@ -133,7 +134,7 @@ export default function AdminDocumentos() {
         <p className="mb-4 text-sm font-medium text-red-600" role="alert">{formError}</p>
       )}
       <p className="mb-6 text-sm max-w-2xl" style={{ color: "var(--regu-gray-500)" }}>
-        Aquí puedes añadir documentos y asignarlos a las subcategorías del menú Recursos (Planes de trabajo, Actas, Declaraciones, Revista Digital, etc.). Los documentos que añadas aparecerán en la categoría correspondiente en Gestión.
+        Aquí puedes añadir documentos y asignarlos a las subcategorías del menú Recursos (Planes de trabajo, Actas, Comité Ejecutivo, Declaraciones, Revista Digital, etc.). Los documentos que añadas aparecerán en la categoría correspondiente en Gestión.
       </p>
 
       {!adding && !editingId && (

@@ -15,8 +15,10 @@ import {
   Check,
   ClipboardList,
   ArrowRight,
+  Crown,
 } from "lucide-react";
-import { getRestrictedDocument, isRestrictedUnlocked } from "@/config/restrictedDocuments";
+import { getRestrictedDocument, isRestrictedUnlocked, markAllRestrictedUnlocked } from "@/config/restrictedDocuments";
+import { api } from "@/lib/api";
 import PageHero from "@/components/PageHero";
 import {
   filterByTipo,
@@ -66,6 +68,7 @@ const SEARCH_DEBOUNCE_MS = 200;
 const CATEGORY_ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
   revista: BookOpen,
   "planes-actas": ClipboardList,
+  "comite-ejecutivo": Crown,
   documentos: FileText,
   banco: FileText,
   otros: FileText,
@@ -73,6 +76,7 @@ const CATEGORY_ICONS: Record<string, React.ComponentType<{ className?: string }>
 const CATEGORY_BADGE: Record<string, { bg: string; color: string }> = {
   revista:      { bg: "rgba(68,137,198,0.10)",  color: "var(--regu-blue)"  },
   "planes-actas": { bg: "rgba(22,61,89,0.07)",   color: "var(--regu-navy)"  },
+  "comite-ejecutivo": { bg: "rgba(22,61,89,0.07)", color: "var(--regu-navy)" },
   documentos:   { bg: "rgba(68,137,198,0.08)",  color: "var(--regu-blue)"  },
   banco:        { bg: "rgba(22,61,89,0.06)",    color: "var(--regu-navy)"  },
   otros:        { bg: "rgba(22,61,89,0.05)",    color: "var(--regu-gray-600)" },
@@ -99,8 +103,31 @@ export default function Gestion() {
   }, [searchParams, setSearchParams]);
   const [previewDoc, setPreviewDoc] = useState<{ url: string; title: string } | null>(null);
   const [searchInput, setSearchInput] = useState(searchQuery);
+  const [, setRestrictedSessionTick] = useState(0);
   const contentRef = useRef<HTMLDivElement>(null);
   const selectedRevistaRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      const docRes = await api.documentAccess.session();
+      if (cancelled) return;
+      if (docRes.ok && docRes.data?.ok) {
+        markAllRestrictedUnlocked();
+        setRestrictedSessionTick((n) => n + 1);
+        return;
+      }
+      const adminRes = await api.admin.session();
+      if (cancelled) return;
+      if (adminRes.ok && adminRes.data?.authenticated && adminRes.data?.user) {
+        markAllRestrictedUnlocked();
+        setRestrictedSessionTick((n) => n + 1);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const filteredByTipo = filterByTipo(allDocuments, validTipo === "todo" ? null : validTipo);
   const filtered = filterBySearch(filteredByTipo, searchQuery);
@@ -450,7 +477,9 @@ function DocCard({
   const isRestrictedDoc = getRestrictedDocument(doc.id) !== null;
   const isUnlocked = isRestrictedDoc && isRestrictedUnlocked(doc.id);
   const isRestricted = isRestrictedDoc && !isUnlocked;
-  const accessUrl = `/acceso-documentos?doc=${encodeURIComponent(doc.id)}`;
+  const accessUrl = `/acceso-documentos?doc=${encodeURIComponent(doc.id)}&solicitar=1`;
+  const canPreview =
+    (doc.fileType ?? "").toLowerCase().includes("pdf") || doc.url.toLowerCase().endsWith(".pdf");
 
   const TypeIcon = isRestricted
     ? Lock
@@ -559,6 +588,7 @@ function DocCard({
             </>
           ) : (
             <>
+              {canPreview && (
               <button
                 onClick={onPreview}
                 className="inline-flex items-center gap-1.5 rounded-lg px-4 py-2 text-xs font-bold uppercase tracking-[0.07em] text-white transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2"
@@ -567,6 +597,7 @@ function DocCard({
                 <Eye className="h-3.5 w-3.5 shrink-0" />
                 {t("common.preview")}
               </button>
+              )}
               <a
                 href={doc.url}
                 download={!doc.url.startsWith("http")}

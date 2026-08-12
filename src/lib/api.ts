@@ -127,6 +127,37 @@ export const api = {
     login: (body: { email: string; password: string }) =>
       request<{ ok: boolean }>("/document-access", { method: "POST", body }),
     session: () => request<{ ok: boolean }>("/document-access"),
+    requestAccess: (body: {
+      email: string;
+      name: string;
+      institution?: string;
+      position?: string;
+      country?: string;
+      documentId?: string;
+      documentTitle?: string;
+      collectionTipo?: string;
+    }) =>
+      request<{ ok: boolean; message?: string }>("/document-access-requests", { method: "POST", body }),
+    getAccessRequest: (token: string) =>
+      request<{
+        id: string;
+        email: string;
+        name: string;
+        institution: string | null;
+        position: string | null;
+        country: string | null;
+        documentId: string | null;
+        documentTitle: string | null;
+        collectionTipo: string | null;
+        status: "pending" | "approved" | "denied";
+        expiresAt: string;
+        createdAt: string;
+      }>(`/document-access-requests?token=${encodeURIComponent(token)}`),
+    decideAccessRequest: (body: { token: string; action: "approve" | "deny" }) =>
+      request<{ ok: boolean; status: "approved" | "denied"; email: string; name: string }>(
+        "/document-access-requests/decide",
+        { method: "POST", body }
+      ),
   },
   settings: {
     getAll: () => request<Record<string, unknown>>("/settings"),

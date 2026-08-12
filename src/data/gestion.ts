@@ -5,6 +5,7 @@ export type GestionCategory =
   | "revista"
   | "documentos"
   | "planes-actas"
+  | "comite-ejecutivo"
   | "banco"
   | "otros";
 
@@ -39,6 +40,13 @@ export function toCategory(
   if (v === "documentos" || v === "documento oficial" || v === "declaracion") return "documentos";
   if (v === "planes-actas" || v === "planes" || v === "actas" || v === "plan" || v === "acta")
     return "planes-actas";
+  if (
+    v === "comite-ejecutivo" ||
+    v === "comité ejecutivo" ||
+    v === "comite ejecutivo" ||
+    v === "actas comite ejecutivo"
+  )
+    return "comite-ejecutivo";
   if (v === "banco") return "banco";
   return "otros";
 }
@@ -112,6 +120,61 @@ export const gestionDocuments: GestionDocument[] = [
     year: "2023",
     category: "planes-actas",
   },
+  // —— Actas del Comité Ejecutivo (acceso restringido) ——
+  {
+    id: "acta-ce-1",
+    title: "Acta No. 1 del Comité Ejecutivo",
+    url: "/documents/comite-ejecutivo/Acta-1-Comite-Ejecutivo-REGULATEL.docx",
+    fileName: "Acta-1-Comite-Ejecutivo-REGULATEL.docx",
+    fileType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    year: "2026",
+    category: "comite-ejecutivo",
+  },
+  {
+    id: "acta-ce-2",
+    title: "Acta No. 2 del Comité Ejecutivo",
+    url: "/documents/comite-ejecutivo/Acta-2-Comite-Ejecutivo-REGULATEL.docx",
+    fileName: "Acta-2-Comite-Ejecutivo-REGULATEL.docx",
+    fileType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    year: "2026",
+    category: "comite-ejecutivo",
+  },
+  {
+    id: "acta-ce-3",
+    title: "Acta No. 3 del Comité Ejecutivo",
+    url: "/documents/comite-ejecutivo/Acta-3-Comite-Ejecutivo-REGULATEL.docx",
+    fileName: "Acta-3-Comite-Ejecutivo-REGULATEL.docx",
+    fileType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    year: "2026",
+    category: "comite-ejecutivo",
+  },
+  {
+    id: "acta-ce-4",
+    title: "Acta No. 4 del Comité Ejecutivo",
+    url: "/documents/comite-ejecutivo/Acta-4-Comite-Ejecutivo-REGULATEL.docx",
+    fileName: "Acta-4-Comite-Ejecutivo-REGULATEL.docx",
+    fileType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    year: "2026",
+    category: "comite-ejecutivo",
+  },
+  {
+    id: "acta-ce-5",
+    title: "Acta No. 5 del Comité Ejecutivo",
+    url: "/documents/comite-ejecutivo/Acta-5-Comite-Ejecutivo-REGULATEL.docx",
+    fileName: "Acta-5-Comite-Ejecutivo-REGULATEL.docx",
+    fileType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    year: "2026",
+    category: "comite-ejecutivo",
+  },
+  {
+    id: "acta-ce-6",
+    title: "Acta No. 6 del Comité Ejecutivo",
+    url: "/documents/comite-ejecutivo/Acta-6-Comite-Ejecutivo-REGULATEL.docx",
+    fileName: "Acta-6-Comite-Ejecutivo-REGULATEL.docx",
+    fileType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    year: "2026",
+    category: "comite-ejecutivo",
+  },
   // —— Documentos Oficiales (declaraciones, etc.) ——
   {
     id: "declaracion-paz-2023",
@@ -175,6 +238,7 @@ export const GESTION_TIPO_VALUES = [
   "revista",
   "documentos",
   "planes-actas",
+  "comite-ejecutivo",
   "otros",
 ] as const;
 
@@ -186,6 +250,7 @@ export const GESTION_TAB_LABELS: Record<GestionTipo, string> = {
   revista: "Revista Digital",
   documentos: "Documentos Oficiales",
   "planes-actas": "Planes y Actas",
+  "comite-ejecutivo": "Comité Ejecutivo",
   otros: "Otros",
 };
 
@@ -194,6 +259,7 @@ export const GESTION_BLOCK_TITLES: Record<Exclude<GestionTipo, "todo">, string> 
   revista: "Revista digital REGULATEL",
   documentos: "Documentos Oficiales",
   "planes-actas": "Planes y Actas",
+  "comite-ejecutivo": "Comité Ejecutivo",
   otros: "Otros documentos",
 };
 

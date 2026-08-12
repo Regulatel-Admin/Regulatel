@@ -52,6 +52,7 @@ import TodoPlaceholder from '@/pages/TodoPlaceholder';
 import Search from '@/pages/Search';
 import BuscarDocumentos from '@/pages/BuscarDocumentos';
 import AccesoDocumentos from '@/pages/AccesoDocumentos';
+import AccesoSolicitud from '@/pages/AccesoSolicitud';
 import MicrositioBuenasPracticas from '@/pages/MicrositioBuenasPracticas';
 import EstudiosInvestigacion from '@/pages/EstudiosInvestigacion';
 import Galeria from '@/pages/Galeria';
@@ -109,6 +110,7 @@ function App() {
               <Route path="/search" element={<Search />} />
               <Route path="/buscar-documentos" element={<BuscarDocumentos />} />
           <Route path="/acceso-documentos" element={<AccesoDocumentos />} />
+          <Route path="/acceso-solicitud" element={<AccesoSolicitud />} />
           <Route path="/micrositio-buenas-practicas" element={<MicrositioBuenasPracticas />} />
           <Route path="/estudios-e-investigacion" element={<EstudiosInvestigacion />} />
           <Route path="/galeria" element={<Galeria />} />

@@ -88,6 +88,12 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
       return;
     }
 
+    if (segment === "document-access-requests") {
+      const mod = await import("../server/api-handlers/document-access-requests.js");
+      await mod.default(req, res);
+      return;
+    }
+
     if (segment === "document-access") {
       const mod = await import("../server/api-handlers/document-access.js");
       await mod.default(req, res);
