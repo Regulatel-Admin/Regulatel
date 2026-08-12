@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
-import { Newspaper, Calendar, Hash, FileText, BookOpen, Info, Users, Lock, ChevronDown, ChevronUp, Layout, Zap, FolderOpen, ImageIcon, Menu, Images, Contact, Briefcase, Library, UserCircle, Building2, Handshake, Scale, Crown } from "lucide-react";
+import { Newspaper, Calendar, Hash, FileText, BookOpen, Info, Users, Lock, ChevronDown, ChevronUp, Layout, Zap, FolderOpen, ImageIcon, Menu, Images, Contact, Briefcase, Library, UserCircle, Building2, Handshake, Scale, Crown, Bell } from "lucide-react";
 import { projectInfo } from "@/config/projectInfo";
 
 const contentCards = [
@@ -27,6 +27,7 @@ const cards = [
   { to: "/admin/documentos", icon: FileText, title: "Documentos", desc: "Subir documentos y colocarlos en su sección correcta." },
   { to: "/admin/buenas-practicas", icon: Scale, title: "Buenas Prácticas Regulatorias", desc: "Editar países, subcategorías, enlaces y textos del micrositio." },
   { to: "/admin/revista", icon: BookOpen, title: "Revista Digital", desc: "Añadir ediciones de la revista digital." },
+  { to: "/admin/suscriptores", icon: Bell, title: "Suscriptores", desc: "Ver quién se inscribió a las actualizaciones por correo." },
 ];
 
 const adminOnlyCards = [

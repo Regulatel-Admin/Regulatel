@@ -27,6 +27,7 @@ import {
 import { parseJsonBody } from "../lib/parseBody.js";
 import { isDbConfigured } from "../lib/db.js";
 import { seedLegacyEventsIfMissing } from "../lib/seedLegacyEvents.js";
+import { listSubscribers, unsubscribeById } from "../lib/subscribers.js";
 
 
 function sendJson(res: ServerResponse, status: number, data: unknown) {
@@ -224,6 +225,28 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
       const folder = validPrefixes.includes(prefix) ? prefix : "all";
       const items = await listBlobs(folder, limit);
       sendJson(res, 200, { items });
+      return;
+    }
+
+    if (subpath === "subscribers") {
+      await ensureAdmin(req);
+      const segments = getAdminPathSegments(req);
+      const subscriberId = segments[0] === "subscribers" && segments[1] ? segments[1] : null;
+
+      if (req.method === "GET") {
+        sendJson(res, 200, await listSubscribers());
+        return;
+      }
+      if (subscriberId && req.method === "DELETE") {
+        const ok = await unsubscribeById(subscriberId);
+        if (!ok) {
+          sendJson(res, 404, { error: "Suscriptor no encontrado o ya estaba dado de baja." });
+          return;
+        }
+        sendJson(res, 200, { ok: true });
+        return;
+      }
+      sendJson(res, 405, { error: "Method Not Allowed" });
       return;
     }
 

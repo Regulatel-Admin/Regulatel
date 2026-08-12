@@ -1,5 +1,6 @@
 import type { IncomingMessage, ServerResponse } from "http";
 import { addSubscriber } from "../lib/subscribers.js";
+import { notifyStaffNewSubscriber, sendSubscriptionConfirmation } from "../lib/subscribeMail.js";
 import { parseJsonBody } from "../lib/parseBody.js";
 import { isDbConfigured } from "../lib/db.js";
 
@@ -20,8 +21,7 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
   }
 
   if (req.method !== "POST") {
-    res.statusCode = 405;
-    res.end("Method Not Allowed");
+    sendJson(res, 405, { error: "Método no permitido" });
     return;
   }
 
@@ -40,10 +40,25 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
 
     const result = await addSubscriber(email);
     if (!result.ok) {
-      sendJson(res, 409, { error: result.error });
+      sendJson(res, 400, { error: result.error });
       return;
     }
-    sendJson(res, 201, { ok: true, message: "Gracias por suscribirte. Recibirás nuestras actualizaciones por correo." });
+
+    const { subscriber } = result;
+    await sendSubscriptionConfirmation(subscriber);
+    if (subscriber.created || subscriber.reactivated) {
+      await notifyStaffNewSubscriber(subscriber);
+    }
+
+    sendJson(res, 201, {
+      ok: true,
+      alreadySubscribed: !subscriber.created && !subscriber.reactivated,
+      message: subscriber.created
+        ? "Gracias por suscribirte. Te enviamos un correo de confirmación."
+        : subscriber.reactivated
+          ? "Volvimos a activar tu suscripción. Te enviamos un correo de confirmación."
+          : "Este correo ya estaba suscrito. Te reenviamos la confirmación.",
+    });
   } catch (err) {
     console.error("api/subscribe", err);
     sendJson(res, 500, { error: "Error al procesar la suscripción. Intente más tarde." });

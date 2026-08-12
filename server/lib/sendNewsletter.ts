@@ -3,7 +3,7 @@
  * Usa Resend (https://resend.com). Sin RESEND_API_KEY no se envía (solo se registra en logs).
  */
 
-import { getActiveSubscriberEmails } from "./subscribers.js";
+import { getActiveSubscribers } from "./subscribers.js";
 import { emailButton, siteBaseUrl, wrapEmailHtml } from "./emailLayout.js";
 
 const FROM_EMAIL = process.env.NEWSLETTER_FROM_EMAIL ?? "REGULATEL <onboarding@resend.dev>";
@@ -25,10 +25,10 @@ export async function notifySubscribersNewContent(params: {
   date?: string;
 }): Promise<{ sent: number; skipped: boolean }> {
   const resend = await getResend();
-  const emails = await getActiveSubscriberEmails();
-  if (emails.length === 0) return { sent: 0, skipped: false };
+  const subscribers = await getActiveSubscribers();
+  if (subscribers.length === 0) return { sent: 0, skipped: false };
   if (!resend) {
-    console.warn("[sendNewsletter] RESEND_API_KEY no configurado. No se enviaron correos a", emails.length, "suscriptores.");
+    console.warn("[sendNewsletter] RESEND_API_KEY no configurado. No se enviaron correos a", subscribers.length, "suscriptores.");
     return { sent: 0, skipped: true };
   }
 
@@ -36,34 +36,35 @@ export async function notifySubscribersNewContent(params: {
   const subject = `${SITE_NAME} – ${typeLabel}: ${params.title}`;
   const baseUrl = siteBaseUrl();
   const fullUrl = params.url ? (params.url.startsWith("http") ? params.url : `${baseUrl}${params.url.startsWith("/") ? "" : "/"}${params.url}`) : "";
-  const html = wrapEmailHtml({
-    preheader: `${typeLabel}: ${params.title}`,
-    title: typeLabel,
-    footerNote: "Recibe este correo porque se suscribió a las actualizaciones en regulatel.org.",
-    bodyHtml: `
+
+  let sent = 0;
+  for (const subscriber of subscribers) {
+    const unsubUrl = `${baseUrl}/unsubscribe?token=${encodeURIComponent(subscriber.unsubscribeToken)}`;
+    const html = wrapEmailHtml({
+      preheader: `${typeLabel}: ${params.title}`,
+      title: typeLabel,
+      footerNote: `Recibe este correo porque se suscribió en regulatel.org. <a href="${unsubUrl}" style="color:#bdd034;text-decoration:underline;">Darse de baja</a>.`,
+      bodyHtml: `
       <h2 style="margin:0 0 8px;font-family:Arial,Helvetica,sans-serif;font-size:18px;line-height:1.4;color:#163d59;">${params.title}</h2>
       ${params.date ? `<p style="margin:0 0 12px;font-family:Arial,Helvetica,sans-serif;font-size:12px;color:#6b7c8a;">${params.date}</p>` : ""}
       ${params.excerpt ? `<p style="margin:0 0 20px;font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.6;color:#2c3a47;">${params.excerpt}</p>` : ""}
       ${fullUrl ? emailButton(fullUrl, "Ver en el sitio") : ""}
     `,
-  });
-
-  let sent = 0;
-  for (const to of emails) {
+    });
     try {
       const { error } = await resend.emails.send({
         from: FROM_EMAIL,
-        to,
+        to: subscriber.email,
         subject,
         html,
       });
       if (error) {
-        console.error("[sendNewsletter] Error enviando a", to, error);
+        console.error("[sendNewsletter] Error enviando a", subscriber.email, error);
       } else {
         sent++;
       }
     } catch (e) {
-      console.error("[sendNewsletter] Error enviando a", to, e);
+      console.error("[sendNewsletter] Error enviando a", subscriber.email, e);
     }
   }
   return { sent, skipped: false };

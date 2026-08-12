@@ -2,6 +2,7 @@ import { useState, type FormEvent } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { ChevronDown, ChevronUp, Mail, Linkedin, Twitter, Rss, Send, Bell } from "lucide-react";
+import { api } from "@/lib/api";
 
 function SubscribeAccordion({
   title,
@@ -72,20 +73,15 @@ export default function Subscribe() {
     setStatus("loading");
     setMessage("");
     try {
-      const res = await fetch("/api/route?path=subscribe", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: email.trim() }),
-      });
-      const data = await res.json().catch(() => ({}));
-      if (res.ok && data.ok) {
+      const res = await api.subscribe.send({ email: email.trim() });
+      if (res.ok) {
         setStatus("success");
-        setMessage(t("pages.subscribe.successDetail"));
+        setMessage(res.data.message || t("pages.subscribe.successDetail"));
         setEmail("");
         setAgree(false);
       } else {
         setStatus("error");
-        setMessage(typeof data.error === "string" ? data.error : t("pages.subscribe.errorDefault"));
+        setMessage(res.error || t("pages.subscribe.errorDefault"));
       }
     } catch {
       setStatus("error");

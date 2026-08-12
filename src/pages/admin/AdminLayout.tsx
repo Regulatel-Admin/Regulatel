@@ -28,6 +28,7 @@ import {
   Building2,
   Scale,
   Crown,
+  Bell,
 } from "lucide-react";
 
 const navContenido = [
@@ -54,6 +55,7 @@ const nav = [
   { to: "/admin/documentos", icon: FileText, label: "Documentos" },
   { to: "/admin/buenas-practicas", icon: Scale, label: "Buenas Prácticas" },
   { to: "/admin/revista", icon: BookOpen, label: "Revista Digital" },
+  { to: "/admin/suscriptores", icon: Bell, label: "Suscriptores" },
 ];
 
 export default function AdminLayout() {

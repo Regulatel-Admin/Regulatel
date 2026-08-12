@@ -127,6 +127,14 @@ export const api = {
     send: (body: { name: string; email: string; organization?: string; subject: string; message: string }) =>
       request<{ ok: boolean }>("/contact", { method: "POST", body }),
   },
+  subscribe: {
+    send: (body: { email: string }) =>
+      request<{ ok: boolean; alreadySubscribed?: boolean; message?: string }>("/subscribe", { method: "POST", body }),
+  },
+  unsubscribe: {
+    confirm: (token: string) =>
+      request<{ ok: boolean; email?: string }>("/unsubscribe", { method: "POST", body: { token } }),
+  },
   documentAccess: {
     login: (body: { email: string; password: string }) =>
       request<{ ok: boolean }>("/document-access", { method: "POST", body }),
@@ -192,6 +200,12 @@ export const api = {
       list: () => request<Array<{ id: string; name: string; email: string; username: string | null; role: string; is_active: boolean; last_login_at: string | null; created_at: string }>>("/admin/users"),
       create: (body: { email: string; password: string; name?: string; role?: string }) =>
         request<{ id: string; email: string; name: string; role: string }>("/admin/users", { method: "POST", body }),
+    },
+    subscribers: {
+      list: () =>
+        request<Array<{ id: string; email: string; created_at: string; unsubscribed_at: string | null }>>("/admin/subscribers"),
+      unsubscribe: (id: string) =>
+        request<{ ok: boolean }>(`/admin/subscribers/${encodeURIComponent(id)}`, { method: "DELETE" }),
     },
     documentAccessUsers: {
       list: () =>

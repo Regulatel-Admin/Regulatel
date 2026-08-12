@@ -76,6 +76,12 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
       return;
     }
 
+    if (segment === "unsubscribe") {
+      const mod = await import("../server/api-handlers/unsubscribe.js");
+      await mod.default(req, res);
+      return;
+    }
+
     if (segment === "contact") {
       const mod = await import("../server/api-handlers/contact.js");
       await mod.default(req, res);

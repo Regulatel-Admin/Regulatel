@@ -12,6 +12,7 @@ const PATH_LABELS: Record<string, string> = {
   "/admin/revista": "Revista Digital",
   "/admin/usuarios": "Usuarios y auditoría",
   "/admin/acceso-actas": "Acceso a actas",
+  "/admin/suscriptores": "Suscriptores",
 };
 
 export default function AdminBreadcrumbs() {

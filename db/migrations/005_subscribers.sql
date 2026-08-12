@@ -5,7 +5,8 @@ CREATE TABLE IF NOT EXISTS subscribers (
   id TEXT PRIMARY KEY,
   email TEXT NOT NULL UNIQUE,
   created_at TIMESTAMPTZ DEFAULT NOW(),
-  unsubscribed_at TIMESTAMPTZ
+  unsubscribed_at TIMESTAMPTZ,
+  unsubscribe_token TEXT UNIQUE
 );
 
 CREATE INDEX IF NOT EXISTS idx_subscribers_email ON subscribers(lower(email));

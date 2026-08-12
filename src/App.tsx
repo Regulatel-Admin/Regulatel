@@ -25,6 +25,7 @@ import AdminRevista from '@/pages/admin/AdminRevista';
 import AdminBuenasPracticasRegulatorias from '@/pages/admin/AdminBuenasPracticasRegulatorias';
 import AdminUsuarios from '@/pages/admin/AdminUsuarios';
 import AdminAccesoActas from '@/pages/admin/AdminAccesoActas';
+import AdminSuscriptores from '@/pages/admin/AdminSuscriptores';
 import AdminContentHome from '@/pages/admin/content/AdminContentHome';
 import AdminContentCumbres from '@/pages/admin/content/AdminContentCumbres';
 import AdminContentGaleria from '@/pages/admin/content/AdminContentGaleria';
@@ -58,6 +59,7 @@ import EstudiosInvestigacion from '@/pages/EstudiosInvestigacion';
 import Galeria from '@/pages/Galeria';
 import GaleriaAlbum from '@/pages/GaleriaAlbum';
 import Subscribe from '@/pages/Subscribe';
+import Unsubscribe from '@/pages/Unsubscribe';
 import CanalYouTube from '@/pages/CanalYouTube';
 import DeclaracionPrivacidad from '@/pages/DeclaracionPrivacidad';
 import HablaElRegulador from '@/pages/HablaElRegulador';
@@ -98,6 +100,7 @@ function App() {
               <Route path="revista" element={<AdminRevista />} />
               <Route path="usuarios" element={<AdminUsuarios />} />
               <Route path="acceso-actas" element={<AdminAccesoActas />} />
+              <Route path="suscriptores" element={<AdminSuscriptores />} />
             </Route>
             <Route element={<Layout><Outlet /></Layout>}>
               <Route path="/" element={<Home />} />
@@ -132,6 +135,7 @@ function App() {
               <Route path="/convenios/:slug" element={<ConvenioDetalle />} />
           <Route path="/contacto" element={<Contacto />} />
               <Route path="/subscribe" element={<Subscribe />} />
+              <Route path="/unsubscribe" element={<Unsubscribe />} />
               <Route path="/canal-youtube" element={<CanalYouTube />} />
               <Route path="/habla-el-regulador" element={<HablaElRegulador />} />
               <Route path="/declaracion-de-privacidad" element={<DeclaracionPrivacidad />} />
