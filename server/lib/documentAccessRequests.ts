@@ -1,6 +1,6 @@
 /**
  * Solicitudes de acceso a actas restringidas.
- * El revisor (dcuervo@indotel.gob.do) autoriza o deniega desde el correo.
+ * El revisor (dcuervo@indotel.gob.do y aarango@indotel.gob.do) autoriza o deniega desde el correo.
  */
 import crypto from "crypto";
 import bcrypt from "bcryptjs";
@@ -11,8 +11,17 @@ import {
 } from "./documentAccess.js";
 import { emailButton, emailDetailsTable, escapeHtml, siteBaseUrl, wrapEmailHtml } from "./emailLayout.js";
 
-export const DOCUMENT_ACCESS_REVIEWER_EMAIL =
-  process.env.DOCUMENT_ACCESS_REVIEWER_EMAIL?.trim() || "dcuervo@indotel.gob.do";
+const DEFAULT_REVIEWERS = ["dcuervo@indotel.gob.do", "aarango@indotel.gob.do"];
+
+export function documentAccessReviewerEmails() {
+  const extra = (process.env.DOCUMENT_ACCESS_REVIEWER_EMAIL ?? "")
+    .split(",")
+    .map((item) => item.trim().toLowerCase())
+    .filter(Boolean);
+  return [...new Set([...DEFAULT_REVIEWERS, ...extra])];
+}
+
+export const DOCUMENT_ACCESS_REVIEWER_EMAIL = documentAccessReviewerEmails().join(", ");
 
 const FROM_EMAIL = process.env.NEWSLETTER_FROM_EMAIL ?? "REGULATEL <onboarding@resend.dev>";
 const TOKEN_TTL_MS = 1000 * 60 * 60 * 24 * 7; // 7 días
@@ -337,7 +346,7 @@ async function sendReviewerEmail(params: {
 
   const { error } = await resend.emails.send({
     from: FROM_EMAIL,
-    to: DOCUMENT_ACCESS_REVIEWER_EMAIL,
+    to: documentAccessReviewerEmails(),
     subject: `REGULATEL – Solicitud de acceso: ${params.name}`,
     html,
     text: `${params.name} (${params.email}) solicitó acceso a actas restringidas.\nAutorizar: ${approveUrl}\nDenegar: ${denyUrl}`,
