@@ -7,7 +7,7 @@ export function contactRecipients() {
   if (raw) {
     return raw.split(",").map((item) => item.trim()).filter(Boolean);
   }
-  return ["dcuervo@indotel.gob.do", "aarango@indotel.gob.do"];
+  return ["dcuervo@indotel.gob.do"];
 }
 
 async function getResend() {
