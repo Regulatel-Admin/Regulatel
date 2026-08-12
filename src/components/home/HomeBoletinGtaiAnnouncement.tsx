@@ -15,6 +15,7 @@ import {
   sortBoletinesByDateDesc,
 } from "@/data/boletinesGtai";
 import { SiteEditBadge } from "@/components/site-edit/EditableSpot";
+import { useSiteEdit } from "@/contexts/SiteEditContext";
 
 const STORAGE_KEY = "regulatel_home_boletin_gtai_dismissed_at";
 const SHOW_AGAIN_AFTER_DAYS = 14;
@@ -98,12 +99,13 @@ function GtaiCoverMini({ issue, bulletinLabel }: { issue: number; bulletinLabel:
 export default function HomeBoletinGtaiAnnouncement() {
   const { t } = useTranslation();
   const reduceMotion = useReducedMotion();
+  const { enabled: siteEditEnabled } = useSiteEdit();
   const { entries, loading } = useBoletinesGtai();
   const [allowShow, setAllowShow] = useState(false);
 
   useEffect(() => {
-    setAllowShow(shouldShowAnnouncement());
-  }, []);
+    setAllowShow(siteEditEnabled || shouldShowAnnouncement());
+  }, [siteEditEnabled]);
 
   const dismiss = () => {
     try {

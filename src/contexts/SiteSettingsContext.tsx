@@ -24,6 +24,7 @@ import { parseBuenasPracticasRegulatoriasFromSettingValue } from "@/data/mejores
 import type { RevistaEdition } from "@/data/revistaDigital";
 import { defaultRevistaEditions, parseRevistaDigitalFromSettingValue } from "@/data/revistaDigital";
 import { CMS_SAVED_EVENT } from "@/lib/siteEdit";
+import { useSiteEdit } from "@/contexts/SiteEditContext";
 
 export interface SiteSettingsState {
   homeHero: HomeHeroSetting | null;
@@ -200,9 +201,8 @@ export function SiteSettingsProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<SiteSettingsState>(defaultState);
 
   const refetch = useCallback(async () => {
-    setState((prev) => ({ ...prev, loading: true }));
     const next = await fetchSettings();
-    setState((prev) => ({ ...prev, ...next, refetch: prev.refetch }));
+    setState((prev) => ({ ...prev, ...next, loading: false, refetch: prev.refetch }));
   }, []);
 
   useEffect(() => {
@@ -244,10 +244,12 @@ export function useSiteSettings() {
   return useContext(SiteSettingsContext);
 }
 
-/** Hero to use on the public home: from API or static default. */
+/** Hero to use on the public home: from API, live preview, or static default. */
 export function useHomeHero(): HomeHeroSetting {
-  const { homeHero, loading } = useSiteSettings();
-  if (!loading && homeHero) return homeHero;
+  const { homeHero } = useSiteSettings();
+  const { enabled, preview } = useSiteEdit();
+  if (enabled && preview.homeHero) return preview.homeHero;
+  if (homeHero) return homeHero;
   return {
     coverImageUrls: heroInstitucional.coverImageUrls,
     badge: heroInstitucional.badge,
@@ -259,10 +261,12 @@ export function useHomeHero(): HomeHeroSetting {
   };
 }
 
-/** Quick links to use on the public home: from API or static default. */
+/** Quick links to use on the public home: from API, live preview, or static default. */
 export function useHomeQuickLinks(): QuickLinkSettingItem[] {
-  const { quickLinks: ql, loading } = useSiteSettings();
-  if (!loading && ql && ql.length > 0) return ql;
+  const { quickLinks: ql } = useSiteSettings();
+  const { enabled, preview } = useSiteEdit();
+  if (enabled && preview.quickLinks) return preview.quickLinks;
+  if (ql && ql.length > 0) return ql;
   return quickLinks.map((q) => ({
     label: q.label,
     href: q.href,
@@ -270,10 +274,12 @@ export function useHomeQuickLinks(): QuickLinkSettingItem[] {
   }));
 }
 
-/** Featured carousel items: from API or static default. */
+/** Featured carousel items: from API, live preview, or static default. */
 export function useFeaturedCarouselSettings(): FeaturedCarouselItemSetting[] {
-  const { featuredCarousel, loading } = useSiteSettings();
-  if (!loading && featuredCarousel && featuredCarousel.length > 0) return featuredCarousel;
+  const { featuredCarousel } = useSiteSettings();
+  const { enabled, preview } = useSiteEdit();
+  if (enabled && preview.featuredCarousel) return preview.featuredCarousel;
+  if (featuredCarousel && featuredCarousel.length > 0) return featuredCarousel;
   return featuredCarouselItems.map((it) => ({
     id: it.id,
     type: it.type,
@@ -332,9 +338,11 @@ export function useEntesReguladoresMiembros(): EnteReguladorMiembro[] {
   return defaultEntesReguladoresMiembros;
 }
 
-/** Ediciones de la Revista Digital: CMS o listado original. */
+/** Ediciones de la Revista Digital: CMS, vista previa o listado original. */
 export function useRevistaDigitalEditions(): RevistaEdition[] {
-  const { revistaDigital, loading } = useSiteSettings();
-  if (!loading && revistaDigital !== null) return revistaDigital;
+  const { revistaDigital } = useSiteSettings();
+  const { enabled, preview } = useSiteEdit();
+  if (enabled && preview.revista) return preview.revista;
+  if (revistaDigital !== null) return revistaDigital;
   return defaultRevistaEditions;
 }

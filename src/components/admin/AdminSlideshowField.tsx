@@ -5,9 +5,11 @@ import { uploadAdminFile } from "@/lib/uploads";
 export default function AdminSlideshowField({
   urls,
   onChange,
+  compact = false,
 }: {
   urls: string[];
   onChange: (urls: string[]) => void;
+  compact?: boolean;
 }) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [uploading, setUploading] = useState(false);
@@ -40,15 +42,17 @@ export default function AdminSlideshowField({
   return (
     <div className="space-y-3">
       <div>
-        <p className="text-sm font-semibold" style={{ color: "var(--regu-navy)" }}>
+        <p className={compact ? "text-[13px] font-semibold" : "text-sm font-semibold"} style={{ color: "var(--regu-navy)" }}>
           Fotos del carrusel
         </p>
-        <p className="mt-0.5 text-[12px]" style={{ color: "var(--regu-gray-500)" }}>
-          Estas fotos se van turnando detrás del texto de la portada. Sube una imagen o quita las que no quieras.
+        <p className="mt-1 text-[12px] leading-relaxed" style={{ color: "var(--regu-gray-500)" }}>
+          {compact
+            ? "Se van turnando detrás del texto. Sube, reordena o quita."
+            : "Estas fotos se van turnando detrás del texto de la portada. Sube una imagen o quita las que no quieras."}
         </p>
       </div>
 
-      <div className="grid grid-cols-2 gap-3">
+      <div className={compact ? "grid grid-cols-1 gap-3" : "grid grid-cols-2 gap-3"}>
         {urls.map((url, index) => (
           <div
             key={`${url}-${index}`}
@@ -100,7 +104,9 @@ export default function AdminSlideshowField({
           type="button"
           disabled={uploading}
           onClick={() => inputRef.current?.click()}
-          className="flex aspect-[16/10] flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed text-[13px] font-semibold disabled:opacity-60"
+          className={`flex flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed text-[13px] font-semibold disabled:opacity-60 ${
+            compact ? "min-h-[5.5rem] py-4" : "aspect-[16/10]"
+          }`}
           style={{ borderColor: "rgba(68,137,198,0.45)", color: "var(--regu-blue)" }}
         >
           {uploading ? <Loader2 className="h-5 w-5 animate-spin" /> : <Plus className="h-5 w-5" />}

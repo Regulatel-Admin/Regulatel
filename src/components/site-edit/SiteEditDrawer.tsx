@@ -1,6 +1,6 @@
-import { useCallback, useEffect, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Save, X, ExternalLink } from "lucide-react";
+import { Send, X, ExternalLink } from "lucide-react";
 import { useSiteEdit } from "@/contexts/SiteEditContext";
 import { useSiteSettings } from "@/contexts/SiteSettingsContext";
 import { useAdminData, type AdminNewsItem } from "@/contexts/AdminDataContext";
@@ -8,6 +8,7 @@ import { api } from "@/lib/api";
 import { notifyCmsSaved, cloneJson, type SiteEditTarget } from "@/lib/siteEdit";
 import { slugify } from "@/lib/slugify";
 import { useDraftHistory } from "@/hooks/useDraftHistory";
+import { usePreviewSync } from "@/hooks/usePreviewSync";
 import { AdminBlobUploadField } from "@/components/admin/AdminBlobUploadField";
 import AdminSlideshowField from "@/components/admin/AdminSlideshowField";
 import { SiteEditUndoRedo } from "@/components/site-edit/SiteEditUndoRedo";
@@ -38,7 +39,7 @@ import {
 } from "lucide-react";
 
 const fieldClass =
-  "w-full rounded-lg border bg-white px-3 py-2.5 text-sm outline-none focus:border-[var(--regu-blue)]";
+  "w-full min-w-0 rounded-xl border bg-white px-3.5 py-2.5 text-sm leading-snug outline-none transition-colors focus:border-[var(--regu-blue)] focus:ring-2 focus:ring-[rgba(68,137,198,0.18)]";
 const fieldStyle = { borderColor: "rgba(22,61,89,0.14)", color: "var(--regu-navy)" } as const;
 
 const SITE_PAGES: Array<{ href: string; label: string; external?: boolean }> = [
@@ -91,56 +92,61 @@ export function SiteEditDrawer() {
   if (!enabled || !target) return null;
 
   return (
-    <div className="fixed inset-0 z-[90] flex justify-end">
-      <button type="button" className="absolute inset-0 bg-black/35" aria-label="Cerrar" onClick={close} />
-      <aside
-        className="relative flex h-full w-full max-w-[440px] flex-col bg-white shadow-2xl"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="site-edit-drawer-title"
+    <aside
+      className="fixed bottom-0 right-0 z-[90] flex w-full flex-col border-l bg-white sm:w-[26.5rem] sm:rounded-tl-2xl"
+      style={{
+        top: "var(--site-edit-bar-h, 3.25rem)",
+        borderColor: "rgba(22,61,89,0.10)",
+        boxShadow: "-18px 0 40px rgba(22, 61, 89, 0.10)",
+      }}
+      role="complementary"
+      aria-labelledby="site-edit-drawer-title"
+    >
+      <div
+        className="flex items-start justify-between gap-3 border-b bg-white px-6 py-5"
+        style={{ borderColor: "rgba(22,61,89,0.08)" }}
       >
-        <div
-          className="flex items-start justify-between gap-3 border-b px-5 py-4"
-          style={{ borderColor: "rgba(22,61,89,0.08)" }}
-        >
-          <div>
-            <p className="text-[11px] font-bold uppercase tracking-[0.12em]" style={{ color: "#0f766e" }}>
-              Edición en el sitio
-            </p>
-            <h2 id="site-edit-drawer-title" className="mt-1 text-lg font-bold" style={{ color: "var(--regu-navy)" }}>
-              {drawerTitle(target)}
-            </h2>
-          </div>
-          <div className="flex items-start gap-2">
-            <SiteEditUndoRedo variant="drawer" />
-            <button
-              type="button"
-              onClick={close}
-              className="rounded-lg p-1.5 hover:bg-slate-100"
-              aria-label="Cerrar"
-            >
-              <X className="h-5 w-5" />
-            </button>
-          </div>
+        <div className="min-w-0">
+          <p className="text-[11px] font-bold uppercase tracking-[0.14em]" style={{ color: "#0f766e" }}>
+            Edición en el sitio
+          </p>
+          <h2
+            id="site-edit-drawer-title"
+            className="mt-1.5 text-[1.05rem] font-bold leading-snug"
+            style={{ color: "var(--regu-navy)" }}
+          >
+            {drawerTitle(target)}
+          </h2>
         </div>
-        <div className="min-h-0 flex-1 overflow-y-auto px-5 py-4">
-          {target.kind === "boletin" && <BoletinForm slug={target.slug} onDone={close} />}
-          {target.kind === "hero" && <HeroForm onDone={close} />}
-          {target.kind === "quick-link" && <QuickLinkForm index={target.index} onDone={close} />}
-          {target.kind === "cumbre" && <CumbreForm id={target.id} onDone={close} />}
-          {target.kind === "noticia" && <NoticiaForm slug={target.slug} onDone={close} />}
-          {target.kind === "revista" && <RevistaForm id={target.id} onDone={close} />}
-          {target.kind === "panel" && <PanelFallback path={target.path} label={target.label} onLeave={exit} />}
+        <div className="flex shrink-0 items-start gap-1.5">
+          <SiteEditUndoRedo variant="drawer" />
+          <button
+            type="button"
+            onClick={close}
+            className="rounded-lg p-1.5 hover:bg-slate-100"
+            aria-label="Cerrar"
+          >
+            <X className="h-5 w-5" />
+          </button>
         </div>
-      </aside>
-    </div>
+      </div>
+      <div className="min-h-0 flex-1 overflow-y-auto px-6 py-5">
+        {target.kind === "boletin" && <BoletinForm slug={target.slug} />}
+        {target.kind === "hero" && <HeroForm />}
+        {target.kind === "quick-link" && <QuickLinkForm index={target.index} />}
+        {target.kind === "cumbre" && <CumbreForm id={target.id} />}
+        {target.kind === "noticia" && <NoticiaForm slug={target.slug} />}
+        {target.kind === "revista" && <RevistaForm id={target.id} />}
+        {target.kind === "panel" && <PanelFallback path={target.path} label={target.label} onLeave={exit} />}
+      </div>
+    </aside>
   );
 }
 
 function Field({ label, children }: { label: string; children: ReactNode }) {
   return (
     <label className="block">
-      <span className="mb-1 block text-xs font-medium" style={{ color: "var(--regu-gray-600)" }}>
+      <span className="mb-1.5 block text-[13px] font-medium" style={{ color: "var(--regu-gray-600)" }}>
         {label}
       </span>
       {children}
@@ -148,34 +154,47 @@ function Field({ label, children }: { label: string; children: ReactNode }) {
   );
 }
 
-function SaveBar({
+function PublishBar({
   saving,
   error,
-  onSave,
+  published,
+  onPublish,
   extra,
 }: {
   saving: boolean;
   error: string | null;
-  onSave: () => void;
+  published?: boolean;
+  onPublish: () => void;
   extra?: ReactNode;
 }) {
   return (
-    <div className="sticky bottom-0 -mx-5 mt-6 border-t bg-white px-5 py-3" style={{ borderColor: "rgba(22,61,89,0.08)" }}>
+    <div
+      className="sticky bottom-0 -mx-6 mt-8 border-t bg-white px-6 py-4"
+      style={{ borderColor: "rgba(22,61,89,0.08)" }}
+    >
       {error && (
         <p className="mb-2 text-sm" style={{ color: "#991b1b" }}>
           {error}
         </p>
       )}
+      {published && !error && (
+        <p className="mb-2 text-sm font-medium" style={{ color: "#0f766e" }}>
+          Ya está en el sitio público.
+        </p>
+      )}
+      <p className="mb-3 text-[12px] leading-relaxed" style={{ color: "var(--regu-gray-500)" }}>
+        Se ve al instante en esta página. Hasta que publiques, el sitio real no cambia.
+      </p>
       <div className="flex flex-wrap gap-2">
         <button
           type="button"
-          onClick={onSave}
+          onClick={onPublish}
           disabled={saving}
           className="inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold text-white disabled:opacity-60"
           style={{ backgroundColor: "var(--regu-blue)" }}
         >
-          <Save className="h-4 w-4" />
-          {saving ? "Guardando…" : "Guardar"}
+          <Send className="h-4 w-4" />
+          {saving ? "Publicando…" : published ? "Publicar otra vez" : "Publicar"}
         </button>
         {extra}
       </div>
@@ -226,13 +245,18 @@ function emptyBoletin(): BoletinGtaiSerialized {
   };
 }
 
-function BoletinForm({ slug, onDone }: { slug?: string; onDone: () => void }) {
+function BoletinForm({ slug }: { slug?: string }) {
   const navigate = useNavigate();
   const recordSettings = useRecordSettingsChange();
+  const { clearPreview, preview } = useSiteEdit();
+  const previewRef = useRef(preview);
+  previewRef.current = preview;
   const { value: row, setValue: setRow, reset } = useDraftHistory(emptyBoletin());
+  const [allEntries, setAllEntries] = useState<BoletinGtaiSerialized[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [published, setPublished] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -245,13 +269,32 @@ function BoletinForm({ slug, onDone }: { slug?: string; onDone: () => void }) {
         if (parsed) list = mergeBoletinesGtaiWithDefaults(parsed).map((b) => ({ ...b }));
       }
       const found = slug ? list.find((b) => b.slug === slug) : undefined;
-      reset(found ? { ...found } : emptyBoletin());
+      const fromPreview = previewRef.current.boletines;
+      const liveList = fromPreview && fromPreview.length > 0 ? fromPreview.map((b) => ({ ...b })) : list;
+      const liveFound = slug ? liveList.find((b) => b.slug === slug) : undefined;
+      setAllEntries(liveList);
+      reset(liveFound ? { ...liveFound } : found ? { ...found } : emptyBoletin());
       setLoading(false);
     })();
     return () => {
       cancelled = true;
     };
   }, [slug, reset]);
+
+  const previewEntries = useMemo(() => {
+    const nextSlug = (row.slug.trim() || slugify(row.title) || "preview").toLowerCase();
+    const normalized: BoletinGtaiSerialized = { ...row, slug: nextSlug };
+    const list = allEntries.map((b) => ({ ...b }));
+    const idx = slug ? list.findIndex((b) => b.slug === slug) : -1;
+    if (idx >= 0) list[idx] = normalized;
+    else if (row.title.trim()) list.unshift(normalized);
+    if (normalized.isFeatured) {
+      return list.map((b) => ({ ...b, isFeatured: b.slug === nextSlug }));
+    }
+    return list;
+  }, [allEntries, row, slug]);
+
+  const captureBaseline = usePreviewSync("boletines", previewEntries, !loading);
 
   const save = async () => {
     if (!row.title.trim() || !row.pdfFile.trim()) {
@@ -288,19 +331,22 @@ function BoletinForm({ slug, onDone }: { slug?: string; onDone: () => void }) {
     const res = await api.settings.set(BOLETINES_GTAI_SETTINGS_KEY, { entries: list });
     setSaving(false);
     if (!res.ok) {
-      setError(res.error ?? "No se pudo guardar.");
+      setError(res.error ?? "No se pudo publicar.");
       return;
     }
     recordSettings(BOLETINES_GTAI_SETTINGS_KEY, { entries: before }, { entries: list });
     notifyCmsSaved(BOLETINES_GTAI_SETTINGS_KEY);
+    setAllEntries(list);
+    captureBaseline();
+    clearPreview("boletines");
+    setPublished(true);
     if (!slug) navigate(`/boletines-gtai/${nextSlug}`);
-    onDone();
   };
 
   if (loading) return <p className="text-sm" style={{ color: "var(--regu-gray-500)" }}>Cargando…</p>;
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-5">
       <Field label="Título">
         <input className={fieldClass} style={fieldStyle} value={row.title} onChange={(e) => setRow({ ...row, title: e.target.value })} />
       </Field>
@@ -391,15 +437,16 @@ function BoletinForm({ slug, onDone }: { slug?: string; onDone: () => void }) {
           {row.isFeatured ? "En portada" : "No sale en portada"}
         </button>
       </div>
-      <SaveBar saving={saving} error={error} onSave={() => void save()} />
+      <PublishBar saving={saving} error={error} published={published} onPublish={() => void save()} />
     </div>
   );
 }
 
-function HeroForm({ onDone }: { onDone: () => void }) {
-  const { homeHero } = useSiteSettings();
+function HeroForm() {
+  const { homeHero, refetch } = useSiteSettings();
   const recordSettings = useRecordSettingsChange();
-  const initial: HomeHeroSetting = {
+  const { clearPreview, preview } = useSiteEdit();
+  const initial: HomeHeroSetting = preview.homeHero ?? {
     coverImageUrls: homeHero?.coverImageUrls?.slice() ?? heroInstitucional.coverImageUrls.slice(),
     badge: homeHero?.badge ?? heroInstitucional.badge,
     title: homeHero?.title ?? heroInstitucional.title,
@@ -411,6 +458,8 @@ function HeroForm({ onDone }: { onDone: () => void }) {
   const { value: hero, setValue: setHero } = useDraftHistory(initial);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [published, setPublished] = useState(false);
+  const captureBaseline = usePreviewSync("homeHero", hero);
 
   const save = async () => {
     setSaving(true);
@@ -418,21 +467,30 @@ function HeroForm({ onDone }: { onDone: () => void }) {
     const res = await api.settings.set("home_hero", hero);
     setSaving(false);
     if (!res.ok) {
-      setError(res.error ?? "No se pudo guardar.");
+      setError(res.error ?? "No se pudo publicar.");
       return;
     }
     recordSettings("home_hero", initial, hero);
     notifyCmsSaved("home_hero");
-    onDone();
+    await refetch();
+    captureBaseline();
+    clearPreview("homeHero");
+    setPublished(true);
   };
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-5">
       <Field label="Etiqueta pequeña">
         <input className={fieldClass} style={fieldStyle} value={hero.badge} onChange={(e) => setHero({ ...hero, badge: e.target.value })} />
       </Field>
       <Field label="Título">
-        <input className={fieldClass} style={fieldStyle} value={hero.title} onChange={(e) => setHero({ ...hero, title: e.target.value })} />
+        <textarea
+          rows={3}
+          className={`${fieldClass} resize-y`}
+          style={fieldStyle}
+          value={hero.title}
+          onChange={(e) => setHero({ ...hero, title: e.target.value })}
+        />
       </Field>
       <Field label="Palabra destacada">
         <input
@@ -445,7 +503,7 @@ function HeroForm({ onDone }: { onDone: () => void }) {
       <Field label="Texto">
         <textarea
           rows={4}
-          className={fieldClass}
+          className={`${fieldClass} resize-y`}
           style={fieldStyle}
           value={hero.description}
           onChange={(e) => setHero({ ...hero, description: e.target.value })}
@@ -467,15 +525,20 @@ function HeroForm({ onDone }: { onDone: () => void }) {
           onChange={(e) => setHero({ ...hero, secondaryCta: { ...hero.secondaryCta, label: e.target.value } })}
         />
       </Field>
-      <AdminSlideshowField urls={hero.coverImageUrls} onChange={(coverImageUrls) => setHero({ ...hero, coverImageUrls })} />
-      <SaveBar saving={saving} error={error} onSave={() => void save()} />
+      <AdminSlideshowField
+        compact
+        urls={hero.coverImageUrls}
+        onChange={(coverImageUrls) => setHero({ ...hero, coverImageUrls })}
+      />
+      <PublishBar saving={saving} error={error} published={published} onPublish={() => void save()} />
     </div>
   );
 }
 
-function QuickLinkForm({ index, onDone }: { index: number; onDone: () => void }) {
-  const { quickLinks: saved } = useSiteSettings();
+function QuickLinkForm({ index }: { index: number }) {
+  const { quickLinks: saved, refetch } = useSiteSettings();
   const recordSettings = useRecordSettingsChange();
+  const { clearPreview, preview } = useSiteEdit();
   const defaults: QuickLinkSettingItem[] = quickLinks.map((item, i) => ({
     label: item.label,
     href: item.href,
@@ -483,10 +546,16 @@ function QuickLinkForm({ index, onDone }: { index: number; onDone: () => void })
     icon: (["Users", "Globe", "BarChart3", "Files"] as const)[i] ?? "Users",
   }));
   const { value: items, setValue: setItems } = useDraftHistory<QuickLinkSettingItem[]>(
-    saved && saved.length > 0 ? saved.map((i) => ({ ...i })) : defaults
+    preview.quickLinks
+      ? preview.quickLinks.map((i) => ({ ...i }))
+      : saved && saved.length > 0
+        ? saved.map((i) => ({ ...i }))
+        : defaults
   );
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [published, setPublished] = useState(false);
+  const captureBaseline = usePreviewSync("quickLinks", items);
   const item = items[index];
 
   if (!item) {
@@ -504,16 +573,19 @@ function QuickLinkForm({ index, onDone }: { index: number; onDone: () => void })
     const res = await api.settings.set("quick_links", items);
     setSaving(false);
     if (!res.ok) {
-      setError(res.error ?? "No se pudo guardar.");
+      setError(res.error ?? "No se pudo publicar.");
       return;
     }
     recordSettings("quick_links", saved && saved.length > 0 ? saved : defaults, items);
     notifyCmsSaved("quick_links");
-    onDone();
+    await refetch();
+    captureBaseline();
+    clearPreview("quickLinks");
+    setPublished(true);
   };
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-5">
       <Field label="Nombre">
         <input className={fieldClass} style={fieldStyle} value={item.label} onChange={(e) => patch({ label: e.target.value })} />
       </Field>
@@ -546,10 +618,10 @@ function QuickLinkForm({ index, onDone }: { index: number; onDone: () => void })
         </Field>
       )}
       <div>
-        <p className="mb-1 text-xs font-medium" style={{ color: "var(--regu-gray-600)" }}>
+        <p className="mb-1.5 text-[13px] font-medium" style={{ color: "var(--regu-gray-600)" }}>
           Icono
         </p>
-        <div className="flex flex-wrap gap-1">
+        <div className="flex flex-wrap gap-1.5">
           {ICON_OPTIONS.map((opt) => {
             const selected = item.icon === opt.value;
             return (
@@ -558,7 +630,7 @@ function QuickLinkForm({ index, onDone }: { index: number; onDone: () => void })
                 type="button"
                 title={opt.label}
                 onClick={() => patch({ icon: opt.value })}
-                className="flex h-10 w-10 items-center justify-center rounded-lg border"
+                className="flex h-11 w-11 items-center justify-center rounded-xl border"
                 style={{
                   borderColor: selected ? "var(--regu-blue)" : "rgba(22,61,89,0.14)",
                   backgroundColor: selected ? "rgba(68,137,198,0.16)" : "white",
@@ -571,14 +643,15 @@ function QuickLinkForm({ index, onDone }: { index: number; onDone: () => void })
           })}
         </div>
       </div>
-      <SaveBar saving={saving} error={error} onSave={() => void save()} />
+      <PublishBar saving={saving} error={error} published={published} onPublish={() => void save()} />
     </div>
   );
 }
 
-function CumbreForm({ id, onDone }: { id: string; onDone: () => void }) {
-  const { featuredCarousel } = useSiteSettings();
+function CumbreForm({ id }: { id: string }) {
+  const { featuredCarousel, refetch } = useSiteSettings();
   const recordSettings = useRecordSettingsChange();
+  const { clearPreview, preview } = useSiteEdit();
   const defaults: FeaturedCarouselItemSetting[] = featuredCarouselItems.map((item) => ({
     id: item.id,
     type: item.type,
@@ -592,10 +665,16 @@ function CumbreForm({ id, onDone }: { id: string; onDone: () => void }) {
     active: true,
   }));
   const { value: items, setValue: setItems } = useDraftHistory<FeaturedCarouselItemSetting[]>(
-    featuredCarousel && featuredCarousel.length > 0 ? featuredCarousel.map((i) => ({ ...i })) : defaults
+    preview.featuredCarousel
+      ? preview.featuredCarousel.map((i) => ({ ...i }))
+      : featuredCarousel && featuredCarousel.length > 0
+        ? featuredCarousel.map((i) => ({ ...i }))
+        : defaults
   );
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [published, setPublished] = useState(false);
+  const captureBaseline = usePreviewSync("featuredCarousel", items);
   const idx = items.findIndex((i) => i.id === id);
   const item = idx >= 0 ? items[idx] : null;
 
@@ -613,7 +692,7 @@ function CumbreForm({ id, onDone }: { id: string; onDone: () => void }) {
     const res = await api.settings.set("featured_carousel", items);
     setSaving(false);
     if (!res.ok) {
-      setError(res.error ?? "No se pudo guardar.");
+      setError(res.error ?? "No se pudo publicar.");
       return;
     }
     recordSettings(
@@ -622,13 +701,22 @@ function CumbreForm({ id, onDone }: { id: string; onDone: () => void }) {
       items
     );
     notifyCmsSaved("featured_carousel");
-    onDone();
+    await refetch();
+    captureBaseline();
+    clearPreview("featuredCarousel");
+    setPublished(true);
   };
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-5">
       <Field label="Título">
-        <input className={fieldClass} style={fieldStyle} value={item.title} onChange={(e) => patch({ title: e.target.value })} />
+        <textarea
+          rows={3}
+          className={`${fieldClass} resize-y`}
+          style={fieldStyle}
+          value={item.title}
+          onChange={(e) => patch({ title: e.target.value })}
+        />
       </Field>
       <Field label="Fecha">
         <input type="date" className={fieldClass} style={fieldStyle} value={item.date} onChange={(e) => patch({ date: e.target.value })} />
@@ -654,16 +742,17 @@ function CumbreForm({ id, onDone }: { id: string; onDone: () => void }) {
         kind="image"
         folder="attachments"
       />
-      <SaveBar saving={saving} error={error} onSave={() => void save()} />
+      <PublishBar saving={saving} error={error} published={published} onPublish={() => void save()} />
     </div>
   );
 }
 
-function RevistaForm({ id, onDone }: { id?: string; onDone: () => void }) {
-  const { revistaDigital } = useSiteSettings();
+function RevistaForm({ id }: { id?: string }) {
+  const { revistaDigital, refetch } = useSiteSettings();
   const recordSettings = useRecordSettingsChange();
+  const { clearPreview, preview } = useSiteEdit();
   const { value: row, setValue: setRow } = useDraftHistory<RevistaEdition>(() => {
-    const list = revistaDigital ?? defaultRevistaEditions;
+    const list = preview.revista ?? revistaDigital ?? defaultRevistaEditions;
     const found = id ? list.find((e) => e.id === id) : undefined;
     return found
       ? { ...found }
@@ -678,6 +767,20 @@ function RevistaForm({ id, onDone }: { id?: string; onDone: () => void }) {
   });
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [published, setPublished] = useState(false);
+
+  const previewList = useMemo(() => {
+    const list = (revistaDigital ?? defaultRevistaEditions).map((e) => ({ ...e }));
+    const idx = list.findIndex((e) => e.id === row.id);
+    if (idx >= 0) list[idx] = row;
+    else if (row.title.trim()) list.unshift(row);
+    if (row.isFeatured) {
+      return list.map((e) => ({ ...e, isFeatured: e.id === row.id }));
+    }
+    return list;
+  }, [revistaDigital, row]);
+
+  const captureBaseline = usePreviewSync("revista", previewList);
 
   const save = async () => {
     if (!row.title.trim() || !row.url.trim()) {
@@ -710,21 +813,24 @@ function RevistaForm({ id, onDone }: { id?: string; onDone: () => void }) {
     const res = await api.settings.set(REVISTA_DIGITAL_SETTINGS_KEY, { entries: list });
     setSaving(false);
     if (!res.ok) {
-      setError(res.error ?? "No se pudo guardar.");
+      setError(res.error ?? "No se pudo publicar.");
       return;
     }
     const beforeList = (revistaDigital ?? defaultRevistaEditions).map((e) => ({ ...e }));
     recordSettings(REVISTA_DIGITAL_SETTINGS_KEY, { entries: beforeList }, { entries: list });
     notifyCmsSaved(REVISTA_DIGITAL_SETTINGS_KEY);
-    onDone();
+    await refetch();
+    captureBaseline();
+    clearPreview("revista");
+    setPublished(true);
   };
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-5">
       <Field label="Título">
         <input className={fieldClass} style={fieldStyle} value={row.title} onChange={(e) => setRow({ ...row, title: e.target.value })} />
       </Field>
-      <div className="grid grid-cols-2 gap-2">
+      <div className="grid grid-cols-2 gap-3">
         <Field label="Año">
           <input className={fieldClass} style={fieldStyle} value={row.year} onChange={(e) => setRow({ ...row, year: e.target.value })} />
         </Field>
@@ -754,7 +860,7 @@ function RevistaForm({ id, onDone }: { id?: string; onDone: () => void }) {
       <Field label="Texto del aviso">
         <textarea
           rows={3}
-          className={fieldClass}
+          className={`${fieldClass} resize-y`}
           style={fieldStyle}
           value={row.description ?? ""}
           onChange={(e) => setRow({ ...row, description: e.target.value })}
@@ -793,17 +899,17 @@ function RevistaForm({ id, onDone }: { id?: string; onDone: () => void }) {
           {row.isFeatured ? "En portada" : "No sale en portada"}
         </button>
       </div>
-      <SaveBar saving={saving} error={error} onSave={() => void save()} />
+      <PublishBar saving={saving} error={error} published={published} onPublish={() => void save()} />
     </div>
   );
 }
 
-function NoticiaForm({ slug, onDone }: { slug: string; onDone: () => void }) {
-  const { exit, recordPersistedChange } = useSiteEdit();
+function NoticiaForm({ slug }: { slug: string }) {
+  const { exit, recordPersistedChange, clearPreview, preview } = useSiteEdit();
   const { adminNews, updateNews, addNews } = useAdminData();
   const existing = adminNews.find((n) => (n.slug || n.id).toLowerCase() === slug.toLowerCase());
   const staticNews = noticiasData.find((n) => n.slug.toLowerCase() === slug.toLowerCase());
-  const seed = existing ?? (staticNews
+  const seedBase = existing ?? (staticNews
     ? ({
         id: "",
         slug: staticNews.slug,
@@ -820,10 +926,34 @@ function NoticiaForm({ slug, onDone }: { slug: string; onDone: () => void }) {
         published: true,
       } satisfies AdminNewsItem)
     : null);
+  const seed =
+    seedBase && preview.news && preview.news.slug.toLowerCase() === slug.toLowerCase()
+      ? {
+          ...seedBase,
+          title: preview.news.title,
+          excerpt: preview.news.excerpt,
+          date: preview.news.date,
+          dateFormatted: preview.news.dateFormatted ?? seedBase.dateFormatted,
+          imageUrl: preview.news.imageUrl ?? seedBase.imageUrl,
+        }
+      : seedBase;
 
   const { value: row, setValue: setRow } = useDraftHistory<AdminNewsItem | null>(seed ? { ...seed } : null);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [published, setPublished] = useState(false);
+
+  const newsPreview = row
+    ? {
+        slug: row.slug,
+        title: row.title,
+        excerpt: row.excerpt,
+        date: row.date,
+        dateFormatted: row.dateFormatted,
+        imageUrl: row.imageUrl,
+      }
+    : undefined;
+  const captureBaseline = usePreviewSync("news", newsPreview, Boolean(row));
 
   if (!row) {
     return (
@@ -887,18 +1017,26 @@ function NoticiaForm({ slug, onDone }: { slug: string; onDone: () => void }) {
         });
       }
       notifyCmsSaved("news");
-      onDone();
+      captureBaseline();
+      clearPreview("news");
+      setPublished(true);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "No se pudo guardar.");
+      setError(err instanceof Error ? err.message : "No se pudo publicar.");
     } finally {
       setSaving(false);
     }
   };
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-5">
       <Field label="Título">
-        <input className={fieldClass} style={fieldStyle} value={row.title} onChange={(e) => setRow({ ...row, title: e.target.value })} />
+        <textarea
+          rows={3}
+          className={`${fieldClass} resize-y`}
+          style={fieldStyle}
+          value={row.title}
+          onChange={(e) => setRow({ ...row, title: e.target.value })}
+        />
       </Field>
       <Field label="Fecha">
         <input type="date" className={fieldClass} style={fieldStyle} value={row.date} onChange={(e) => setRow({ ...row, date: e.target.value })} />
@@ -906,7 +1044,7 @@ function NoticiaForm({ slug, onDone }: { slug: string; onDone: () => void }) {
       <Field label="Resumen">
         <textarea
           rows={4}
-          className={fieldClass}
+          className={`${fieldClass} resize-y`}
           style={fieldStyle}
           value={row.excerpt}
           onChange={(e) => setRow({ ...row, excerpt: e.target.value })}
@@ -919,18 +1057,21 @@ function NoticiaForm({ slug, onDone }: { slug: string; onDone: () => void }) {
         kind="image"
         folder="news"
       />
-      <p className="text-[12px]" style={{ color: "var(--regu-gray-500)" }}>
+      <p className="text-[12px] leading-relaxed" style={{ color: "var(--regu-gray-500)" }}>
         El texto largo de la nota se edita en el panel de Noticias.
       </p>
-      <SaveBar
+      <PublishBar
         saving={saving}
         error={error}
-        onSave={() => void save()}
+        published={published}
+        onPublish={() => void save()}
         extra={
           <Link
             to="/admin/noticias"
-            onClick={exit}
-            className="inline-flex items-center gap-1.5 rounded-xl border px-3 py-2.5 text-sm font-semibold"
+            onClick={(event) => {
+              if (!exit()) event.preventDefault();
+            }}
+            className="inline-flex items-center gap-1.5 rounded-xl border bg-white px-3 py-2.5 text-sm font-semibold"
             style={{ borderColor: "rgba(22,61,89,0.14)", color: "var(--regu-navy)" }}
           >
             Abrir panel
@@ -950,7 +1091,7 @@ function PanelFallback({
   path: string;
   label: string;
   hint?: string;
-  onLeave?: () => void;
+  onLeave?: () => boolean | void;
 }) {
   return (
     <div className="space-y-4">
@@ -959,7 +1100,9 @@ function PanelFallback({
       </p>
       <Link
         to={path}
-        onClick={onLeave}
+        onClick={(event) => {
+          if (onLeave && onLeave() === false) event.preventDefault();
+        }}
         className="inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold text-white"
         style={{ backgroundColor: "var(--regu-blue)" }}
       >

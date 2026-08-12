@@ -19,6 +19,7 @@ import {
   useMergedNews,
 } from "@/contexts/AdminDataContext";
 import { useHomeHero, useHomeQuickLinks, useFeaturedCarouselSettings, useSiteSettings } from "@/contexts/SiteSettingsContext";
+import { useSiteEdit } from "@/contexts/SiteEditContext";
 import { quickLinkItemsFromSetting } from "@/lib/quickLinks";
 import { quickLinks as staticQuickLinks, featuredCarouselItems as fallbackCarouselItems } from "@/data/home";
 import type { FeaturedCarouselItem } from "@/components/home/FeaturedCarousel";
@@ -40,7 +41,9 @@ export default function Home() {
   const homeEvents = useMemo(() => allEvents.filter((e) => e.year === 2026), [allEvents]);
 
   const rawHero = useHomeHero();
-  const hero = useLocalizedHomeHeroSettings(rawHero);
+  const { enabled: siteEditEnabled, preview } = useSiteEdit();
+  const localizedHero = useLocalizedHomeHeroSettings(rawHero);
+  const hero = siteEditEnabled && preview.homeHero ? rawHero : localizedHero;
   const quickLinksSetting = useHomeQuickLinks();
   const carouselSettings = useFeaturedCarouselSettings();
 

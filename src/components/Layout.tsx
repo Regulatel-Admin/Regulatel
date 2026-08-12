@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import HeaderMegaMenu from "@/components/layout/HeaderMegaMenu";
 import { SiteEditBar } from "@/components/site-edit/SiteEditBar";
 import { SiteEditDrawer } from "@/components/site-edit/SiteEditDrawer";
+import { useSiteEdit } from "@/contexts/SiteEditContext";
 
 interface LayoutProps {
   children: ReactNode;
@@ -15,6 +16,8 @@ export default function Layout({ children }: LayoutProps) {
   const { pathname } = useLocation();
   const { t } = useTranslation();
   const [footerLogoError, setFooterLogoError] = useState(false);
+  const { enabled, target } = useSiteEdit();
+  const drawerOpen = Boolean(enabled && target);
 
   const footerLinks = {
     institucional: [
@@ -53,10 +56,17 @@ export default function Layout({ children }: LayoutProps) {
   return (
     <div className="min-h-screen text-slate-900" style={{ backgroundColor: "var(--token-page-bg)" }}>
       <SiteEditBar />
-      <HeaderMegaMenu />
-      <SiteEditDrawer />
-      <div id="contentRoot">
-        <main>{children}</main>
+      <div
+        className={
+          drawerOpen
+            ? "transition-[padding] duration-300 lg:pr-[26.5rem]"
+            : "transition-[padding] duration-300"
+        }
+      >
+        <HeaderMegaMenu />
+        <SiteEditDrawer />
+        <div id="contentRoot">
+          <main>{children}</main>
 
         <footer
           style={{
@@ -228,6 +238,7 @@ export default function Layout({ children }: LayoutProps) {
             </Link>
           </div>
         </footer>
+      </div>
       </div>
     </div>
   );

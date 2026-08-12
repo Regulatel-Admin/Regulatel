@@ -6,6 +6,27 @@ import {
   publicPathForAdmin,
   type SiteEditTarget,
 } from "@/lib/siteEdit";
+import type { HomeHeroSetting, QuickLinkSettingItem, FeaturedCarouselItemSetting } from "@/types/siteSettings";
+import type { BoletinGtaiSerialized } from "@/data/boletinesGtai";
+import type { RevistaEdition } from "@/data/revistaDigital";
+
+export type SiteEditNewsPreview = {
+  slug: string;
+  title: string;
+  excerpt: string;
+  date: string;
+  dateFormatted?: string;
+  imageUrl?: string;
+};
+
+export type SiteEditPreview = {
+  homeHero?: HomeHeroSetting;
+  quickLinks?: QuickLinkSettingItem[];
+  featuredCarousel?: FeaturedCarouselItemSetting[];
+  boletines?: BoletinGtaiSerialized[];
+  revista?: RevistaEdition[];
+  news?: SiteEditNewsPreview;
+};
 
 export interface SiteEditDraftController {
   undo: () => boolean;
@@ -23,10 +44,14 @@ export interface SiteEditPersistedChange {
 interface SiteEditContextValue {
   enabled: boolean;
   target: SiteEditTarget | null;
+  preview: SiteEditPreview;
+  hasUnpublished: boolean;
   enter: (publicPath?: string) => void;
-  exit: () => void;
+  exit: () => boolean;
   open: (target: SiteEditTarget) => void;
   close: () => void;
+  setPreview: (patch: Partial<SiteEditPreview>) => void;
+  clearPreview: (key?: keyof SiteEditPreview) => void;
   registerDraft: (controller: SiteEditDraftController | null) => void;
   recordPersistedChange: (change: SiteEditPersistedChange) => void;
   undo: () => Promise<void>;
@@ -39,10 +64,14 @@ interface SiteEditContextValue {
 const SiteEditContext = createContext<SiteEditContextValue>({
   enabled: false,
   target: null,
+  preview: {},
+  hasUnpublished: false,
   enter: () => {},
-  exit: () => {},
+  exit: () => true,
   open: () => {},
   close: () => {},
+  setPreview: () => {},
+  clearPreview: () => {},
   registerDraft: () => {},
   recordPersistedChange: () => {},
   undo: async () => {},
@@ -68,6 +97,7 @@ export function SiteEditProvider({ children }: { children: ReactNode }) {
   const navigate = useNavigate();
   const [enabled, setEnabled] = useState(false);
   const [target, setTarget] = useState<SiteEditTarget | null>(null);
+  const [preview, setPreviewState] = useState<SiteEditPreview>({});
   const [draft, setDraft] = useState<SiteEditDraftController | null>(null);
   const [persistedUndo, setPersistedUndo] = useState<SiteEditPersistedChange[]>([]);
   const [persistedRedo, setPersistedRedo] = useState<SiteEditPersistedChange[]>([]);
@@ -75,6 +105,7 @@ export function SiteEditProvider({ children }: { children: ReactNode }) {
   const draftRef = useRef<SiteEditDraftController | null>(null);
   const persistedUndoRef = useRef<SiteEditPersistedChange[]>([]);
   const persistedRedoRef = useRef<SiteEditPersistedChange[]>([]);
+  const previewRef = useRef<SiteEditPreview>({});
   const busyRef = useRef(false);
 
   useEffect(() => {
@@ -90,12 +121,17 @@ export function SiteEditProvider({ children }: { children: ReactNode }) {
   }, [persistedRedo]);
 
   useEffect(() => {
+    previewRef.current = preview;
+  }, [preview]);
+
+  useEffect(() => {
     if (isChecking) return;
     const params = new URLSearchParams(location.search);
     const fromQuery = params.get("editar") === "1";
     if (!isAdmin) {
       setEnabled(false);
       setTarget(null);
+      setPreviewState({});
       setPersistedUndo([]);
       setPersistedRedo([]);
       try {
@@ -127,6 +163,7 @@ export function SiteEditProvider({ children }: { children: ReactNode }) {
         /* ignore */
       }
       setEnabled(true);
+      setPreviewState({});
       setPersistedUndo([]);
       setPersistedRedo([]);
       const dest = publicPath ?? publicPathForAdmin(location.pathname);
@@ -135,7 +172,13 @@ export function SiteEditProvider({ children }: { children: ReactNode }) {
     [location.pathname, navigate]
   );
 
-  const exit = useCallback(() => {
+  const exit = useCallback((): boolean => {
+    if (Object.keys(previewRef.current).length > 0) {
+      const ok = window.confirm(
+        "Hay cambios que aún no publicaste. Si sales, se pierden y el sitio público no cambia."
+      );
+      if (!ok) return false;
+    }
     try {
       sessionStorage.removeItem(SITE_EDIT_STORAGE_KEY);
     } catch {
@@ -143,8 +186,27 @@ export function SiteEditProvider({ children }: { children: ReactNode }) {
     }
     setEnabled(false);
     setTarget(null);
+    setPreviewState({});
     setPersistedUndo([]);
     setPersistedRedo([]);
+    return true;
+  }, []);
+
+  const setPreview = useCallback((patch: Partial<SiteEditPreview>) => {
+    setPreviewState((current) => ({ ...current, ...patch }));
+  }, []);
+
+  const clearPreview = useCallback((key?: keyof SiteEditPreview) => {
+    if (!key) {
+      setPreviewState({});
+      return;
+    }
+    setPreviewState((current) => {
+      if (!(key in current)) return current;
+      const next = { ...current };
+      delete next[key];
+      return next;
+    });
   }, []);
 
   const open = useCallback((next: SiteEditTarget) => {
@@ -212,6 +274,7 @@ export function SiteEditProvider({ children }: { children: ReactNode }) {
 
   const canUndo = Boolean(draft?.canUndo || persistedUndo.length > 0);
   const canRedo = Boolean(draft?.canRedo || (!draft?.canUndo && persistedRedo.length > 0));
+  const hasUnpublished = Object.keys(preview).length > 0;
 
   useEffect(() => {
     if (!enabled) return;
@@ -240,10 +303,14 @@ export function SiteEditProvider({ children }: { children: ReactNode }) {
     () => ({
       enabled,
       target,
+      preview,
+      hasUnpublished,
       enter,
       exit,
       open,
       close,
+      setPreview,
+      clearPreview,
       registerDraft,
       recordPersistedChange,
       undo,
@@ -255,10 +322,14 @@ export function SiteEditProvider({ children }: { children: ReactNode }) {
     [
       enabled,
       target,
+      preview,
+      hasUnpublished,
       enter,
       exit,
       open,
       close,
+      setPreview,
+      clearPreview,
       registerDraft,
       recordPersistedChange,
       undo,

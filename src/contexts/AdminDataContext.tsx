@@ -19,6 +19,7 @@ import { api } from "@/lib/api";
 import type { UploadedFileMeta } from "@/types/uploads";
 import { useRevistaDigitalEditions } from "@/contexts/SiteSettingsContext";
 import { getPublishedRevistaEditions, revistaEditionToGestionDocument } from "@/data/revistaDigital";
+import { useSiteEdit } from "@/contexts/SiteEditContext";
 
 const KEY_CIFRAS = "regulatel_admin_cifras";
 const KEY_CIFRAS_POR_ANO = "regulatel_admin_cifras_por_ano";
@@ -389,29 +390,47 @@ export interface HomeNewsItemLike {
 /** Para que la home y noticias muestren siempre estáticos + los de la base de datos. Si un estático fue editado en admin (mismo slug en DB), se muestra solo la versión DB. */
 export function useMergedNews(): HomeNewsItemLike[] {
   const ctx = useContext(AdminDataContext);
+  const { enabled, preview } = useSiteEdit();
   const staticWithImages = homeNews.map((item) => {
     const full = noticiasData.find((n) => n.slug === item.slug);
     return { ...item, imageUrl: full?.imageUrl };
   });
-  if (ctx?.contentSource !== "database") {
-    return [...staticWithImages].sort((a, b) => (a.date > b.date ? -1 : 1));
-  }
-  const dbSlugs = new Set(
-    (ctx.adminNews ?? []).filter((n) => n.published).map((n) => (n.slug || n.id).toLowerCase())
+  const list =
+    ctx?.contentSource !== "database"
+      ? [...staticWithImages].sort((a, b) => (a.date > b.date ? -1 : 1))
+      : (() => {
+          const dbSlugs = new Set(
+            (ctx.adminNews ?? []).filter((n) => n.published).map((n) => (n.slug || n.id).toLowerCase())
+          );
+          const staticFiltered = staticWithImages.filter((item) => !dbSlugs.has(item.slug.toLowerCase()));
+          const dbItems = (ctx.adminNews ?? [])
+            .filter((n) => n.published)
+            .map((n) => ({
+              slug: n.slug || n.id,
+              title: n.title,
+              date: n.date,
+              dateFormatted: n.dateFormatted,
+              excerpt: n.excerpt,
+              imageUrl: n.imageUrl || undefined,
+              additionalImages: n.additionalImages || undefined,
+            }));
+          return [...staticFiltered, ...dbItems].sort((a, b) => (a.date > b.date ? -1 : 1));
+        })();
+
+  if (!enabled || !preview.news) return list;
+  const patch = preview.news;
+  return list.map((item) =>
+    item.slug.toLowerCase() === patch.slug.toLowerCase()
+      ? {
+          ...item,
+          title: patch.title,
+          excerpt: patch.excerpt,
+          date: patch.date,
+          dateFormatted: patch.dateFormatted ?? item.dateFormatted,
+          imageUrl: patch.imageUrl || item.imageUrl,
+        }
+      : item
   );
-  const staticFiltered = staticWithImages.filter((item) => !dbSlugs.has(item.slug.toLowerCase()));
-  const dbItems = (ctx.adminNews ?? [])
-    .filter((n) => n.published)
-    .map((n) => ({
-      slug: n.slug || n.id,
-      title: n.title,
-      date: n.date,
-      dateFormatted: n.dateFormatted,
-      excerpt: n.excerpt,
-      imageUrl: n.imageUrl || undefined,
-      additionalImages: n.additionalImages || undefined,
-    }));
-  return [...staticFiltered, ...dbItems].sort((a, b) => (a.date > b.date ? -1 : 1));
 }
 
 /**

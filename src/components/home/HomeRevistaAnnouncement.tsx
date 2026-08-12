@@ -10,6 +10,7 @@ import { X } from "lucide-react";
 import { GESTION_REVISTA_ARCHIVE_PATH } from "@/data/gestion";
 import { getFeaturedRevistaEdition } from "@/data/revistaDigital";
 import { useRevistaDigitalEditions } from "@/contexts/SiteSettingsContext";
+import { useSiteEdit } from "@/contexts/SiteEditContext";
 import { SiteEditBadge } from "@/components/site-edit/EditableSpot";
 
 /** Nueva clave al cambiar la edición destacada (vuelve a mostrarse el aviso a quien la cerró). */
@@ -114,6 +115,7 @@ export interface HomeRevistaAnnouncementProps {
 export default function HomeRevistaAnnouncement({ variant = "floating" }: HomeRevistaAnnouncementProps) {
   const { t } = useTranslation();
   const reduceMotion = useReducedMotion();
+  const { enabled: siteEditEnabled } = useSiteEdit();
   const [visible, setVisible] = useState(false);
   const editions = useRevistaDigitalEditions();
   const featured = getFeaturedRevistaEdition(editions);
@@ -123,26 +125,38 @@ export default function HomeRevistaAnnouncement({ variant = "floating" }: HomeRe
       setVisible(false);
       return;
     }
+    if (siteEditEnabled) {
+      setVisible(true);
+      return;
+    }
     setVisible(shouldShowAnnouncement(featured.id));
-  }, [featured?.id]);
+  }, [featured?.id, siteEditEnabled]);
 
   const editionId = featured?.id ?? "";
   const editionPrefix = `homeSections.revistaEditions.${editionId}`;
 
-  const editionCopy = useMemo(
-    () => ({
-      title: t(`${editionPrefix}.title`, {
-        defaultValue: featured?.title ?? "Revista REGULATEL",
-      }),
-      description: t(`${editionPrefix}.description`, {
-        defaultValue: featured?.description ?? featured?.title ?? "Ya está disponible una nueva edición de la Revista REGULATEL.",
-      }),
-      coverEdition: t(`${editionPrefix}.coverEdition`, {
-        defaultValue: featured?.coverEdition ?? featured?.year ?? "",
-      }),
-    }),
-    [t, editionPrefix, featured?.title, featured?.description, featured?.coverEdition, featured?.year]
-  );
+  const editionCopy = useMemo(() => {
+    const title = featured?.title ?? "Revista REGULATEL";
+    const description =
+      featured?.description ?? featured?.title ?? "Ya está disponible una nueva edición de la Revista REGULATEL.";
+    const coverEdition = featured?.coverEdition ?? featured?.year ?? "";
+    if (siteEditEnabled) {
+      return { title, description, coverEdition };
+    }
+    return {
+      title: t(`${editionPrefix}.title`, { defaultValue: title }),
+      description: t(`${editionPrefix}.description`, { defaultValue: description }),
+      coverEdition: t(`${editionPrefix}.coverEdition`, { defaultValue: coverEdition }),
+    };
+  }, [
+    siteEditEnabled,
+    t,
+    editionPrefix,
+    featured?.title,
+    featured?.description,
+    featured?.coverEdition,
+    featured?.year,
+  ]);
 
   const dismiss = () => {
     if (!featured) return;
