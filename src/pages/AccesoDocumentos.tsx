@@ -101,6 +101,18 @@ export default function AccesoDocumentos() {
       setReqError(t("pages.accesoDocumentos.enterEmail"));
       return;
     }
+    if (!reqInstitution.trim()) {
+      setReqError(t("pages.accesoDocumentos.requestInstitutionRequired"));
+      return;
+    }
+    if (!reqPosition.trim()) {
+      setReqError(t("pages.accesoDocumentos.requestPositionRequired"));
+      return;
+    }
+    if (!reqCountry.trim()) {
+      setReqError(t("pages.accesoDocumentos.requestCountryRequired"));
+      return;
+    }
     setReqSubmitting(true);
     const res = await api.documentAccess.requestAccess({
       name: reqName.trim(),
@@ -345,7 +357,7 @@ export default function AccesoDocumentos() {
               </div>
               <div>
                 <label className="mb-1.5 block text-[10px] font-bold uppercase tracking-wider" style={{ color: "var(--regu-gray-500)" }}>
-                  {t("pages.accesoDocumentos.institutionLabel")}
+                  {t("pages.accesoDocumentos.institutionLabel")} <span style={{ color: "var(--regu-blue)" }}>*</span>
                 </label>
                 <div className="relative">
                   <Building2 className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2" style={{ color: "var(--regu-gray-400)" }} aria-hidden />
@@ -362,7 +374,7 @@ export default function AccesoDocumentos() {
               <div className="grid gap-4 sm:grid-cols-2">
                 <div>
                   <label className="mb-1.5 block text-[10px] font-bold uppercase tracking-wider" style={{ color: "var(--regu-gray-500)" }}>
-                    {t("pages.accesoDocumentos.positionLabel")}
+                    {t("pages.accesoDocumentos.positionLabel")} <span style={{ color: "var(--regu-blue)" }}>*</span>
                   </label>
                   <input
                     type="text"
@@ -375,7 +387,7 @@ export default function AccesoDocumentos() {
                 </div>
                 <div>
                   <label className="mb-1.5 block text-[10px] font-bold uppercase tracking-wider" style={{ color: "var(--regu-gray-500)" }}>
-                    {t("pages.accesoDocumentos.countryLabel")}
+                    {t("pages.accesoDocumentos.countryLabel")} <span style={{ color: "var(--regu-blue)" }}>*</span>
                   </label>
                   <input
                     type="text"

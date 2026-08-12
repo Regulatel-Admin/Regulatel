@@ -12,6 +12,7 @@ import {
   MapPin,
 } from 'lucide-react';
 import PageHero from '@/components/PageHero';
+import { api } from '@/lib/api';
 
 const fadeIn = {
   hidden: { opacity: 0, y: 14 },
@@ -21,6 +22,8 @@ const fadeIn = {
 const Contacto: React.FC = () => {
   const { t } = useTranslation();
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [formError, setFormError] = useState('');
 
   const infoItems = [
     {
@@ -46,8 +49,34 @@ const Contacto: React.FC = () => {
     },
   ];
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setFormError('');
+    const form = e.currentTarget;
+    const data = new FormData(form);
+    const name = String(data.get('name') ?? '').trim();
+    const email = String(data.get('email') ?? '').trim();
+    const organization = String(data.get('organization') ?? '').trim();
+    const subject = String(data.get('subject') ?? '').trim();
+    const message = String(data.get('message') ?? '').trim();
+    if (!name || !email || !subject || !message) {
+      setFormError(t('pages.contacto.sendError'));
+      return;
+    }
+    setSubmitting(true);
+    const res = await api.contact.send({
+      name,
+      email,
+      organization: organization || undefined,
+      subject,
+      message,
+    });
+    setSubmitting(false);
+    if (!res.ok) {
+      setFormError(res.error || t('pages.contacto.sendError'));
+      return;
+    }
+    form.reset();
     setSubmitted(true);
   };
 
@@ -210,7 +239,7 @@ const Contacto: React.FC = () => {
                       </p>
                       <button
                         type="button"
-                        onClick={() => setSubmitted(false)}
+                        onClick={() => { setSubmitted(false); setFormError(''); }}
                         className="inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-bold text-white transition-opacity hover:opacity-85"
                         style={{ backgroundColor: 'var(--regu-blue)' }}
                       >
@@ -230,6 +259,7 @@ const Contacto: React.FC = () => {
                           </label>
                           <input
                             id="nombre"
+                            name="name"
                             type="text"
                             placeholder={t('pages.contacto.placeholders.fullName')}
                             required
@@ -248,6 +278,7 @@ const Contacto: React.FC = () => {
                           </label>
                           <input
                             id="email"
+                            name="email"
                             type="email"
                             placeholder={t('pages.contacto.placeholders.email')}
                             required
@@ -270,6 +301,7 @@ const Contacto: React.FC = () => {
                         </label>
                         <input
                           id="organizacion"
+                          name="organization"
                           type="text"
                           placeholder={t('pages.contacto.placeholders.organization')}
                           className="h-11 rounded-xl border bg-[#F4F6F8] px-4 text-sm outline-none transition-all placeholder:text-[var(--regu-gray-400)] focus:bg-white focus:ring-2 focus:ring-[rgba(68,137,198,0.30)]"
@@ -287,6 +319,7 @@ const Contacto: React.FC = () => {
                         </label>
                         <input
                           id="asunto"
+                          name="subject"
                           type="text"
                           placeholder={t('pages.contacto.placeholders.subject')}
                           required
@@ -305,6 +338,7 @@ const Contacto: React.FC = () => {
                         </label>
                         <textarea
                           id="mensaje"
+                          name="message"
                           placeholder={t('pages.contacto.placeholders.message')}
                           required
                           rows={6}
@@ -317,13 +351,22 @@ const Contacto: React.FC = () => {
                       </div>
 
                       <div className="pt-2">
+                        {formError && (
+                          <div
+                            className="mb-3 rounded-xl px-4 py-3 text-sm font-medium"
+                            style={{ backgroundColor: 'rgba(185,28,28,0.08)', color: '#B91C1C' }}
+                          >
+                            {formError}
+                          </div>
+                        )}
                         <button
                           type="submit"
-                          className="inline-flex w-full items-center justify-center gap-2 rounded-xl py-3 text-sm font-bold text-white transition-opacity hover:opacity-85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2"
+                          disabled={submitting}
+                          className="inline-flex w-full items-center justify-center gap-2 rounded-xl py-3 text-sm font-bold text-white transition-opacity hover:opacity-85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2 disabled:opacity-70"
                           style={{ backgroundColor: 'var(--regu-blue)' }}
                         >
                           <Send className="h-4 w-4" />
-                          {t('pages.contacto.submit')}
+                          {submitting ? t('pages.contacto.sending') : t('pages.contacto.submit')}
                         </button>
                       </div>
                     </form>

@@ -668,6 +668,8 @@ export default {
         headquarters: "Santo Domingo, República Dominicana",
       },
       submit: "Enviar mensaje",
+      sending: "Enviando…",
+      sendError: "No se pudo enviar el mensaje. Intente de nuevo.",
       successTitle: "Mensaje enviado",
       successMessage: "Gracias por contactarnos. Responderemos a la brevedad posible.",
       sendAnother: "Enviar otro mensaje",

@@ -69,7 +69,7 @@ export default function AccesoSolicitud() {
       approved: res.data.status === "approved",
       message:
         res.data.status === "approved"
-          ? `Acceso autorizado. Se envió un correo a ${res.data.email} con las credenciales.`
+          ? `Acceso autorizado. Se envió un correo a ${res.data.email} con usuario y contraseña. Esa persona entra a www.regulatel.org/acceso-documentos, inicia sesión y ya puede ver las actas.`
           : `Solicitud denegada. Se avisó a ${res.data.email}.`,
     });
   };
@@ -143,12 +143,12 @@ export default function AccesoSolicitud() {
                 className="mb-6 space-y-1.5 rounded-xl px-4 py-3 text-sm"
                 style={{ backgroundColor: "#F4F6F8", color: "var(--regu-navy)" }}
               >
-                <p><strong>Nombre:</strong> {request?.name}</p>
-                <p><strong>Correo:</strong> {request?.email}</p>
-                {request?.institution && <p><strong>Institución:</strong> {request.institution}</p>}
-                {request?.position && <p><strong>Cargo:</strong> {request.position}</p>}
-                {request?.country && <p><strong>País:</strong> {request.country}</p>}
-                {request?.documentTitle && <p><strong>Documento:</strong> {request.documentTitle}</p>}
+                <p><strong>Nombre:</strong> {request?.name || "No indicado"}</p>
+                <p><strong>Correo:</strong> {request?.email || "No indicado"}</p>
+                <p><strong>País:</strong> {request?.country || "No indicado"}</p>
+                <p><strong>Cargo:</strong> {request?.position || "No indicado"}</p>
+                <p><strong>Institución:</strong> {request?.institution || "No indicado"}</p>
+                <p><strong>Documento:</strong> {request?.documentTitle || "No indicado"}</p>
               </div>
               <div className="flex flex-col gap-3 sm:flex-row">
                 <button

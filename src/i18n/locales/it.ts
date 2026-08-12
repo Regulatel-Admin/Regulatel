@@ -672,6 +672,8 @@ export default {
         headquarters: "Santo Domingo, Repubblica Dominicana",
       },
       submit: "Invia messaggio",
+      sending: "Invio in corso…",
+      sendError: "Impossibile inviare il messaggio. Riprova.",
       successTitle: "Messaggio inviato",
       successMessage: "Grazie per averci contattato. Risponderemo il prima possibile.",
       sendAnother: "Invia un altro messaggio",

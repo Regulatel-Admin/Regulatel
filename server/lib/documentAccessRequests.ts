@@ -9,7 +9,7 @@ import {
   createDocumentAccessUser,
   findDocumentAccessUserByEmail,
 } from "./documentAccess.js";
-import { emailButton, EMAIL_MUTED, EMAIL_NAVY, siteBaseUrl, wrapEmailHtml } from "./emailLayout.js";
+import { emailButton, emailDetailsTable, escapeHtml, siteBaseUrl, wrapEmailHtml } from "./emailLayout.js";
 
 export const DOCUMENT_ACCESS_REVIEWER_EMAIL =
   process.env.DOCUMENT_ACCESS_REVIEWER_EMAIL?.trim() || "dcuervo@indotel.gob.do";
@@ -149,11 +149,23 @@ export async function createAccessRequest(input: {
   await ensureDocumentAccessRequestsSchema();
   const email = input.email.trim().toLowerCase();
   const name = input.name.trim();
+  const institution = input.institution?.trim() || "";
+  const position = input.position?.trim() || "";
+  const country = input.country?.trim() || "";
   if (!email || !email.includes("@")) {
     return { ok: false, error: "Indique un correo electrónico válido.", status: 400 };
   }
   if (!name) {
     return { ok: false, error: "El nombre es obligatorio.", status: 400 };
+  }
+  if (!institution) {
+    return { ok: false, error: "La institución es obligatoria.", status: 400 };
+  }
+  if (!position) {
+    return { ok: false, error: "El cargo es obligatorio.", status: 400 };
+  }
+  if (!country) {
+    return { ok: false, error: "El país es obligatorio.", status: 400 };
   }
 
   const existingUser = await findDocumentAccessUserByEmail(email);
@@ -187,8 +199,8 @@ export async function createAccessRequest(input: {
       collection_tipo, status, token_hash, expires_at, created_at
     )
     VALUES (
-      ${id}, ${email}, ${name}, ${input.institution?.trim() || null},
-      ${input.position?.trim() || null}, ${input.country?.trim() || null},
+      ${id}, ${email}, ${name}, ${institution},
+      ${position}, ${country},
       ${input.documentId ?? null}, ${input.documentTitle ?? null},
       ${input.collectionTipo ?? null}, 'pending', ${tokenHash},
       ${expiresAt.toISOString()}::timestamptz, ${now.toISOString()}::timestamptz
@@ -199,9 +211,9 @@ export async function createAccessRequest(input: {
     token,
     name,
     email,
-    institution: input.institution?.trim() || null,
-    position: input.position?.trim() || null,
-    country: input.country?.trim() || null,
+    institution,
+    position,
+    country,
     documentTitle: input.documentTitle ?? null,
   });
 
@@ -300,24 +312,14 @@ async function sendReviewerEmail(params: {
   const base = siteBaseUrl();
   const approveUrl = `${base}/acceso-solicitud?token=${encodeURIComponent(params.token)}&action=approve`;
   const denyUrl = `${base}/acceso-solicitud?token=${encodeURIComponent(params.token)}&action=deny`;
-  const rows = [
-    ["Nombre", params.name],
-    ["Correo", params.email],
-    params.documentTitle ? ["Documento", params.documentTitle] : null,
-    params.institution ? ["Institución", params.institution] : null,
-    params.position ? ["Cargo", params.position] : null,
-    params.country ? ["País", params.country] : null,
-  ].filter(Boolean) as [string, string][];
-
-  const details = rows
-    .map(
-      ([label, value], i) => `
-        <tr>
-          <td style="padding:10px 0;border-bottom:${i === rows.length - 1 ? "0" : "1px solid #e5eaf0"};font-family:Arial,Helvetica,sans-serif;font-size:12px;color:${EMAIL_MUTED};width:120px;vertical-align:top;">${escapeHtml(label)}</td>
-          <td style="padding:10px 0;border-bottom:${i === rows.length - 1 ? "0" : "1px solid #e5eaf0"};font-family:Arial,Helvetica,sans-serif;font-size:14px;color:${EMAIL_NAVY};font-weight:600;">${escapeHtml(value)}</td>
-        </tr>`
-    )
-    .join("");
+  const details = emailDetailsTable([
+    { label: "Nombre", value: params.name },
+    { label: "Correo", value: params.email },
+    { label: "País", value: params.country },
+    { label: "Cargo", value: params.position },
+    { label: "Institución", value: params.institution },
+    { label: "Documento", value: params.documentTitle },
+  ]);
 
   const html = wrapEmailHtml({
     preheader: `${params.name} solicitó acceso a las actas restringidas de REGULATEL.`,
@@ -325,15 +327,9 @@ async function sendReviewerEmail(params: {
     footerNote: "El enlace caduca en 7 días. Si no reconoce esta solicitud, deniegue el acceso.",
     bodyHtml: `
       <p style="margin:0 0 18px;font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.6;color:#2c3a47;">
-        Una persona pidió acceso a documentos restringidos del portal. Puede autorizar o denegar desde este correo.
+        Revise los datos de la persona y autorice o deniegue el acceso a las actas restringidas.
       </p>
-      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f4f7fa;border:1px solid #e5eaf0;border-radius:12px;margin:0 0 24px;">
-        <tr>
-          <td style="padding:8px 20px;">
-            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">${details}</table>
-          </td>
-        </tr>
-      </table>
+      ${details}
       ${emailButton(approveUrl, "Autorizar acceso", "primary")}
       ${emailButton(denyUrl, "Denegar", "ghost")}
     `,
@@ -373,18 +369,22 @@ async function sendRequesterDecisionEmail(params: {
         footerNote: "Guarde esta contraseña. Si la pierde, contacte al administrador.",
         bodyHtml: `
           <p style="margin:0 0 18px;font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.6;color:#2c3a47;">
-            Hola ${escapeHtml(params.name)}, su solicitud de acceso a las actas restringidas fue autorizada.
+            Hola ${escapeHtml(params.name)}, su solicitud de acceso a las actas restringidas de REGULATEL fue autorizada.
           </p>
           ${
             params.password
-              ? `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f4f7fa;border:1px solid #e5eaf0;border-radius:12px;margin:0 0 24px;">
-            <tr><td style="padding:16px 20px;">
-              <p style="margin:0 0 8px;font-family:Arial,Helvetica,sans-serif;font-size:13px;color:${EMAIL_NAVY};"><strong>Correo:</strong> ${escapeHtml(params.to)}</p>
-              <p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:13px;color:${EMAIL_NAVY};"><strong>Contraseña temporal:</strong> ${escapeHtml(params.password)}</p>
-            </td></tr>
-          </table>`
+              ? `${emailDetailsTable([
+                  { label: "Correo", value: params.to },
+                  { label: "Contraseña temporal", value: params.password },
+                ])}`
               : `<p style="margin:0 0 18px;font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.6;color:#2c3a47;">Ya tenía una cuenta. Inicie sesión con sus credenciales habituales.</p>`
           }
+          <p style="margin:0 0 8px;font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.6;color:#2c3a47;"><strong>Qué hacer ahora:</strong></p>
+          <ol style="margin:0 0 24px;padding-left:20px;font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.7;color:#2c3a47;">
+            <li>Entre a <a href="${loginUrl}" style="color:#4489c6;font-weight:700;">www.regulatel.org/acceso-documentos</a></li>
+            <li>Inicie sesión con el correo y la contraseña de este mensaje.</li>
+            <li>Ya podrá ver y descargar las actas restringidas (Asambleas y Comité Ejecutivo).</li>
+          </ol>
           ${emailButton(loginUrl, "Ingresar a las actas")}
         `,
       })
@@ -414,10 +414,3 @@ async function sendRequesterDecisionEmail(params: {
   }
 }
 
-function escapeHtml(value: string) {
-  return value
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
-}

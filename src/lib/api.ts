@@ -123,6 +123,10 @@ export const api = {
     upload: (body: unknown) => request<unknown>("/uploads", { method: "POST", body }),
     delete: (body: unknown) => request<void>("/uploads", { method: "DELETE", body }),
   },
+  contact: {
+    send: (body: { name: string; email: string; organization?: string; subject: string; message: string }) =>
+      request<{ ok: boolean }>("/contact", { method: "POST", body }),
+  },
   documentAccess: {
     login: (body: { email: string; password: string }) =>
       request<{ ok: boolean }>("/document-access", { method: "POST", body }),

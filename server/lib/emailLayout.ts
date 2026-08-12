@@ -104,3 +104,35 @@ export function wrapEmailHtml(params: {
 
 export const EMAIL_NAVY = NAVY;
 export const EMAIL_MUTED = MUTED;
+
+export function escapeHtml(value: string) {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+export function emailDetailsTable(rows: Array<{ label: string; value?: string | null }>) {
+  const filled = rows.map((row) => ({
+    label: row.label,
+    value: row.value?.trim() ? row.value.trim() : "No indicado",
+  }));
+  const cells = filled
+    .map(
+      (row, i) => `
+        <tr>
+          <td style="padding:10px 0;border-bottom:${i === filled.length - 1 ? "0" : "1px solid #e5eaf0"};font-family:Arial,Helvetica,sans-serif;font-size:12px;color:${MUTED};width:130px;vertical-align:top;">${escapeHtml(row.label)}</td>
+          <td style="padding:10px 0;border-bottom:${i === filled.length - 1 ? "0" : "1px solid #e5eaf0"};font-family:Arial,Helvetica,sans-serif;font-size:14px;color:${NAVY};font-weight:600;">${escapeHtml(row.value)}</td>
+        </tr>`
+    )
+    .join("");
+  return `
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f4f7fa;border:1px solid #e5eaf0;border-radius:12px;margin:0 0 24px;">
+      <tr>
+        <td style="padding:8px 20px;">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">${cells}</table>
+        </td>
+      </tr>
+    </table>`;
+}
