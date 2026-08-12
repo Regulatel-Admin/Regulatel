@@ -56,7 +56,7 @@ export default function AdminDirectorio() {
 
   const resetToDefaults = () => {
     setEntries(defaultDirectorioAutoridades.map((r) => ({ ...r })));
-    showMessage("ok", "Formulario restaurado a la lista por defecto. Pulsa Guardar para publicar en el sitio.");
+    showMessage("ok", "Lista restaurada. Pulsa Guardar para publicarla.");
   };
 
   const save = async () => {
@@ -82,11 +82,7 @@ export default function AdminDirectorio() {
           Directorio de autoridades
         </h1>
         <p className="mt-2 text-sm" style={{ color: "var(--regu-gray-600)" }}>
-          Contactos oficiales que aparecen en la sección homónima de{" "}
-          <a href="/miembros" className="font-medium underline" style={{ color: "var(--regu-blue)" }}>
-            Miembros
-          </a>
-          . Los datos se guardan en la base de datos (site settings).
+          Contactos oficiales que aparecen en Miembros. Pulsa Guardar cuando termines.
         </p>
       </div>
 
@@ -112,7 +108,7 @@ export default function AdminDirectorio() {
           style={{ borderColor: "var(--regu-blue)", backgroundColor: "var(--regu-blue)", color: "white" }}
         >
           <Save className="h-4 w-4" />
-          {saving ? "Guardando…" : "Guardar en base de datos"}
+          {saving ? "Guardando…" : "Guardar"}
         </button>
         <button
           type="button"
@@ -121,7 +117,7 @@ export default function AdminDirectorio() {
           style={{ borderColor: "var(--regu-gray-200)", color: "var(--regu-gray-800)" }}
         >
           <Plus className="h-4 w-4" />
-          Añadir fila
+          Añadir contacto
         </button>
         <button
           type="button"
@@ -130,7 +126,7 @@ export default function AdminDirectorio() {
           style={{ borderColor: "var(--regu-gray-200)", color: "var(--regu-gray-700)" }}
         >
           <RotateCcw className="h-4 w-4" />
-          Restaurar valores por defecto
+          Volver al listado original
         </button>
       </div>
 
@@ -169,7 +165,7 @@ export default function AdminDirectorio() {
 
       {entries.length === 0 && (
         <p className="text-sm" style={{ color: "var(--regu-gray-600)" }}>
-          No hay filas. Usa «Añadir fila» o «Restaurar valores por defecto».
+          No hay contactos. Usa «Añadir contacto» o «Volver al listado original».
         </p>
       )}
     </div>

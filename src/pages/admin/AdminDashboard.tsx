@@ -1,111 +1,227 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
-import { Newspaper, Calendar, Hash, FileText, BookOpen, Info, Users, Lock, ChevronDown, ChevronUp, Layout, Zap, FolderOpen, ImageIcon, Menu, Images, Contact, Briefcase, Library, UserCircle, Building2, Handshake, Scale, Crown, Bell } from "lucide-react";
-import { projectInfo } from "@/config/projectInfo";
+import AdminAuditLog from "@/components/admin/AdminAuditLog";
+import { api } from "@/lib/api";
+import { normalizeAuditDetails, type AuditRow } from "@/lib/auditDisplay";
+import {
+  Newspaper,
+  Calendar,
+  FileText,
+  Home,
+  Menu,
+  FolderOpen,
+  ImageIcon,
+  Zap,
+  BookOpen,
+  Hash,
+  Library,
+  UserCircle,
+  Contact,
+  Building2,
+  Handshake,
+  Briefcase,
+  Crown,
+  Scale,
+  Images,
+  Bell,
+  Users,
+  Lock,
+  PenLine,
+  ArrowUpRight,
+  type LucideIcon,
+} from "lucide-react";
+import { useSiteEdit } from "@/contexts/SiteEditContext";
 
-const contentCards = [
-  { to: "/admin/content/home", icon: Layout, title: "Home", desc: "Hero institucional, título, CTAs e imágenes del slideshow; accesos principales." },
-  { to: "/admin/content/cumbres", icon: Zap, title: "Cumbres destacadas", desc: "Crear, editar, reordenar slides del carrusel de cumbres." },
-  { to: "/admin/content/galeria", icon: FolderOpen, title: "Galería", desc: "Crear y editar álbumes, subir y reordenar fotos." },
-  { to: "/admin/content/accesos", icon: ImageIcon, title: "Accesos principales", desc: "Los 4 tiles de la home: etiquetas, enlaces e iconos." },
-  { to: "/admin/content/navigation", icon: Menu, title: "Navegación", desc: "Editar el menú principal del header (JSON)." },
+type Shortcut = {
+  to: string;
+  icon: LucideIcon;
+  title: string;
+  desc: string;
+  featured?: boolean;
+};
+
+const featured: Shortcut[] = [
+  { to: "/admin/content/home", icon: Home, title: "Portada", desc: "El banner, el texto y las fotos de entrada." },
+  { to: "/admin/content/navigation", icon: Menu, title: "Menú del sitio", desc: "Lo que sale arriba en todas las páginas." },
+  { to: "/admin/noticias", icon: Newspaper, title: "Noticias", desc: "Escribir o corregir una noticia." },
+  { to: "/admin/eventos", icon: Calendar, title: "Eventos", desc: "La agenda que ve la gente." },
 ];
 
-const cards = [
-  { to: "/admin/media", icon: Images, title: "Media library", desc: "Referencia de dónde subir imágenes (noticias, eventos, galería)." },
-  { to: "/admin/noticias", icon: Newspaper, title: "Noticias", desc: "Añadir, editar o eliminar noticias. Se publican en la sección Noticias." },
-  { to: "/admin/eventos", icon: Calendar, title: "Eventos", desc: "Gestionar eventos que aparecen en la home y en la sección Eventos." },
-  { to: "/admin/cifras", icon: Hash, title: "REGULATEL en cifras", desc: "Modificar los números (grupos de trabajo, países, etc.)." },
-  { to: "/admin/directorio-autoridades", icon: Contact, title: "Directorio de autoridades", desc: "Editar contactos oficiales por país en la página Miembros." },
-  { to: "/admin/autoridades-actuales", icon: UserCircle, title: "Autoridades actuales", desc: "Presidente y vicepresidentes en /autoridades (tarjetas y fichas)." },
-  { to: "/admin/entes-miembros", icon: Building2, title: "Entes miembros", desc: "Carrusel de reguladores en /miembros: país, rutas y enlaces." },
-  { to: "/admin/convenios", icon: Handshake, title: "Convenios", desc: "Acuerdos y memorandos en el menú y en /convenios." },
-  { to: "/admin/grupos-trabajo", icon: Briefcase, title: "Grupos de trabajo", desc: "Coordinadores, miembros, enlaces e imágenes de cada GT." },
-  { to: "/admin/comite-ejecutivo", icon: Crown, title: "Comité Ejecutivo", desc: "Presidente, vicepresidencias, miembros del comité y textos de /comite-ejecutivo." },
-  { to: "/admin/boletines-gtai", icon: Library, title: "Boletines GTAI", desc: "Boletines del Grupo de Asuntos de Internet: PDF, metadatos, publicar y destacar." },
-  { to: "/admin/documentos", icon: FileText, title: "Documentos", desc: "Subir documentos y colocarlos en su sección correcta." },
-  { to: "/admin/buenas-practicas", icon: Scale, title: "Buenas Prácticas Regulatorias", desc: "Editar países, subcategorías, enlaces y textos del micrositio." },
-  { to: "/admin/revista", icon: BookOpen, title: "Revista Digital", desc: "Añadir ediciones de la revista digital." },
-  { to: "/admin/suscriptores", icon: Bell, title: "Suscriptores", desc: "Ver quién se inscribió a las actualizaciones por correo." },
+const moreLinks: Shortcut[] = [
+  { to: "/admin/content/galeria", icon: FolderOpen, title: "Galería", desc: "Álbumes y fotos." },
+  { to: "/admin/content/cumbres", icon: Zap, title: "Cumbres", desc: "Carrusel de cumbres." },
+  { to: "/admin/content/accesos", icon: ImageIcon, title: "Accesos de la portada", desc: "Los cuatro atajos." },
+  { to: "/admin/documentos", icon: FileText, title: "Documentos", desc: "PDFs y Word." },
+  { to: "/admin/boletines-gtai", icon: Library, title: "Boletines GTAI", desc: "Boletines del grupo." },
+  { to: "/admin/revista", icon: BookOpen, title: "Revista digital", desc: "Ediciones." },
+  { to: "/admin/cifras", icon: Hash, title: "Cifras", desc: "Números del foro." },
+  { to: "/admin/autoridades-actuales", icon: UserCircle, title: "Autoridades", desc: "Presidencia." },
+  { to: "/admin/directorio-autoridades", icon: Contact, title: "Directorio", desc: "Contactos por país." },
+  { to: "/admin/entes-miembros", icon: Building2, title: "Entes miembros", desc: "Reguladores." },
+  { to: "/admin/convenios", icon: Handshake, title: "Convenios", desc: "Acuerdos." },
+  { to: "/admin/grupos-trabajo", icon: Briefcase, title: "Grupos de trabajo", desc: "Cada GT." },
+  { to: "/admin/comite-ejecutivo", icon: Crown, title: "Comité Ejecutivo", desc: "Textos y actas." },
+  { to: "/admin/buenas-practicas", icon: Scale, title: "Buenas prácticas", desc: "Micrositio." },
 ];
 
-const adminOnlyCards = [
-  { to: "/admin/usuarios", icon: Users, title: "Usuarios y auditoría", desc: "Gestionar usuarios admin y consultar el registro de auditoría." },
-  { to: "/admin/acceso-actas", icon: Lock, title: "Acceso a actas", desc: "Crear cuentas para desbloquear actas restringidas desde la página pública." },
+const adminOnlyLinks: Shortcut[] = [
+  { to: "/admin/media", icon: Images, title: "Archivos", desc: "Fotos subidas." },
+  { to: "/admin/suscriptores", icon: Bell, title: "Suscriptores", desc: "Correos inscritos." },
+  { to: "/admin/usuarios", icon: Users, title: "Usuarios", desc: "Cuentas del panel." },
+  { to: "/admin/acceso-actas", icon: Lock, title: "Acceso a actas", desc: "Cuentas restringidas." },
 ];
+
+function greeting(name: string | undefined) {
+  const hour = new Date().getHours();
+  const first = name?.split(/\s+/)[0] || "";
+  const hello = hour < 12 ? "Buenos días" : hour < 19 ? "Buenas tardes" : "Buenas noches";
+  return first ? `${hello}, ${first}` : hello;
+}
+
+function todayLabel() {
+  return new Date().toLocaleDateString("es-DO", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+  });
+}
 
 export default function AdminDashboard() {
-  const { canManageUsers } = useAuth();
-  const [projectInfoOpen, setProjectInfoOpen] = useState(false);
-  const allCards = [...contentCards, ...cards, ...(canManageUsers ? adminOnlyCards : [])];
+  const { user, canManageUsers } = useAuth();
+  const { enter: enterSiteEdit } = useSiteEdit();
+  const [audit, setAudit] = useState<AuditRow[]>([]);
+  const [auditLoading, setAuditLoading] = useState(canManageUsers);
+
+  useEffect(() => {
+    if (!canManageUsers) return;
+    let cancelled = false;
+    (async () => {
+      const res = await api.admin.audit.list({ limit: 12 });
+      if (cancelled) return;
+      if (res.ok) {
+        setAudit(res.data.items.map((item) => ({ ...item, details: normalizeAuditDetails(item.details) })));
+      }
+      setAuditLoading(false);
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [canManageUsers]);
+
+  const extraLinks = moreLinks;
+
   return (
-    <div>
-      <h1
-        className="mb-2 text-2xl font-bold"
-        style={{ color: "var(--regu-gray-900)" }}
+    <div className="space-y-8">
+      <div
+        className="overflow-hidden rounded-3xl px-6 py-7 sm:px-8"
+        style={{
+          background: "linear-gradient(135deg, #163d59 0%, #2a6aa3 58%, #4489c6 100%)",
+          color: "white",
+        }}
       >
-        Panel de administración
-      </h1>
-      <p className="mb-8 text-sm" style={{ color: "var(--regu-gray-500)" }}>
-        Contenido del sitio (Home, Cumbres, Galería, Accesos) y gestión de noticias, eventos, documentos y cifras.
-      </p>
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {allCards.map(({ to, icon: Icon, title, desc }) => (
-          <Link
-            key={to}
-            to={to}
-            className="flex gap-4 rounded-xl border bg-white p-5 shadow-sm transition hover:shadow-md"
-            style={{ borderColor: "var(--regu-gray-100)" }}
+        <p className="text-[12px] font-semibold uppercase tracking-[0.16em] text-white/70">
+          {todayLabel()}
+        </p>
+        <h1 className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">{greeting(user?.name)}</h1>
+        <p className="mt-2 max-w-xl text-sm text-white/80">
+          Elige qué parte del sitio quieres tocar. Los cambios se ven en regulatel.org cuando los guardas.
+        </p>
+        <div className="mt-5 flex flex-wrap gap-2">
+          <button
+            type="button"
+            onClick={() => enterSiteEdit("/")}
+            className="inline-flex items-center gap-1.5 rounded-full bg-white px-4 py-2 text-sm font-semibold text-[#0f766e] transition hover:bg-white/90"
           >
-            <div
-              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg"
-              style={{
-                backgroundColor: "rgba(68, 137, 198, 0.12)",
-                color: "var(--regu-blue)",
-              }}
-            >
-              <Icon className="h-5 w-5" />
-            </div>
-            <div>
-              <h2 className="font-bold" style={{ color: "var(--regu-gray-900)" }}>
-                {title}
-              </h2>
-              <p className="mt-1 text-sm" style={{ color: "var(--regu-gray-500)" }}>
-                {desc}
-              </p>
-            </div>
+            <PenLine className="h-4 w-4" />
+            Editar en el sitio
+          </button>
+          <Link
+            to="/"
+            className="inline-flex items-center gap-1.5 rounded-full bg-white/15 px-4 py-2 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/25"
+          >
+            Ver el sitio público
+            <ArrowUpRight className="h-4 w-4" />
           </Link>
-        ))}
+        </div>
       </div>
 
-      {/* Información del proyecto (uso interno, no público) — colapsable */}
-      <section
-        className="mt-12 rounded-xl border bg-[var(--regu-offwhite)]"
-        style={{ borderColor: "var(--regu-gray-100)" }}
-        aria-label="Información del proyecto"
-      >
-        <button
-          type="button"
-          onClick={() => setProjectInfoOpen((o) => !o)}
-          className="flex w-full items-center justify-between gap-2 p-5 text-left"
-          aria-expanded={projectInfoOpen}
-        >
-          <h2 className="flex items-center gap-2 text-sm font-bold uppercase tracking-wide text-[var(--regu-gray-700)]">
-            <Info className="h-4 w-4" />
-            Información del proyecto
-          </h2>
-          {projectInfoOpen ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
-        </button>
-        {projectInfoOpen && (
-          <ul className="space-y-1 border-t px-5 pb-5 pt-1 text-sm text-[var(--regu-gray-600)]" style={{ borderColor: "var(--regu-gray-100)" }}>
-            <li><strong>Portal:</strong> {projectInfo.project}</li>
-            <li><strong>Versión inicial desarrollada por:</strong> {projectInfo.initialVersionBy}</li>
-            <li><strong>Cargo:</strong> {projectInfo.role}</li>
-            <li><strong>Correo institucional:</strong> {projectInfo.institutionalEmail}</li>
-            <li><strong>Año:</strong> {projectInfo.year}</li>
-          </ul>
-        )}
+      <section>
+        <h2 className="mb-3 text-sm font-bold" style={{ color: "var(--regu-navy)" }}>
+          Lo de todos los días
+        </h2>
+        <div className="grid gap-3 sm:grid-cols-2">
+          {featured.map(({ to, icon: Icon, title, desc }) => (
+            <Link
+              key={to}
+              to={to}
+              className="group flex items-start gap-4 rounded-2xl border bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-[rgba(68,137,198,0.5)] hover:shadow-md"
+              style={{ borderColor: "rgba(22,61,89,0.08)" }}
+            >
+              <span
+                className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl"
+                style={{ backgroundColor: "rgba(68,137,198,0.14)", color: "var(--regu-blue)" }}
+              >
+                <Icon className="h-6 w-6" />
+              </span>
+              <span className="min-w-0">
+                <span className="flex items-center gap-2 text-lg font-bold" style={{ color: "var(--regu-navy)" }}>
+                  {title}
+                  <ArrowUpRight className="h-4 w-4 opacity-0 transition group-hover:opacity-100" style={{ color: "var(--regu-blue)" }} />
+                </span>
+                <span className="mt-1 block text-sm" style={{ color: "var(--regu-gray-500)" }}>
+                  {desc}
+                </span>
+              </span>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {canManageUsers && <AdminAuditLog items={audit} loading={auditLoading} compact />}
+
+      <section>
+        <h2 className="mb-3 text-sm font-bold" style={{ color: "var(--regu-navy)" }}>
+          El resto del sitio
+        </h2>
+        <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">
+          {extraLinks.map(({ to, icon: Icon, title }) => (
+            <Link
+              key={to}
+              to={to}
+              className="flex items-center gap-2.5 rounded-xl border bg-white px-3 py-3 text-sm font-medium transition hover:border-[rgba(68,137,198,0.45)]"
+              style={{ borderColor: "rgba(22,61,89,0.08)", color: "var(--regu-navy)" }}
+            >
+              <Icon className="h-4 w-4 shrink-0" style={{ color: "var(--regu-blue)" }} />
+              {title}
+            </Link>
+          ))}
+          {adminOnlyLinks.map(({ to, icon: Icon, title }) =>
+            canManageUsers ? (
+              <Link
+                key={to}
+                to={to}
+                className="flex items-center gap-2.5 rounded-xl border bg-white px-3 py-3 text-sm font-medium transition hover:border-[rgba(68,137,198,0.45)]"
+                style={{ borderColor: "rgba(22,61,89,0.08)", color: "var(--regu-navy)" }}
+              >
+                <Icon className="h-4 w-4 shrink-0" style={{ color: "var(--regu-blue)" }} />
+                {title}
+              </Link>
+            ) : (
+              <Link
+                key={to}
+                to={to}
+                title="Solo un administrador puede abrir esto"
+                className="flex items-center gap-2.5 rounded-xl border bg-white px-3 py-3 text-sm font-medium"
+                style={{ borderColor: "rgba(22,61,89,0.08)", color: "var(--regu-gray-400)" }}
+              >
+                <Icon className="h-4 w-4 shrink-0" />
+                <span className="min-w-0 flex-1 truncate">{title}</span>
+                <Lock className="h-3.5 w-3.5 shrink-0" />
+              </Link>
+            )
+          )}
+        </div>
       </section>
     </div>
   );

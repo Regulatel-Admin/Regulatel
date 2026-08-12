@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { ArrowUpRight, ArrowRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import type { LucideIcon } from "lucide-react";
+import { EditableSpot } from "@/components/site-edit/EditableSpot";
 
 export interface QuickLinkItem {
   label: string;
@@ -27,7 +28,7 @@ export default function QuickLinksBar({
 
   return (
     <section
-      className="quickLinksBar w-full"
+      className="quickLinksBar @container w-full"
       style={{
         backgroundColor: "var(--regu-offwhite)",
         borderBottom: "1px solid rgba(22, 61, 89, 0.08)",
@@ -42,7 +43,7 @@ export default function QuickLinksBar({
         style={{ maxWidth: "1520px" }}
       >
         {/* Header — mismo peso visual que REGULATEL EN CIFRAS */}
-        <div className="mb-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-end sm:justify-between">
+        <div className="mb-10 flex flex-col gap-3 @min-[540px]:flex-row @min-[540px]:flex-wrap @min-[540px]:items-end @min-[540px]:justify-between">
           <div className="min-w-0 flex-1">
             <h2
               className="text-left font-bold uppercase tracking-tight"
@@ -74,7 +75,7 @@ export default function QuickLinksBar({
 
         {/* Contenedor unificado de tiles */}
         <div
-          className="quickLinksGrid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 overflow-hidden rounded-2xl"
+          className="quickLinksGrid grid grid-cols-1 @min-[540px]:grid-cols-2 @min-[900px]:grid-cols-4 overflow-hidden rounded-2xl"
           style={{
             border: "1px solid rgba(22, 61, 89, 0.11)",
             boxShadow: "0 2px 8px rgba(22, 61, 89, 0.05), 0 8px 24px rgba(22, 61, 89, 0.07)",
@@ -103,7 +104,7 @@ function QuickLinkTile({
   const isLast = index === total - 1;
 
   const content = (
-    <span className="quickLinkTileInner flex w-full items-center gap-5 px-6 md:px-7">
+    <span className="quickLinkTileInner flex w-full items-center gap-5 px-6 @min-[540px]:px-7">
       {Icon && (
         <span
           className="quickLinkIconWrap flex shrink-0 items-center justify-center rounded-xl transition-colors duration-200"
@@ -149,7 +150,7 @@ function QuickLinkTile({
   );
 
   const dividerClass = !isLast
-    ? "border-b border-b-[rgba(22,61,89,0.08)] sm:border-b-0 sm:border-r sm:border-r-[rgba(22,61,89,0.08)] lg:border-r lg:border-b-0"
+    ? "border-b border-b-[rgba(22,61,89,0.08)] @min-[540px]:border-b-0 @min-[540px]:border-r @min-[540px]:border-r-[rgba(22,61,89,0.08)]"
     : "";
 
   const tileClass = [
@@ -184,6 +185,7 @@ function QuickLinkTile({
 
   if (isExternal) {
     return (
+      <EditableSpot target={{ kind: "quick-link", index }} label={`Editar ${item.label}`} className="h-full">
       <a
         href={item.href}
         target="_blank"
@@ -195,18 +197,21 @@ function QuickLinkTile({
       >
         {content}
       </a>
+      </EditableSpot>
     );
   }
 
   return (
+    <EditableSpot target={{ kind: "quick-link", index }} label={`Editar ${item.label}`} className="h-full">
     <Link
       to={item.href}
       aria-label={item.subtitle ? `${item.label}: ${item.subtitle}` : item.label}
-      className={tileClass}
+      className={`${tileClass} h-full`}
       style={tileStyle}
       {...hoverHandlers}
     >
       {content}
     </Link>
+    </EditableSpot>
   );
 }

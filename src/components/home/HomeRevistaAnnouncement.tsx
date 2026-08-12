@@ -7,15 +7,17 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { motion, useReducedMotion } from "framer-motion";
 import { X } from "lucide-react";
-import {
-  GESTION_REVISTA_ARCHIVE_PATH,
-  getLatestRevistaEdition,
-} from "@/data/gestion";
+import { GESTION_REVISTA_ARCHIVE_PATH } from "@/data/gestion";
+import { getFeaturedRevistaEdition } from "@/data/revistaDigital";
+import { useRevistaDigitalEditions } from "@/contexts/SiteSettingsContext";
+import { SiteEditBadge } from "@/components/site-edit/EditableSpot";
 
 /** Nueva clave al cambiar la edición destacada (vuelve a mostrarse el aviso a quien la cerró). */
-const STORAGE_KEY = "regulatel_home_revista_2026_segunda_dismissed_at";
 const SHOW_AGAIN_AFTER_DAYS = 14;
-const FEATURED_EDITION_ID = "revista-2026-segunda-edicion";
+
+function dismissStorageKey(editionId: string) {
+  return `regulatel_home_revista_dismissed_${editionId}`;
+}
 
 const CTA_PRIMARY_CLASS =
   "group/cta relative flex w-full items-center justify-center overflow-hidden rounded-[6px] px-3.5 py-[4px] text-center text-[10.5px] font-normal leading-tight tracking-[0.025em] text-white transition-[box-shadow,transform,filter] duration-200 ease-out hover:-translate-y-px hover:brightness-[1.02] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.1),0_1px_2px_rgba(22,61,89,0.05),0_6px_18px_-10px_rgba(68,137,198,0.28),0_4px_14px_-12px_rgba(34,30,27,0.08)] active:translate-y-0 active:scale-[0.995] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2 focus-visible:ring-offset-[#f4f1eb] sm:text-[10.5px] sm:tracking-[0.022em]";
@@ -30,9 +32,9 @@ const CTA_PRIMARY_STYLE: CSSProperties = {
 
 const ANIM_EASE = [0.16, 1, 0.3, 1] as const;
 
-function shouldShowAnnouncement(): boolean {
+function shouldShowAnnouncement(editionId: string): boolean {
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
+    const raw = localStorage.getItem(dismissStorageKey(editionId));
     if (!raw) return true;
     const dismissedAt = Date.parse(raw);
     if (Number.isNaN(dismissedAt)) return true;
@@ -48,9 +50,11 @@ function shouldShowAnnouncement(): boolean {
 function EditorialCoverMini({
   coverLabel,
   coverEdition,
+  year,
 }: {
   coverLabel: string;
   coverEdition: string;
+  year: string;
 }) {
   return (
     <div
@@ -88,7 +92,7 @@ function EditorialCoverMini({
             className="text-[1.05rem] font-semibold leading-none tracking-tight text-white"
             style={{ fontFamily: "var(--token-font-heading)" }}
           >
-            2026
+            {year}
           </p>
           <p
             className="mt-[0.15rem] text-[6px] font-medium uppercase tracking-[0.16em] text-white/45"
@@ -111,44 +115,48 @@ export default function HomeRevistaAnnouncement({ variant = "floating" }: HomeRe
   const { t } = useTranslation();
   const reduceMotion = useReducedMotion();
   const [visible, setVisible] = useState(false);
+  const editions = useRevistaDigitalEditions();
+  const featured = getFeaturedRevistaEdition(editions);
 
   useEffect(() => {
-    setVisible(shouldShowAnnouncement());
-  }, []);
+    if (!featured) {
+      setVisible(false);
+      return;
+    }
+    setVisible(shouldShowAnnouncement(featured.id));
+  }, [featured?.id]);
 
-  const featured = getLatestRevistaEdition();
-  const editionId = featured?.id ?? FEATURED_EDITION_ID;
+  const editionId = featured?.id ?? "";
   const editionPrefix = `homeSections.revistaEditions.${editionId}`;
 
   const editionCopy = useMemo(
     () => ({
       title: t(`${editionPrefix}.title`, {
-        defaultValue: featured?.title ?? "Revista REGULATEL 2026",
+        defaultValue: featured?.title ?? "Revista REGULATEL",
       }),
       description: t(`${editionPrefix}.description`, {
-        defaultValue:
-          "Ya está disponible la segunda edición (junio 2026) de la Revista REGULATEL.",
+        defaultValue: featured?.description ?? featured?.title ?? "Ya está disponible una nueva edición de la Revista REGULATEL.",
       }),
       coverEdition: t(`${editionPrefix}.coverEdition`, {
-        defaultValue: "Segunda edición",
+        defaultValue: featured?.coverEdition ?? featured?.year ?? "",
       }),
     }),
-    [t, editionPrefix, featured?.title]
+    [t, editionPrefix, featured?.title, featured?.description, featured?.coverEdition, featured?.year]
   );
 
   const dismiss = () => {
+    if (!featured) return;
     try {
-      localStorage.setItem(STORAGE_KEY, new Date().toISOString());
+      localStorage.setItem(dismissStorageKey(featured.id), new Date().toISOString());
     } catch {
       /* ignore */
     }
     setVisible(false);
   };
 
-  if (!visible) return null;
+  if (!visible || !featured) return null;
 
-  const detailPath = featured?.publicDetailPath;
-  const editionUrl = featured?.url;
+  const editionUrl = featured.url;
   const motionFrom = reduceMotion
     ? false
     : { opacity: 0, y: 12, scale: 0.98 };
@@ -156,7 +164,7 @@ export default function HomeRevistaAnnouncement({ variant = "floating" }: HomeRe
 
   const positionClassName =
     variant === "stacked"
-      ? "pointer-events-auto z-30 w-full"
+      ? "pointer-events-auto relative z-30 w-full"
       : "pointer-events-auto absolute z-30 w-[min(100%-1.25rem,15.875rem)] max-md:left-1/2 max-md:right-auto max-md:-translate-x-1/2 max-md:top-4 sm:w-[min(100%-2rem,16.25rem)] sm:max-md:top-5 md:right-8 md:top-7 md:w-[15.875rem] lg:right-10 lg:top-8";
 
   return (
@@ -195,6 +203,7 @@ export default function HomeRevistaAnnouncement({ variant = "floating" }: HomeRe
         WebkitBackdropFilter: "blur(14px)",
       }}
     >
+      <SiteEditBadge target={{ kind: "revista", id: featured.id }} label="Editar esta edición" className="left-2 top-2" />
       <button
         type="button"
         onClick={dismiss}
@@ -213,6 +222,7 @@ export default function HomeRevistaAnnouncement({ variant = "floating" }: HomeRe
           <EditorialCoverMini
             coverLabel={t("homeSections.revistaCoverLabel")}
             coverEdition={editionCopy.coverEdition}
+            year={featured.year}
           />
 
           <div className="min-w-0 flex-1 pt-[1px]">
@@ -257,19 +267,7 @@ export default function HomeRevistaAnnouncement({ variant = "floating" }: HomeRe
         </p>
 
         <div className="mt-[0.72rem] sm:mt-[0.78rem]">
-          {detailPath ? (
-            <Link to={detailPath} className={CTA_PRIMARY_CLASS} style={CTA_PRIMARY_STYLE}>
-              <span
-                className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-200 ease-out group-hover/cta:opacity-100"
-                style={{
-                  background:
-                    "linear-gradient(180deg, rgba(255,255,255,0.06) 0%, transparent 44%)",
-                }}
-                aria-hidden
-              />
-              <span className="relative">{t("homeSections.revistaReadEdition")}</span>
-            </Link>
-          ) : editionUrl ? (
+          {editionUrl ? (
             <a
               href={editionUrl}
               target="_blank"
@@ -305,7 +303,7 @@ export default function HomeRevistaAnnouncement({ variant = "floating" }: HomeRe
               <span className="relative">{t("homeSections.revistaViewEditions")}</span>
             </Link>
           )}
-          {(detailPath || editionUrl) && (
+          {editionUrl && (
             <Link
               to={GESTION_REVISTA_ARCHIVE_PATH}
               className="mt-2 block text-center text-[8.5px] font-normal leading-snug tracking-[0.02em] text-[rgba(22,61,89,0.58)] underline-offset-[3px] decoration-[rgba(22,61,89,0.3)] decoration-1 transition-colors duration-200 hover:text-[rgba(22,61,89,0.74)] hover:decoration-[rgba(22,61,89,0.42)] focus-visible:outline-none focus-visible:underline"

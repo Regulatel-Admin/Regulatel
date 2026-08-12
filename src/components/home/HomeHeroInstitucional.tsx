@@ -8,6 +8,7 @@ import { ChevronLeft, ChevronRight, Pause, Play, ArrowRight } from "lucide-react
 import HeroInstitucionalBackground from "./HeroInstitucionalBackground";
 import HomeBoletinGtaiAnnouncement from "./HomeBoletinGtaiAnnouncement";
 import HomeRevistaAnnouncement from "./HomeRevistaAnnouncement";
+import { EditableSpot } from "@/components/site-edit/EditableSpot";
 
 const HERO_SLIDESHOW_INTERVAL_MS = 5500;
 
@@ -123,6 +124,7 @@ export default function HomeHeroInstitucional({
       >
         {/* Container: max-width anchored left */}
         <div style={{ maxWidth: "1280px", margin: "0 auto", width: "100%" }}>
+          <EditableSpot target={{ kind: "hero" }} label="Editar la portada" className="w-full md:max-w-[640px]">
           <div
             className="w-full text-center md:text-left"
             style={{ maxWidth: "clamp(320px, 52%, 640px)" }}
@@ -192,6 +194,7 @@ export default function HomeHeroInstitucional({
               </Link>
             </div>
           </div>
+          </EditableSpot>
         </div>
       </div>
 

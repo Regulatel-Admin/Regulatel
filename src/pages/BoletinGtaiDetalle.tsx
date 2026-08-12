@@ -12,6 +12,7 @@ import {
   resolveBoletinBySlug,
   type BoletinGtaiSerialized,
 } from "@/data/boletinesGtai";
+import { EditableSpot } from "@/components/site-edit/EditableSpot";
 
 export default function BoletinGtaiDetalle() {
   const { t, i18n } = useTranslation();
@@ -91,6 +92,7 @@ export default function BoletinGtaiDetalle() {
           </div>
 
           <div className="grid gap-8 lg:grid-cols-[1fr_380px]">
+            <EditableSpot target={{ kind: "boletin", slug: localizedEntry.slug }} label="Editar este boletín">
             <motion.div
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
@@ -139,6 +141,7 @@ export default function BoletinGtaiDetalle() {
                 </p>
               </div>
             </motion.div>
+            </EditableSpot>
 
             <motion.aside
               initial={{ opacity: 0, y: 12 }}

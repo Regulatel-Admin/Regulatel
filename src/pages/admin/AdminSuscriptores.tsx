@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { Bell } from "lucide-react";
 import { api } from "@/lib/api";
+import { AdminLockedScreen, useAdminOnlySection } from "@/components/admin/AdminLockedScreen";
 
 type Subscriber = {
   id: string;
@@ -18,6 +19,7 @@ function formatDate(iso: string) {
 }
 
 export default function AdminSuscriptores() {
+  const { isChecking, allowed, locked } = useAdminOnlySection();
   const [items, setItems] = useState<Subscriber[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -34,9 +36,10 @@ export default function AdminSuscriptores() {
   }, []);
 
   useEffect(() => {
+    if (!allowed) return;
     setLoading(true);
     void load().finally(() => setLoading(false));
-  }, [load]);
+  }, [allowed, load]);
 
   const handleUnsubscribe = async (id: string) => {
     setWorkingId(id);
@@ -50,6 +53,10 @@ export default function AdminSuscriptores() {
   };
 
   const activeCount = items.filter((item) => !item.unsubscribed_at).length;
+
+  if (isChecking) return null;
+  if (locked) return <AdminLockedScreen title="Suscriptores" />;
+  if (!allowed) return null;
 
   return (
     <div>

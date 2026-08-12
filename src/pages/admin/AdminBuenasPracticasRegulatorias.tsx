@@ -205,7 +205,7 @@ export default function AdminBuenasPracticasRegulatorias() {
     });
     setSaving(false);
     if (res.ok) {
-      showMessage("ok", "Guardado. La página /micrositio-buenas-practicas usará estos datos.");
+      showMessage("ok", "Guardado. Ya se ve en Buenas prácticas.");
       await refetch();
     } else showMessage("err", res.error ?? "Error al guardar.");
   };
@@ -225,11 +225,7 @@ export default function AdminBuenasPracticasRegulatorias() {
           Buenas Prácticas Regulatorias
         </h1>
         <p className="mt-2 text-sm" style={{ color: "var(--regu-gray-600)" }}>
-          Edita el contenido público de{" "}
-          <a href="/micrositio-buenas-practicas" className="font-medium underline" style={{ color: "var(--regu-blue)" }}>
-            /micrositio-buenas-practicas
-          </a>
-          : título, descripción, países, nombres de subcategorías y enlaces (título + URL).
+          Edita países, categorías y enlaces de la página de Buenas prácticas.
         </p>
       </div>
 
@@ -255,7 +251,7 @@ export default function AdminBuenasPracticasRegulatorias() {
           style={{ borderColor: "var(--regu-blue)", backgroundColor: "var(--regu-blue)", color: "white" }}
         >
           <Save className="h-4 w-4" />
-          {saving ? "Guardando…" : "Guardar en base de datos"}
+          {saving ? "Guardando…" : "Guardar"}
         </button>
         <button
           type="button"
@@ -273,7 +269,7 @@ export default function AdminBuenasPracticasRegulatorias() {
           style={{ borderColor: "var(--regu-gray-200)", color: "var(--regu-gray-700)" }}
         >
           <RotateCcw className="h-4 w-4" />
-          Restaurar desde JSON del sitio
+          Volver al contenido original
         </button>
       </div>
 
@@ -315,7 +311,7 @@ export default function AdminBuenasPracticasRegulatorias() {
       <div className="space-y-4">
         {entries.length === 0 ? (
           <p className="text-sm rounded-xl border border-dashed p-8 text-center" style={{ color: "var(--regu-gray-500)", borderColor: "var(--regu-gray-200)" }}>
-            No hay países. Pulse «Añadir país» o «Restaurar desde JSON del sitio».
+            No hay países. Pulsa «Añadir país» o «Volver al contenido original».
           </p>
         ) : (
           entries.map((entry, i) => {
@@ -424,12 +420,12 @@ export default function AdminBuenasPracticasRegulatorias() {
                                 />
                               </label>
                               <label className="flex-[2] min-w-0">
-                                <span className="sr-only">URL</span>
+                                <span className="sr-only">Enlace</span>
                                 <input
                                   value={link.url ?? ""}
                                   onChange={(e) => updateLink(i, ci, li, { url: e.target.value })}
                                   placeholder="https://…"
-                                  className="w-full rounded-lg border px-2 py-1.5 text-xs font-mono"
+                                  className="w-full rounded-lg border px-2 py-1.5 text-xs"
                                   style={{ borderColor: "var(--regu-gray-200)" }}
                                 />
                               </label>

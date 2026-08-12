@@ -5,12 +5,12 @@
  */
 import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "@/contexts/AuthContext";
+import { AdminLockedScreen, useAdminOnlySection } from "@/components/admin/AdminLockedScreen";
 import { api } from "@/lib/api";
 import { Lock, UserPlus, Mail, Calendar, Pencil, Trash2, X } from "lucide-react";
 
 export default function AdminAccesoActas() {
-  const { isChecking, isAdmin, canManageUsers } = useAuth();
+  const { isChecking, allowed, locked } = useAdminOnlySection();
   const navigate = useNavigate();
   const [users, setUsers] = useState<Array<{ id: string; email: string; name: string | null; institution: string | null; position: string | null; country: string | null; is_active: boolean; created_at: string }>>([]);
   const [loading, setLoading] = useState(true);
@@ -34,10 +34,10 @@ export default function AdminAccesoActas() {
   const [deletingId, setDeletingId] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!isChecking && (!isAdmin || !canManageUsers)) {
+    if (!isChecking && !allowed && !locked) {
       navigate("/admin", { replace: true });
     }
-  }, [isChecking, isAdmin, canManageUsers, navigate]);
+  }, [isChecking, allowed, locked, navigate]);
 
   const loadUsers = useCallback(async () => {
     const res = await api.admin.documentAccessUsers.list();
@@ -45,9 +45,10 @@ export default function AdminAccesoActas() {
   }, []);
 
   useEffect(() => {
+    if (!allowed) return;
     setLoading(true);
     loadUsers().finally(() => setLoading(false));
-  }, [loadUsers]);
+  }, [allowed, loadUsers]);
 
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -72,7 +73,7 @@ export default function AdminAccesoActas() {
     });
     setSubmitting(false);
     if (res.ok) {
-      setSuccess(`Cuenta creada: ${res.data.email}. Esa persona podrá desbloquear las actas en /acceso-documentos con su email y contraseña.`);
+      setSuccess(`Cuenta creada: ${res.data.email}. Esa persona podrá abrir las actas con su correo y contraseña.`);
       setEmail("");
       setPassword("");
       setName("");
@@ -136,6 +137,10 @@ export default function AdminAccesoActas() {
       setFormError(res.error ?? "No se pudo eliminar la cuenta.");
     }
   };
+
+  if (isChecking) return null;
+  if (locked) return <AdminLockedScreen title="Acceso a actas" />;
+  if (!allowed) return null;
 
   return (
     <div className="space-y-8">

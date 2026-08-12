@@ -209,9 +209,12 @@ export default function AdminNoticias() {
 
   return (
     <div>
-      <h1 className="mb-6 text-2xl font-bold" style={{ color: "var(--regu-gray-900)" }}>
+      <h1 className="mb-2 text-2xl font-bold" style={{ color: "var(--regu-gray-900)" }}>
         Noticias
       </h1>
+      <p className="mb-6 text-sm" style={{ color: "var(--regu-gray-600)" }}>
+        Publica notas con foto, texto y, si quieres, un video.
+      </p>
       {successMessage && (
         <p className="mb-4 text-sm font-medium text-green-700" role="status">{successMessage}</p>
       )}
@@ -308,14 +311,19 @@ export default function AdminNoticias() {
                 Imágenes y enlaces
               </label>
               <p className="mb-2 text-xs leading-relaxed" style={{ color: "var(--regu-gray-500)" }}>
-                Puedes añadir varias imágenes: pegar URL públicas o subir archivos reales a Vercel Blob. Todas se mostrarán en la noticia individual.
+                Sube las fotos de la noticia. La primera es la portada; las demás aparecen en el artículo.
               </p>
               <div className="space-y-2">
                 {form.imageSlots.map((slot, i) => (
                   <div key={i} className="flex flex-wrap items-center gap-2">
+                    {slot.url.trim() ? (
+                      <div className="h-16 w-24 overflow-hidden rounded-lg border bg-[rgba(22,61,89,0.06)]" style={{ borderColor: "var(--regu-gray-100)" }}>
+                        <img src={slot.url} alt="" className="h-full w-full object-cover" />
+                      </div>
+                    ) : null}
                     {slot.name ? (
                       <span className="min-w-0 truncate rounded-lg border bg-[var(--regu-gray-50)] px-3 py-2 text-sm" style={{ borderColor: "var(--regu-gray-100)", color: "var(--regu-gray-800)" }} title={slot.name || "Archivo adjunto"}>
-                        {slot.name || "Archivo adjunto"}
+                        {i === 0 ? "Portada" : `Foto ${i + 1}`}: {slot.name || "Archivo adjunto"}
                       </span>
                     ) : (
                       <input
@@ -336,7 +344,7 @@ export default function AdminNoticias() {
                             ),
                           }))
                         }
-                        placeholder="https://... o /images/noticias/foto.jpg"
+                        placeholder={i === 0 ? "O pega el enlace de la portada" : "O pega el enlace de otra foto"}
                         className="min-w-[200px] flex-1 rounded-lg border px-3 py-2 text-sm"
                         style={{ borderColor: "var(--regu-gray-100)" }}
                       />
@@ -364,7 +372,7 @@ export default function AdminNoticias() {
                   className="rounded-lg border px-3 py-1.5 text-sm font-medium"
                   style={{ borderColor: "var(--regu-gray-200)", color: "var(--regu-gray-700)" }}
                 >
-                  Añadir enlace
+                  Añadir otra foto
                 </button>
                 <label className="cursor-pointer">
                   <span
@@ -443,7 +451,7 @@ export default function AdminNoticias() {
               />
             </div>
             <div>
-              <label className="mb-1 block text-sm font-medium" style={{ color: "var(--regu-gray-700)" }}>URL de video</label>
+              <label className="mb-1 block text-sm font-medium" style={{ color: "var(--regu-gray-700)" }}>Video (YouTube u otro enlace)</label>
               <input
                 type="url"
                 value={form.videoUrl ?? ""}
@@ -476,7 +484,7 @@ export default function AdminNoticias() {
           {/* Vista previa de la card */}
           <div className="mt-6 rounded-xl border bg-[var(--regu-offwhite)] p-4" style={{ borderColor: "var(--regu-gray-100)" }}>
             <p className="mb-2 text-xs font-bold uppercase tracking-wide" style={{ color: "var(--regu-gray-500)" }}>
-              Vista previa (card)
+              Vista previa
             </p>
             <div className="max-w-sm overflow-hidden rounded-lg border bg-white shadow-sm" style={{ borderColor: "rgba(22,61,89,0.08)" }}>
               {form.imageSlots[0]?.url ? (
@@ -504,10 +512,19 @@ export default function AdminNoticias() {
         {adminNews.map((n) => (
           <div
             key={n.id}
-            className="flex items-center justify-between gap-4 rounded-xl border bg-white p-4 shadow-sm"
+            className="flex items-center gap-4 overflow-hidden rounded-2xl border bg-white shadow-sm"
             style={{ borderColor: "var(--regu-gray-100)" }}
           >
-            <div className="min-w-0">
+            <div className="h-24 w-28 shrink-0 bg-[rgba(22,61,89,0.06)] sm:h-28 sm:w-40">
+              {n.imageUrl ? (
+                <img src={n.imageUrl} alt="" className="h-full w-full object-cover" />
+              ) : (
+                <div className="flex h-full items-center justify-center text-[11px]" style={{ color: "var(--regu-gray-400)" }}>
+                  Sin foto
+                </div>
+              )}
+            </div>
+            <div className="min-w-0 flex-1 py-3 pr-2">
               <div className="flex flex-wrap items-center gap-2">
                 <p className="font-semibold" style={{ color: "var(--regu-gray-900)" }}>{n.title}</p>
                 <span
@@ -522,7 +539,7 @@ export default function AdminNoticias() {
               </div>
               <p className="text-sm" style={{ color: "var(--regu-gray-500)" }}>{formatDate(n.date)}</p>
             </div>
-            <div className="flex shrink-0 gap-2">
+            <div className="flex shrink-0 gap-1 pr-3">
               <button
                 type="button"
                 onClick={() => loadHistory(n.id)}
@@ -567,7 +584,7 @@ export default function AdminNoticias() {
         ))}
         {adminNews.length === 0 && !adding && (
           <p className="text-sm" style={{ color: "var(--regu-gray-500)" }}>
-            No hay noticias añadidas por el admin. Las noticias estáticas del sitio siguen mostrándose. Añade una para que aparezca en la sección Noticias.
+            Todavía no hay noticias nuevas aquí. Las que ya están en el sitio siguen visibles. Añade una para publicarla.
           </p>
         )}
       </div>

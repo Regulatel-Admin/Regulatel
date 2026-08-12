@@ -17,6 +17,8 @@ import type { GestionDocument } from "@/data/gestion";
 import { gestionDocuments } from "@/data/gestion";
 import { api } from "@/lib/api";
 import type { UploadedFileMeta } from "@/types/uploads";
+import { useRevistaDigitalEditions } from "@/contexts/SiteSettingsContext";
+import { getPublishedRevistaEditions, revistaEditionToGestionDocument } from "@/data/revistaDigital";
 
 const KEY_CIFRAS = "regulatel_admin_cifras";
 const KEY_CIFRAS_POR_ANO = "regulatel_admin_cifras_por_ano";
@@ -437,11 +439,19 @@ export function useMergedCifras(): KPIItem[] {
   return ctx?.adminCifras ?? statsKpis;
 }
 
-/** Documentos estáticos + los añadidos por el admin. Si un estático fue editado (mismo id en DB), se muestra solo la versión DB. */
+/** Documentos estáticos + los añadidos por el admin. Las revistas salen del CMS de Revista Digital. */
 export function useMergedGestionDocuments(): GestionDocument[] {
   const ctx = useContext(AdminDataContext);
-  if (ctx?.contentSource !== "database") return gestionDocuments;
-  const dbIds = new Set((ctx.adminDocuments ?? []).map((d) => d.id));
-  const staticFiltered = gestionDocuments.filter((d) => !dbIds.has(d.id));
-  return [...staticFiltered, ...(ctx.adminDocuments ?? [])];
+  const revistaEditions = useRevistaDigitalEditions();
+  const revistas = getPublishedRevistaEditions(revistaEditions).map(revistaEditionToGestionDocument);
+  const base =
+    ctx?.contentSource !== "database"
+      ? gestionDocuments
+      : (() => {
+          const dbIds = new Set((ctx.adminDocuments ?? []).map((d) => d.id));
+          const staticFiltered = gestionDocuments.filter((d) => !dbIds.has(d.id));
+          return [...staticFiltered, ...(ctx.adminDocuments ?? [])];
+        })();
+  const withoutRevista = base.filter((d) => d.category !== "revista");
+  return [...withoutRevista, ...revistas];
 }

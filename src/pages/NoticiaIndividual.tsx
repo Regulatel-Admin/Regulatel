@@ -18,6 +18,7 @@ import { noticiasData } from "./noticiasData";
 import { useAdminData } from "@/contexts/AdminDataContext";
 import type { NoticiaData } from "./noticiasData";
 import { localizeNoticiaData } from "@/hooks/useLocalizedNews";
+import { EditableSpot } from "@/components/site-edit/EditableSpot";
 
 const fadeIn = {
   hidden: { opacity: 0, y: 16 },
@@ -123,6 +124,7 @@ function CategoryBadge({ label }: { label: string }) {
 
 function ArticleHeader({ payload }: { payload: ArticlePayload }) {
   return (
+    <EditableSpot target={{ kind: "noticia", slug: payload.slug }} label="Editar esta noticia">
     <header className="mb-6">
       <div className="mb-3 flex flex-wrap items-center gap-3">
         <CategoryBadge label={payload.category} />
@@ -159,6 +161,7 @@ function ArticleHeader({ payload }: { payload: ArticlePayload }) {
         </p>
       )}
     </header>
+    </EditableSpot>
   );
 }
 

@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { ChevronRight } from "lucide-react";
 import type { Event } from "@/types/event";
 import { formatEventDateRange } from "@/types/event";
+import { EditableSpot } from "@/components/site-edit/EditableSpot";
 
 interface EventCardProps {
   event: Event;
@@ -112,6 +113,7 @@ export default function EventCard({ event }: EventCardProps) {
   );
 
   return (
+    <EditableSpot target={{ kind: "panel", path: "/admin/eventos", label: "Eventos" }} label="Editar este evento">
     <Link
       to={`/eventos/${event.id}`}
       className={cardClass}
@@ -120,5 +122,6 @@ export default function EventCard({ event }: EventCardProps) {
     >
       {content}
     </Link>
+    </EditableSpot>
   );
 }

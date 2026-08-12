@@ -14,6 +14,7 @@ import {
   getFeaturedBoletin,
   sortBoletinesByDateDesc,
 } from "@/data/boletinesGtai";
+import { SiteEditBadge } from "@/components/site-edit/EditableSpot";
 
 const STORAGE_KEY = "regulatel_home_boletin_gtai_dismissed_at";
 const SHOW_AGAIN_AFTER_DAYS = 14;
@@ -126,7 +127,7 @@ export default function HomeBoletinGtaiAnnouncement() {
     <motion.article
       role="region"
       aria-labelledby="home-boletin-gtai-announce-title"
-      className="pointer-events-auto w-full"
+      className="pointer-events-auto relative w-full"
       initial={motionFrom}
       animate={motionTo}
       transition={{ duration: 0.58, ease: ANIM_EASE }}
@@ -158,6 +159,7 @@ export default function HomeBoletinGtaiAnnouncement() {
         WebkitBackdropFilter: "blur(14px)",
       }}
     >
+      <SiteEditBadge target={{ kind: "boletin", slug: featured.slug }} label="Editar este boletín" className="left-2 top-2" />
       <button
         type="button"
         onClick={dismiss}

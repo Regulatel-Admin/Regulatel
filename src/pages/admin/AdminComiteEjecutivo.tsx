@@ -104,7 +104,7 @@ export default function AdminComiteEjecutivo() {
 
   const save = async () => {
     if (!doc.presidente.name.trim() || !doc.presidente.logoUrl.trim()) {
-      showMessage("err", "El presidente necesita nombre y URL de logo.");
+      showMessage("err", "El presidente necesita nombre y logo.");
       return;
     }
     for (let i = 0; i < doc.vicepresidentes.length; i++) {
@@ -145,7 +145,7 @@ export default function AdminComiteEjecutivo() {
     };
     const res = await api.settings.set(COMITE_EJECUTIVO_SETTINGS_KEY, payload);
     setSaving(false);
-    if (res.ok) showMessage("ok", "Comité Ejecutivo guardado. Ya se refleja en /comite-ejecutivo.");
+    if (res.ok) showMessage("ok", "Comité Ejecutivo guardado. Ya se ve en el sitio.");
     else showMessage("err", res.error ?? "Error al guardar.");
   };
 
@@ -164,12 +164,7 @@ export default function AdminComiteEjecutivo() {
           Comité Ejecutivo
         </h1>
         <p className="mt-2 text-sm" style={{ color: "var(--regu-gray-600)" }}>
-          Edita textos del hero, presidente, vicepresidencias, miembros del comité (país, nombre, logo, enlace) y el
-          bloque de funciones. La página pública es{" "}
-          <a href="/comite-ejecutivo" className="font-semibold underline" style={{ color: "var(--regu-blue)" }}>
-            /comite-ejecutivo
-          </a>
-          .
+          Edita textos, presidente, vicepresidencias, miembros y funciones.
         </p>
       </div>
 
@@ -195,7 +190,7 @@ export default function AdminComiteEjecutivo() {
           style={{ borderColor: "var(--regu-blue)", backgroundColor: "var(--regu-blue)", color: "white" }}
         >
           <Save className="h-4 w-4" />
-          {saving ? "Guardando…" : "Guardar en base de datos"}
+          {saving ? "Guardando…" : "Guardar"}
         </button>
         <button
           type="button"
@@ -204,13 +199,13 @@ export default function AdminComiteEjecutivo() {
           style={{ borderColor: "var(--regu-gray-200)", color: "var(--regu-gray-700)" }}
         >
           <RotateCcw className="h-4 w-4" />
-          Restaurar valores por defecto
+          Volver al contenido original
         </button>
       </div>
 
       <section className="rounded-xl border bg-white p-5 shadow-sm space-y-4" style={{ borderColor: "var(--regu-gray-100)" }}>
         <h2 className="text-sm font-bold uppercase tracking-wide" style={{ color: "var(--regu-navy)" }}>
-          Hero de la página
+          Cabecera de la página
         </h2>
         <div className="grid gap-3 md:grid-cols-2">
           <Field label="Título" value={ui.heroTitle ?? ""} onChange={(v) => setUiField("heroTitle", v)} placeholder={uiResolved.heroTitle} />
@@ -251,19 +246,13 @@ export default function AdminComiteEjecutivo() {
               placeholder="https://…"
             />
           </div>
-          <Field
-            label="URL del logo"
-            value={doc.presidente.logoUrl}
-            onChange={(v) => setPresidente({ logoUrl: v })}
-            placeholder="/images/… o URL absoluta"
-          />
           <AdminBlobUploadField
-            label="Subir logo del presidente"
+            label="Logo del presidente"
             value={doc.presidente.logoUrl}
             onChange={(url) => setPresidente({ logoUrl: url })}
             kind="image"
             folder="attachments"
-            helpText="Se guarda la URL en Vercel Blob; puedes pegar una ruta local si prefieres."
+            helpText="Sube el logo. Se ve junto al nombre."
           />
         </div>
         <div className="space-y-3">
@@ -297,9 +286,8 @@ export default function AdminComiteEjecutivo() {
                 <Field label="Nombre / ente" value={v.name} onChange={(val) => setVice(i, { name: val })} />
                 <Field label="Sitio web (opcional)" value={v.linkUrl ?? ""} onChange={(val) => setVice(i, { linkUrl: val })} />
               </div>
-              <Field label="URL del logo" value={v.logoUrl} onChange={(val) => setVice(i, { logoUrl: val })} />
               <AdminBlobUploadField
-                label="Subir logo"
+                label="Logo"
                 value={v.logoUrl}
                 onChange={(url) => setVice(i, { logoUrl: url })}
                 kind="image"
@@ -349,9 +337,8 @@ export default function AdminComiteEjecutivo() {
               <Field label="Nombre / ente" value={m.name} onChange={(val) => setMiembro(i, { name: val })} />
               <Field label="Sitio web (opcional)" value={m.linkUrl ?? ""} onChange={(val) => setMiembro(i, { linkUrl: val })} />
             </div>
-            <Field label="URL del logo" value={m.logoUrl} onChange={(val) => setMiembro(i, { logoUrl: val })} />
             <AdminBlobUploadField
-              label="Subir logo"
+              label="Logo"
               value={m.logoUrl}
               onChange={(url) => setMiembro(i, { logoUrl: url })}
               kind="image"
@@ -390,7 +377,7 @@ export default function AdminComiteEjecutivo() {
             value={doc.funciones.join("\n")}
             onChange={(e) => setFuncionesText(e.target.value)}
             rows={6}
-            className="w-full rounded-lg border px-3 py-2 font-mono text-sm"
+            className="w-full rounded-lg border px-3 py-2 text-sm"
             style={{ borderColor: "var(--regu-gray-200)", color: "var(--regu-gray-900)" }}
           />
         </label>

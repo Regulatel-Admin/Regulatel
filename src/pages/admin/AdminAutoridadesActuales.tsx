@@ -9,6 +9,7 @@ import {
 } from "@/data/authorities";
 import { Save, Plus, Trash2, RotateCcw } from "lucide-react";
 import { AdminBlobUploadField } from "@/components/admin/AdminBlobUploadField";
+import { slugify } from "@/lib/slugify";
 
 function emptyAuthority(): Authority {
   return {
@@ -99,25 +100,30 @@ export default function AdminAutoridadesActuales() {
 
   const resetDefaults = () => {
     setEntries(authorities.map((a) => ({ ...a, sections: a.sections?.map((s) => ({ ...s })) })));
-    showMessage("ok", "Restaurado al listado del código. Pulse Guardar para publicar.");
+    showMessage("ok", "Lista restaurada. Pulsa Guardar para publicarla.");
   };
 
   const save = async () => {
-    const slugs = entries.map((e) => e.slug.trim().toLowerCase());
+    const prepared = entries.map((e, i) => {
+      const slug = e.slug.trim() || slugify(e.name) || `autoridad-${i + 1}`;
+      const id = e.id.trim() || slug;
+      return { ...e, slug, id };
+    });
+    const slugs = prepared.map((e) => e.slug.toLowerCase());
     const dup = slugs.find((s, i) => s && slugs.indexOf(s) !== i);
     if (dup) {
-      showMessage("err", `Slug duplicado: ${dup}`);
+      showMessage("err", "Hay dos autoridades con el mismo nombre. Cambia uno para distinguirlas.");
       return;
     }
-    const missing = entries.filter((e) => !e.slug.trim() || !e.name.trim());
+    const missing = prepared.filter((e) => !e.name.trim());
     if (missing.length) {
-      showMessage("err", "Cada autoridad debe tener slug y nombre.");
+      showMessage("err", "Cada autoridad debe tener nombre.");
       return;
     }
     setSaving(true);
-    const res = await api.settings.set(AUTORIDADES_ACTUALES_SETTINGS_KEY, { authorities: entries });
+    const res = await api.settings.set(AUTORIDADES_ACTUALES_SETTINGS_KEY, { authorities: prepared });
     setSaving(false);
-    if (res.ok) showMessage("ok", "Guardado. La página /autoridades muestra estos datos.");
+    if (res.ok) showMessage("ok", "Guardado. Ya se ve en Autoridades.");
     else showMessage("err", res.error ?? "Error al guardar.");
   };
 
@@ -136,11 +142,7 @@ export default function AdminAutoridadesActuales() {
           Autoridades actuales
         </h1>
         <p className="mt-2 text-sm" style={{ color: "var(--regu-gray-600)" }}>
-          Presidente y vicepresidentes en{" "}
-          <a href="/autoridades" className="font-medium underline" style={{ color: "var(--regu-blue)" }}>
-            /autoridades
-          </a>
-          . Se guardan en la base de datos (site settings).
+          Presidente y vicepresidentes que se ven en la página de Autoridades.
         </p>
       </div>
 
@@ -166,7 +168,7 @@ export default function AdminAutoridadesActuales() {
           style={{ borderColor: "var(--regu-blue)", backgroundColor: "var(--regu-blue)", color: "white" }}
         >
           <Save className="h-4 w-4" />
-          {saving ? "Guardando…" : "Guardar en base de datos"}
+          {saving ? "Guardando…" : "Guardar"}
         </button>
         <button
           type="button"
@@ -184,7 +186,7 @@ export default function AdminAutoridadesActuales() {
           style={{ borderColor: "var(--regu-gray-200)", color: "var(--regu-gray-700)" }}
         >
           <RotateCcw className="h-4 w-4" />
-          Restaurar desde código
+          Volver al listado original
         </button>
       </div>
 
@@ -209,16 +211,14 @@ export default function AdminAutoridadesActuales() {
               </button>
             </div>
             <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-              <Field label="ID (interno)" value={row.id} onChange={(v) => updateAuth(aidx, { id: v })} placeholder="ej. 1" />
-              <Field label="Slug URL" value={row.slug} onChange={(v) => updateAuth(aidx, { slug: v })} placeholder="guido-gomez-mazara" />
               <Field label="Nombre" value={row.name} onChange={(v) => updateAuth(aidx, { name: v })} />
               <Field label="Rol" value={row.role} onChange={(v) => updateAuth(aidx, { role: v })} placeholder="Presidente" />
               <Field label="Institución" value={row.institution} onChange={(v) => updateAuth(aidx, { institution: v })} />
-              <Field label="URL institución" value={row.institutionUrl ?? ""} onChange={(v) => updateAuth(aidx, { institutionUrl: v || undefined })} />
+              <Field label="Sitio de la institución" value={row.institutionUrl ?? ""} onChange={(v) => updateAuth(aidx, { institutionUrl: v || undefined })} />
               <Field label="País" value={row.country} onChange={(v) => updateAuth(aidx, { country: v })} />
-              <Field label="Período (opc.)" value={row.period ?? ""} onChange={(v) => updateAuth(aidx, { period: v || undefined })} />
-              <Field label="Email (opc.)" value={row.email ?? ""} onChange={(v) => updateAuth(aidx, { email: v || undefined })} type="email" />
-              <Field label="Linkedin (opc.)" value={row.linkedin ?? ""} onChange={(v) => updateAuth(aidx, { linkedin: v || undefined })} />
+              <Field label="Período (opcional)" value={row.period ?? ""} onChange={(v) => updateAuth(aidx, { period: v || undefined })} />
+              <Field label="Correo (opcional)" value={row.email ?? ""} onChange={(v) => updateAuth(aidx, { email: v || undefined })} type="email" />
+              <Field label="LinkedIn (opcional)" value={row.linkedin ?? ""} onChange={(v) => updateAuth(aidx, { linkedin: v || undefined })} />
             </div>
             <AdminBlobUploadField
               label="Foto de la autoridad"
@@ -226,7 +226,7 @@ export default function AdminAutoridadesActuales() {
               onChange={(v) => updateAuth(aidx, { image: v })}
               kind="image"
               folder="attachments"
-              helpText="Sube la imagen a almacenamiento (blob) o despliega «Pegar URL manual» para una ruta local u otra URL."
+              helpText="Foto que se ve en la ficha."
             />
             <label className="block">
               <span className="mb-1 block text-xs font-medium" style={{ color: "var(--regu-gray-600)" }}>
@@ -248,7 +248,7 @@ export default function AdminAutoridadesActuales() {
                 value={row.fullBio}
                 onChange={(e) => updateAuth(aidx, { fullBio: e.target.value })}
                 rows={8}
-                className="w-full rounded-lg border px-3 py-2 text-sm font-mono"
+                className="w-full rounded-lg border px-3 py-2 text-sm"
                 style={{ borderColor: "var(--regu-gray-200)" }}
               />
             </label>

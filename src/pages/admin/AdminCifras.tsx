@@ -76,7 +76,7 @@ export default function AdminCifras() {
             className="ml-2 flex items-center gap-2 rounded-xl border px-4 py-2 text-sm font-medium"
             style={{ borderColor: "var(--regu-gray-100)", color: "var(--regu-gray-700)" }}
           >
-            <RotateCcw className="h-4 w-4" /> Restaurar {selectedYear} por defecto
+            <RotateCcw className="h-4 w-4" /> Volver a los números originales de {selectedYear}
           </button>
         )}
       </div>

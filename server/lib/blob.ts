@@ -122,3 +122,36 @@ export async function listBlobs(prefix?: BlobListFolder, limit = 100): Promise<B
     uploadedAt: b.uploadedAt,
   }));
 }
+
+/** Límite incluido del plan Hobby de Vercel Blob (1 GB). */
+export const BLOB_HOBBY_STORAGE_LIMIT_BYTES = 1024 * 1024 * 1024;
+
+export interface BlobStorageUsage {
+  usedBytes: number;
+  limitBytes: number;
+  remainingBytes: number;
+  fileCount: number;
+  percent: number;
+}
+
+export async function getBlobStorageUsage(): Promise<BlobStorageUsage> {
+  let cursor: string | undefined;
+  let usedBytes = 0;
+  let fileCount = 0;
+  do {
+    const result = await list({
+      cursor,
+      limit: 1000,
+    });
+    for (const blob of result.blobs ?? []) {
+      usedBytes += blob.size ?? 0;
+      fileCount += 1;
+    }
+    cursor = result.hasMore ? result.cursor : undefined;
+  } while (cursor);
+
+  const limitBytes = BLOB_HOBBY_STORAGE_LIMIT_BYTES;
+  const remainingBytes = Math.max(0, limitBytes - usedBytes);
+  const percent = limitBytes > 0 ? Math.min(100, (usedBytes / limitBytes) * 100) : 0;
+  return { usedBytes, limitBytes, remainingBytes, fileCount, percent };
+}

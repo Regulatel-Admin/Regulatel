@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { ArrowRight } from "lucide-react";
 import ImageCarousel from "@/components/ImageCarousel";
+import { EditableSpot } from "@/components/site-edit/EditableSpot";
 
 export interface NewsItemBerec {
   slug: string;
@@ -92,6 +93,7 @@ export default function NewsSectionBerec({ news }: NewsSectionBerecProps) {
 
           {/* Columna izquierda — Noticia destacada */}
           <article className="featured col-span-12 min-w-0 lg:col-span-5">
+            <EditableSpot target={{ kind: "noticia", slug: featuredNews.slug }} label="Editar esta noticia">
             <Link to={`/noticias/${featuredNews.slug}`} className="group block">
               {/* Imagen */}
               <div
@@ -184,6 +186,7 @@ export default function NewsSectionBerec({ news }: NewsSectionBerecProps) {
                 <ArrowRight className="h-4 w-4" aria-hidden />
               </span>
             </Link>
+            </EditableSpot>
           </article>
 
           {/* Columna derecha — Lista de noticias */}
@@ -191,8 +194,8 @@ export default function NewsSectionBerec({ news }: NewsSectionBerecProps) {
             {listNews.map((item) => {
               const itemDate = formatDateEditorial(item.date, item.dateFormatted, i18n.language);
               return (
+                <EditableSpot key={item.slug} target={{ kind: "noticia", slug: item.slug }} label="Editar esta noticia">
                 <Link
-                  key={item.slug}
                   to={`/noticias/${item.slug}`}
                   className="newsListItem group block py-5 first:pt-0 last:pb-0"
                 >
@@ -241,6 +244,7 @@ export default function NewsSectionBerec({ news }: NewsSectionBerecProps) {
                     </div>
                   </div>
                 </Link>
+                </EditableSpot>
               );
             })}
           </div>

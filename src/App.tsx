@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Routes, Route, Outlet } from 'react-router-dom
 import { AuthProvider } from '@/contexts/AuthContext';
 import { AdminDataProvider } from '@/contexts/AdminDataContext';
 import { SiteSettingsProvider } from '@/contexts/SiteSettingsContext';
+import { SiteEditProvider } from '@/contexts/SiteEditContext';
 import Layout from '@/components/Layout';
 import Login from '@/pages/Login';
 import AdminLayout from '@/pages/admin/AdminLayout';
@@ -75,6 +76,7 @@ function App() {
       <AuthProvider>
         <AdminDataProvider>
           <SiteSettingsProvider>
+          <SiteEditProvider>
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/admin" element={<AdminLayout />}>
@@ -168,6 +170,7 @@ function App() {
           <Route path="*" element={<NotFound />} />
             </Route>
           </Routes>
+          </SiteEditProvider>
           </SiteSettingsProvider>
         </AdminDataProvider>
       </AuthProvider>

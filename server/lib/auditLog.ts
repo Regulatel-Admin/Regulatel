@@ -72,6 +72,45 @@ export interface AuditLogRow {
   created_at: string;
 }
 
+/** Postgres a veces entrega JSONB como string; nunca devolver un string iterable carácter a carácter. */
+export function normalizeAuditDetails(raw: unknown): Record<string, unknown> {
+  if (raw == null) return {};
+  if (typeof raw === "string") {
+    const trimmed = raw.trim();
+    if (!trimmed) return {};
+    try {
+      return normalizeAuditDetails(JSON.parse(trimmed));
+    } catch {
+      return { nota: trimmed };
+    }
+  }
+  if (Array.isArray(raw)) {
+    if (raw.length > 8 && raw.every((item) => typeof item === "string" && item.length <= 1)) {
+      return normalizeAuditDetails(raw.join(""));
+    }
+    return { elementos: raw };
+  }
+  if (typeof raw === "object") {
+    const record = raw as Record<string, unknown>;
+    const keys = Object.keys(record);
+    if (
+      keys.length > 8 &&
+      keys.every((key, index) => key === String(index) && typeof record[key] === "string")
+    ) {
+      return normalizeAuditDetails(keys.map((key) => String(record[key])).join(""));
+    }
+    return record;
+  }
+  return { valor: raw };
+}
+
+function mapAuditRows(rows: AuditLogRow[]): AuditLogRow[] {
+  return rows.map((row) => ({
+    ...row,
+    details: normalizeAuditDetails(row.details),
+  }));
+}
+
 export async function listAuditLog(limit: number, offset: number): Promise<AuditLogRow[]> {
   await ensureAuditSchema();
   const sql = getDb();
@@ -82,7 +121,7 @@ export async function listAuditLog(limit: number, offset: number): Promise<Audit
     LIMIT ${limit}
     OFFSET ${offset}
   `;
-  return rows;
+  return mapAuditRows(rows);
 }
 
 /** Historial de cambios de un recurso (noticia, evento, documento, etc.) */
@@ -100,5 +139,5 @@ export async function listAuditLogByResource(
     ORDER BY created_at DESC
     LIMIT ${limit}
   `;
-  return rows;
+  return mapAuditRows(rows);
 }

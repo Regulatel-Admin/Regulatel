@@ -13,8 +13,6 @@ import {
 import { listAdminUsers, createAdminUser, findAdminUserByIdentifier } from "../lib/adminUsers.js";
 import { logAudit } from "../lib/auditLog.js";
 import { listAuditLog, listAuditLogByResource } from "../lib/auditLog.js";
-import { listBlobs, isBlobConfigured } from "../lib/blob.js";
-import type { BlobListFolder } from "../lib/blob.js";
 import {
   ensureDocumentAccessSchema,
   listDocumentAccessUsers,
@@ -209,27 +207,36 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
     }
 
     if (subpath === "media") {
-      await ensureAdmin(req);
+      const auth = await ensureAdmin(req);
+      if (!canManageUsers(auth.user.role)) {
+        sendJson(res, 403, { error: "Solo los administradores pueden ver el listado de archivos." });
+        return;
+      }
       if (req.method !== "GET") {
         sendJson(res, 405, { error: "Method Not Allowed" });
         return;
       }
-      if (!isBlobConfigured()) {
+      const blob = await import("../lib/blob.js");
+      if (!blob.isBlobConfigured()) {
         sendJson(res, 503, { error: "Blob storage no configurado (BLOB_READ_WRITE_TOKEN)." });
         return;
       }
       const url = new URL(req.url ?? "", `http://${req.headers.host}`);
-      const prefix = (url.searchParams.get("prefix") ?? "all") as BlobListFolder;
+      const prefix = (url.searchParams.get("prefix") ?? "all") as import("../lib/blob.js").BlobListFolder;
       const limit = Math.min(200, Math.max(1, parseInt(url.searchParams.get("limit") ?? "100", 10)));
-      const validPrefixes: BlobListFolder[] = ["news", "events", "gallery", "all"];
+      const validPrefixes: Array<import("../lib/blob.js").BlobListFolder> = ["news", "events", "gallery", "all"];
       const folder = validPrefixes.includes(prefix) ? prefix : "all";
-      const items = await listBlobs(folder, limit);
+      const items = await blob.listBlobs(folder, limit);
       sendJson(res, 200, { items });
       return;
     }
 
     if (subpath === "subscribers") {
-      await ensureAdmin(req);
+      const auth = await ensureAdmin(req);
+      if (!canManageUsers(auth.user.role)) {
+        sendJson(res, 403, { error: "Solo los administradores pueden ver los suscriptores." });
+        return;
+      }
       const segments = getAdminPathSegments(req);
       const subscriberId = segments[0] === "subscribers" && segments[1] ? segments[1] : null;
 

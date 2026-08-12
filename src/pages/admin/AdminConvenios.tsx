@@ -8,6 +8,7 @@ import {
 } from "@/data/convenios";
 import { Save, Plus, Trash2, RotateCcw } from "lucide-react";
 import { AdminBlobUploadField } from "@/components/admin/AdminBlobUploadField";
+import { slugify } from "@/lib/slugify";
 
 function emptyConvenio(order: number): Convenio {
   return {
@@ -70,25 +71,29 @@ export default function AdminConvenios() {
 
   const resetDefaults = () => {
     setItems(convenios.map((c) => ({ ...c, areas: [...c.areas] })));
-    showMessage("ok", "Restaurado al listado del código. Pulse Guardar para publicar.");
+    showMessage("ok", "Lista restaurada. Pulsa Guardar para publicarla.");
   };
 
   const save = async () => {
-    const slugs = items.map((c) => c.slug.trim().toLowerCase());
+    const prepared = items.map((c, i) => {
+      const slug = c.slug.trim() || slugify(c.acronym || c.title) || `convenio-${i + 1}`;
+      return { ...c, slug };
+    });
+    const slugs = prepared.map((c) => c.slug.toLowerCase());
     const dup = slugs.find((s, i) => s && slugs.indexOf(s) !== i);
     if (dup) {
-      showMessage("err", `Slug duplicado: ${dup}`);
+      showMessage("err", "Hay dos convenios con el mismo nombre corto. Cambia el acrónimo de uno.");
       return;
     }
-    const bad = items.filter((c) => !c.slug.trim() || !c.title.trim());
+    const bad = prepared.filter((c) => !c.title.trim());
     if (bad.length) {
-      showMessage("err", "Cada convenio necesita slug y título.");
+      showMessage("err", "Cada convenio necesita un título.");
       return;
     }
     setSaving(true);
-    const res = await api.settings.set(CONVENIOS_SETTINGS_KEY, { items });
+    const res = await api.settings.set(CONVENIOS_SETTINGS_KEY, { items: prepared });
     setSaving(false);
-    if (res.ok) showMessage("ok", "Guardado. Menú, /convenios y fichas usan estos datos.");
+    if (res.ok) showMessage("ok", "Guardado. Ya se ve en Convenios y en el menú.");
     else showMessage("err", res.error ?? "Error al guardar.");
   };
 
@@ -107,11 +112,7 @@ export default function AdminConvenios() {
           Convenios
         </h1>
         <p className="mt-2 text-sm" style={{ color: "var(--regu-gray-600)" }}>
-          Lista y detalle en{" "}
-          <a href="/convenios" className="font-medium underline" style={{ color: "var(--regu-blue)" }}>
-            /convenios
-          </a>{" "}
-          y menú del sitio.
+          Convenios que aparecen en el menú y en la página de Convenios.
         </p>
       </div>
 
@@ -137,7 +138,7 @@ export default function AdminConvenios() {
           style={{ borderColor: "var(--regu-blue)", backgroundColor: "var(--regu-blue)", color: "white" }}
         >
           <Save className="h-4 w-4" />
-          {saving ? "Guardando…" : "Guardar en base de datos"}
+          {saving ? "Guardando…" : "Guardar"}
         </button>
         <button
           type="button"
@@ -155,7 +156,7 @@ export default function AdminConvenios() {
           style={{ borderColor: "var(--regu-gray-200)", color: "var(--regu-gray-700)" }}
         >
           <RotateCcw className="h-4 w-4" />
-          Restaurar desde código
+          Volver al listado original
         </button>
       </div>
 
@@ -180,7 +181,6 @@ export default function AdminConvenios() {
                 </button>
               </div>
               <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                <Field label="Slug (URL)" value={row.slug} onChange={(v) => updateRow(index, { slug: v })} placeholder="berec" />
                 <Field label="Acrónimo" value={row.acronym} onChange={(v) => updateRow(index, { acronym: v })} />
                 <Field label="Orden" value={String(row.order)} onChange={(v) => updateRow(index, { order: parseInt(v, 10) || 0 })} />
                 <Field label="Título largo" value={row.title} onChange={(v) => updateRow(index, { title: v })} />

@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { api } from "@/lib/api";
+import { CMS_SAVED_EVENT } from "@/lib/siteEdit";
 import {
   BOLETINES_GTAI_SETTINGS_KEY,
   defaultBoletinesGtai,
@@ -34,8 +35,15 @@ export function useBoletinesGtai(): { entries: BoletinGtaiSerialized[]; loading:
     const onVis = () => {
       if (document.visibilityState === "visible") void load();
     };
+    const onSaved = () => {
+      void load();
+    };
     document.addEventListener("visibilitychange", onVis);
-    return () => document.removeEventListener("visibilitychange", onVis);
+    window.addEventListener(CMS_SAVED_EVENT, onSaved);
+    return () => {
+      document.removeEventListener("visibilitychange", onVis);
+      window.removeEventListener(CMS_SAVED_EVENT, onSaved);
+    };
   }, [load]);
 
   return { entries, loading, reload: load };

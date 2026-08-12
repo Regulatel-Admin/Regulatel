@@ -1,8 +1,9 @@
 import { api } from "@/lib/api";
 import type { BlobUploadResult } from "@/types/uploads";
+import { emitBlobOptimistic, emitBlobStorage, emitBlobStorageRefresh } from "@/lib/blobStorage";
 
 type UploadKind = "image" | "document";
-export type UploadFolder = "news" | "events" | "documents" | "attachments";
+export type UploadFolder = "news" | "events" | "documents" | "attachments" | "gallery";
 
 function fileToDataUrl(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -43,7 +44,7 @@ function validateClientFile(file: File, kind: UploadKind) {
     throw new Error(
       `El archivo pesa ${sizeMb} MB y supera el límite de 3 MB para subidas desde el panel. ` +
         "Comprime el PDF (o reduce la imagen) y vuelve a intentarlo. " +
-        "Para archivos más grandes, súbelos directamente a Vercel Blob y pega la URL en el campo manual."
+        "Si el archivo es más grande, usa «Ya tengo un enlace» y pega el enlace público."
     );
   }
 }
@@ -54,6 +55,7 @@ export async function uploadAdminFile(input: {
   folder: UploadFolder;
 }): Promise<BlobUploadResult> {
   validateClientFile(input.file, input.kind);
+  emitBlobOptimistic(input.file.size);
   const dataUrl = await fileToDataUrl(input.file);
   const result = await api.uploads.upload({
     kind: input.kind,
@@ -63,14 +65,22 @@ export async function uploadAdminFile(input: {
   });
 
   if (!result.ok) {
+    emitBlobStorageRefresh();
     throw new Error(result.error);
   }
 
-  return result.data as BlobUploadResult;
+  const uploaded = result.data as BlobUploadResult;
+  if (uploaded.storage) {
+    emitBlobStorage(uploaded.storage, input.file.size);
+  } else {
+    emitBlobStorageRefresh();
+  }
+  return uploaded;
 }
 
 export async function deleteAdminFile(url: string): Promise<void> {
   const result = await api.uploads.delete({ url });
+  emitBlobStorageRefresh();
   if (!result.ok) {
     throw new Error(result.error);
   }

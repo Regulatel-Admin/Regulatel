@@ -4,6 +4,8 @@ import { useTranslation } from "react-i18next";
 import { ChevronLeft, ChevronRight, Play, Pause, MapPin, Expand, X } from "lucide-react";
 import { formatCarouselDisplayDate, isCarouselDatePast } from "@/lib/carouselDate";
 import { localizeCarouselCta } from "@/hooks/useLocalizedHome";
+import { EditableSpot } from "@/components/site-edit/EditableSpot";
+import { useSiteEdit } from "@/contexts/SiteEditContext";
 
 export interface FeaturedCarouselItem {
   id: string;
@@ -31,6 +33,7 @@ export default function FeaturedCarousel({
   autoplayIntervalMs = 6000,
 }: FeaturedCarouselProps) {
   const { t, i18n } = useTranslation();
+  const { enabled: siteEditEnabled } = useSiteEdit();
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
@@ -50,10 +53,10 @@ export default function FeaturedCarousel({
   const prev = useCallback(() => goTo(activeIndex - 1), [activeIndex, goTo]);
 
   useEffect(() => {
-    if (items.length <= 1 || isPaused || isHovering) return;
+    if (items.length <= 1 || isPaused || isHovering || siteEditEnabled) return;
     const t = setInterval(() => goTo(activeIndex + 1), autoplayIntervalMs);
     return () => clearInterval(t);
-  }, [activeIndex, isPaused, isHovering, items.length, autoplayIntervalMs, goTo]);
+  }, [activeIndex, isPaused, isHovering, siteEditEnabled, items.length, autoplayIntervalMs, goTo]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -126,6 +129,7 @@ export default function FeaturedCarousel({
         style={{ fontFamily: "var(--token-font-body)" }}
       >
         {/* Tarjeta institucional */}
+        <EditableSpot target={{ kind: "cumbre", id: slide.id }} label="Editar esta cumbre" className="flex-shrink-0">
         <div
           className="featuredCarouselCard relative flex-shrink-0 overflow-hidden rounded-2xl bg-white shadow-[0_8px_32px_rgba(0,0,0,0.18),0_2px_8px_rgba(0,0,0,0.10)]"
           style={{
@@ -249,6 +253,7 @@ export default function FeaturedCarousel({
             )}
           </div>
         </div>
+        </EditableSpot>
 
         {/* Botón ver imagen completa — a la derecha del card, uso institucional */}
         <div className="ml-auto hidden flex-shrink-0 md:flex items-center">

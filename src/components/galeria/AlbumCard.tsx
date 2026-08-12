@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Calendar, Images } from "lucide-react";
 import type { AlbumGaleria } from "@/data/galeria";
 import { getAlbumCoverUrl } from "@/data/galeria";
+import { EditableSpot } from "@/components/site-edit/EditableSpot";
 
 interface AlbumCardProps {
   album: AlbumGaleria;
@@ -14,6 +15,7 @@ export default function AlbumCard({ album, index }: AlbumCardProps) {
   const count = album.images.length;
 
   return (
+    <EditableSpot target={{ kind: "panel", path: "/admin/content/galeria", label: "Galería" }} label="Editar la galería">
     <Link to={`/galeria/${album.slug}`} className="block group">
       <motion.article
         initial={{ opacity: 0, y: 20 }}
@@ -84,5 +86,6 @@ export default function AlbumCard({ album, index }: AlbumCardProps) {
         </div>
       </motion.article>
     </Link>
+    </EditableSpot>
   );
 }

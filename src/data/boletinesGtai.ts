@@ -164,13 +164,15 @@ export function mergeBoletinesGtaiWithDefaults(
   }
 
   const defaultFeatured = defaultBoletinesGtai.find((e) => e.isFeatured);
+  const cmsFeatured = (cmsEntries ?? []).find((e) => e.isFeatured);
+  const featuredSlug = cmsFeatured?.slug ?? defaultFeatured?.slug;
   const merged = Array.from(bySlug.values());
 
-  if (!defaultFeatured) return merged;
+  if (!featuredSlug) return merged;
 
   return merged.map((e) => ({
     ...e,
-    isFeatured: e.slug === defaultFeatured.slug,
+    isFeatured: e.slug === featuredSlug,
   }));
 }
 

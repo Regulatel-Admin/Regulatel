@@ -1,6 +1,5 @@
 /**
- * Admin: Galería — crear/editar álbumes, subir y reordenar fotos.
- * Persiste en site_settings con clave gallery_albums.
+ * Galería — álbumes y fotos, sin slugs ni URLs a la vista.
  */
 import { useState, useEffect, useMemo } from "react";
 import AdminPreviewPanel from "@/components/admin/AdminPreviewPanel";
@@ -9,7 +8,9 @@ import type { GalleryAlbumSetting } from "@/types/siteSettings";
 import type { AlbumGaleria } from "@/data/galeria";
 import { albumesGaleria } from "@/data/galeria";
 import { api } from "@/lib/api";
-import { Save, Plus, Trash2, ImageIcon, FolderOpen, Upload } from "lucide-react";
+import { uploadAdminFile } from "@/lib/uploads";
+import { slugify } from "@/lib/slugify";
+import { Save, Plus, Trash2, ImageIcon, Upload } from "lucide-react";
 
 const defaultAlbums: GalleryAlbumSetting[] = albumesGaleria.map((a) => ({
   slug: a.slug,
@@ -18,15 +19,6 @@ const defaultAlbums: GalleryAlbumSetting[] = albumesGaleria.map((a) => ({
   folder: a.folder,
   images: a.images,
 }));
-
-function slugify(s: string): string {
-  return s
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/\u0300/g, "")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-|-$/g, "");
-}
 
 export default function AdminContentGaleria() {
   const [albums, setAlbums] = useState<GalleryAlbumSetting[]>(defaultAlbums);
@@ -60,25 +52,37 @@ export default function AdminContentGaleria() {
     setSaving(true);
     const res = await api.settings.set("gallery_albums", albums);
     setSaving(false);
-    if (res.ok) showMessage("ok", "Galería guardada correctamente.");
-    else showMessage("err", res.error ?? "Error al guardar.");
+    if (res.ok) showMessage("ok", "Galería guardada.");
+    else showMessage("err", res.error ?? "No se pudo guardar.");
   };
 
   const addAlbum = () => {
     const slug = `nuevo-album-${Date.now()}`;
     setAlbums((prev) => [
       ...prev,
-      { slug, title: "Nuevo álbum", date: new Date().toLocaleDateString("es-ES", { day: "numeric", month: "long", year: "numeric" }), folder: slug, images: [] },
+      {
+        slug,
+        title: "Nuevo álbum",
+        date: new Date().toLocaleDateString("es-ES", { day: "numeric", month: "long", year: "numeric" }),
+        folder: slug,
+        images: [],
+      },
     ]);
   };
 
   const updateAlbum = (index: number, patch: Partial<GalleryAlbumSetting>) => {
     setAlbums((prev) => {
-      const n = [...prev];
-      n[index] = { ...n[index], ...patch };
-      if (patch.title && !patch.slug) n[index].slug = slugify(patch.title);
-      if (patch.slug) n[index].folder = patch.slug;
-      return n;
+      const next = [...prev];
+      const current = { ...next[index], ...patch };
+      if (patch.title && (!current.slug || current.slug.startsWith("nuevo-album-"))) {
+        const generated = slugify(patch.title);
+        if (generated) {
+          current.slug = generated;
+          current.folder = generated;
+        }
+      }
+      next[index] = current;
+      return next;
     });
   };
 
@@ -88,40 +92,30 @@ export default function AdminContentGaleria() {
 
   const removeImage = (albumIndex: number, imageIndex: number) => {
     setAlbums((prev) => {
-      const n = [...prev];
-      n[albumIndex] = { ...n[albumIndex], images: n[albumIndex].images.filter((_, i) => i !== imageIndex) };
-      return n;
+      const next = [...prev];
+      next[albumIndex] = {
+        ...next[albumIndex],
+        images: next[albumIndex].images.filter((_, i) => i !== imageIndex),
+      };
+      return next;
     });
   };
 
   const handleFileUpload = async (albumIndex: number, file: File) => {
     const slug = albums[albumIndex].slug;
     setUploadingId(slug);
-    const reader = new FileReader();
-    reader.onload = async () => {
-      const dataUrl = reader.result as string;
-      const res = await fetch("/api/route?path=uploads", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify({
-          kind: "image",
-          folder: "gallery",
-          fileName: file.name,
-          dataUrl,
-        }),
+    try {
+      const uploaded = await uploadAdminFile({ file, kind: "image", folder: "gallery" });
+      setAlbums((prev) => {
+        const next = [...prev];
+        next[albumIndex] = { ...next[albumIndex], images: [...next[albumIndex].images, uploaded.url] };
+        return next;
       });
+    } catch (error) {
+      showMessage("err", error instanceof Error ? error.message : "No se pudo subir la foto.");
+    } finally {
       setUploadingId(null);
-      const data = await res.json().catch(() => ({}));
-      if (res.ok && data.url) {
-        setAlbums((prev) => {
-          const n = [...prev];
-          n[albumIndex] = { ...n[albumIndex], images: [...n[albumIndex].images, data.url] };
-          return n;
-        });
-      }
-    };
-    reader.readAsDataURL(file);
+    }
   };
 
   const previewAlbums: AlbumGaleria[] = useMemo(
@@ -132,14 +126,14 @@ export default function AdminContentGaleria() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-20">
-        <p style={{ color: "var(--regu-gray-500)" }}>Cargando...</p>
+        <p style={{ color: "var(--regu-gray-500)" }}>Cargando la galería…</p>
       </div>
     );
   }
 
   return (
     <AdminPreviewPanel
-      previewLabel="Vista previa — Galería"
+      previewLabel="Así se ve la galería"
       preview={
         <div className="p-6">
           <h2 className="mb-4 text-xl font-bold uppercase" style={{ color: "var(--regu-gray-900)" }}>
@@ -184,13 +178,18 @@ export default function AdminContentGaleria() {
       }
     >
       <div className="space-y-6">
-        <h1 className="text-xl font-bold" style={{ color: "var(--regu-navy)" }}>
-          Galería fotográfica
-        </h1>
+        <div>
+          <h1 className="text-2xl font-bold" style={{ color: "var(--regu-navy)" }}>
+            Galería
+          </h1>
+          <p className="mt-1 text-sm" style={{ color: "var(--regu-gray-500)" }}>
+            Álbumes con fotos grandes. El título basta: el enlace se arma solo.
+          </p>
+        </div>
 
         {message && (
           <div
-            className="rounded-lg border px-4 py-3 text-sm"
+            className="rounded-xl border px-4 py-3 text-sm"
             style={{
               borderColor: message.type === "ok" ? "var(--regu-blue)" : "#dc2626",
               backgroundColor: message.type === "ok" ? "rgba(68,137,198,0.08)" : "#fef2f2",
@@ -204,92 +203,80 @@ export default function AdminContentGaleria() {
         {albums.map((album, albumIndex) => (
           <section
             key={album.slug}
-            className="rounded-xl border bg-white p-5 shadow-sm"
-            style={{ borderColor: "var(--regu-gray-100)" }}
+            className="overflow-hidden rounded-2xl border bg-white shadow-sm"
+            style={{ borderColor: "rgba(22,61,89,0.10)" }}
           >
-            <div className="mb-3 flex items-center gap-2">
-              <FolderOpen className="h-5 w-5" style={{ color: "var(--regu-blue)" }} />
-              <span className="font-semibold" style={{ color: "var(--regu-gray-900)" }}>
-                Álbum #{albumIndex + 1}
-              </span>
+            <div className="flex items-start justify-between gap-3 border-b px-4 py-3" style={{ borderColor: "rgba(22,61,89,0.08)" }}>
+              <div className="min-w-0 flex-1 space-y-2">
+                <input
+                  type="text"
+                  placeholder="Título del álbum"
+                  value={album.title}
+                  onChange={(e) => updateAlbum(albumIndex, { title: e.target.value })}
+                  className="w-full rounded-lg border-0 bg-transparent text-base font-semibold outline-none"
+                  style={{ color: "var(--regu-navy)" }}
+                />
+                <input
+                  type="text"
+                  placeholder="Fecha (ej. 12 de diciembre de 2025)"
+                  value={album.date}
+                  onChange={(e) => updateAlbum(albumIndex, { date: e.target.value })}
+                  className="w-full rounded-lg border-0 bg-transparent text-sm outline-none"
+                  style={{ color: "var(--regu-gray-600)" }}
+                />
+              </div>
               <button
                 type="button"
                 onClick={() => removeAlbum(albumIndex)}
-                className="ml-auto rounded p-1 text-red-600 hover:bg-red-50"
+                className="rounded-lg p-2 text-red-700 hover:bg-red-50"
                 aria-label="Eliminar álbum"
               >
                 <Trash2 className="h-4 w-4" />
               </button>
             </div>
-            <div className="grid gap-3">
-              <input
-                type="text"
-                placeholder="Título del álbum"
-                value={album.title}
-                onChange={(e) => updateAlbum(albumIndex, { title: e.target.value })}
-                className="w-full rounded border px-3 py-2 text-sm"
-                style={{ borderColor: "var(--regu-gray-200)" }}
-              />
-              <input
-                type="text"
-                placeholder="Fecha (ej. 12 de diciembre de 2025)"
-                value={album.date}
-                onChange={(e) => updateAlbum(albumIndex, { date: e.target.value })}
-                className="w-full rounded border px-3 py-2 text-sm"
-                style={{ borderColor: "var(--regu-gray-200)" }}
-              />
-              <input
-                type="text"
-                placeholder="Slug (URL)"
-                value={album.slug}
-                onChange={(e) => updateAlbum(albumIndex, { slug: e.target.value, folder: e.target.value })}
-                className="w-full rounded border px-3 py-2 text-sm font-mono"
-                style={{ borderColor: "var(--regu-gray-200)" }}
-              />
-            </div>
-            <div className="mt-4">
-              <p className="mb-2 text-xs font-semibold uppercase text-[var(--regu-gray-500)]">
-                Fotos ({album.images.length})
+            <div className="p-4">
+              <p className="mb-3 text-sm font-medium" style={{ color: "var(--regu-gray-600)" }}>
+                {album.images.length} {album.images.length === 1 ? "foto" : "fotos"}
               </p>
-              <div className="flex flex-wrap gap-2">
+              <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
                 {album.images.map((img, imgIndex) => {
-                  const url = img.startsWith("http") ? img : `/images/galeria/${album.folder}/${img}`;
+                  const url = img.startsWith("http") || img.startsWith("/") ? img : `/images/galeria/${album.folder}/${img}`;
                   return (
                     <div
-                      key={imgIndex}
-                      className="relative inline-block h-16 w-16 overflow-hidden rounded-lg border bg-[var(--regu-gray-100)]"
+                      key={`${url}-${imgIndex}`}
+                      className="relative aspect-[4/3] overflow-hidden rounded-xl border bg-[var(--regu-gray-100)]"
                       style={{ borderColor: "var(--regu-gray-200)" }}
                     >
                       <img src={url} alt="" className="h-full w-full object-cover" />
                       <button
                         type="button"
                         onClick={() => removeImage(albumIndex, imgIndex)}
-                        className="absolute right-1 top-1 rounded bg-red-600 p-0.5 text-white hover:bg-red-700"
+                        className="absolute right-1.5 top-1.5 rounded-lg bg-white/90 p-1.5 text-red-700 shadow"
                         aria-label="Quitar foto"
                       >
-                        <Trash2 className="h-3 w-3" />
+                        <Trash2 className="h-3.5 w-3.5" />
                       </button>
                     </div>
                   );
                 })}
-                <label className="flex h-16 w-16 cursor-pointer items-center justify-center rounded-lg border-2 border-dashed border-[var(--regu-gray-300)] text-[var(--regu-gray-500)] hover:border-[var(--regu-blue)] hover:text-[var(--regu-blue)]">
+                <label className="flex aspect-[4/3] cursor-pointer flex-col items-center justify-center gap-1 rounded-xl border-2 border-dashed text-sm font-medium hover:border-[var(--regu-blue)] hover:text-[var(--regu-blue)]"
+                  style={{ borderColor: "var(--regu-gray-300)", color: "var(--regu-gray-500)" }}
+                >
                   <Upload className="h-6 w-6" />
+                  {uploadingId === album.slug ? "Subiendo…" : "Añadir foto"}
                   <input
                     type="file"
-                    accept="image/*"
+                    accept="image/jpeg,image/png,image/webp"
                     className="hidden"
                     disabled={uploadingId === album.slug}
                     onChange={(e) => {
                       const f = e.target.files?.[0];
-                      if (f) handleFileUpload(albumIndex, f);
+                      if (f) void handleFileUpload(albumIndex, f);
                       e.target.value = "";
                     }}
                   />
                 </label>
               </div>
-              {uploadingId === album.slug && (
-                <p className="mt-2 text-xs text-[var(--regu-gray-500)]">Subiendo…</p>
-              )}
             </div>
           </section>
         ))}
@@ -297,8 +284,8 @@ export default function AdminContentGaleria() {
         <button
           type="button"
           onClick={addAlbum}
-          className="flex w-full items-center justify-center gap-2 rounded-xl border-2 border-dashed py-4 text-sm font-medium"
-          style={{ borderColor: "var(--regu-gray-200)", color: "var(--regu-gray-600)" }}
+          className="flex w-full items-center justify-center gap-2 rounded-2xl border-2 border-dashed py-4 text-sm font-semibold"
+          style={{ borderColor: "rgba(68,137,198,0.45)", color: "var(--regu-blue)" }}
         >
           <Plus className="h-4 w-4" />
           Añadir álbum
@@ -306,9 +293,9 @@ export default function AdminContentGaleria() {
 
         <button
           type="button"
-          onClick={save}
+          onClick={() => void save()}
           disabled={saving}
-          className="inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold text-white transition disabled:opacity-60"
+          className="inline-flex w-full items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold text-white disabled:opacity-60"
           style={{ backgroundColor: "var(--regu-blue)" }}
         >
           <Save className="h-4 w-4" />

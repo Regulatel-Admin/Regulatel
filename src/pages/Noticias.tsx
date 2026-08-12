@@ -6,6 +6,7 @@ import ImageCarousel from "@/components/ImageCarousel";
 import { noticiasData } from "./noticiasData";
 import { useAdminData } from "@/contexts/AdminDataContext";
 import { localizeNewsFields } from "@/hooks/useLocalizedNews";
+import { EditableSpot } from "@/components/site-edit/EditableSpot";
 
 /** Item para listado: estático o admin (misma forma). */
 export interface NewsListItem {
@@ -359,6 +360,7 @@ function NewsItemRow({ item, isFeatured }: NewsItemRowProps) {
   const href = `/noticias/${item.slug}`;
 
   return (
+    <EditableSpot target={{ kind: "noticia", slug: item.slug }} label="Editar esta noticia">
     <article className={`group ${isFeatured ? "py-0" : "py-5 px-5 md:py-6 md:px-6"}`}>
       <Link to={href} className="block">
         <div className={`flex gap-4 md:gap-6 ${isFeatured ? "flex-col md:flex-row" : "flex-row items-start"}`}>
@@ -456,6 +458,7 @@ function NewsItemRow({ item, isFeatured }: NewsItemRowProps) {
         </div>
       </Link>
     </article>
+    </EditableSpot>
   );
 }
 

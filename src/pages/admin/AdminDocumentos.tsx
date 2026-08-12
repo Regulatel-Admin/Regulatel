@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
+import { Link } from "react-router-dom";
 import { useAdminData } from "@/contexts/AdminDataContext";
 import type { GestionDocument, GestionCategory } from "@/data/gestion";
 import { GESTION_TAB_LABELS, getCategoryDisplayLabel } from "@/data/gestion";
@@ -10,7 +11,6 @@ const CATEGORY_OPTIONS: { value: GestionCategory; label: string }[] = [
   { value: "planes-actas", label: GESTION_TAB_LABELS["planes-actas"] },
   { value: "comite-ejecutivo", label: GESTION_TAB_LABELS["comite-ejecutivo"] },
   { value: "documentos", label: GESTION_TAB_LABELS.documentos },
-  { value: "revista", label: GESTION_TAB_LABELS.revista },
   { value: "otros", label: GESTION_TAB_LABELS.otros },
 ];
 
@@ -76,7 +76,7 @@ export default function AdminDocumentos() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!form.url?.trim()) {
-      setFormError("Debes adjuntar un documento o indicar una URL.");
+      setFormError("Debes adjuntar un documento o pegar un enlace.");
       return;
     }
     setFormError(null);
@@ -111,7 +111,7 @@ export default function AdminDocumentos() {
       fileName: d.fileName,
       fileType: d.fileType,
       fileSize: d.fileSize,
-      category: d.category === "banco" ? "otros" : d.category,
+      category: d.category === "banco" || d.category === "revista" ? "otros" : d.category,
       year: d.year ?? "",
       quarter: d.quarter ?? "",
     });
@@ -134,7 +134,11 @@ export default function AdminDocumentos() {
         <p className="mb-4 text-sm font-medium text-red-600" role="alert">{formError}</p>
       )}
       <p className="mb-6 text-sm max-w-2xl" style={{ color: "var(--regu-gray-500)" }}>
-        Aquí puedes añadir documentos y asignarlos a las subcategorías del menú Recursos (Planes de trabajo, Actas, Comité Ejecutivo, Declaraciones, Revista Digital, etc.). Los documentos que añadas aparecerán en la categoría correspondiente en Gestión.
+        Aquí puedes añadir documentos y asignarlos a las subcategorías del menú Recursos (Planes de trabajo, Actas, Comité Ejecutivo, Declaraciones, etc.). Las ediciones de la Revista Digital se gestionan en{" "}
+        <Link to="/admin/revista" className="font-semibold underline-offset-2 hover:underline" style={{ color: "var(--regu-blue)" }}>
+          Revista digital
+        </Link>
+        .
       </p>
 
       {!adding && !editingId && (
@@ -180,7 +184,7 @@ export default function AdminDocumentos() {
             <div className="md:col-span-2">
               <label className="mb-1 block text-sm font-medium" style={{ color: "var(--regu-gray-700)" }}>Adjuntar documento *</label>
               <p className="mb-2 text-xs" style={{ color: "var(--regu-gray-500)" }}>
-                Sube el archivo a Vercel Blob o pega una URL externa si el documento ya está publicado.
+                Sube el archivo, o pega un enlace si ya está publicado en otro sitio.
               </p>
               <div className="mb-2">
                 <label className="flex cursor-pointer items-center gap-2 rounded-lg border border-dashed px-4 py-3 transition hover:bg-[var(--regu-gray-50)]"
@@ -240,14 +244,13 @@ export default function AdminDocumentos() {
                     fileSize: undefined,
                   }))
                 }
-                placeholder="https://... o /documents/archivo.pdf"
+                placeholder="O pega el enlace si el documento ya está en internet"
                 className="w-full rounded-lg border px-3 py-2 text-sm"
                 style={{ borderColor: "var(--regu-gray-100)" }}
               />
               {form.fileName && (
                 <p className="mt-1 text-xs" style={{ color: "var(--regu-gray-500)" }}>
-                  Archivo guardado: {form.fileName}
-                  {form.fileType ? ` · ${form.fileType}` : ""}
+                  Archivo listo: {form.fileName}
                 </p>
               )}
             </div>
@@ -293,7 +296,7 @@ export default function AdminDocumentos() {
           {/* Vista previa de la card del documento */}
           <div className="mt-4 rounded-xl border bg-[var(--regu-offwhite)] p-3" style={{ borderColor: "var(--regu-gray-100)" }}>
             <p className="mb-2 text-xs font-bold uppercase tracking-wide" style={{ color: "var(--regu-gray-500)" }}>
-              Vista previa (card)
+              Vista previa
             </p>
             <div className="max-w-xs rounded-lg border bg-white px-3 py-2 shadow-sm" style={{ borderColor: "rgba(22,61,89,0.08)" }}>
               <p className="font-semibold" style={{ color: "var(--regu-gray-900)" }}>
@@ -326,7 +329,7 @@ export default function AdminDocumentos() {
       )}
 
       <div className="space-y-3">
-        {adminDocuments.map((d) => (
+        {adminDocuments.filter((d) => d.category !== "revista").map((d) => (
           <div
             key={d.id}
             className="flex items-center justify-between gap-4 rounded-xl border bg-white p-4 shadow-sm"

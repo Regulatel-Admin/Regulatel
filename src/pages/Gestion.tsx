@@ -28,6 +28,7 @@ import {
   type GestionDocument,
 } from "@/data/gestion";
 import { useMergedGestionDocuments } from "@/contexts/AdminDataContext";
+import { EditableSpot } from "@/components/site-edit/EditableSpot";
 
 function normalizeSearch(t: string): string {
   return t
@@ -404,8 +405,13 @@ function DocCard({
     : CATEGORY_ICONS[doc.category] ?? FileText;
 
   const badge = CATEGORY_BADGE[doc.category] ?? CATEGORY_BADGE.otros;
+  const editTarget =
+    doc.category === "revista"
+      ? ({ kind: "revista" as const, id: doc.id })
+      : ({ kind: "panel" as const, path: "/admin/documentos", label: "Documentos" });
 
   return (
+    <EditableSpot target={editTarget} label="Editar este documento" className="h-full">
     <motion.article
       initial={{ opacity: 0, y: 14 }}
       animate={{ opacity: 1, y: 0 }}
@@ -553,5 +559,6 @@ function DocCard({
         </div>
       </div>
     </motion.article>
+    </EditableSpot>
   );
 }

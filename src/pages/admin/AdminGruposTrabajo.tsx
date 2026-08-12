@@ -9,6 +9,19 @@ import {
   type GrupoTrabajoIconKey,
 } from "@/data/gruposTrabajo";
 import { Save, Plus, Trash2, RotateCcw } from "lucide-react";
+import { AdminBlobUploadField } from "@/components/admin/AdminBlobUploadField";
+import { slugify } from "@/lib/slugify";
+
+const ICON_LABELS: Record<GrupoTrabajoIconKey, string> = {
+  Shield: "Escudo",
+  Wifi: "Conectividad",
+  BarChart3: "Gráfico",
+  TrendingUp: "Tendencia",
+  Network: "Red",
+  Briefcase: "Maletín",
+  Sparkles: "Destellos",
+  Users: "Personas",
+};
 
 function cloneDefaults(): GrupoTrabajoSerialized[] {
   return defaultGruposTrabajo.map((g) => ({
@@ -95,21 +108,24 @@ export default function AdminGruposTrabajo() {
 
   const resetToDefaults = () => {
     setEntries(cloneDefaults());
-    showMessage("ok", "Lista restaurada al contenido por defecto. Pulsa Guardar para publicar.");
+    showMessage("ok", "Lista restaurada. Pulsa Guardar para publicarla.");
   };
 
   const save = async () => {
     for (let i = 0; i < entries.length; i++) {
-      const e = entries[i];
-      if (!e.id.trim() || !e.title.trim()) {
-        showMessage("err", `La fila ${i + 1} necesita identificador (id) y título.`);
+      if (!entries[i].title.trim()) {
+        showMessage("err", `El grupo ${i + 1} necesita un título.`);
         return;
       }
     }
+    const prepared = entries.map((e, i) => ({
+      ...e,
+      id: e.id.trim() || slugify(e.title) || `grupo-${i + 1}`,
+    }));
     setSaving(true);
-    const res = await api.settings.set(GRUPOS_TRABAJO_SETTINGS_KEY, { entries });
+    const res = await api.settings.set(GRUPOS_TRABAJO_SETTINGS_KEY, { entries: prepared });
     setSaving(false);
-    if (res.ok) showMessage("ok", "Grupos de trabajo guardados. Ya se reflejan en la página pública.");
+    if (res.ok) showMessage("ok", "Grupos de trabajo guardados. Ya se ven en el sitio.");
     else showMessage("err", res.error ?? "Error al guardar.");
   };
 
@@ -128,11 +144,10 @@ export default function AdminGruposTrabajo() {
           Grupos de trabajo
         </h1>
         <p className="mt-2 text-sm" style={{ color: "var(--regu-gray-600)" }}>
-          Edita título, descripción, coordinadores, miembros, imagen y enlaces (términos de referencia e informe). La
-          numeración <strong>GT 01, GT 02…</strong> en el sitio sigue el orden de esta lista.
+          Edita título, descripción, coordinadores, miembros, foto y documentos. El número GT 01, GT 02… sigue el orden de esta lista.
         </p>
         <p className="mt-1 text-sm" style={{ color: "var(--regu-gray-600)" }}>
-          Coordinadores y miembros: <strong>una línea por entrada</strong> (ej. <code>OSIPTEL, Perú</code>).
+          Coordinadores y miembros: una línea por persona o institución (ej. OSIPTEL, Perú).
         </p>
       </div>
 
@@ -158,7 +173,7 @@ export default function AdminGruposTrabajo() {
           style={{ borderColor: "var(--regu-blue)", backgroundColor: "var(--regu-blue)", color: "white" }}
         >
           <Save className="h-4 w-4" />
-          {saving ? "Guardando…" : "Guardar en base de datos"}
+          {saving ? "Guardando…" : "Guardar"}
         </button>
         <button
           type="button"
@@ -176,7 +191,7 @@ export default function AdminGruposTrabajo() {
           style={{ borderColor: "var(--regu-gray-200)", color: "var(--regu-gray-700)" }}
         >
           <RotateCcw className="h-4 w-4" />
-          Restaurar valores por defecto
+          Volver al listado original
         </button>
       </div>
 
@@ -189,7 +204,7 @@ export default function AdminGruposTrabajo() {
           >
             <div className="mb-3 flex items-center justify-between gap-2">
               <span className="text-xs font-semibold uppercase tracking-wide" style={{ color: "var(--regu-gray-500)" }}>
-                GT {String(index + 1).padStart(2, "0")} — {row.id || "(sin id)"}
+                GT {String(index + 1).padStart(2, "0")}
               </span>
               <button
                 type="button"
@@ -203,13 +218,24 @@ export default function AdminGruposTrabajo() {
             </div>
 
             <div className="grid gap-3 lg:grid-cols-2">
-              <Field
-                label="Identificador (slug, único)"
-                value={row.id}
-                onChange={(v) => updateRow(index, { id: v })}
-                placeholder="ej. proteccion-empoderamiento-usuarios"
-              />
               <Field label="Título del grupo" value={row.title} onChange={(v) => updateRow(index, { title: v })} />
+              <label className="block min-w-0">
+                <span className="mb-1 block text-xs font-medium" style={{ color: "var(--regu-gray-600)" }}>
+                  Icono (si no hay foto)
+                </span>
+                <select
+                  value={row.iconKey}
+                  onChange={(e) => updateRow(index, { iconKey: e.target.value as GrupoTrabajoIconKey })}
+                  className="w-full rounded-lg border px-3 py-2 text-sm"
+                  style={{ borderColor: "var(--regu-gray-200)", color: "var(--regu-gray-900)" }}
+                >
+                  {GRUPO_ICON_KEYS.map((k) => (
+                    <option key={k} value={k}>
+                      {ICON_LABELS[k]}
+                    </option>
+                  ))}
+                </select>
+              </label>
             </div>
 
             <label className="mt-3 block">
@@ -234,7 +260,7 @@ export default function AdminGruposTrabajo() {
                   value={row.coordinadores.join("\n")}
                   onChange={(e) => setCoordinadoresText(index, e.target.value)}
                   rows={4}
-                  className="w-full rounded-lg border px-3 py-2 font-mono text-sm"
+                  className="w-full rounded-lg border px-3 py-2 text-sm"
                   style={{ borderColor: "var(--regu-gray-200)", color: "var(--regu-gray-900)" }}
                   placeholder={"OSIPTEL, Perú\nCRC, Colombia"}
                 />
@@ -247,48 +273,37 @@ export default function AdminGruposTrabajo() {
                   value={row.miembros.join("\n")}
                   onChange={(e) => setMiembrosText(index, e.target.value)}
                   rows={4}
-                  className="w-full rounded-lg border px-3 py-2 font-mono text-sm"
+                  className="w-full rounded-lg border px-3 py-2 text-sm"
                   style={{ borderColor: "var(--regu-gray-200)", color: "var(--regu-gray-900)" }}
                   placeholder={"SUTEL, Costa Rica\nATT, Bolivia"}
                 />
               </label>
             </div>
 
-            <div className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-              <label className="block min-w-0">
-                <span className="mb-1 block text-xs font-medium" style={{ color: "var(--regu-gray-600)" }}>
-                  Icono (respaldo si falla la imagen)
-                </span>
-                <select
-                  value={row.iconKey}
-                  onChange={(e) => updateRow(index, { iconKey: e.target.value as GrupoTrabajoIconKey })}
-                  className="w-full rounded-lg border px-3 py-2 text-sm"
-                  style={{ borderColor: "var(--regu-gray-200)", color: "var(--regu-gray-900)" }}
-                >
-                  {GRUPO_ICON_KEYS.map((k) => (
-                    <option key={k} value={k}>
-                      {k}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <Field
-                label="URL imagen"
+            <div className="mt-3 space-y-3">
+              <AdminBlobUploadField
+                label="Foto del grupo"
                 value={row.imageUrl}
                 onChange={(v) => updateRow(index, { imageUrl: v })}
-                placeholder="/grupos-trabajo/....jpg"
+                kind="image"
+                folder="attachments"
+                helpText="Foto que se ve en la ficha del grupo."
               />
-              <Field
-                label="Términos de referencia (URL/PDF, opcional)"
+              <AdminBlobUploadField
+                label="Términos de referencia (opcional)"
                 value={row.termsUrl ?? ""}
                 onChange={(v) => updateRow(index, { termsUrl: v.trim() || undefined })}
-                placeholder="/documents/..."
+                kind="document"
+                folder="documents"
+                helpText="PDF de los términos, si hay."
               />
-              <Field
-                label="Informe (PDF o PPTX, opcional)"
+              <AdminBlobUploadField
+                label="Informe (opcional)"
                 value={row.informeUrl ?? ""}
                 onChange={(v) => updateRow(index, { informeUrl: v.trim() || undefined })}
-                placeholder="/documents/..."
+                kind="document"
+                folder="documents"
+                helpText="PDF del informe, si hay."
               />
             </div>
           </div>
@@ -297,7 +312,7 @@ export default function AdminGruposTrabajo() {
 
       {entries.length === 0 && (
         <p className="text-sm" style={{ color: "var(--regu-gray-600)" }}>
-          No hay grupos. Añade uno o restaura los valores por defecto.
+          No hay grupos. Añade uno o vuelve al listado original.
         </p>
       )}
     </div>

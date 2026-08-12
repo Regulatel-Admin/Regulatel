@@ -1,4 +1,6 @@
 export interface NavigationItemLink {
+  /** Identificador estable para fusionar ediciones concurrentes. */
+  uid?: string;
   label: string;
   href: string;
   description?: string;
@@ -14,11 +16,13 @@ export interface NavigationItemLink {
 }
 
 export interface NavigationColumn {
+  uid?: string;
   title: string;
   links: NavigationItemLink[];
 }
 
 export interface NavigationItem {
+  uid?: string;
   id: string;
   label: string;
   href?: string;

@@ -9,10 +9,12 @@ export interface AdminBlobUploadFieldProps {
   value: string;
   onChange: (url: string) => void;
   kind: AdminBlobKind;
-  /** Carpeta en Vercel Blob (p. ej. attachments para contenido CMS). */
+  /** Carpeta de almacenamiento (noticias, eventos, documentos, etc.). */
   folder?: UploadFolder;
   helpText?: string;
   disabled?: boolean;
+  /** Si es false, no muestra la miniatura (útil cuando ya hay foto arriba). */
+  showPreview?: boolean;
 }
 
 export function AdminBlobUploadField({
@@ -23,6 +25,7 @@ export function AdminBlobUploadField({
   folder = "attachments",
   helpText,
   disabled = false,
+  showPreview = true,
 }: AdminBlobUploadFieldProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [uploading, setUploading] = useState(false);
@@ -51,7 +54,7 @@ export function AdminBlobUploadField({
   };
 
   const showImagePreview =
-    kind === "image" && value.trim() && !value.toLowerCase().includes(".pdf");
+    showPreview && kind === "image" && value.trim() && !value.toLowerCase().includes(".pdf");
 
   return (
     <div
@@ -147,7 +150,7 @@ export function AdminBlobUploadField({
         style={{ color: "var(--regu-gray-500)" }}
       >
         {manualOpen ? <ChevronUp className="h-3.5 w-3.5" /> : <ChevronDown className="h-3.5 w-3.5" />}
-        {manualOpen ? "Ocultar URL manual" : "Pegar URL manual (ruta local u otra CDN)"}
+        {manualOpen ? "Ocultar enlace pegado" : "Ya tengo un enlace (avanzado)"}
       </button>
       {manualOpen && (
         <input
@@ -156,14 +159,14 @@ export function AdminBlobUploadField({
           onChange={(e) => onChange(e.target.value)}
           placeholder={kind === "image" ? "https://… o /images/…" : "https://… o /documents/…"}
           disabled={disabled}
-          className="w-full rounded-lg border px-3 py-2 text-xs font-mono"
+          className="w-full rounded-lg border px-3 py-2 text-xs"
           style={{ borderColor: "var(--regu-gray-200)" }}
         />
       )}
 
       {!manualOpen && value.trim() && (
-        <p className="text-[10px] font-mono truncate" style={{ color: "var(--regu-gray-400)" }} title={value}>
-          {value}
+        <p className="truncate text-[10px]" style={{ color: "var(--regu-gray-400)" }} title={value}>
+          Archivo listo
         </p>
       )}
     </div>

@@ -127,15 +127,15 @@ export default function AdminEventos() {
     e.preventDefault();
     if (!form.startDate.trim()) return;
     if (form.registrationUrl.trim() && !isValidUrl(form.registrationUrl)) {
-      setUrlError("URL de registro debe ser http o https.");
+      setUrlError("El enlace de registro debe empezar por http o https.");
       return;
     }
     if (form.detailsUrl.trim() && !isValidUrl(form.detailsUrl)) {
-      setUrlError("URL de detalles debe ser http o https.");
+      setUrlError("El enlace de más información debe empezar por http o https.");
       return;
     }
     if (form.imageUrl.trim() && !isValidUrl(form.imageUrl)) {
-      setUrlError("La URL de imagen debe ser http o https.");
+      setUrlError("El enlace de la imagen debe empezar por http o https.");
       return;
     }
     setUrlError(null);
@@ -201,7 +201,7 @@ export default function AdminEventos() {
         <p className="mb-4 text-sm font-medium text-red-600" role="alert">{urlError}</p>
       )}
       <p className="mb-4 text-sm" style={{ color: "var(--regu-gray-600)" }}>
-        Gestionar todos los eventos que se muestran en la página pública y en el slider. El botón &quot;Registrarse&quot; usa la URL de registro configurada aquí.
+        Crea y edita los eventos que se ven en el sitio y en el carrusel de la portada. Si hay inscripción, pega el enlace del formulario.
       </p>
 
       {events.length === 0 && !adding && !editingId && (
@@ -213,8 +213,7 @@ export default function AdminEventos() {
         >
           <p className="font-semibold">¿Lista de eventos vacía?</p>
           <p className="mt-1 text-xs opacity-90">
-            Puede importar el calendario histórico de REGULATEL (mismos datos que antes estaban en el código) a la base de datos.
-            Luego podrá editar fechas y textos aquí, sin tocar el repositorio. Los ids que ya existan no se sobrescriben.
+            Puede traer el calendario histórico de REGULATEL. Luego podrá editar fechas y textos aquí, sin perder lo que ya hay. Lo que ya exista no se duplica.
           </p>
           <button
             type="button"
@@ -326,7 +325,7 @@ export default function AdminEventos() {
               <div className="grid gap-4 md:grid-cols-2">
                 <div>
                   <label className="mb-1 block text-sm font-medium" style={{ color: "var(--regu-gray-700)" }}>
-                    Fecha inicio (YYYY-MM-DD) *
+                    Fecha de inicio *
                   </label>
                   <input
                     type="date"
@@ -352,7 +351,7 @@ export default function AdminEventos() {
               </div>
               <div>
                 <label className="mb-1 block text-sm font-medium" style={{ color: "var(--regu-gray-700)" }}>
-                  URL de registro (http/https)
+                  Enlace para inscribirse
                 </label>
                 <input
                   type="url"
@@ -365,7 +364,7 @@ export default function AdminEventos() {
               </div>
               <div>
                 <label className="mb-1 block text-sm font-medium" style={{ color: "var(--regu-gray-700)" }}>
-                  URL de detalles (opcional)
+                  Más información (enlace, opcional)
                 </label>
                 <input
                   type="url"
@@ -388,7 +387,7 @@ export default function AdminEventos() {
                   <span className="text-sm font-medium" style={{ color: "var(--regu-gray-700)" }}>
                     {isUploadingImage
                       ? "Subiendo..."
-                      : form.imageFileName || "Subir imagen a Blob"}
+                      : form.imageFileName || "Subir foto"}
                   </span>
                   <input
                     type="file"
@@ -437,7 +436,7 @@ export default function AdminEventos() {
                       imageSize: undefined,
                     }))
                   }
-                  placeholder="https://... o URL pública de la imagen"
+                  placeholder="O pega el enlace de una foto ya publicada"
                   className="w-full rounded-lg border px-3 py-2 text-sm"
                   style={{ borderColor: "var(--regu-gray-100)" }}
                 />
@@ -469,7 +468,7 @@ export default function AdminEventos() {
               {/* Vista previa de la card del evento */}
               <div className="rounded-xl border bg-[var(--regu-offwhite)] p-3" style={{ borderColor: "var(--regu-gray-100)" }}>
                 <p className="mb-2 text-xs font-bold uppercase tracking-wide" style={{ color: "var(--regu-gray-500)" }}>
-                  Vista previa (card)
+                  Vista previa
                 </p>
                 <div className="max-w-xs overflow-hidden rounded-lg border bg-white shadow-sm" style={{ borderColor: "rgba(22,61,89,0.08)" }}>
                   {form.imageUrl ? (
@@ -511,49 +510,46 @@ export default function AdminEventos() {
         </div>
       )}
 
-      <div className="overflow-x-auto rounded-xl border bg-white" style={{ borderColor: "var(--regu-gray-100)" }}>
-        <table className="w-full text-left text-sm">
-          <thead>
-            <tr style={{ borderBottom: "1px solid var(--regu-gray-100)", backgroundColor: "var(--regu-offwhite)" }}>
-              <th className="px-4 py-3 font-semibold" style={{ color: "var(--regu-gray-900)" }}>Título</th>
-              <th className="px-4 py-3 font-semibold" style={{ color: "var(--regu-gray-900)" }}>Año</th>
-              <th className="px-4 py-3 font-semibold" style={{ color: "var(--regu-gray-900)" }}>Fecha inicio</th>
-              <th className="px-4 py-3 font-semibold" style={{ color: "var(--regu-gray-900)" }}>Lugar</th>
-              <th className="px-4 py-3 font-semibold" style={{ color: "var(--regu-gray-900)" }}>Estado</th>
-              <th className="px-4 py-3 font-semibold" style={{ color: "var(--regu-gray-900)" }}>URL registro</th>
-              <th className="px-4 py-3 font-semibold" style={{ color: "var(--regu-gray-900)" }}>Destacado</th>
-              <th className="px-4 py-3 font-semibold" style={{ color: "var(--regu-gray-900)" }}>Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            {sortedEvents.map((ev) => (
-              <tr
-                key={ev.id}
-                className="border-b border-[var(--regu-gray-100)] hover:bg-gray-50/50"
-              >
-                <td className="px-4 py-3 font-medium max-w-[200px] truncate" style={{ color: "var(--regu-gray-900)" }} title={ev.title}>
-                  {ev.title}
-                </td>
-                <td className="px-4 py-3" style={{ color: "var(--regu-gray-600)" }}>{ev.year}</td>
-                <td className="px-4 py-3" style={{ color: "var(--regu-gray-600)" }}>{ev.startDate}</td>
-                <td className="px-4 py-3" style={{ color: "var(--regu-gray-600)" }}>{ev.location}</td>
-                <td className="px-4 py-3">
-                  <span
-                    className="rounded-full px-2 py-0.5 text-xs font-semibold"
-                    style={{
-                      backgroundColor: ev.status === "upcoming" ? "rgba(68,137,198,0.12)" : "rgba(22,61,89,0.1)",
-                      color: ev.status === "upcoming" ? "var(--regu-blue)" : "var(--regu-gray-600)",
-                    }}
-                  >
-                    {EVENT_STATUS_LABEL[ev.status]}
+      <div className="space-y-3">
+        {sortedEvents.map((ev) => (
+          <article
+            key={ev.id}
+            className="flex items-center gap-4 overflow-hidden rounded-2xl border bg-white shadow-sm"
+            style={{ borderColor: "var(--regu-gray-100)" }}
+          >
+            <div className="h-24 w-28 shrink-0 bg-[rgba(22,61,89,0.06)] sm:h-28 sm:w-40">
+              {ev.imageUrl ? (
+                <img src={ev.imageUrl} alt="" className="h-full w-full object-cover" />
+              ) : (
+                <div className="flex h-full items-center justify-center text-[11px]" style={{ color: "var(--regu-gray-400)" }}>
+                  Sin foto
+                </div>
+              )}
+            </div>
+            <div className="min-w-0 flex-1 py-3 pr-2">
+              <div className="flex flex-wrap items-center gap-2">
+                <p className="font-semibold" style={{ color: "var(--regu-gray-900)" }}>{ev.title}</p>
+                <span
+                  className="rounded-full px-2 py-0.5 text-xs font-semibold"
+                  style={{
+                    backgroundColor: ev.status === "upcoming" ? "rgba(68,137,198,0.12)" : "rgba(22,61,89,0.1)",
+                    color: ev.status === "upcoming" ? "var(--regu-blue)" : "var(--regu-gray-600)",
+                  }}
+                >
+                  {EVENT_STATUS_LABEL[ev.status]}
+                </span>
+                {ev.isFeatured ? (
+                  <span className="rounded-full px-2 py-0.5 text-xs font-medium" style={{ backgroundColor: "rgba(183,212,0,0.25)", color: "var(--regu-navy)" }}>
+                    En portada
                   </span>
-                </td>
-                <td className="px-4 py-3 max-w-[140px] truncate" style={{ color: "var(--regu-gray-600)" }} title={ev.registrationUrl ?? ""}>
-                  {ev.registrationUrl ? "Sí" : "—"}
-                </td>
-                <td className="px-4 py-3">{ev.isFeatured ? "Sí" : "—"}</td>
-                <td className="px-4 py-3">
-                  <div className="flex items-center gap-1">
+                ) : null}
+              </div>
+              <p className="mt-1 text-sm" style={{ color: "var(--regu-gray-500)" }}>
+                {ev.startDate}
+                {ev.location ? ` · ${ev.location}` : ""}
+              </p>
+            </div>
+            <div className="flex shrink-0 items-center gap-1 pr-3">
                     <button
                       type="button"
                       onClick={() => loadHistory(ev.id)}
@@ -613,16 +609,13 @@ export default function AdminEventos() {
                     >
                       <Trash2 className="h-4 w-4" style={{ color: "var(--regu-salmon, #c53030)" }} />
                     </button>
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+            </div>
+          </article>
+        ))}
       </div>
       {events.length === 0 && (
         <p className="mt-4 text-sm" style={{ color: "var(--regu-gray-500)" }}>
-          No hay eventos en la fuente activa. Añade uno con &quot;Nuevo evento&quot;.
+          No hay eventos todavía. Añade uno con «Nuevo evento».
         </p>
       )}
 

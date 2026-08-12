@@ -2,6 +2,8 @@ import { type ReactNode, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import HeaderMegaMenu from "@/components/layout/HeaderMegaMenu";
+import { SiteEditBar } from "@/components/site-edit/SiteEditBar";
+import { SiteEditDrawer } from "@/components/site-edit/SiteEditDrawer";
 
 interface LayoutProps {
   children: ReactNode;
@@ -50,7 +52,9 @@ export default function Layout({ children }: LayoutProps) {
 
   return (
     <div className="min-h-screen text-slate-900" style={{ backgroundColor: "var(--token-page-bg)" }}>
+      <SiteEditBar />
       <HeaderMegaMenu />
+      <SiteEditDrawer />
       <div id="contentRoot">
         <main>{children}</main>
 

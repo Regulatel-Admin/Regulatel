@@ -57,19 +57,19 @@ export default function AdminEntesMiembros() {
 
   const resetDefaults = () => {
     setEntes(defaultEntesReguladoresMiembros.map((e) => ({ ...e })));
-    showMessage("ok", "Restaurado al listado del código. Pulse Guardar para publicar.");
+    showMessage("ok", "Lista restaurada. Pulsa Guardar para publicarla.");
   };
 
   const save = async () => {
     const bad = entes.filter((e) => !e.name.trim() || !e.country.trim() || !e.externalUrl.trim());
     if (bad.length) {
-      showMessage("err", "Nombre, país y URL externa son obligatorios.");
+      showMessage("err", "Nombre, país y sitio web son obligatorios.");
       return;
     }
     setSaving(true);
     const res = await api.settings.set(ENTES_MIEMBROS_SETTINGS_KEY, { entes });
     setSaving(false);
-    if (res.ok) showMessage("ok", "Guardado. Carrusel de /miembros actualizado.");
+    if (res.ok) showMessage("ok", "Guardado. El carrusel de Miembros ya está actualizado.");
     else showMessage("err", res.error ?? "Error al guardar.");
   };
 
@@ -88,11 +88,7 @@ export default function AdminEntesMiembros() {
           Entes reguladores miembros
         </h1>
         <p className="mt-2 text-sm" style={{ color: "var(--regu-gray-600)" }}>
-          Tarjetas del carrusel en{" "}
-          <a href="/miembros" className="font-medium underline" style={{ color: "var(--regu-blue)" }}>
-            /miembros
-          </a>
-          . Para una ficha interna, use una ruta existente en el sitio (ej. /enacom). Marque «solo enlace externo» si aún no hay página propia.
+          Tarjetas del carrusel en Miembros. Sube el logo y pon el nombre, el país y el sitio web.
         </p>
       </div>
 
@@ -118,7 +114,7 @@ export default function AdminEntesMiembros() {
           style={{ borderColor: "var(--regu-blue)", backgroundColor: "var(--regu-blue)", color: "white" }}
         >
           <Save className="h-4 w-4" />
-          {saving ? "Guardando…" : "Guardar en base de datos"}
+          {saving ? "Guardando…" : "Guardar"}
         </button>
         <button
           type="button"
@@ -136,7 +132,7 @@ export default function AdminEntesMiembros() {
           style={{ borderColor: "var(--regu-gray-200)", color: "var(--regu-gray-700)" }}
         >
           <RotateCcw className="h-4 w-4" />
-          Restaurar desde código
+          Volver al listado original
         </button>
       </div>
 
@@ -161,11 +157,11 @@ export default function AdminEntesMiembros() {
               </button>
             </div>
             <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-              <Field label="Nombre corto (logo)" value={row.name} onChange={(v) => updateRow(index, { name: v })} placeholder="ENACOM" />
+              <Field label="Nombre corto" value={row.name} onChange={(v) => updateRow(index, { name: v })} placeholder="ENACOM" />
               <Field label="País" value={row.country} onChange={(v) => updateRow(index, { country: v })} />
-              <Field label="Ruta interna" value={row.route} onChange={(v) => updateRow(index, { route: v })} placeholder="/enacom" />
-              <Field label="URL externa" value={row.externalUrl} onChange={(v) => updateRow(index, { externalUrl: v })} />
-              <Field label="Nombre completo (opc.)" value={row.fullName ?? ""} onChange={(v) => updateRow(index, { fullName: v || undefined })} />
+              <Field label="Página en este sitio (opcional)" value={row.route} onChange={(v) => updateRow(index, { route: v })} placeholder="Ej. /enacom" />
+              <Field label="Sitio web" value={row.externalUrl} onChange={(v) => updateRow(index, { externalUrl: v })} />
+              <Field label="Nombre completo (opcional)" value={row.fullName ?? ""} onChange={(v) => updateRow(index, { fullName: v || undefined })} />
             </div>
             <AdminBlobUploadField
               label="Logo del ente (imagen del carrusel)"
@@ -173,7 +169,7 @@ export default function AdminEntesMiembros() {
               onChange={(v) => updateRow(index, { logoUrl: v || undefined })}
               kind="image"
               folder="attachments"
-              helpText="Si no subes imagen, el sitio intenta el logo local según la ruta interna (como antes)."
+              helpText="Si no subes foto, se usa el logo que ya hay en el sitio."
             />
             <label className="flex items-center gap-2 text-sm cursor-pointer">
               <input
@@ -181,7 +177,7 @@ export default function AdminEntesMiembros() {
                 checked={row.linkExternalOnly === true}
                 onChange={(e) => updateRow(index, { linkExternalOnly: e.target.checked })}
               />
-              <span style={{ color: "var(--regu-gray-800)" }}>Solo enlace externo (sin ficha interna)</span>
+              <span style={{ color: "var(--regu-gray-800)" }}>Abrir solo el sitio web (sin ficha en REGULATEL)</span>
             </label>
           </div>
         ))}

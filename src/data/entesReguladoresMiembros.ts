@@ -67,7 +67,7 @@ export const defaultEntesReguladoresMiembros: EnteReguladorMiembro[] = [
   { name: "SUBTEL", country: "Chile", fullName: "Subsecretaría de Telecomunicaciones", route: "/subtel", externalUrl: "https://www.regulatel.org/subtel" },
   { name: "CRC", country: "Colombia", fullName: "Comisión de Regulación de Comunicaciones", route: "/crc", externalUrl: "https://www.regulatel.org/crc" },
   { name: "SUTEL", country: "Costa Rica", fullName: "Superintendencia de Telecomunicaciones", route: "/sutel", externalUrl: "https://www.sutel.go.cr" },
-  { name: "SIGET", country: "El Salvador", fullName: "Superintendencia General de Electricidad y Telecomunicaciones", route: "/sit", externalUrl: "https://www.regulatel.org/sit" },
+  { name: "SIGET", country: "El Salvador", fullName: "Superintendencia General de Telecomunicaciones", route: "/sit", externalUrl: "https://www.regulatel.org/sit" },
   { name: "ARCOTEL", country: "Ecuador", fullName: "Agencia de Regulación y Control de las Telecomunicaciones", route: "/arcotel", externalUrl: "https://www.arcotel.gob.ec" },
   { name: "MINCOM", country: "Cuba", fullName: "Ministerio de Comunicaciones", route: "/min-com", externalUrl: "https://www.mincom.gob.cu" },
   { name: "CNMC", country: "España", fullName: "Comisión Nacional de los Mercados y la Competencia", route: "/cnmc", externalUrl: "https://www.regulatel.org/cnmc" },

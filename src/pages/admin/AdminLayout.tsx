@@ -1,8 +1,10 @@
-import { useState, useEffect } from "react";
-import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { useAdminData } from "@/contexts/AdminDataContext";
+import { BlobStorageProvider } from "@/contexts/BlobStorageContext";
 import AdminBreadcrumbs from "@/components/admin/AdminBreadcrumbs";
+import { AdminBlobStorageBar } from "@/components/admin/AdminBlobStorageBar";
 import {
   LayoutDashboard,
   Newspaper,
@@ -16,7 +18,6 @@ import {
   Home,
   Menu,
   X,
-  Layout,
   ImageIcon,
   Zap,
   FolderOpen,
@@ -29,48 +30,144 @@ import {
   Scale,
   Crown,
   Bell,
+  ChevronDown,
+  ExternalLink,
+  PenLine,
+  type LucideIcon,
 } from "lucide-react";
+import { useSiteEdit } from "@/contexts/SiteEditContext";
 
-const navContenido = [
-  { to: "/admin/content/home", icon: Layout, label: "Home" },
-  { to: "/admin/content/cumbres", icon: Zap, label: "Cumbres destacadas" },
-  { to: "/admin/content/galeria", icon: FolderOpen, label: "Galería" },
-  { to: "/admin/content/accesos", icon: ImageIcon, label: "Accesos principales" },
-  { to: "/admin/content/navigation", icon: Menu, label: "Navegación" },
+type NavItem = {
+  to: string;
+  label: string;
+  icon: LucideIcon;
+  end?: boolean;
+  adminOnly?: boolean;
+};
+
+type NavGroup = {
+  id: string;
+  label: string;
+  items: NavItem[];
+};
+
+const groups: NavGroup[] = [
+  {
+    id: "pages",
+    label: "El sitio",
+    items: [
+      { to: "/admin", label: "Inicio", icon: LayoutDashboard, end: true },
+      { to: "/admin/content/home", label: "Portada", icon: Home },
+      { to: "/admin/content/navigation", label: "Menú del sitio", icon: Menu },
+      { to: "/admin/content/galeria", label: "Galería", icon: FolderOpen },
+      { to: "/admin/content/cumbres", label: "Cumbres", icon: Zap },
+      { to: "/admin/content/accesos", label: "Accesos de la portada", icon: ImageIcon },
+    ],
+  },
+  {
+    id: "publish",
+    label: "Publicar",
+    items: [
+      { to: "/admin/noticias", label: "Noticias", icon: Newspaper },
+      { to: "/admin/eventos", label: "Eventos", icon: Calendar },
+      { to: "/admin/documentos", label: "Documentos", icon: FileText },
+      { to: "/admin/boletines-gtai", label: "Boletines GTAI", icon: Newspaper },
+      { to: "/admin/revista", label: "Revista digital", icon: BookOpen },
+      { to: "/admin/cifras", label: "Cifras", icon: Hash },
+    ],
+  },
+  {
+    id: "org",
+    label: "Institución",
+    items: [
+      { to: "/admin/autoridades-actuales", label: "Autoridades", icon: UserCircle },
+      { to: "/admin/directorio-autoridades", label: "Directorio", icon: Contact },
+      { to: "/admin/entes-miembros", label: "Entes miembros", icon: Building2 },
+      { to: "/admin/convenios", label: "Convenios", icon: Handshake },
+      { to: "/admin/grupos-trabajo", label: "Grupos de trabajo", icon: Briefcase },
+      { to: "/admin/comite-ejecutivo", label: "Comité Ejecutivo", icon: Crown },
+      { to: "/admin/buenas-practicas", label: "Buenas prácticas", icon: Scale },
+    ],
+  },
+  {
+    id: "settings",
+    label: "Ajustes",
+    items: [
+      { to: "/admin/media", label: "Archivos", icon: Images, adminOnly: true },
+      { to: "/admin/suscriptores", label: "Suscriptores", icon: Bell, adminOnly: true },
+      { to: "/admin/usuarios", label: "Usuarios", icon: Users, adminOnly: true },
+      { to: "/admin/acceso-actas", label: "Acceso a actas", icon: Lock, adminOnly: true },
+    ],
+  },
 ];
 
-const nav = [
-  { to: "/admin", icon: LayoutDashboard, label: "Panel" },
-  { to: "/admin/media", icon: Images, label: "Media library" },
-  { to: "/admin/noticias", icon: Newspaper, label: "Noticias" },
-  { to: "/admin/eventos", icon: Calendar, label: "Eventos" },
-  { to: "/admin/cifras", icon: Hash, label: "REGULATEL en cifras" },
-  { to: "/admin/directorio-autoridades", icon: Contact, label: "Directorio de autoridades" },
-  { to: "/admin/autoridades-actuales", icon: UserCircle, label: "Autoridades actuales" },
-  { to: "/admin/entes-miembros", icon: Building2, label: "Entes miembros" },
-  { to: "/admin/convenios", icon: Handshake, label: "Convenios" },
-  { to: "/admin/grupos-trabajo", icon: Briefcase, label: "Grupos de trabajo" },
-  { to: "/admin/comite-ejecutivo", icon: Crown, label: "Comité Ejecutivo" },
-  { to: "/admin/boletines-gtai", icon: Newspaper, label: "Boletines GTAI" },
-  { to: "/admin/documentos", icon: FileText, label: "Documentos" },
-  { to: "/admin/buenas-practicas", icon: Scale, label: "Buenas Prácticas" },
-  { to: "/admin/revista", icon: BookOpen, label: "Revista Digital" },
-  { to: "/admin/suscriptores", icon: Bell, label: "Suscriptores" },
-];
+function groupContainsPath(group: NavGroup, pathname: string) {
+  return group.items.some((item) => {
+    if (item.end) return pathname === item.to;
+    return pathname === item.to || pathname.startsWith(`${item.to}/`);
+  });
+}
+
+function NavItemLink({
+  item,
+  onNavigate,
+  locked,
+}: {
+  item: NavItem;
+  onNavigate: () => void;
+  locked?: boolean;
+}) {
+  if (locked) {
+    return (
+      <NavLink
+        to={item.to}
+        end={item.end}
+        onClick={onNavigate}
+        title="Solo un administrador puede abrir esto"
+        className="flex items-center gap-2.5 rounded-lg px-2.5 py-1.5 text-[13px] font-medium"
+        style={{ color: "var(--regu-gray-400)" }}
+      >
+        <item.icon className="h-4 w-4 shrink-0 opacity-70" aria-hidden />
+        <span className="min-w-0 flex-1 truncate">{item.label}</span>
+        <Lock className="h-3.5 w-3.5 shrink-0 opacity-80" aria-hidden />
+      </NavLink>
+    );
+  }
+  return (
+    <NavLink
+      to={item.to}
+      end={item.end}
+      onClick={onNavigate}
+      className={({ isActive }) =>
+        "flex items-center gap-2.5 rounded-lg px-2.5 py-1.5 text-[13px] font-medium transition " +
+        (isActive ? "bg-[rgba(68,137,198,0.14)]" : "hover:bg-[rgba(22,61,89,0.04)]")
+      }
+      style={({ isActive }) =>
+        isActive ? { color: "var(--regu-blue)" } : { color: "var(--regu-gray-800)" }
+      }
+    >
+      <item.icon className="h-4 w-4 shrink-0 opacity-80" aria-hidden />
+      {item.label}
+    </NavLink>
+  );
+}
 
 export default function AdminLayout() {
   const { isAdmin, isChecking, canManageUsers, user, logout } = useAuth();
+  const { enter: enterSiteEdit } = useSiteEdit();
   const { contentSource, contentError, recheckContentSource } = useAdminData();
   const navigate = useNavigate();
+  const location = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [legacyDismissed, setLegacyDismissed] = useState(false);
   const [rechecking, setRechecking] = useState(false);
+  const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
     if (!isChecking && !isAdmin) {
       navigate("/login", { replace: true });
     }
-  }, [isAdmin, isChecking, navigate]);
+  }, [isChecking, isAdmin, navigate]);
 
   useEffect(() => {
     const handleUnauthorized = () => {
@@ -81,17 +178,36 @@ export default function AdminLayout() {
     return () => window.removeEventListener("auth:unauthorized", handleUnauthorized);
   }, [logout, navigate]);
 
+  useEffect(() => {
+    setOpenGroups((current) => {
+      let changed = false;
+      const next = { ...current };
+      for (const group of groups) {
+        if (groupContainsPath(group, location.pathname) && !next[group.id]) {
+          next[group.id] = true;
+          changed = true;
+        }
+      }
+      if (next.pages === undefined) {
+        next.pages = true;
+        changed = true;
+      }
+      return changed ? next : current;
+    });
+  }, [location.pathname, canManageUsers]);
+
   if (isChecking) return null;
   if (!isAdmin) return null;
 
   const showLegacyBanner = contentSource !== "database" && !legacyDismissed;
+  const closeSidebar = () => setSidebarOpen(false);
 
   return (
-    <div className="flex min-h-screen" style={{ backgroundColor: "var(--regu-gray-100)" }}>
-      {/* Mobile menu button */}
+    <BlobStorageProvider>
+    <div className="flex min-h-screen" style={{ backgroundColor: "#F4F6F8" }}>
       <button
         type="button"
-        onClick={() => setSidebarOpen((o) => !o)}
+        onClick={() => setSidebarOpen((open) => !open)}
         className="fixed left-4 top-4 z-50 flex h-10 w-10 items-center justify-center rounded-lg border bg-white shadow md:hidden"
         style={{ borderColor: "var(--regu-gray-200)" }}
         aria-label={sidebarOpen ? "Cerrar menú" : "Abrir menú"}
@@ -100,11 +216,10 @@ export default function AdminLayout() {
         {sidebarOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
       </button>
 
-      {/* Overlay when sidebar open on mobile */}
       {sidebarOpen && (
         <button
           type="button"
-          onClick={() => setSidebarOpen(false)}
+          onClick={closeSidebar}
           className="fixed inset-0 z-40 bg-black/30 md:hidden"
           aria-hidden
         />
@@ -112,161 +227,118 @@ export default function AdminLayout() {
 
       <aside
         className={`
-          fixed inset-y-0 left-0 z-40 w-56 shrink-0 border-r transition-transform duration-200 md:relative md:translate-x-0 md:w-64
+          fixed inset-y-0 left-0 z-40 flex w-[248px] shrink-0 flex-col border-r bg-white transition-transform duration-200 md:relative md:translate-x-0
           ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
         `}
-        style={{
-          backgroundColor: "var(--regu-white)",
-          borderColor: "var(--regu-gray-100)",
-        }}
+        style={{ borderColor: "rgba(22,61,89,0.08)" }}
       >
-        <div className="flex h-full min-h-0 flex-col py-6 pl-4 pr-2 md:pl-4 md:pr-2">
+        <div className="px-4 pb-3 pt-5">
           <Link
             to="/admin"
-            className="px-2 pb-2 text-lg font-bold shrink-0"
-            style={{ color: "var(--regu-navy)" }}
-            onClick={() => setSidebarOpen(false)}
+            onClick={closeSidebar}
+            className="block text-[15px] font-bold leading-tight"
+            style={{ color: "var(--regu-navy)", fontFamily: "var(--token-font-heading)" }}
           >
-            Admin REGULATEL
+            Editar el sitio
           </Link>
+          <p className="mt-0.5 text-[11px]" style={{ color: "var(--regu-gray-500)" }}>
+            REGULATEL
+          </p>
+          <button
+            type="button"
+            onClick={() => {
+              closeSidebar();
+              enterSiteEdit();
+            }}
+            className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl px-3 py-2.5 text-[13px] font-bold text-white"
+            style={{ backgroundColor: "#0f766e" }}
+          >
+            <PenLine className="h-4 w-4 shrink-0" aria-hidden />
+            Editar en el sitio
+          </button>
+        </div>
 
-          <div className="mt-2 shrink-0 space-y-2 px-2">
-            <Link
-              to="/"
-              onClick={() => setSidebarOpen(false)}
-              className="flex items-center gap-3 rounded-lg border-2 px-3 py-2.5 text-sm font-semibold transition hover:opacity-90"
-              style={{
-                borderColor: "var(--regu-blue)",
-                color: "var(--regu-blue)",
-                backgroundColor: "rgba(22, 61, 89, 0.06)",
-              }}
-            >
-              <Home className="h-4 w-4 shrink-0" aria-hidden />
-              Ir a home
-            </Link>
-            <button
-              type="button"
-              onClick={() => {
-                void logout();
-                navigate("/login");
-              }}
-              className="flex w-full items-center gap-3 rounded-lg border px-3 py-2 text-sm font-medium transition hover:bg-[rgba(22,61,89,0.04)]"
-              style={{
-                borderColor: "var(--regu-gray-200)",
-                color: "var(--regu-gray-800)",
-              }}
-              aria-label="Cerrar sesión"
-            >
-              <LogOut className="h-4 w-4 shrink-0" aria-hidden />
-              Cerrar sesión
-            </button>
+        <nav className="min-h-0 flex-1 space-y-3 overflow-y-auto px-3 pb-3" aria-label="Administración">
+          {groups.map((group) => {
+            const isOpen = openGroups[group.id] ?? group.id === "pages";
+            return (
+              <div key={group.id}>
+                <button
+                  type="button"
+                  onClick={() =>
+                    setOpenGroups((current) => ({ ...current, [group.id]: !isOpen }))
+                  }
+                  className="flex w-full items-center justify-between px-2.5 py-1 text-[11px] font-semibold tracking-wide"
+                  style={{ color: "var(--regu-gray-500)" }}
+                  aria-expanded={isOpen}
+                >
+                  {group.label}
+                  <ChevronDown
+                    className={`h-3.5 w-3.5 transition ${isOpen ? "rotate-0" : "-rotate-90"}`}
+                    aria-hidden
+                  />
+                </button>
+                {isOpen && (
+                  <div className="mt-0.5 space-y-0.5">
+                    {group.items.map((item) => (
+                      <NavItemLink
+                        key={item.to}
+                        item={item}
+                        onNavigate={closeSidebar}
+                        locked={Boolean(item.adminOnly && !canManageUsers)}
+                      />
+                    ))}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </nav>
+
+        <div className="mt-auto border-t px-3 py-3" style={{ borderColor: "rgba(22,61,89,0.08)" }}>
+          <div className="mb-2 hidden md:block">
+            <AdminBlobStorageBar variant="sidebar" />
           </div>
-
           {user && (
-            <p
-              className="mt-3 mx-2 shrink-0 truncate rounded-lg px-3 py-2 text-xs"
-              style={{ color: "var(--regu-gray-500)", backgroundColor: "var(--regu-gray-100)" }}
-              title={user.email}
-            >
+            <p className="mb-2 truncate px-2 text-[11px]" style={{ color: "var(--regu-gray-500)" }} title={user.email}>
               {user.name || user.email}
             </p>
           )}
-
-          <nav className="mt-4 min-h-0 flex-1 space-y-0.5 overflow-y-auto overscroll-contain px-2 pb-2" aria-label="Administración">
-            <p className="mb-1 px-3 text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--regu-gray-400)" }}>
-              Contenido
-            </p>
-            {navContenido.map(({ to, icon: Icon, label }) => (
-              <NavLink
-                key={to}
-                to={to}
-                onClick={() => setSidebarOpen(false)}
-                className={({ isActive }) =>
-                  "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition " +
-                  (isActive ? "bg-[rgba(68,137,198,0.12)]" : "")
-                }
-                style={({ isActive }) =>
-                  isActive ? { color: "var(--regu-blue)" } : { color: "var(--regu-gray-900)" }
-                }
-              >
-                <Icon className="h-4 w-4" aria-hidden />
-                {label}
-              </NavLink>
-            ))}
-            <p className="mb-1 mt-4 px-3 text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--regu-gray-400)" }}>
-              Gestión
-            </p>
-            {nav.map(({ to, icon: Icon, label }) => (
-              <NavLink
-                key={to}
-                to={to}
-                end={to === "/admin"}
-                onClick={() => setSidebarOpen(false)}
-                className={({ isActive }) =>
-                  "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition " +
-                  (isActive
-                    ? "bg-[rgba(68,137,198,0.12)]"
-                    : "")
-                }
-                style={({ isActive }) =>
-                  isActive
-                    ? { color: "var(--regu-blue)" }
-                    : { color: "var(--regu-gray-900)" }
-                }
-              >
-                <Icon className="h-4 w-4" aria-hidden />
-                {label}
-              </NavLink>
-            ))}
-            {canManageUsers && (
-              <>
-                <NavLink
-                  to="/admin/usuarios"
-                  onClick={() => setSidebarOpen(false)}
-                  className={({ isActive }) =>
-                    "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition " +
-                    (isActive ? "bg-[rgba(68,137,198,0.12)]" : "")
-                  }
-                  style={({ isActive }) =>
-                    isActive
-                      ? { color: "var(--regu-blue)" }
-                      : { color: "var(--regu-gray-900)" }
-                  }
-                >
-                  <Users className="h-4 w-4" aria-hidden />
-                  Usuarios y auditoría
-                </NavLink>
-                <NavLink
-                  to="/admin/acceso-actas"
-                  onClick={() => setSidebarOpen(false)}
-                  className={({ isActive }) =>
-                    "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition " +
-                    (isActive ? "bg-[rgba(68,137,198,0.12)]" : "")
-                  }
-                  style={({ isActive }) =>
-                    isActive
-                      ? { color: "var(--regu-blue)" }
-                      : { color: "var(--regu-gray-900)" }
-                  }
-                >
-                  <Lock className="h-4 w-4" aria-hidden />
-                  Acceso a actas
-                </NavLink>
-              </>
-            )}
-          </nav>
+          <Link
+            to="/"
+            onClick={closeSidebar}
+            className="flex items-center gap-2 rounded-lg px-2.5 py-1.5 text-[13px] font-medium hover:bg-[rgba(22,61,89,0.04)]"
+            style={{ color: "var(--regu-gray-700)" }}
+          >
+            <ExternalLink className="h-4 w-4 shrink-0" aria-hidden />
+            Ver el sitio
+          </Link>
+          <button
+            type="button"
+            onClick={() => {
+              void logout();
+              navigate("/login");
+            }}
+            className="flex w-full items-center gap-2 rounded-lg px-2.5 py-1.5 text-[13px] font-medium hover:bg-[rgba(22,61,89,0.04)]"
+            style={{ color: "var(--regu-gray-700)" }}
+          >
+            <LogOut className="h-4 w-4 shrink-0" aria-hidden />
+            Salir
+          </button>
         </div>
       </aside>
 
-      <main className="min-w-0 flex-1 p-6 pt-14 md:pt-6 md:p-8">
+      <main className="min-w-0 flex-1 p-5 pt-14 md:p-8 md:pt-8">
+        <div className="mb-4 rounded-xl border bg-white px-3 py-2 md:hidden" style={{ borderColor: "rgba(22,61,89,0.08)" }}>
+          <AdminBlobStorageBar variant="field" />
+        </div>
         {showLegacyBanner && (
           <div
             className="mb-6 flex flex-wrap items-start justify-between gap-3 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900"
             role="alert"
           >
             <span>
-              El contenido principal no está saliendo de Neon en este momento. El portal quedó en modo
-              legacy solo para lectura pública.
+              El contenido principal no está saliendo de la base de datos en este momento.
               {contentError ? ` Motivo: ${contentError}` : ""}
             </span>
             <div className="flex shrink-0 items-center gap-2">
@@ -297,5 +369,6 @@ export default function AdminLayout() {
         <Outlet />
       </main>
     </div>
+    </BlobStorageProvider>
   );
 }

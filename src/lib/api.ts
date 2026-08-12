@@ -120,6 +120,14 @@ export const api = {
     delete: (id: string) => request<void>(`/documents/${encodeURIComponent(id)}`, { method: "DELETE" }),
   },
   uploads: {
+    usage: () =>
+      request<{
+        usedBytes: number;
+        limitBytes: number;
+        remainingBytes: number;
+        fileCount: number;
+        percent: number;
+      }>("/uploads"),
     upload: (body: unknown) => request<unknown>("/uploads", { method: "POST", body }),
     delete: (body: unknown) => request<void>("/uploads", { method: "DELETE", body }),
   },
@@ -174,7 +182,13 @@ export const api = {
   settings: {
     getAll: () => request<Record<string, unknown>>("/settings"),
     get: (key: string) => request<{ key: string; value: unknown; updated_at?: string }>(`/settings?key=${encodeURIComponent(key)}`),
-    set: (key: string, value: unknown) => request<{ key: string; value: unknown; updated_at: string }>("/settings", { method: "PUT", body: { key, value } }),
+    set: (key: string, value: unknown, extra?: { baseUpdatedAt?: string; baseValue?: unknown }) =>
+      request<{
+        key: string;
+        value: unknown;
+        updated_at: string;
+        merge?: { applied: boolean; notes: Array<{ level: "info" | "warn"; text: string }> };
+      }>("/settings", { method: "PUT", body: { key, value, ...extra } }),
   },
   admin: {
     session: () =>

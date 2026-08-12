@@ -10,6 +10,7 @@ import {
 import { useAdminData } from "@/contexts/AdminDataContext";
 
 import { useLocalizedCifrasCards } from "@/hooks/useLocalizedHome";
+import { EditableSpot } from "@/components/site-edit/EditableSpot";
 
 /** Duración del conteo al entrar en vista o al cambiar de año */
 const COUNT_DURATION_MS = 1100;
@@ -117,6 +118,7 @@ export default function RegulatelEnCifras({ initialYear }: RegulatelEnCifrasProp
   };
 
   return (
+    <EditableSpot target={{ kind: "panel", path: "/admin/cifras", label: "Cifras" }} label="Editar las cifras">
     <section
       className="regulatelEnCifras w-full px-4 pt-12 pb-20 md:px-8 md:pt-14 md:pb-24 lg:px-10"
       style={{
@@ -214,6 +216,7 @@ export default function RegulatelEnCifras({ initialYear }: RegulatelEnCifrasProp
       </div>
     </div>
     </section>
+    </EditableSpot>
   );
 }
 

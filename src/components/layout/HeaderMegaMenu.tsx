@@ -1,11 +1,12 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { ChevronDown, Lock } from "lucide-react";
+import { ChevronDown, Lock, Pencil } from "lucide-react";
 import NavMegaPanel from "@/components/layout/NavMegaPanel";
 import MegaMenuEvents from "@/components/layout/MegaMenuEvents";
 import ConveniosMenu from "@/components/convenios/ConveniosMenu";
 import TopBarBerecLike from "@/components/layout/TopBarBerecLike";
 import { useLocalizedNavigation } from "@/hooks/useLocalizedNavigation";
+import { useSiteEdit } from "@/contexts/SiteEditContext";
 
 /** Histéresis: evita flicker al hacer scroll cerca del umbral. Ocultar solo al bajar pasado HIDE; mostrar solo al subir hasta SHOW o menos. */
 const SCROLL_THRESHOLD_HIDE = 80; // px — al bajar pasado esto se oculta la top bar
@@ -22,6 +23,7 @@ function isPathActive(currentPath: string, href?: string): boolean {
 export default function HeaderMegaMenu() {
   const location = useLocation();
   const navItems = useLocalizedNavigation();
+  const { enabled: siteEditEnabled, open: openSiteEdit } = useSiteEdit();
   const navRef = useRef<HTMLDivElement>(null);
   const topbarWrapperRef = useRef<HTMLDivElement>(null);
   const [openDesktopMenu, setOpenDesktopMenu] = useState<string | null>(null);
@@ -201,7 +203,7 @@ export default function HeaderMegaMenu() {
         >
           <nav
             aria-label="Navegación principal"
-            className="mx-auto w-full px-4 md:px-6"
+            className="relative mx-auto w-full px-4 md:px-6"
             style={{ maxWidth: "var(--token-container-max)" }}
           >
             <ul
@@ -305,6 +307,19 @@ export default function HeaderMegaMenu() {
                 );
               })}
             </ul>
+            {siteEditEnabled && (
+              <button
+                type="button"
+                onClick={() =>
+                  openSiteEdit({ kind: "panel", path: "/admin/content/navigation", label: "Menú del sitio" })
+                }
+                className="absolute right-4 top-1/2 z-10 hidden -translate-y-1/2 items-center gap-1 rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-white md:inline-flex"
+                style={{ backgroundColor: "#0f766e" }}
+              >
+                <Pencil className="h-3 w-3" aria-hidden />
+                Menú
+              </button>
+            )}
           </nav>
 
           {openItem?.id === "eventos" ? (

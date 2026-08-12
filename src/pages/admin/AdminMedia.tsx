@@ -1,11 +1,12 @@
 /**
- * Admin: Media library — listar y reutilizar imágenes subidas a Vercel Blob.
- * Las imágenes se suben desde Noticias, Eventos y Galería (api/uploads).
+ * Archivos — fotos ya subidas desde Noticias, Eventos y Galería.
  */
 import { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
-import { Images, FolderOpen, Newspaper, Calendar, Loader2 } from "lucide-react";
+import { Images, FolderOpen, Newspaper, Calendar, Loader2, Check } from "lucide-react";
 import { api } from "@/lib/api";
+import { AdminBlobStorageBar } from "@/components/admin/AdminBlobStorageBar";
+import { AdminLockedScreen, useAdminOnlySection } from "@/components/admin/AdminLockedScreen";
 
 type MediaItem = { url: string; pathname: string; size?: number; uploadedAt?: string };
 type FolderFilter = "all" | "news" | "events" | "gallery";
@@ -18,10 +19,12 @@ const FOLDER_LABELS: Record<FolderFilter, string> = {
 };
 
 export default function AdminMedia() {
+  const { isChecking, allowed, locked } = useAdminOnlySection();
   const [folder, setFolder] = useState<FolderFilter>("all");
   const [items, setItems] = useState<MediaItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [copiedUrl, setCopiedUrl] = useState<string | null>(null);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -35,7 +38,7 @@ export default function AdminMedia() {
         setItems(res.data?.items ?? []);
       }
     } catch {
-      setError("Error al cargar la biblioteca de medios.");
+      setError("No se pudieron cargar las fotos.");
       setItems([]);
     } finally {
       setLoading(false);
@@ -43,20 +46,39 @@ export default function AdminMedia() {
   }, [folder]);
 
   useEffect(() => {
-    load();
-  }, [load]);
+    if (!allowed) return;
+    void load();
+  }, [allowed, load]);
+
+  const copyUrl = async (url: string) => {
+    try {
+      await navigator.clipboard.writeText(url);
+      setCopiedUrl(url);
+      window.setTimeout(() => setCopiedUrl(null), 2000);
+    } catch {
+      setError("No se pudo copiar. Prueba de nuevo.");
+    }
+  };
+
+  if (isChecking) return null;
+  if (locked) return <AdminLockedScreen title="Archivos" />;
+  if (!allowed) return null;
 
   return (
-    <div className="max-w-4xl space-y-6">
-      <h1 className="text-xl font-bold" style={{ color: "var(--regu-navy)" }}>
-        Media library
-      </h1>
-      <p className="text-sm leading-relaxed" style={{ color: "var(--regu-gray-600)" }}>
-        Imágenes subidas desde Noticias, Eventos y Galería (Vercel Blob). Puedes copiar la URL para reutilizarlas.
-      </p>
+    <div className="max-w-5xl space-y-6">
+      <div>
+        <h1 className="text-2xl font-bold" style={{ color: "var(--regu-navy)" }}>
+          Archivos
+        </h1>
+        <p className="mt-1 text-sm leading-relaxed" style={{ color: "var(--regu-gray-600)" }}>
+          Fotos que ya subiste. Si quieres reutilizar una, cópiala y pégala donde haga falta.
+        </p>
+        <div className="mt-3 max-w-md rounded-xl border bg-white px-3 py-2" style={{ borderColor: "rgba(22,61,89,0.08)" }}>
+          <AdminBlobStorageBar variant="field" />
+        </div>
+      </div>
 
       <div className="flex flex-wrap items-center gap-2">
-        <span className="text-sm font-medium" style={{ color: "var(--regu-gray-600)" }}>Carpeta:</span>
         {(Object.keys(FOLDER_LABELS) as FolderFilter[]).map((f) => (
           <button
             key={f}
@@ -74,8 +96,8 @@ export default function AdminMedia() {
       </div>
 
       <div className="rounded-xl border bg-white p-4 shadow-sm" style={{ borderColor: "var(--regu-gray-100)" }}>
-        <p className="mb-3 text-xs font-semibold uppercase tracking-wide" style={{ color: "var(--regu-gray-500)" }}>
-          Dónde subir nuevos medios
+        <p className="mb-3 text-sm font-semibold" style={{ color: "var(--regu-gray-700)" }}>
+          Para subir fotos nuevas, ve a:
         </p>
         <ul className="flex flex-wrap gap-3">
           <li>
@@ -112,9 +134,9 @@ export default function AdminMedia() {
       </div>
 
       <div className="rounded-xl border bg-white p-4 shadow-sm" style={{ borderColor: "var(--regu-gray-100)" }}>
-        <h2 className="mb-3 flex items-center gap-2 text-sm font-bold uppercase tracking-wide" style={{ color: "var(--regu-gray-600)" }}>
+        <h2 className="mb-3 flex items-center gap-2 text-sm font-bold" style={{ color: "var(--regu-gray-700)" }}>
           <Images className="h-4 w-4" />
-          Imágenes subidas
+          Fotos
         </h2>
         {loading ? (
           <div className="flex items-center gap-2 py-8 text-sm" style={{ color: "var(--regu-gray-500)" }}>
@@ -125,14 +147,14 @@ export default function AdminMedia() {
           <p className="py-4 text-sm font-medium text-red-600">{error}</p>
         ) : items.length === 0 ? (
           <p className="py-8 text-sm" style={{ color: "var(--regu-gray-500)" }}>
-            No hay imágenes en esta carpeta. Sube imágenes desde Noticias, Eventos o Galería.
+            Todavía no hay fotos aquí. Súbelas desde Noticias, Eventos o Galería.
           </p>
         ) : (
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
             {items.map((item) => (
               <div
                 key={item.url}
-                className="group overflow-hidden rounded-lg border bg-[var(--regu-gray-100)]"
+                className="overflow-hidden rounded-xl border bg-[var(--regu-gray-100)]"
                 style={{ borderColor: "var(--regu-gray-100)" }}
               >
                 <div className="aspect-square w-full bg-[var(--regu-gray-100)]">
@@ -149,12 +171,18 @@ export default function AdminMedia() {
                 <div className="p-2">
                   <button
                     type="button"
-                    onClick={() => navigator.clipboard.writeText(item.url)}
-                    className="w-full truncate rounded px-2 py-1 text-left text-xs font-medium transition hover:bg-white/80"
-                    style={{ color: "var(--regu-gray-700)" }}
-                    title="Copiar URL"
+                    onClick={() => void copyUrl(item.url)}
+                    className="inline-flex w-full items-center justify-center gap-1 rounded-lg px-2 py-1.5 text-xs font-semibold transition hover:bg-white/80"
+                    style={{ color: copiedUrl === item.url ? "var(--regu-blue)" : "var(--regu-gray-700)" }}
                   >
-                    Copiar URL
+                    {copiedUrl === item.url ? (
+                      <>
+                        <Check className="h-3.5 w-3.5" />
+                        Copiada
+                      </>
+                    ) : (
+                      "Copiar para reutilizar"
+                    )}
                   </button>
                 </div>
               </div>

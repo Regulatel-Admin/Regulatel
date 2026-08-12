@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { api } from "@/lib/api";
-import { uploadAdminFile } from "@/lib/uploads";
 import {
   BOLETINES_GTAI_SETTINGS_KEY,
   defaultBoletinesGtai,
@@ -8,7 +7,9 @@ import {
   parseBoletinesGtaiFromSettingValue,
   type BoletinGtaiSerialized,
 } from "@/data/boletinesGtai";
-import { Save, Plus, Trash2, RotateCcw, Upload } from "lucide-react";
+import { Save, Plus, Trash2, RotateCcw } from "lucide-react";
+import { AdminBlobUploadField } from "@/components/admin/AdminBlobUploadField";
+import { slugify } from "@/lib/slugify";
 
 function cloneDefaults(): BoletinGtaiSerialized[] {
   return defaultBoletinesGtai.map((b) => ({ ...b }));
@@ -37,7 +38,6 @@ export default function AdminBoletinesGtai() {
   const [entries, setEntries] = useState<BoletinGtaiSerialized[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [uploadIndex, setUploadIndex] = useState<number | null>(null);
   const [message, setMessage] = useState<{ type: "ok" | "err"; text: string } | null>(null);
 
   useEffect(() => {
@@ -81,42 +81,28 @@ export default function AdminBoletinesGtai() {
 
   const resetToDefaults = () => {
     setEntries(cloneDefaults());
-    showMessage("ok", "Lista restaurada al contenido por defecto (incluye el PDF local). Pulsa Guardar para publicar en base de datos.");
-  };
-
-  const handlePdfUpload = async (index: number, file: File | null) => {
-    if (!file) return;
-    setUploadIndex(index);
-    try {
-      const result = await uploadAdminFile({ file, kind: "document", folder: "documents" });
-      updateRow(index, { pdfFile: result.url });
-      showMessage("ok", "PDF subido. Enlace guardado en el campo; recuerda guardar en base de datos.");
-    } catch (e) {
-      showMessage("err", e instanceof Error ? e.message : "No se pudo subir el PDF.");
-    } finally {
-      setUploadIndex(null);
-    }
+    showMessage("ok", "Lista restaurada. Pulsa Guardar para publicarla.");
   };
 
   const save = async () => {
     const slugs = new Set<string>();
     for (let i = 0; i < entries.length; i++) {
       const e = entries[i];
-      const slug = e.slug.trim().toLowerCase().replace(/\s+/g, "-");
-      if (!e.title.trim() || !slug || !e.pdfFile.trim()) {
-        showMessage("err", `Boletín ${i + 1}: título, slug y URL del PDF son obligatorios.`);
+      const slug = (e.slug.trim() || slugify(e.title) || `boletin-${i + 1}`).toLowerCase();
+      if (!e.title.trim() || !e.pdfFile.trim()) {
+        showMessage("err", `Boletín ${i + 1}: hace falta título y PDF.`);
         return;
       }
       if (slugs.has(slug)) {
-        showMessage("err", `El slug "${slug}" está duplicado. Cada boletín debe tener un slug único.`);
+        showMessage("err", `Hay dos boletines con el mismo título. Cambia uno para distinguirlos.`);
         return;
       }
       slugs.add(slug);
     }
 
-    const normalized = entries.map((e) => ({
+    const normalized = entries.map((e, i) => ({
       ...e,
-      slug: e.slug.trim().toLowerCase().replace(/\s+/g, "-"),
+      slug: (e.slug.trim() || slugify(e.title) || `boletin-${i + 1}`).toLowerCase(),
       title: e.title.trim(),
       pdfFile: e.pdfFile.trim(),
       groupName: e.groupName.trim() || "Grupo de Asuntos de Internet (GTAI)",
@@ -148,12 +134,7 @@ export default function AdminBoletinesGtai() {
           Boletines GTAI
         </h1>
         <p className="mt-2 text-sm" style={{ color: "var(--regu-gray-600)" }}>
-          Gestiona las publicaciones del Grupo de Asuntos de Internet: metadatos, PDF (subida o URL), estado de publicación y
-          destacado en la página principal de boletines.
-        </p>
-        <p className="mt-1 text-sm" style={{ color: "var(--regu-gray-600)" }}>
-          Ruta pública: <strong>/boletines-gtai</strong>. El primer boletín por defecto usa el PDF en{" "}
-          <code className="rounded bg-gray-100 px-1">/documents/boletines-gtai/boletin-1-2026.pdf</code>.
+          Publicaciones del Grupo de Asuntos de Internet: texto, portada, PDF y si se muestra en el sitio.
         </p>
       </div>
 
@@ -179,7 +160,7 @@ export default function AdminBoletinesGtai() {
           style={{ borderColor: "var(--regu-blue)", backgroundColor: "var(--regu-blue)", color: "white" }}
         >
           <Save className="h-4 w-4" />
-          {saving ? "Guardando…" : "Guardar en base de datos"}
+          {saving ? "Guardando…" : "Guardar"}
         </button>
         <button
           type="button"
@@ -197,7 +178,7 @@ export default function AdminBoletinesGtai() {
           style={{ borderColor: "var(--regu-gray-200)", color: "var(--regu-gray-700)" }}
         >
           <RotateCcw className="h-4 w-4" />
-          Restaurar valores por defecto
+          Volver al listado original
         </button>
       </div>
 
@@ -210,7 +191,7 @@ export default function AdminBoletinesGtai() {
           >
             <div className="mb-3 flex items-center justify-between gap-2">
               <span className="text-xs font-semibold uppercase tracking-wide" style={{ color: "var(--regu-gray-500)" }}>
-                Boletín #{index + 1} — {row.slug || "(sin slug)"}
+                Boletín {index + 1}
               </span>
               <button
                 type="button"
@@ -224,14 +205,7 @@ export default function AdminBoletinesGtai() {
 
             <div className="grid gap-3 lg:grid-cols-2">
               <Field label="Título" value={row.title} onChange={(v) => updateRow(index, { title: v })} />
-              <Field
-                label="Slug (URL, único)"
-                value={row.slug}
-                onChange={(v) => updateRow(index, { slug: v })}
-                placeholder="boletin-1-2026"
-              />
-              <Field label="Grupo (nombre mostrado)" value={row.groupName} onChange={(v) => updateRow(index, { groupName: v })} />
-              <Field label="Tipo de contenido" value={row.contentType} onChange={(v) => updateRow(index, { contentType: v })} />
+              <Field label="Grupo" value={row.groupName} onChange={(v) => updateRow(index, { groupName: v })} />
             </div>
 
             <div className="mt-3 grid gap-3 sm:grid-cols-3">
@@ -246,7 +220,7 @@ export default function AdminBoletinesGtai() {
                 onChange={(v) => updateRow(index, { year: Number(v.replace(/\D/g, "")) || row.year })}
               />
               <Field
-                label="Fecha publicación (YYYY-MM-DD)"
+                label="Fecha de publicación"
                 value={row.publicationDate}
                 onChange={(v) => updateRow(index, { publicationDate: v })}
               />
@@ -278,18 +252,22 @@ export default function AdminBoletinesGtai() {
               />
             </label>
 
-            <div className="mt-3 grid gap-3 lg:grid-cols-2">
-              <Field
-                label="Portada (URL imagen, opcional)"
+            <div className="mt-3 space-y-3">
+              <AdminBlobUploadField
+                label="Portada (opcional)"
                 value={row.coverImage ?? ""}
                 onChange={(v) => updateRow(index, { coverImage: v.trim() || undefined })}
-                placeholder="/grupos-trabajo/asuntos-internet.jpg"
+                kind="image"
+                folder="documents"
+                helpText="Foto de la tarjeta del boletín."
               />
-              <Field
-                label="PDF (URL absoluta o ruta /documents/...)"
+              <AdminBlobUploadField
+                label="PDF del boletín"
                 value={row.pdfFile}
                 onChange={(v) => updateRow(index, { pdfFile: v })}
-                placeholder="/documents/boletines-gtai/....pdf"
+                kind="document"
+                folder="documents"
+                helpText="El archivo que se descarga desde el sitio."
               />
             </div>
 
@@ -310,22 +288,7 @@ export default function AdminBoletinesGtai() {
                   onChange={(e) => updateRow(index, { isFeatured: e.target.checked })}
                   className="h-4 w-4 rounded border-gray-300"
                 />
-                Destacado (hero en listado)
-              </label>
-              <label className="inline-flex cursor-pointer items-center gap-2 rounded-lg border px-3 py-2 text-sm font-medium transition hover:bg-gray-50" style={{ borderColor: "var(--regu-gray-200)" }}>
-                <Upload className="h-4 w-4" />
-                {uploadIndex === index ? "Subiendo…" : "Subir PDF (Vercel Blob)"}
-                <input
-                  type="file"
-                  accept="application/pdf"
-                  className="sr-only"
-                  disabled={uploadIndex !== null}
-                  onChange={(e) => {
-                    const f = e.target.files?.[0] ?? null;
-                    e.target.value = "";
-                    void handlePdfUpload(index, f);
-                  }}
-                />
+                Destacado en la página
               </label>
             </div>
           </div>
@@ -334,7 +297,7 @@ export default function AdminBoletinesGtai() {
 
       {entries.length === 0 && (
         <p className="text-sm" style={{ color: "var(--regu-gray-600)" }}>
-          No hay boletines. Añade uno o restaura los valores por defecto.
+          No hay boletines. Añade uno o vuelve al listado original.
         </p>
       )}
     </div>

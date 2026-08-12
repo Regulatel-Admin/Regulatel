@@ -4,6 +4,8 @@ import { ensureAdmin } from "../lib/adminAuth.js";
 import { logAudit } from "../lib/auditLog.js";
 import { parseJsonBody } from "../lib/parseBody.js";
 import { isDbConfigured } from "../lib/db.js";
+import { mergeNavigation, timestampsEqual } from "../../src/lib/navigationMerge.js";
+import type { NavigationItem } from "../../src/data/navigation.js";
 
 function sendJson(res: ServerResponse, status: number, data: unknown) {
   res.setHeader("Content-Type", "application/json; charset=utf-8");
@@ -57,14 +59,41 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
 
     if (req.method === "PUT") {
       const auth = await ensureAdmin(req);
-      const body = (await parseJsonBody(req)) as { key?: string; value?: unknown };
+      const body = (await parseJsonBody(req)) as {
+        key?: string;
+        value?: unknown;
+        baseUpdatedAt?: string;
+        baseValue?: unknown;
+      };
       const key = typeof body.key === "string" ? body.key.trim() : "";
       if (!key) {
         sendJson(res, 400, { error: "Missing key" });
         return;
       }
-      const result = await setSetting(key, body.value ?? {});
-      console.warn("[REGULATEL API server] PUT settings guardado key:", key);
+
+      let valueToStore = body.value ?? {};
+      let mergeMeta: { applied: boolean; notes: Array<{ level: string; text: string }> } | null = null;
+
+      if (
+        key === "navigation" &&
+        typeof body.baseUpdatedAt === "string" &&
+        Array.isArray(body.baseValue) &&
+        Array.isArray(body.value)
+      ) {
+        const current = await getSetting("navigation");
+        if (current && Array.isArray(current.value) && !timestampsEqual(current.updated_at, body.baseUpdatedAt)) {
+          const { merged, notes } = mergeNavigation(
+            body.baseValue as NavigationItem[],
+            body.value as NavigationItem[],
+            current.value as NavigationItem[]
+          );
+          valueToStore = merged;
+          mergeMeta = { applied: true, notes };
+        }
+      }
+
+      const result = await setSetting(key, valueToStore);
+      console.warn("[REGULATEL API server] PUT settings guardado key:", key, mergeMeta?.applied ? "(fusionado)" : "");
       await logAudit({
         userId: auth.user.id,
         userEmail: auth.user.email,
@@ -72,9 +101,9 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
         action: "updated",
         resourceType: "site_settings",
         resourceId: key,
-        details: { key },
+        details: { key, merged: Boolean(mergeMeta?.applied) },
       });
-      sendJson(res, 200, result);
+      sendJson(res, 200, mergeMeta ? { ...result, merge: mergeMeta } : result);
       return;
     }
 

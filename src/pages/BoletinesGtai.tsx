@@ -13,6 +13,7 @@ import {
   sortBoletinesByDateDesc,
   uniqueYearsDesc,
 } from "@/data/boletinesGtai";
+import { EditableSpot } from "@/components/site-edit/EditableSpot";
 
 export default function BoletinesGtai() {
   const { t, i18n } = useTranslation();
@@ -68,6 +69,7 @@ export default function BoletinesGtai() {
           ) : (
             <>
           {localizedFeatured && (yearFilter === "all" || localizedFeatured.year === yearFilter) && (
+            <EditableSpot target={{ kind: "boletin", slug: localizedFeatured.slug }} label="Editar este boletín">
             <motion.section
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
@@ -158,6 +160,7 @@ export default function BoletinesGtai() {
                 </div>
               </div>
             </motion.section>
+            </EditableSpot>
           )}
 
           <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
@@ -208,8 +211,8 @@ export default function BoletinesGtai() {
 
           <div className="grid gap-5 md:grid-cols-2">
             {restAfterFeatured.map((b, index) => (
+              <EditableSpot key={b.slug} target={{ kind: "boletin", slug: b.slug }} label="Editar este boletín" className="h-full">
               <motion.article
-                key={b.slug}
                 initial={{ opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -298,6 +301,7 @@ export default function BoletinesGtai() {
                   </div>
                 </div>
               </motion.article>
+              </EditableSpot>
             ))}
           </div>
 

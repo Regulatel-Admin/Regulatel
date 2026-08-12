@@ -21,6 +21,9 @@ import type { EnteReguladorMiembro } from "@/data/entesReguladoresMiembros";
 import { defaultEntesReguladoresMiembros, parseEntesMiembrosFromSettingValue } from "@/data/entesReguladoresMiembros";
 import type { BuenasPracticasRegulatoriasSetting } from "@/data/mejoresPracticas";
 import { parseBuenasPracticasRegulatoriasFromSettingValue } from "@/data/mejoresPracticas";
+import type { RevistaEdition } from "@/data/revistaDigital";
+import { defaultRevistaEditions, parseRevistaDigitalFromSettingValue } from "@/data/revistaDigital";
+import { CMS_SAVED_EVENT } from "@/lib/siteEdit";
 
 export interface SiteSettingsState {
   homeHero: HomeHeroSetting | null;
@@ -34,6 +37,7 @@ export interface SiteSettingsState {
   entesReguladoresMiembros: EnteReguladorMiembro[] | null;
   /** null = clave ausente en BD (usar JSON estático / fallback). Objeto = lo guardado (entries puede estar vacío). */
   buenasPracticasRegulatorias: BuenasPracticasRegulatoriasSetting | null;
+  revistaDigital: RevistaEdition[] | null;
   loading: boolean;
   /** Vuelve a pedir los settings al API (útil al volver al Home tras guardar en admin). */
   refetch: () => Promise<void>;
@@ -49,6 +53,7 @@ const defaultState: SiteSettingsState = {
   conveniosList: null,
   entesReguladoresMiembros: null,
   buenasPracticasRegulatorias: null,
+  revistaDigital: null,
   loading: true,
   refetch: async () => {},
 };
@@ -76,6 +81,7 @@ async function fetchSettings(retry = false): Promise<Omit<SiteSettingsState, "re
       conveniosList: null,
       entesReguladoresMiembros: null,
       buenasPracticasRegulatorias: null,
+      revistaDigital: null,
       loading: false,
     };
   }
@@ -172,6 +178,20 @@ async function fetchSettings(retry = false): Promise<Omit<SiteSettingsState, "re
           : d.buenas_practicas_regulatorias;
       return parseBuenasPracticasRegulatoriasFromSettingValue(raw);
     })(),
+    revistaDigital: (() => {
+      if (!("revista_digital" in d)) return null;
+      const raw =
+        typeof d.revista_digital === "string"
+          ? (() => {
+              try {
+                return JSON.parse(d.revista_digital as string) as unknown;
+              } catch {
+                return d.revista_digital;
+              }
+            })()
+          : d.revista_digital;
+      return parseRevistaDigitalFromSettingValue(raw);
+    })(),
     loading: false,
   };
 }
@@ -202,8 +222,15 @@ export function SiteSettingsProvider({ children }: { children: ReactNode }) {
     const onVisibility = () => {
       if (document.visibilityState === "visible") void refetch();
     };
+    const onSaved = () => {
+      void refetch();
+    };
     document.addEventListener("visibilitychange", onVisibility);
-    return () => document.removeEventListener("visibilitychange", onVisibility);
+    window.addEventListener(CMS_SAVED_EVENT, onSaved);
+    return () => {
+      document.removeEventListener("visibilitychange", onVisibility);
+      window.removeEventListener(CMS_SAVED_EVENT, onSaved);
+    };
   }, [refetch]);
 
   return (
@@ -305,9 +332,9 @@ export function useEntesReguladoresMiembros(): EnteReguladorMiembro[] {
   return defaultEntesReguladoresMiembros;
 }
 
-/** CMS de Buenas Prácticas: null si no hay fila en BD. */
-export function useBuenasPracticasRegulatoriasSetting(): BuenasPracticasRegulatoriasSetting | null {
-  const { buenasPracticasRegulatorias, loading } = useSiteSettings();
-  if (loading) return null;
-  return buenasPracticasRegulatorias;
+/** Ediciones de la Revista Digital: CMS o listado original. */
+export function useRevistaDigitalEditions(): RevistaEdition[] {
+  const { revistaDigital, loading } = useSiteSettings();
+  if (!loading && revistaDigital !== null) return revistaDigital;
+  return defaultRevistaEditions;
 }

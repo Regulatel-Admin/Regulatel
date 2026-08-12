@@ -1,7 +1,7 @@
 import type { IncomingMessage, ServerResponse } from "http";
 import { ensureAdmin } from "../lib/adminAuth.js";
 import { logAudit } from "../lib/auditLog.js";
-import { deleteFromBlob, isBlobConfigured, uploadToBlob } from "../lib/blob.js";
+import { deleteFromBlob, getBlobStorageUsage, isBlobConfigured, uploadToBlob } from "../lib/blob.js";
 import { parseJsonBody } from "../lib/parseBody.js";
 
 function sendJson(res: ServerResponse, status: number, data: unknown) {
@@ -12,7 +12,7 @@ function sendJson(res: ServerResponse, status: number, data: unknown) {
 
 export default async function handler(req: IncomingMessage, res: ServerResponse) {
   res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "POST, DELETE, OPTIONS");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, DELETE, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
   if (req.method === "OPTIONS") {
@@ -27,6 +27,13 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
   }
 
   try {
+    if (req.method === "GET") {
+      await ensureAdmin(req);
+      const storage = await getBlobStorageUsage();
+      sendJson(res, 200, storage);
+      return;
+    }
+
     if (req.method === "POST") {
       const auth = await ensureAdmin(req);
       const body = (await parseJsonBody(req)) as Record<string, unknown>;
@@ -61,7 +68,13 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
         resourceId: uploaded.url,
         details: { fileName, folder },
       });
-      sendJson(res, 201, uploaded);
+      let storage = null;
+      try {
+        storage = await getBlobStorageUsage();
+      } catch (err) {
+        console.error("api/uploads storage usage", err);
+      }
+      sendJson(res, 201, { ...uploaded, storage });
       return;
     }
 
