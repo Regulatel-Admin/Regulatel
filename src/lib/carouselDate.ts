@@ -28,12 +28,20 @@ export function parseCarouselDate(dateStr: string): Date | null {
   if (!dateStr?.trim()) return null;
   const s = dateStr.trim();
 
+  const iso = /^(\d{4})-(\d{2})-(\d{2})$/.exec(s);
+  if (iso) {
+    const year = parseInt(iso[1], 10);
+    const month = parseInt(iso[2], 10) - 1;
+    const day = parseInt(iso[3], 10);
+    if (month >= 0 && month <= 11 && day >= 1 && day <= 31) {
+      return new Date(year, month, day);
+    }
+  }
+
   const onlyYear = /^\d{4}$/.exec(s);
   if (onlyYear) return new Date(parseInt(onlyYear[0], 10), 11, 31);
 
-  const matchLong =
-    s.match(/^(\d{1,2})\s+de?\s+(\w+)\s+de?\s+(\d{4})$/i) ??
-    s.match(/^(\d{1,2})\s+(\w+)\s+(\d{4})$/i);
+  const matchLong = s.match(/^(\d{1,2})\s+(?:de\s+)?(\w+)\s+(?:de\s+)?(\d{4})$/i);
   if (matchLong) {
     const day = parseInt(matchLong[1], 10);
     const year = parseInt(matchLong[3], 10);
@@ -65,6 +73,26 @@ export function parseCarouselDate(dateStr: string): Date | null {
   return null;
 }
 
+/** Valor para <input type="date"> (YYYY-MM-DD) a partir del texto guardado en la cumbre. */
+export function toDateInputValue(dateStr: string): string {
+  const trimmed = dateStr?.trim() ?? "";
+  if (/^\d{4}-\d{2}-\d{2}$/.test(trimmed)) return trimmed;
+  const parsed = parseCarouselDate(trimmed);
+  if (!parsed) return "";
+  const y = parsed.getFullYear();
+  const m = String(parsed.getMonth() + 1).padStart(2, "0");
+  const d = String(parsed.getDate()).padStart(2, "0");
+  return `${y}-${m}-${d}`;
+}
+
+function dateHasDayPrecision(dateStr: string): boolean {
+  const s = dateStr.trim();
+  if (/^\d{4}-\d{2}-\d{2}$/.test(s)) return true;
+  if (/^\w{3,4}\s+\d{4}$/i.test(s)) return false;
+  if (/^\d{4}$/.test(s)) return false;
+  return /\d{1,2}/.test(s);
+}
+
 function translateMonthAbbrev(token: string, language: string): string {
   const key = token.toUpperCase().slice(0, 3);
   if (language === "en") return MONTH_ABBR_EN[key] ?? token;
@@ -74,12 +102,11 @@ function translateMonthAbbrev(token: string, language: string): string {
 
 /** Formats carousel date strings for the active UI language. */
 export function formatCarouselDisplayDate(dateStr: string, language: string): string {
-  if (!dateStr?.trim() || language === "es") return dateStr;
+  if (!dateStr?.trim()) return dateStr;
 
   const parsed = parseCarouselDate(dateStr);
   if (parsed) {
-    const hasDay = /\d{1,2}/.test(dateStr) && !/^\w{3,4}\s+\d{4}$/i.test(dateStr.trim());
-    if (hasDay) {
+    if (dateHasDayPrecision(dateStr)) {
       return parsed.toLocaleDateString(localeTag(language), {
         day: "numeric",
         month: "long",
@@ -91,6 +118,8 @@ export function formatCarouselDisplayDate(dateStr: string, language: string): st
       year: "numeric",
     });
   }
+
+  if (language === "es") return dateStr;
 
   const monthYear = dateStr.trim().match(/^([A-Za-zÁÉÍÓÚáéíóú]{3,})\s+(\d{4})$/i);
   if (monthYear) {

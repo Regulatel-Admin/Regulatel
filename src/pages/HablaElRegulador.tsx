@@ -8,16 +8,19 @@ import {
   Home,
   Mic2,
   Play,
+  Plus,
   Sparkles,
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import InterviewPlayerDialog from "@/components/hablaElRegulador/InterviewPlayerDialog";
 import {
   countryFlagSrc,
-  hablaElReguladorInterviews,
   hablaElReguladorTeaser,
   type HablaElReguladorInterview,
 } from "@/data/hablaElRegulador";
+import { useHablaElReguladorInterviews } from "@/contexts/SiteSettingsContext";
+import { useSiteEdit } from "@/contexts/SiteEditContext";
+import { EditableSpot } from "@/components/site-edit/EditableSpot";
 
 type PlayerSelection =
   | { kind: "interview"; interview: HablaElReguladorInterview }
@@ -44,6 +47,19 @@ function formatDate(date: string, language: string): string {
 export default function HablaElRegulador() {
   const { t, i18n } = useTranslation();
   const [player, setPlayer] = useState<PlayerSelection>(null);
+  const interviews = useHablaElReguladorInterviews();
+  const { enabled: siteEditEnabled, open: openSiteEdit, preview: siteEditPreview, target: siteEditTarget } =
+    useSiteEdit();
+  const draftingNew = Boolean(
+    siteEditEnabled &&
+      ((siteEditTarget?.kind === "entrevista" && !siteEditTarget.slug) ||
+        siteEditPreview.entrevistas?.some((e) => e.slug.startsWith("entrevista-new-") && !e.name.trim()))
+  );
+  const showAdd = siteEditEnabled && !draftingNew;
+  const countryCount = useMemo(
+    () => new Set(interviews.map((i) => i.countryCode || i.country).filter(Boolean)).size,
+    [interviews]
+  );
 
   const closePlayer = useCallback(() => setPlayer(null), []);
 
@@ -160,13 +176,13 @@ export default function HablaElRegulador() {
                   <dt className="text-[0.62rem] font-semibold uppercase tracking-[0.12em] text-white/45">
                     {t("pages.hablaRegulador.statsInterviews")}
                   </dt>
-                  <dd className="mt-1 text-2xl font-bold text-white">07</dd>
+                  <dd className="mt-1 text-2xl font-bold text-white">{String(interviews.length).padStart(2, "0")}</dd>
                 </div>
                 <div>
                   <dt className="text-[0.62rem] font-semibold uppercase tracking-[0.12em] text-white/45">
                     {t("pages.hablaRegulador.statsCountries")}
                   </dt>
-                  <dd className="mt-1 text-2xl font-bold text-white">07</dd>
+                  <dd className="mt-1 text-2xl font-bold text-white">{String(countryCount).padStart(2, "0")}</dd>
                 </div>
                 <div>
                   <dt className="text-[0.62rem] font-semibold uppercase tracking-[0.12em] text-white/45">
@@ -266,9 +282,41 @@ export default function HablaElRegulador() {
           </div>
 
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {hablaElReguladorInterviews.map((interview, index) => (
-              <article
+            {showAdd && (
+              <button
+                type="button"
+                onClick={() => openSiteEdit({ kind: "entrevista" })}
+                className="flex min-h-[280px] flex-col items-center justify-center gap-3 rounded-[24px] border-2 border-dashed px-6 py-10 transition hover:bg-[rgba(15,118,110,0.06)]"
+                style={{
+                  borderColor: "rgba(15,118,110,0.45)",
+                  backgroundColor: "rgba(15,118,110,0.03)",
+                }}
+                aria-label="Añadir una entrevista"
+              >
+                <span
+                  className="flex h-20 w-20 items-center justify-center rounded-full"
+                  style={{ backgroundColor: "rgba(15,118,110,0.10)", color: "#0f766e" }}
+                >
+                  <Plus className="h-12 w-12" strokeWidth={1.5} aria-hidden />
+                </span>
+                <span className="text-center">
+                  <span className="block text-base font-bold" style={{ color: "#0f766e", fontFamily: "var(--token-font-heading)" }}>
+                    Añadir entrevista
+                  </span>
+                  <span className="mt-1 block text-sm leading-relaxed" style={{ color: "var(--regu-gray-500)" }}>
+                    Persona, cargo y video. Se ve aquí al instante.
+                  </span>
+                </span>
+              </button>
+            )}
+            {interviews.map((interview, index) => (
+              <EditableSpot
                 key={interview.slug}
+                className="rounded-[24px]"
+                target={{ kind: "entrevista", slug: interview.slug }}
+                label={`Editar ${interview.name || "entrevista"}`}
+              >
+              <article
                 id={interview.slug}
                 className="flex h-full flex-col overflow-hidden rounded-[24px] border border-[rgba(22,61,89,0.10)] bg-white shadow-[0_8px_28px_rgba(22,61,89,0.08)]"
               >
@@ -324,7 +372,7 @@ export default function HablaElRegulador() {
                       className="mt-2 block text-lg font-bold leading-snug text-[var(--regu-navy)]"
                       style={{ fontFamily: "var(--token-font-heading)" }}
                     >
-                      {interview.name}
+                      {interview.name.trim() || "Nueva entrevista"}
                     </span>
                     <span className="mt-1.5 block text-sm leading-relaxed text-[var(--regu-gray-600)]">
                       {interview.role}
@@ -355,6 +403,7 @@ export default function HablaElRegulador() {
                   </span>
                 </button>
               </article>
+              </EditableSpot>
             ))}
           </div>
 

@@ -1,13 +1,22 @@
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { Home } from "lucide-react";
+import { Home, Plus } from "lucide-react";
 import PageHero from "@/components/PageHero";
 import AlbumCard from "@/components/galeria/AlbumCard";
 import { useGalleryAlbums } from "@/contexts/SiteSettingsContext";
+import { useSiteEdit } from "@/contexts/SiteEditContext";
 
 export default function Galeria() {
   const { t } = useTranslation();
   const albumesGaleria = useGalleryAlbums();
+  const { enabled: siteEditEnabled, open: openSiteEdit, preview: siteEditPreview, target: siteEditTarget } =
+    useSiteEdit();
+  const draftingNew = Boolean(
+    siteEditEnabled &&
+      ((siteEditTarget?.kind === "album" && !siteEditTarget.slug) ||
+        siteEditPreview.galleryAlbums?.some((a) => a.slug.startsWith("nuevo-album-") && !a.title.trim()))
+  );
+  const showAdd = siteEditEnabled && !draftingNew;
   return (
     <>
       <PageHero
@@ -46,6 +55,33 @@ export default function Galeria() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 md:gap-8">
+            {showAdd && (
+              <button
+                type="button"
+                onClick={() => openSiteEdit({ kind: "album" })}
+                className="flex min-h-[280px] flex-col items-center justify-center gap-3 rounded-2xl border-2 border-dashed px-6 py-10 transition hover:bg-[rgba(15,118,110,0.06)]"
+                style={{
+                  borderColor: "rgba(15,118,110,0.45)",
+                  backgroundColor: "rgba(15,118,110,0.03)",
+                }}
+                aria-label="Añadir un álbum"
+              >
+                <span
+                  className="flex h-20 w-20 items-center justify-center rounded-full"
+                  style={{ backgroundColor: "rgba(15,118,110,0.10)", color: "#0f766e" }}
+                >
+                  <Plus className="h-12 w-12" strokeWidth={1.5} aria-hidden />
+                </span>
+                <span className="text-center">
+                  <span className="block text-base font-bold" style={{ color: "#0f766e", fontFamily: "var(--token-font-heading)" }}>
+                    Añadir álbum
+                  </span>
+                  <span className="mt-1 block text-sm leading-relaxed" style={{ color: "var(--regu-gray-500)" }}>
+                    Título, fecha y fotos. Se ve aquí al instante.
+                  </span>
+                </span>
+              </button>
+            )}
             {albumesGaleria.map((album, index) => (
               <AlbumCard key={album.slug} album={album} index={index} />
             ))}

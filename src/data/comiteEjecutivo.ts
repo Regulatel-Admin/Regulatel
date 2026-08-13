@@ -3,6 +3,7 @@
  */
 
 export interface ComiteMemberLogo {
+  id?: string;
   name: string;
   logoUrl: string;
   linkUrl?: string;
@@ -126,7 +127,8 @@ function parseMember(v: unknown): ComiteMemberLogo | null {
   if (!name || !logoUrl) return null;
   const linkUrl = typeof o.linkUrl === "string" && o.linkUrl.trim() ? o.linkUrl.trim() : undefined;
   const country = typeof o.country === "string" && o.country.trim() ? o.country.trim() : undefined;
-  return { name, logoUrl, linkUrl, country };
+  const id = typeof o.id === "string" && o.id.trim() ? o.id.trim() : undefined;
+  return { id, name, logoUrl, linkUrl, country };
 }
 
 function parseMembersArray(v: unknown): ComiteMemberLogo[] {
@@ -186,5 +188,19 @@ export function parseComiteEjecutivoCmsFromSettingValue(value: unknown): ComiteE
     funcionesIntro,
     funciones,
     ui: parseUiPartial(o.ui),
+  };
+}
+
+function stampMember(m: ComiteMemberLogo, prefix: string, index: number): ComiteMemberLogo {
+  return { ...m, id: m.id?.trim() || `${prefix}-${index}` };
+}
+
+export function stampComiteIds(doc: ComiteEjecutivoCmsDocument): ComiteEjecutivoCmsDocument {
+  return {
+    ...doc,
+    presidente: stampMember(doc.presidente, "pres", 0),
+    vicepresidentes: doc.vicepresidentes.map((m, i) => stampMember(m, "vice", i)),
+    secretarioEjecutivo: stampMember(doc.secretarioEjecutivo, "sec", 0),
+    miembros: doc.miembros.map((m, i) => stampMember(m, "miem", i)),
   };
 }

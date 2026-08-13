@@ -1,12 +1,13 @@
 import { useState, useMemo, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { ChevronDown, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronDown, ArrowRight, ChevronLeft, ChevronRight, Plus } from "lucide-react";
 import ImageCarousel from "@/components/ImageCarousel";
 import { noticiasData } from "./noticiasData";
 import { useAdminData } from "@/contexts/AdminDataContext";
 import { localizeNewsFields } from "@/hooks/useLocalizedNews";
 import { EditableSpot } from "@/components/site-edit/EditableSpot";
+import { useSiteEdit } from "@/contexts/SiteEditContext";
 
 /** Item para listado: estático o admin (misma forma). */
 export interface NewsListItem {
@@ -65,6 +66,7 @@ function CategoryBadge({ label }: { label: string }) {
 function Noticias() {
   const { t, i18n } = useTranslation();
   const { adminNews, contentSource } = useAdminData();
+  const { enabled: siteEditEnabled, open: openSiteEdit, preview: siteEditPreview, target: siteEditTarget } = useSiteEdit();
   const [sidebarFilter, setSidebarFilter] = useState<SidebarFilter>("Todas");
   const [yearFilter, setYearFilter] = useState<string>("all");
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
@@ -104,13 +106,45 @@ function Noticias() {
     return [...staticFiltered, ...dbItems].sort((a, b) => (a.date > b.date ? -1 : 1));
   }, [adminNews, contentSource]);
 
+  const mergedList = useMemo(() => {
+    const patch = siteEditEnabled ? siteEditPreview.news : undefined;
+    if (!patch) return mergedListRaw;
+    const nextItem: NewsListItem = {
+      slug: patch.slug,
+      title: patch.title.trim() || "Nueva noticia",
+      date: patch.date,
+      dateFormatted: patch.dateFormatted || patch.date,
+      category: patch.category || "Noticias",
+      excerpt: patch.excerpt,
+      imageUrl: patch.imageUrl || "",
+    };
+    const idx = mergedListRaw.findIndex((n) => n.slug.toLowerCase() === patch.slug.toLowerCase());
+    if (idx >= 0) {
+      const next = mergedListRaw.slice();
+      next[idx] = { ...mergedListRaw[idx], ...nextItem, imageUrl: patch.imageUrl || mergedListRaw[idx].imageUrl };
+      return next.sort((a, b) => (a.date > b.date ? -1 : 1));
+    }
+    if (!patch.title.trim() && !patch.excerpt.trim() && !patch.imageUrl) return mergedListRaw;
+    return [nextItem, ...mergedListRaw].sort((a, b) => (a.date > b.date ? -1 : 1));
+  }, [mergedListRaw, siteEditEnabled, siteEditPreview.news]);
+
+  const draftingNew = Boolean(
+    siteEditEnabled &&
+      siteEditPreview.news &&
+      !mergedListRaw.some((n) => n.slug.toLowerCase() === siteEditPreview.news!.slug.toLowerCase())
+  );
+  const showAddCard =
+    siteEditEnabled &&
+    !draftingNew &&
+    !(siteEditTarget?.kind === "noticia" && !siteEditTarget.slug);
+
   const yearOptions = useMemo(() => {
-    const years = new Set(mergedListRaw.map((n) => extractYear(n.date)).filter(Boolean));
+    const years = new Set(mergedList.map((n) => extractYear(n.date)).filter(Boolean));
     return ["all", ...Array.from(years).sort((a, b) => b.localeCompare(a))];
-  }, [mergedListRaw]);
+  }, [mergedList]);
 
   const filtered = useMemo(() => {
-    let list = mergedListRaw;
+    let list = mergedList;
     if (sidebarFilter !== "Todas") {
       const norm = sidebarFilter.toLowerCase();
       list = list.filter((n) => n.category.toLowerCase() === norm);
@@ -119,7 +153,7 @@ function Noticias() {
       list = list.filter((n) => extractYear(n.date) === yearFilter);
     }
     return list.map((item) => localizeNewsFields(item, t, i18n.language));
-  }, [mergedListRaw, sidebarFilter, yearFilter, t, i18n.language]);
+  }, [mergedList, sidebarFilter, yearFilter, t, i18n.language]);
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / ITEMS_PER_PAGE));
   const currentPage = Math.min(page, totalPages);
@@ -251,12 +285,17 @@ function Noticias() {
               </div>
             </div>
 
-            {filtered.length === 0 ? (
+            {filtered.length === 0 && !showAddCard ? (
               <p className="text-sm py-10" style={{ color: "var(--regu-gray-500)" }}>
                 {t("pages.noticias.noNewsCategory")}
               </p>
             ) : (
               <>
+                {showAddCard && (
+                  <div className="mb-8">
+                    <AddNewsCard onClick={() => openSiteEdit({ kind: "noticia" })} />
+                  </div>
+                )}
                 {/* Featured */}
                 {featured && (
                   <div className="mb-8">
@@ -357,12 +396,10 @@ interface NewsItemRowProps {
 
 function NewsItemRow({ item, isFeatured }: NewsItemRowProps) {
   const { t } = useTranslation();
+  const isDraft = item.slug.startsWith("preview-news-");
   const href = `/noticias/${item.slug}`;
 
-  return (
-    <EditableSpot target={{ kind: "noticia", slug: item.slug }} label="Editar esta noticia">
-    <article className={`group ${isFeatured ? "py-0" : "py-5 px-5 md:py-6 md:px-6"}`}>
-      <Link to={href} className="block">
+  const body = (
         <div className={`flex gap-4 md:gap-6 ${isFeatured ? "flex-col md:flex-row" : "flex-row items-start"}`}>
           {/* Image */}
           <div
@@ -456,9 +493,45 @@ function NewsItemRow({ item, isFeatured }: NewsItemRowProps) {
             </span>
           </div>
         </div>
-      </Link>
-    </article>
+  );
+
+  return (
+    <EditableSpot target={{ kind: "noticia", slug: item.slug }} label="Editar esta noticia">
+      <article className={`group ${isFeatured ? "py-0" : "py-5 px-5 md:py-6 md:px-6"}`}>
+        {isDraft ? <div>{body}</div> : <Link to={href} className="block">{body}</Link>}
+      </article>
     </EditableSpot>
+  );
+}
+
+function AddNewsCard({ onClick }: { onClick: () => void }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className="flex w-full flex-col items-center justify-center gap-3 rounded-2xl border-2 border-dashed transition hover:bg-[rgba(15,118,110,0.06)] md:flex-row md:gap-8"
+      style={{
+        borderColor: "rgba(15,118,110,0.45)",
+        minHeight: "300px",
+        backgroundColor: "rgba(15,118,110,0.03)",
+      }}
+      aria-label="Añadir una noticia"
+    >
+      <span
+        className="flex h-24 w-24 items-center justify-center rounded-full"
+        style={{ backgroundColor: "rgba(15,118,110,0.10)", color: "#0f766e" }}
+      >
+        <Plus className="h-14 w-14" strokeWidth={1.5} aria-hidden />
+      </span>
+      <span className="px-6 pb-6 text-center md:pb-0 md:text-left">
+        <span className="block text-lg font-bold" style={{ color: "#0f766e", fontFamily: "var(--token-font-heading)" }}>
+          Añadir noticia
+        </span>
+        <span className="mt-1 block max-w-sm text-sm leading-relaxed" style={{ color: "var(--regu-gray-500)" }}>
+          Título, foto y resumen. Se ve aquí al instante, del tamaño real, y publicas cuando esté lista.
+        </span>
+      </span>
+    </button>
   );
 }
 

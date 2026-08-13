@@ -4,6 +4,8 @@
  */
 
 export interface EnteReguladorMiembro {
+  /** Identificador estable para editar en el sitio. */
+  id?: string;
   name: string;
   country: string;
   fullName?: string;
@@ -46,7 +48,9 @@ export function parseEntesMiembrosFromSettingValue(value: unknown): EnteRegulado
     const externalUrl = typeof r.externalUrl === "string" ? r.externalUrl.trim() : "";
     if (!name || !country || !externalUrl) continue;
     const logoUrlRaw = typeof r.logoUrl === "string" ? r.logoUrl.trim() : "";
+    const id = typeof r.id === "string" ? r.id.trim() : "";
     out.push({
+      id: id || undefined,
       name,
       country,
       fullName: typeof r.fullName === "string" ? r.fullName : undefined,
@@ -85,3 +89,10 @@ export const defaultEntesReguladoresMiembros: EnteReguladorMiembro[] = [
   { name: "URSEC", country: "Uruguay", fullName: "Unidad Reguladora de Servicios de Comunicaciones", route: "/ursec", externalUrl: "https://www.ursec.gub.uy" },
   { name: "CONATEL", country: "Venezuela", fullName: "Comisión Nacional de Telecomunicaciones", route: "/conatel-ve", externalUrl: "https://www.conatel.gob.ve" },
 ];
+
+export function stampEnteIds(list: EnteReguladorMiembro[]): EnteReguladorMiembro[] {
+  return list.map((e, i) => ({
+    ...e,
+    id: e.id?.trim() || `ente-${e.route || "x"}--${e.country || "x"}--${i}`,
+  }));
+}

@@ -1,24 +1,20 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Globe, ExternalLink, Search, X, ChevronRight, ChevronLeft, ArrowLeft, ArrowRight } from 'lucide-react';
+import { Globe, ExternalLink, Search, X, ChevronRight, ChevronLeft, ArrowLeft, ArrowRight, Plus } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import PageHero from '@/components/PageHero';
-import { api } from '@/lib/api';
-import {
-  DIRECTORIO_AUTORIDADES_SETTINGS_KEY,
-  defaultDirectorioAutoridades,
-  parseDirectorioFromSettingValue,
-  type DirectorioAutoridad,
-} from '@/data/directorioAutoridades';
-import { useEntesReguladoresMiembros } from '@/contexts/SiteSettingsContext';
+import { useDirectorioAutoridades, useEntesReguladoresMiembros } from '@/contexts/SiteSettingsContext';
+import { useSiteEdit } from '@/contexts/SiteEditContext';
+import { EditableSpot } from '@/components/site-edit/EditableSpot';
 import {
   localizeCountryName,
   localizeDirectorioEntry,
   localizeEnteRegulador,
   localizeRole,
 } from '@/hooks/useLocalizedMiembros';
+import { enteLogoByRoute, flagSrcFromCountryName, logoSrcForDirectorio } from '@/data/miembrosVisuals';
 
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },
@@ -30,32 +26,7 @@ const fadeIn = {
 };
 
 // Logos locales (public/images/logos)
-const logoUrlMap: Record<string, string> = {
-  'sub-secretaria-telecom': '/images/logos/sub-secretaria-telecom.png',
-  'anatel': '/images/comite-ejecutivo/anatel.png',
-  'att': '/images/logos/att.png',
-  'enacom': '/images/logos/enacom.png',
-  'sutel': '/images/logos/sutel.png',
-  'min-com': '/images/logos/min-com.png',
-  'agcom': '/images/logos/agcom.png',
-  'arcotel': '/images/logos/arcotel.png',
-  'crc': '/images/logos/crc.png',
-  'cnmc': '/images/logos/cnmc.png',
-  'sit': '/images/logos/sit.png',
-  'conatel': '/images/logos/conatel.png',
-  'indotel': '/images/logos/indotel.png',
-  'ift': '/images/logos/CRT-Mexico.png',
-  'subtel': '/images/logos/subtel.png',
-  'osiptel': '/images/logos/osiptel.png',
-  'conatel-gt': '/images/logos/conatel-gt.png',
-  'conatel-py': '/images/logos/conatel-py.png',
-  'anacom': '/images/logos/anacom.png',
-  'net': '/images/logos/net.png',
-  'ursec': '/images/logos/ursec.png',
-  'conatel-ve': '/images/logos/conatel-ve.png',
-  'asep': '/images/logos/asep.png',
-  'telcor': '/images/logos/telcor.png',
-};
+const logoUrlMap = enteLogoByRoute;
 
 // Componente inteligente para cargar logos con múltiples intentos
 const LogoImage: React.FC<{ name: string; route: string; logoUrl?: string }> = ({ name, route, logoUrl }) => {
@@ -108,45 +79,74 @@ const LogoImage: React.FC<{ name: string; route: string; logoUrl?: string }> = (
   );
 };
 
+function TinyMark({ src, alt, kind }: { src: string; alt: string; kind: "flag" | "logo" }) {
+  const [hidden, setHidden] = useState(false);
+  if (hidden) return null;
+  if (kind === "flag") {
+    return (
+      <img
+        src={src}
+        alt={alt}
+        width={20}
+        height={14}
+        className="h-[14px] w-5 rounded-[2px] object-cover"
+        style={{ boxShadow: "0 0 0 1px rgba(22,61,89,0.12)" }}
+        loading="lazy"
+        onError={() => setHidden(true)}
+      />
+    );
+  }
+  return (
+    <img
+      src={src}
+      alt={alt}
+      width={22}
+      height={22}
+      className="h-[22px] w-[22px] object-contain"
+      loading="lazy"
+      onError={() => setHidden(true)}
+    />
+  );
+}
+
 const Miembros: React.FC = () => {
   const { t, i18n } = useTranslation();
+  const { enabled: siteEditEnabled, open: openSiteEdit, preview: siteEditPreview, target: siteEditTarget } = useSiteEdit();
   const entesReguladoresBase = useEntesReguladoresMiembros();
-  const [directorioAutoridades, setDirectorioAutoridades] = useState<DirectorioAutoridad[]>(defaultDirectorioAutoridades);
+  const directorioAutoridades = useDirectorioAutoridades();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
   const [enteSearchTerm, setEnteSearchTerm] = useState('');
   const [selectedEnteCountry, setSelectedEnteCountry] = useState<string | null>(null);
 
-  const loadDirectorio = useCallback(async () => {
-    const res = await api.settings.get(DIRECTORIO_AUTORIDADES_SETTINGS_KEY);
-    if (res.ok && res.data && res.data.value != null) {
-      const parsed = parseDirectorioFromSettingValue(res.data.value);
-      if (parsed !== null) {
-        setDirectorioAutoridades(parsed);
-        return;
-      }
-    }
-    setDirectorioAutoridades(defaultDirectorioAutoridades);
-  }, []);
+  const draftingNewEnte = Boolean(
+    siteEditEnabled &&
+      ((siteEditTarget?.kind === "ente" && !siteEditTarget.id) ||
+        siteEditPreview.entes?.some((e) => e.id?.startsWith("ente-new-") && !e.name.trim()))
+  );
+  const showAddEnte = siteEditEnabled && !draftingNewEnte;
 
-  useEffect(() => {
-    void loadDirectorio();
-  }, [loadDirectorio]);
-
-  useEffect(() => {
-    const onVis = () => {
-      if (document.visibilityState === 'visible') void loadDirectorio();
-    };
-    document.addEventListener('visibilitychange', onVis);
-    return () => document.removeEventListener('visibilitychange', onVis);
-  }, [loadDirectorio]);
+  const draftingNewDirectorio = Boolean(
+    siteEditEnabled &&
+      ((siteEditTarget?.kind === "directorio" && !siteEditTarget.id) ||
+        siteEditPreview.directorio?.some((e) => e.id?.startsWith("dir-new-") && !e.acronym.trim() && !e.pais.trim()))
+  );
+  const showAddDirectorio = siteEditEnabled && !draftingNewDirectorio;
   
   const filteredDirectorio = useMemo(() => {
-    if (!searchTerm && !selectedCountry) return directorioAutoridades;
-
     const q = searchTerm.toLowerCase();
 
     return directorioAutoridades.filter(item => {
+      if (
+        siteEditEnabled &&
+        siteEditTarget?.kind === "directorio" &&
+        ((siteEditTarget.id && item.id === siteEditTarget.id) ||
+          (!siteEditTarget.id && item.id?.startsWith("dir-new-")))
+      ) {
+        return true;
+      }
+      if (!searchTerm && !selectedCountry) return true;
+
       const localizedPais = localizeCountryName(item.pais, t, i18n.language, false);
       const localizedPaisUpper = localizeCountryName(item.pais, t, i18n.language, true);
       const localizedCargo = localizeRole(item.cargo, t, i18n.language);
@@ -165,10 +165,10 @@ const Miembros: React.FC = () => {
 
       return matchesSearch && matchesCountry;
     });
-  }, [directorioAutoridades, searchTerm, selectedCountry, t, i18n.language]);
+  }, [directorioAutoridades, searchTerm, selectedCountry, t, i18n.language, siteEditEnabled, siteEditTarget]);
   
   const uniqueCountries = useMemo(() => {
-    return Array.from(new Set(directorioAutoridades.map(item => item.pais))).sort();
+    return Array.from(new Set(directorioAutoridades.map(item => item.pais).filter(Boolean))).sort();
   }, [directorioAutoridades]);
 
   const entesReguladores = useMemo(
@@ -181,6 +181,15 @@ const Miembros: React.FC = () => {
     const q = enteSearchTerm.toLowerCase();
 
     return entesReguladores.filter(ente => {
+      if (
+        siteEditEnabled &&
+        siteEditTarget?.kind === "ente" &&
+        ((siteEditTarget.id && ente.id === siteEditTarget.id) ||
+          (!siteEditTarget.id && ente.id?.startsWith("ente-new-")))
+      ) {
+        return true;
+      }
+
       const localized = localizeEnteRegulador(ente, t, i18n.language);
 
       const matchesSearch = !enteSearchTerm ||
@@ -194,10 +203,10 @@ const Miembros: React.FC = () => {
 
       return matchesSearch && matchesCountry;
     });
-  }, [entesReguladores, enteSearchTerm, selectedEnteCountry, t, i18n.language]);
+  }, [entesReguladores, enteSearchTerm, selectedEnteCountry, t, i18n.language, siteEditEnabled, siteEditTarget]);
 
   const uniqueEnteCountries = useMemo(() => {
-    return Array.from(new Set(entesReguladores.map((ente) => ente.country))).sort();
+    return Array.from(new Set(entesReguladores.map((ente) => ente.country).filter(Boolean))).sort();
   }, [entesReguladores]);
 
   const carouselRef = React.useRef<HTMLDivElement>(null);
@@ -310,7 +319,7 @@ const Miembros: React.FC = () => {
 
         <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn} className="mb-14">
           <div className="relative overflow-hidden rounded-2xl border bg-white p-8 md:p-10" style={{ borderColor: "rgba(22,61,89,0.10)", boxShadow: "0 2px 6px rgba(22,61,89,0.04), 0 6px 20px rgba(22,61,89,0.06)" }}>
-            {filteredEntesReguladores.length > 0 ? (
+            {filteredEntesReguladores.length > 0 || showAddEnte ? (
               <>
                 <div className="relative flex items-stretch gap-2">
                   <button
@@ -331,8 +340,15 @@ const Miembros: React.FC = () => {
                   >
                     <div className="flex gap-6 md:gap-8 items-stretch min-w-max pb-4 px-1 md:pl-14 md:pr-14 py-2">
                       {filteredEntesReguladores.map((ente, index) => {
-                        const key = `${ente.country}-${ente.name}-${index}`;
-                        const displayEnte = localizeEnteRegulador(ente, t, i18n.language);
+                        const key = ente.id ?? `${ente.country}-${ente.name}-${index}`;
+                        const displayEnte = siteEditEnabled
+                          ? {
+                              ...ente,
+                              name: ente.name.trim() || "Nuevo ente",
+                              country: ente.country.trim() || "País",
+                              fullName: ente.fullName?.trim() || (ente.name.trim() ? ente.fullName : "Completa los datos en el panel"),
+                            }
+                          : localizeEnteRegulador(ente, t, i18n.language);
                         const motionCard = (
                           <motion.div
                             initial={{ opacity: 0, x: -20 }}
@@ -344,7 +360,7 @@ const Miembros: React.FC = () => {
                             style={{ backgroundColor: "var(--regu-offwhite)", borderColor: "var(--regu-gray-100)" }}
                           >
                             <div className="w-[256px] h-[256px] md:w-[312px] md:h-[312px] flex-shrink-0 mb-5 flex items-center justify-center bg-white rounded-xl p-2 md:p-3 shadow-sm group-hover:shadow-md transition-shadow border" style={{ borderColor: "var(--regu-gray-100)" }}>
-                              <LogoImage name={ente.name} route={ente.route} logoUrl={ente.logoUrl} />
+                              <LogoImage name={displayEnte.name} route={ente.route} logoUrl={ente.logoUrl} />
                             </div>
                             <div className="text-center flex-1 flex flex-col justify-end min-h-0">
                               {displayEnte.fullName && (
@@ -357,19 +373,53 @@ const Miembros: React.FC = () => {
                             </div>
                           </motion.div>
                         );
-                        if (ente.linkExternalOnly) {
-                          return (
-                            <a key={key} href={ente.externalUrl} target="_blank" rel="noopener noreferrer" className="flex-shrink-0">
-                              {motionCard}
-                            </a>
-                          );
-                        }
-                        return (
-                          <Link key={key} to={ente.route} className="flex-shrink-0">
+                        const linked = ente.linkExternalOnly ? (
+                          <a href={ente.externalUrl || undefined} target="_blank" rel="noopener noreferrer" className="block">
+                            {motionCard}
+                          </a>
+                        ) : (
+                          <Link to={ente.route || "/"} className="block">
                             {motionCard}
                           </Link>
                         );
+                        return (
+                          <EditableSpot
+                            key={key}
+                            className="flex-shrink-0 rounded-xl"
+                            target={{ kind: "ente", id: ente.id }}
+                            label={`Editar ${ente.name || "ente"}`}
+                          >
+                            {linked}
+                          </EditableSpot>
+                        );
                       })}
+                      {showAddEnte && (
+                        <button
+                          type="button"
+                          onClick={() => openSiteEdit({ kind: "ente" })}
+                          className="flex flex-shrink-0 flex-col items-center justify-center gap-3 w-[296px] md:w-[352px] min-h-[360px] md:min-h-[420px] rounded-xl border-2 border-dashed px-5 py-7 transition hover:bg-[rgba(15,118,110,0.06)]"
+                          style={{
+                            borderColor: "rgba(15,118,110,0.45)",
+                            backgroundColor: "rgba(15,118,110,0.03)",
+                          }}
+                          aria-label="Añadir un ente"
+                        >
+                          <span
+                            className="flex h-20 w-20 items-center justify-center rounded-full"
+                            style={{ backgroundColor: "rgba(15,118,110,0.10)", color: "#0f766e" }}
+                          >
+                            <Plus className="h-12 w-12" strokeWidth={1.5} aria-hidden />
+                          </span>
+                          <span className="text-center">
+                            <span className="block text-base font-bold" style={{ color: "#0f766e", fontFamily: "var(--token-font-heading)" }}>
+                              Añadir ente
+                            </span>
+                            <span className="mt-1 block text-sm leading-relaxed" style={{ color: "var(--regu-gray-500)" }}>
+                              Logo, nombre y país. Se ve aquí al instante.
+                            </span>
+                          </span>
+                        </button>
+                      )}
                     </div>
                   </div>
                   <button
@@ -490,12 +540,56 @@ const Miembros: React.FC = () => {
 
           {/* Grid de directorio — formato institucional: ACRÓNIMO - PAÍS / Presidente / Cargo / Corresponsal / Correo */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {showAddDirectorio && (
+              <button
+                type="button"
+                onClick={() => openSiteEdit({ kind: "directorio" })}
+                className="flex min-h-[220px] flex-col items-center justify-center gap-3 rounded-2xl border-2 border-dashed px-6 py-8 transition hover:bg-[rgba(15,118,110,0.06)]"
+                style={{
+                  borderColor: "rgba(15,118,110,0.45)",
+                  backgroundColor: "rgba(15,118,110,0.03)",
+                }}
+                aria-label="Añadir un contacto"
+              >
+                <span
+                  className="flex h-16 w-16 items-center justify-center rounded-full"
+                  style={{ backgroundColor: "rgba(15,118,110,0.10)", color: "#0f766e" }}
+                >
+                  <Plus className="h-9 w-9" strokeWidth={1.5} aria-hidden />
+                </span>
+                <span className="text-center">
+                  <span className="block text-base font-bold" style={{ color: "#0f766e", fontFamily: "var(--token-font-heading)" }}>
+                    Añadir contacto
+                  </span>
+                  <span className="mt-1 block text-sm leading-relaxed" style={{ color: "var(--regu-gray-500)" }}>
+                    País, autoridad y correo. Se ve aquí al instante.
+                  </span>
+                </span>
+              </button>
+            )}
             <AnimatePresence mode="wait">
               {filteredDirectorio.map((item, index) => {
-                const displayItem = localizeDirectorioEntry(item, t, i18n.language);
+                const displayItem = siteEditEnabled
+                  ? {
+                      ...item,
+                      acronym: item.acronym.trim() || "SIGLAS",
+                      pais: item.pais.trim() || "PAÍS",
+                      presidente: item.presidente.trim() || "Nombre de la autoridad",
+                      cargo: item.cargo.trim() || "Cargo",
+                      corresponsal: item.corresponsal.trim() || "Corresponsal",
+                      correo: item.correo.trim() || "correo@ejemplo.org",
+                    }
+                  : localizeDirectorioEntry(item, t, i18n.language);
+                const flagSrc = flagSrcFromCountryName(item.pais);
+                const logoSrc = logoSrcForDirectorio(item.acronym, item.pais, entesReguladoresBase);
                 return (
+                <EditableSpot
+                  key={item.id ?? `${item.pais}-${item.acronym}-${index}`}
+                  className="rounded-2xl"
+                  target={{ kind: "directorio", id: item.id }}
+                  label={`Editar ${item.acronym || "contacto"}`}
+                >
                 <motion.div
-                  key={`${item.pais}-${item.acronym}-${index}`}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -20 }}
@@ -505,11 +599,17 @@ const Miembros: React.FC = () => {
                 >
                   <div className="absolute inset-x-0 top-0 h-[3px]" style={{ backgroundColor: "var(--regu-blue)" }} aria-hidden />
                   <div className="p-6">
-                    <div className="flex items-start justify-between mb-4">
+                    <div className="flex items-start justify-between mb-4 gap-3">
                       <h3 className="text-base font-bold leading-snug" style={{ color: "var(--regu-navy)", fontFamily: "var(--token-font-heading)" }}>
                         {displayItem.acronym} – {displayItem.pais}
                       </h3>
-                      <Globe className="w-4 h-4 flex-shrink-0 mt-0.5 opacity-50" style={{ color: "var(--regu-blue)" }} aria-hidden />
+                      <span className="mt-0.5 flex shrink-0 items-center gap-1.5" aria-hidden>
+                        {flagSrc ? <TinyMark src={flagSrc} alt="" kind="flag" /> : null}
+                        {logoSrc ? <TinyMark src={logoSrc} alt="" kind="logo" /> : null}
+                        {!flagSrc && !logoSrc ? (
+                          <Globe className="w-4 h-4 opacity-50" style={{ color: "var(--regu-blue)" }} />
+                        ) : null}
+                      </span>
                     </div>
                     <div className="space-y-4" style={{ color: "var(--regu-gray-900)" }}>
                       <p className="text-sm font-medium leading-snug">{displayItem.presidente}</p>
@@ -531,12 +631,13 @@ const Miembros: React.FC = () => {
                     </div>
                   </div>
                 </motion.div>
+                </EditableSpot>
                 );
               })}
             </AnimatePresence>
           </div>
 
-          {filteredDirectorio.length === 0 && (
+          {filteredDirectorio.length === 0 && !showAddDirectorio && (
             <div className="text-center py-12">
               <p className="text-lg mb-4 font-medium" style={{ color: "var(--regu-gray-700)" }}>{t('pages.shared.noResults')}</p>
               <button

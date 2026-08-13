@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Plus } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useConveniosPublic } from "@/contexts/SiteSettingsContext";
 import { useLocalizedConvenios } from "@/hooks/useLocalizedConvenios";
+import { useSiteEdit } from "@/contexts/SiteEditContext";
+import { EditableSpot } from "@/components/site-edit/EditableSpot";
 
 interface ConveniosMenuProps {
   panelId: string;
@@ -22,7 +24,16 @@ export default function ConveniosMenu({
 }: ConveniosMenuProps) {
   const { t } = useTranslation();
   const rawConvenios = useConveniosPublic();
-  const convenios = useLocalizedConvenios(rawConvenios);
+  const localized = useLocalizedConvenios(rawConvenios);
+  const { enabled: siteEditEnabled, open: openSiteEdit, preview: siteEditPreview, target: siteEditTarget } =
+    useSiteEdit();
+  const convenios = siteEditEnabled ? rawConvenios : localized;
+  const draftingNew = Boolean(
+    siteEditEnabled &&
+      ((siteEditTarget?.kind === "convenio" && !siteEditTarget.slug) ||
+        siteEditPreview.convenios?.some((c) => c.slug.startsWith("convenio-new-") && !c.title.trim() && !c.acronym.trim()))
+  );
+  const showAdd = siteEditEnabled && !draftingNew;
   const isDesktop = variant === "desktop";
 
   if (isDesktop) {
@@ -75,8 +86,13 @@ export default function ConveniosMenu({
             }}
           >
             {convenios.map((c) => (
-              <Link
+              <EditableSpot
                 key={c.slug}
+                className="rounded-xl"
+                target={{ kind: "convenio", slug: c.slug }}
+                label={`Editar ${c.acronym || "convenio"}`}
+              >
+              <Link
                 to={`/convenios/${c.slug}`}
                 onClick={onLinkClick}
                 className="group flex items-start gap-4 rounded-xl border p-4 transition-all duration-150 hover:border-[rgba(68,137,198,0.35)] hover:bg-[rgba(68,137,198,0.04)] hover:shadow-[0_2px_10px_rgba(22,61,89,0.08)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2"
@@ -108,7 +124,7 @@ export default function ConveniosMenu({
                         color: "var(--regu-navy)",
                       }}
                     >
-                      {c.acronym}
+                      {c.acronym.trim() || "Nuevo"}
                     </span>
                     <ArrowRight
                       className="h-3.5 w-3.5 opacity-0 transition-all group-hover:translate-x-0.5 group-hover:opacity-100"
@@ -127,7 +143,24 @@ export default function ConveniosMenu({
                   </p>
                 </div>
               </Link>
+              </EditableSpot>
             ))}
+            {showAdd && (
+              <button
+                type="button"
+                onClick={() => openSiteEdit({ kind: "convenio" })}
+                className="flex min-h-[88px] items-center justify-center gap-2 rounded-xl border-2 border-dashed px-4 py-3 text-xs font-bold transition hover:bg-[rgba(15,118,110,0.06)]"
+                style={{
+                  borderColor: "rgba(15,118,110,0.45)",
+                  backgroundColor: "rgba(15,118,110,0.03)",
+                  color: "#0f766e",
+                }}
+                aria-label="Añadir un convenio"
+              >
+                <Plus className="h-5 w-5" strokeWidth={1.75} aria-hidden />
+                Añadir convenio
+              </button>
+            )}
           </div>
 
           {/* CTA bottom */}
@@ -169,6 +202,11 @@ export default function ConveniosMenu({
       <ul className="space-y-0 list-none p-0 m-0">
         {convenios.map((c) => (
           <li key={c.slug} className="list-none m-0">
+            <EditableSpot
+              className="rounded-md"
+              target={{ kind: "convenio", slug: c.slug }}
+              label={`Editar ${c.acronym || "convenio"}`}
+            >
             <Link to={`/convenios/${c.slug}`} onClick={onLinkClick} className={linkClass} style={linkStyle}>
               <div
                 className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg border bg-white p-1.5"
@@ -181,10 +219,24 @@ export default function ConveniosMenu({
                   onError={(e) => { e.currentTarget.style.display = "none"; }}
                 />
               </div>
-              <span>{c.acronym}</span>
+              <span>{c.acronym.trim() || "Nuevo"}</span>
             </Link>
+            </EditableSpot>
           </li>
         ))}
+        {showAdd && (
+          <li className="list-none m-0">
+            <button
+              type="button"
+              onClick={() => openSiteEdit({ kind: "convenio" })}
+              className="inline-flex w-full items-center gap-3 py-3 text-left text-sm font-bold"
+              style={{ color: "#0f766e" }}
+            >
+              <Plus className="h-5 w-5" aria-hidden />
+              Añadir convenio
+            </button>
+          </li>
+        )}
         <li className="list-none m-0 mt-4 border-t pt-3" style={{ borderColor: "rgba(22,61,89,0.08)" }}>
           <Link
             to="/convenios"

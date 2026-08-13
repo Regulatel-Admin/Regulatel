@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Send, X, ExternalLink } from "lucide-react";
+import { Send, X, ExternalLink, Save } from "lucide-react";
 import { useSiteEdit } from "@/contexts/SiteEditContext";
 import { useSiteSettings } from "@/contexts/SiteSettingsContext";
 import { useAdminData, type AdminNewsItem } from "@/contexts/AdminDataContext";
@@ -17,17 +17,30 @@ import {
   defaultBoletinesGtai,
   mergeBoletinesGtaiWithDefaults,
   parseBoletinesGtaiFromSettingValue,
+  sortBoletinesByDateDesc,
   type BoletinGtaiSerialized,
 } from "@/data/boletinesGtai";
 import {
   REVISTA_DIGITAL_SETTINGS_KEY,
   defaultRevistaEditions,
-  parseRevistaDigitalFromSettingValue,
+  sortRevistaEditions,
   type RevistaEdition,
 } from "@/data/revistaDigital";
 import { heroInstitucional, quickLinks, featuredCarouselItems } from "@/data/home";
+import { toDateInputValue } from "@/lib/carouselDate";
 import type { HomeHeroSetting, QuickLinkSettingItem, FeaturedCarouselItemSetting } from "@/types/siteSettings";
+import { HomeAvisoForm } from "@/components/site-edit/HomeAvisoForm";
+import { DirectorioForm, EnteForm } from "@/components/site-edit/MiembrosEditForms";
+import { GrupoForm } from "@/components/site-edit/GrupoEditForm";
+import { AutoridadForm, ComiteFuncionesForm, ComiteLogoForm } from "@/components/site-edit/OrganizacionEditForms";
+import { AlbumForm, ConvenioForm, EntrevistaForm, EstudioForm } from "@/components/site-edit/RecursosEditForms";
 import { noticiasData } from "@/pages/noticiasData";
+import {
+  GESTION_TAB_LABELS,
+  gestionDocuments,
+  type GestionCategory,
+  type GestionDocument,
+} from "@/data/gestion";
 import {
   BarChart3,
   BookOpen,
@@ -79,9 +92,35 @@ function drawerTitle(target: SiteEditTarget): string {
     case "cumbre":
       return "Esta cumbre";
     case "noticia":
-      return "Esta noticia";
+      return target.slug ? "Esta noticia" : "Nueva noticia";
     case "revista":
       return target.id ? "Esta edición" : "Nueva edición";
+    case "documento":
+      return target.id ? "Este documento" : "Nuevo documento";
+    case "home-aviso":
+      return target.id ? "Este aviso" : "Nuevo aviso en portada";
+    case "ente":
+      return target.id ? "Este ente" : "Nuevo ente";
+    case "directorio":
+      return target.id ? "Este contacto" : "Nuevo contacto";
+    case "grupo":
+      return target.id ? "Este grupo" : "Nuevo grupo de trabajo";
+    case "autoridad":
+      return target.id ? "Esta autoridad" : "Nueva autoridad";
+    case "comite-logo":
+      if (target.slot === "presidente") return "Presidencia";
+      if (target.slot === "vice") return target.id ? "Esta vicepresidencia" : "Nueva vicepresidencia";
+      return target.id ? "Este miembro del comité" : "Nuevo miembro del comité";
+    case "comite-funciones":
+      return "Funciones del comité";
+    case "convenio":
+      return target.slug ? "Este convenio" : "Nuevo convenio";
+    case "album":
+      return target.slug ? "Este álbum" : "Nuevo álbum";
+    case "estudio":
+      return target.id ? "Este estudio" : "Nuevo estudio";
+    case "entrevista":
+      return target.slug ? "Esta entrevista" : "Nueva entrevista";
     case "panel":
       return target.label;
   }
@@ -135,8 +174,52 @@ export function SiteEditDrawer() {
         {target.kind === "hero" && <HeroForm />}
         {target.kind === "quick-link" && <QuickLinkForm index={target.index} />}
         {target.kind === "cumbre" && <CumbreForm id={target.id} />}
-        {target.kind === "noticia" && <NoticiaForm slug={target.slug} />}
+        {target.kind === "noticia" && (
+          <NoticiaForm key={target.slug ?? "new-noticia"} slug={target.slug} />
+        )}
         {target.kind === "revista" && <RevistaForm id={target.id} />}
+        {target.kind === "documento" && (
+          <DocumentoForm
+            key={target.id ?? `new-${target.category ?? "documentos"}`}
+            id={target.id}
+            category={target.category}
+          />
+        )}
+        {target.kind === "home-aviso" && (
+          <HomeAvisoForm key={target.id ?? "new-aviso"} id={target.id} />
+        )}
+        {target.kind === "ente" && (
+          <EnteForm key={target.id ?? "new-ente"} id={target.id} />
+        )}
+        {target.kind === "directorio" && (
+          <DirectorioForm key={target.id ?? "new-directorio"} id={target.id} />
+        )}
+        {target.kind === "grupo" && (
+          <GrupoForm key={target.id ?? "new-grupo"} id={target.id} />
+        )}
+        {target.kind === "autoridad" && (
+          <AutoridadForm key={target.id ?? "new-autoridad"} id={target.id} />
+        )}
+        {target.kind === "comite-logo" && (
+          <ComiteLogoForm
+            key={`${target.slot}-${target.id ?? "new"}`}
+            slot={target.slot}
+            id={target.id}
+          />
+        )}
+        {target.kind === "comite-funciones" && <ComiteFuncionesForm />}
+        {target.kind === "convenio" && (
+          <ConvenioForm key={target.slug ?? "new-convenio"} slug={target.slug} />
+        )}
+        {target.kind === "album" && (
+          <AlbumForm key={target.slug ?? "new-album"} slug={target.slug} />
+        )}
+        {target.kind === "estudio" && (
+          <EstudioForm key={target.id ?? "new-estudio"} id={target.id} />
+        )}
+        {target.kind === "entrevista" && (
+          <EntrevistaForm key={target.slug ?? "new-entrevista"} slug={target.slug} />
+        )}
         {target.kind === "panel" && <PanelFallback path={target.path} label={target.label} onLeave={exit} />}
       </div>
     </aside>
@@ -160,12 +243,14 @@ function PublishBar({
   published,
   onPublish,
   extra,
+  disabled,
 }: {
   saving: boolean;
   error: string | null;
   published?: boolean;
   onPublish: () => void;
   extra?: ReactNode;
+  disabled?: boolean;
 }) {
   return (
     <div
@@ -189,7 +274,7 @@ function PublishBar({
         <button
           type="button"
           onClick={onPublish}
-          disabled={saving}
+          disabled={saving || disabled}
           className="inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold text-white disabled:opacity-60"
           style={{ backgroundColor: "var(--regu-blue)" }}
         >
@@ -285,7 +370,9 @@ function BoletinForm({ slug }: { slug?: string }) {
     const nextSlug = (row.slug.trim() || slugify(row.title) || "preview").toLowerCase();
     const normalized: BoletinGtaiSerialized = { ...row, slug: nextSlug };
     const list = allEntries.map((b) => ({ ...b }));
-    const idx = slug ? list.findIndex((b) => b.slug === slug) : -1;
+    const idx = list.findIndex(
+      (b) => b.slug === nextSlug || (row.slug && b.slug === row.slug) || (slug && b.slug === slug)
+    );
     if (idx >= 0) list[idx] = normalized;
     else if (row.title.trim()) list.unshift(normalized);
     if (normalized.isFeatured) {
@@ -293,6 +380,29 @@ function BoletinForm({ slug }: { slug?: string }) {
     }
     return list;
   }, [allEntries, row, slug]);
+
+  const boletinChoices = useMemo(
+    () => sortBoletinesByDateDesc(allEntries.filter((b) => b.isPublished || b.slug === row.slug)),
+    [allEntries, row.slug]
+  );
+
+  const selectFeaturedBoletin = (nextSlug: string) => {
+    if (!nextSlug) return;
+    if (nextSlug === row.slug) {
+      setRow({ ...row, isFeatured: true, isPublished: true });
+      return;
+    }
+    const patched = allEntries.map((b) => (b.slug === row.slug ? { ...row } : { ...b }));
+    const withFeatured = patched.map((b) => ({
+      ...b,
+      isFeatured: b.slug === nextSlug,
+      isPublished: b.slug === nextSlug ? true : b.isPublished,
+    }));
+    const next = withFeatured.find((b) => b.slug === nextSlug);
+    if (!next) return;
+    setAllEntries(withFeatured);
+    reset({ ...next, isFeatured: true, isPublished: true });
+  };
 
   const captureBaseline = usePreviewSync("boletines", previewEntries, !loading);
 
@@ -322,7 +432,8 @@ function BoletinForm({ slug }: { slug?: string }) {
       contentType: row.contentType.trim() || "Boletín",
     };
     const before = list.map((b) => ({ ...b }));
-    const idx = slug ? list.findIndex((b) => b.slug === slug) : -1;
+    list = allEntries.map((b) => ({ ...b }));
+    const idx = list.findIndex((b) => b.slug === row.slug || b.slug === nextSlug);
     if (idx >= 0) list[idx] = normalized;
     else list.push(normalized);
     if (normalized.isFeatured) {
@@ -347,6 +458,27 @@ function BoletinForm({ slug }: { slug?: string }) {
 
   return (
     <div className="space-y-5">
+      {boletinChoices.length > 1 && (
+        <div>
+          <Field label="Cuál sale en esta tarjeta">
+            <select
+              className={fieldClass}
+              style={fieldStyle}
+              value={row.slug}
+              onChange={(e) => selectFeaturedBoletin(e.target.value)}
+            >
+              {boletinChoices.map((b) => (
+                <option key={b.slug} value={b.slug}>
+                  {b.title.trim() || `Boletín ${b.issueNumber}`} · {b.year}
+                </option>
+              ))}
+            </select>
+          </Field>
+          <p className="mt-1.5 text-[12px] leading-relaxed" style={{ color: "var(--regu-gray-500)" }}>
+            Elige otro si quieres que aquí salga, por ejemplo, el 3 en vez del 1. Se ve al instante.
+          </p>
+        </div>
+      )}
       <Field label="Título">
         <input className={fieldClass} style={fieldStyle} value={row.title} onChange={(e) => setRow({ ...row, title: e.target.value })} />
       </Field>
@@ -719,7 +851,13 @@ function CumbreForm({ id }: { id: string }) {
         />
       </Field>
       <Field label="Fecha">
-        <input type="date" className={fieldClass} style={fieldStyle} value={item.date} onChange={(e) => patch({ date: e.target.value })} />
+        <input
+          type="date"
+          className={fieldClass}
+          style={fieldStyle}
+          value={toDateInputValue(item.date)}
+          onChange={(e) => patch({ date: e.target.value })}
+        />
       </Field>
       <Field label="Lugar">
         <input className={fieldClass} style={fieldStyle} value={item.location ?? ""} onChange={(e) => patch({ location: e.target.value })} />
@@ -751,9 +889,9 @@ function RevistaForm({ id }: { id?: string }) {
   const { revistaDigital, refetch } = useSiteSettings();
   const recordSettings = useRecordSettingsChange();
   const { clearPreview, preview } = useSiteEdit();
-  const { value: row, setValue: setRow } = useDraftHistory<RevistaEdition>(() => {
-    const list = preview.revista ?? revistaDigital ?? defaultRevistaEditions;
-    const found = id ? list.find((e) => e.id === id) : undefined;
+  const sourceList = preview.revista ?? revistaDigital ?? defaultRevistaEditions;
+  const { value: row, setValue: setRow, reset } = useDraftHistory<RevistaEdition>(() => {
+    const found = id ? sourceList.find((e) => e.id === id) : undefined;
     return found
       ? { ...found }
       : {
@@ -765,12 +903,15 @@ function RevistaForm({ id }: { id?: string }) {
           isFeatured: false,
         };
   });
+  const [allEntries, setAllEntries] = useState<RevistaEdition[]>(() =>
+    sourceList.map((e) => ({ ...e }))
+  );
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [published, setPublished] = useState(false);
 
   const previewList = useMemo(() => {
-    const list = (revistaDigital ?? defaultRevistaEditions).map((e) => ({ ...e }));
+    const list = allEntries.map((e) => ({ ...e }));
     const idx = list.findIndex((e) => e.id === row.id);
     if (idx >= 0) list[idx] = row;
     else if (row.title.trim()) list.unshift(row);
@@ -778,7 +919,30 @@ function RevistaForm({ id }: { id?: string }) {
       return list.map((e) => ({ ...e, isFeatured: e.id === row.id }));
     }
     return list;
-  }, [revistaDigital, row]);
+  }, [allEntries, row]);
+
+  const revistaChoices = useMemo(
+    () => sortRevistaEditions(allEntries.filter((e) => e.isPublished || e.id === row.id)),
+    [allEntries, row.id]
+  );
+
+  const selectFeaturedRevista = (nextId: string) => {
+    if (!nextId) return;
+    if (nextId === row.id) {
+      setRow({ ...row, isFeatured: true, isPublished: true });
+      return;
+    }
+    const patched = allEntries.map((e) => (e.id === row.id ? { ...row } : { ...e }));
+    const withFeatured = patched.map((e) => ({
+      ...e,
+      isFeatured: e.id === nextId,
+      isPublished: e.id === nextId ? true : e.isPublished,
+    }));
+    const next = withFeatured.find((e) => e.id === nextId);
+    if (!next) return;
+    setAllEntries(withFeatured);
+    reset({ ...next, isFeatured: true, isPublished: true });
+  };
 
   const captureBaseline = usePreviewSync("revista", previewList);
 
@@ -789,12 +953,6 @@ function RevistaForm({ id }: { id?: string }) {
     }
     setSaving(true);
     setError(null);
-    const resGet = await api.settings.get(REVISTA_DIGITAL_SETTINGS_KEY);
-    let list = (revistaDigital ?? defaultRevistaEditions).map((e) => ({ ...e }));
-    if (resGet.ok && resGet.data?.value != null) {
-      const parsed = parseRevistaDigitalFromSettingValue(resGet.data.value);
-      if (parsed) list = parsed.map((e) => ({ ...e }));
-    }
     const prepared: RevistaEdition = {
       ...row,
       title: row.title.trim(),
@@ -804,6 +962,8 @@ function RevistaForm({ id }: { id?: string }) {
       description: row.description?.trim() || undefined,
       coverEdition: row.coverEdition?.trim() || undefined,
     };
+    const beforeList = (revistaDigital ?? defaultRevistaEditions).map((e) => ({ ...e }));
+    let list = allEntries.map((e) => ({ ...e }));
     const idx = list.findIndex((e) => e.id === prepared.id);
     if (idx >= 0) list[idx] = prepared;
     else list.unshift(prepared);
@@ -816,9 +976,9 @@ function RevistaForm({ id }: { id?: string }) {
       setError(res.error ?? "No se pudo publicar.");
       return;
     }
-    const beforeList = (revistaDigital ?? defaultRevistaEditions).map((e) => ({ ...e }));
     recordSettings(REVISTA_DIGITAL_SETTINGS_KEY, { entries: beforeList }, { entries: list });
     notifyCmsSaved(REVISTA_DIGITAL_SETTINGS_KEY);
+    setAllEntries(list);
     await refetch();
     captureBaseline();
     clearPreview("revista");
@@ -827,6 +987,27 @@ function RevistaForm({ id }: { id?: string }) {
 
   return (
     <div className="space-y-5">
+      {revistaChoices.length > 1 && (
+        <div>
+          <Field label="Cuál sale en esta tarjeta">
+            <select
+              className={fieldClass}
+              style={fieldStyle}
+              value={row.id}
+              onChange={(e) => selectFeaturedRevista(e.target.value)}
+            >
+              {revistaChoices.map((edition) => (
+                <option key={edition.id} value={edition.id}>
+                  {edition.title.trim() || edition.coverEdition || edition.year}
+                </option>
+              ))}
+            </select>
+          </Field>
+          <p className="mt-1.5 text-[12px] leading-relaxed" style={{ color: "var(--regu-gray-500)" }}>
+            Elige otra edición si quieres que aquí salga, por ejemplo, la primera en vez de la segunda. Se ve al instante.
+          </p>
+        </div>
+      )}
       <Field label="Título">
         <input className={fieldClass} style={fieldStyle} value={row.title} onChange={(e) => setRow({ ...row, title: e.target.value })} />
       </Field>
@@ -904,30 +1085,316 @@ function RevistaForm({ id }: { id?: string }) {
   );
 }
 
-function NoticiaForm({ slug }: { slug: string }) {
+const DOC_CATEGORY_OPTIONS: Array<{
+  value: Exclude<GestionCategory, "revista" | "banco">;
+  label: string;
+}> = [
+  { value: "planes-actas", label: GESTION_TAB_LABELS["planes-actas"] },
+  { value: "comite-ejecutivo", label: GESTION_TAB_LABELS["comite-ejecutivo"] },
+  { value: "documentos", label: GESTION_TAB_LABELS.documentos },
+  { value: "otros", label: GESTION_TAB_LABELS.otros },
+];
+
+const DOC_YEAR_OPTIONS = Array.from(
+  new Set(["2024", "2025", "2026", "2027", String(new Date().getFullYear())])
+).sort();
+
+function uploadableCategory(
+  category?: string
+): Exclude<GestionCategory, "revista" | "banco"> {
+  if (
+    category === "planes-actas" ||
+    category === "comite-ejecutivo" ||
+    category === "documentos" ||
+    category === "otros"
+  ) {
+    return category;
+  }
+  return "documentos";
+}
+
+function fileNameFromUrl(url: string): string | undefined {
+  const name = url.split("/").pop()?.split("?")[0];
+  return name ? decodeURIComponent(name) : undefined;
+}
+
+function DocumentoForm({
+  id,
+  category,
+}: {
+  id?: string;
+  category?: Exclude<GestionCategory, "revista" | "banco">;
+}) {
+  const { adminDocuments, addDocument, updateDocument, deleteDocument } = useAdminData();
+  const { recordPersistedChange, clearPreview, preview } = useSiteEdit();
+  const found =
+    (id && adminDocuments.find((d) => d.id === id)) ||
+    (id && gestionDocuments.find((d) => d.id === id)) ||
+    (id && preview.document?.id === id ? preview.document : undefined);
+
+  const { value: row, setValue: setRow } = useDraftHistory<GestionDocument>(() => {
+    if (found) {
+      return {
+        ...found,
+        category: uploadableCategory(found.category),
+        year: found.year ?? String(new Date().getFullYear()),
+        quarter: found.quarter ?? "",
+      };
+    }
+    return {
+      id: `preview-doc-${Date.now()}`,
+      title: "",
+      url: "",
+      category: category ?? "documentos",
+      year: String(new Date().getFullYear()),
+      quarter: "",
+    };
+  });
+
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [published, setPublished] = useState(false);
+
+  const previewDoc = useMemo<GestionDocument>(
+    () => ({
+      ...row,
+      title: row.title.trim() || "Nuevo documento",
+      category: uploadableCategory(row.category),
+      quarter: row.quarter?.trim() || undefined,
+      year: row.year?.trim() || undefined,
+    }),
+    [row]
+  );
+  const captureBaseline = usePreviewSync("document", previewDoc);
+
+  const isNew = !id || row.id.startsWith("preview-doc-");
+
+  const save = async () => {
+    if (!row.title.trim()) {
+      setError("Hace falta un título.");
+      return;
+    }
+    if (!row.url.trim()) {
+      setError("Debes adjuntar un documento o pegar un enlace.");
+      return;
+    }
+    const payload = {
+      title: row.title.trim(),
+      url: row.url.trim(),
+      fileName: row.fileName || fileNameFromUrl(row.url),
+      fileType: row.fileType,
+      fileSize: row.fileSize,
+      year: row.year?.trim() || undefined,
+      quarter: row.quarter?.trim() || undefined,
+      category: uploadableCategory(row.category),
+    };
+    setSaving(true);
+    setError(null);
+    try {
+      if (isNew) {
+        const created = await addDocument(payload);
+        recordPersistedChange({
+          label: "documento",
+          undo: async () => {
+            await deleteDocument(created.id);
+            notifyCmsSaved("documents");
+          },
+          redo: async () => {
+            await addDocument({ ...payload, id: created.id });
+            notifyCmsSaved("documents");
+          },
+        });
+      } else if (adminDocuments.some((d) => d.id === row.id)) {
+        const existing = adminDocuments.find((d) => d.id === row.id)!;
+        const before = {
+          title: existing.title,
+          url: existing.url,
+          fileName: existing.fileName,
+          fileType: existing.fileType,
+          fileSize: existing.fileSize,
+          year: existing.year,
+          quarter: existing.quarter,
+          category: uploadableCategory(existing.category),
+        };
+        await updateDocument(row.id, payload);
+        recordPersistedChange({
+          label: "documento",
+          undo: async () => {
+            await updateDocument(row.id, before);
+            notifyCmsSaved("documents");
+          },
+          redo: async () => {
+            await updateDocument(row.id, payload);
+            notifyCmsSaved("documents");
+          },
+        });
+      } else {
+        try {
+          await updateDocument(row.id, payload);
+        } catch {
+          await addDocument({ ...payload, id: row.id });
+        }
+        recordPersistedChange({
+          label: "documento",
+          undo: async () => {
+            await deleteDocument(row.id);
+            notifyCmsSaved("documents");
+          },
+          redo: async () => {
+            await addDocument({ ...payload, id: row.id });
+            notifyCmsSaved("documents");
+          },
+        });
+      }
+      notifyCmsSaved("documents");
+      captureBaseline();
+      clearPreview("document");
+      setPublished(true);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "No se pudo publicar.");
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  return (
+    <div className="space-y-5">
+      <p className="text-[12px] leading-relaxed" style={{ color: "var(--regu-gray-500)" }}>
+        Se añade en esta categoría. Lo ves en la cuadrícula al instante; el sitio público cambia al publicar.
+      </p>
+      <Field label="Título">
+        <textarea
+          rows={3}
+          className={`${fieldClass} resize-y`}
+          style={fieldStyle}
+          value={row.title}
+          onChange={(e) => setRow({ ...row, title: e.target.value })}
+        />
+      </Field>
+      <Field label="Categoría">
+        <select
+          className={fieldClass}
+          style={fieldStyle}
+          value={uploadableCategory(row.category)}
+          onChange={(e) =>
+            setRow({ ...row, category: e.target.value as Exclude<GestionCategory, "revista" | "banco"> })
+          }
+        >
+          {DOC_CATEGORY_OPTIONS.map((opt) => (
+            <option key={opt.value} value={opt.value}>
+              {opt.label}
+            </option>
+          ))}
+        </select>
+      </Field>
+      <div className="grid grid-cols-2 gap-3">
+        <Field label="Año">
+          <select
+            className={fieldClass}
+            style={fieldStyle}
+            value={row.year ?? ""}
+            onChange={(e) => setRow({ ...row, year: e.target.value })}
+          >
+            {DOC_YEAR_OPTIONS.map((year) => (
+              <option key={year} value={year}>
+                {year}
+              </option>
+            ))}
+          </select>
+        </Field>
+        <Field label="Trimestre (opcional)">
+          <select
+            className={fieldClass}
+            style={fieldStyle}
+            value={row.quarter ?? ""}
+            onChange={(e) => setRow({ ...row, quarter: e.target.value })}
+          >
+            <option value="">Ninguno</option>
+            <option value="Q1">Q1</option>
+            <option value="Q2">Q2</option>
+            <option value="Q3">Q3</option>
+            <option value="Q4">Q4</option>
+          </select>
+        </Field>
+      </div>
+      <AdminBlobUploadField
+        label="Documento"
+        value={row.url}
+        onChange={(url) =>
+          setRow({
+            ...row,
+            url,
+            fileName: url ? fileNameFromUrl(url) : undefined,
+            fileType: undefined,
+            fileSize: undefined,
+          })
+        }
+        kind="document"
+        folder="documents"
+        helpText="Sube el archivo, o pega un enlace si ya está publicado."
+      />
+      <PublishBar saving={saving} error={error} published={published} onPublish={() => void save()} />
+    </div>
+  );
+}
+
+function formatNewsDateLabel(iso: string): string {
+  if (!iso) return "";
+  const d = new Date(`${iso}T00:00:00`);
+  if (Number.isNaN(d.getTime())) return iso;
+  return d.toLocaleDateString("es-ES", { day: "numeric", month: "long", year: "numeric" });
+}
+
+function emptyNoticia(): AdminNewsItem {
+  const date = new Date().toISOString().slice(0, 10);
+  return {
+    id: "",
+    slug: `preview-news-${Date.now()}`,
+    title: "",
+    date,
+    dateFormatted: formatNewsDateLabel(date),
+    category: "Noticias",
+    excerpt: "",
+    imageUrl: "",
+    content: "",
+    author: "REGULATEL",
+    published: true,
+  };
+}
+
+function NoticiaForm({ slug }: { slug?: string }) {
+  const navigate = useNavigate();
   const { exit, recordPersistedChange, clearPreview, preview } = useSiteEdit();
   const { adminNews, updateNews, addNews } = useAdminData();
-  const existing = adminNews.find((n) => (n.slug || n.id).toLowerCase() === slug.toLowerCase());
-  const staticNews = noticiasData.find((n) => n.slug.toLowerCase() === slug.toLowerCase());
-  const seedBase = existing ?? (staticNews
-    ? ({
-        id: "",
-        slug: staticNews.slug,
-        title: staticNews.title,
-        date: staticNews.date,
-        dateFormatted: staticNews.dateFormatted,
-        category: staticNews.category,
-        excerpt: staticNews.excerpt,
-        imageUrl: staticNews.imageUrl,
-        content: staticNews.content.join("\n\n"),
-        author: staticNews.author,
-        link: staticNews.link,
-        videoUrl: staticNews.videoUrl,
-        published: true,
-      } satisfies AdminNewsItem)
-    : null);
+  const existing = slug
+    ? adminNews.find((n) => (n.slug || n.id).toLowerCase() === slug.toLowerCase())
+    : undefined;
+  const staticNews = slug
+    ? noticiasData.find((n) => n.slug.toLowerCase() === slug.toLowerCase())
+    : undefined;
+  const seedBase = existing
+    ? existing
+    : staticNews
+      ? ({
+          id: "",
+          slug: staticNews.slug,
+          title: staticNews.title,
+          date: staticNews.date,
+          dateFormatted: staticNews.dateFormatted,
+          category: staticNews.category,
+          excerpt: staticNews.excerpt,
+          imageUrl: staticNews.imageUrl,
+          content: staticNews.content.join("\n\n"),
+          author: staticNews.author,
+          link: staticNews.link,
+          videoUrl: staticNews.videoUrl,
+          published: true,
+        } satisfies AdminNewsItem)
+      : slug
+        ? null
+        : emptyNoticia();
   const seed =
-    seedBase && preview.news && preview.news.slug.toLowerCase() === slug.toLowerCase()
+    seedBase && preview.news && preview.news.slug.toLowerCase() === (seedBase.slug || slug || "").toLowerCase()
       ? {
           ...seedBase,
           title: preview.news.title,
@@ -935,11 +1402,13 @@ function NoticiaForm({ slug }: { slug: string }) {
           date: preview.news.date,
           dateFormatted: preview.news.dateFormatted ?? seedBase.dateFormatted,
           imageUrl: preview.news.imageUrl ?? seedBase.imageUrl,
+          category: preview.news.category ?? seedBase.category,
         }
       : seedBase;
 
   const { value: row, setValue: setRow } = useDraftHistory<AdminNewsItem | null>(seed ? { ...seed } : null);
   const [saving, setSaving] = useState(false);
+  const [drafting, setDrafting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [published, setPublished] = useState(false);
 
@@ -951,6 +1420,7 @@ function NoticiaForm({ slug }: { slug: string }) {
         date: row.date,
         dateFormatted: row.dateFormatted,
         imageUrl: row.imageUrl,
+        category: row.category,
       }
     : undefined;
   const captureBaseline = usePreviewSync("news", newsPreview, Boolean(row));
@@ -965,57 +1435,69 @@ function NoticiaForm({ slug }: { slug: string }) {
     );
   }
 
-  const save = async () => {
+  const persistNoticia = async (asDraft: boolean): Promise<string> => {
     if (!row.title.trim()) {
-      setError("Hace falta un título.");
-      return;
+      throw new Error("Hace falta un título.");
     }
+    const publishedFlag = asDraft ? (existing ? existing.published !== false : false) : true;
+    if (existing) {
+      const before = {
+        title: existing.title,
+        excerpt: existing.excerpt,
+        date: existing.date,
+        imageUrl: existing.imageUrl,
+        published: existing.published,
+        category: existing.category,
+      };
+      const after = {
+        title: row.title.trim(),
+        excerpt: row.excerpt.trim(),
+        date: row.date,
+        dateFormatted: formatNewsDateLabel(row.date),
+        imageUrl: row.imageUrl,
+        published: publishedFlag,
+        category: row.category,
+      };
+      await updateNews(existing.id, after);
+      recordPersistedChange({
+        label: "noticia",
+        undo: async () => {
+          await updateNews(existing.id, before);
+          notifyCmsSaved("news");
+        },
+        redo: async () => {
+          await updateNews(existing.id, after);
+          notifyCmsSaved("news");
+        },
+      });
+      return existing.id;
+    }
+    const nextSlug = row.slug.startsWith("preview-news-")
+      ? slugify(row.title) || `noticia-${Date.now()}`
+      : row.slug || slugify(row.title);
+    const created = await addNews({
+      slug: nextSlug,
+      title: row.title.trim(),
+      date: row.date,
+      dateFormatted: formatNewsDateLabel(row.date) || row.dateFormatted,
+      category: row.category || "Noticias",
+      excerpt: row.excerpt.trim(),
+      imageUrl: row.imageUrl,
+      content: row.content,
+      author: row.author,
+      link: row.link,
+      videoUrl: row.videoUrl,
+      published: publishedFlag,
+    });
+    if (!created.id) throw new Error("No se pudo guardar el borrador.");
+    return created.id;
+  };
+
+  const save = async () => {
     setSaving(true);
     setError(null);
     try {
-      if (existing) {
-        const before = {
-          title: existing.title,
-          excerpt: existing.excerpt,
-          date: existing.date,
-          imageUrl: existing.imageUrl,
-          published: existing.published,
-        };
-        const after = {
-          title: row.title.trim(),
-          excerpt: row.excerpt.trim(),
-          date: row.date,
-          imageUrl: row.imageUrl,
-          published: row.published,
-        };
-        await updateNews(existing.id, after);
-        recordPersistedChange({
-          label: "noticia",
-          undo: async () => {
-            await updateNews(existing.id, before);
-            notifyCmsSaved("news");
-          },
-          redo: async () => {
-            await updateNews(existing.id, after);
-            notifyCmsSaved("news");
-          },
-        });
-      } else {
-        await addNews({
-          slug: row.slug,
-          title: row.title.trim(),
-          date: row.date,
-          dateFormatted: row.dateFormatted,
-          category: row.category,
-          excerpt: row.excerpt.trim(),
-          imageUrl: row.imageUrl,
-          content: row.content,
-          author: row.author,
-          link: row.link,
-          videoUrl: row.videoUrl,
-          published: row.published,
-        });
-      }
+      await persistNoticia(false);
       notifyCmsSaved("news");
       captureBaseline();
       clearPreview("news");
@@ -1027,8 +1509,27 @@ function NoticiaForm({ slug }: { slug: string }) {
     }
   };
 
+  const saveDraftAndOpen = async () => {
+    setDrafting(true);
+    setError(null);
+    try {
+      const id = await persistNoticia(true);
+      notifyCmsSaved("news");
+      captureBaseline();
+      clearPreview("news");
+      navigate(`/admin/noticias?edit=${encodeURIComponent(id)}&borrador=1`);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "No se pudo guardar el borrador.");
+    } finally {
+      setDrafting(false);
+    }
+  };
+
   return (
     <div className="space-y-5">
+      <p className="text-[12px] leading-relaxed" style={{ color: "var(--regu-gray-500)" }}>
+        Se ve al instante en el listado. Hasta que publiques, el sitio real no cambia.
+      </p>
       <Field label="Título">
         <textarea
           rows={3}
@@ -1038,9 +1539,36 @@ function NoticiaForm({ slug }: { slug: string }) {
           onChange={(e) => setRow({ ...row, title: e.target.value })}
         />
       </Field>
-      <Field label="Fecha">
-        <input type="date" className={fieldClass} style={fieldStyle} value={row.date} onChange={(e) => setRow({ ...row, date: e.target.value })} />
-      </Field>
+      <div className="grid grid-cols-2 gap-3">
+        <Field label="Fecha">
+          <input
+            type="date"
+            className={fieldClass}
+            style={fieldStyle}
+            value={row.date}
+            onChange={(e) =>
+              setRow({
+                ...row,
+                date: e.target.value,
+                dateFormatted: formatNewsDateLabel(e.target.value),
+              })
+            }
+          />
+        </Field>
+        <Field label="Categoría">
+          <select
+            className={fieldClass}
+            style={fieldStyle}
+            value={row.category}
+            onChange={(e) => setRow({ ...row, category: e.target.value })}
+          >
+            <option value="Noticias">Noticias</option>
+            <option value="Reuniones">Reuniones</option>
+            <option value="Mesas">Mesas</option>
+            <option value="Eventos">Eventos</option>
+          </select>
+        </Field>
+      </div>
       <Field label="Resumen">
         <textarea
           rows={4}
@@ -1058,24 +1586,41 @@ function NoticiaForm({ slug }: { slug: string }) {
         folder="news"
       />
       <p className="text-[12px] leading-relaxed" style={{ color: "var(--regu-gray-500)" }}>
-        El texto largo de la nota se edita en el panel de Noticias.
+        Semiguardar deja un borrador y te lleva al panel para el texto largo. Publicar la pone en el sitio.
       </p>
       <PublishBar
         saving={saving}
         error={error}
         published={published}
+        disabled={drafting}
         onPublish={() => void save()}
         extra={
-          <Link
-            to="/admin/noticias"
-            onClick={(event) => {
-              if (!exit()) event.preventDefault();
-            }}
-            className="inline-flex items-center gap-1.5 rounded-xl border bg-white px-3 py-2.5 text-sm font-semibold"
-            style={{ borderColor: "rgba(22,61,89,0.14)", color: "var(--regu-navy)" }}
-          >
-            Abrir panel
-          </Link>
+          <>
+            <button
+              type="button"
+              onClick={() => void saveDraftAndOpen()}
+              disabled={saving || drafting}
+              className="inline-flex items-center gap-2 rounded-xl border px-4 py-2.5 text-sm font-semibold disabled:opacity-60"
+              style={{
+                borderColor: "rgba(22,61,89,0.18)",
+                backgroundColor: "#f0f7fb",
+                color: "var(--regu-navy)",
+              }}
+            >
+              <Save className="h-4 w-4" />
+              {drafting ? "Guardando…" : "Semiguardar y completar"}
+            </button>
+            <Link
+              to="/admin/noticias"
+              onClick={(event) => {
+                if (!exit()) event.preventDefault();
+              }}
+              className="inline-flex items-center gap-1.5 rounded-xl border bg-white px-3 py-2.5 text-sm font-semibold"
+              style={{ borderColor: "rgba(22,61,89,0.14)", color: "var(--regu-navy)" }}
+            >
+              Abrir panel
+            </Link>
+          </>
         }
       />
     </div>

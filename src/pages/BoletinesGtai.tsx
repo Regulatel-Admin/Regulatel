@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
-import { ArrowRight, Calendar, Download, Eye, FileText, Layers, Sparkles } from "lucide-react";
+import { ArrowRight, Calendar, Download, Eye, FileText, Layers, Plus, Sparkles } from "lucide-react";
 import PageHero from "@/components/PageHero";
 import { useBoletinesGtai } from "@/hooks/useBoletinesGtai";
 import { useLocalizedBoletines } from "@/hooks/useLocalizedBoletines";
@@ -14,25 +14,28 @@ import {
   uniqueYearsDesc,
 } from "@/data/boletinesGtai";
 import { EditableSpot } from "@/components/site-edit/EditableSpot";
+import { useSiteEdit } from "@/contexts/SiteEditContext";
 
 export default function BoletinesGtai() {
   const { t, i18n } = useTranslation();
   const { entries, loading } = useBoletinesGtai();
+  const { enabled: siteEditEnabled, open: openSiteEdit, target: siteEditTarget } = useSiteEdit();
   const [yearFilter, setYearFilter] = useState<number | "all">("all");
 
   const published = useMemo(() => sortBoletinesByDateDesc(getBoletinesGtaiPublished(entries)), [entries]);
   const localizedPublished = useLocalizedBoletines(published);
+  const displayPublished = siteEditEnabled ? published : localizedPublished;
   const featured = useMemo(() => getFeaturedBoletin(entries), [entries]);
   const localizedFeatured = useMemo(() => {
     if (!featured) return null;
-    return localizedPublished.find((b) => b.slug === featured.slug) ?? null;
-  }, [featured, localizedPublished]);
+    return displayPublished.find((b) => b.slug === featured.slug) ?? null;
+  }, [featured, displayPublished]);
   const years = useMemo(() => uniqueYearsDesc(entries), [entries]);
 
   const listFiltered = useMemo(() => {
-    if (yearFilter === "all") return localizedPublished;
-    return localizedPublished.filter((b) => b.year === yearFilter);
-  }, [localizedPublished, yearFilter]);
+    if (yearFilter === "all") return displayPublished;
+    return displayPublished.filter((b) => b.year === yearFilter);
+  }, [displayPublished, yearFilter]);
 
   const restAfterFeatured = useMemo(() => {
     if (!localizedFeatured) return listFiltered;
@@ -40,6 +43,7 @@ export default function BoletinesGtai() {
   }, [listFiltered, localizedFeatured]);
 
   const dateLocale = i18n.language === "en" ? "en-GB" : i18n.language === "pt" ? "pt-PT" : "es-ES";
+  const showAdd = siteEditEnabled && !(siteEditTarget?.kind === "boletin" && !siteEditTarget.slug);
 
   return (
     <>
@@ -210,6 +214,33 @@ export default function BoletinesGtai() {
           </div>
 
           <div className="grid gap-5 md:grid-cols-2">
+            {showAdd && (
+              <button
+                type="button"
+                onClick={() => openSiteEdit({ kind: "boletin" })}
+                className="flex min-h-[220px] flex-col items-center justify-center gap-3 rounded-2xl border-2 border-dashed px-6 py-10 transition hover:bg-[rgba(15,118,110,0.06)]"
+                style={{
+                  borderColor: "rgba(15,118,110,0.45)",
+                  backgroundColor: "rgba(15,118,110,0.03)",
+                }}
+                aria-label="Añadir un boletín"
+              >
+                <span
+                  className="flex h-16 w-16 items-center justify-center rounded-full"
+                  style={{ backgroundColor: "rgba(15,118,110,0.10)", color: "#0f766e" }}
+                >
+                  <Plus className="h-9 w-9" strokeWidth={1.5} aria-hidden />
+                </span>
+                <span className="text-center">
+                  <span className="block text-base font-bold" style={{ color: "#0f766e", fontFamily: "var(--token-font-heading)" }}>
+                    Añadir boletín
+                  </span>
+                  <span className="mt-1 block text-sm leading-relaxed" style={{ color: "var(--regu-gray-500)" }}>
+                    Título, portada y PDF. Se ve aquí al instante.
+                  </span>
+                </span>
+              </button>
+            )}
             {restAfterFeatured.map((b, index) => (
               <EditableSpot key={b.slug} target={{ kind: "boletin", slug: b.slug }} label="Editar este boletín" className="h-full">
               <motion.article

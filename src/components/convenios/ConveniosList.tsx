@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { ArrowRight, Download } from "lucide-react";
 import type { Convenio } from "@/data/convenios";
+import { EditableSpot } from "@/components/site-edit/EditableSpot";
+import { useSiteEdit } from "@/contexts/SiteEditContext";
 
 function docAnchorProps(url: string): Pick<AnchorHTMLAttributes<HTMLAnchorElement>, "target" | "rel" | "download"> {
   if (/^https?:\/\//i.test(url)) {
@@ -20,10 +22,16 @@ interface ConveniosListProps {
  */
 export default function ConveniosList({ convenios }: ConveniosListProps) {
   const { t } = useTranslation();
+  const { enabled: siteEditEnabled } = useSiteEdit();
   return (
     <ul className="list-none m-0 p-0 space-y-5">
       {convenios.map((c, index) => (
         <li key={c.slug} className="list-none m-0">
+          <EditableSpot
+            className="rounded-2xl"
+            target={{ kind: "convenio", slug: c.slug }}
+            label={`Editar ${c.acronym || c.title || "convenio"}`}
+          >
           <article
             className="convenioCard group relative overflow-hidden rounded-2xl border bg-white transition-all duration-200 hover:-translate-y-0.5"
             style={{
@@ -80,7 +88,7 @@ export default function ConveniosList({ convenios }: ConveniosListProps) {
                   className="text-lg font-bold leading-snug mb-1 md:text-xl"
                   style={{ color: "var(--regu-navy)", fontFamily: "var(--token-font-heading)" }}
                 >
-                  {c.title}
+                  {c.title.trim() || (siteEditEnabled ? "Nuevo convenio" : c.title)}
                 </h2>
                 <p
                   className="text-sm font-bold uppercase tracking-[0.08em] mb-3"
@@ -157,6 +165,7 @@ export default function ConveniosList({ convenios }: ConveniosListProps) {
               </div>
             </div>
           </article>
+          </EditableSpot>
         </li>
       ))}
     </ul>

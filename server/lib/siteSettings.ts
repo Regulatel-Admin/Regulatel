@@ -21,6 +21,9 @@ const ALLOWED_KEYS = [
   "autoridades_actuales",
   "convenios",
   "revista_digital",
+  "home_announcements",
+  "estudios_investigacion",
+  "habla_el_regulador",
 ] as const;
 
 export type SiteSettingKey = (typeof ALLOWED_KEYS)[number];
@@ -72,6 +75,8 @@ const MOJIBAKE_FIX_KEYS = new Set<string>([
   "autoridades_actuales",
   "convenios",
   "revista_digital",
+  "estudios_investigacion",
+  "habla_el_regulador",
 ]);
 
 function postProcessValue(key: string, value: unknown): unknown {

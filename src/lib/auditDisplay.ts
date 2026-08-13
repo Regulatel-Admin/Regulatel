@@ -41,6 +41,7 @@ const SETTING_LABELS: Record<string, string> = {
   entes_reguladores_miembros: "Entes miembros",
   autoridades_actuales: "Autoridades actuales",
   revista_digital: "Revista digital",
+  home_announcements: "Avisos de la portada",
 };
 
 const FIELD_LABELS: Record<string, string> = {

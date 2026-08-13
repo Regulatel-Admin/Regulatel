@@ -2,27 +2,24 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { FileText, Download, Eye, X, Maximize2, ArrowLeft, ArrowRight } from "lucide-react";
+import { FileText, Download, Eye, X, Maximize2, ArrowLeft, ArrowRight, Plus } from "lucide-react";
 import PageHero from "@/components/PageHero";
-
-const DOCUMENTOS_ESTUDIOS = [
-  {
-    id: "conectividad-2022",
-    title: "Diagnóstico sobre la Conectividad en la Región de REGULATEL 2022",
-    description: "Análisis de la conectividad en la región de REGULATEL (versión final).",
-    url: "/documents/estudios/diagnostico-conectividad-region-regulatel-2022.pdf",
-  },
-  {
-    id: "industria-40",
-    title: "Diagnóstico sobre la Industria 4.0 en la región de REGULATEL",
-    description: "Estudio sobre Industria 4.0 en la región (versión final).",
-    url: "/documents/estudios/diagnostico-industria-40-region-regulatel.pdf",
-  },
-];
+import { useEstudiosInvestigacion } from "@/contexts/SiteSettingsContext";
+import { useSiteEdit } from "@/contexts/SiteEditContext";
+import { EditableSpot } from "@/components/site-edit/EditableSpot";
 
 export default function EstudiosInvestigacion() {
   const { t } = useTranslation();
+  const documentos = useEstudiosInvestigacion();
+  const { enabled: siteEditEnabled, open: openSiteEdit, preview: siteEditPreview, target: siteEditTarget } =
+    useSiteEdit();
   const [previewDoc, setPreviewDoc] = useState<{ url: string; title: string } | null>(null);
+  const draftingNew = Boolean(
+    siteEditEnabled &&
+      ((siteEditTarget?.kind === "estudio" && !siteEditTarget.id) ||
+        siteEditPreview.estudios?.some((e) => e.id.startsWith("estudio-new-") && !e.title.trim()))
+  );
+  const showAdd = siteEditEnabled && !draftingNew;
 
   return (
     <>
@@ -43,9 +40,42 @@ export default function EstudiosInvestigacion() {
       >
         <div className="mx-auto px-4 md:px-6 lg:px-8" style={{ maxWidth: "1180px" }}>
           <div className="space-y-6 mb-12">
-            {DOCUMENTOS_ESTUDIOS.map((doc, index) => (
-              <motion.article
+            {showAdd && (
+              <button
+                type="button"
+                onClick={() => openSiteEdit({ kind: "estudio" })}
+                className="flex w-full flex-col items-center justify-center gap-3 rounded-2xl border-2 border-dashed px-6 py-10 transition hover:bg-[rgba(15,118,110,0.06)] md:flex-row md:gap-8"
+                style={{
+                  borderColor: "rgba(15,118,110,0.45)",
+                  minHeight: "140px",
+                  backgroundColor: "rgba(15,118,110,0.03)",
+                }}
+                aria-label="Añadir un estudio"
+              >
+                <span
+                  className="flex h-16 w-16 items-center justify-center rounded-full"
+                  style={{ backgroundColor: "rgba(15,118,110,0.10)", color: "#0f766e" }}
+                >
+                  <Plus className="h-9 w-9" strokeWidth={1.5} aria-hidden />
+                </span>
+                <span className="text-center md:text-left">
+                  <span className="block text-base font-bold" style={{ color: "#0f766e", fontFamily: "var(--token-font-heading)" }}>
+                    Añadir estudio
+                  </span>
+                  <span className="mt-1 block text-sm leading-relaxed" style={{ color: "var(--regu-gray-500)" }}>
+                    Título, resumen y PDF. Se ve aquí al instante.
+                  </span>
+                </span>
+              </button>
+            )}
+            {documentos.map((doc, index) => (
+              <EditableSpot
                 key={doc.id}
+                className="rounded-2xl"
+                target={{ kind: "estudio", id: doc.id }}
+                label={`Editar ${doc.title || "estudio"}`}
+              >
+              <motion.article
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: index * 0.05 }}
@@ -78,7 +108,7 @@ export default function EstudiosInvestigacion() {
                           fontFamily: "var(--token-font-heading)",
                         }}
                       >
-                        {doc.title}
+                        {doc.title.trim() || "Nuevo estudio"}
                       </h3>
                     </div>
                     <p className="text-sm leading-relaxed pl-12 md:pl-0" style={{ color: "var(--regu-gray-600)" }}>
@@ -106,6 +136,7 @@ export default function EstudiosInvestigacion() {
                   </div>
                 </div>
               </motion.article>
+              </EditableSpot>
             ))}
           </div>
 

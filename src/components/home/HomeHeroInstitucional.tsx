@@ -8,6 +8,7 @@ import { ChevronLeft, ChevronRight, Pause, Play, ArrowRight } from "lucide-react
 import HeroInstitucionalBackground from "./HeroInstitucionalBackground";
 import HomeBoletinGtaiAnnouncement from "./HomeBoletinGtaiAnnouncement";
 import HomeRevistaAnnouncement from "./HomeRevistaAnnouncement";
+import { HomeExtraAnnouncements } from "./HomeExtraAnnouncements";
 import { EditableSpot } from "@/components/site-edit/EditableSpot";
 
 const HERO_SLIDESHOW_INTERVAL_MS = 5500;
@@ -205,6 +206,7 @@ export default function HomeHeroInstitucional({
       >
         <HomeBoletinGtaiAnnouncement />
         <HomeRevistaAnnouncement variant="stacked" />
+        <HomeExtraAnnouncements />
       </div>
 
       {isSlideshow && (

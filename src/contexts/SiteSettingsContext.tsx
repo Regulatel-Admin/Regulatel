@@ -18,11 +18,33 @@ import { authorities, parseAuthoritiesFromSettingValue } from "@/data/authoritie
 import type { Convenio } from "@/data/convenios";
 import { convenios as defaultConveniosStatic, parseConveniosFromSettingValue } from "@/data/convenios";
 import type { EnteReguladorMiembro } from "@/data/entesReguladoresMiembros";
-import { defaultEntesReguladoresMiembros, parseEntesMiembrosFromSettingValue } from "@/data/entesReguladoresMiembros";
+import { defaultEntesReguladoresMiembros, parseEntesMiembrosFromSettingValue, stampEnteIds } from "@/data/entesReguladoresMiembros";
+import type { DirectorioAutoridad } from "@/data/directorioAutoridades";
+import { defaultDirectorioAutoridades, parseDirectorioFromSettingValue, stampDirectorioIds } from "@/data/directorioAutoridades";
 import type { BuenasPracticasRegulatoriasSetting } from "@/data/mejoresPracticas";
 import { parseBuenasPracticasRegulatoriasFromSettingValue } from "@/data/mejoresPracticas";
 import type { RevistaEdition } from "@/data/revistaDigital";
 import { defaultRevistaEditions, parseRevistaDigitalFromSettingValue } from "@/data/revistaDigital";
+import type { HomeAvisoSlot } from "@/data/homeAnnouncements";
+import { parseHomeAnnouncementsFromSettingValue, visibleHomeAvisos } from "@/data/homeAnnouncements";
+import type { GrupoTrabajoSerialized } from "@/data/gruposTrabajo";
+import { defaultGruposTrabajo, parseGruposTrabajoFromSettingValue } from "@/data/gruposTrabajo";
+import type { ComiteEjecutivoCmsDocument } from "@/data/comiteEjecutivo";
+import {
+  defaultComiteEjecutivoCmsDocument,
+  parseComiteEjecutivoCmsFromSettingValue,
+  stampComiteIds,
+} from "@/data/comiteEjecutivo";
+import type { EstudioInvestigacion } from "@/data/estudiosInvestigacion";
+import {
+  defaultEstudiosInvestigacion,
+  parseEstudiosFromSettingValue,
+} from "@/data/estudiosInvestigacion";
+import type { HablaElReguladorInterview } from "@/data/hablaElRegulador";
+import {
+  hablaElReguladorInterviews as defaultHablaInterviews,
+  parseHablaInterviewsFromSettingValue,
+} from "@/data/hablaElRegulador";
 import { CMS_SAVED_EVENT } from "@/lib/siteEdit";
 import { useSiteEdit } from "@/contexts/SiteEditContext";
 
@@ -36,9 +58,15 @@ export interface SiteSettingsState {
   autoridadesActuales: Authority[] | null;
   conveniosList: Convenio[] | null;
   entesReguladoresMiembros: EnteReguladorMiembro[] | null;
+  directorioAutoridades: DirectorioAutoridad[] | null;
   /** null = clave ausente en BD (usar JSON estático / fallback). Objeto = lo guardado (entries puede estar vacío). */
   buenasPracticasRegulatorias: BuenasPracticasRegulatoriasSetting | null;
   revistaDigital: RevistaEdition[] | null;
+  homeAnnouncements: HomeAvisoSlot[] | null;
+  gruposTrabajo: GrupoTrabajoSerialized[] | null;
+  comiteEjecutivo: ComiteEjecutivoCmsDocument | null;
+  estudiosInvestigacion: EstudioInvestigacion[] | null;
+  hablaElRegulador: HablaElReguladorInterview[] | null;
   loading: boolean;
   /** Vuelve a pedir los settings al API (útil al volver al Home tras guardar en admin). */
   refetch: () => Promise<void>;
@@ -53,8 +81,14 @@ const defaultState: SiteSettingsState = {
   autoridadesActuales: null,
   conveniosList: null,
   entesReguladoresMiembros: null,
+  directorioAutoridades: null,
   buenasPracticasRegulatorias: null,
   revistaDigital: null,
+  homeAnnouncements: null,
+  gruposTrabajo: null,
+  comiteEjecutivo: null,
+  estudiosInvestigacion: null,
+  hablaElRegulador: null,
   loading: true,
   refetch: async () => {},
 };
@@ -165,6 +199,20 @@ async function fetchSettings(retry = false): Promise<Omit<SiteSettingsState, "re
       const parsed = parseEntesMiembrosFromSettingValue(raw);
       return parsed !== null ? parsed : null;
     })(),
+    directorioAutoridades: (() => {
+      if (!("directorio_autoridades" in d)) return null;
+      const raw =
+        typeof d.directorio_autoridades === "string"
+          ? (() => {
+              try {
+                return JSON.parse(d.directorio_autoridades as string) as unknown;
+              } catch {
+                return d.directorio_autoridades;
+              }
+            })()
+          : d.directorio_autoridades;
+      return parseDirectorioFromSettingValue(raw);
+    })(),
     buenasPracticasRegulatorias: (() => {
       if (!("buenas_practicas_regulatorias" in d)) return null;
       const raw =
@@ -192,6 +240,76 @@ async function fetchSettings(retry = false): Promise<Omit<SiteSettingsState, "re
             })()
           : d.revista_digital;
       return parseRevistaDigitalFromSettingValue(raw);
+    })(),
+    homeAnnouncements: (() => {
+      if (!("home_announcements" in d)) return null;
+      const raw =
+        typeof d.home_announcements === "string"
+          ? (() => {
+              try {
+                return JSON.parse(d.home_announcements as string) as unknown;
+              } catch {
+                return d.home_announcements;
+              }
+            })()
+          : d.home_announcements;
+      return parseHomeAnnouncementsFromSettingValue(raw);
+    })(),
+    gruposTrabajo: (() => {
+      if (!("grupos_trabajo" in d)) return null;
+      const raw =
+        typeof d.grupos_trabajo === "string"
+          ? (() => {
+              try {
+                return JSON.parse(d.grupos_trabajo as string) as unknown;
+              } catch {
+                return d.grupos_trabajo;
+              }
+            })()
+          : d.grupos_trabajo;
+      return parseGruposTrabajoFromSettingValue(raw);
+    })(),
+    comiteEjecutivo: (() => {
+      if (!("comite_ejecutivo" in d)) return null;
+      const raw =
+        typeof d.comite_ejecutivo === "string"
+          ? (() => {
+              try {
+                return JSON.parse(d.comite_ejecutivo as string) as unknown;
+              } catch {
+                return d.comite_ejecutivo;
+              }
+            })()
+          : d.comite_ejecutivo;
+      return parseComiteEjecutivoCmsFromSettingValue(raw);
+    })(),
+    estudiosInvestigacion: (() => {
+      if (!("estudios_investigacion" in d)) return null;
+      const raw =
+        typeof d.estudios_investigacion === "string"
+          ? (() => {
+              try {
+                return JSON.parse(d.estudios_investigacion as string) as unknown;
+              } catch {
+                return d.estudios_investigacion;
+              }
+            })()
+          : d.estudios_investigacion;
+      return parseEstudiosFromSettingValue(raw);
+    })(),
+    hablaElRegulador: (() => {
+      if (!("habla_el_regulador" in d)) return null;
+      const raw =
+        typeof d.habla_el_regulador === "string"
+          ? (() => {
+              try {
+                return JSON.parse(d.habla_el_regulador as string) as unknown;
+              } catch {
+                return d.habla_el_regulador;
+              }
+            })()
+          : d.habla_el_regulador;
+      return parseHablaInterviewsFromSettingValue(raw);
     })(),
     loading: false,
   };
@@ -293,17 +411,20 @@ export function useFeaturedCarouselSettings(): FeaturedCarouselItemSetting[] {
   }));
 }
 
-/** Gallery albums: from API or static default. Returns AlbumGaleria[] for use in Galeria/GaleriaAlbum. */
+/** Gallery albums: from API, live preview, or static default. */
 export function useGalleryAlbums(): AlbumGaleria[] {
   const { galleryAlbums, loading } = useSiteSettings();
+  const { enabled, preview } = useSiteEdit();
+  const toAlbum = (a: GalleryAlbumSetting): AlbumGaleria => ({
+    slug: a.slug,
+    title: a.title,
+    date: a.date,
+    folder: a.folder,
+    images: a.images,
+  });
+  if (enabled && preview.galleryAlbums) return preview.galleryAlbums.map(toAlbum);
   if (!loading && galleryAlbums && galleryAlbums.length > 0) {
-    return galleryAlbums.map((a) => ({
-      slug: a.slug,
-      title: a.title,
-      date: a.date,
-      folder: a.folder,
-      images: a.images,
-    }));
+    return galleryAlbums.map(toAlbum);
   }
   return albumesGaleria;
 }
@@ -315,9 +436,11 @@ export function useNavigationSettings(): unknown | null {
   return null;
 }
 
-/** Presidente y vicepresidentes (/autoridades): BD o estático. */
+/** Presidente y vicepresidentes (/autoridades): BD, vista previa o estático. */
 export function useAutoridadesActuales(): Authority[] {
   const { autoridadesActuales, loading } = useSiteSettings();
+  const { enabled, preview } = useSiteEdit();
+  if (enabled && preview.autoridades) return preview.autoridades;
   if (!loading && autoridadesActuales !== null) return autoridadesActuales;
   return authorities;
 }
@@ -325,6 +448,8 @@ export function useAutoridadesActuales(): Authority[] {
 /** Convenios para menú, lista y detalle. */
 export function useConveniosPublic(): Convenio[] {
   const { conveniosList, loading } = useSiteSettings();
+  const { enabled, preview } = useSiteEdit();
+  if (enabled && preview.convenios) return [...preview.convenios].sort((a, b) => a.order - b.order);
   if (!loading && conveniosList !== null) {
     return [...conveniosList].sort((a, b) => a.order - b.order);
   }
@@ -334,8 +459,19 @@ export function useConveniosPublic(): Convenio[] {
 /** Tarjetas "Entes reguladores miembros" en /miembros. */
 export function useEntesReguladoresMiembros(): EnteReguladorMiembro[] {
   const { entesReguladoresMiembros, loading } = useSiteSettings();
-  if (!loading && entesReguladoresMiembros !== null) return entesReguladoresMiembros;
-  return defaultEntesReguladoresMiembros;
+  const { enabled, preview } = useSiteEdit();
+  if (enabled && preview.entes) return stampEnteIds(preview.entes);
+  if (!loading && entesReguladoresMiembros !== null) return stampEnteIds(entesReguladoresMiembros);
+  return stampEnteIds(defaultEntesReguladoresMiembros);
+}
+
+/** Directorio de autoridades en /miembros. */
+export function useDirectorioAutoridades(): DirectorioAutoridad[] {
+  const { directorioAutoridades, loading } = useSiteSettings();
+  const { enabled, preview } = useSiteEdit();
+  if (enabled && preview.directorio) return stampDirectorioIds(preview.directorio);
+  if (!loading && directorioAutoridades !== null) return stampDirectorioIds(directorioAutoridades);
+  return stampDirectorioIds(defaultDirectorioAutoridades);
 }
 
 /** Ediciones de la Revista Digital: CMS, vista previa o listado original. */
@@ -345,4 +481,48 @@ export function useRevistaDigitalEditions(): RevistaEdition[] {
   if (enabled && preview.revista) return preview.revista;
   if (revistaDigital !== null) return revistaDigital;
   return defaultRevistaEditions;
+}
+
+/** Avisos extra del hero: CMS o vista previa al editar en el sitio. */
+export function useHomeAnnouncements(): HomeAvisoSlot[] {
+  const { homeAnnouncements } = useSiteSettings();
+  const { enabled, preview } = useSiteEdit();
+  if (enabled && preview.homeAnnouncements) return visibleHomeAvisos(preview.homeAnnouncements);
+  return visibleHomeAvisos(homeAnnouncements);
+}
+
+/** Fichas de /grupos-de-trabajo: CMS o vista previa al editar en el sitio. */
+export function useGruposTrabajo(): GrupoTrabajoSerialized[] {
+  const { gruposTrabajo, loading } = useSiteSettings();
+  const { enabled, preview } = useSiteEdit();
+  if (enabled && preview.grupos) return preview.grupos;
+  if (!loading && gruposTrabajo !== null) return gruposTrabajo;
+  return defaultGruposTrabajo;
+}
+
+/** Comité Ejecutivo: CMS o vista previa al editar en el sitio. */
+export function useComiteEjecutivo(): ComiteEjecutivoCmsDocument {
+  const { comiteEjecutivo, loading } = useSiteSettings();
+  const { enabled, preview } = useSiteEdit();
+  if (enabled && preview.comite) return stampComiteIds(preview.comite);
+  if (!loading && comiteEjecutivo !== null) return stampComiteIds(comiteEjecutivo);
+  return stampComiteIds(defaultComiteEjecutivoCmsDocument());
+}
+
+/** Estudios e investigación. */
+export function useEstudiosInvestigacion(): EstudioInvestigacion[] {
+  const { estudiosInvestigacion, loading } = useSiteSettings();
+  const { enabled, preview } = useSiteEdit();
+  if (enabled && preview.estudios) return preview.estudios;
+  if (!loading && estudiosInvestigacion !== null) return estudiosInvestigacion;
+  return defaultEstudiosInvestigacion;
+}
+
+/** Entrevistas de Habla El Regulador. */
+export function useHablaElReguladorInterviews(): HablaElReguladorInterview[] {
+  const { hablaElRegulador, loading } = useSiteSettings();
+  const { enabled, preview } = useSiteEdit();
+  if (enabled && preview.entrevistas) return preview.entrevistas;
+  if (!loading && hablaElRegulador !== null) return hablaElRegulador;
+  return defaultHablaInterviews;
 }

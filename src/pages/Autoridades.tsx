@@ -1,10 +1,12 @@
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { ArrowRight, ArrowLeft } from "lucide-react";
+import { ArrowRight, ArrowLeft, Plus } from "lucide-react";
 import PageHero from "@/components/PageHero";
 import type { Authority } from "@/data/authorities";
 import { useAutoridadesActuales } from "@/contexts/SiteSettingsContext";
 import { useLocalizedAuthorities } from "@/hooks/useLocalizedAuthorities";
+import { useSiteEdit } from "@/contexts/SiteEditContext";
+import { EditableSpot } from "@/components/site-edit/EditableSpot";
 
 function AuthorityCard({ authority, index }: { authority: Authority; index: number }) {
   const { t } = useTranslation();
@@ -90,8 +92,18 @@ function AuthorityCard({ authority, index }: { authority: Authority; index: numb
 
 export default function Autoridades() {
   const { t } = useTranslation();
+  const { enabled: siteEditEnabled, open: openSiteEdit, preview: siteEditPreview, target: siteEditTarget } =
+    useSiteEdit();
   const rawAuthoritiesList = useAutoridadesActuales();
-  const authoritiesList = useLocalizedAuthorities(rawAuthoritiesList);
+  const localizedList = useLocalizedAuthorities(rawAuthoritiesList);
+  const authoritiesList = siteEditEnabled ? rawAuthoritiesList : localizedList;
+
+  const draftingNew = Boolean(
+    siteEditEnabled &&
+      ((siteEditTarget?.kind === "autoridad" && !siteEditTarget.id) ||
+        siteEditPreview.autoridades?.some((a) => a.id.startsWith("autoridad-new-") && !a.name.trim()))
+  );
+  const showAdd = siteEditEnabled && !draftingNew;
   return (
     <>
       <PageHero
@@ -135,8 +147,49 @@ export default function Autoridades() {
 
           {/* Grid de autoridades: 1 col móvil, 2 tablet, 3 desktop */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6 justify-items-center">
+            {showAdd && (
+              <button
+                type="button"
+                onClick={() => openSiteEdit({ kind: "autoridad" })}
+                className="flex w-full min-h-[320px] max-w-[380px] flex-col items-center justify-center gap-3 rounded-2xl border-2 border-dashed px-6 py-10 transition hover:bg-[rgba(15,118,110,0.06)]"
+                style={{
+                  borderColor: "rgba(15,118,110,0.45)",
+                  backgroundColor: "rgba(15,118,110,0.03)",
+                }}
+                aria-label="Añadir una autoridad"
+              >
+                <span
+                  className="flex h-20 w-20 items-center justify-center rounded-full"
+                  style={{ backgroundColor: "rgba(15,118,110,0.10)", color: "#0f766e" }}
+                >
+                  <Plus className="h-12 w-12" strokeWidth={1.5} aria-hidden />
+                </span>
+                <span className="text-center">
+                  <span className="block text-base font-bold" style={{ color: "#0f766e", fontFamily: "var(--token-font-heading)" }}>
+                    Añadir autoridad
+                  </span>
+                  <span className="mt-1 block text-sm leading-relaxed" style={{ color: "var(--regu-gray-500)" }}>
+                    Foto, nombre y cargo. Se ve aquí al instante.
+                  </span>
+                </span>
+              </button>
+            )}
             {authoritiesList.map((authority, index) => (
-              <AuthorityCard key={authority.id} authority={authority} index={index} />
+              <EditableSpot
+                key={authority.id}
+                className="w-full max-w-[380px] rounded-2xl"
+                target={{ kind: "autoridad", id: authority.id }}
+                label={`Editar ${authority.name || "autoridad"}`}
+              >
+                <AuthorityCard
+                  authority={
+                    siteEditEnabled && !authority.name.trim()
+                      ? { ...authority, name: "Nueva autoridad", role: authority.role || "Cargo", bio: authority.bio || "Completa los datos en el panel." }
+                      : authority
+                  }
+                  index={index}
+                />
+              </EditableSpot>
             ))}
           </div>
 

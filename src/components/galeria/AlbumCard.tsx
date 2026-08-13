@@ -15,7 +15,7 @@ export default function AlbumCard({ album, index }: AlbumCardProps) {
   const count = album.images.length;
 
   return (
-    <EditableSpot target={{ kind: "panel", path: "/admin/content/galeria", label: "Galería" }} label="Editar la galería">
+    <EditableSpot target={{ kind: "album", slug: album.slug }} label={`Editar ${album.title || "álbum"}`}>
     <Link to={`/galeria/${album.slug}`} className="block group">
       <motion.article
         initial={{ opacity: 0, y: 20 }}

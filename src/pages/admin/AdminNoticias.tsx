@@ -1,4 +1,5 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
+import { useSearchParams } from "react-router-dom";
 import { useAdminData } from "@/contexts/AdminDataContext";
 import type { AdminNewsItem } from "@/contexts/AdminDataContext";
 import { Pencil, Trash2, Plus, History, X } from "lucide-react";
@@ -60,6 +61,10 @@ type AuditEntry = {
 
 export default function AdminNoticias() {
   const { adminNews, addNews, updateNews, deleteNews } = useAdminData();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const openedFromQuery = useRef(false);
+  const formAnchorRef = useRef<HTMLFormElement | null>(null);
+  const contentRef = useRef<HTMLTextAreaElement | null>(null);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [adding, setAdding] = useState(false);
   const [form, setForm] = useState<FormState>(initialFormState);
@@ -67,6 +72,7 @@ export default function AdminNoticias() {
   const [isUploading, setIsUploading] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [fromSiteEditDraft, setFromSiteEditDraft] = useState(false);
   const [historyNewsId, setHistoryNewsId] = useState<string | null>(null);
   const [historyEntries, setHistoryEntries] = useState<AuditEntry[]>([]);
   const [historyLoading, setHistoryLoading] = useState(false);
@@ -109,6 +115,7 @@ export default function AdminNoticias() {
     setIsSubmitting(false);
     setIsUploading(false);
     setFormError(null);
+    setFromSiteEditDraft(false);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -165,7 +172,7 @@ export default function AdminNoticias() {
     }
   };
 
-  const startEdit = (n: AdminNewsItem) => {
+  const startEdit = useCallback((n: AdminNewsItem) => {
     const urls = [n.imageUrl, ...(n.additionalImages ?? [])].filter(Boolean);
     const names = [n.imageFileName, ...(n.additionalImageNames ?? [])];
     const meta = [
@@ -205,7 +212,38 @@ export default function AdminNoticias() {
     setEditingId(n.id);
     setAdding(false);
     setFormError(null);
-  };
+  }, []);
+
+  useEffect(() => {
+    if (openedFromQuery.current) return;
+    const editId = searchParams.get("edit");
+    if (!editId) return;
+    const found = adminNews.find((n) => n.id === editId || n.slug === editId);
+    if (!found) return;
+    openedFromQuery.current = true;
+    startEdit(found);
+    if (searchParams.get("borrador") === "1") {
+      setFromSiteEditDraft(true);
+      setSuccessMessage("Borrador listo. Completa el texto largo y publícala aquí cuando esté lista.");
+    }
+    setSearchParams({}, { replace: true });
+    window.setTimeout(() => {
+      formAnchorRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      contentRef.current?.focus();
+    }, 80);
+  }, [adminNews, searchParams, setSearchParams, startEdit]);
+
+  useEffect(() => {
+    const editId = searchParams.get("edit");
+    if (!editId) return;
+    const t = window.setTimeout(() => {
+      if (openedFromQuery.current) return;
+      openedFromQuery.current = true;
+      setFormError("No se encontró esa noticia para completar.");
+      setSearchParams({}, { replace: true });
+    }, 5000);
+    return () => window.clearTimeout(t);
+  }, [searchParams, setSearchParams]);
 
   return (
     <div>
@@ -215,6 +253,11 @@ export default function AdminNoticias() {
       <p className="mb-6 text-sm" style={{ color: "var(--regu-gray-600)" }}>
         Publica notas con foto, texto y, si quieres, un video.
       </p>
+      {fromSiteEditDraft && (
+        <p className="mb-4 rounded-xl border px-3 py-2 text-sm" style={{ borderColor: "rgba(15,118,110,0.25)", backgroundColor: "#f0fdfa", color: "#0f766e" }} role="status">
+          Borrador guardado desde el sitio. Completa el texto largo y marca Publicado cuando quieras que salga en el portal.
+        </p>
+      )}
       {successMessage && (
         <p className="mb-4 text-sm font-medium text-green-700" role="status">{successMessage}</p>
       )}
@@ -238,6 +281,7 @@ export default function AdminNoticias() {
 
       {(adding || editingId) && (
         <form
+          ref={formAnchorRef}
           onSubmit={handleSubmit}
           className="mb-8 rounded-xl border bg-white p-6 shadow-sm"
           style={{ borderColor: "var(--regu-gray-100)" }}
@@ -433,11 +477,12 @@ export default function AdminNoticias() {
             <div className="md:col-span-2">
               <label className="mb-1 block text-sm font-medium" style={{ color: "var(--regu-gray-700)" }}>Contenido (texto completo)</label>
               <textarea
+                ref={contentRef}
                 value={form.content}
                 onChange={(e) => setForm((f) => ({ ...f, content: e.target.value }))}
                 rows={6}
                 className="w-full rounded-lg border px-3 py-2"
-                style={{ borderColor: "var(--regu-gray-100)" }}
+                style={{ borderColor: fromSiteEditDraft ? "var(--regu-blue)" : "var(--regu-gray-100)" }}
               />
             </div>
             <div>

@@ -2,8 +2,48 @@ import { useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Pencil, Plus, X } from "lucide-react";
 import { useSiteEdit } from "@/contexts/SiteEditContext";
-import { adminPathForPublic } from "@/lib/siteEdit";
+import { adminPathForPublic, type SiteEditTarget } from "@/lib/siteEdit";
 import { SiteEditUndoRedo } from "@/components/site-edit/SiteEditUndoRedo";
+
+function addTargetForPath(pathname: string, search: string): SiteEditTarget | null {
+  if (pathname === "/boletines-gtai" || pathname.startsWith("/boletines-gtai/")) {
+    return { kind: "boletin" };
+  }
+  if (pathname === "/noticias" || pathname.startsWith("/noticias/")) {
+    return { kind: "noticia" };
+  }
+  if (pathname === "/miembros" || pathname.startsWith("/miembros/")) {
+    return { kind: "ente" };
+  }
+  if (pathname === "/grupos-de-trabajo" || pathname.startsWith("/grupos-de-trabajo/")) {
+    return { kind: "grupo" };
+  }
+  if (pathname === "/autoridades" || pathname.startsWith("/autoridades/")) {
+    return { kind: "autoridad" };
+  }
+  if (pathname === "/comite-ejecutivo" || pathname.startsWith("/comite-ejecutivo/")) {
+    return { kind: "comite-logo", slot: "miembro" };
+  }
+  if (pathname === "/convenios" || pathname.startsWith("/convenios/")) {
+    return { kind: "convenio" };
+  }
+  if (pathname === "/galeria" || pathname.startsWith("/galeria/")) {
+    return { kind: "album" };
+  }
+  if (pathname === "/estudios-e-investigacion") {
+    return { kind: "estudio" };
+  }
+  if (pathname === "/habla-el-regulador") {
+    return { kind: "entrevista" };
+  }
+  if (pathname !== "/gestion" && pathname !== "/recursos") return null;
+  const tipo = new URLSearchParams(search).get("tipo");
+  if (tipo === "revista") return { kind: "revista" };
+  if (tipo === "planes-actas" || tipo === "comite-ejecutivo" || tipo === "documentos" || tipo === "otros") {
+    return { kind: "documento", category: tipo };
+  }
+  return { kind: "documento", category: "documentos" };
+}
 
 export function SiteEditBar() {
   const { enabled, exit, open, target, hasUnpublished } = useSiteEdit();
@@ -28,12 +68,7 @@ export function SiteEditBar() {
   if (!enabled) return null;
 
   const panelPath = adminPathForPublic(location.pathname, location.search) ?? "/admin";
-  const addTarget =
-    location.pathname === "/boletines-gtai" || location.pathname.startsWith("/boletines-gtai/")
-      ? ({ kind: "boletin" as const })
-      : location.pathname === "/gestion" && location.search.includes("tipo=revista")
-        ? ({ kind: "revista" as const })
-        : null;
+  const addTarget = addTargetForPath(location.pathname, location.search);
 
   return (
     <div

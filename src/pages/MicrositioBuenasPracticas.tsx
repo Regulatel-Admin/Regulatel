@@ -21,6 +21,7 @@ import {
   localizeBuenasPracticasCountryName,
 } from "@/hooks/useLocalizedBuenasPracticas";
 import { Globe, ChevronDown, ChevronUp, LayoutList } from "lucide-react";
+import { EditableSpot } from "@/components/site-edit/EditableSpot";
 
 function getUniqueCategoryNamesFromData(data: CountryPracticesData[]): string[] {
   const set = new Set<string>();
@@ -301,6 +302,11 @@ export default function MicrositioBuenasPracticas() {
             className="min-w-0 flex-1"
           >
             {selectedCountry ? (
+              <EditableSpot
+                className="rounded-2xl"
+                target={{ kind: "panel", path: "/admin/buenas-practicas", label: "Mejores prácticas" }}
+                label="Editar este observatorio"
+              >
               <div>
                 <header className="mb-6 flex flex-wrap items-center gap-4">
                   <CountryFlag flag={selectedCountry.flag} size="md" />
@@ -338,6 +344,7 @@ export default function MicrositioBuenasPracticas() {
                   )}
                 </div>
               </div>
+              </EditableSpot>
             ) : (
               <div
                 className="rounded-xl border border-dashed py-12 text-center"

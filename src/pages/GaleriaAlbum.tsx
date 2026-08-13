@@ -8,6 +8,7 @@ import GalleryGrid from "@/components/galeria/GalleryGrid";
 import Lightbox from "@/components/galeria/Lightbox";
 import { getAlbumImageUrls } from "@/data/galeria";
 import { useGalleryAlbums, useSiteSettings } from "@/contexts/SiteSettingsContext";
+import { EditableSpot } from "@/components/site-edit/EditableSpot";
 
 export default function GaleriaAlbum() {
   const { t } = useTranslation();
@@ -68,7 +69,13 @@ export default function GaleriaAlbum() {
             {t("pages.galeria.backToGallery")}
           </Link>
 
+          <EditableSpot
+            className="rounded-2xl"
+            target={{ kind: "album", slug: album.slug }}
+            label={`Editar ${album.title}`}
+          >
           <GalleryGrid imageUrls={imageUrls} onImageClick={openLightbox} />
+          </EditableSpot>
 
           <nav
             className="mt-12 flex flex-wrap items-center gap-4 border-t pt-8"

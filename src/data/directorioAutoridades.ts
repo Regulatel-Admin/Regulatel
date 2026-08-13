@@ -4,6 +4,8 @@
  */
 
 export interface DirectorioAutoridad {
+  /** Identificador estable para editar en el sitio. */
+  id?: string;
   pais: string;
   acronym: string;
   presidente: string;
@@ -49,7 +51,9 @@ export function parseDirectorioFromSettingValue(value: unknown): DirectorioAutor
   for (const row of entries) {
     if (!row || typeof row !== "object") continue;
     const r = row as Record<string, unknown>;
+    const id = typeof r.id === "string" ? r.id.trim() : "";
     out.push({
+      id: id || undefined,
       pais: typeof r.pais === "string" ? r.pais : "",
       acronym: typeof r.acronym === "string" ? r.acronym : "",
       presidente: typeof r.presidente === "string" ? r.presidente : "",
@@ -59,4 +63,11 @@ export function parseDirectorioFromSettingValue(value: unknown): DirectorioAutor
     });
   }
   return out;
+}
+
+export function stampDirectorioIds(list: DirectorioAutoridad[]): DirectorioAutoridad[] {
+  return list.map((e, i) => ({
+    ...e,
+    id: e.id?.trim() || `dir-${e.pais || "x"}--${e.acronym || "x"}--${i}`,
+  }));
 }

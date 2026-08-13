@@ -84,6 +84,60 @@ export const hablaElReguladorInterviews: HablaElReguladorInterview[] = [
   },
 ];
 
+export const HABLA_EL_REGULADOR_SETTINGS_KEY = "habla_el_regulador" as const;
+
+function unwrapSettingJson(value: unknown): unknown {
+  if (value == null) return null;
+  if (typeof value === "string") {
+    try {
+      return JSON.parse(value) as unknown;
+    } catch {
+      return null;
+    }
+  }
+  return value;
+}
+
+function parseInterview(row: unknown): HablaElReguladorInterview | null {
+  if (!row || typeof row !== "object") return null;
+  const r = row as Record<string, unknown>;
+  const slug = typeof r.slug === "string" ? r.slug.trim() : "";
+  const name = typeof r.name === "string" ? r.name : "";
+  if (!slug && !name) return null;
+  const episode = typeof r.episode === "number" && Number.isFinite(r.episode) ? r.episode : 0;
+  return {
+    slug: slug || `entrevista-${episode || Date.now()}`,
+    episode,
+    name,
+    role: typeof r.role === "string" ? r.role : "",
+    organization: typeof r.organization === "string" ? r.organization : "",
+    country: typeof r.country === "string" ? r.country : "",
+    countryCode: typeof r.countryCode === "string" ? r.countryCode : "",
+    date: typeof r.date === "string" && r.date.trim() ? r.date.trim() : undefined,
+    duration: typeof r.duration === "string" ? r.duration : "",
+    poster: typeof r.poster === "string" ? r.poster : "",
+    youtubeId: typeof r.youtubeId === "string" && r.youtubeId.trim() ? r.youtubeId.trim() : undefined,
+    videoSrc: typeof r.videoSrc === "string" && r.videoSrc.trim() ? r.videoSrc.trim() : undefined,
+  };
+}
+
+export function parseHablaInterviewsFromSettingValue(value: unknown): HablaElReguladorInterview[] | null {
+  const root = unwrapSettingJson(value);
+  if (root == null) return null;
+  const items = Array.isArray(root)
+    ? root
+    : root && typeof root === "object"
+      ? (root as { interviews?: unknown }).interviews
+      : null;
+  if (!Array.isArray(items)) return null;
+  const out: HablaElReguladorInterview[] = [];
+  for (const row of items) {
+    const parsed = parseInterview(row);
+    if (parsed) out.push(parsed);
+  }
+  return out;
+}
+
 export const hablaElReguladorTeaser = {
   name: "Habla El Regulador",
   duration: "01:32",

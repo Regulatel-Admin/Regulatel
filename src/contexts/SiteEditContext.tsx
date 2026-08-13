@@ -9,6 +9,17 @@ import {
 import type { HomeHeroSetting, QuickLinkSettingItem, FeaturedCarouselItemSetting } from "@/types/siteSettings";
 import type { BoletinGtaiSerialized } from "@/data/boletinesGtai";
 import type { RevistaEdition } from "@/data/revistaDigital";
+import type { GestionDocument } from "@/data/gestion";
+import type { HomeAvisoSlot } from "@/data/homeAnnouncements";
+import type { EnteReguladorMiembro } from "@/data/entesReguladoresMiembros";
+import type { DirectorioAutoridad } from "@/data/directorioAutoridades";
+import type { GrupoTrabajoSerialized } from "@/data/gruposTrabajo";
+import type { Authority } from "@/data/authorities";
+import type { ComiteEjecutivoCmsDocument } from "@/data/comiteEjecutivo";
+import type { Convenio } from "@/data/convenios";
+import type { GalleryAlbumSetting } from "@/types/siteSettings";
+import type { EstudioInvestigacion } from "@/data/estudiosInvestigacion";
+import type { HablaElReguladorInterview } from "@/data/hablaElRegulador";
 
 export type SiteEditNewsPreview = {
   slug: string;
@@ -17,6 +28,7 @@ export type SiteEditNewsPreview = {
   date: string;
   dateFormatted?: string;
   imageUrl?: string;
+  category?: string;
 };
 
 export type SiteEditPreview = {
@@ -26,6 +38,17 @@ export type SiteEditPreview = {
   boletines?: BoletinGtaiSerialized[];
   revista?: RevistaEdition[];
   news?: SiteEditNewsPreview;
+  document?: GestionDocument;
+  homeAnnouncements?: HomeAvisoSlot[];
+  entes?: EnteReguladorMiembro[];
+  directorio?: DirectorioAutoridad[];
+  grupos?: GrupoTrabajoSerialized[];
+  autoridades?: Authority[];
+  comite?: ComiteEjecutivoCmsDocument;
+  convenios?: Convenio[];
+  galleryAlbums?: GalleryAlbumSetting[];
+  estudios?: EstudioInvestigacion[];
+  entrevistas?: HablaElReguladorInterview[];
 };
 
 export interface SiteEditDraftController {

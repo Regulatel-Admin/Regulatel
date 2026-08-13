@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
@@ -13,17 +13,14 @@ import {
   ArrowRight,
   ExternalLink,
   Newspaper,
+  Plus,
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import PageHero from "@/components/PageHero";
-import { api } from "@/lib/api";
-import {
-  GRUPOS_TRABAJO_SETTINGS_KEY,
-  defaultGruposTrabajo,
-  getGrupoTrabajoIcon,
-  parseGruposTrabajoFromSettingValue,
-  type GrupoTrabajoSerialized,
-} from "@/data/gruposTrabajo";
+import { getGrupoTrabajoIcon } from "@/data/gruposTrabajo";
+import { useGruposTrabajo } from "@/contexts/SiteSettingsContext";
+import { useSiteEdit } from "@/contexts/SiteEditContext";
+import { EditableSpot } from "@/components/site-edit/EditableSpot";
 import { useBoletinesGtai } from "@/hooks/useBoletinesGtai";
 import {
   BOLETINES_GTAI_LIST_PATH,
@@ -34,39 +31,25 @@ import { useLocalizedGrupos } from "@/hooks/useLocalizedGrupos";
 
 export default function GruposTrabajo() {
   const { t } = useTranslation();
+  const { enabled: siteEditEnabled, open: openSiteEdit, preview: siteEditPreview, target: siteEditTarget } =
+    useSiteEdit();
   const [previewDoc, setPreviewDoc] = useState<{ url: string; title: string } | null>(null);
-  const [grupos, setGrupos] = useState<GrupoTrabajoSerialized[]>(defaultGruposTrabajo);
+  const grupos = useGruposTrabajo();
   const { entries: boletinesGtai } = useBoletinesGtai();
   const latestGtaiBoletin = useMemo(() => {
     const pub = sortBoletinesByDateDesc(getBoletinesGtaiPublished(boletinesGtai));
     return pub[0] ?? null;
   }, [boletinesGtai]);
 
-  const loadGrupos = useCallback(async () => {
-    const res = await api.settings.get(GRUPOS_TRABAJO_SETTINGS_KEY);
-    if (res.ok && res.data && res.data.value != null) {
-      const parsed = parseGruposTrabajoFromSettingValue(res.data.value);
-      if (parsed !== null) {
-        setGrupos(parsed);
-        return;
-      }
-    }
-    setGrupos(defaultGruposTrabajo);
-  }, []);
-
-  useEffect(() => {
-    void loadGrupos();
-  }, [loadGrupos]);
-
-  useEffect(() => {
-    const onVis = () => {
-      if (document.visibilityState === "visible") void loadGrupos();
-    };
-    document.addEventListener("visibilitychange", onVis);
-    return () => document.removeEventListener("visibilitychange", onVis);
-  }, [loadGrupos]);
-
   const localizedGrupos = useLocalizedGrupos(grupos);
+  const displayGrupos = siteEditEnabled ? grupos : localizedGrupos;
+
+  const draftingNewGrupo = Boolean(
+    siteEditEnabled &&
+      ((siteEditTarget?.kind === "grupo" && !siteEditTarget.id) ||
+        siteEditPreview.grupos?.some((g) => g.id.startsWith("grupo-new-") && !g.title.trim()))
+  );
+  const showAddGrupo = siteEditEnabled && !draftingNewGrupo;
 
   return (
     <>
@@ -100,7 +83,7 @@ export default function GruposTrabajo() {
                 {t("grupos.activeGroups")}
               </h2>
               <p className="mt-1 text-sm" style={{ color: "var(--regu-gray-500)" }}>
-                {t("grupos.activeCount", { count: localizedGrupos.length })}
+                {t("grupos.activeCount", { count: displayGrupos.length })}
               </p>
             </div>
           </div>
@@ -125,11 +108,49 @@ export default function GruposTrabajo() {
           </div>
 
           <div className="mb-12 space-y-5">
-            {localizedGrupos.map((grupo, index) => {
+            {showAddGrupo && (
+              <button
+                type="button"
+                onClick={() => openSiteEdit({ kind: "grupo" })}
+                className="flex w-full flex-col items-center justify-center gap-3 rounded-2xl border-2 border-dashed px-6 py-10 transition hover:bg-[rgba(15,118,110,0.06)] md:flex-row md:gap-8"
+                style={{
+                  borderColor: "rgba(15,118,110,0.45)",
+                  minHeight: "180px",
+                  backgroundColor: "rgba(15,118,110,0.03)",
+                }}
+                aria-label="Añadir un grupo de trabajo"
+              >
+                <span
+                  className="flex h-20 w-20 items-center justify-center rounded-full"
+                  style={{ backgroundColor: "rgba(15,118,110,0.10)", color: "#0f766e" }}
+                >
+                  <Plus className="h-12 w-12" strokeWidth={1.5} aria-hidden />
+                </span>
+                <span className="text-center md:text-left">
+                  <span className="block text-lg font-bold" style={{ color: "#0f766e", fontFamily: "var(--token-font-heading)" }}>
+                    Añadir grupo de trabajo
+                  </span>
+                  <span className="mt-1 block max-w-md text-sm leading-relaxed" style={{ color: "var(--regu-gray-500)" }}>
+                    Título, coordinadores y documentos. Se ve aquí al instante, del tamaño real.
+                  </span>
+                </span>
+              </button>
+            )}
+            {displayGrupos.map((grupo, index) => {
               const Icon = getGrupoTrabajoIcon(grupo.iconKey);
+              const displayTitle = siteEditEnabled && !grupo.title.trim() ? "Nuevo grupo de trabajo" : grupo.title;
+              const displayDescription =
+                siteEditEnabled && !grupo.description.trim()
+                  ? "Completa la descripción en el panel."
+                  : grupo.description;
               return (
-                <motion.article
+                <EditableSpot
                   key={grupo.id}
+                  className="rounded-2xl"
+                  target={{ kind: "grupo", id: grupo.id }}
+                  label={`Editar ${grupo.title || "grupo"}`}
+                >
+                <motion.article
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: index * 0.05 }}
@@ -188,12 +209,12 @@ export default function GruposTrabajo() {
                             fontFamily: "var(--token-font-heading)",
                           }}
                         >
-                          {grupo.title}
+                          {displayTitle}
                         </h3>
                       </div>
 
                       <p className="mb-5 text-sm leading-relaxed md:text-base" style={{ color: "var(--regu-gray-600)" }}>
-                        {grupo.description}
+                        {displayDescription}
                       </p>
 
                       <div className="mb-5 grid gap-4 sm:grid-cols-2">
@@ -208,11 +229,16 @@ export default function GruposTrabajo() {
                             </span>
                           </div>
                           <div className="space-y-1">
-                            {grupo.coordinadores.map((c, i) => (
+                            {grupo.coordinadores.filter(Boolean).map((c, i) => (
                               <p key={i} className="text-sm font-semibold" style={{ color: "var(--regu-navy)" }}>
                                 {c}
                               </p>
                             ))}
+                            {siteEditEnabled && grupo.coordinadores.filter(Boolean).length === 0 && (
+                              <p className="text-sm" style={{ color: "var(--regu-gray-500)" }}>
+                                Añade coordinadores en el panel
+                              </p>
+                            )}
                           </div>
                         </div>
                         <div>
@@ -226,11 +252,16 @@ export default function GruposTrabajo() {
                             </span>
                           </div>
                           <div className="space-y-1">
-                            {grupo.miembros.map((m, i) => (
+                            {grupo.miembros.filter(Boolean).map((m, i) => (
                               <p key={i} className="text-sm" style={{ color: "var(--regu-gray-700)" }}>
                                 {m}
                               </p>
                             ))}
+                            {siteEditEnabled && grupo.miembros.filter(Boolean).length === 0 && (
+                              <p className="text-sm" style={{ color: "var(--regu-gray-500)" }}>
+                                Añade miembros en el panel
+                              </p>
+                            )}
                           </div>
                         </div>
                       </div>
@@ -390,6 +421,7 @@ export default function GruposTrabajo() {
                     </div>
                   </div>
                 </motion.article>
+                </EditableSpot>
               );
             })}
           </div>

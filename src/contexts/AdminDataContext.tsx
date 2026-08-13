@@ -70,7 +70,7 @@ interface AdminDataContextValue {
   recheckContentSource: () => Promise<void>;
   adminNews: AdminNewsItem[];
   setAdminNews: (v: AdminNewsItem[] | ((prev: AdminNewsItem[]) => AdminNewsItem[])) => void;
-  addNews: (item: Omit<AdminNewsItem, "id">) => Promise<void>;
+  addNews: (item: Omit<AdminNewsItem, "id">) => Promise<AdminNewsItem>;
   updateNews: (id: string, item: Partial<AdminNewsItem>) => Promise<void>;
   deleteNews: (id: string) => Promise<void>;
 
@@ -94,7 +94,7 @@ interface AdminDataContextValue {
 
   /** Documentos añadidos por el admin. Se muestran en Gestión junto a los estáticos. */
   adminDocuments: GestionDocument[];
-  addDocument: (item: Omit<GestionDocument, "id">) => Promise<void>;
+  addDocument: (item: Omit<GestionDocument, "id"> & { id?: string }) => Promise<GestionDocument>;
   updateDocument: (id: string, item: Partial<Omit<GestionDocument, "id">>) => Promise<void>;
   deleteDocument: (id: string) => Promise<void>;
 }
@@ -181,12 +181,14 @@ export function AdminDataProvider({ children }: { children: ReactNode }) {
   );
 
   const addNews = useCallback(
-    async (item: Omit<AdminNewsItem, "id">) => {
+    async (item: Omit<AdminNewsItem, "id">): Promise<AdminNewsItem> => {
       const id = "admin-" + Date.now();
       const payload = { ...item, id, published: item.published !== false };
       const res = await api.news.create(payload);
       if (!res.ok || !res.data) throw new Error(res.ok ? "No se pudo crear la noticia." : res.error);
-      setAdminNewsState((prev) => [...prev, res.data as AdminNewsItem]);
+      const created = res.data as AdminNewsItem;
+      setAdminNewsState((prev) => [...prev, created]);
+      return created;
     },
     []
   );
@@ -307,12 +309,14 @@ export function AdminDataProvider({ children }: { children: ReactNode }) {
     });
   }, [contentSource]);
 
-  const addDocument = useCallback(async (item: Omit<GestionDocument, "id">) => {
-    const id = "admin-doc-" + Date.now();
+  const addDocument = useCallback(async (item: Omit<GestionDocument, "id"> & { id?: string }) => {
+    const id = item.id ?? "admin-doc-" + Date.now();
     const payload = { ...item, id };
     const res = await api.documents.create(payload);
     if (!res.ok || !res.data) throw new Error(res.ok ? "No se pudo crear el documento." : res.error);
-    setAdminDocumentsState((prev) => [...prev, res.data as GestionDocument]);
+    const created = res.data as GestionDocument;
+    setAdminDocumentsState((prev) => [...prev, created]);
+    return created;
   }, []);
 
   const updateDocument = useCallback(async (id: string, item: Partial<Omit<GestionDocument, "id">>) => {
@@ -419,18 +423,22 @@ export function useMergedNews(): HomeNewsItemLike[] {
 
   if (!enabled || !preview.news) return list;
   const patch = preview.news;
-  return list.map((item) =>
-    item.slug.toLowerCase() === patch.slug.toLowerCase()
-      ? {
-          ...item,
-          title: patch.title,
-          excerpt: patch.excerpt,
-          date: patch.date,
-          dateFormatted: patch.dateFormatted ?? item.dateFormatted,
-          imageUrl: patch.imageUrl || item.imageUrl,
-        }
-      : item
-  );
+  const nextItem: HomeNewsItemLike = {
+    slug: patch.slug,
+    title: patch.title.trim() || "Nueva noticia",
+    date: patch.date,
+    dateFormatted: patch.dateFormatted ?? patch.date,
+    excerpt: patch.excerpt,
+    imageUrl: patch.imageUrl || undefined,
+  };
+  const idx = list.findIndex((item) => item.slug.toLowerCase() === patch.slug.toLowerCase());
+  if (idx >= 0) {
+    const next = list.slice();
+    next[idx] = { ...list[idx], ...nextItem, imageUrl: patch.imageUrl || list[idx].imageUrl };
+    return next;
+  }
+  if (!patch.title.trim() && !patch.excerpt.trim() && !patch.imageUrl) return list;
+  return [nextItem, ...list].sort((a, b) => (a.date > b.date ? -1 : 1));
 }
 
 /**
@@ -472,5 +480,15 @@ export function useMergedGestionDocuments(): GestionDocument[] {
           return [...staticFiltered, ...(ctx.adminDocuments ?? [])];
         })();
   const withoutRevista = base.filter((d) => d.category !== "revista");
-  return [...withoutRevista, ...revistas];
+  const list = [...withoutRevista, ...revistas];
+  const { enabled, preview } = useSiteEdit();
+  if (!enabled || !preview.document || preview.document.category === "revista") return list;
+  const patch = preview.document;
+  const idx = list.findIndex((d) => d.id === patch.id);
+  if (idx >= 0) {
+    const next = list.slice();
+    next[idx] = patch;
+    return next;
+  }
+  return [patch, ...list];
 }

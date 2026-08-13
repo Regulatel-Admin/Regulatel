@@ -1,15 +1,27 @@
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, Plus } from "lucide-react";
 import PageHero from "@/components/PageHero";
 import ConveniosList from "@/components/convenios/ConveniosList";
 import { useConveniosPublic } from "@/contexts/SiteSettingsContext";
 import { useLocalizedConvenios } from "@/hooks/useLocalizedConvenios";
+import { useSiteEdit } from "@/contexts/SiteEditContext";
 
 export default function Convenios() {
   const { t } = useTranslation();
+  const { enabled: siteEditEnabled, open: openSiteEdit, preview: siteEditPreview, target: siteEditTarget } =
+    useSiteEdit();
   const rawConvenios = useConveniosPublic();
-  const convenios = useLocalizedConvenios(rawConvenios);
+  const localized = useLocalizedConvenios(rawConvenios);
+  const convenios = siteEditEnabled ? rawConvenios : localized;
+
+  const draftingNew = Boolean(
+    siteEditEnabled &&
+      ((siteEditTarget?.kind === "convenio" && !siteEditTarget.slug) ||
+        siteEditPreview.convenios?.some((c) => c.slug.startsWith("convenio-new-") && !c.title.trim() && !c.acronym.trim()))
+  );
+  const showAdd = siteEditEnabled && !draftingNew;
+
   return (
     <>
       <PageHero
@@ -50,6 +62,35 @@ export default function Convenios() {
               </p>
             </div>
           </div>
+
+          {showAdd && (
+            <button
+              type="button"
+              onClick={() => openSiteEdit({ kind: "convenio" })}
+              className="mb-5 flex w-full flex-col items-center justify-center gap-3 rounded-2xl border-2 border-dashed px-6 py-10 transition hover:bg-[rgba(15,118,110,0.06)] md:flex-row md:gap-8"
+              style={{
+                borderColor: "rgba(15,118,110,0.45)",
+                minHeight: "160px",
+                backgroundColor: "rgba(15,118,110,0.03)",
+              }}
+              aria-label="Añadir un convenio"
+            >
+              <span
+                className="flex h-20 w-20 items-center justify-center rounded-full"
+                style={{ backgroundColor: "rgba(15,118,110,0.10)", color: "#0f766e" }}
+              >
+                <Plus className="h-12 w-12" strokeWidth={1.5} aria-hidden />
+              </span>
+              <span className="text-center md:text-left">
+                <span className="block text-lg font-bold" style={{ color: "#0f766e", fontFamily: "var(--token-font-heading)" }}>
+                  Añadir convenio
+                </span>
+                <span className="mt-1 block max-w-md text-sm leading-relaxed" style={{ color: "var(--regu-gray-500)" }}>
+                  Logo, acrónimo y texto. Se ve aquí y en el menú al instante.
+                </span>
+              </span>
+            </button>
+          )}
 
           {/* Lista de convenios */}
           <ConveniosList convenios={convenios} />

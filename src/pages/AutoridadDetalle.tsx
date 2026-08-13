@@ -6,6 +6,8 @@ import {
   type Authority,
 } from "@/data/authorities";
 import { useAutoridadesActuales } from "@/contexts/SiteSettingsContext";
+import { useSiteEdit } from "@/contexts/SiteEditContext";
+import { EditableSpot } from "@/components/site-edit/EditableSpot";
 import { useLocalizedAuthorities, useLocalizedAuthority } from "@/hooks/useLocalizedAuthorities";
 import {
   User,
@@ -184,8 +186,13 @@ function OtrasAutoridades({ currentSlug, authoritiesList }: { currentSlug: strin
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {others.map((auth) => (
-          <Link
+          <EditableSpot
             key={auth.id}
+            className="rounded-2xl"
+            target={{ kind: "autoridad", id: auth.id }}
+            label={`Editar ${auth.name}`}
+          >
+          <Link
             to={`/autoridades/${auth.slug}`}
             className="group overflow-hidden rounded-2xl border bg-white transition-all hover:border-[rgba(22,61,89,0.18)] hover:shadow-[0_4px_12px_rgba(22,61,89,0.08)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2"
             style={{
@@ -229,6 +236,7 @@ function OtrasAutoridades({ currentSlug, authoritiesList }: { currentSlug: strin
               </p>
             </div>
           </Link>
+          </EditableSpot>
         ))}
       </div>
       <div className="mt-6">
@@ -248,10 +256,13 @@ function OtrasAutoridades({ currentSlug, authoritiesList }: { currentSlug: strin
 export default function AutoridadDetalle() {
   const { t } = useTranslation();
   const { slug } = useParams<{ slug: string }>();
+  const { enabled: siteEditEnabled } = useSiteEdit();
   const rawAuthoritiesList = useAutoridadesActuales();
-  const authoritiesList = useLocalizedAuthorities(rawAuthoritiesList);
+  const localizedList = useLocalizedAuthorities(rawAuthoritiesList);
+  const authoritiesList = siteEditEnabled ? rawAuthoritiesList : localizedList;
   const rawAuthority = slug ? getAuthorityBySlug(slug, rawAuthoritiesList) : undefined;
-  const authority = useLocalizedAuthority(rawAuthority);
+  const localizedAuthority = useLocalizedAuthority(rawAuthority);
+  const authority = siteEditEnabled ? rawAuthority : localizedAuthority;
 
   if (!authority) {
     return (
@@ -313,11 +324,16 @@ export default function AutoridadDetalle() {
           </span>
         </nav>
 
-        <DetailHero a={authority} />
-
-        <div className="mt-8 space-y-8">
-          <BioSections a={authority} />
-        </div>
+        <EditableSpot
+          className="rounded-2xl"
+          target={{ kind: "autoridad", id: authority.id }}
+          label={`Editar ${authority.name}`}
+        >
+          <DetailHero a={authority} />
+          <div className="mt-8 space-y-8">
+            <BioSections a={authority} />
+          </div>
+        </EditableSpot>
 
         <OtrasAutoridades currentSlug={authority.slug} authoritiesList={authoritiesList} />
 

@@ -14,6 +14,7 @@ import {
   ClipboardList,
   ArrowRight,
   Crown,
+  Plus,
 } from "lucide-react";
 import { getRestrictedDocument, isRestrictedUnlocked, markAllRestrictedUnlocked } from "@/config/restrictedDocuments";
 import { api } from "@/lib/api";
@@ -23,12 +24,15 @@ import { canPreviewDocument, type DocumentPreviewTarget } from "@/lib/documentPr
 import {
   filterByTipo,
   GESTION_TIPO_VALUES,
+  GESTION_TAB_LABELS,
   getCategoryDisplayLabel,
   type GestionTipo,
   type GestionDocument,
 } from "@/data/gestion";
 import { useMergedGestionDocuments } from "@/contexts/AdminDataContext";
+import { useSiteEdit } from "@/contexts/SiteEditContext";
 import { EditableSpot } from "@/components/site-edit/EditableSpot";
+import type { SiteEditTarget } from "@/lib/siteEdit";
 
 function normalizeSearch(t: string): string {
   return t
@@ -86,6 +90,7 @@ const CATEGORY_BADGE: Record<string, { bg: string; color: string }> = {
 export default function Gestion() {
   const { t } = useTranslation();
   const rawDocuments = useMergedGestionDocuments();
+  const { enabled: siteEditEnabled, open: openSiteEdit, preview: siteEditPreview } = useSiteEdit();
   const allDocuments = Array.isArray(rawDocuments) ? rawDocuments : [];
   const [searchParams, setSearchParams] = useSearchParams();
   const tipo = (searchParams.get("tipo") ?? "todo") as GestionTipo;
@@ -200,6 +205,30 @@ export default function Gestion() {
       ? t("pages.gestion.allDocuments")
       : t(`pages.gestion.blocks.${validTipo}`);
 
+  const showAddCard = siteEditEnabled && !searchQuery && !docId;
+  const addTarget: SiteEditTarget =
+    validTipo === "revista"
+      ? { kind: "revista" }
+      : {
+          kind: "documento",
+          category: validTipo === "todo" ? "documentos" : validTipo,
+        };
+  const livePreviewDoc = siteEditPreview.document;
+  const cards =
+    siteEditEnabled &&
+    livePreviewDoc &&
+    livePreviewDoc.category !== "revista" &&
+    !displayList.some((d) => d.id === livePreviewDoc.id)
+      ? [livePreviewDoc, ...displayList]
+      : displayList;
+  const showEmpty = cards.length === 0 && !showAddCard;
+  const addCardLabel =
+    validTipo === "revista"
+      ? "Añadir edición"
+      : validTipo === "todo"
+        ? "Añadir documento"
+        : `Añadir a ${GESTION_TAB_LABELS[validTipo]}`;
+
   return (
     <>
       <PageHero
@@ -293,7 +322,7 @@ export default function Gestion() {
           style={{ maxWidth: "var(--token-container-max)" }}
           ref={contentRef}
         >
-          {displayList.length === 0 ? (
+          {showEmpty ? (
             <div
               className="rounded-2xl border bg-white p-12 text-center"
               style={{ borderColor: "rgba(22,61,89,0.10)", boxShadow: "0 2px 8px rgba(22,61,89,0.05)" }}
@@ -338,8 +367,14 @@ export default function Gestion() {
 
               {/* Grid de cards */}
               <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                {showAddCard && (
+                  <AddDocumentCard
+                    label={addCardLabel}
+                    onClick={() => openSiteEdit(addTarget)}
+                  />
+                )}
                 <AnimatePresence mode="popLayout">
-                  {displayList.map((doc, index) => {
+                  {cards.map((doc, index) => {
                     const isSelectedRevista = isRevistaDeepLink && doc.id === docId;
                     return (
                       <div
@@ -405,10 +440,14 @@ function DocCard({
     : CATEGORY_ICONS[doc.category] ?? FileText;
 
   const badge = CATEGORY_BADGE[doc.category] ?? CATEGORY_BADGE.otros;
-  const editTarget =
+  const editTarget: SiteEditTarget =
     doc.category === "revista"
-      ? ({ kind: "revista" as const, id: doc.id })
-      : ({ kind: "panel" as const, path: "/admin/documentos", label: "Documentos" });
+      ? { kind: "revista", id: doc.id }
+      : {
+          kind: "documento",
+          id: doc.id,
+          category: doc.category === "banco" ? "otros" : doc.category,
+        };
 
   return (
     <EditableSpot target={editTarget} label="Editar este documento" className="h-full">
@@ -467,7 +506,7 @@ function DocCard({
             className="hover:text-[var(--regu-blue)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2 rounded"
             style={{ color: "inherit" }}
           >
-            {doc.title}
+            {doc.title.trim() || "Nuevo documento"}
           </Link>
         </h3>
 
@@ -512,7 +551,7 @@ function DocCard({
             </>
           ) : (
             <>
-              {canPreview && (
+              {canPreview && doc.url?.trim() && (
               <button
                 type="button"
                 onClick={onPreview}
@@ -523,6 +562,7 @@ function DocCard({
                 {t("common.preview")}
               </button>
               )}
+              {doc.url?.trim() ? (
               <a
                 href={doc.url}
                 download={!doc.url.startsWith("http")}
@@ -534,6 +574,7 @@ function DocCard({
                 <FileDown className="h-3.5 w-3.5 shrink-0" />
                 {t("common.download")}
               </a>
+              ) : null}
               {canPreview ? (
                 <button
                   type="button"
@@ -560,5 +601,29 @@ function DocCard({
       </div>
     </motion.article>
     </EditableSpot>
+  );
+}
+
+function AddDocumentCard({ label, onClick }: { label: string; onClick: () => void }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className="flex h-full min-h-[240px] w-full flex-col items-center justify-center gap-3 rounded-2xl border-2 border-dashed bg-white px-6 py-10 text-center transition hover:bg-[rgba(15,118,110,0.06)]"
+      style={{ borderColor: "rgba(15,118,110,0.45)" }}
+    >
+      <span
+        className="flex h-14 w-14 items-center justify-center rounded-full"
+        style={{ backgroundColor: "rgba(15,118,110,0.12)", color: "#0f766e" }}
+      >
+        <Plus className="h-7 w-7" strokeWidth={2.25} aria-hidden />
+      </span>
+      <span className="text-sm font-bold" style={{ color: "#0f766e" }}>
+        {label}
+      </span>
+      <span className="max-w-[16rem] text-xs leading-relaxed" style={{ color: "var(--regu-gray-500)" }}>
+        Se añade en esta categoría. Lo ves al instante y publicas cuando esté listo.
+      </span>
+    </button>
   );
 }

@@ -1,17 +1,14 @@
-import { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { ArrowLeft, ArrowRight, CheckCircle2 } from "lucide-react";
+import { ArrowLeft, ArrowRight, CheckCircle2, Plus } from "lucide-react";
 import PageHero from "@/components/PageHero";
-import { api } from "@/lib/api";
 import {
-  COMITE_EJECUTIVO_SETTINGS_KEY,
-  defaultComiteEjecutivoCmsDocument,
-  parseComiteEjecutivoCmsFromSettingValue,
   resolveComiteEjecutivoUi,
-  type ComiteEjecutivoCmsDocument,
   type ComiteMemberLogo,
 } from "@/data/comiteEjecutivo";
+import { useComiteEjecutivo } from "@/contexts/SiteSettingsContext";
+import { useSiteEdit } from "@/contexts/SiteEditContext";
+import { EditableSpot } from "@/components/site-edit/EditableSpot";
 import { useLocalizedComiteFunciones, useLocalizedComiteUi } from "@/hooks/useLocalizedComite";
 
 type LogoCardSize = "xl" | "lg" | "md";
@@ -108,37 +105,32 @@ function SectionHeader({ title, subtitle }: { title: string; subtitle?: string }
 
 export default function ComiteEjecutivo() {
   const { t } = useTranslation();
-  const [doc, setDoc] = useState<ComiteEjecutivoCmsDocument>(() => defaultComiteEjecutivoCmsDocument());
+  const { enabled: siteEditEnabled, open: openSiteEdit, preview: siteEditPreview, target: siteEditTarget } =
+    useSiteEdit();
+  const doc = useComiteEjecutivo();
 
-  const load = useCallback(async () => {
-    const res = await api.settings.get(COMITE_EJECUTIVO_SETTINGS_KEY);
-    if (res.ok && res.data && res.data.value != null) {
-      const parsed = parseComiteEjecutivoCmsFromSettingValue(res.data.value);
-      if (parsed) {
-        setDoc(parsed);
-        return;
-      }
-    }
-    setDoc(defaultComiteEjecutivoCmsDocument());
-  }, []);
-
-  useEffect(() => {
-    void load();
-  }, [load]);
-
-  useEffect(() => {
-    const onVis = () => {
-      if (document.visibilityState === "visible") void load();
-    };
-    document.addEventListener("visibilitychange", onVis);
-    return () => document.removeEventListener("visibilitychange", onVis);
-  }, [load]);
-
-  const ui = useLocalizedComiteUi(resolveComiteEjecutivoUi(doc));
-  const funcionesData = useLocalizedComiteFunciones(doc);
+  const localizedUi = useLocalizedComiteUi(resolveComiteEjecutivoUi(doc));
+  const localizedFunciones = useLocalizedComiteFunciones(doc);
+  const ui = siteEditEnabled ? resolveComiteEjecutivoUi(doc) : localizedUi;
+  const funcionesData = siteEditEnabled
+    ? { funcionesIntro: doc.funcionesIntro, funciones: doc.funciones }
+    : localizedFunciones;
   const miembrosOrdenados = [...doc.miembros].sort((a, b) =>
     (a.country || a.name).localeCompare(b.country || b.name, "es")
   );
+
+  const draftingNewVice = Boolean(
+    siteEditEnabled &&
+      ((siteEditTarget?.kind === "comite-logo" && siteEditTarget.slot === "vice" && !siteEditTarget.id) ||
+        siteEditPreview.comite?.vicepresidentes.some((v) => v.id?.startsWith("comite-new-") && !v.name.trim()))
+  );
+  const draftingNewMiembro = Boolean(
+    siteEditEnabled &&
+      ((siteEditTarget?.kind === "comite-logo" && siteEditTarget.slot === "miembro" && !siteEditTarget.id) ||
+        siteEditPreview.comite?.miembros.some((m) => m.id?.startsWith("comite-new-") && !m.name.trim()))
+  );
+  const showAddVice = siteEditEnabled && !draftingNewVice;
+  const showAddMiembro = siteEditEnabled && !draftingNewMiembro;
 
   return (
     <>
@@ -173,7 +165,13 @@ export default function ComiteEjecutivo() {
                 >
                   {t("comite.presidente")}
                 </span>
-                <LogoBlock item={doc.presidente} size="xl" />
+                <EditableSpot
+                  className="rounded-2xl"
+                  target={{ kind: "comite-logo", slot: "presidente", id: doc.presidente.id }}
+                  label="Editar presidencia"
+                >
+                  <LogoBlock item={doc.presidente} size="xl" />
+                </EditableSpot>
               </div>
               {/* Vicepresidentes (misma línea, orden mantenido) */}
               <div className="flex flex-col items-center gap-3">
@@ -185,8 +183,31 @@ export default function ComiteEjecutivo() {
                 </span>
                 <div className="flex flex-wrap items-center justify-center gap-10 md:gap-12">
                   {doc.vicepresidentes.map((v, i) => (
-                    <LogoBlock key={i} item={v} size="lg" />
+                    <EditableSpot
+                      key={v.id ?? i}
+                      className="rounded-2xl"
+                      target={{ kind: "comite-logo", slot: "vice", id: v.id }}
+                      label={`Editar ${v.name || "vicepresidencia"}`}
+                    >
+                      <LogoBlock item={v.name.trim() ? v : { ...v, name: "Nueva vicepresidencia" }} size="lg" />
+                    </EditableSpot>
                   ))}
+                  {showAddVice && (
+                    <button
+                      type="button"
+                      onClick={() => openSiteEdit({ kind: "comite-logo", slot: "vice" })}
+                      className="flex min-h-[140px] min-w-[120px] flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed px-4 py-6 transition hover:bg-[rgba(15,118,110,0.06)]"
+                      style={{
+                        borderColor: "rgba(15,118,110,0.45)",
+                        backgroundColor: "rgba(15,118,110,0.03)",
+                        color: "#0f766e",
+                      }}
+                      aria-label="Añadir vicepresidencia"
+                    >
+                      <Plus className="h-8 w-8" strokeWidth={1.5} aria-hidden />
+                      <span className="text-center text-xs font-bold">Añadir vicepresidencia</span>
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
@@ -196,20 +217,48 @@ export default function ComiteEjecutivo() {
           <section className="mb-16 md:mb-20">
             <SectionHeader title={ui.miembrosTitle} subtitle={ui.miembrosSubtitle} />
             <div className="grid grid-cols-2 place-items-center gap-8 sm:gap-10 md:grid-cols-3 lg:gap-12 mx-auto max-w-[900px]">
+              {showAddMiembro && (
+                <button
+                  type="button"
+                  onClick={() => openSiteEdit({ kind: "comite-logo", slot: "miembro" })}
+                  className="flex min-h-[160px] w-full max-w-[180px] flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed px-4 py-6 transition hover:bg-[rgba(15,118,110,0.06)]"
+                  style={{
+                    borderColor: "rgba(15,118,110,0.45)",
+                    backgroundColor: "rgba(15,118,110,0.03)",
+                    color: "#0f766e",
+                  }}
+                  aria-label="Añadir un miembro del comité"
+                >
+                  <Plus className="h-9 w-9" strokeWidth={1.5} aria-hidden />
+                  <span className="text-center text-xs font-bold">Añadir miembro</span>
+                </button>
+              )}
               {miembrosOrdenados.map((m, i) => (
-                <div key={i} className="flex flex-col items-center gap-2">
-                  {m.country && (
-                    <span className="text-[10px] font-bold uppercase tracking-[0.10em]" style={{ color: "var(--regu-gray-500)" }}>
-                      {m.country}
-                    </span>
-                  )}
-                  <LogoBlock item={m} size="md" />
-                </div>
+                <EditableSpot
+                  key={m.id ?? i}
+                  className="rounded-2xl"
+                  target={{ kind: "comite-logo", slot: "miembro", id: m.id }}
+                  label={`Editar ${m.name || "miembro"}`}
+                >
+                  <div className="flex flex-col items-center gap-2">
+                    {(m.country || siteEditEnabled) && (
+                      <span className="text-[10px] font-bold uppercase tracking-[0.10em]" style={{ color: "var(--regu-gray-500)" }}>
+                        {m.country || "País"}
+                      </span>
+                    )}
+                    <LogoBlock item={m.name.trim() ? m : { ...m, name: "Nuevo miembro" }} size="md" />
+                  </div>
+                </EditableSpot>
               ))}
             </div>
           </section>
 
           {/* Funciones principales */}
+          <EditableSpot
+            className="rounded-2xl"
+            target={{ kind: "comite-funciones" }}
+            label="Editar funciones del comité"
+          >
           <section
             className="rounded-2xl border bg-white p-8 md:p-10"
             style={{
@@ -251,6 +300,7 @@ export default function ComiteEjecutivo() {
               ))}
             </ul>
           </section>
+          </EditableSpot>
 
           {/* Footer nav */}
           <nav

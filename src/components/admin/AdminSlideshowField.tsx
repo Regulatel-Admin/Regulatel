@@ -1,15 +1,21 @@
 import { useRef, useState } from "react";
 import { ChevronDown, ChevronUp, Loader2, Plus, Trash2, Upload } from "lucide-react";
-import { uploadAdminFile } from "@/lib/uploads";
+import { uploadAdminFile, type UploadFolder } from "@/lib/uploads";
 
 export default function AdminSlideshowField({
   urls,
   onChange,
   compact = false,
+  label = "Fotos del carrusel",
+  help,
+  folder = "attachments",
 }: {
   urls: string[];
   onChange: (urls: string[]) => void;
   compact?: boolean;
+  label?: string;
+  help?: string;
+  folder?: UploadFolder;
 }) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [uploading, setUploading] = useState(false);
@@ -30,7 +36,7 @@ export default function AdminSlideshowField({
     setError(null);
     setUploading(true);
     try {
-      const result = await uploadAdminFile({ file, kind: "image", folder: "attachments" });
+      const result = await uploadAdminFile({ file, kind: "image", folder });
       addUrl(result.url);
     } catch (err) {
       setError(err instanceof Error ? err.message : "No se pudo subir la imagen.");
@@ -43,12 +49,13 @@ export default function AdminSlideshowField({
     <div className="space-y-3">
       <div>
         <p className={compact ? "text-[13px] font-semibold" : "text-sm font-semibold"} style={{ color: "var(--regu-navy)" }}>
-          Fotos del carrusel
+          {label}
         </p>
         <p className="mt-1 text-[12px] leading-relaxed" style={{ color: "var(--regu-gray-500)" }}>
-          {compact
-            ? "Se van turnando detrás del texto. Sube, reordena o quita."
-            : "Estas fotos se van turnando detrás del texto de la portada. Sube una imagen o quita las que no quieras."}
+          {help ??
+            (compact
+              ? "Se van turnando detrás del texto. Sube, reordena o quita."
+              : "Estas fotos se van turnando detrás del texto de la portada. Sube una imagen o quita las que no quieras.")}
         </p>
       </div>
 
