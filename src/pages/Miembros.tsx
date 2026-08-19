@@ -14,7 +14,8 @@ import {
   localizeEnteRegulador,
   localizeRole,
 } from '@/hooks/useLocalizedMiembros';
-import { enteLogoByRoute, flagSrcFromCountryName, logoSrcForDirectorio } from '@/data/miembrosVisuals';
+import { enteLogoByRoute, flagSrcFromCountryName, logoKeyFromEnteRoute, logoSrcForDirectorio } from '@/data/miembrosVisuals';
+import { normalizeEnteInternalRoute } from '@/data/entesReguladoresMiembros';
 
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },
@@ -33,7 +34,7 @@ const LogoImage: React.FC<{ name: string; route: string; logoUrl?: string }> = (
   const [imgSrc, setImgSrc] = React.useState<string>('');
   const [hasError, setHasError] = React.useState(false);
   const [currentUrlIndex, setCurrentUrlIndex] = useState(0);
-  const routeKey = route.replace(/^\//, '').split('/')[0] ?? '';
+  const routeKey = logoKeyFromEnteRoute(route, name);
 
   const possibleUrls = React.useMemo(() => {
     const custom = logoUrl?.trim();
@@ -373,12 +374,13 @@ const Miembros: React.FC = () => {
                             </div>
                           </motion.div>
                         );
-                        const linked = ente.linkExternalOnly ? (
+                        const internalPath = normalizeEnteInternalRoute(ente.route);
+                        const linked = ente.linkExternalOnly || !internalPath ? (
                           <a href={ente.externalUrl || undefined} target="_blank" rel="noopener noreferrer" className="block">
                             {motionCard}
                           </a>
                         ) : (
-                          <Link to={ente.route || "/"} className="block">
+                          <Link to={internalPath} className="block">
                             {motionCard}
                           </Link>
                         );

@@ -42,6 +42,7 @@ const SETTING_LABELS: Record<string, string> = {
   autoridades_actuales: "Autoridades actuales",
   revista_digital: "Revista digital",
   home_announcements: "Avisos de la portada",
+  hero_announce_order: "Orden de avisos de la portada",
 };
 
 const FIELD_LABELS: Record<string, string> = {

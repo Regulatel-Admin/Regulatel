@@ -2,9 +2,10 @@ import { useState, useMemo, useEffect } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, Filter, Calendar } from "lucide-react";
+import { Search, Filter, Calendar, Plus } from "lucide-react";
 import EventCard from "@/components/home/EventCard";
 import { useEvents } from "@/contexts/AdminDataContext";
+import { useSiteEdit } from "@/contexts/SiteEditContext";
 import { useLocalizedEvents } from "@/hooks/useLocalizedEvents";
 import type { Event } from "@/types/event";
 import { normalizeEvent } from "@/types/event";
@@ -64,7 +65,26 @@ export default function Eventos() {
   const qFromUrl = searchParams.get("q") ?? "";
   const tabFromUrl = searchParams.get("tab");
   const eventsRaw = useEvents();
-  const events = useLocalizedEvents(eventsRaw);
+  const { enabled: siteEditEnabled, open: openSiteEdit, preview: siteEditPreview, target: siteEditTarget } =
+    useSiteEdit();
+  const eventsMerged = useMemo(() => {
+    const patch = siteEditEnabled ? siteEditPreview.evento : undefined;
+    if (!patch) return eventsRaw;
+    const idx = eventsRaw.findIndex((e) => e.id === patch.id);
+    if (idx >= 0) {
+      const next = eventsRaw.slice();
+      next[idx] = normalizeEvent({ ...eventsRaw[idx], ...patch });
+      return next;
+    }
+    return [normalizeEvent(patch), ...eventsRaw];
+  }, [eventsRaw, siteEditEnabled, siteEditPreview.evento]);
+  const events = useLocalizedEvents(eventsMerged);
+  const draftingNew = Boolean(
+    siteEditEnabled &&
+      ((siteEditTarget?.kind === "evento" && !siteEditTarget.id) ||
+        (siteEditPreview.evento && !eventsRaw.some((e) => e.id === siteEditPreview.evento!.id))),
+  );
+  const showAdd = siteEditEnabled && !draftingNew;
   const [segment, setSegment] = useState<Segment>(() => {
     if (tabFromUrl === "pasados") return "past";
     if (tabFromUrl === "todos") return "all";
@@ -246,7 +266,7 @@ export default function Eventos() {
         </div>
 
         <AnimatePresence mode="wait">
-          {filtered.length > 0 ? (
+          {filtered.length > 0 || showAdd ? (
             <motion.div
               key={`${segment}-${yearFilter}-${searchQuery}`}
               initial={{ opacity: 0 }}
@@ -256,6 +276,36 @@ export default function Eventos() {
               className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3"
               style={{ gap: 24 }}
             >
+              {showAdd && (
+                <button
+                  type="button"
+                  onClick={() => openSiteEdit({ kind: "evento" })}
+                  className="flex min-h-[280px] flex-col items-center justify-center gap-3 rounded-2xl border-2 border-dashed px-6 py-10 transition hover:bg-[rgba(15,118,110,0.06)]"
+                  style={{
+                    borderColor: "rgba(15,118,110,0.45)",
+                    backgroundColor: "rgba(15,118,110,0.03)",
+                  }}
+                  aria-label="Añadir un evento"
+                >
+                  <span
+                    className="flex h-20 w-20 items-center justify-center rounded-full"
+                    style={{ backgroundColor: "rgba(15,118,110,0.10)", color: "#0f766e" }}
+                  >
+                    <Plus className="h-12 w-12" strokeWidth={1.5} aria-hidden />
+                  </span>
+                  <span className="text-center">
+                    <span
+                      className="block text-base font-bold"
+                      style={{ color: "#0f766e", fontFamily: "var(--token-font-heading)" }}
+                    >
+                      Añadir evento
+                    </span>
+                    <span className="mt-1 block text-sm leading-relaxed" style={{ color: "var(--regu-gray-500)" }}>
+                      Título, fechas y lugar. Se ve aquí al instante.
+                    </span>
+                  </span>
+                </button>
+              )}
               {filtered.map((event, index) => (
                 <motion.div
                   key={event.id}

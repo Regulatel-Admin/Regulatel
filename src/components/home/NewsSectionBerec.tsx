@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { ArrowRight } from "lucide-react";
-import ImageCarousel from "@/components/ImageCarousel";
 import { EditableSpot } from "@/components/site-edit/EditableSpot";
 
 export interface NewsItemBerec {
@@ -97,8 +96,8 @@ export default function NewsSectionBerec({ news }: NewsSectionBerecProps) {
             <Link to={`/noticias/${featuredNews.slug}`} className="group block">
               {/* Imagen */}
               <div
-                className="featuredImage relative w-full overflow-hidden rounded-2xl bg-[var(--regu-gray-100)]"
-                style={{ aspectRatio: "16/9" }}
+                className="featuredImage relative w-full overflow-hidden rounded-2xl bg-white"
+                style={{ border: "1px solid rgba(22,61,89,0.08)" }}
               >
                 {/* Borde acento superior */}
                 <div
@@ -106,47 +105,23 @@ export default function NewsSectionBerec({ news }: NewsSectionBerecProps) {
                   style={{ backgroundColor: "var(--regu-blue)" }}
                   aria-hidden
                 />
-                {(() => {
-                  const allImages = [
-                    featuredNews.imageUrl,
-                    ...(featuredNews.additionalImages ?? []),
-                  ].filter(Boolean) as string[];
-                  if (allImages.length === 0) {
-                    return (
-                      <div className="h-full w-full" style={{ background: PLACEHOLDER_GRADIENT }} aria-hidden />
-                    );
-                  }
-                  if (allImages.length === 1) {
-                    return (
-                      <>
-                        <img
-                          src={allImages[0]}
-                          alt=""
-                          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
-                          loading="eager"
-                          onError={(e) => {
-                            e.currentTarget.style.display = "none";
-                            const next = e.currentTarget.nextElementSibling;
-                            if (next) (next as HTMLElement).classList.remove("hidden");
-                          }}
-                        />
-                        <div
-                          className="absolute inset-0 hidden h-full w-full"
-                          style={{ background: PLACEHOLDER_GRADIENT }}
-                          aria-hidden
-                        />
-                      </>
-                    );
-                  }
-                  return (
-                    <ImageCarousel
-                      images={allImages}
-                      variant="card"
-                      autoPlayMs={5000}
-                      className="!rounded-2xl [&_img]:!object-cover"
-                    />
-                  );
-                })()}
+                {featuredNews.imageUrl ? (
+                  <img
+                    src={featuredNews.imageUrl}
+                    alt=""
+                    className="h-auto w-full object-contain"
+                    loading="eager"
+                    onError={(e) => {
+                      e.currentTarget.style.display = "none";
+                    }}
+                  />
+                ) : (
+                  <div
+                    className="w-full"
+                    style={{ aspectRatio: "16/9", background: PLACEHOLDER_GRADIENT }}
+                    aria-hidden
+                  />
+                )}
               </div>
 
               {/* Meta */}

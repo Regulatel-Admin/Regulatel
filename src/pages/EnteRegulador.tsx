@@ -1,8 +1,18 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { useLocation, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { ArrowLeft, Globe, ExternalLink, User, ArrowRight, Building2 } from 'lucide-react';
+import { ArrowLeft, Globe, ExternalLink, User, ArrowRight } from 'lucide-react';
+import { useEntesReguladoresMiembros, useSiteSettings } from '@/contexts/SiteSettingsContext';
+import NotFound from '@/pages/NotFound';
+import { slugify } from '@/lib/slugify';
+import {
+  canonicalEnteSlug,
+  enteRouteSlug,
+  normalizeEnteInternalRoute,
+  type EnteReguladorMiembro,
+} from '@/data/entesReguladoresMiembros';
+import { logoKeyFromEnteRoute } from '@/data/miembrosVisuals';
 
 const fadeIn = {
   hidden: { opacity: 0, y: 16 },
@@ -36,19 +46,22 @@ const logoUrlMap: Record<string, string> = {
   'telcor': '/images/logos/telcor.png',
 };
 
-const LogoImage: React.FC<{ name: string; routeKey: string }> = ({ name, routeKey }) => {
+const LogoImage: React.FC<{ name: string; routeKey: string; logoUrl?: string }> = ({ name, routeKey, logoUrl }) => {
   const [imgSrc, setImgSrc] = React.useState<string>('');
   const [hasError, setHasError] = React.useState(false);
 
   useEffect(() => {
-    const url = logoUrlMap[routeKey];
+    const custom = logoUrl?.trim();
+    const key = logoKeyFromEnteRoute(`/${routeKey}`, name);
+    const url = custom || logoUrlMap[key] || logoUrlMap[routeKey];
     if (url) {
       setImgSrc(url);
       setHasError(false);
     } else {
+      setImgSrc('');
       setHasError(true);
     }
-  }, [routeKey]);
+  }, [routeKey, name, logoUrl]);
 
   if (hasError || !imgSrc) {
     return (
@@ -194,6 +207,7 @@ const routeToKey: Record<string, string> = {
   '/crc': 'crc',
   '/cnmc': 'cnmc',
   '/sit': 'sit',
+  '/siget': 'sit',
   '/conatel': 'conatel',
   '/indotel': 'indotel',
   '/ift': 'ift',
@@ -209,35 +223,124 @@ const routeToKey: Record<string, string> = {
   '/telcor': 'telcor',
 };
 
+function hardcodedKeyFromPath(path: string): string | null {
+  const n = normalizeEnteInternalRoute(path);
+  if (n && routeToKey[n]) return routeToKey[n];
+  const slug = enteRouteSlug(path);
+  const canonical = canonicalEnteSlug(path);
+  if (entesInfo[canonical]) return canonical;
+  if (entesInfo[slug]) return slug;
+  return null;
+}
+
+function findCmsEnte(entes: EnteReguladorMiembro[], path: string): EnteReguladorMiembro | undefined {
+  const n = normalizeEnteInternalRoute(path);
+  const slug = enteRouteSlug(path);
+  const canonical = canonicalEnteSlug(path);
+  const byRoute = entes.find((e) => {
+    const r = normalizeEnteInternalRoute(e.route);
+    if (!r) return false;
+    return r === n || enteRouteSlug(e.route) === slug || canonicalEnteSlug(e.route) === canonical;
+  });
+  if (byRoute) return byRoute;
+  const byName = entes.filter((e) => slugify(e.name) === slug || canonicalEnteSlug(e.name) === canonical);
+  if (byName.length === 1) return byName[0];
+  return undefined;
+}
+
+function hardcodedKeyFromCms(ente: EnteReguladorMiembro): string | null {
+  const fromRoute = hardcodedKeyFromPath(ente.route || `/${slugify(ente.name)}`);
+  if (fromRoute) return fromRoute;
+  const fromName = hardcodedKeyFromPath(`/${slugify(ente.name)}`);
+  if (fromName) return fromName;
+  const name = ente.name.trim().toLowerCase();
+  const country = ente.country.trim().toLowerCase();
+  const both = Object.entries(entesInfo).filter(
+    ([, info]) => info.name.toLowerCase() === name && info.country.toLowerCase() === country,
+  );
+  if (both.length === 1) return both[0][0];
+  const nameOnly = Object.entries(entesInfo).filter(([, info]) => info.name.toLowerCase() === name);
+  if (nameOnly.length === 1) return nameOnly[0][0];
+  return null;
+}
+
 const EnteRegulador: React.FC = () => {
   const { t } = useTranslation();
   const location = useLocation();
+  const { loading } = useSiteSettings();
+  const cmsEntes = useEntesReguladoresMiembros();
   const routePath = location.pathname;
-  const key = routeToKey[routePath] || routePath.replace('/', '');
-  const ente = key ? entesInfo[key] : null;
 
-  // Pick 6 other members to show at the bottom
-  const otherKeys = ALL_ENTES_KEYS.filter((k) => k !== key).slice(0, 6);
+  const resolved = useMemo(() => {
+    const cms = findCmsEnte(cmsEntes, routePath);
+    const key =
+      hardcodedKeyFromPath(routePath) ||
+      (cms ? hardcodedKeyFromCms(cms) : null);
+    const hardcoded = key ? entesInfo[key] : null;
+    if (!cms && !hardcoded) return null;
 
-  if (!ente) {
-    return (
-      <div
-        className="w-full min-h-[50vh] flex flex-col items-center justify-center py-24"
-        style={{ backgroundColor: '#FAFBFC', borderTop: '1px solid rgba(22,61,89,0.07)', fontFamily: 'var(--token-font-body)' }}
-      >
-        <Building2 className="h-10 w-10 mb-4" style={{ color: 'var(--regu-gray-300)' }} />
-        <h1 className="text-xl font-bold mb-4" style={{ color: 'var(--regu-navy)' }}>{t('pages.enteRegulador.notFound')}</h1>
-        <Link
-          to="/miembros"
-          className="inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-bold text-white transition-opacity hover:opacity-85"
-          style={{ backgroundColor: 'var(--regu-blue)' }}
-        >
-          <ArrowLeft className="h-4 w-4" />
-          {t('pages.enteRegulador.backToMembers')}
-        </Link>
-      </div>
-    );
+    const website =
+      (cms && !cms.linkExternalOnly ? cms.externalUrl : undefined) ||
+      cms?.externalUrl ||
+      hardcoded?.website ||
+      hardcoded?.externalUrl ||
+      "";
+
+    const ente: EnteInfo = {
+      name: cms?.name || hardcoded?.name || "",
+      country: cms?.country || hardcoded?.country || "",
+      fullName: cms?.fullName || hardcoded?.fullName,
+      displayTitle: hardcoded?.displayTitle,
+      route: normalizeEnteInternalRoute(cms?.route || hardcoded?.route || routePath) || routePath,
+      externalUrl: cms?.externalUrl || hardcoded?.externalUrl || website,
+      website,
+      description: hardcoded?.description,
+      authorities: hardcoded?.authorities,
+    };
+    return {
+      ente,
+      key: key || canonicalEnteSlug(ente.route) || enteRouteSlug(ente.route),
+      logoUrl: cms?.logoUrl,
+      cmsId: cms?.id,
+    };
+  }, [cmsEntes, routePath]);
+
+  const otherMembers = useMemo(() => {
+    const currentKey = resolved?.key;
+    const currentId = resolved?.cmsId;
+    const fromCms = cmsEntes
+      .filter((e) => e.id !== currentId && canonicalEnteSlug(e.route) !== currentKey)
+      .slice(0, 6);
+    if (fromCms.length > 0) return fromCms;
+    return ALL_ENTES_KEYS.filter((k) => k !== currentKey)
+      .slice(0, 6)
+      .map((k) => {
+        const info = entesInfo[k];
+        return {
+          id: k,
+          name: info.name,
+          country: info.country,
+          fullName: info.fullName,
+          route: info.route,
+          externalUrl: info.externalUrl,
+        } as EnteReguladorMiembro;
+      });
+  }, [cmsEntes, resolved]);
+
+  if (!resolved) {
+    if (loading) {
+      return (
+        <div
+          className="w-full min-h-[50vh]"
+          style={{ backgroundColor: '#FAFBFC', borderTop: '1px solid rgba(22,61,89,0.07)' }}
+          aria-busy="true"
+        />
+      );
+    }
+    return <NotFound />;
   }
+
+  const { ente, key } = resolved;
 
   return (
     <div
@@ -278,7 +381,7 @@ const EnteRegulador: React.FC = () => {
                     className="logoCard flex items-center justify-center overflow-hidden"
                     style={{ width: '176px', height: '176px', minWidth: '176px' }}
                   >
-                    <LogoImage name={ente.name} routeKey={key} />
+                    <LogoImage name={ente.name} routeKey={key} logoUrl={resolved.logoUrl} />
                   </div>
                 </div>
 
@@ -392,7 +495,7 @@ const EnteRegulador: React.FC = () => {
           </div>
 
           {/* Other members */}
-          {otherKeys.length > 0 && (
+          {otherMembers.length > 0 && (
             <div className="mt-12">
               <div className="mb-6 flex items-start gap-4">
                 <div
@@ -408,21 +511,16 @@ const EnteRegulador: React.FC = () => {
                 </h2>
               </div>
               <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-6">
-                {otherKeys.map((k) => {
-                  const e = entesInfo[k];
-                  if (!e) return null;
-                  return (
-                    <Link
-                      key={k}
-                      to={e.route}
-                      className="group flex flex-col items-center gap-2 rounded-xl border bg-white p-4 text-center transition-all hover:border-[var(--regu-blue)] hover:shadow-md"
-                      style={{ borderColor: 'rgba(22,61,89,0.10)' }}
-                    >
+                {otherMembers.map((e) => {
+                  const internal = normalizeEnteInternalRoute(e.route);
+                  const isExternal = e.linkExternalOnly === true || !internal;
+                  const inner = (
+                    <>
                       <div
                         className="flex h-14 w-14 items-center justify-center overflow-hidden rounded-lg border p-1.5"
                         style={{ borderColor: 'rgba(22,61,89,0.08)' }}
                       >
-                        <LogoImage name={e.name} routeKey={k} />
+                        <LogoImage name={e.name} routeKey={canonicalEnteSlug(e.route) || slugify(e.name)} logoUrl={e.logoUrl} />
                       </div>
                       <div>
                         <p className="text-xs font-bold leading-tight group-hover:text-[var(--regu-blue)] transition-colors" style={{ color: 'var(--regu-navy)' }}>
@@ -432,6 +530,32 @@ const EnteRegulador: React.FC = () => {
                           {e.country}
                         </p>
                       </div>
+                    </>
+                  );
+                  const className = "group flex flex-col items-center gap-2 rounded-xl border bg-white p-4 text-center transition-all hover:border-[var(--regu-blue)] hover:shadow-md";
+                  const style = { borderColor: 'rgba(22,61,89,0.10)' } as const;
+                  if (isExternal) {
+                    return (
+                      <a
+                        key={e.id ?? `${e.country}-${e.name}`}
+                        href={e.externalUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={className}
+                        style={style}
+                      >
+                        {inner}
+                      </a>
+                    );
+                  }
+                  return (
+                    <Link
+                      key={e.id ?? `${e.country}-${e.name}`}
+                      to={internal}
+                      className={className}
+                      style={style}
+                    >
+                      {inner}
                     </Link>
                   );
                 })}

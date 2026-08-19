@@ -1,8 +1,9 @@
 import { useMemo, useState } from "react";
-import { CalendarDays, Mic2, Newspaper, Search, Send, Trash2 } from "lucide-react";
+import { BookOpen, CalendarDays, FileText, Mic2, Newspaper, Search, Send, Trash2 } from "lucide-react";
 import { useSiteEdit } from "@/contexts/SiteEditContext";
-import { useSiteSettings } from "@/contexts/SiteSettingsContext";
-import { useEvents, useMergedNews } from "@/contexts/AdminDataContext";
+import { useHablaElReguladorInterviews, useRevistaDigitalEditions, useSiteSettings } from "@/contexts/SiteSettingsContext";
+import { useAdminData, useEvents, useMergedNews } from "@/contexts/AdminDataContext";
+import { useBoletinesGtai } from "@/hooks/useBoletinesGtai";
 import { api } from "@/lib/api";
 import { notifyCmsSaved, cloneJson } from "@/lib/siteEdit";
 import { useDraftHistory } from "@/hooks/useDraftHistory";
@@ -20,7 +21,18 @@ const KINDS: Array<{ kind: HomeAvisoKind; icon: typeof Newspaper }> = [
   { kind: "noticia", icon: Newspaper },
   { kind: "episodio", icon: Mic2 },
   { kind: "evento", icon: CalendarDays },
+  { kind: "revista", icon: BookOpen },
+  { kind: "boletin", icon: FileText },
 ];
+
+type Choice = {
+  id: string;
+  title: string;
+  meta?: string;
+  thumb?: string;
+  draft?: boolean;
+  sortDate?: string;
+};
 
 function emptySlot(): HomeAvisoSlot {
   return {
@@ -31,13 +43,22 @@ function emptySlot(): HomeAvisoSlot {
   };
 }
 
+function matchesQuery(query: string, ...parts: Array<string | undefined>) {
+  if (!query) return true;
+  return parts.some((part) => (part ?? "").toLowerCase().includes(query));
+}
+
 export function HomeAvisoForm({ id }: { id?: string }) {
   const { homeAnnouncements, refetch } = useSiteSettings();
   const { recordPersistedChange, clearPreview } = useSiteEdit();
   const persisted = homeAnnouncements ?? [];
-  const news = useMergedNews();
+  const { adminNews } = useAdminData();
+  const publishedNews = useMergedNews();
   const events = useEvents();
-  const episodes = useMemo(() => homeAvisoEpisodeCatalog(), []);
+  const interviews = useHablaElReguladorInterviews();
+  const episodes = useMemo(() => homeAvisoEpisodeCatalog(interviews), [interviews]);
+  const revistas = useRevistaDigitalEditions();
+  const { entries: boletines } = useBoletinesGtai();
 
   const { value: slot, setValue: setSlot } = useDraftHistory<HomeAvisoSlot>(() => {
     const found = id ? persisted.find((s) => s.id === id) : undefined;
@@ -64,27 +85,37 @@ export function HomeAvisoForm({ id }: { id?: string }) {
   const captureBaseline = usePreviewSync("homeAnnouncements", previewSlots);
 
   const q = query.trim().toLowerCase();
-  const choices = useMemo(() => {
+  const choices = useMemo((): Choice[] => {
     if (slot.kind === "noticia") {
-      return news
-        .filter((n) => !q || n.title.toLowerCase().includes(q) || n.excerpt.toLowerCase().includes(q))
-        .slice(0, 40)
-        .map((n) => ({
+      const bySlug = new Map<string, Choice>();
+      for (const n of publishedNews) {
+        if (!matchesQuery(q, n.title, n.excerpt)) continue;
+        bySlug.set(n.slug.toLowerCase(), {
           id: n.slug,
           title: n.title,
           meta: n.dateFormatted,
           thumb: n.imageUrl,
-        }));
+          sortDate: n.date,
+        });
+      }
+      for (const n of adminNews) {
+        if (n.published !== false) continue;
+        if (!matchesQuery(q, n.title, n.excerpt)) continue;
+        const slug = n.slug || n.id;
+        bySlug.set(slug.toLowerCase(), {
+          id: slug,
+          title: n.title,
+          meta: n.dateFormatted || n.date,
+          thumb: n.imageUrl,
+          draft: true,
+          sortDate: n.date,
+        });
+      }
+      return [...bySlug.values()].sort((a, b) => (a.sortDate ?? "").localeCompare(b.sortDate ?? "") * -1);
     }
     if (slot.kind === "episodio") {
       return episodes
-        .filter(
-          (e) =>
-            !q ||
-            e.name.toLowerCase().includes(q) ||
-            e.organization.toLowerCase().includes(q) ||
-            e.country.toLowerCase().includes(q)
-        )
+        .filter((e) => matchesQuery(q, e.name, e.organization, e.country, e.role))
         .map((e) => ({
           id: e.slug,
           title: e.episode > 0 ? `Episodio ${e.episode} · ${e.name}` : `Tráiler · ${e.name}`,
@@ -92,16 +123,39 @@ export function HomeAvisoForm({ id }: { id?: string }) {
           thumb: e.poster,
         }));
     }
-    return events
-      .filter((e) => !q || e.title.toLowerCase().includes(q) || e.location.toLowerCase().includes(q))
-      .slice(0, 40)
+    if (slot.kind === "revista") {
+      return [...revistas]
+        .filter((e) => matchesQuery(q, e.title, e.description, e.year, e.coverEdition))
+        .sort((a, b) => `${b.year}${b.quarter ?? ""}`.localeCompare(`${a.year}${a.quarter ?? ""}`))
+        .map((e) => ({
+          id: e.id,
+          title: e.title,
+          meta: [e.year, e.coverEdition || e.quarter].filter(Boolean).join(" · "),
+          draft: !e.isPublished,
+        }));
+    }
+    if (slot.kind === "boletin") {
+      return [...boletines]
+        .filter((e) => matchesQuery(q, e.title, e.shortSummary, e.description, String(e.year)))
+        .sort((a, b) => b.publicationDate.localeCompare(a.publicationDate) || b.issueNumber - a.issueNumber)
+        .map((e) => ({
+          id: e.slug,
+          title: e.title,
+          meta: `${e.year} · Nº ${e.issueNumber}`,
+          thumb: e.coverImage,
+          draft: !e.isPublished,
+        }));
+    }
+    return [...events]
+      .filter((e) => matchesQuery(q, e.title, e.location, e.description))
+      .sort((a, b) => b.startDate.localeCompare(a.startDate))
       .map((e) => ({
         id: e.id,
         title: e.title,
         meta: [e.startDate, e.location].filter(Boolean).join(" · "),
         thumb: e.imageUrl,
       }));
-  }, [slot.kind, news, events, episodes, q]);
+  }, [slot.kind, publishedNews, adminNews, events, episodes, revistas, boletines, q]);
 
   const save = async () => {
     const next = previewSlots.filter((s) => s.visible && s.refId.trim()).slice(0, HOME_AVISO_MAX);
@@ -144,11 +198,13 @@ export function HomeAvisoForm({ id }: { id?: string }) {
   };
 
   const isExisting = persisted.some((s) => s.id === slot.id && s.refId);
+  const selectedChoice = choices.find((item) => item.id === slot.refId);
 
   return (
     <div className="space-y-5">
       <p className="text-[12px] leading-relaxed" style={{ color: "var(--regu-gray-500)" }}>
-        Elige el tipo y luego la pieza. La tarjeta de la portada se actualiza al instante. Publica para que la vea todo el mundo.
+        Elige el tipo y luego la pieza. La lista es la del menú de admin: si subes una noticia, un evento, un episodio,
+        una revista o un boletín, aparece aquí. La tarjeta se actualiza al instante.
       </p>
 
       <div>
@@ -187,6 +243,9 @@ export function HomeAvisoForm({ id }: { id?: string }) {
       <div>
         <p className="mb-2 text-[13px] font-medium" style={{ color: "var(--regu-gray-600)" }}>
           Cuál
+          <span className="ml-1.5 font-normal" style={{ color: "var(--regu-gray-400)" }}>
+            {choices.length} {choices.length === 1 ? "pieza" : "piezas"}
+          </span>
         </p>
         <div
           className="mb-2 flex items-center gap-2 rounded-xl border bg-white px-3 py-2"
@@ -203,12 +262,12 @@ export function HomeAvisoForm({ id }: { id?: string }) {
           />
         </div>
         <div
-          className="max-h-64 overflow-y-auto rounded-xl border"
+          className="max-h-72 overflow-y-auto rounded-xl border"
           style={{ borderColor: "rgba(22,61,89,0.12)" }}
         >
           {choices.length === 0 ? (
             <p className="px-3 py-6 text-center text-xs" style={{ color: "var(--regu-gray-500)" }}>
-              No hay resultados.
+              No hay resultados. Súbelo en el menú de admin y vuelve a abrir este aviso.
             </p>
           ) : (
             choices.map((item) => {
@@ -248,11 +307,21 @@ export function HomeAvisoForm({ id }: { id?: string }) {
                     >
                       {item.title}
                     </span>
-                    {item.meta && (
-                      <span className="mt-0.5 block truncate text-[10px]" style={{ color: "var(--regu-gray-500)" }}>
-                        {item.meta}
-                      </span>
-                    )}
+                    <span className="mt-0.5 flex items-center gap-1.5">
+                      {item.draft ? (
+                        <span
+                          className="rounded-full px-1.5 py-px text-[9px] font-bold uppercase tracking-wide"
+                          style={{ backgroundColor: "#fffbeb", color: "#92400e" }}
+                        >
+                          Borrador
+                        </span>
+                      ) : null}
+                      {item.meta ? (
+                        <span className="truncate text-[10px]" style={{ color: "var(--regu-gray-500)" }}>
+                          {item.meta}
+                        </span>
+                      ) : null}
+                    </span>
                   </span>
                 </button>
               );
@@ -260,6 +329,15 @@ export function HomeAvisoForm({ id }: { id?: string }) {
           )}
         </div>
       </div>
+
+      {selectedChoice?.draft ? (
+        <p
+          className="rounded-xl border px-3 py-2 text-[12px] leading-relaxed"
+          style={{ borderColor: "#f59e0b", backgroundColor: "#fffbeb", color: "#92400e" }}
+        >
+          Esta pieza aún es un borrador. En el sitio público no se verá hasta que la publiques en el admin.
+        </p>
+      ) : null}
 
       {error && (
         <p className="text-sm" style={{ color: "#991b1b" }}>

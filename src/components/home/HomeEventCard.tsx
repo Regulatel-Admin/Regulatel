@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { ArrowRight } from "lucide-react";
 import type { Event } from "@/types/event";
 import { formatEventDateRange } from "@/types/event";
+import { EditableSpot } from "@/components/site-edit/EditableSpot";
 
 interface HomeEventCardProps {
   event: Event;
@@ -30,6 +31,7 @@ export default function HomeEventCard({ event }: HomeEventCardProps) {
   }
 
   return (
+    <EditableSpot target={{ kind: "evento", id: event.id }} label="Editar este evento">
     <article
       className="home-event-card homeEventCardHover relative flex h-full min-h-[300px] flex-col overflow-hidden rounded-[20px] border bg-white transition-all duration-200 hover:-translate-y-0.5 focus-within:ring-2 focus-within:ring-[var(--regu-blue)] focus-within:ring-offset-2"
       style={{
@@ -141,5 +143,6 @@ export default function HomeEventCard({ event }: HomeEventCardProps) {
       </div>
       </div>
     </article>
+    </EditableSpot>
   );
 }

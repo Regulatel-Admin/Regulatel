@@ -490,7 +490,7 @@ export default {
     viewAllNewsLong: "Ver todas as notícias",
     viewPressReleases: "Ver comunicados",
     viewPublications: "Ver publicações",
-    upcomingEventsTitle: "Próximos eventos 2026",
+    upcomingEventsTitle: "Próximos eventos {{year}}",
     upcomingEventsSubtitle: "Agenda institucional e encontros regionais da REGULATEL.",
     seeAll: "Ver todos",
     seeAllShort: "Ver todas",

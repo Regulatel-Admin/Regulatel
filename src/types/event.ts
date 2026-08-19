@@ -35,6 +35,19 @@ export function getEventStatus(e: { startDate: string; endDate: string | null })
   return ref >= today ? "upcoming" : "past";
 }
 
+/** Próximos primero, y dentro de ellos el que está más cerca de hoy. */
+export function sortUpcomingBySoonest(events: Event[]): Event[] {
+  return [...events]
+    .filter((e) => getEventStatus(e) === "upcoming")
+    .sort((a, b) => {
+      const byStart = a.startDate.localeCompare(b.startDate);
+      if (byStart !== 0) return byStart;
+      const aEnd = a.endDate ?? a.startDate;
+      const bEnd = b.endDate ?? b.startDate;
+      return aEnd.localeCompare(bEnd);
+    });
+}
+
 /** Año desde startDate. Si la fecha es inválida, devuelve el año actual. */
 export function getEventYear(startDate: string): number {
   if (!startDate || typeof startDate !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(startDate.trim())) {

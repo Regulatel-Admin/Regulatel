@@ -1,9 +1,12 @@
 import { Link } from "react-router-dom";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import { Plus } from "lucide-react";
 import type { Event } from "@/types/event";
+import { sortUpcomingBySoonest } from "@/types/event";
 import EventCard from "./EventCard";
 import HomeEventCard from "./HomeEventCard";
+import { useSiteEdit } from "@/contexts/SiteEditContext";
 
 interface EventsSectionProps {
   events: Event[];
@@ -14,14 +17,13 @@ interface EventsSectionProps {
   maxEvents?: number;
 }
 
-/** Orden: próximos primero (startDate asc), luego pasados (startDate desc). */
+/** Orden: próximos primero (el más cercano a hoy), luego pasados (más reciente primero). */
 function sortEvents(events: Event[]): Event[] {
-  return [...events].sort((a, b) => {
-    if (a.status !== b.status) return a.status === "upcoming" ? -1 : 1;
-    return a.status === "upcoming"
-      ? a.startDate.localeCompare(b.startDate)
-      : b.startDate.localeCompare(a.startDate);
-  });
+  const upcoming = sortUpcomingBySoonest(events);
+  const past = [...events]
+    .filter((e) => e.status !== "upcoming")
+    .sort((a, b) => b.startDate.localeCompare(a.startDate));
+  return [...upcoming, ...past];
 }
 
 /**
@@ -35,12 +37,14 @@ export default function EventsSection({
   maxEvents,
 }: EventsSectionProps) {
   const { t } = useTranslation();
+  const { enabled: siteEditEnabled, open: openSiteEdit } = useSiteEdit();
   const resolvedTitle = title ?? t("homeSections.upcomingEvents");
+  const currentYear = new Date().getFullYear();
   const sorted = useMemo(() => sortEvents(events), [events]);
-  const displayList =
-    variant === "home" && typeof maxEvents === "number"
-      ? sorted.slice(0, maxEvents)
-      : sorted;
+  const displayList = useMemo(() => {
+    if (!(variant === "home" && typeof maxEvents === "number")) return sorted;
+    return sortUpcomingBySoonest(events).slice(0, maxEvents);
+  }, [events, sorted, variant, maxEvents]);
 
   const isHome = variant === "home";
 
@@ -69,7 +73,7 @@ export default function EventsSection({
                     fontFamily: "var(--token-font-heading)",
                   }}
                 >
-                  {t("homeSections.upcomingEventsTitle")}
+                  {t("homeSections.upcomingEventsTitle", { year: currentYear })}
                 </h2>
                 <p
                   className="mt-1.5 text-sm md:text-base"
@@ -80,6 +84,33 @@ export default function EventsSection({
               </div>
             </header>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5">
+              {siteEditEnabled && (
+                <button
+                  type="button"
+                  onClick={() => openSiteEdit({ kind: "evento" })}
+                  className="flex min-h-[300px] flex-col items-center justify-center gap-3 rounded-[20px] border-2 border-dashed px-6 py-10 transition hover:bg-[rgba(15,118,110,0.06)]"
+                  style={{
+                    borderColor: "rgba(15,118,110,0.45)",
+                    backgroundColor: "rgba(15,118,110,0.03)",
+                  }}
+                  aria-label="Añadir un evento"
+                >
+                  <span
+                    className="flex h-16 w-16 items-center justify-center rounded-full"
+                    style={{ backgroundColor: "rgba(15,118,110,0.10)", color: "#0f766e" }}
+                  >
+                    <Plus className="h-10 w-10" strokeWidth={1.5} aria-hidden />
+                  </span>
+                  <span className="text-center">
+                    <span className="block text-sm font-bold" style={{ color: "#0f766e" }}>
+                      Añadir evento
+                    </span>
+                    <span className="mt-1 block text-xs leading-relaxed" style={{ color: "var(--regu-gray-500)" }}>
+                      Se coloca según la fecha más próxima.
+                    </span>
+                  </span>
+                </button>
+              )}
               {displayList.map((event) => (
                 <HomeEventCard key={event.id} event={event} />
               ))}

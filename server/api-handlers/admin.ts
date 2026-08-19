@@ -27,6 +27,7 @@ import { isDbConfigured } from "../lib/db.js";
 import { seedLegacyEventsIfMissing } from "../lib/seedLegacyEvents.js";
 import { listSubscribers, unsubscribeById } from "../lib/subscribers.js";
 import { getAnalyticsStats } from "../lib/analytics.js";
+import { notifySubscribersNewContent, previewSubscriberNotifyEmail } from "../lib/sendNewsletter.js";
 
 
 function sendJson(res: ServerResponse, status: number, data: unknown) {
@@ -364,6 +365,50 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
       }
       res.statusCode = 405;
       res.end("Method Not Allowed");
+      return;
+    }
+
+    if (subpath === "notify-subscribers") {
+      const auth = await ensureAdmin(req);
+      if (req.method !== "POST") {
+        sendJson(res, 405, { error: "Method Not Allowed" });
+        return;
+      }
+      const body = (await parseJsonBody(req)) as Record<string, unknown>;
+      const typeRaw = body.type;
+      const type =
+        typeRaw === "noticia" || typeRaw === "evento" || typeRaw === "publicación" ? typeRaw : null;
+      const title = typeof body.title === "string" ? body.title.trim() : "";
+      if (!type || !title) {
+        sendJson(res, 400, { error: "Indica el tipo y el título para avisar a los suscriptores." });
+        return;
+      }
+      const excerpt = typeof body.excerpt === "string" ? body.excerpt.trim().slice(0, 800) : undefined;
+      const url = typeof body.url === "string" ? body.url.trim().slice(0, 500) : undefined;
+      const date = typeof body.date === "string" ? body.date.trim().slice(0, 80) : undefined;
+      const payload = {
+        type,
+        title: title.slice(0, 200),
+        excerpt,
+        url,
+        date,
+      } as const;
+      if (body.preview === true) {
+        const preview = await previewSubscriberNotifyEmail(payload);
+        sendJson(res, 200, { ok: true, preview: true, ...preview });
+        return;
+      }
+      const result = await notifySubscribersNewContent(payload);
+      await logAudit({
+        userId: auth.user.id,
+        userEmail: auth.user.email,
+        userName: auth.user.name,
+        action: "updated",
+        resourceType: "subscribers",
+        resourceId: type,
+        details: { title, sent: result.sent, skipped: result.skipped, total: result.total },
+      });
+      sendJson(res, 200, { ok: true, ...result });
       return;
     }
 

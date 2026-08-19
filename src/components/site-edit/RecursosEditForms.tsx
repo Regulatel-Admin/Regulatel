@@ -5,10 +5,13 @@ import { useSiteSettings } from "@/contexts/SiteSettingsContext";
 import { api } from "@/lib/api";
 import { notifyCmsSaved, cloneJson } from "@/lib/siteEdit";
 import { slugify } from "@/lib/slugify";
+import { extractYoutubeId } from "@/lib/youtube";
 import { useDraftHistory } from "@/hooks/useDraftHistory";
 import { usePreviewSync } from "@/hooks/usePreviewSync";
 import { AdminBlobUploadField } from "@/components/admin/AdminBlobUploadField";
 import AdminSlideshowField from "@/components/admin/AdminSlideshowField";
+import { NotifySubscribersButton } from "@/components/admin/NotifySubscribersOption";
+import type { SubscriberNotifyPayload } from "@/lib/notifySubscribers";
 import {
   CONVENIOS_SETTINGS_KEY,
   convenios as defaultConvenios,
@@ -48,12 +51,16 @@ function PublishBar({
   published,
   onPublish,
   extra,
+  notifyPayload,
+  publishedNote,
 }: {
   saving: boolean;
   error: string | null;
   published?: boolean;
   onPublish: () => void;
   extra?: ReactNode;
+  notifyPayload?: SubscriberNotifyPayload;
+  publishedNote?: string;
 }) {
   return (
     <div
@@ -67,12 +74,17 @@ function PublishBar({
       )}
       {published && !error && (
         <p className="mb-2 text-sm font-medium" style={{ color: "#0f766e" }}>
-          Ya está en el sitio público.
+          {publishedNote || "Ya está en el sitio público."}
         </p>
       )}
       <p className="mb-3 text-[12px] leading-relaxed" style={{ color: "var(--regu-gray-500)" }}>
         Se ve al instante en esta página. Hasta que publiques, el sitio real no cambia.
       </p>
+      {notifyPayload ? (
+        <div className="mb-3">
+          <NotifySubscribersButton payload={notifyPayload} disabled={saving} />
+        </div>
+      ) : null}
       <div className="flex flex-wrap gap-2">
         <button
           type="button"
@@ -660,6 +672,7 @@ export function EntrevistaForm({ slug }: { slug?: string }) {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [published, setPublished] = useState(false);
+  const [publishedNote, setPublishedNote] = useState<string | undefined>();
 
   const previewList = useMemo(() => {
     const list = cloneEntrevistas(allEntries);
@@ -675,6 +688,10 @@ export function EntrevistaForm({ slug }: { slug?: string }) {
   const save = async () => {
     if (!removed && !row.name.trim()) {
       setError("La entrevista necesita el nombre de la persona.");
+      return;
+    }
+    if (!removed && row.youtubeId?.trim() && !extractYoutubeId(row.youtubeId)) {
+      setError("Pega el enlace de YouTube o solo el ID del video (11 caracteres).");
       return;
     }
     const next = removed ? previewList : previewList.map((e) => (e.slug === row.slug ? { ...row } : e));
@@ -696,7 +713,7 @@ export function EntrevistaForm({ slug }: { slug?: string }) {
           date: e.date?.trim() || undefined,
           duration: e.duration.trim(),
           poster: e.poster.trim(),
-          youtubeId: e.youtubeId?.trim() || undefined,
+          youtubeId: extractYoutubeId(e.youtubeId ?? ""),
           videoSrc: e.videoSrc?.trim() || undefined,
           episode: e.episode || next.length - i,
         };
@@ -705,8 +722,8 @@ export function EntrevistaForm({ slug }: { slug?: string }) {
     setError(null);
     const before = cloneJson(hablaElRegulador ?? defaultHablaInterviews);
     const res = await api.settings.set(HABLA_EL_REGULADOR_SETTINGS_KEY, { interviews: prepared });
-    setSaving(false);
     if (!res.ok) {
+      setSaving(false);
       setError(res.error ?? "No se pudo publicar.");
       return;
     }
@@ -727,12 +744,14 @@ export function EntrevistaForm({ slug }: { slug?: string }) {
     await refetch();
     captureBaseline();
     clearPreview("entrevistas");
+    setPublishedNote("Ya está en el sitio público.");
     setPublished(true);
     if (!removed) {
       const saved = prepared.find((e) => e.name === row.name.trim()) ?? prepared[0];
       if (saved) setRow({ ...saved });
       setAllEntries(cloneEntrevistas(prepared));
     }
+    setSaving(false);
   };
 
   return (
@@ -835,17 +854,20 @@ export function EntrevistaForm({ slug }: { slug?: string }) {
           }}
         />
       </Field>
-      <Field label="ID de YouTube">
+      <Field label="YouTube (enlace o ID)">
         <input
           className={fieldClass}
           style={fieldStyle}
           value={row.youtubeId ?? ""}
-          placeholder="GfNp-AiYINU"
+          placeholder="https://www.youtube.com/watch?v=…"
           onChange={(e) => {
             setRow({ ...row, youtubeId: e.target.value });
             setPublished(false);
           }}
         />
+        <p className="mt-1.5 text-[11px] leading-relaxed" style={{ color: "var(--regu-gray-500)" }}>
+          Puedes pegar el enlace completo. El sitio extrae el ID al publicar.
+        </p>
       </Field>
       <AdminBlobUploadField
         label="Foto / póster"
@@ -861,6 +883,18 @@ export function EntrevistaForm({ slug }: { slug?: string }) {
         saving={saving}
         error={error}
         published={published}
+        publishedNote={publishedNote}
+        notifyPayload={
+          removed
+            ? undefined
+            : {
+                type: "publicación",
+                title: `${row.name}${row.organization ? ` · ${row.organization}` : ""}`,
+                excerpt: [row.role, row.country].filter(Boolean).join(" · ") || undefined,
+                url: `/habla-el-regulador#${row.slug}`,
+                date: row.date,
+              }
+        }
         onPublish={() => void save()}
         extra={
           <button

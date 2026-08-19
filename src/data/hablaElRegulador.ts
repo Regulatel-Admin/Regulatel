@@ -1,3 +1,5 @@
+import { extractYoutubeId } from "@/lib/youtube";
+
 export interface HablaElReguladorInterview {
   slug: string;
   episode: number;
@@ -116,7 +118,7 @@ function parseInterview(row: unknown): HablaElReguladorInterview | null {
     date: typeof r.date === "string" && r.date.trim() ? r.date.trim() : undefined,
     duration: typeof r.duration === "string" ? r.duration : "",
     poster: typeof r.poster === "string" ? r.poster : "",
-    youtubeId: typeof r.youtubeId === "string" && r.youtubeId.trim() ? r.youtubeId.trim() : undefined,
+    youtubeId: typeof r.youtubeId === "string" ? extractYoutubeId(r.youtubeId) : undefined,
     videoSrc: typeof r.videoSrc === "string" && r.videoSrc.trim() ? r.videoSrc.trim() : undefined,
   };
 }

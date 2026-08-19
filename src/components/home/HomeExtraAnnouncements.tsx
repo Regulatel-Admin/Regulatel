@@ -1,21 +1,40 @@
 /**
- * Avisos extra del hero: noticia, episodio o evento, más la tarjeta “+” al editar.
+ * Avisos extra del hero: noticia, episodio, evento, revista o boletín, más la tarjeta “+” al editar.
  */
-import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
+import { useEffect, useMemo, useState, type CSSProperties, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { motion, useReducedMotion } from "framer-motion";
-import { Plus, X } from "lucide-react";
+import { ChevronDown, ChevronUp, Plus, X } from "lucide-react";
 import { SiteEditBadge } from "@/components/site-edit/EditableSpot";
 import { useSiteEdit } from "@/contexts/SiteEditContext";
-import { useHomeAnnouncements } from "@/contexts/SiteSettingsContext";
+import {
+  useHablaElReguladorInterviews,
+  useHeroAnnounceOrder,
+  useHomeAnnouncements,
+  useRevistaDigitalEditions,
+  useSiteSettings,
+} from "@/contexts/SiteSettingsContext";
 import { useMergedNews, useEvents } from "@/contexts/AdminDataContext";
+import { useBoletinesGtai } from "@/hooks/useBoletinesGtai";
+import { api } from "@/lib/api";
+import { notifyCmsSaved, cloneJson } from "@/lib/siteEdit";
+import HomeBoletinGtaiAnnouncement from "./HomeBoletinGtaiAnnouncement";
+import HomeRevistaAnnouncement from "./HomeRevistaAnnouncement";
 import {
   HOME_AVISO_KIND_META,
   HOME_AVISO_MAX,
+  HERO_ANNOUNCE_BOLETIN_ID,
+  HERO_ANNOUNCE_ORDER_SETTINGS_KEY,
+  HERO_ANNOUNCE_REVISTA_ID,
+  applyHeroAnnounceOrder,
   homeAvisoEpisodeCatalog,
+  moveHeroAnnounce,
   type HomeAvisoKind,
   type HomeAvisoSlot,
 } from "@/data/homeAnnouncements";
+import { GESTION_REVISTA_ARCHIVE_PATH } from "@/data/gestion";
+import { BOLETINES_GTAI_LIST_PATH, type BoletinGtaiSerialized } from "@/data/boletinesGtai";
+import type { RevistaEdition } from "@/data/revistaDigital";
 import type { HomeNewsItemLike } from "@/contexts/AdminDataContext";
 import type { Event } from "@/types/event";
 
@@ -57,6 +76,7 @@ type ResolvedAviso = {
   moreHref: string;
   cover: ReactNode;
   meta?: string;
+  external?: boolean;
 };
 
 function TypographicCover({ kicker, line, sub }: { kicker: string; line: string; sub: string }) {
@@ -106,7 +126,10 @@ function resolveAviso(
   slot: HomeAvisoSlot,
   news: HomeNewsItemLike[],
   events: Event[],
-  episodes: ReturnType<typeof homeAvisoEpisodeCatalog>
+  episodes: ReturnType<typeof homeAvisoEpisodeCatalog>,
+  revistas: RevistaEdition[],
+  boletines: BoletinGtaiSerialized[],
+  allowDrafts = false,
 ): ResolvedAviso | null {
   if (slot.kind === "noticia") {
     const item = news.find((n) => n.slug.toLowerCase() === slot.refId.toLowerCase());
@@ -140,6 +163,38 @@ function resolveAviso(
         <ImageCover src={item.poster} alt="" />
       ) : (
         <TypographicCover kicker="Habla" line={epLabel} sub="Regulador" />
+      ),
+    };
+  }
+  if (slot.kind === "revista") {
+    const item = revistas.find((e) => e.id === slot.refId);
+    if (!item || (!item.isPublished && !allowDrafts)) return null;
+    const href = item.url.startsWith("http") || item.url.startsWith("/") ? item.url : GESTION_REVISTA_ARCHIVE_PATH;
+    return {
+      kind: "revista",
+      title: item.title,
+      description: item.description || item.title,
+      href,
+      moreHref: GESTION_REVISTA_ARCHIVE_PATH,
+      meta: [item.year, item.coverEdition || item.quarter].filter(Boolean).join(" · "),
+      external: href.startsWith("http"),
+      cover: <TypographicCover kicker="Revista" line={item.year} sub={item.coverEdition || "REGULATEL"} />,
+    };
+  }
+  if (slot.kind === "boletin") {
+    const item = boletines.find((e) => e.slug === slot.refId);
+    if (!item || (!item.isPublished && !allowDrafts)) return null;
+    return {
+      kind: "boletin",
+      title: item.title,
+      description: item.shortSummary || item.description,
+      href: `${BOLETINES_GTAI_LIST_PATH}/${item.slug}`,
+      moreHref: BOLETINES_GTAI_LIST_PATH,
+      meta: `${item.year} · Nº ${item.issueNumber}`,
+      cover: item.coverImage ? (
+        <ImageCover src={item.coverImage} alt="" />
+      ) : (
+        <TypographicCover kicker="GTAI" line={`Nº ${item.issueNumber}`} sub={String(item.year)} />
       ),
     };
   }
@@ -184,7 +239,18 @@ function HomeAvisoCard({ slot }: { slot: HomeAvisoSlot }) {
   const { enabled: siteEditEnabled } = useSiteEdit();
   const news = useMergedNews();
   const events = useEvents();
-  const resolved = resolveAviso(slot, news, events, homeAvisoEpisodeCatalog());
+  const interviews = useHablaElReguladorInterviews();
+  const revistas = useRevistaDigitalEditions();
+  const { entries: boletines } = useBoletinesGtai();
+  const resolved = resolveAviso(
+    slot,
+    news,
+    events,
+    homeAvisoEpisodeCatalog(interviews),
+    revistas,
+    boletines,
+    siteEditEnabled,
+  );
   const [visible, setVisible] = useState(true);
 
   useEffect(() => {
@@ -256,9 +322,21 @@ function HomeAvisoCard({ slot }: { slot: HomeAvisoSlot }) {
           {resolved.description}
         </p>
         <div className="mt-[0.72rem]">
-          <Link to={resolved.href} className={CTA_PRIMARY_CLASS} style={CTA_PRIMARY_STYLE}>
-            <span className="relative">{meta.cta}</span>
-          </Link>
+          {resolved.external ? (
+            <a
+              href={resolved.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={CTA_PRIMARY_CLASS}
+              style={CTA_PRIMARY_STYLE}
+            >
+              <span className="relative">{meta.cta}</span>
+            </a>
+          ) : (
+            <Link to={resolved.href} className={CTA_PRIMARY_CLASS} style={CTA_PRIMARY_STYLE}>
+              <span className="relative">{meta.cta}</span>
+            </Link>
+          )}
           <Link
             to={resolved.moreHref}
             className="heroAnnounceMore mt-2 block text-center text-[8.5px] font-normal tracking-[0.02em] text-[rgba(22,61,89,0.58)] underline-offset-[3px] hover:text-[rgba(22,61,89,0.74)]"
@@ -290,7 +368,7 @@ function HomeAddAvisoCard() {
       <Plus className="h-12 w-12" strokeWidth={1.25} style={{ color: "rgba(255,255,255,0.42)" }} aria-hidden />
       <span className="text-[11px] font-semibold tracking-[0.04em] text-white/80">Añadir aviso</span>
       <span className="max-w-[12rem] text-[9px] leading-relaxed text-white/55">
-        Noticia, episodio o evento. Lo ves aquí al instante.
+        Noticia, episodio, evento, revista o boletín. Lo ves aquí al instante.
       </span>
     </button>
   );
@@ -298,14 +376,100 @@ function HomeAddAvisoCard() {
 
 export function HomeExtraAnnouncements() {
   const slots = useHomeAnnouncements();
-  const { enabled } = useSiteEdit();
+  const savedOrder = useHeroAnnounceOrder();
+  const { enabled, setPreview, recordPersistedChange, clearPreview } = useSiteEdit();
+  const { heroAnnounceOrder, refetch } = useSiteSettings();
+  const [savingOrder, setSavingOrder] = useState(false);
+  const available = useMemo(
+    () => [HERO_ANNOUNCE_BOLETIN_ID, HERO_ANNOUNCE_REVISTA_ID, ...slots.map((s) => s.id)],
+    [slots],
+  );
+  const order = applyHeroAnnounceOrder(available, savedOrder);
   const showPlus = enabled && slots.length < HOME_AVISO_MAX;
-  if (slots.length === 0 && !showPlus) return null;
+  const slotById = useMemo(() => new Map(slots.map((s) => [s.id, s])), [slots]);
+
+  const move = async (id: string, direction: -1 | 1) => {
+    const next = moveHeroAnnounce(order, id, direction);
+    if (next === order || next.join("|") === order.join("|")) return;
+    setPreview({ heroAnnounceOrder: next });
+    setSavingOrder(true);
+    const before = cloneJson(heroAnnounceOrder ?? order);
+    const res = await api.settings.set(HERO_ANNOUNCE_ORDER_SETTINGS_KEY, { order: next });
+    if (!res.ok) {
+      clearPreview("heroAnnounceOrder");
+      setSavingOrder(false);
+      return;
+    }
+    recordPersistedChange({
+      label: "orden de avisos",
+      undo: async () => {
+        const r = await api.settings.set(HERO_ANNOUNCE_ORDER_SETTINGS_KEY, { order: before });
+        if (!r.ok) throw new Error(r.error ?? "No se pudo deshacer.");
+        notifyCmsSaved(HERO_ANNOUNCE_ORDER_SETTINGS_KEY);
+      },
+      redo: async () => {
+        const r = await api.settings.set(HERO_ANNOUNCE_ORDER_SETTINGS_KEY, { order: next });
+        if (!r.ok) throw new Error(r.error ?? "No se pudo rehacer.");
+        notifyCmsSaved(HERO_ANNOUNCE_ORDER_SETTINGS_KEY);
+      },
+    });
+    notifyCmsSaved(HERO_ANNOUNCE_ORDER_SETTINGS_KEY);
+    await refetch();
+    clearPreview("heroAnnounceOrder");
+    setSavingOrder(false);
+  };
+
   return (
     <>
-      {slots.map((slot) => (
-        <HomeAvisoCard key={slot.id} slot={slot} />
-      ))}
+      {order.map((id, index) => {
+        const slot = slotById.get(id);
+        const card =
+          id === HERO_ANNOUNCE_BOLETIN_ID ? (
+            <HomeBoletinGtaiAnnouncement />
+          ) : id === HERO_ANNOUNCE_REVISTA_ID ? (
+            <HomeRevistaAnnouncement variant="stacked" />
+          ) : slot ? (
+            <HomeAvisoCard slot={slot} />
+          ) : null;
+        if (!card) return null;
+        return (
+          <div key={id} className="relative">
+            {card}
+            {enabled && (
+              <div className="absolute right-[5px] top-[26px] z-[30] flex flex-col gap-0.5">
+                <button
+                  type="button"
+                  onClick={(event) => {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    void move(id, -1);
+                  }}
+                  disabled={savingOrder || index === 0}
+                  className="flex h-[18px] w-[18px] items-center justify-center rounded-full text-white disabled:opacity-30"
+                  style={{ backgroundColor: "#0f766e" }}
+                  aria-label="Subir aviso"
+                >
+                  <ChevronUp className="h-3 w-3" strokeWidth={2.5} aria-hidden />
+                </button>
+                <button
+                  type="button"
+                  onClick={(event) => {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    void move(id, 1);
+                  }}
+                  disabled={savingOrder || index === order.length - 1}
+                  className="flex h-[18px] w-[18px] items-center justify-center rounded-full text-white disabled:opacity-30"
+                  style={{ backgroundColor: "#0f766e" }}
+                  aria-label="Bajar aviso"
+                >
+                  <ChevronDown className="h-3 w-3" strokeWidth={2.5} aria-hidden />
+                </button>
+              </div>
+            )}
+          </div>
+        );
+      })}
       {showPlus && <HomeAddAvisoCard />}
     </>
   );

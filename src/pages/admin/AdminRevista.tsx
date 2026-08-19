@@ -1,9 +1,10 @@
 /**
  * Revista Digital — ediciones con PDF, visibles en Gestión y en la portada.
  */
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { api } from "@/lib/api";
 import { AdminBlobUploadField } from "@/components/admin/AdminBlobUploadField";
+import { NotifySubscribersButton } from "@/components/admin/NotifySubscribersOption";
 import { slugify } from "@/lib/slugify";
 import { useSiteSettings } from "@/contexts/SiteSettingsContext";
 import {
@@ -77,6 +78,11 @@ export default function AdminRevista() {
     setTimeout(() => setMessage(null), 5000);
   };
 
+  const notifyTarget = useMemo(
+    () => entries.find((e) => e.isFeatured && e.isPublished) ?? entries.find((e) => e.isPublished),
+    [entries]
+  );
+
   const updateRow = (index: number, patch: Partial<RevistaEdition>) => {
     setEntries((prev) =>
       prev.map((row, i) => {
@@ -119,14 +125,15 @@ export default function AdminRevista() {
     });
     setSaving(true);
     const res = await api.settings.set(REVISTA_DIGITAL_SETTINGS_KEY, { entries: prepared });
-    setSaving(false);
-    if (res.ok) {
-      setEntries(prepared);
-      await refetch();
-      showMessage("ok", "Revista Digital guardada. Ya se ve en el sitio.");
-    } else {
+    if (!res.ok) {
+      setSaving(false);
       showMessage("err", res.error ?? "No se pudo guardar.");
+      return;
     }
+    setEntries(prepared);
+    await refetch();
+    setSaving(false);
+    showMessage("ok", "Revista Digital guardada. Ya se ve en el sitio.");
   };
 
   if (loading) {
@@ -161,7 +168,23 @@ export default function AdminRevista() {
         </div>
       )}
 
-      <div className="flex flex-wrap gap-2">
+      <div className="space-y-3">
+        <NotifySubscribersButton
+          payload={{
+            type: "publicación",
+            title: notifyTarget?.title ?? "",
+            excerpt: notifyTarget?.description,
+            url:
+              notifyTarget && (notifyTarget.url.startsWith("http") || notifyTarget.url.startsWith("/"))
+                ? notifyTarget.url
+                : "/gestion",
+            date: notifyTarget?.year,
+          }}
+          disabled={saving || !notifyTarget?.title.trim()}
+          disabledHint="No hay una edición visible para avisar. Márcala Visible (y En portada si aplica) y guarda."
+          onSent={(text) => showMessage("ok", text)}
+        />
+        <div className="flex flex-wrap gap-2">
         <button
           type="button"
           onClick={() => void save()}
@@ -193,6 +216,7 @@ export default function AdminRevista() {
           <RotateCcw className="h-4 w-4" />
           Volver al listado original
         </button>
+      </div>
       </div>
 
       <div className="space-y-3">

@@ -64,7 +64,7 @@ export default function AdminSuscriptores() {
         Suscriptores
       </h1>
       <p className="mb-6 text-sm" style={{ color: "var(--regu-gray-500)" }}>
-        Personas inscritas en <strong>Suscribirse a actualizaciones</strong>. Reciben un correo cuando se publica una noticia o un evento.
+        Personas inscritas en <strong>Suscribirse a actualizaciones</strong>. Reciben un correo cuando publicas una noticia, un evento o una publicación y marcas <strong>Notificar a todos los suscriptores</strong>.
       </p>
 
       <div

@@ -7,7 +7,6 @@ import { ensureAdmin } from "../lib/adminAuth.js";
 import { logAudit } from "../lib/auditLog.js";
 import { parseJsonBody } from "../lib/parseBody.js";
 import { isDbConfigured } from "../lib/db.js";
-import { notifySubscribersNewContent } from "../lib/sendNewsletter.js";
 
 function sendJson(res: ServerResponse, status: number, data: unknown) {
   res.setHeader("Content-Type", "application/json");
@@ -102,15 +101,6 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
           resourceId: item.id,
           details: { title: item.title, slug: item.slug },
         });
-        if (item.published) {
-          void notifySubscribersNewContent({
-            type: "noticia",
-            title: item.title,
-            excerpt: item.excerpt,
-            url: `/noticias/${item.slug}`,
-            date: item.dateFormatted || item.date,
-          }).then((r) => r.sent > 0 && console.log("[news] Notificación enviada a", r.sent, "suscriptores."));
-        }
         sendJson(res, 201, item);
         return;
       }
@@ -131,8 +121,6 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
     if (req.method === "PATCH") {
       const auth = await ensureAdmin(req);
       const body = (await parseJsonBody(req)) as Record<string, unknown>;
-      const wasPublished = (await getNewsById(id))?.published ?? false;
-      const publishingNow = body.published === true;
       const item = await updateNews(id, {
         slug: typeof body.slug === "string" ? body.slug : undefined,
         title: typeof body.title === "string" ? body.title : undefined,
@@ -168,15 +156,6 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
         resourceId: id,
         details: { title: item.title },
       });
-      if (item.published && publishingNow && !wasPublished) {
-        void notifySubscribersNewContent({
-          type: "noticia",
-          title: item.title,
-          excerpt: item.excerpt,
-          url: `/noticias/${item.slug}`,
-          date: item.dateFormatted || item.date,
-        }).then((r) => r.sent > 0 && console.log("[news] Notificación enviada a", r.sent, "suscriptores."));
-      }
       sendJson(res, 200, item);
       return;
     }

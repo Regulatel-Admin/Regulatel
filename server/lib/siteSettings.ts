@@ -22,6 +22,7 @@ const ALLOWED_KEYS = [
   "convenios",
   "revista_digital",
   "home_announcements",
+  "hero_announce_order",
   "estudios_investigacion",
   "habla_el_regulador",
 ] as const;

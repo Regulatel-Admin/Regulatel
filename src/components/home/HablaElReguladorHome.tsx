@@ -1,16 +1,16 @@
 import { ArrowUpRight, Clock3, Play } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import {
-  countryFlagSrc,
-  hablaElReguladorInterviews,
-} from "@/data/hablaElRegulador";
-
-const featured = hablaElReguladorInterviews[0];
-const supporting = hablaElReguladorInterviews.slice(1, 4);
+import { countryFlagSrc } from "@/data/hablaElRegulador";
+import { useHablaElReguladorInterviews } from "@/contexts/SiteSettingsContext";
 
 export default function HablaElReguladorHome() {
   const { t } = useTranslation();
+  const interviews = useHablaElReguladorInterviews();
+  const featured = interviews[0];
+  const supporting = interviews.slice(1, 4);
+
+  if (!featured) return null;
 
   return (
     <section
@@ -64,8 +64,8 @@ export default function HablaElReguladorHome() {
 
         <div className="grid gap-5 lg:grid-cols-[1.45fr_1fr]">
           <Link
-            to="/habla-el-regulador"
-            className="group relative min-h-[360px] overflow-hidden rounded-[22px] border border-white/12 bg-white/5 shadow-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8fc7f0] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--regu-navy)] md:min-h-[440px]"
+            to={`/habla-el-regulador#${featured.slug}`}
+            className="group relative min-h-[360px] overflow-hidden rounded-[22px] border border-white/12 bg-[#0b2639] shadow-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8fc7f0] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--regu-navy)] md:min-h-[440px]"
             aria-label={t("pages.hablaRegulador.watchInterviewAria", {
               name: featured.name,
             })}
@@ -73,7 +73,7 @@ export default function HablaElReguladorHome() {
             <img
               src={featured.poster}
               alt=""
-              className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.025] motion-reduce:transition-none"
+              className="absolute inset-0 h-full w-full object-contain transition-transform duration-500 group-hover:scale-[1.025] motion-reduce:transition-none"
             />
             <span className="absolute inset-0 bg-gradient-to-t from-[#071622] via-[#071622]/24 to-transparent" />
             <span className="absolute left-5 top-5 rounded-full border border-white/25 bg-[#071622]/70 px-3 py-1.5 text-[0.65rem] font-bold uppercase tracking-[0.14em] text-white backdrop-blur-sm md:left-6 md:top-6">
@@ -115,18 +115,18 @@ export default function HablaElReguladorHome() {
             {supporting.map((interview) => (
               <Link
                 key={interview.slug}
-                to="/habla-el-regulador"
+                to={`/habla-el-regulador#${interview.slug}`}
                 className="group grid min-h-[126px] grid-cols-[132px_1fr] overflow-hidden rounded-2xl border border-white/12 bg-white/[0.07] transition-colors hover:bg-white/[0.12] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8fc7f0] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--regu-navy)] sm:grid-cols-[178px_1fr]"
                 aria-label={t("pages.hablaRegulador.watchInterviewAria", {
                   name: interview.name,
                 })}
               >
-                <span className="relative overflow-hidden">
+                <span className="relative overflow-hidden bg-[#0b2639]">
                   <img
                     src={interview.poster}
                     alt=""
                     loading="lazy"
-                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105 motion-reduce:transition-none"
+                    className="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105 motion-reduce:transition-none"
                   />
                   <span className="absolute inset-0 bg-[#071622]/18" />
                   <span className="absolute inset-0 flex items-center justify-center">

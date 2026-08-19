@@ -144,32 +144,9 @@ function App() {
               <Route path="/habla-el-regulador" element={<HablaElRegulador />} />
               <Route path="/declaracion-de-privacidad" element={<DeclaracionPrivacidad />} />
               <Route path="/pendiente/:slug" element={<TodoPlaceholder />} />
-              {/* Rutas individuales de entes reguladores */}
-          <Route path="/sub-secretaria-telecom" element={<EnteRegulador />} />
-          <Route path="/anatel" element={<EnteRegulador />} />
-          <Route path="/att" element={<EnteRegulador />} />
-          <Route path="/enacom" element={<EnteRegulador />} />
-          <Route path="/sutel" element={<EnteRegulador />} />
-          <Route path="/min-com" element={<EnteRegulador />} />
-          <Route path="/agcom" element={<EnteRegulador />} />
-          <Route path="/arcotel" element={<EnteRegulador />} />
-          <Route path="/crc" element={<EnteRegulador />} />
-          <Route path="/cnmc" element={<EnteRegulador />} />
-          <Route path="/sit" element={<EnteRegulador />} />
-          <Route path="/conatel" element={<EnteRegulador />} />
-          <Route path="/indotel" element={<EnteRegulador />} />
-          <Route path="/ift" element={<EnteRegulador />} />
-          <Route path="/subtel" element={<EnteRegulador />} />
-          <Route path="/osiptel" element={<EnteRegulador />} />
-          <Route path="/conatel-gt" element={<EnteRegulador />} />
-          <Route path="/conatel-py" element={<EnteRegulador />} />
-          <Route path="/anacom" element={<EnteRegulador />} />
-          <Route path="/net" element={<EnteRegulador />} />
-          <Route path="/ursec" element={<EnteRegulador />} />
-          <Route path="/conatel-ve" element={<EnteRegulador />} />
-          <Route path="/asep" element={<EnteRegulador />} />
-          <Route path="/telcor" element={<EnteRegulador />} />
-          <Route path="*" element={<NotFound />} />
+              {/* Ficha de cada ente: /enacom, /siget, o la ruta que indiquen en el CMS */}
+              <Route path="/:slug" element={<EnteRegulador />} />
+              <Route path="*" element={<NotFound />} />
             </Route>
           </Routes>
           </SiteEditProvider>

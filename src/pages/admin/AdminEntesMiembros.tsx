@@ -3,6 +3,7 @@ import { api } from "@/lib/api";
 import {
   ENTES_MIEMBROS_SETTINGS_KEY,
   defaultEntesReguladoresMiembros,
+  normalizeEnteInternalRoute,
   parseEntesMiembrosFromSettingValue,
   type EnteReguladorMiembro,
 } from "@/data/entesReguladoresMiembros";
@@ -67,7 +68,11 @@ export default function AdminEntesMiembros() {
       return;
     }
     setSaving(true);
-    const res = await api.settings.set(ENTES_MIEMBROS_SETTINGS_KEY, { entes });
+    const prepared = entes.map((e) => ({
+      ...e,
+      route: normalizeEnteInternalRoute(e.route) || "/",
+    }));
+    const res = await api.settings.set(ENTES_MIEMBROS_SETTINGS_KEY, { entes: prepared });
     setSaving(false);
     if (res.ok) showMessage("ok", "Guardado. El carrusel de Miembros ya está actualizado.");
     else showMessage("err", res.error ?? "Error al guardar.");

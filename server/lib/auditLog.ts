@@ -31,7 +31,7 @@ export async function ensureAuditSchema() {
 }
 
 export type AuditAction = "created" | "updated" | "deleted" | "uploaded";
-export type AuditResourceType = "news" | "event" | "document" | "upload" | "admin_user" | "cifras" | "site_settings";
+export type AuditResourceType = "news" | "event" | "document" | "upload" | "admin_user" | "cifras" | "site_settings" | "subscribers";
 
 export async function logAudit(params: {
   userId: string;

@@ -6,8 +6,6 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ChevronLeft, ChevronRight, Pause, Play, ArrowRight } from "lucide-react";
 import HeroInstitucionalBackground from "./HeroInstitucionalBackground";
-import HomeBoletinGtaiAnnouncement from "./HomeBoletinGtaiAnnouncement";
-import HomeRevistaAnnouncement from "./HomeRevistaAnnouncement";
 import { HomeExtraAnnouncements } from "./HomeExtraAnnouncements";
 import { EditableSpot } from "@/components/site-edit/EditableSpot";
 
@@ -204,8 +202,6 @@ export default function HomeHeroInstitucional({
         className="heroAnnouncements pointer-events-auto absolute z-30 flex w-[min(100%-1.25rem,15.875rem)] flex-col gap-2.5 overflow-x-hidden overflow-y-auto overscroll-contain max-md:bottom-16 max-md:left-1/2 max-md:right-auto max-md:top-4 max-md:-translate-x-1/2 sm:w-[min(100%-2rem,16.25rem)] sm:max-md:top-5 md:bottom-14 md:right-8 md:top-7 md:w-[15.875rem] lg:right-10 lg:top-8"
         aria-label="Publicaciones destacadas"
       >
-        <HomeBoletinGtaiAnnouncement />
-        <HomeRevistaAnnouncement variant="stacked" />
         <HomeExtraAnnouncements />
       </div>
 

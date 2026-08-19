@@ -11,6 +11,7 @@ import { AdminBlobUploadField } from "@/components/admin/AdminBlobUploadField";
 import {
   ENTES_MIEMBROS_SETTINGS_KEY,
   defaultEntesReguladoresMiembros,
+  normalizeEnteInternalRoute,
   stampEnteIds,
   type EnteReguladorMiembro,
 } from "@/data/entesReguladoresMiembros";
@@ -25,13 +26,18 @@ const fieldClass =
   "w-full min-w-0 rounded-xl border bg-white px-3.5 py-2.5 text-sm leading-snug outline-none transition-colors focus:border-[var(--regu-blue)] focus:ring-2 focus:ring-[rgba(68,137,198,0.18)]";
 const fieldStyle = { borderColor: "rgba(22,61,89,0.14)", color: "var(--regu-navy)" } as const;
 
-function Field({ label, children }: { label: string; children: ReactNode }) {
+function Field({ label, hint, children }: { label: string; hint?: string; children: ReactNode }) {
   return (
     <label className="block">
       <span className="mb-1.5 block text-[13px] font-medium" style={{ color: "var(--regu-gray-600)" }}>
         {label}
       </span>
       {children}
+      {hint ? (
+        <span className="mt-1.5 block text-[12px] leading-relaxed" style={{ color: "var(--regu-gray-500)" }}>
+          {hint}
+        </span>
+      ) : null}
     </label>
   );
 }
@@ -148,9 +154,9 @@ export function EnteForm({ id }: { id?: string }) {
       .filter((e) => e.name.trim() && e.country.trim() && e.externalUrl.trim())
       .map((e) => {
         const route =
-          e.route.trim() && e.route.trim() !== "/"
-            ? e.route.trim()
-            : `/${slugify(e.name) || "ente"}`;
+          normalizeEnteInternalRoute(e.route) ||
+          (e.route.trim() && e.route.trim() !== "/" ? `/${slugify(e.route)}` : "") ||
+          `/${slugify(e.name) || "ente"}`;
         return {
           ...e,
           name: e.name.trim(),
@@ -249,15 +255,22 @@ export function EnteForm({ id }: { id?: string }) {
           }}
         />
       </Field>
-      <Field label="Página en este sitio (opcional)">
+      <Field
+        label="Página en este sitio (opcional)"
+        hint="La tarjeta abre esta ficha en REGULATEL. Ejemplo: /siget. Si marcas “solo el sitio web”, no se usa."
+      >
         <input
           className={fieldClass}
           style={fieldStyle}
           value={row.route === "/" ? "" : row.route}
-          placeholder="/enacom"
+          placeholder="/siget"
           onChange={(e) => {
-            setRow({ ...row, route: e.target.value.trim() || "/" });
+            setRow({ ...row, route: e.target.value || "/" });
             setPublished(false);
+          }}
+          onBlur={() => {
+            const next = normalizeEnteInternalRoute(row.route) || "/";
+            if (next !== row.route) setRow({ ...row, route: next });
           }}
         />
       </Field>

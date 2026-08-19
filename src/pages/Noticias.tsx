@@ -2,7 +2,6 @@ import { useState, useMemo, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { ChevronDown, ArrowRight, ChevronLeft, ChevronRight, Plus } from "lucide-react";
-import ImageCarousel from "@/components/ImageCarousel";
 import { noticiasData } from "./noticiasData";
 import { useAdminData } from "@/contexts/AdminDataContext";
 import { localizeNewsFields } from "@/hooks/useLocalizedNews";
@@ -401,48 +400,37 @@ function NewsItemRow({ item, isFeatured }: NewsItemRowProps) {
 
   const body = (
         <div className={`flex gap-4 md:gap-6 ${isFeatured ? "flex-col md:flex-row" : "flex-row items-start"}`}>
-          {/* Image */}
+          {/* Image: only the listing cover, shown in full (no crop) */}
           <div
-            className={`relative flex-shrink-0 overflow-hidden bg-[var(--regu-gray-100)] ${
+            className={`relative flex-shrink-0 overflow-hidden bg-white ${
               isFeatured
                 ? "w-full rounded-2xl md:w-[480px] lg:w-[520px]"
-                : "w-28 rounded-xl sm:w-36 md:w-44"
+                : "flex h-[110px] w-28 items-center justify-center rounded-xl sm:w-36 md:w-44"
             }`}
             style={{
-              height: isFeatured ? "300px" : "110px",
+              border: "1px solid rgba(22,61,89,0.08)",
             }}
           >
-            {(() => {
-              const allImages = [item.imageUrl, ...(item.additionalImages ?? [])].filter(Boolean);
-              if (allImages.length === 0) {
-                return (
-                  <div
-                    className="w-full h-full"
-                    style={{ background: "linear-gradient(135deg, rgba(68,137,198,0.08) 0%, rgba(22,61,89,0.05) 100%)" }}
-                    aria-hidden
-                  />
-                );
-              }
-              if (allImages.length === 1) {
-                return (
-                  <img
-                    src={allImages[0]}
-                    alt=""
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-                    onError={(e) => { e.currentTarget.style.display = "none"; }}
-                  />
-                );
-              }
-              return (
-                <ImageCarousel
-                  images={allImages}
-                  variant="card"
-                  fillContainer
-                  autoPlayMs={5000}
-                  className="h-full w-full"
-                />
-              );
-            })()}
+            {item.imageUrl ? (
+              <img
+                src={item.imageUrl}
+                alt=""
+                className={
+                  isFeatured
+                    ? "h-auto w-full object-contain"
+                    : "max-h-full max-w-full object-contain"
+                }
+                onError={(e) => {
+                  e.currentTarget.style.display = "none";
+                }}
+              />
+            ) : (
+              <div
+                className={isFeatured ? "min-h-[180px] w-full" : "h-full w-full"}
+                style={{ background: "linear-gradient(135deg, rgba(68,137,198,0.08) 0%, rgba(22,61,89,0.05) 100%)" }}
+                aria-hidden
+              />
+            )}
           </div>
 
           {/* Content */}

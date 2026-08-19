@@ -11,7 +11,7 @@ export interface EnteReguladorMiembro {
   fullName?: string;
   /** Logo en carrusel (URL absoluta o blob); si falta, se usa el mapa local por ruta. */
   logoUrl?: string;
-  /** Ruta interna, ej. /enacom (debe existir en el sitio salvo linkExternalOnly). */
+  /** Ruta interna de la ficha, ej. /siget o /enacom. Se crea al vuelo; no hace falta una página hardcodeada. */
   route: string;
   /** Sitio u página de referencia del ente. */
   externalUrl: string;
@@ -20,6 +20,46 @@ export interface EnteReguladorMiembro {
 }
 
 export const ENTES_MIEMBROS_SETTINGS_KEY = "entes_reguladores_miembros" as const;
+
+/**
+ * Slugs históricos o alternativos → clave canónica de ficha/logo.
+ * SIGET se publicó durante años como /sit.
+ */
+export const ENTE_SLUG_ALIASES: Record<string, string> = {
+  siget: "sit",
+};
+
+/** `/Siget/`, `siget` o una URL de este sitio → `/siget`. */
+export function normalizeEnteInternalRoute(raw: string): string {
+  const t = raw.trim();
+  if (!t || t === "/") return "";
+  if (/^https?:\/\//i.test(t)) {
+    try {
+      const u = new URL(t);
+      const host = u.hostname.replace(/^www\./i, "").toLowerCase();
+      const isThisSite =
+        host === "regulatel.org" ||
+        host.endsWith(".regulatel.org") ||
+        host.endsWith(".vercel.app");
+      if (!isThisSite) return "";
+      const path = u.pathname.replace(/\/+$/, "");
+      return path.toLowerCase();
+    } catch {
+      return "";
+    }
+  }
+  const path = (t.startsWith("/") ? t : `/${t}`).split(/[?#]/)[0];
+  return path.replace(/\/{2,}/g, "/").replace(/\/+$/, "").toLowerCase();
+}
+
+export function enteRouteSlug(route: string): string {
+  return normalizeEnteInternalRoute(route).replace(/^\//, "");
+}
+
+export function canonicalEnteSlug(slugOrRoute: string): string {
+  const slug = enteRouteSlug(slugOrRoute);
+  return ENTE_SLUG_ALIASES[slug] || slug;
+}
 
 function unwrapSettingJson(value: unknown): unknown {
   if (value == null) return null;
@@ -55,7 +95,7 @@ export function parseEntesMiembrosFromSettingValue(value: unknown): EnteRegulado
       country,
       fullName: typeof r.fullName === "string" ? r.fullName : undefined,
       logoUrl: logoUrlRaw || undefined,
-      route: route || "/",
+      route: normalizeEnteInternalRoute(route) || "/",
       externalUrl,
       linkExternalOnly: r.linkExternalOnly === true,
     });
@@ -71,7 +111,7 @@ export const defaultEntesReguladoresMiembros: EnteReguladorMiembro[] = [
   { name: "SUBTEL", country: "Chile", fullName: "Subsecretaría de Telecomunicaciones", route: "/subtel", externalUrl: "https://www.regulatel.org/subtel" },
   { name: "CRC", country: "Colombia", fullName: "Comisión de Regulación de Comunicaciones", route: "/crc", externalUrl: "https://www.regulatel.org/crc" },
   { name: "SUTEL", country: "Costa Rica", fullName: "Superintendencia de Telecomunicaciones", route: "/sutel", externalUrl: "https://www.sutel.go.cr" },
-  { name: "SIGET", country: "El Salvador", fullName: "Superintendencia General de Telecomunicaciones", route: "/sit", externalUrl: "https://www.regulatel.org/sit" },
+  { name: "SIGET", country: "El Salvador", fullName: "Superintendencia General de Telecomunicaciones", route: "/siget", externalUrl: "https://www.siget.gob.sv" },
   { name: "ARCOTEL", country: "Ecuador", fullName: "Agencia de Regulación y Control de las Telecomunicaciones", route: "/arcotel", externalUrl: "https://www.arcotel.gob.ec" },
   { name: "MINCOM", country: "Cuba", fullName: "Ministerio de Comunicaciones", route: "/min-com", externalUrl: "https://www.mincom.gob.cu" },
   { name: "CNMC", country: "España", fullName: "Comisión Nacional de los Mercados y la Competencia", route: "/cnmc", externalUrl: "https://www.regulatel.org/cnmc" },

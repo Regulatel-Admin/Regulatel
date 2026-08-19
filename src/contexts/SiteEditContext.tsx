@@ -20,6 +20,7 @@ import type { Convenio } from "@/data/convenios";
 import type { GalleryAlbumSetting } from "@/types/siteSettings";
 import type { EstudioInvestigacion } from "@/data/estudiosInvestigacion";
 import type { HablaElReguladorInterview } from "@/data/hablaElRegulador";
+import type { Event } from "@/types/event";
 
 export type SiteEditNewsPreview = {
   slug: string;
@@ -49,6 +50,8 @@ export type SiteEditPreview = {
   galleryAlbums?: GalleryAlbumSetting[];
   estudios?: EstudioInvestigacion[];
   entrevistas?: HablaElReguladorInterview[];
+  evento?: Event;
+  heroAnnounceOrder?: string[];
 };
 
 export interface SiteEditDraftController {

@@ -11,6 +11,8 @@ import { getEventYear, slugifyEventId, EVENT_STATUS_LABEL } from "@/types/event"
 import { Pencil, Trash2, Plus, Copy, X, Image as ImageIcon, History } from "lucide-react";
 import { uploadAdminFile } from "@/lib/uploads";
 import { api } from "@/lib/api";
+import { notifyCmsSaved } from "@/lib/siteEdit";
+import { NotifySubscribersButton } from "@/components/admin/NotifySubscribersOption";
 
 const emptyForm = {
   title: "",
@@ -76,7 +78,7 @@ export default function AdminEventos() {
 
   useEffect(() => {
     if (!successMessage) return;
-    const t = setTimeout(() => setSuccessMessage(null), 4000);
+    const t = setTimeout(() => setSuccessMessage(null), 8000);
     return () => clearTimeout(t);
   }, [successMessage]);
 
@@ -178,7 +180,9 @@ export default function AdminEventos() {
           imageSize: form.imageSize,
         });
       }
-      setSuccessMessage(editingId ? "Evento actualizado correctamente." : "Evento creado correctamente.");
+      const extra = editingId ? "Evento actualizado correctamente." : "Evento creado correctamente.";
+      setSuccessMessage(extra);
+      notifyCmsSaved("events");
       closeModal();
     } catch (error) {
       setUrlError(
@@ -487,6 +491,17 @@ export default function AdminEventos() {
                   </div>
                 </div>
               </div>
+              <NotifySubscribersButton
+                payload={{
+                  type: "evento",
+                  title: form.title,
+                  excerpt: form.description.trim() || undefined,
+                  url: `/eventos/${editingId ?? slugifyEventId(form.title, getEventYear(form.startDate))}`,
+                  date: form.startDate,
+                }}
+                disabled={isSubmitting}
+                onSent={(message) => setSuccessMessage(message)}
+              />
               <div className="flex gap-2 pt-2">
                 <button
                   type="submit"
@@ -595,6 +610,7 @@ export default function AdminEventos() {
                           try {
                             await deleteEvent(ev.id);
                             setSuccessMessage("Evento eliminado.");
+                            notifyCmsSaved("events");
                           } catch (error) {
                             setUrlError(
                               error instanceof Error

@@ -9,6 +9,7 @@ import { Clock3, X } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import type { HablaElReguladorInterview } from "@/data/hablaElRegulador";
 import { countryFlagSrc } from "@/data/hablaElRegulador";
+import { extractYoutubeId } from "@/lib/youtube";
 
 interface InterviewPlayerDialogProps {
   interview: HablaElReguladorInterview;
@@ -67,6 +68,7 @@ export default function InterviewPlayerDialog({
   };
 
   const isTeaser = interview.episode === 0;
+  const youtubeId = extractYoutubeId(interview.youtubeId ?? "");
   const playerTitle = isTeaser
     ? interview.name
     : t("pages.hablaRegulador.modalTitle", {
@@ -115,10 +117,10 @@ export default function InterviewPlayerDialog({
 
         <div className="min-h-0 overflow-y-auto">
           <div className="aspect-video w-full bg-black">
-            {interview.youtubeId ? (
+            {youtubeId ? (
               <iframe
                 className="h-full w-full"
-                src={`https://www.youtube-nocookie.com/embed/${interview.youtubeId}?autoplay=1&rel=0&modestbranding=1`}
+                src={`https://www.youtube-nocookie.com/embed/${youtubeId}?autoplay=1&rel=0&modestbranding=1`}
                 title={playerTitle}
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 referrerPolicy="strict-origin-when-cross-origin"

@@ -113,7 +113,7 @@ export default function EventCard({ event }: EventCardProps) {
   );
 
   return (
-    <EditableSpot target={{ kind: "panel", path: "/admin/eventos", label: "Eventos" }} label="Editar este evento">
+    <EditableSpot target={{ kind: "evento", id: event.id }} label="Editar este evento">
     <Link
       to={`/eventos/${event.id}`}
       className={cardClass}

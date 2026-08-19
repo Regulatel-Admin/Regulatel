@@ -237,6 +237,28 @@ export const api = {
       unsubscribe: (id: string) =>
         request<{ ok: boolean }>(`/admin/subscribers/${encodeURIComponent(id)}`, { method: "DELETE" }),
     },
+    notifySubscribers: (body: {
+      type: "noticia" | "evento" | "publicación";
+      title: string;
+      excerpt?: string;
+      url?: string;
+      date?: string;
+    }) =>
+      request<{ ok: boolean; sent: number; skipped: boolean; total: number }>("/admin/notify-subscribers", {
+        method: "POST",
+        body,
+      }),
+    notifySubscribersPreview: (body: {
+      type: "noticia" | "evento" | "publicación";
+      title: string;
+      excerpt?: string;
+      url?: string;
+      date?: string;
+    }) =>
+      request<{ ok: boolean; preview: true; subject: string; html: string; total: number }>("/admin/notify-subscribers", {
+        method: "POST",
+        body: { ...body, preview: true },
+      }),
     documentAccessUsers: {
       list: () =>
         request<Array<{ id: string; email: string; name: string | null; institution: string | null; position: string | null; country: string | null; is_active: boolean; created_at: string }>>("/admin/document-access-users"),

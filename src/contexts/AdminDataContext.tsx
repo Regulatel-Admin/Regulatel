@@ -20,6 +20,7 @@ import type { UploadedFileMeta } from "@/types/uploads";
 import { useRevistaDigitalEditions } from "@/contexts/SiteSettingsContext";
 import { getPublishedRevistaEditions, revistaEditionToGestionDocument } from "@/data/revistaDigital";
 import { useSiteEdit } from "@/contexts/SiteEditContext";
+import { CMS_SAVED_EVENT } from "@/lib/siteEdit";
 
 const KEY_CIFRAS = "regulatel_admin_cifras";
 const KEY_CIFRAS_POR_ANO = "regulatel_admin_cifras_por_ano";
@@ -163,6 +164,21 @@ export function AdminDataProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     void checkContentSource();
+  }, [checkContentSource]);
+
+  useEffect(() => {
+    const onSaved = () => {
+      void checkContentSource();
+    };
+    const onVisibility = () => {
+      if (document.visibilityState === "visible") void checkContentSource();
+    };
+    window.addEventListener(CMS_SAVED_EVENT, onSaved);
+    document.addEventListener("visibilitychange", onVisibility);
+    return () => {
+      window.removeEventListener(CMS_SAVED_EVENT, onSaved);
+      document.removeEventListener("visibilitychange", onVisibility);
+    };
   }, [checkContentSource]);
 
   useEffect(() => {
@@ -443,22 +459,14 @@ export function useMergedNews(): HomeNewsItemLike[] {
 
 /**
  * Lista de eventos para el sitio público y búsqueda.
- * Siempre muestra el seed estático como base; cuando la API responde (database),
- * los eventos guardados en la BD sobreescriben al seed con el mismo id.
- * Así la página siempre tiene eventos aunque la BD esté vacía, y al importar
- * desde el panel se pueden editar sin tocar el código.
+ * Con API/Neon: solo lo guardado en el admin. El seed estático queda
+ * como respaldo si la base no responde.
  */
 export function useEvents(): Event[] {
   const ctx = useContext(AdminDataContext);
   const seedNormalized = EVENTS_SEED.map(normalizeEvent);
-  if (!ctx || ctx.contentSource !== "database") return seedNormalized;
-  const dbIds = new Set((ctx.events ?? []).map((e) => e.id));
-  const staticFiltered = seedNormalized.filter((e) => !dbIds.has(e.id));
-  return [...staticFiltered, ...(ctx.events ?? []).map(normalizeEvent)].sort((a, b) => {
-    const dA = a.startDate;
-    const dB = b.startDate;
-    return dA > dB ? -1 : dA < dB ? 1 : 0;
-  });
+  if (!ctx || ctx.contentSource === "legacy") return seedNormalized;
+  return (ctx.events ?? []).map(normalizeEvent);
 }
 
 export function useMergedCifras(): KPIItem[] {

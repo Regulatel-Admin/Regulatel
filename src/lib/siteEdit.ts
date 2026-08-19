@@ -20,6 +20,7 @@ export type SiteEditTarget =
   | { kind: "album"; slug?: string }
   | { kind: "estudio"; id?: string }
   | { kind: "entrevista"; slug?: string }
+  | { kind: "evento"; id?: string }
   | { kind: "panel"; path: string; label: string };
 
 export function notifyCmsSaved(key?: string) {

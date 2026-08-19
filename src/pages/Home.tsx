@@ -26,6 +26,7 @@ import type { FeaturedCarouselItem } from "@/components/home/FeaturedCarousel";
 import { localizeFeaturedCarouselItems, localizeQuickLinkItems, useLocalizedHomeHeroSettings } from "@/hooks/useLocalizedHome";
 import { useLocalizedNewsList } from "@/hooks/useLocalizedNews";
 import { useLocalizedEvents } from "@/hooks/useLocalizedEvents";
+import { normalizeEvent } from "@/types/event";
 
 export default function Home() {
   const { t, i18n } = useTranslation();
@@ -37,11 +38,21 @@ export default function Home() {
   const homeNewsRaw = useMergedNews();
   const homeNews = useLocalizedNewsList(homeNewsRaw);
   const allEventsRaw = useEvents();
-  const allEvents = useLocalizedEvents(allEventsRaw);
-  const homeEvents = useMemo(() => allEvents.filter((e) => e.year === 2026), [allEvents]);
+  const { enabled: siteEditEnabled, preview } = useSiteEdit();
+  const eventsWithPreview = useMemo(() => {
+    const patch = siteEditEnabled ? preview.evento : undefined;
+    if (!patch) return allEventsRaw;
+    const idx = allEventsRaw.findIndex((e) => e.id === patch.id);
+    if (idx >= 0) {
+      const next = allEventsRaw.slice();
+      next[idx] = normalizeEvent({ ...allEventsRaw[idx], ...patch });
+      return next;
+    }
+    return [normalizeEvent(patch), ...allEventsRaw];
+  }, [allEventsRaw, siteEditEnabled, preview.evento]);
+  const allEvents = useLocalizedEvents(eventsWithPreview);
 
   const rawHero = useHomeHero();
-  const { enabled: siteEditEnabled, preview } = useSiteEdit();
   const localizedHero = useLocalizedHomeHeroSettings(rawHero);
   const hero = siteEditEnabled && preview.homeHero ? rawHero : localizedHero;
   const quickLinksSetting = useHomeQuickLinks();
@@ -119,8 +130,8 @@ export default function Home() {
 
       {/* Eventos: carrusel destacados + grid "Próximos eventos" */}
       <section style={{ backgroundColor: "var(--regu-offwhite)", borderTop: "1px solid rgba(22,61,89,0.07)" }}>
-        <FeaturedEventsCarousel events={homeEvents} autoplayIntervalMs={7000} />
-        <EventsSection events={homeEvents} variant="home" maxEvents={4} />
+        <FeaturedEventsCarousel events={allEvents} autoplayIntervalMs={7000} />
+        <EventsSection events={allEvents} variant="home" maxEvents={4} />
         </section>
     </>
   );

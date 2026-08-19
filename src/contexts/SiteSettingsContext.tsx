@@ -26,7 +26,7 @@ import { parseBuenasPracticasRegulatoriasFromSettingValue } from "@/data/mejores
 import type { RevistaEdition } from "@/data/revistaDigital";
 import { defaultRevistaEditions, parseRevistaDigitalFromSettingValue } from "@/data/revistaDigital";
 import type { HomeAvisoSlot } from "@/data/homeAnnouncements";
-import { mergeHomeAnnouncements, parseHomeAnnouncementsFromSettingValue, visibleHomeAvisos } from "@/data/homeAnnouncements";
+import { mergeHomeAnnouncements, parseHomeAnnouncementsFromSettingValue, parseHeroAnnounceOrder, visibleHomeAvisos } from "@/data/homeAnnouncements";
 import type { GrupoTrabajoSerialized } from "@/data/gruposTrabajo";
 import { defaultGruposTrabajo, parseGruposTrabajoFromSettingValue } from "@/data/gruposTrabajo";
 import type { ComiteEjecutivoCmsDocument } from "@/data/comiteEjecutivo";
@@ -63,6 +63,7 @@ export interface SiteSettingsState {
   buenasPracticasRegulatorias: BuenasPracticasRegulatoriasSetting | null;
   revistaDigital: RevistaEdition[] | null;
   homeAnnouncements: HomeAvisoSlot[] | null;
+  heroAnnounceOrder: string[] | null;
   gruposTrabajo: GrupoTrabajoSerialized[] | null;
   comiteEjecutivo: ComiteEjecutivoCmsDocument | null;
   estudiosInvestigacion: EstudioInvestigacion[] | null;
@@ -85,6 +86,7 @@ const defaultState: SiteSettingsState = {
   buenasPracticasRegulatorias: null,
   revistaDigital: null,
   homeAnnouncements: null,
+  heroAnnounceOrder: null,
   gruposTrabajo: null,
   comiteEjecutivo: null,
   estudiosInvestigacion: null,
@@ -254,6 +256,20 @@ async function fetchSettings(retry = false): Promise<Omit<SiteSettingsState, "re
             })()
           : d.home_announcements;
       return parseHomeAnnouncementsFromSettingValue(raw);
+    })(),
+    heroAnnounceOrder: (() => {
+      if (!("hero_announce_order" in d)) return null;
+      const raw =
+        typeof d.hero_announce_order === "string"
+          ? (() => {
+              try {
+                return JSON.parse(d.hero_announce_order as string) as unknown;
+              } catch {
+                return d.hero_announce_order;
+              }
+            })()
+          : d.hero_announce_order;
+      return parseHeroAnnounceOrder(raw);
     })(),
     gruposTrabajo: (() => {
       if (!("grupos_trabajo" in d)) return null;
@@ -489,6 +505,14 @@ export function useHomeAnnouncements(): HomeAvisoSlot[] {
   const { enabled, preview } = useSiteEdit();
   if (enabled && preview.homeAnnouncements) return visibleHomeAvisos(preview.homeAnnouncements);
   return mergeHomeAnnouncements(homeAnnouncements);
+}
+
+/** Orden de las tarjetas del hero (boletín, revista y avisos). */
+export function useHeroAnnounceOrder(): string[] | null {
+  const { heroAnnounceOrder } = useSiteSettings();
+  const { enabled, preview } = useSiteEdit();
+  if (enabled && preview.heroAnnounceOrder) return preview.heroAnnounceOrder;
+  return heroAnnounceOrder;
 }
 
 /** Fichas de /grupos-de-trabajo: CMS o vista previa al editar en el sitio. */

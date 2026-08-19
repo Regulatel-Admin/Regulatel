@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { api } from "@/lib/api";
 import {
   BOLETINES_GTAI_SETTINGS_KEY,
@@ -9,6 +9,7 @@ import {
 } from "@/data/boletinesGtai";
 import { Save, Plus, Trash2, RotateCcw } from "lucide-react";
 import { AdminBlobUploadField } from "@/components/admin/AdminBlobUploadField";
+import { NotifySubscribersButton } from "@/components/admin/NotifySubscribersOption";
 import { slugify } from "@/lib/slugify";
 
 function cloneDefaults(): BoletinGtaiSerialized[] {
@@ -67,6 +68,11 @@ export default function AdminBoletinesGtai() {
     setTimeout(() => setMessage(null), 6000);
   };
 
+  const notifyTarget = useMemo(
+    () => entries.find((e) => e.isFeatured && e.isPublished) ?? entries.find((e) => e.isPublished),
+    [entries]
+  );
+
   const updateRow = (index: number, patch: Partial<BoletinGtaiSerialized>) => {
     setEntries((prev) => prev.map((row, i) => (i === index ? { ...row, ...patch } : row)));
   };
@@ -114,9 +120,13 @@ export default function AdminBoletinesGtai() {
 
     setSaving(true);
     const res = await api.settings.set(BOLETINES_GTAI_SETTINGS_KEY, { entries: normalized });
+    if (!res.ok) {
+      setSaving(false);
+      showMessage("err", res.error ?? "Error al guardar.");
+      return;
+    }
     setSaving(false);
-    if (res.ok) showMessage("ok", "Boletines GTAI guardados. Ya se reflejan en el sitio público.");
-    else showMessage("err", res.error ?? "Error al guardar.");
+    showMessage("ok", "Boletines GTAI guardados. Ya se reflejan en el sitio público.");
   };
 
   if (loading) {
@@ -151,7 +161,20 @@ export default function AdminBoletinesGtai() {
         </div>
       )}
 
-      <div className="flex flex-wrap gap-2">
+      <div className="space-y-3">
+        <NotifySubscribersButton
+          payload={{
+            type: "publicación",
+            title: notifyTarget?.title ?? "",
+            excerpt: notifyTarget?.shortSummary || notifyTarget?.description,
+            url: `/boletines-gtai/${notifyTarget?.slug || slugify(notifyTarget?.title ?? "")}`,
+            date: notifyTarget?.publicationDate,
+          }}
+          disabled={saving || !notifyTarget?.title.trim()}
+          disabledHint="No hay un boletín visible para avisar. Márcalo Visible (y En portada si aplica) y guarda."
+          onSent={(text) => showMessage("ok", text)}
+        />
+        <div className="flex flex-wrap gap-2">
         <button
           type="button"
           onClick={save}
@@ -180,6 +203,7 @@ export default function AdminBoletinesGtai() {
           <RotateCcw className="h-4 w-4" />
           Volver al listado original
         </button>
+      </div>
       </div>
 
       <div className="space-y-6">

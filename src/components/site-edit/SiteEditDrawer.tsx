@@ -11,6 +11,8 @@ import { useDraftHistory } from "@/hooks/useDraftHistory";
 import { usePreviewSync } from "@/hooks/usePreviewSync";
 import { AdminBlobUploadField } from "@/components/admin/AdminBlobUploadField";
 import AdminSlideshowField from "@/components/admin/AdminSlideshowField";
+import { NotifySubscribersButton } from "@/components/admin/NotifySubscribersOption";
+import type { SubscriberNotifyPayload } from "@/lib/notifySubscribers";
 import { SiteEditUndoRedo } from "@/components/site-edit/SiteEditUndoRedo";
 import {
   BOLETINES_GTAI_SETTINGS_KEY,
@@ -34,6 +36,7 @@ import { DirectorioForm, EnteForm } from "@/components/site-edit/MiembrosEditFor
 import { GrupoForm } from "@/components/site-edit/GrupoEditForm";
 import { AutoridadForm, ComiteFuncionesForm, ComiteLogoForm } from "@/components/site-edit/OrganizacionEditForms";
 import { AlbumForm, ConvenioForm, EntrevistaForm, EstudioForm } from "@/components/site-edit/RecursosEditForms";
+import { EventoForm } from "@/components/site-edit/EventoEditForm";
 import { noticiasData } from "@/pages/noticiasData";
 import {
   GESTION_TAB_LABELS,
@@ -121,6 +124,8 @@ function drawerTitle(target: SiteEditTarget): string {
       return target.id ? "Este estudio" : "Nuevo estudio";
     case "entrevista":
       return target.slug ? "Esta entrevista" : "Nueva entrevista";
+    case "evento":
+      return target.id ? "Este evento" : "Nuevo evento";
     case "panel":
       return target.label;
   }
@@ -220,6 +225,9 @@ export function SiteEditDrawer() {
         {target.kind === "entrevista" && (
           <EntrevistaForm key={target.slug ?? "new-entrevista"} slug={target.slug} />
         )}
+        {target.kind === "evento" && (
+          <EventoForm key={target.id ?? "new-evento"} id={target.id} />
+        )}
         {target.kind === "panel" && <PanelFallback path={target.path} label={target.label} onLeave={exit} />}
       </div>
     </aside>
@@ -244,6 +252,9 @@ function PublishBar({
   onPublish,
   extra,
   disabled,
+  notifyPayload,
+  notifyWarnUnpublished,
+  publishedNote,
 }: {
   saving: boolean;
   error: string | null;
@@ -251,6 +262,9 @@ function PublishBar({
   onPublish: () => void;
   extra?: ReactNode;
   disabled?: boolean;
+  notifyPayload?: SubscriberNotifyPayload;
+  notifyWarnUnpublished?: boolean;
+  publishedNote?: string;
 }) {
   return (
     <div
@@ -264,12 +278,21 @@ function PublishBar({
       )}
       {published && !error && (
         <p className="mb-2 text-sm font-medium" style={{ color: "#0f766e" }}>
-          Ya está en el sitio público.
+          {publishedNote || "Ya está en el sitio público."}
         </p>
       )}
       <p className="mb-3 text-[12px] leading-relaxed" style={{ color: "var(--regu-gray-500)" }}>
         Se ve al instante en esta página. Hasta que publiques, el sitio real no cambia.
       </p>
+      {notifyPayload ? (
+        <div className="mb-3">
+          <NotifySubscribersButton
+            payload={notifyPayload}
+            disabled={saving || disabled}
+            warnUnpublished={notifyWarnUnpublished}
+          />
+        </div>
+      ) : null}
       <div className="flex flex-wrap gap-2">
         <button
           type="button"
@@ -342,6 +365,7 @@ function BoletinForm({ slug }: { slug?: string }) {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [published, setPublished] = useState(false);
+  const [publishedNote, setPublishedNote] = useState<string | undefined>();
 
   useEffect(() => {
     let cancelled = false;
@@ -440,8 +464,8 @@ function BoletinForm({ slug }: { slug?: string }) {
       list = list.map((b) => ({ ...b, isFeatured: b.slug === nextSlug }));
     }
     const res = await api.settings.set(BOLETINES_GTAI_SETTINGS_KEY, { entries: list });
-    setSaving(false);
     if (!res.ok) {
+      setSaving(false);
       setError(res.error ?? "No se pudo publicar.");
       return;
     }
@@ -450,6 +474,8 @@ function BoletinForm({ slug }: { slug?: string }) {
     setAllEntries(list);
     captureBaseline();
     clearPreview("boletines");
+    setPublishedNote("Ya está en el sitio público.");
+    setSaving(false);
     setPublished(true);
     if (!slug) navigate(`/boletines-gtai/${nextSlug}`);
   };
@@ -569,7 +595,21 @@ function BoletinForm({ slug }: { slug?: string }) {
           {row.isFeatured ? "En portada" : "No sale en portada"}
         </button>
       </div>
-      <PublishBar saving={saving} error={error} published={published} onPublish={() => void save()} />
+      <PublishBar
+        saving={saving}
+        error={error}
+        published={published}
+        publishedNote={publishedNote}
+        notifyPayload={{
+          type: "publicación",
+          title: row.title,
+          excerpt: row.shortSummary || row.description,
+          url: `/boletines-gtai/${row.slug.trim() || slugify(row.title)}`,
+          date: row.publicationDate,
+        }}
+        notifyWarnUnpublished={!row.isPublished}
+        onPublish={() => void save()}
+      />
     </div>
   );
 }
@@ -909,6 +949,7 @@ function RevistaForm({ id }: { id?: string }) {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [published, setPublished] = useState(false);
+  const [publishedNote, setPublishedNote] = useState<string | undefined>();
 
   const previewList = useMemo(() => {
     const list = allEntries.map((e) => ({ ...e }));
@@ -971,8 +1012,8 @@ function RevistaForm({ id }: { id?: string }) {
       list = list.map((e) => ({ ...e, isFeatured: e.id === prepared.id }));
     }
     const res = await api.settings.set(REVISTA_DIGITAL_SETTINGS_KEY, { entries: list });
-    setSaving(false);
     if (!res.ok) {
+      setSaving(false);
       setError(res.error ?? "No se pudo publicar.");
       return;
     }
@@ -982,6 +1023,8 @@ function RevistaForm({ id }: { id?: string }) {
     await refetch();
     captureBaseline();
     clearPreview("revista");
+    setPublishedNote("Ya está en el sitio público.");
+    setSaving(false);
     setPublished(true);
   };
 
@@ -1080,7 +1123,21 @@ function RevistaForm({ id }: { id?: string }) {
           {row.isFeatured ? "En portada" : "No sale en portada"}
         </button>
       </div>
-      <PublishBar saving={saving} error={error} published={published} onPublish={() => void save()} />
+      <PublishBar
+        saving={saving}
+        error={error}
+        published={published}
+        publishedNote={publishedNote}
+        notifyPayload={{
+          type: "publicación",
+          title: row.title,
+          excerpt: row.description,
+          url: row.url.startsWith("http") || row.url.startsWith("/") ? row.url : "/gestion",
+          date: row.year,
+        }}
+        notifyWarnUnpublished={!row.isPublished}
+        onPublish={() => void save()}
+      />
     </div>
   );
 }
@@ -1411,6 +1468,7 @@ function NoticiaForm({ slug }: { slug?: string }) {
   const [drafting, setDrafting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [published, setPublished] = useState(false);
+  const [publishedNote, setPublishedNote] = useState<string | undefined>();
 
   const newsPreview = row
     ? {
@@ -1435,7 +1493,7 @@ function NoticiaForm({ slug }: { slug?: string }) {
     );
   }
 
-  const persistNoticia = async (asDraft: boolean): Promise<string> => {
+  const persistNoticia = async (asDraft: boolean): Promise<{ id: string; slug: string }> => {
     if (!row.title.trim()) {
       throw new Error("Hace falta un título.");
     }
@@ -1470,7 +1528,7 @@ function NoticiaForm({ slug }: { slug?: string }) {
           notifyCmsSaved("news");
         },
       });
-      return existing.id;
+      return { id: existing.id, slug: existing.slug || row.slug };
     }
     const nextSlug = row.slug.startsWith("preview-news-")
       ? slugify(row.title) || `noticia-${Date.now()}`
@@ -1490,7 +1548,7 @@ function NoticiaForm({ slug }: { slug?: string }) {
       published: publishedFlag,
     });
     if (!created.id) throw new Error("No se pudo guardar el borrador.");
-    return created.id;
+    return { id: created.id, slug: created.slug || nextSlug };
   };
 
   const save = async () => {
@@ -1501,6 +1559,7 @@ function NoticiaForm({ slug }: { slug?: string }) {
       notifyCmsSaved("news");
       captureBaseline();
       clearPreview("news");
+      setPublishedNote("Ya está en el sitio público.");
       setPublished(true);
     } catch (err) {
       setError(err instanceof Error ? err.message : "No se pudo publicar.");
@@ -1513,11 +1572,11 @@ function NoticiaForm({ slug }: { slug?: string }) {
     setDrafting(true);
     setError(null);
     try {
-      const id = await persistNoticia(true);
+      const saved = await persistNoticia(true);
       notifyCmsSaved("news");
       captureBaseline();
       clearPreview("news");
-      navigate(`/admin/noticias?edit=${encodeURIComponent(id)}&borrador=1`);
+      navigate(`/admin/noticias?edit=${encodeURIComponent(saved.id)}&borrador=1`);
     } catch (err) {
       setError(err instanceof Error ? err.message : "No se pudo guardar el borrador.");
     } finally {
@@ -1579,11 +1638,12 @@ function NoticiaForm({ slug }: { slug?: string }) {
         />
       </Field>
       <AdminBlobUploadField
-        label="Foto"
+        label="Imagen del listado (se ve entera)"
         value={row.imageUrl}
         onChange={(url) => setRow({ ...row, imageUrl: url })}
         kind="image"
         folder="news"
+        helpText="Esta es la foto de afuera, en Noticias y en la portada. Se muestra completa, sin recortar. Las fotos extra del artículo se suben en el panel."
       />
       <p className="text-[12px] leading-relaxed" style={{ color: "var(--regu-gray-500)" }}>
         Semiguardar deja un borrador y te lleva al panel para el texto largo. Publicar la pone en el sitio.
@@ -1592,6 +1652,15 @@ function NoticiaForm({ slug }: { slug?: string }) {
         saving={saving}
         error={error}
         published={published}
+        publishedNote={publishedNote}
+        notifyPayload={{
+          type: "noticia",
+          title: row.title,
+          excerpt: row.excerpt,
+          url: `/noticias/${row.slug || slugify(row.title)}`,
+          date: row.dateFormatted || row.date,
+        }}
+        notifyWarnUnpublished={existing ? row.published === false : !published}
         disabled={drafting}
         onPublish={() => void save()}
         extra={

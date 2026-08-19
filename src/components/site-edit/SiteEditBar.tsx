@@ -36,6 +36,9 @@ function addTargetForPath(pathname: string, search: string): SiteEditTarget | nu
   if (pathname === "/habla-el-regulador") {
     return { kind: "entrevista" };
   }
+  if (pathname === "/eventos" || pathname.startsWith("/eventos/")) {
+    return { kind: "evento" };
+  }
   if (pathname !== "/gestion" && pathname !== "/recursos") return null;
   const tipo = new URLSearchParams(search).get("tipo");
   if (tipo === "revista") return { kind: "revista" };

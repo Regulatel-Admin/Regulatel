@@ -6,6 +6,7 @@ import { Pencil, Trash2, Plus, History, X } from "lucide-react";
 import { uploadAdminFile } from "@/lib/uploads";
 import type { UploadedFileMeta } from "@/types/uploads";
 import { api } from "@/lib/api";
+import { NotifySubscribersButton } from "@/components/admin/NotifySubscribersOption";
 
 const emptyItem: Omit<AdminNewsItem, "id"> = {
   slug: "",
@@ -80,7 +81,7 @@ export default function AdminNoticias() {
 
   useEffect(() => {
     if (!successMessage) return;
-    const t = setTimeout(() => setSuccessMessage(null), 4000);
+    const t = setTimeout(() => setSuccessMessage(null), 8000);
     return () => clearTimeout(t);
   }, [successMessage]);
 
@@ -161,7 +162,8 @@ export default function AdminNoticias() {
             .replace(/[^a-z0-9-]/g, "");
         await addNews({ ...payload, slug, published: form.published });
       }
-      setSuccessMessage(editingId ? "Noticia actualizada correctamente." : "Noticia añadida correctamente.");
+      const extra = editingId ? "Noticia actualizada correctamente." : "Noticia añadida correctamente.";
+      setSuccessMessage(extra);
       resetForm();
     } catch (error) {
       setFormError(
@@ -340,6 +342,20 @@ export default function AdminNoticias() {
               </label>
             </div>
             <div className="md:col-span-2">
+              <NotifySubscribersButton
+                payload={{
+                  type: "noticia",
+                  title: form.title,
+                  excerpt: form.excerpt,
+                  url: `/noticias/${form.slug || form.title.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "")}`,
+                  date: formatDate(form.date) || form.date,
+                }}
+                disabled={isSubmitting}
+                warnUnpublished={form.published === false}
+                onSent={(message) => setSuccessMessage(message)}
+              />
+            </div>
+            <div className="md:col-span-2">
               <label className="mb-1 block text-sm font-medium" style={{ color: "var(--regu-gray-700)" }}>Resumen *</label>
               <textarea
                 value={form.excerpt}
@@ -355,7 +371,7 @@ export default function AdminNoticias() {
                 Imágenes y enlaces
               </label>
               <p className="mb-2 text-xs leading-relaxed" style={{ color: "var(--regu-gray-500)" }}>
-                Sube las fotos de la noticia. La primera es la portada; las demás aparecen en el artículo.
+                La primera es la imagen del listado (se ve entera, sin recortar). Las demás solo aparecen dentro del artículo.
               </p>
               <div className="space-y-2">
                 {form.imageSlots.map((slot, i) => (

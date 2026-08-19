@@ -34,7 +34,7 @@ export const noticiasData: NoticiaData[] = [
     dateFormatted: '19 agosto 2026',
     category: 'Noticias',
     excerpt: 'Representantes de República Dominicana, Brasil, México, Paraguay y la industria participarán en el encuentro este jueves 20 de agosto, de 10:00 a. m. a 11:30 a. m.',
-    imageUrl: '/images/noticias/webinar-violencia-digital-rol-entes-reguladores.png',
+    imageUrl: '/images/noticias/webinar-violencia-digital-rol-entes-reguladores.png?v=2',
     author: 'REGULATEL',
     content: [
       'Santo Domingo.– El Foro Latinoamericano de Entes Reguladores de Telecomunicaciones (REGULATEL) realizará el webinar regional “Violencia Digital y Rol de los Entes Reguladores”, un espacio de reflexión sobre esta problemática y las medidas que podrían impulsar los organismos reguladores de América Latina y el Caribe.',

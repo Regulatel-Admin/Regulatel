@@ -7,7 +7,6 @@ import { ensureAdmin } from "../lib/adminAuth.js";
 import { logAudit } from "../lib/auditLog.js";
 import { parseJsonBody } from "../lib/parseBody.js";
 import { isDbConfigured } from "../lib/db.js";
-import { notifySubscribersNewContent } from "../lib/sendNewsletter.js";
 
 function sendJson(res: ServerResponse, status: number, data: unknown) {
   res.setHeader("Content-Type", "application/json");
@@ -95,13 +94,6 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
           resourceId: item.id,
           details: { title: item.title },
         });
-        void notifySubscribersNewContent({
-          type: "evento",
-          title: item.title,
-          excerpt: item.description ?? undefined,
-          url: `/eventos`,
-          date: item.startDate,
-        }).then((r) => r.sent > 0 && console.log("[events] Notificación enviada a", r.sent, "suscriptores."));
         sendJson(res, 201, item);
         return;
       }

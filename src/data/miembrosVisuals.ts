@@ -1,4 +1,4 @@
-import type { EnteReguladorMiembro } from "@/data/entesReguladoresMiembros";
+import { canonicalEnteSlug, type EnteReguladorMiembro } from "@/data/entesReguladoresMiembros";
 
 /** Logos locales del carrusel y del directorio (public/images/logos). */
 export const enteLogoByRoute: Record<string, string> = {
@@ -96,11 +96,18 @@ export function flagSrcFromCountryName(pais: string): string | undefined {
   return `https://flagcdn.com/w40/${iso}.png`;
 }
 
-function logoFromRoute(route: string, logoUrl?: string): string | undefined {
+export function logoKeyFromEnteRoute(route: string, name?: string): string {
+  const fromRoute = canonicalEnteSlug(route);
+  if (enteLogoByRoute[fromRoute]) return fromRoute;
+  const fromName = canonicalEnteSlug(name ?? "");
+  if (fromName && enteLogoByRoute[fromName]) return fromName;
+  return fromRoute;
+}
+
+function logoFromRoute(route: string, logoUrl?: string, name?: string): string | undefined {
   const custom = logoUrl?.trim();
   if (custom) return custom;
-  const routeKey = route.replace(/^\//, "").split("/")[0] ?? "";
-  return enteLogoByRoute[routeKey];
+  return enteLogoByRoute[logoKeyFromEnteRoute(route, name)];
 }
 
 export function logoSrcForDirectorio(
@@ -116,7 +123,7 @@ export function logoSrcForDirectorio(
   const byCountry = sameName.find((e) => normalizeName(e.country) === country);
   const ente = byCountry ?? (sameName.length === 1 ? sameName[0] : undefined);
   if (ente) {
-    const fromEnte = logoFromRoute(ente.route, ente.logoUrl);
+    const fromEnte = logoFromRoute(ente.route, ente.logoUrl, ente.name);
     if (fromEnte) return fromEnte;
   }
 
