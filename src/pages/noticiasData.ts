@@ -28,6 +28,25 @@ export interface NoticiaData {
 
 export const noticiasData: NoticiaData[] = [
   {
+    slug: 'webinar-violencia-digital-rol-entes-reguladores',
+    title: 'REGULATEL abordará el rol de los entes reguladores frente a la violencia digital',
+    date: '2026-08-19',
+    dateFormatted: '19 agosto 2026',
+    category: 'Noticias',
+    excerpt: 'Representantes de República Dominicana, Brasil, México, Paraguay y la industria participarán en el encuentro este jueves 20 de agosto, de 10:00 a. m. a 11:30 a. m.',
+    imageUrl: '/images/noticias/webinar-violencia-digital-rol-entes-reguladores.png',
+    author: 'REGULATEL',
+    content: [
+      'Santo Domingo.– El Foro Latinoamericano de Entes Reguladores de Telecomunicaciones (REGULATEL) realizará el webinar regional “Violencia Digital y Rol de los Entes Reguladores”, un espacio de reflexión sobre esta problemática y las medidas que podrían impulsar los organismos reguladores de América Latina y el Caribe.',
+      'La actividad forma parte del plan de trabajo del Grupo de Trabajo de Paridad en la Sociedad de la Información de REGULATEL, presidido por CONATEL de Paraguay y coordinado por el Instituto Dominicano de las Telecomunicaciones (INDOTEL). Durante la jornada se abordarán el acoso en línea, los deepfakes, el doxing, la difusión no consensuada de imágenes íntimas, la violencia política digital y otras amenazas desde una perspectiva de derechos humanos, paridad e interseccionalidad.',
+      'La discusión también analizará los desafíos que enfrentan los entes reguladores ante la ausencia de mandatos explícitos sobre las plataformas intermediarias. La Ley Modelo Interamericana sobre Violencia Digital de Género, aprobada en diciembre de 2025, servirá como referente técnico-jurídico.',
+      'La apertura estará a cargo de Amparo Arango, directora de Relaciones Internacionales del INDOTEL. Yildalina Tatem Brache, experta de República Dominicana y vicepresidenta del Comité de Expertas, presentará la Ley Modelo, mientras que Cristiana Camarate, superintendente de Relaciones con Consumidores de ANATEL de Brasil, expondrá la experiencia de ese país en protección digital de la infancia y promoción de competencias digitales.',
+      'El bloque de experiencias regionales será moderado por Ángel González Mongelós, de CONATEL de Paraguay, y contará con la participación de Paulina Elsa Zepeda García, de la Secretaría de Seguridad y Protección Ciudadana de México, quien abordará la Ley Olimpia; y Solana de Aspiazu, gerente de Conectividad y Acceso de la Asociación Latinoamericana de Internet (ALAI), quien presentará las medidas impulsadas por la industria para prevenir la violencia en línea.',
+      'La agenda incluirá una encuesta al público, moderada por Mariangel Calderón, del INDOTEL, cuyos resultados servirán de insumo para los trabajos posteriores del Grupo de Trabajo de Paridad. El cierre estará a cargo de Amparo Arango.'
+    ],
+    tags: ['Violencia digital', 'Paridad', 'Webinar', 'INDOTEL', 'CONATEL', 'ANATEL', 'REGULATEL', 'Nota de prensa']
+  },
+  {
     slug: 'habla-el-regulador-nota-de-prensa',
     title: 'Regulatel lanza ‘Habla el Regulador’, una nueva serie de entrevistas sobre los desafíos de la transformación digital',
     date: '2026-07-15',

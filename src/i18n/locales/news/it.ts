@@ -6,6 +6,20 @@ export default {
     Eventos: "Eventi",
   },
   newsArticles: {
+    "webinar-violencia-digital-rol-entes-reguladores": {
+      title: "REGULATEL affronterà il ruolo degli organismi regolatori di fronte alla violenza digitale",
+      excerpt:
+        "Rappresentanti della Repubblica Dominicana, del Brasile, del Messico, del Paraguay e dell'industria parteciperanno all'incontro questo giovedì 20 agosto, dalle 10:00 alle 11:30.",
+      category: "Notizie",
+      content: [
+        "Santo Domingo.– Il Forum Latinoamericano degli Organismi Regolatori delle Telecomunicazioni (REGULATEL) realizzerà il webinar regionale “Violenza Digitale e Ruolo degli Organismi Regolatori”, uno spazio di riflessione su questa problematica e sulle misure che gli organismi regolatori dell'America Latina e dei Caraibi potrebbero promuovere.",
+        "L'attività fa parte del piano di lavoro del Gruppo di Lavoro sulla Parità nella Società dell'Informazione di REGULATEL, presieduto da CONATEL del Paraguay e coordinato dall'Istituto Dominicano delle Telecomunicazioni (INDOTEL). Durante la giornata si affronteranno le molestie online, i deepfake, il doxing, la diffusione non consensuale di immagini intime, la violenza politica digitale e altre minacce in una prospettiva di diritti umani, parità e intersezionalità.",
+        "La discussione analizzerà anche le sfide che gli organismi regolatori affrontano di fronte all'assenza di mandati espliciti sulle piattaforme intermediarie. La Legge Modello Interamericana sulla Violenza Digitale di Genere, approvata nel dicembre 2025, servirà come referente tecnico-giuridico.",
+        "L'apertura sarà a cura di Amparo Arango, direttrice delle Relazioni Internazionali dell'INDOTEL. Yildalina Tatem Brache, esperta della Repubblica Dominicana e vicepresidente del Comitato di Esperte, presenterà la Legge Modello, mentre Cristiana Camarate, superintendente delle Relazioni con i Consumatori di ANATEL del Brasile, esporrà l'esperienza di quel Paese nella protezione digitale dell'infanzia e nella promozione delle competenze digitali.",
+        "Il blocco di esperienze regionali sarà moderato da Ángel González Mongelós, di CONATEL del Paraguay, e conterà sulla partecipazione di Paulina Elsa Zepeda García, della Segreteria della Sicurezza e Protezione Cittadina del Messico, che affronterà la Legge Olimpia; e Solana de Aspiazu, gerente di Connettività e Accesso dell'Associazione Latinoamericana di Internet (ALAI), che presenterà le misure promosse dall'industria per prevenire la violenza online.",
+        "L'agenda includerà un sondaggio al pubblico, moderato da Mariangel Calderón, dell'INDOTEL, i cui risultati serviranno da contributo per i lavori successivi del Gruppo di Lavoro sulla Parità. La chiusura sarà a cura di Amparo Arango.",
+      ],
+    },
     "habla-el-regulador-nota-de-prensa": {
       title:
         "Regulatel lancia ‘Habla el Regulador’, una nuova serie di interviste sulle sfide della trasformazione digitale",

@@ -176,7 +176,7 @@ function ArticleImage({ imageUrl }: { imageUrl: string }) {
       <img
         src={imageUrl}
         alt=""
-        className="w-full h-auto max-h-[60vh] object-cover"
+        className="mx-auto h-auto w-full max-h-[90vh] object-contain"
         onError={(e) => { e.currentTarget.style.display = "none"; }}
       />
     </figure>

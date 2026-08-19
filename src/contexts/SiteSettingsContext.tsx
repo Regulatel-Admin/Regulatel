@@ -26,7 +26,7 @@ import { parseBuenasPracticasRegulatoriasFromSettingValue } from "@/data/mejores
 import type { RevistaEdition } from "@/data/revistaDigital";
 import { defaultRevistaEditions, parseRevistaDigitalFromSettingValue } from "@/data/revistaDigital";
 import type { HomeAvisoSlot } from "@/data/homeAnnouncements";
-import { parseHomeAnnouncementsFromSettingValue, visibleHomeAvisos } from "@/data/homeAnnouncements";
+import { mergeHomeAnnouncements, parseHomeAnnouncementsFromSettingValue, visibleHomeAvisos } from "@/data/homeAnnouncements";
 import type { GrupoTrabajoSerialized } from "@/data/gruposTrabajo";
 import { defaultGruposTrabajo, parseGruposTrabajoFromSettingValue } from "@/data/gruposTrabajo";
 import type { ComiteEjecutivoCmsDocument } from "@/data/comiteEjecutivo";
@@ -488,7 +488,7 @@ export function useHomeAnnouncements(): HomeAvisoSlot[] {
   const { homeAnnouncements } = useSiteSettings();
   const { enabled, preview } = useSiteEdit();
   if (enabled && preview.homeAnnouncements) return visibleHomeAvisos(preview.homeAnnouncements);
-  return visibleHomeAvisos(homeAnnouncements);
+  return mergeHomeAnnouncements(homeAnnouncements);
 }
 
 /** Fichas de /grupos-de-trabajo: CMS o vista previa al editar en el sitio. */

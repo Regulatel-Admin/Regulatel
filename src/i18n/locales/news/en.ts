@@ -6,6 +6,20 @@ export default {
     Eventos: "Events",
   },
   newsArticles: {
+    "webinar-violencia-digital-rol-entes-reguladores": {
+      title: "REGULATEL to address the role of regulators in the face of digital violence",
+      excerpt:
+        "Representatives from the Dominican Republic, Brazil, Mexico, Paraguay and industry will take part in the meeting this Thursday, August 20, from 10:00 a.m. to 11:30 a.m.",
+      category: "News",
+      content: [
+        "Santo Domingo.– The Latin American Forum of Telecommunications Regulatory Bodies (REGULATEL) will hold the regional webinar “Digital Violence and the Role of Regulatory Bodies”, a space for reflection on this problem and the measures that regulators in Latin America and the Caribbean could promote.",
+        "The activity is part of the work plan of REGULATEL’s Working Group on Parity in the Information Society, chaired by CONATEL of Paraguay and coordinated by the Dominican Institute of Telecommunications (INDOTEL). The session will address online harassment, deepfakes, doxing, the non-consensual dissemination of intimate images, digital political violence and other threats from a human rights, parity and intersectionality perspective.",
+        "The discussion will also analyze the challenges regulators face given the absence of explicit mandates on intermediary platforms. The Inter-American Model Law on Digital Gender Violence, adopted in December 2025, will serve as a technical and legal reference.",
+        "The opening will be delivered by Amparo Arango, Director of International Relations at INDOTEL. Yildalina Tatem Brache, expert from the Dominican Republic and Vice President of the Committee of Experts, will present the Model Law, while Cristiana Camarate, Superintendent of Consumer Relations at Brazil’s ANATEL, will share that country’s experience in digital child protection and the promotion of digital skills.",
+        "The regional experiences block will be moderated by Ángel González Mongelós, of CONATEL Paraguay, and will include Paulina Elsa Zepeda García, of Mexico’s Secretariat of Security and Citizen Protection, who will address the Olimpia Law; and Solana de Aspiazu, Connectivity and Access Manager at the Latin American Internet Association (ALAI), who will present industry measures to prevent online violence.",
+        "The agenda will include a public survey, moderated by Mariangel Calderón of INDOTEL, whose results will inform subsequent work of the Working Group on Parity. Closing remarks will be delivered by Amparo Arango.",
+      ],
+    },
     "habla-el-regulador-nota-de-prensa": {
       title:
         "Regulatel launches ‘Habla el Regulador’, a new interview series on the challenges of digital transformation",

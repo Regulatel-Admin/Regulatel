@@ -15,6 +15,17 @@ export const siteSearchEntries: SiteSearchEntry[] = [
   { keywords: ["presidente", "autoridades", "autoridad", "vicepresidente", "comité ejecutivo"], path: "/autoridades", label: "Autoridades" },
   { keywords: ["comite", "comité", "ejecutivo"], path: "/comite-ejecutivo", label: "Comité Ejecutivo" },
   { keywords: ["noticias", "noticia"], path: "/noticias", label: "Noticias" },
+  {
+    keywords: [
+      "violencia digital",
+      "webinar paridad",
+      "ley olimpia",
+      "deepfakes",
+      "doxing",
+    ],
+    path: "/noticias/webinar-violencia-digital-rol-entes-reguladores",
+    label: "Webinar violencia digital y rol de los entes reguladores",
+  },
   { keywords: ["eventos", "evento", "cumbre"], path: "/eventos", label: "Eventos" },
   { keywords: ["contacto", "contactar"], path: "/contacto", label: "Contacto" },
   { keywords: ["recursos", "documentos", "gestión", "gestion"], path: "/gestion", label: "Recursos y Documentos" },

@@ -22,6 +22,21 @@ export interface HomeAvisoSlot {
   visible: boolean;
 }
 
+/** Nota de prensa del webinar regional; se fija en los avisos de portada hasta el día del evento. */
+export const WEBINAR_VIOLENCIA_DIGITAL_NEWS_SLUG = "webinar-violencia-digital-rol-entes-reguladores";
+
+export const PINNED_HOME_ANNOUNCEMENTS: HomeAvisoSlot[] = [
+  {
+    id: "aviso-webinar-violencia-digital-2026",
+    kind: "noticia",
+    refId: WEBINAR_VIOLENCIA_DIGITAL_NEWS_SLUG,
+    visible: true,
+  },
+];
+
+/** Inclusive calendar day (UTC date) through which the pinned aviso stays on the home. */
+export const PINNED_HOME_ANNOUNCEMENTS_UNTIL = "2026-08-20";
+
 export const HOME_AVISO_KIND_META: Record<
   HomeAvisoKind,
   { label: string; hint: string; badge: string; cta: string; more: string }
@@ -89,6 +104,29 @@ export function parseHomeAnnouncementsFromSettingValue(value: unknown): HomeAvis
 
 export function visibleHomeAvisos(slots: HomeAvisoSlot[] | null | undefined): HomeAvisoSlot[] {
   return (slots ?? []).filter((s) => s.visible && s.refId.trim()).slice(0, HOME_AVISO_MAX);
+}
+
+export function activePinnedHomeAnnouncements(
+  todayIso = new Date().toISOString().slice(0, 10)
+): HomeAvisoSlot[] {
+  if (todayIso > PINNED_HOME_ANNOUNCEMENTS_UNTIL) return [];
+  return PINNED_HOME_ANNOUNCEMENTS.filter((s) => s.visible && s.refId.trim());
+}
+
+/** Combina avisos fijados (webinar) con los del CMS, sin duplicar y respetando el máximo. */
+export function mergeHomeAnnouncements(
+  cms: HomeAvisoSlot[] | null | undefined,
+  todayIso?: string
+): HomeAvisoSlot[] {
+  const pinned = activePinnedHomeAnnouncements(todayIso);
+  const cmsVisible = visibleHomeAvisos(cms);
+  const rest = cmsVisible.filter(
+    (slot) =>
+      !pinned.some(
+        (p) => p.kind === slot.kind && p.refId.toLowerCase() === slot.refId.toLowerCase()
+      )
+  );
+  return visibleHomeAvisos([...pinned, ...rest]);
 }
 
 export function homeAvisoEpisodeCatalog(): HablaElReguladorInterview[] {
