@@ -171,7 +171,7 @@ export default function HomeBoletinGtaiAnnouncement() {
         <X className="h-2.5 w-2.5 transition-[transform,opacity] duration-300 ease-out group-hover:opacity-[0.9] group-hover:scale-[0.97]" strokeWidth={1} aria-hidden />
       </button>
 
-      <div className="px-3.5 pb-3 pt-3.5 pr-9 sm:px-[0.9rem] sm:pb-[0.85rem] sm:pt-[0.95rem] sm:pr-9">
+      <div className="heroAnnouncePad px-3.5 pb-3 pt-3.5 pr-9 sm:px-[0.9rem] sm:pb-[0.85rem] sm:pt-[0.95rem] sm:pr-9">
         <div className="flex gap-2.5">
           <GtaiCoverMini issue={featured.issueNumber} bulletinLabel={t("homeSections.bulletinLabel")} />
 
@@ -207,7 +207,7 @@ export default function HomeBoletinGtaiAnnouncement() {
         </div>
 
         <p
-          className="mt-2 line-clamp-3 text-[10.5px] leading-[1.52] sm:text-[11px] sm:leading-[1.58]"
+          className="heroAnnounceDesc mt-2 line-clamp-3 text-[10.5px] leading-[1.52] sm:text-[11px] sm:leading-[1.58]"
           style={{
             fontFamily: "var(--token-font-body)",
             color: "rgba(35, 44, 52, 0.88)",
@@ -229,7 +229,7 @@ export default function HomeBoletinGtaiAnnouncement() {
           </Link>
           <Link
             to={BOLETINES_GTAI_LIST_PATH}
-            className="mt-2 block text-center text-[8.5px] font-normal leading-snug tracking-[0.02em] text-[rgba(22,61,89,0.58)] underline-offset-[3px] decoration-[rgba(22,61,89,0.3)] decoration-1 transition-colors duration-200 hover:text-[rgba(22,61,89,0.74)] hover:decoration-[rgba(22,61,89,0.42)] focus-visible:outline-none focus-visible:underline"
+            className="heroAnnounceMore mt-2 block text-center text-[8.5px] font-normal leading-snug tracking-[0.02em] text-[rgba(22,61,89,0.58)] underline-offset-[3px] decoration-[rgba(22,61,89,0.3)] decoration-1 transition-colors duration-200 hover:text-[rgba(22,61,89,0.74)] hover:decoration-[rgba(22,61,89,0.42)] focus-visible:outline-none focus-visible:underline"
             style={{ fontFamily: "var(--token-font-body)" }}
           >
             {t("homeSections.allGtaiBulletins")}

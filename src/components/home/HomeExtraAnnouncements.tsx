@@ -224,7 +224,7 @@ function HomeAvisoCard({ slot }: { slot: HomeAvisoSlot }) {
       >
         <X className="h-2.5 w-2.5" strokeWidth={1} aria-hidden />
       </button>
-      <div className="px-3.5 pb-3 pt-3.5 pr-9 sm:px-[0.9rem] sm:pb-[0.85rem] sm:pt-[0.95rem] sm:pr-9">
+      <div className="heroAnnouncePad px-3.5 pb-3 pt-3.5 pr-9 sm:px-[0.9rem] sm:pb-[0.85rem] sm:pt-[0.95rem] sm:pr-9">
         <div className="flex gap-2.5">
           {resolved.cover}
           <div className="min-w-0 flex-1 pt-[1px]">
@@ -250,7 +250,7 @@ function HomeAvisoCard({ slot }: { slot: HomeAvisoSlot }) {
           </div>
         </div>
         <p
-          className="mt-2 line-clamp-3 text-[10.5px] leading-[1.52] sm:text-[11px]"
+          className="heroAnnounceDesc mt-2 line-clamp-3 text-[10.5px] leading-[1.52] sm:text-[11px]"
           style={{ fontFamily: "var(--token-font-body)", color: "rgba(35, 44, 52, 0.88)" }}
         >
           {resolved.description}
@@ -261,7 +261,7 @@ function HomeAvisoCard({ slot }: { slot: HomeAvisoSlot }) {
           </Link>
           <Link
             to={resolved.moreHref}
-            className="mt-2 block text-center text-[8.5px] font-normal tracking-[0.02em] text-[rgba(22,61,89,0.58)] underline-offset-[3px] hover:text-[rgba(22,61,89,0.74)]"
+            className="heroAnnounceMore mt-2 block text-center text-[8.5px] font-normal tracking-[0.02em] text-[rgba(22,61,89,0.58)] underline-offset-[3px] hover:text-[rgba(22,61,89,0.74)]"
             style={{ fontFamily: "var(--token-font-body)" }}
           >
             {meta.more}
