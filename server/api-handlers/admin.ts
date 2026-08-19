@@ -26,6 +26,7 @@ import { parseJsonBody } from "../lib/parseBody.js";
 import { isDbConfigured } from "../lib/db.js";
 import { seedLegacyEventsIfMissing } from "../lib/seedLegacyEvents.js";
 import { listSubscribers, unsubscribeById } from "../lib/subscribers.js";
+import { getAnalyticsStats } from "../lib/analytics.js";
 
 
 function sendJson(res: ServerResponse, status: number, data: unknown) {
@@ -228,6 +229,20 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
       const folder = validPrefixes.includes(prefix) ? prefix : "all";
       const items = await blob.listBlobs(folder, limit);
       sendJson(res, 200, { items });
+      return;
+    }
+
+    if (subpath === "analytics") {
+      const auth = await ensureAdmin(req);
+      if (!canManageUsers(auth.user.role)) {
+        sendJson(res, 403, { error: "Solo los administradores pueden ver las visitas." });
+        return;
+      }
+      if (req.method !== "GET") {
+        sendJson(res, 405, { error: "Method Not Allowed" });
+        return;
+      }
+      sendJson(res, 200, await getAnalyticsStats());
       return;
     }
 

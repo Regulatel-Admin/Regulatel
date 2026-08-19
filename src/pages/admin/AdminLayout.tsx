@@ -33,6 +33,7 @@ import {
   ChevronDown,
   ExternalLink,
   PenLine,
+  BarChart3,
   type LucideIcon,
 } from "lucide-react";
 import { useSiteEdit } from "@/contexts/SiteEditContext";
@@ -94,6 +95,7 @@ const groups: NavGroup[] = [
     label: "Ajustes",
     items: [
       { to: "/admin/media", label: "Archivos", icon: Images, adminOnly: true },
+      { to: "/admin/visitas", label: "Visitas", icon: BarChart3, adminOnly: true },
       { to: "/admin/suscriptores", label: "Suscriptores", icon: Bell, adminOnly: true },
       { to: "/admin/usuarios", label: "Usuarios", icon: Users, adminOnly: true },
       { to: "/admin/acceso-actas", label: "Acceso a actas", icon: Lock, adminOnly: true },

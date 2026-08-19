@@ -5,6 +5,7 @@ import HeaderMegaMenu from "@/components/layout/HeaderMegaMenu";
 import { SiteEditBar } from "@/components/site-edit/SiteEditBar";
 import { SiteEditDrawer } from "@/components/site-edit/SiteEditDrawer";
 import { useSiteEdit } from "@/contexts/SiteEditContext";
+import VisitTracker from "@/components/VisitTracker";
 
 interface LayoutProps {
   children: ReactNode;
@@ -55,6 +56,7 @@ export default function Layout({ children }: LayoutProps) {
 
   return (
     <div className="min-h-screen text-slate-900" style={{ backgroundColor: "var(--token-page-bg)" }}>
+      <VisitTracker />
       <SiteEditBar />
       <div
         className={

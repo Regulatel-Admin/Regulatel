@@ -29,6 +29,7 @@ import {
   Lock,
   PenLine,
   ArrowUpRight,
+  BarChart3,
   type LucideIcon,
 } from "lucide-react";
 import { useSiteEdit } from "@/contexts/SiteEditContext";
@@ -67,6 +68,7 @@ const moreLinks: Shortcut[] = [
 
 const adminOnlyLinks: Shortcut[] = [
   { to: "/admin/media", icon: Images, title: "Archivos", desc: "Fotos subidas." },
+  { to: "/admin/visitas", icon: BarChart3, title: "Visitas", desc: "Personas por día y semana." },
   { to: "/admin/suscriptores", icon: Bell, title: "Suscriptores", desc: "Correos inscritos." },
   { to: "/admin/usuarios", icon: Users, title: "Usuarios", desc: "Cuentas del panel." },
   { to: "/admin/acceso-actas", icon: Lock, title: "Acceso a actas", desc: "Cuentas restringidas." },
@@ -92,15 +94,22 @@ export default function AdminDashboard() {
   const { enter: enterSiteEdit } = useSiteEdit();
   const [audit, setAudit] = useState<AuditRow[]>([]);
   const [auditLoading, setAuditLoading] = useState(canManageUsers);
+  const [visits, setVisits] = useState<{ today: number; week: number } | null>(null);
 
   useEffect(() => {
     if (!canManageUsers) return;
     let cancelled = false;
     (async () => {
-      const res = await api.admin.audit.list({ limit: 12 });
+      const [auditRes, visitRes] = await Promise.all([
+        api.admin.audit.list({ limit: 12 }),
+        api.admin.analytics.stats(),
+      ]);
       if (cancelled) return;
-      if (res.ok) {
-        setAudit(res.data.items.map((item) => ({ ...item, details: normalizeAuditDetails(item.details) })));
+      if (auditRes.ok) {
+        setAudit(auditRes.data.items.map((item) => ({ ...item, details: normalizeAuditDetails(item.details) })));
+      }
+      if (visitRes.ok) {
+        setVisits({ today: visitRes.data.today.visitors, week: visitRes.data.week.visitors });
       }
       setAuditLoading(false);
     })();
@@ -143,6 +152,15 @@ export default function AdminDashboard() {
             Ver el sitio público
             <ArrowUpRight className="h-4 w-4" />
           </Link>
+          {canManageUsers && visits && (
+            <Link
+              to="/admin/visitas"
+              className="inline-flex items-center gap-1.5 rounded-full bg-white/15 px-4 py-2 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/25"
+            >
+              <BarChart3 className="h-4 w-4" />
+              Hoy {visits.today} · Semana {visits.week}
+            </Link>
+          )}
         </div>
       </div>
 

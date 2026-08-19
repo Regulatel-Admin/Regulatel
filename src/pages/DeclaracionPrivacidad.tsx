@@ -20,7 +20,7 @@ const SECTIONS = [
       "Cargo o función (cuando sea relevante para la gestión de la solicitud)",
       "Cualquier otro dato que el titular facilite voluntariamente en mensajes o formularios",
     ],
-    outro: "Solo recopilamos los datos necesarios para la finalidad indicada en cada formulario. Los campos obligatorios se señalan como tales; el resto son opcionales.",
+    outro: "Solo recopilamos los datos necesarios para la finalidad indicada en cada formulario. Los campos obligatorios se señalan como tales; el resto son opcionales. Además, el sitio guarda una cookie técnica anónima para contar visitas de forma agregada, sin identificar a la persona.",
   },
   {
     id: "uso",
@@ -48,8 +48,13 @@ const SECTIONS = [
     content: "REGULATEL utiliza la información recabada únicamente en el ámbito de sus funciones como foro de entes reguladores de telecomunicaciones. No se realizan tratamientos masivos con fines comerciales ni se comparten datos con terceros para usos ajenos a la gestión institucional del Foro, salvo que la ley lo exija o el titular haya dado su consentimiento expreso.",
   },
   {
+    id: "visitas",
+    title: "8. Medición anónima de visitas",
+    content: "El portal cuenta las visitas de forma agregada para que la Secretaría Ejecutiva pueda conocer cuántas personas consultan el sitio cada día y cada semana, y cuáles páginas se ven más. Para ello se utiliza una cookie técnica anónima, sin nombre, correo electrónico ni dirección IP, y sin elaborar perfiles individuales. El panel de administración solo muestra totales y páginas más vistas. Esta información no se cede a terceros con fines comerciales.",
+  },
+  {
     id: "contacto",
-    title: "8. Contacto y consultas sobre privacidad",
+    title: "9. Contacto y consultas sobre privacidad",
     content: "Para cualquier consulta relacionada con el tratamiento de sus datos personales o con esta declaración de privacidad, puede dirigirse a la Secretaría Ejecutiva de REGULATEL a través de la sección de Contacto de este portal o por los canales oficiales que se indican en la misma. Atenderemos su solicitud con la diligencia debida y en consonancia con las prácticas institucionales del Foro.",
   },
 ];

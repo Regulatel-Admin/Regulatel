@@ -27,6 +27,7 @@ import AdminBuenasPracticasRegulatorias from '@/pages/admin/AdminBuenasPracticas
 import AdminUsuarios from '@/pages/admin/AdminUsuarios';
 import AdminAccesoActas from '@/pages/admin/AdminAccesoActas';
 import AdminSuscriptores from '@/pages/admin/AdminSuscriptores';
+import AdminVisitas from '@/pages/admin/AdminVisitas';
 import AdminContentHome from '@/pages/admin/content/AdminContentHome';
 import AdminContentCumbres from '@/pages/admin/content/AdminContentCumbres';
 import AdminContentGaleria from '@/pages/admin/content/AdminContentGaleria';
@@ -103,6 +104,7 @@ function App() {
               <Route path="usuarios" element={<AdminUsuarios />} />
               <Route path="acceso-actas" element={<AdminAccesoActas />} />
               <Route path="suscriptores" element={<AdminSuscriptores />} />
+              <Route path="visitas" element={<AdminVisitas />} />
             </Route>
             <Route element={<Layout><Outlet /></Layout>}>
               <Route path="/" element={<Home />} />

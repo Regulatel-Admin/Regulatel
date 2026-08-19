@@ -135,6 +135,10 @@ export const api = {
     send: (body: { name: string; email: string; organization?: string; subject: string; message: string }) =>
       request<{ ok: boolean }>("/contact", { method: "POST", body }),
   },
+  analytics: {
+    hit: (body: { path: string; referrer?: string }) =>
+      request<{ ok?: boolean }>("/analytics", { method: "POST", body }),
+  },
   subscribe: {
     send: (body: { email: string }) =>
       request<{ ok: boolean; alreadySubscribed?: boolean; message?: string }>("/subscribe", { method: "POST", body }),
@@ -214,6 +218,18 @@ export const api = {
       list: () => request<Array<{ id: string; name: string; email: string; username: string | null; role: string; is_active: boolean; last_login_at: string | null; created_at: string }>>("/admin/users"),
       create: (body: { email: string; password: string; name?: string; role?: string }) =>
         request<{ id: string; email: string; name: string; role: string }>("/admin/users", { method: "POST", body }),
+    },
+    analytics: {
+      stats: () =>
+        request<{
+          timezone: string;
+          today: { visitors: number; views: number };
+          yesterday: { visitors: number; views: number };
+          week: { visitors: number; views: number };
+          prevWeek: { visitors: number; views: number };
+          days: Array<{ date: string; visitors: number; views: number }>;
+          topPages: Array<{ path: string; views: number; visitors: number }>;
+        }>("/admin/analytics"),
     },
     subscribers: {
       list: () =>

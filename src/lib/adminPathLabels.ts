@@ -21,6 +21,7 @@ export const ADMIN_PATH_LABELS: Record<string, string> = {
   "/admin/buenas-practicas": "Buenas prácticas",
   "/admin/revista": "Revista digital",
   "/admin/suscriptores": "Suscriptores",
+  "/admin/visitas": "Visitas",
   "/admin/usuarios": "Usuarios",
   "/admin/acceso-actas": "Acceso a actas",
 };

@@ -37,6 +37,8 @@ npm run db:seed-events
 | `gallery_images` | Imágenes por álbum |
 | `document_access_users` | Usuarios solo para documentos restringidos |
 | `document_access_sessions` | Sesiones de esos usuarios |
+| `document_access_requests` | Solicitudes de acceso a actas |
+| `page_views` | Visitas anónimas del sitio (conteo diario/semanal en Admin → Visitas) |
 
 ## Otros archivos
 

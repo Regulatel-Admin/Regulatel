@@ -223,3 +223,15 @@ CREATE TABLE IF NOT EXISTS document_access_requests (
 CREATE INDEX IF NOT EXISTS idx_dar_email ON document_access_requests(lower(email));
 CREATE INDEX IF NOT EXISTS idx_dar_status ON document_access_requests(status);
 CREATE INDEX IF NOT EXISTS idx_dar_token ON document_access_requests(token_hash);
+
+-- Visitas anónimas del sitio público (sin IP ni datos personales)
+CREATE TABLE IF NOT EXISTS page_views (
+  id TEXT PRIMARY KEY,
+  visitor_id TEXT NOT NULL,
+  path TEXT NOT NULL,
+  referrer TEXT,
+  visited_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+CREATE INDEX IF NOT EXISTS idx_page_views_visited_at ON page_views (visited_at DESC);
+CREATE INDEX IF NOT EXISTS idx_page_views_visitor_at ON page_views (visitor_id, visited_at DESC);
+CREATE INDEX IF NOT EXISTS idx_page_views_path ON page_views (path);
