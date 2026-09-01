@@ -190,43 +190,117 @@ function formatAgo(from: number, now: number) {
   return `hace ${minutes} min`;
 }
 
-function chartDayLabel(isoDate: string) {
+function chartAxisLabel(isoDate: string) {
   const [year, month, day] = isoDate.split("-").map(Number);
-  if (!year || !month || !day) return { weekday: isoDate, dayMonth: "" };
+  if (!year || !month || !day) return { weekday: isoDate, day: "", month: "" };
   const date = new Date(Date.UTC(year, month - 1, day));
   const weekday = new Intl.DateTimeFormat("es-DO", { weekday: "short", timeZone: "UTC" })
     .format(date)
+    .replace(".", "")
+    .replace(/^\w/, (ch) => ch.toUpperCase());
+  const monthShort = new Intl.DateTimeFormat("es-DO", { month: "short", timeZone: "UTC" })
+    .format(date)
     .replace(".", "");
-  return { weekday, dayMonth: `${day}/${month}` };
+  return { weekday, day: String(day).padStart(2, "0"), month: monthShort };
 }
 
 function VisitorsChart({ days }: { days: Array<{ date: string; visitors: number; views: number }> }) {
+  const todayKey = dominicanDateKey(new Date());
+  const n = Math.max(days.length, 1);
+  const barW = 30;
+  const gap = 7;
+  const slot = barW + gap;
+  const padL = 28;
+  const padR = 8;
+  const padT = 18;
+  const padB = 32;
+  const innerH = 102;
+  const width = padL + n * slot - gap + padR;
+  const height = padT + innerH + padB;
   const max = Math.max(1, ...days.map((day) => day.visitors));
+  const ticks = [0, 0.5, 1];
 
   return (
-    <div className="flex h-[88px] items-end gap-0.5" role="img" aria-label="Personas distintas que visitaron el sitio en los últimos 14 días">
-      {days.map((day) => {
-        const label = chartDayLabel(day.date);
-        const barPx = day.visitors > 0 ? Math.max(4, Math.round((day.visitors / max) * 52)) : 2;
-        return (
-          <div key={day.date} className="flex h-full min-w-0 flex-1 flex-col items-center justify-end">
-            <span className="mb-0.5 text-[9px] font-bold leading-none tabular-nums" style={{ color: "var(--regu-navy)" }}>
-              {day.visitors > 0 ? day.visitors : ""}
-            </span>
-            <div
-              className="w-full max-w-[18px] rounded-t-sm"
-              title={`${formatDayLabel(day.date)}: ${day.visitors} personas, ${day.views} páginas`}
-              style={{
-                height: barPx,
-                backgroundColor: day.visitors > 0 ? "#4489C6" : "rgba(22,61,89,0.12)",
-              }}
-            />
-            <span className="mt-1 text-[8px] leading-none" style={{ color: "var(--regu-gray-500)" }}>
-              {label.dayMonth}
-            </span>
-          </div>
-        );
-      })}
+    <div className="overflow-x-auto">
+      <svg
+        viewBox={`0 0 ${width} ${height}`}
+        width={width}
+        height={height}
+        className="mx-auto block max-w-full"
+        role="img"
+        aria-label="Personas distintas por día en los últimos 14 días"
+      >
+        {ticks.map((tick) => {
+          const y = padT + innerH - tick * innerH;
+          return (
+            <g key={tick}>
+              <line x1={padL - 4} x2={width - padR} y1={y} y2={y} stroke="rgba(22,61,89,0.10)" strokeWidth="1" />
+              <text x={padL - 8} y={y + 3} textAnchor="end" fill="#7E909E" fontSize="9" fontFamily="inherit">
+                {Math.round(tick * max)}
+              </text>
+            </g>
+          );
+        })}
+        {days.map((day, index) => {
+          const barH = day.visitors > 0 ? Math.max(5, (day.visitors / max) * innerH) : 3;
+          const x = padL + index * slot;
+          const y = padT + innerH - barH;
+          const label = chartAxisLabel(day.date);
+          const isToday = day.date === todayKey;
+          return (
+            <g key={day.date}>
+              <rect
+                x={x}
+                y={y}
+                width={barW}
+                height={barH}
+                rx="5"
+                fill={day.visitors > 0 ? (isToday ? "#2F6FA8" : "#4489C6") : "rgba(22,61,89,0.12)"}
+              >
+                <title>
+                  {`${formatDayLabel(day.date)}: ${day.visitors} personas distintas, ${day.views} páginas vistas`}
+                </title>
+              </rect>
+              {day.visitors > 0 ? (
+                <text
+                  x={x + barW / 2}
+                  y={y - 5}
+                  textAnchor="middle"
+                  fill="#163D59"
+                  fontSize="10"
+                  fontWeight="700"
+                  fontFamily="inherit"
+                >
+                  {day.visitors}
+                </text>
+              ) : null}
+              <text
+                x={x + barW / 2}
+                y={height - 18}
+                textAnchor="middle"
+                fill="#5B6E7A"
+                fontSize="8"
+                fontFamily="inherit"
+              >
+                {`${label.weekday}, ${label.day}`}
+              </text>
+              <text
+                x={x + barW / 2}
+                y={height - 6}
+                textAnchor="middle"
+                fill="#7E909E"
+                fontSize="8"
+                fontFamily="inherit"
+              >
+                {label.month}
+              </text>
+            </g>
+          );
+        })}
+      </svg>
+      <p className="mt-1 text-center text-[10px]" style={{ color: "var(--regu-gray-500)" }}>
+        El número es personas distintas. Pasa el cursor por la barra para ver las páginas vistas.
+      </p>
     </div>
   );
 }
