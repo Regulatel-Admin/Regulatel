@@ -32,8 +32,26 @@ export interface BoletinesGtaiSettingShape {
 const PDF_BOLETIN_1 = "/documents/boletines-gtai/boletin-1-2026.pdf";
 const PDF_BOLETIN_2 = "/documents/boletines-gtai/boletin-2-2026.pdf";
 const PDF_BOLETIN_3 = "/documents/boletines-gtai/boletin-3-2026.pdf";
+const PDF_BOLETIN_4 = "/documents/boletines-gtai/boletin-4-2026.pdf";
 
 export const defaultBoletinesGtai: BoletinGtaiSerialized[] = [
+  {
+    title: "Boletín 4",
+    slug: "boletin-4-2026",
+    groupName: "Grupo de Asuntos de Internet (GTAI)",
+    issueNumber: 4,
+    year: 2026,
+    publicationDate: "2026-09-01",
+    shortSummary:
+      "Notas sobre bloqueos de Internet, desinformación, IA generativa, protección de menores en redes y desconexión digital, con mirada comparada regional e internacional.",
+    description:
+      "Este cuarto boletín del GTAI reúne una curaduría institucional de tendencias y hechos relevantes en materia de Internet: cómo las personas desafían los bloqueos de la red de Myanmar a Venezuela, la desconfianza hacia las noticias en línea, el uso de imágenes generadas con IA para desacreditar víctimas, restricciones a la inteligencia artificial en escuelas de Noruega, incidentes de ciberseguridad atribuidos a modelos de OpenAI, cargos imprevistos en compras por internet en la UE, las jornadas laborales en empresas de IA, la multa a Meta por seguridad infantil y el debate sobre la desconexión digital. Su propósito es apoyar el intercambio técnico entre reguladores de la región REGULATEL.",
+    coverImage: "/images/boletines/boletin-4-2026-cover-b.webp",
+    pdfFile: PDF_BOLETIN_4,
+    contentType: "Boletín",
+    isPublished: true,
+    isFeatured: true,
+  },
   {
     title: "Boletín 3",
     slug: "boletin-3-2026",
@@ -45,11 +63,11 @@ export const defaultBoletinesGtai: BoletinGtaiSerialized[] = [
       "Notas sobre apagones y restricciones de Internet, acceso clandestino a Starlink, derechos digitales, costos de banda ancha en Europa y regulación de redes sociales para menores, con mirada comparada regional e internacional.",
     description:
       "Este tercer boletín del GTAI reúne una curaduría institucional de tendencias y hechos relevantes en materia de Internet: cortes y restablecimientos del servicio móvil en Moscú, redes clandestinas con Starlink en Irán, bloqueos en Myanmar y Venezuela, desmentidos sobre restricciones en Cuba, debates sobre derechos digitales, precios de banda ancha en Europa, la prohibición de redes sociales para menores de 16 años en Reino Unido y mejoras de conectividad 5G en eventos masivos en España. Su propósito es apoyar el intercambio técnico entre reguladores de la región REGULATEL.",
-    coverImage: "/grupos-trabajo/asuntos-internet.jpg",
+    coverImage: "/images/boletines/boletin-3-2026-cover.webp",
     pdfFile: PDF_BOLETIN_3,
     contentType: "Boletín",
     isPublished: true,
-    isFeatured: true,
+    isFeatured: false,
   },
   {
     title: "Boletín 2",
@@ -62,7 +80,7 @@ export const defaultBoletinesGtai: BoletinGtaiSerialized[] = [
       "Selección de notas sobre redes sociales, regulación digital y conectividad, abordando la protección de menores, la privacidad en entornos conectados y el futuro de las redes en la región.",
     description:
       "Este segundo boletín del GTAI reúne una curaduría institucional de tendencias y hechos relevantes en materia de Internet: redes sociales, regulación digital, conectividad, protección de menores, privacidad en entornos conectados y evolución de las redes en la región. Su propósito es apoyar el intercambio técnico entre reguladores de la región REGULATEL.",
-    coverImage: "/grupos-trabajo/asuntos-internet.jpg",
+    coverImage: "/images/boletines/boletin-2-2026-cover.webp",
     pdfFile: PDF_BOLETIN_2,
     contentType: "Boletín",
     isPublished: true,
@@ -79,7 +97,7 @@ export const defaultBoletinesGtai: BoletinGtaiSerialized[] = [
       "Selección de notas sobre gobernanza de Internet, privacidad y plataformas digitales, regulación de contenidos y el papel de la IA en el ecosistema en línea, con mirada comparada regional e internacional.",
     description:
       "Este primer boletín del GTAI reúne una curaduría institucional de tendencias y hechos relevantes en materia de Internet: arquitectura abierta y algoritmos, verificación de edad en plataformas, debates sobre IA y moderación de contenidos, y noticias de conectividad y políticas públicas digitales. Su propósito es apoyar el intercambio técnico entre reguladores de la región REGULATEL.",
-    coverImage: "/grupos-trabajo/asuntos-internet.jpg",
+    coverImage: "/images/boletines/boletin-1-2026-cover.webp",
     pdfFile: PDF_BOLETIN_1,
     contentType: "Boletín",
     isPublished: true,
@@ -147,7 +165,8 @@ export function parseBoletinesGtaiFromSettingValue(value: unknown): BoletinGtaiS
 
 /**
  * Combina entradas del CMS con defaults del código.
- * Los defaults definen el catálogo completo (1, 2, 3); el CMS puede sobreescribir por slug.
+ * Los defaults definen el catálogo completo; el CMS puede sobreescribir por slug.
+ * Un boletín nuevo del código (aún no guardado en CMS) puede pasar a destacado.
  */
 export function mergeBoletinesGtaiWithDefaults(
   cmsEntries: BoletinGtaiSerialized[] | null
@@ -160,12 +179,21 @@ export function mergeBoletinesGtaiWithDefaults(
 
   for (const cms of cmsEntries ?? []) {
     const existing = bySlug.get(cms.slug);
-    bySlug.set(cms.slug, existing ? { ...existing, ...cms } : { ...cms });
+    const merged = existing ? { ...existing, ...cms } : { ...cms };
+    const cmsCover = (cms.coverImage ?? "").trim();
+    const cmsHasGenericCover =
+      !cmsCover || cmsCover === "/grupos-trabajo/asuntos-internet.jpg";
+    if (existing?.coverImage && cmsHasGenericCover) {
+      merged.coverImage = existing.coverImage;
+    }
+    bySlug.set(cms.slug, merged);
   }
 
+  const cmsSlugs = new Set((cmsEntries ?? []).map((e) => e.slug));
+  const newlyAddedFeatured = defaultBoletinesGtai.find((e) => e.isFeatured && !cmsSlugs.has(e.slug));
   const defaultFeatured = defaultBoletinesGtai.find((e) => e.isFeatured);
   const cmsFeatured = (cmsEntries ?? []).find((e) => e.isFeatured);
-  const featuredSlug = cmsFeatured?.slug ?? defaultFeatured?.slug;
+  const featuredSlug = newlyAddedFeatured?.slug ?? cmsFeatured?.slug ?? defaultFeatured?.slug;
   const merged = Array.from(bySlug.values());
 
   if (!featuredSlug) return merged;

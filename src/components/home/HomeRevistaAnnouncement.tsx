@@ -12,6 +12,7 @@ import { getFeaturedRevistaEdition } from "@/data/revistaDigital";
 import { useRevistaDigitalEditions } from "@/contexts/SiteSettingsContext";
 import { useSiteEdit } from "@/contexts/SiteEditContext";
 import { SiteEditBadge } from "@/components/site-edit/EditableSpot";
+import CoverPreviewTrigger from "@/components/home/CoverPreviewTrigger";
 
 /** Nueva clave al cambiar la edición destacada (vuelve a mostrarse el aviso a quien la cerró). */
 const SHOW_AGAIN_AFTER_DAYS = 14;
@@ -47,16 +48,21 @@ function shouldShowAnnouncement(editionId: string): boolean {
   }
 }
 
-/** Mini “portada” tipográfica — escala acorde a la tarjeta compacta. */
+/** Mini portada: primera página del PDF si existe, si no el recuadro tipográfico. */
 function EditorialCoverMini({
   coverLabel,
   coverEdition,
   year,
+  coverImage,
 }: {
   coverLabel: string;
   coverEdition: string;
   year: string;
+  coverImage?: string;
 }) {
+  const [imageFailed, setImageFailed] = useState(false);
+  const showPhoto = Boolean(coverImage) && !imageFailed;
+
   return (
     <div
       className="relative shrink-0 overflow-hidden rounded-[2px] select-none"
@@ -70,39 +76,59 @@ function EditorialCoverMini({
       }}
       aria-hidden
     >
-      <div
-        className="absolute left-0 top-0 bottom-0 w-0.5"
-        style={{
-          background:
-            "linear-gradient(180deg, rgba(196,214,140,0.95) 0%, rgba(196,214,140,0.45) 100%)",
-        }}
-      />
-      <div
-        className="absolute -right-4 -top-6 h-16 w-16 rounded-full opacity-[0.07]"
-        style={{ background: "var(--regu-blue)" }}
-      />
-      <div className="relative flex h-full flex-col justify-between p-[0.4rem] pl-[0.45rem] pt-[0.4rem]">
-        <p
-          className="text-[5px] font-bold uppercase leading-tight tracking-[0.2em] text-white/85"
-          style={{ fontFamily: "var(--token-font-body)" }}
-        >
-          {coverLabel}
-        </p>
-        <div>
-          <p
-            className="text-[1.05rem] font-semibold leading-none tracking-tight text-white"
-            style={{ fontFamily: "var(--token-font-heading)" }}
-          >
-            {year}
-          </p>
-          <p
-            className="mt-[0.15rem] text-[6px] font-medium uppercase tracking-[0.16em] text-white/45"
-            style={{ fontFamily: "var(--token-font-body)" }}
-          >
-            {coverEdition}
-          </p>
-        </div>
-      </div>
+      {showPhoto ? (
+        <>
+          <img
+            src={coverImage}
+            alt=""
+            className="absolute inset-0 h-full w-full object-cover"
+            onError={() => setImageFailed(true)}
+          />
+          <span
+            className="pointer-events-none absolute inset-y-0 left-0 w-[3px]"
+            style={{
+              background:
+                "linear-gradient(90deg, rgba(8,18,28,0.28) 0%, rgba(8,18,28,0.04) 100%)",
+            }}
+          />
+        </>
+      ) : (
+        <>
+          <div
+            className="absolute left-0 top-0 bottom-0 w-0.5"
+            style={{
+              background:
+                "linear-gradient(180deg, rgba(196,214,140,0.95) 0%, rgba(196,214,140,0.45) 100%)",
+            }}
+          />
+          <div
+            className="absolute -right-4 -top-6 h-16 w-16 rounded-full opacity-[0.07]"
+            style={{ background: "var(--regu-blue)" }}
+          />
+          <div className="relative flex h-full flex-col justify-between p-[0.4rem] pl-[0.45rem] pt-[0.4rem]">
+            <p
+              className="text-[5px] font-bold uppercase leading-tight tracking-[0.2em] text-white/85"
+              style={{ fontFamily: "var(--token-font-body)" }}
+            >
+              {coverLabel}
+            </p>
+            <div>
+              <p
+                className="text-[1.05rem] font-semibold leading-none tracking-tight text-white"
+                style={{ fontFamily: "var(--token-font-heading)" }}
+              >
+                {year}
+              </p>
+              <p
+                className="mt-[0.15rem] text-[6px] font-medium uppercase tracking-[0.16em] text-white/45"
+                style={{ fontFamily: "var(--token-font-body)" }}
+              >
+                {coverEdition}
+              </p>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 }
@@ -233,11 +259,14 @@ export default function HomeRevistaAnnouncement({ variant = "floating" }: HomeRe
 
       <div className="heroAnnouncePad px-3.5 pb-3 pt-3.5 pr-9 sm:px-[0.9rem] sm:pb-[0.85rem] sm:pt-[0.95rem] sm:pr-9">
         <div className="flex gap-2.5">
-          <EditorialCoverMini
-            coverLabel={t("homeSections.revistaCoverLabel")}
-            coverEdition={editionCopy.coverEdition}
-            year={featured.year}
-          />
+          <CoverPreviewTrigger url={editionUrl} title={editionCopy.title}>
+            <EditorialCoverMini
+              coverLabel={t("homeSections.revistaCoverLabel")}
+              coverEdition={editionCopy.coverEdition}
+              year={featured.year}
+              coverImage={featured.coverImage}
+            />
+          </CoverPreviewTrigger>
 
           <div className="min-w-0 flex-1 pt-[1px]">
             <p

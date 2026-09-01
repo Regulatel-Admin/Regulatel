@@ -79,6 +79,7 @@ export default function Home() {
         ctaPrimaryLabel: s.ctaPrimaryLabel,
         location: s.location,
         imagePosition: s.imagePosition,
+        imageFit: s.imageFit,
       })),
     [carouselSettings]
   );
@@ -128,11 +129,10 @@ export default function Home() {
 
       <HablaElReguladorHome />
 
-      {/* Eventos: carrusel destacados + grid "Próximos eventos" */}
-      <section style={{ backgroundColor: "var(--regu-offwhite)", borderTop: "1px solid rgba(22,61,89,0.07)" }}>
-        <FeaturedEventsCarousel events={allEvents} autoplayIntervalMs={7000} />
+      <FeaturedEventsCarousel events={allEvents} autoplayIntervalMs={7000} />
+      <section style={{ backgroundColor: "var(--regu-offwhite)" }}>
         <EventsSection events={allEvents} variant="home" maxEvents={4} />
-        </section>
+      </section>
     </>
   );
 }

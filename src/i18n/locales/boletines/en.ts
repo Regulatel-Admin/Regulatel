@@ -26,5 +26,12 @@ export default {
       description:
         "This third GTAI bulletin brings together an institutional curation of relevant trends and developments in Internet affairs: mobile service cuts and restorations in Moscow, clandestine Starlink networks in Iran, blockages in Myanmar and Venezuela, denials of restrictions in Cuba, debates on digital rights, broadband prices in Europe, the ban on social networks for under-16s in the United Kingdom and 5G connectivity improvements at mass events in Spain. Its purpose is to support technical exchange among regulators in the REGULATEL region.",
     },
+    "boletin-4-2026": {
+      title: "Bulletin 4",
+      shortSummary:
+        "Notes on Internet shutdowns, disinformation, generative AI, child safety on social networks and digital disconnection, with a regional and international comparative perspective.",
+      description:
+        "This fourth GTAI bulletin brings together an institutional curation of relevant Internet trends: how people circumvent network shutdowns from Myanmar to Venezuela, distrust of online news, AI-generated images used to discredit victims, restrictions on artificial intelligence in Norwegian schools, cybersecurity incidents attributed to OpenAI models, unexpected charges in EU online purchases, working hours at AI companies, Meta’s child-safety fine and the debate on digital disconnection. Its purpose is to support technical exchange among regulators in the REGULATEL region.",
+    },
   },
 } as const;

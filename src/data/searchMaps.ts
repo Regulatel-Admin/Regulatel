@@ -23,8 +23,8 @@ export const siteSearchEntries: SiteSearchEntry[] = [
       "deepfakes",
       "doxing",
     ],
-    path: "/noticias/webinar-violencia-digital-rol-entes-reguladores",
-    label: "Webinar violencia digital y rol de los entes reguladores",
+    path: "/violencia-digital",
+    label: "Violencia Digital",
   },
   { keywords: ["eventos", "evento", "cumbre"], path: "/eventos", label: "Eventos" },
   { keywords: ["contacto", "contactar"], path: "/contacto", label: "Contacto" },
@@ -82,6 +82,12 @@ export const documentSearchEntries: DocumentSearchEntry[] = [
     path: "/acceso-documentos?tipo=comite-ejecutivo",
     label: "Comité Ejecutivo",
     description: "Actas de las reuniones ordinarias.",
+  },
+  {
+    keywords: ["violencia digital", "agenda webinar", "ley olimpia", "mesecvi"],
+    path: "/violencia-digital",
+    label: "Agenda del webinar Violencia Digital",
+    description: "Programa oficial del webinar regional y grabación de la sesión.",
   },
   {
     keywords: ["documento", "documentos", "publicación", "publicaciones"],

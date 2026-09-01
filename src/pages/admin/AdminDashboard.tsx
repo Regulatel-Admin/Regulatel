@@ -8,6 +8,7 @@ import {
   Newspaper,
   Calendar,
   FileText,
+  FilePlus2,
   Home,
   Menu,
   FolderOpen,
@@ -45,6 +46,7 @@ type Shortcut = {
 const featured: Shortcut[] = [
   { to: "/admin/content/home", icon: Home, title: "Portada", desc: "El banner, el texto y las fotos de entrada." },
   { to: "/admin/content/navigation", icon: Menu, title: "Menú del sitio", desc: "Lo que sale arriba en todas las páginas." },
+  { to: "/admin/content/paginas", icon: FilePlus2, title: "Páginas de categorías", desc: "Las secciones nuevas que creas desde el menú." },
   { to: "/admin/noticias", icon: Newspaper, title: "Noticias", desc: "Escribir o corregir una noticia." },
   { to: "/admin/eventos", icon: Calendar, title: "Eventos", desc: "La agenda que ve la gente." },
 ];

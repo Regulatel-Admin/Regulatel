@@ -2,7 +2,7 @@
  * Ediciones de la Revista Digital REGULATEL.
  * Persistidas en site_settings bajo revista_digital → { entries: RevistaEdition[] }.
  */
-import type { GestionDocument } from "@/data/gestion";
+import { documentRecencyScore, type GestionDocument } from "@/data/gestion";
 
 export const REVISTA_DIGITAL_SETTINGS_KEY = "revista_digital" as const;
 
@@ -15,20 +15,35 @@ export interface RevistaEdition {
   quarter?: string;
   description?: string;
   coverEdition?: string;
+  /** Portada (primera página del PDF) para la miniatura del aviso. */
+  coverImage?: string;
   isPublished: boolean;
   isFeatured: boolean;
 }
 
 export const defaultRevistaEditions: RevistaEdition[] = [
   {
+    id: "revista-2026-tercera-edicion",
+    title: "Revista REGULATEL - Tercera edición - Septiembre, 2026",
+    url: "/documents/Revista-REGULATEL-2026-Tercera-Edicion.pdf",
+    year: "2026",
+    coverEdition: "Tercera edición",
+    coverImage: "/images/revistas/revista-2026-tercera-edicion-cover.webp",
+    description:
+      "Ya está disponible la tercera edición (septiembre 2026) de la Revista REGULATEL, con artículos sobre espectro, ciberseguridad, infraestructuras digitales y cooperación regional.",
+    isPublished: true,
+    isFeatured: true,
+  },
+  {
     id: "revista-2026-segunda-edicion",
     title: "Revista REGULATEL - Segunda edición - Junio, 2026",
     url: "/documents/Revista-REGULATEL-2026-Segunda-Edicion.pdf",
     year: "2026",
     coverEdition: "Segunda edición",
+    coverImage: "/images/revistas/revista-2026-segunda-edicion-cover.webp",
     description: "Ya está disponible la segunda edición (junio 2026) de la Revista REGULATEL.",
     isPublished: true,
-    isFeatured: true,
+    isFeatured: false,
   },
   {
     id: "revista-2026-final",
@@ -36,6 +51,7 @@ export const defaultRevistaEditions: RevistaEdition[] = [
     url: "/documents/Revista-REGULATEL-2026-FINAL.pdf",
     year: "2026",
     coverEdition: "Primera edición",
+    coverImage: "/images/revistas/revista-2026-primera-edicion-cover.webp",
     isPublished: true,
     isFeatured: false,
   },
@@ -45,6 +61,7 @@ export const defaultRevistaEditions: RevistaEdition[] = [
     url: "/documents/Revista-Digital-REGULATEL-Q4-2025.pdf",
     year: "2025",
     quarter: "Q4",
+    coverImage: "/images/revistas/revista-q4-2025-cover.webp",
     isPublished: true,
     isFeatured: false,
   },
@@ -54,6 +71,7 @@ export const defaultRevistaEditions: RevistaEdition[] = [
     url: "/documents/Revista-Digital-REGULATEL-Q3-2025.pdf",
     year: "2025",
     quarter: "Q3",
+    coverImage: "/images/revistas/revista-q3-2025-cover.webp",
     isPublished: true,
     isFeatured: false,
   },
@@ -63,6 +81,7 @@ export const defaultRevistaEditions: RevistaEdition[] = [
     url: "/documents/Revista-Digital-REGULATEL-Q2-2025.pdf",
     year: "2025",
     quarter: "Q2",
+    coverImage: "/images/revistas/revista-q2-2025-cover.webp",
     isPublished: true,
     isFeatured: false,
   },
@@ -72,6 +91,7 @@ export const defaultRevistaEditions: RevistaEdition[] = [
     url: "/documents/Revista-Digital-REGULATEL-Q1-2025.pdf",
     year: "2025",
     quarter: "Q1",
+    coverImage: "/images/revistas/revista-q1-2025-cover.webp",
     isPublished: true,
     isFeatured: false,
   },
@@ -116,6 +136,7 @@ export function parseRevistaDigitalFromSettingValue(value: unknown): RevistaEdit
       quarter: typeof r.quarter === "string" && r.quarter.trim() ? r.quarter.trim() : undefined,
       description: typeof r.description === "string" && r.description.trim() ? r.description.trim() : undefined,
       coverEdition: typeof r.coverEdition === "string" && r.coverEdition.trim() ? r.coverEdition.trim() : undefined,
+      coverImage: typeof r.coverImage === "string" && r.coverImage.trim() ? r.coverImage.trim() : undefined,
       isPublished: parseBool(r.isPublished, true),
       isFeatured: parseBool(r.isFeatured, false),
     });
@@ -123,19 +144,43 @@ export function parseRevistaDigitalFromSettingValue(value: unknown): RevistaEdit
   return out;
 }
 
-function quarterSortRank(quarter?: string): number {
-  if (!quarter) return 0;
-  const m = /^Q(\d)/i.exec(quarter.trim());
-  return m ? parseInt(m[1], 10) : 0;
+export function sortRevistaEditions(editions: RevistaEdition[]): RevistaEdition[] {
+  return [...editions].sort((a, b) => documentRecencyScore(b) - documentRecencyScore(a));
 }
 
-export function sortRevistaEditions(editions: RevistaEdition[]): RevistaEdition[] {
-  return [...editions].sort((a, b) => {
-    const ya = parseInt(a.year ?? "0", 10);
-    const yb = parseInt(b.year ?? "0", 10);
-    if (yb !== ya) return yb - ya;
-    return quarterSortRank(b.quarter) - quarterSortRank(a.quarter);
-  });
+/**
+ * Combina ediciones del CMS con el catálogo del código.
+ * Una edición nueva del código (aún no guardada en CMS) puede pasar a portada.
+ */
+export function mergeRevistaDigitalWithDefaults(
+  cmsEntries: RevistaEdition[] | null
+): RevistaEdition[] {
+  const byId = new Map<string, RevistaEdition>();
+
+  for (const def of defaultRevistaEditions) {
+    byId.set(def.id, { ...def });
+  }
+
+  for (const cms of cmsEntries ?? []) {
+    const existing = byId.get(cms.id);
+    const merged = existing ? { ...existing, ...cms } : { ...cms };
+    if (!merged.coverImage && existing?.coverImage) merged.coverImage = existing.coverImage;
+    byId.set(cms.id, merged);
+  }
+
+  const cmsIds = new Set((cmsEntries ?? []).map((e) => e.id));
+  const newlyAddedFeatured = defaultRevistaEditions.find((e) => e.isFeatured && !cmsIds.has(e.id));
+  const defaultFeatured = defaultRevistaEditions.find((e) => e.isFeatured);
+  const cmsFeatured = (cmsEntries ?? []).find((e) => e.isFeatured);
+  const featuredId = newlyAddedFeatured?.id ?? cmsFeatured?.id ?? defaultFeatured?.id;
+  const merged = Array.from(byId.values());
+
+  if (!featuredId) return merged;
+
+  return merged.map((e) => ({
+    ...e,
+    isFeatured: e.id === featuredId,
+  }));
 }
 
 export function getPublishedRevistaEditions(editions: RevistaEdition[]): RevistaEdition[] {
@@ -155,5 +200,6 @@ export function revistaEditionToGestionDocument(edition: RevistaEdition): Gestio
     year: edition.year,
     quarter: edition.quarter,
     category: "revista",
+    coverImage: edition.coverImage,
   };
 }

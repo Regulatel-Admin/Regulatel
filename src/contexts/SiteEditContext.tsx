@@ -21,6 +21,8 @@ import type { GalleryAlbumSetting } from "@/types/siteSettings";
 import type { EstudioInvestigacion } from "@/data/estudiosInvestigacion";
 import type { HablaElReguladorInterview } from "@/data/hablaElRegulador";
 import type { Event } from "@/types/event";
+import type { NavigationItem } from "@/data/navigation";
+import type { CustomPage } from "@/data/customPages";
 
 export type SiteEditNewsPreview = {
   slug: string;
@@ -52,6 +54,8 @@ export type SiteEditPreview = {
   entrevistas?: HablaElReguladorInterview[];
   evento?: Event;
   heroAnnounceOrder?: string[];
+  navigation?: NavigationItem[];
+  customPages?: CustomPage[];
 };
 
 export interface SiteEditDraftController {

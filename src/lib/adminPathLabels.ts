@@ -6,6 +6,7 @@ export const ADMIN_PATH_LABELS: Record<string, string> = {
   "/admin/content/galeria": "Galería",
   "/admin/content/accesos": "Accesos de la portada",
   "/admin/content/navigation": "Menú del sitio",
+  "/admin/content/paginas": "Páginas de categorías",
   "/admin/media": "Archivos",
   "/admin/noticias": "Noticias",
   "/admin/eventos": "Eventos",

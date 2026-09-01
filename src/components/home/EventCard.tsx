@@ -4,6 +4,7 @@ import { ChevronRight } from "lucide-react";
 import type { Event } from "@/types/event";
 import { formatEventDateRange } from "@/types/event";
 import { EditableSpot } from "@/components/site-edit/EditableSpot";
+import RegistrationOpenHint from "@/components/events/RegistrationOpenHint";
 
 interface EventCardProps {
   event: Event;
@@ -34,14 +35,17 @@ export default function EventCard({ event }: EventCardProps) {
         </div>
       )}
       <div className="mb-3 flex items-center justify-between gap-2">
-        <span
-          className="rounded-full px-2.5 py-1 text-xs font-bold uppercase tracking-wide"
-          style={{
-            backgroundColor: isUpcoming ? "rgba(68, 137, 198, 0.12)" : "rgba(22, 61, 89, 0.1)",
-            color: isUpcoming ? "var(--regu-blue)" : "var(--regu-gray-600)",
-          }}
-        >
-          {isUpcoming ? t("pages.eventos.upcoming") : t("pages.eventos.past")}
+        <span className="flex flex-wrap items-center gap-1.5">
+          <span
+            className="rounded-full px-2.5 py-1 text-xs font-bold uppercase tracking-wide"
+            style={{
+              backgroundColor: isUpcoming ? "rgba(68, 137, 198, 0.12)" : "rgba(22, 61, 89, 0.1)",
+              color: isUpcoming ? "var(--regu-blue)" : "var(--regu-gray-600)",
+            }}
+          >
+            {isUpcoming ? t("pages.eventos.upcoming") : t("pages.eventos.past")}
+          </span>
+          {isUpcoming && hasRegistrationUrl ? <RegistrationOpenHint /> : null}
         </span>
         <span className="text-xs font-semibold tabular-nums" style={{ color: "var(--regu-gray-500)" }}>
           {event.year}

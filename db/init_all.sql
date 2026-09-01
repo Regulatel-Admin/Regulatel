@@ -69,6 +69,7 @@ CREATE TABLE IF NOT EXISTS documents (
   year TEXT,
   quarter TEXT,
   category TEXT NOT NULL,
+  cover_image TEXT,
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
@@ -250,4 +251,5 @@ ALTER TABLE events
 ALTER TABLE documents
   ADD COLUMN IF NOT EXISTS file_name TEXT,
   ADD COLUMN IF NOT EXISTS file_type TEXT,
-  ADD COLUMN IF NOT EXISTS file_size INTEGER;
+  ADD COLUMN IF NOT EXISTS file_size INTEGER,
+  ADD COLUMN IF NOT EXISTS cover_image TEXT;

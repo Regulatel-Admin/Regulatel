@@ -178,6 +178,11 @@ function LinkEditor({
             <Field label="Etiqueta" value={link.label} onChange={(label) => onChange({ ...link, label })} />
             <Field label="URL" value={link.href} onChange={(href) => onChange({ ...link, href })} placeholder="/pagina" />
           </div>
+          {link.href.startsWith("/pagina/") && (
+            <p className="text-[11px]" style={{ color: "var(--regu-gray-500)" }}>
+              Esta categoría tiene página propia. Ábrela en el sitio (modo editar) para rellenar la plantilla o usar el lienzo libre.
+            </p>
+          )}
           <Field
             label="Descripción"
             value={link.description ?? ""}
@@ -563,7 +568,9 @@ export default function AdminContentNavigation() {
         </h1>
         <p className="mt-1 max-w-3xl text-sm leading-relaxed" style={{ color: "var(--regu-gray-600)" }}>
           Edita el menú de arriba con fichas. Si dos personas cambian cosas distintas a la vez, al guardar se
-          juntan los dos cambios. Si las dos tocan lo mismo, se queda lo de quien pulsa Guardar.
+          juntan los dos cambios. Si las dos tocan lo mismo, se queda lo de quien pulsa Guardar. Para crear una
+          categoría nueva con página propia, entra a «Editar en el sitio», abre el desplegable (por ejemplo Recursos)
+          y pulsa + Añadir categoría.
         </p>
       </div>
 

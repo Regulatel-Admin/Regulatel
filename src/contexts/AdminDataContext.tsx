@@ -483,9 +483,15 @@ export function useMergedGestionDocuments(): GestionDocument[] {
     ctx?.contentSource !== "database"
       ? gestionDocuments
       : (() => {
+          const staticById = new Map(gestionDocuments.map((d) => [d.id, d]));
           const dbIds = new Set((ctx.adminDocuments ?? []).map((d) => d.id));
           const staticFiltered = gestionDocuments.filter((d) => !dbIds.has(d.id));
-          return [...staticFiltered, ...(ctx.adminDocuments ?? [])];
+          const fromDb = (ctx.adminDocuments ?? []).map((d) => {
+            const fallbackCover = staticById.get(d.id)?.coverImage;
+            if (!d.coverImage && fallbackCover) return { ...d, coverImage: fallbackCover };
+            return d;
+          });
+          return [...staticFiltered, ...fromDb];
         })();
   const withoutRevista = base.filter((d) => d.category !== "revista");
   const list = [...withoutRevista, ...revistas];

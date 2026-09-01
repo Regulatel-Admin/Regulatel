@@ -21,11 +21,54 @@ export interface FeaturedCarouselItem {
   location?: string;
   /** Posición del fondo (ej. "center top", "50% 25%") para mejorar el encuadre de la imagen. */
   imagePosition?: string;
+  /** `contain` muestra el afiche completo en el recuadro; `cover` recorta fotos. */
+  imageFit?: "cover" | "contain";
 }
 
 interface FeaturedCarouselProps {
   items: FeaturedCarouselItem[];
   autoplayIntervalMs?: number;
+}
+
+function resolveSlideFit(item: FeaturedCarouselItem): "cover" | "contain" {
+  if (isGraphicBanner(item)) return "cover";
+  return item.imageFit ?? "cover";
+}
+
+function isGraphicBanner(item: FeaturedCarouselItem): boolean {
+  const url = `${item.imageUrl} ${item.id}`;
+  return (
+    url.includes("carousel") ||
+    url.includes("cumbre-regulatel-ASIET") ||
+    url.includes("cumbre-regulatel-asiet-comtelca") ||
+    url.includes("cumbre-regulatel-prai") ||
+    item.id === "cumbre-punta-cana" ||
+    item.id === "cumbre-regulatel-prai-2025" ||
+    item.id === "regulatel-asiet-cartagena-dic-2024"
+  );
+}
+
+function slideImageUrl(item: FeaturedCarouselItem): string {
+  const url = item.imageUrl.split("?")[0];
+  if (url === "/images/cumbre-regulatel-ASIET.jpg") {
+    return "/images/cumbre-regulatel-ASIET.jpg?v=11";
+  }
+  if (
+    url === "/images/cumbre-regulatel-asiet-comtelca-2025.png" ||
+    url === "/images/cumbre-regulatel-asiet-comtelca-2025-carousel.jpg"
+  ) {
+    return "/images/cumbre-regulatel-asiet-comtelca-2025-carousel.jpg?v=13";
+  }
+  if (
+    url === "/images/cumbre-regulatel-prai-2025.jpg" ||
+    url === "/images/cumbre-regulatel-prai-2025-carousel.jpg"
+  ) {
+    return "/images/cumbre-regulatel-prai-2025-carousel.jpg?v=13";
+  }
+  if (url === "/images/cumbre-berec-cartagena-2026.jpg") {
+    return "/images/cumbre-berec-cartagena-2026.jpg?v=4";
+  }
+  return item.imageUrl;
 }
 
 export default function FeaturedCarousel({
@@ -90,30 +133,38 @@ export default function FeaturedCarousel({
   return (
     <section
       className="featuredCarousel relative w-full overflow-hidden"
-      style={{ minHeight: "380px", height: "clamp(380px, 46vh, 560px)" }}
+      style={{ minHeight: "380px", height: "clamp(380px, 46vh, 560px)", backgroundColor: "#000e32" }}
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
       aria-label={t("home.carousel.aria.carousel")}
     >
       {/* Slides con crossfade */}
-      {items.map((item, i) => (
+      {items.map((item, i) => {
+        const fit = resolveSlideFit(item);
+        return (
         <div
           key={item.id}
           className="absolute inset-0 transition-opacity duration-700 ease-in-out"
           style={{ opacity: i === activeIndex ? 1 : 0, zIndex: i === activeIndex ? 1 : 0 }}
         >
           <div
-            className="absolute inset-0 bg-cover"
+            className="absolute inset-0"
             style={{
-              backgroundImage: `url(${item.imageUrl})`,
-              backgroundPosition: item.imagePosition ?? "center",
-              filter: "brightness(0.78) saturate(0.88)",
+              backgroundColor: "#000e32",
+              backgroundImage: `url(${slideImageUrl(item)})`,
+              backgroundRepeat: "no-repeat",
+              backgroundSize: isGraphicBanner(item) ? "100% 100%" : fit === "contain" ? "contain" : "cover",
+              backgroundPosition: isGraphicBanner(item)
+                ? "center"
+                : item.imagePosition ?? (fit === "contain" ? "right center" : "center"),
+              filter: isGraphicBanner(item) ? "none" : "brightness(0.88) saturate(0.95)",
             }}
           />
         </div>
-      ))}
+        );
+      })}
 
-      {/* Mismo overlay que el slideshow del home: más protección izquierda para el texto, se desvanece hacia la derecha */}
+      {/* Overlay uniforme: oscurece detrás de la tarjeta y se desvanece hacia el afiche */}
       <div
         className="pointer-events-none absolute inset-0 z-[2]"
         style={{
@@ -254,21 +305,18 @@ export default function FeaturedCarousel({
           </div>
         </div>
         </EditableSpot>
-
-        {/* Botón ver imagen completa — a la derecha del card, uso institucional */}
-        <div className="ml-auto hidden flex-shrink-0 md:flex items-center">
-          <button
-            type="button"
-            onClick={() => setLightboxOpen(true)}
-            aria-label={t("home.carousel.aria.viewImage")}
-            className="inline-flex items-center gap-2 rounded-xl border-2 px-4 py-2.5 text-xs font-semibold uppercase tracking-[0.06em] transition-all hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
-            style={{ borderColor: "rgba(255,255,255,0.5)", color: "#fff" }}
-          >
-            <Expand className="h-4 w-4" aria-hidden />
-            {t("home.carousel.aria.viewImage")}
-          </button>
-        </div>
       </div>
+
+      <button
+        type="button"
+        onClick={() => setLightboxOpen(true)}
+        aria-label={t("home.carousel.aria.viewImage")}
+        className="absolute right-5 top-5 z-20 hidden items-center gap-2 rounded-xl border-2 px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.06em] transition-all hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white md:inline-flex"
+        style={{ borderColor: "rgba(255,255,255,0.45)", color: "#fff", backgroundColor: "rgba(10,28,48,0.35)" }}
+      >
+        <Expand className="h-3.5 w-3.5" aria-hidden />
+        {t("home.carousel.aria.viewImage")}
+      </button>
 
       {/* Lightbox: imagen de fondo completa */}
       {lightboxOpen && (
@@ -288,11 +336,11 @@ export default function FeaturedCarousel({
             <X className="h-5 w-5" />
           </button>
           <div
-            className="relative max-h-[90vh] w-full max-w-4xl"
+            className="relative max-h-[90vh] w-full max-w-[min(96vw,1600px)]"
             onClick={(e) => e.stopPropagation()}
           >
             <img
-              src={slide.imageUrl}
+              src={slideImageUrl(slide)}
               alt=""
               className="max-h-[90vh] w-full object-contain rounded-lg shadow-2xl"
               style={{ filter: "none" }}

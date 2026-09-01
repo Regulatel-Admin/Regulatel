@@ -26,5 +26,12 @@ export default {
       description:
         "Este terceiro boletim do GTAI reúne uma curadoria institucional de tendências e factos relevantes em matéria de Internet: cortes e restabelecimentos do serviço móvel em Moscovo, redes clandestinas com Starlink no Irão, bloqueios em Myanmar e Venezuela, desmentidos sobre restrições em Cuba, debates sobre direitos digitais, preços de banda larga na Europa, a proibição de redes sociais para menores de 16 anos no Reino Unido e melhorias de conectividade 5G em eventos de massa em Espanha. O seu propósito é apoiar o intercâmbio técnico entre reguladores da região REGULATEL.",
     },
+    "boletin-4-2026": {
+      title: "Boletim 4",
+      shortSummary:
+        "Notas sobre bloqueios da Internet, desinformação, IA generativa, proteção de menores nas redes e desconexão digital, com perspetiva comparada regional e internacional.",
+      description:
+        "Este quarto boletim do GTAI reúne uma curadoria institucional de tendências e factos relevantes em matéria de Internet: como as pessoas desafiam os bloqueios da rede de Myanmar à Venezuela, a desconfiança face às notícias em linha, o uso de imagens geradas por IA para desacreditar vítimas, restrições à inteligência artificial nas escolas da Noruega, incidentes de cibersegurança atribuídos a modelos da OpenAI, encargos imprevistos em compras online na UE, as jornadas laborais nas empresas de IA, a multa à Meta por segurança infantil e o debate sobre a desconexão digital. O seu propósito é apoiar o intercâmbio técnico entre reguladores da região REGULATEL.",
+    },
   },
 } as const;

@@ -1101,3 +1101,55 @@ body {
   margin: 0 auto 24px !important;
   background: #fff !important;
 }
+
+/* Habla El Regulador — apertura institucional al entrar en vista */
+@keyframes habla-sheen {
+  0% {
+    transform: translateX(-140%) skewX(-20deg);
+    opacity: 0;
+  }
+  18% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateX(230%) skewX(-20deg);
+    opacity: 0;
+  }
+}
+
+@keyframes habla-ring {
+  0% {
+    transform: scale(1);
+    opacity: 0.4;
+  }
+  100% {
+    transform: scale(1.58);
+    opacity: 0;
+  }
+}
+
+.habla-card-sheen {
+  animation: habla-sheen 1.6s cubic-bezier(0.16, 1, 0.3, 1) 0.52s 1 both;
+}
+
+.habla-play-ring {
+  position: absolute;
+  inset: -11px;
+  border-radius: 9999px;
+  border: 1px solid rgba(197, 220, 11, 0.42);
+  pointer-events: none;
+  animation: habla-ring 2.9s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+.habla-play-ring--delay {
+  animation-delay: 1.45s;
+  border-color: rgba(255, 255, 255, 0.28);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .habla-card-sheen,
+  .habla-play-ring,
+  .habla-play-ring--delay {
+    animation: none !important;
+  }
+}

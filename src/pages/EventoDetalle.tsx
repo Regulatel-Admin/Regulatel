@@ -8,6 +8,7 @@ import { Calendar, MapPin, Building2, ArrowRight, ArrowLeft, ExternalLink } from
 import { normalizeEvent } from "@/types/event";
 import { useLocalizedEvents, useLocalizedEvent } from "@/hooks/useLocalizedEvents";
 import { api } from "@/lib/api";
+import RegistrationOpenHint from "@/components/events/RegistrationOpenHint";
 
 export default function EventoDetalle() {
   const { t, i18n } = useTranslation();
@@ -108,6 +109,7 @@ export default function EventoDetalle() {
               >
                 {event.status === "upcoming" ? t("pages.eventos.upcoming") : t("pages.eventos.past")}
               </span>
+              {isUpcoming && hasRegistrationUrl ? <RegistrationOpenHint /> : null}
               <span className="text-xs font-semibold tabular-nums" style={{ color: "var(--regu-gray-500)" }}>
                 {event.year}
               </span>

@@ -1,9 +1,10 @@
 import { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { ChevronLeft, ChevronRight, Play, Pause } from "lucide-react";
+import { ArrowUpRight, CalendarDays, ChevronLeft, ChevronRight, MapPin, Pause, Play } from "lucide-react";
 import type { Event } from "@/types/event";
 import { formatEventDateRange } from "@/types/event";
+import RegistrationOpenHint from "@/components/events/RegistrationOpenHint";
 
 const EVENTS_IMAGE_FALLBACK = "/images/homepage/regulatel-portada.png";
 
@@ -17,11 +18,130 @@ function getFeaturedEvents(events: Event[]): Event[] {
   return [...upcoming].sort((a, b) => a.startDate.localeCompare(b.startDate)).slice(0, 8);
 }
 
+function FeaturedEventSlide({
+  event,
+  featured,
+  activeIndex,
+  onGoTo,
+}: {
+  event: Event;
+  featured: Event[];
+  activeIndex: number;
+  onGoTo: (index: number) => void;
+}) {
+  const { t, i18n } = useTranslation();
+  const hasRegistrationUrl = Boolean(event.registrationUrl?.trim());
+  const dateLabel = formatEventDateRange(event.startDate, event.endDate, i18n.language);
+
+  return (
+    <div
+      className="featuredEventsCard relative w-full max-w-[460px] overflow-hidden rounded-[22px] border border-white/14 shadow-[0_24px_60px_rgba(2,16,28,0.38)]"
+      style={{
+        background:
+          "linear-gradient(165deg, rgba(11,38,57,0.82) 0%, rgba(7,22,34,0.78) 58%, rgba(7,22,34,0.70) 100%)",
+        backdropFilter: "blur(18px)",
+        WebkitBackdropFilter: "blur(18px)",
+      }}
+    >
+      <div
+        className="absolute inset-x-0 top-0 h-px"
+        style={{
+          background:
+            "linear-gradient(90deg, transparent 4%, #c5dc0b 28%, rgba(68,137,198,0.85) 72%, transparent 96%)",
+        }}
+        aria-hidden
+      />
+
+      <div className="px-6 pb-7 pt-7 md:px-8 md:pb-8 md:pt-8">
+        <div className="mb-3.5 flex flex-wrap items-center gap-2">
+          <span className="inline-flex shrink-0 items-center gap-3">
+            <span className="h-[2px] w-8 rounded-full bg-[#c5dc0b]" aria-hidden />
+            <span className="text-[0.64rem] font-bold uppercase tracking-[0.22em] text-[#c5dc0b]">
+              {t("homeSections.upcomingBadge")}
+            </span>
+          </span>
+          {hasRegistrationUrl ? <RegistrationOpenHint variant="dark" /> : null}
+        </div>
+
+        <h2
+          className="line-clamp-3 text-[1.28rem] font-bold leading-[1.2] tracking-[-0.03em] text-white md:text-[1.42rem]"
+          style={{ fontFamily: "var(--token-font-heading)" }}
+        >
+          {event.title}
+        </h2>
+
+        {event.organizer ? (
+          <p className="mt-2 text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-white/42">
+            {event.organizer}
+          </p>
+        ) : null}
+
+        <div className="mt-3.5 flex flex-wrap items-center gap-x-3 gap-y-1.5 text-[0.72rem] font-medium text-white/62">
+          {event.location ? (
+            <span className="inline-flex items-center gap-1.5">
+              <MapPin className="h-3.5 w-3.5 text-[#c5dc0b]" aria-hidden />
+              {event.location}
+            </span>
+          ) : null}
+          {event.location && dateLabel ? (
+            <span className="h-1 w-1 rounded-full bg-white/30" aria-hidden />
+          ) : null}
+          {dateLabel ? (
+            <span className="inline-flex items-center gap-1.5">
+              <CalendarDays className="h-3.5 w-3.5 text-white/45" aria-hidden />
+              {dateLabel}
+            </span>
+          ) : null}
+        </div>
+
+        <div className="mt-5 flex flex-wrap items-center gap-2.5">
+          <Link
+            to={`/eventos/${event.id}`}
+            className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-[0.7rem] font-bold uppercase tracking-[0.12em] text-[var(--regu-navy)] transition hover:bg-[#c5dc0b] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8fc7f0] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0b2639]"
+          >
+            {t("pages.noticias.readMore")}
+            <ArrowUpRight className="h-3.5 w-3.5" aria-hidden />
+          </Link>
+          {hasRegistrationUrl ? (
+            <a
+              href={event.registrationUrl!}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-full border border-white/22 bg-white/8 px-5 py-2.5 text-[0.7rem] font-bold uppercase tracking-[0.12em] text-white transition hover:bg-white/16 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8fc7f0] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0b2639]"
+            >
+              {t("pages.eventos.register")}
+            </a>
+          ) : null}
+        </div>
+
+        {featured.length > 1 && (
+          <div className="mt-5 flex items-center gap-1.5" aria-label={t("homeSections.eventSlides")}>
+            {featured.slice(0, 8).map((ev, i) => (
+              <button
+                key={ev.id}
+                type="button"
+                aria-label={t("homeSections.eventNumber", { n: i + 1 })}
+                aria-current={i === activeIndex ? "true" : undefined}
+                className="h-1.5 rounded-full transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8fc7f0] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0b2639]"
+                style={{
+                  width: i === activeIndex ? "22px" : "6px",
+                  backgroundColor: i === activeIndex ? "#c5dc0b" : "rgba(255,255,255,0.28)",
+                }}
+                onClick={() => onGoTo(i)}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 export default function FeaturedEventsCarousel({
   events,
   autoplayIntervalMs = 7000,
 }: FeaturedEventsCarouselProps) {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const featured = getFeaturedEvents(events);
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
@@ -42,15 +162,18 @@ export default function FeaturedEventsCarousel({
 
   useEffect(() => {
     if (featured.length <= 1 || isPaused || isHovering) return;
-    const t = setInterval(() => goTo(activeIndex + 1), autoplayIntervalMs);
-    return () => clearInterval(t);
+    const timer = setInterval(() => goTo(activeIndex + 1), autoplayIntervalMs);
+    return () => clearInterval(timer);
   }, [activeIndex, isPaused, isHovering, featured.length, autoplayIntervalMs, goTo]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "ArrowLeft") prev();
       if (e.key === "ArrowRight") next();
-      if (e.key === " ") { e.preventDefault(); setIsPaused((p) => !p); }
+      if (e.key === " ") {
+        e.preventDefault();
+        setIsPaused((p) => !p);
+      }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
@@ -58,154 +181,74 @@ export default function FeaturedEventsCarousel({
 
   if (!featured.length) return null;
 
-  const event = featured[activeIndex];
-  const hasRegistrationUrl = Boolean(event.registrationUrl?.trim());
-  const dateLabel = formatEventDateRange(event.startDate, event.endDate, i18n.language);
-
   return (
     <section
-      className="featuredEvents relative w-full overflow-hidden"
-      style={{ minHeight: "300px", height: "clamp(300px, 40vh, 480px)" }}
+      className="featuredEvents relative w-full"
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
       aria-label={t("homeSections.featuredEvents")}
     >
-      {/* Crossfade entre slides */}
-      {featured.map((ev, i) => (
-        <div
-          key={ev.id}
-          className="absolute inset-0 transition-opacity duration-700 ease-in-out"
-          style={{ opacity: i === activeIndex ? 1 : 0, zIndex: i === activeIndex ? 1 : 0 }}
-        >
+      {/* Fondos recortados aparte: la tarjeta no se recorta con la franja */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
+        {featured.map((ev, i) => (
           <div
-            className="absolute inset-0 bg-cover bg-center"
-            style={{
-              backgroundImage: `url(${ev.imageUrl || EVENTS_IMAGE_FALLBACK})`,
-              filter: "brightness(0.75) saturate(0.85)",
-            }}
-          />
-        </div>
-      ))}
-
-      {/* Overlay navy institucional */}
-      <div
-        className="pointer-events-none absolute inset-0 z-[2]"
-        style={{
-          background:
-            "linear-gradient(105deg, rgba(22,61,89,0.65) 0%, rgba(22,61,89,0.32) 55%, rgba(0,0,0,0.06) 100%)",
-        }}
-        aria-hidden
-      />
-
-      {/* Layout */}
-      <div
-        className="relative z-10 mx-auto flex h-full w-full max-w-[1280px] items-center px-4 md:px-6 lg:px-10"
-        style={{ fontFamily: "var(--token-font-body)" }}
-      >
-        {/* Tarjeta institucional */}
-        <div
-          className="featuredEventsCard relative flex-shrink-0 overflow-hidden rounded-2xl bg-white shadow-[0_8px_32px_rgba(0,0,0,0.18),0_2px_8px_rgba(0,0,0,0.10)]"
-          style={{
-            width: "min(100%, 460px)",
-            borderLeft: "4px solid var(--regu-blue)",
-          }}
-        >
-          {/* Línea de gradiente superior */}
-          <div
-            className="absolute inset-x-0 top-0 h-[2px]"
-            style={{ background: "linear-gradient(90deg, var(--regu-blue), var(--regu-teal))" }}
-            aria-hidden
-          />
-
-          <div className="p-6 md:p-7">
-            {/* Badges */}
-            <div className="flex flex-wrap items-center gap-2">
-              <span
-                className="inline-block rounded-sm px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.10em]"
-                style={{ backgroundColor: "rgba(68,137,198,0.10)", color: "var(--regu-blue)" }}
-              >
-                {t("homeSections.upcomingBadge")}
-              </span>
-              <span
-                className="text-xs font-semibold uppercase tracking-[0.08em]"
-                style={{ color: "var(--regu-gray-500)" }}
-              >
-                {event.location}
-              </span>
-              <span style={{ color: "var(--regu-gray-300)", fontSize: "10px" }}>·</span>
-              <span
-                className="text-xs font-semibold"
-                style={{ color: "var(--regu-gray-500)" }}
-              >
-                {dateLabel}
-              </span>
-            </div>
-
-            {/* Título */}
-            <h2
-              className="mt-3 line-clamp-3 font-bold leading-snug"
+            key={ev.id}
+            className="absolute inset-0 transition-opacity duration-700 ease-in-out"
+            style={{ opacity: i === activeIndex ? 1 : 0 }}
+          >
+            <div
+              className="absolute inset-0 bg-cover bg-center"
               style={{
-                fontFamily: "var(--token-font-heading)",
-                fontSize: "clamp(1.05rem, 1.7vw, 1.35rem)",
-                color: "var(--regu-gray-900)",
+                backgroundImage: `url(${ev.imageUrl || EVENTS_IMAGE_FALLBACK})`,
+                filter: "brightness(0.75) saturate(0.85)",
               }}
-            >
-              {event.title}
-            </h2>
-
-            {/* Organizador */}
-            <p className="mt-1.5 text-xs" style={{ color: "var(--regu-gray-500)" }}>
-              {event.organizer}
-            </p>
-
-            {/* CTAs */}
-            <div className="mt-5 flex flex-wrap items-center gap-2.5">
-              <Link
-                to={`/eventos/${event.id}`}
-                className="inline-flex items-center justify-center rounded-lg px-4 py-2 text-xs font-bold uppercase tracking-[0.08em] text-white transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2"
-                style={{ backgroundColor: "var(--regu-blue)" }}
-              >
-                {t("pages.noticias.readMore")}
-              </Link>
-              {hasRegistrationUrl ? (
-                <a
-                  href={event.registrationUrl!}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center rounded-lg border px-4 py-2 text-xs font-bold uppercase tracking-[0.08em] transition hover:bg-[var(--regu-navy)] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-navy)] focus-visible:ring-offset-2"
-                  style={{ borderColor: "var(--regu-navy)", color: "var(--regu-navy)" }}
-                >
-                  {t("pages.eventos.register")}
-                </a>
-              ) : (
-                <span className="text-xs font-medium text-[var(--regu-gray-500)]">{t("homeSections.toBeDefined")}</span>
-              )}
-            </div>
-
-            {/* Dots */}
-            {featured.length > 1 && (
-              <div className="mt-5 flex items-center gap-1.5" aria-label={t("homeSections.eventSlides")}>
-                {featured.slice(0, 8).map((ev, i) => (
-                  <button
-                    key={ev.id}
-                    type="button"
-                    aria-label={t("homeSections.eventNumber", { n: i + 1 })}
-                    aria-current={i === activeIndex ? "true" : undefined}
-                    className="h-1 rounded-full transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2"
-                    style={{
-                      width: i === activeIndex ? "24px" : "6px",
-                      backgroundColor: i === activeIndex ? "var(--regu-blue)" : "rgba(22,61,89,0.18)",
-                    }}
-                    onClick={() => setActiveIndex(i)}
-                  />
-                ))}
-              </div>
-            )}
+            />
           </div>
-        </div>
+        ))}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(105deg, rgba(22,61,89,0.65) 0%, rgba(22,61,89,0.32) 55%, rgba(0,0,0,0.06) 100%)",
+          }}
+        />
+        <div
+          className="absolute inset-x-0 top-0 h-24 md:h-28"
+          style={{
+            background:
+              "linear-gradient(to bottom, var(--regu-navy-deep) 0%, rgba(5,19,41,0.72) 38%, transparent 100%)",
+          }}
+        />
       </div>
 
-      {/* Controles — pill translúcido */}
+      {/* Todas las tarjetas en la misma celda: la altura es la de la más alta (PP-26) */}
+      <div
+        className="relative z-10 mx-auto grid w-full max-w-[1280px] px-4 py-14 md:px-6 md:py-16 lg:px-10 lg:py-20"
+        style={{ fontFamily: "var(--token-font-body)" }}
+      >
+        {featured.map((ev, i) => {
+          const isActive = i === activeIndex;
+          return (
+            <div
+              key={ev.id}
+              className="col-start-1 row-start-1 flex items-center"
+              style={{
+                visibility: isActive ? "visible" : "hidden",
+              }}
+              aria-hidden={!isActive}
+              inert={!isActive ? true : undefined}
+            >
+              <FeaturedEventSlide
+                event={ev}
+                featured={featured}
+                activeIndex={activeIndex}
+                onGoTo={setActiveIndex}
+              />
+            </div>
+          );
+        })}
+      </div>
+
       {featured.length > 1 && (
         <div
           className="absolute bottom-5 right-5 z-20 flex items-center gap-0.5 rounded-xl border border-white/20 bg-black/25 px-1 py-1 backdrop-blur-sm"

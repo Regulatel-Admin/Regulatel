@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { ExternalLink, Lock } from "lucide-react";
 import type { NavigationColumn, NavigationItemLink } from "@/data/navigation";
+import { MegaAddCategoryButton, MegaAddColumnButton } from "@/components/site-edit/AddCategoryDialog";
 
 interface NavMegaPanelProps {
   panelId: string;
@@ -8,6 +9,10 @@ interface NavMegaPanelProps {
   columns: NavigationColumn[];
   isOpen: boolean;
   onLinkClick: () => void;
+  editMode?: boolean;
+  draftHrefs?: Set<string>;
+  onAddCategory?: (columnIndex: number, columnTitle: string) => void;
+  onAddColumn?: () => void;
 }
 
 /**
@@ -17,10 +22,12 @@ function PanelLink({
   link,
   onLinkClick,
   variant = "default",
+  draft,
 }: {
   link: NavigationItemLink;
   onLinkClick: () => void;
   variant?: "category" | "child" | "default";
+  draft?: boolean;
 }) {
   const baseClass =
     "mega-menu-link block transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-[var(--token-accent)]";
@@ -93,6 +100,11 @@ function PanelLink({
     <>
       <Link to={link.href} onClick={onLinkClick} className={className} style={style}>
         {link.label}
+        {draft && (
+          <span className="ml-1.5 align-middle rounded-full bg-amber-100 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wide text-amber-800">
+            Borrador
+          </span>
+        )}
       </Link>
       {description}
     </>
@@ -109,7 +121,13 @@ export default function NavMegaPanel({
   columns,
   isOpen,
   onLinkClick,
+  editMode,
+  draftHrefs,
+  onAddCategory,
+  onAddColumn,
 }: NavMegaPanelProps) {
+  const showAddColumn = Boolean(editMode && onAddColumn);
+  const colCount = columns.length + (showAddColumn ? 1 : 0);
   return (
     <div
       id={panelId}
@@ -131,7 +149,7 @@ export default function NavMegaPanel({
       <div
         className="w-full mx-auto"
         style={{
-          maxWidth: columns.length === 2 ? "720px" : "var(--mega-wrapper-max)",
+          maxWidth: colCount <= 2 ? "720px" : "var(--mega-wrapper-max)",
           paddingTop: "var(--mega-padding-y-top)",
           paddingBottom: "var(--mega-padding-y-bottom)",
           paddingLeft: "var(--mega-padding-x)",
@@ -143,19 +161,19 @@ export default function NavMegaPanel({
           style={{
             display: "grid",
             gridTemplateColumns:
-              columns.length === 3
+              colCount === 3
                 ? "1fr 1fr 1fr"
-                : columns.length === 2
+                : colCount === 2
                   ? "1fr 1fr"
-                  : `repeat(${columns.length}, 1fr)`,
+                  : `repeat(${Math.max(colCount, 1)}, 1fr)`,
             columnGap: "var(--mega-column-gap)",
             alignItems: "stretch",
           }}
         >
         {columns.map((column, index) => (
           <div
-            key={column.title}
-            className={`min-w-0 flex flex-col ${index === columns.length - 1 && columns.length === 3 ? "mega-panel-col-last" : ""}`}
+            key={column.uid || `${column.title}-${index}`}
+            className={`min-w-0 flex flex-col ${index === columns.length - 1 && colCount === 3 ? "mega-panel-col-last" : ""}`}
             style={{
               paddingLeft: "var(--mega-col-padding-inline)",
               paddingRight: "var(--mega-col-padding-inline)",
@@ -172,9 +190,9 @@ export default function NavMegaPanel({
               {column.title}
             </h3>
             <ul className="mega-panel-links list-none p-0" style={{ margin: 0 }}>
-              {column.links.map((link) => (
+              {column.links.map((link, linkIndex) => (
                 <li
-                  key={link.label}
+                  key={link.uid || `${link.href}-${link.label}-${linkIndex}`}
                   className={link.description ? "mega-panel-link-has-desc" : ""}
                   style={{ margin: 0 }}
                 >
@@ -182,6 +200,7 @@ export default function NavMegaPanel({
                     link={link}
                     onLinkClick={onLinkClick}
                     variant={link.children?.length ? "category" : "default"}
+                    draft={draftHrefs?.has(link.href.split("?")[0])}
                   />
                   {link.subtitle && !link.description && (
                     <span className="mega-panel-secondary mt-1.5 block">
@@ -274,8 +293,23 @@ export default function NavMegaPanel({
                 </li>
               ))}
             </ul>
+            {editMode && onAddCategory && (
+              <MegaAddCategoryButton onClick={() => onAddCategory(index, column.title)} />
+            )}
           </div>
         ))}
+        {showAddColumn && (
+          <div
+            className="flex min-w-0 flex-col justify-center"
+            style={{
+              paddingLeft: "var(--mega-col-padding-inline)",
+              paddingRight: "var(--mega-col-padding-inline)",
+              borderLeft: columns.length ? "1px solid rgba(22,61,89,0.08)" : "none",
+            }}
+          >
+            <MegaAddColumnButton onClick={onAddColumn!} />
+          </div>
+        )}
         </div>
       </div>
     </div>

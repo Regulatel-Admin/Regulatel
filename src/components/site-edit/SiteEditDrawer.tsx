@@ -7,9 +7,11 @@ import { useAdminData, type AdminNewsItem } from "@/contexts/AdminDataContext";
 import { api } from "@/lib/api";
 import { notifyCmsSaved, cloneJson, type SiteEditTarget } from "@/lib/siteEdit";
 import { slugify } from "@/lib/slugify";
+import { isPdfDocument } from "@/lib/documentPreview";
 import { useDraftHistory } from "@/hooks/useDraftHistory";
 import { usePreviewSync } from "@/hooks/usePreviewSync";
 import { AdminBlobUploadField } from "@/components/admin/AdminBlobUploadField";
+import { PdfCoverPicker } from "@/components/admin/PdfCoverPicker";
 import AdminSlideshowField from "@/components/admin/AdminSlideshowField";
 import { NotifySubscribersButton } from "@/components/admin/NotifySubscribersOption";
 import type { SubscriberNotifyPayload } from "@/lib/notifySubscribers";
@@ -24,7 +26,7 @@ import {
 } from "@/data/boletinesGtai";
 import {
   REVISTA_DIGITAL_SETTINGS_KEY,
-  defaultRevistaEditions,
+  mergeRevistaDigitalWithDefaults,
   sortRevistaEditions,
   type RevistaEdition,
 } from "@/data/revistaDigital";
@@ -37,6 +39,7 @@ import { GrupoForm } from "@/components/site-edit/GrupoEditForm";
 import { AutoridadForm, ComiteFuncionesForm, ComiteLogoForm } from "@/components/site-edit/OrganizacionEditForms";
 import { AlbumForm, ConvenioForm, EntrevistaForm, EstudioForm } from "@/components/site-edit/RecursosEditForms";
 import { EventoForm } from "@/components/site-edit/EventoEditForm";
+import { CustomPageTemplateForm } from "@/components/site-edit/CustomPageTemplateForm";
 import { noticiasData } from "@/pages/noticiasData";
 import {
   GESTION_TAB_LABELS,
@@ -126,6 +129,8 @@ function drawerTitle(target: SiteEditTarget): string {
       return target.slug ? "Esta entrevista" : "Nueva entrevista";
     case "evento":
       return target.id ? "Este evento" : "Nuevo evento";
+    case "custom-page":
+      return "Contenido de la categoría";
     case "panel":
       return target.label;
   }
@@ -227,6 +232,9 @@ export function SiteEditDrawer() {
         )}
         {target.kind === "evento" && (
           <EventoForm key={target.id ?? "new-evento"} id={target.id} />
+        )}
+        {target.kind === "custom-page" && (
+          <CustomPageTemplateForm key={target.slug} slug={target.slug} />
         )}
         {target.kind === "panel" && <PanelFallback path={target.path} label={target.label} onLeave={exit} />}
       </div>
@@ -834,6 +842,7 @@ function CumbreForm({ id }: { id: string }) {
     ctaPrimaryLabel: item.ctaPrimaryLabel,
     location: item.location,
     imagePosition: item.imagePosition,
+    imageFit: item.imageFit,
     active: true,
   }));
   const { value: items, setValue: setItems } = useDraftHistory<FeaturedCarouselItemSetting[]>(
@@ -929,7 +938,7 @@ function RevistaForm({ id }: { id?: string }) {
   const { revistaDigital, refetch } = useSiteSettings();
   const recordSettings = useRecordSettingsChange();
   const { clearPreview, preview } = useSiteEdit();
-  const sourceList = preview.revista ?? revistaDigital ?? defaultRevistaEditions;
+  const sourceList = preview.revista ?? mergeRevistaDigitalWithDefaults(revistaDigital);
   const { value: row, setValue: setRow, reset } = useDraftHistory<RevistaEdition>(() => {
     const found = id ? sourceList.find((e) => e.id === id) : undefined;
     return found
@@ -1002,8 +1011,9 @@ function RevistaForm({ id }: { id?: string }) {
       quarter: row.quarter?.trim() || undefined,
       description: row.description?.trim() || undefined,
       coverEdition: row.coverEdition?.trim() || undefined,
+      coverImage: row.coverImage?.trim() || undefined,
     };
-    const beforeList = (revistaDigital ?? defaultRevistaEditions).map((e) => ({ ...e }));
+    const beforeList = mergeRevistaDigitalWithDefaults(revistaDigital).map((e) => ({ ...e }));
     let list = allEntries.map((e) => ({ ...e }));
     const idx = list.findIndex((e) => e.id === prepared.id);
     if (idx >= 0) list[idx] = prepared;
@@ -1093,9 +1103,14 @@ function RevistaForm({ id }: { id?: string }) {
       <AdminBlobUploadField
         label="PDF"
         value={row.url}
-        onChange={(url) => setRow({ ...row, url })}
+        onChange={(url) => setRow({ ...row, url, ...(url.trim() ? {} : { coverImage: undefined }) })}
         kind="document"
         folder="documents"
+      />
+      <PdfCoverPicker
+        pdfUrl={row.url}
+        coverUrl={row.coverImage}
+        onCoverChange={(coverImage) => setRow({ ...row, coverImage: coverImage || undefined })}
       />
       <div className="flex flex-wrap gap-2">
         <button
@@ -1244,6 +1259,7 @@ function DocumentoForm({
       year: row.year?.trim() || undefined,
       quarter: row.quarter?.trim() || undefined,
       category: uploadableCategory(row.category),
+      coverImage: row.coverImage?.trim() || undefined,
     };
     setSaving(true);
     setError(null);
@@ -1272,6 +1288,7 @@ function DocumentoForm({
           year: existing.year,
           quarter: existing.quarter,
           category: uploadableCategory(existing.category),
+          coverImage: existing.coverImage,
         };
         await updateDocument(row.id, payload);
         recordPersistedChange({
@@ -1384,12 +1401,21 @@ function DocumentoForm({
             fileName: url ? fileNameFromUrl(url) : undefined,
             fileType: undefined,
             fileSize: undefined,
+            ...(url.trim() ? {} : { coverImage: undefined }),
           })
         }
         kind="document"
         folder="documents"
         helpText="Sube el archivo, o pega un enlace si ya está publicado."
       />
+      {isPdfDocument(row.url, row.fileType, row.fileName) ? (
+        <PdfCoverPicker
+          pdfUrl={row.url}
+          coverUrl={row.coverImage}
+          onCoverChange={(coverImage) => setRow({ ...row, coverImage: coverImage || undefined })}
+          usageHint="Así se ve en la ficha de Gestión."
+        />
+      ) : null}
       <PublishBar saving={saving} error={error} published={published} onPublish={() => void save()} />
     </div>
   );

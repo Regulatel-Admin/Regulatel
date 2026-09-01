@@ -30,6 +30,7 @@ export interface FeaturedCarouselItemSetting {
   ctaPrimaryLabel?: string;
   location?: string;
   imagePosition?: string;
+  imageFit?: "cover" | "contain";
   active?: boolean;
 }
 

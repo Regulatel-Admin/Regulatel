@@ -70,6 +70,9 @@ export default defineConfig(() => {
         '@': path.resolve(__dirname, './src'),
       },
     },
+    optimizeDeps: {
+      include: ['pdfjs-dist'],
+    },
     ssr: {
       external: ['bcryptjs', 'postgres', 'resend', '@vercel/blob'],
     },

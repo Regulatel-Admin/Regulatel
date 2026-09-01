@@ -15,6 +15,7 @@ import {
   sortBoletinesByDateDesc,
 } from "@/data/boletinesGtai";
 import { SiteEditBadge } from "@/components/site-edit/EditableSpot";
+import CoverPreviewTrigger from "@/components/home/CoverPreviewTrigger";
 import { useSiteEdit } from "@/contexts/SiteEditContext";
 
 const STORAGE_KEY = "regulatel_home_boletin_gtai_dismissed_at";
@@ -47,7 +48,18 @@ function shouldShowAnnouncement(): boolean {
   }
 }
 
-function GtaiCoverMini({ issue, bulletinLabel }: { issue: number; bulletinLabel: string }) {
+function GtaiCoverMini({
+  issue,
+  bulletinLabel,
+  coverImage,
+}: {
+  issue: number;
+  bulletinLabel: string;
+  coverImage?: string;
+}) {
+  const [imageFailed, setImageFailed] = useState(false);
+  const showPhoto = Boolean(coverImage) && !imageFailed;
+
   return (
     <div
       className="relative shrink-0 overflow-hidden rounded-[2px] select-none"
@@ -60,38 +72,57 @@ function GtaiCoverMini({ issue, bulletinLabel }: { issue: number; bulletinLabel:
       }}
       aria-hidden
     >
-      <div
-        className="absolute left-0 top-0 bottom-0 w-0.5"
-        style={{
-          background: "linear-gradient(180deg, rgba(68,137,198,0.95) 0%, rgba(68,137,198,0.45) 100%)",
-        }}
-      />
-      <div
-        className="absolute -right-3 -top-5 h-14 w-14 rounded-full opacity-[0.12]"
-        style={{ background: "var(--regu-blue)" }}
-      />
-      <div className="relative flex h-full flex-col justify-between p-[0.4rem] pl-[0.45rem] pt-[0.4rem]">
-        <p
-          className="text-[5px] font-bold uppercase leading-tight tracking-[0.18em] text-white/85"
-          style={{ fontFamily: "var(--token-font-body)" }}
-        >
-          GTAI
-        </p>
-        <div>
-          <p
-            className="text-[1.05rem] font-semibold leading-none tracking-tight text-white"
-            style={{ fontFamily: "var(--token-font-heading)" }}
-          >
-            {String(issue).padStart(2, "0")}
-          </p>
-          <p
-            className="mt-[0.15rem] text-[6px] font-medium uppercase tracking-[0.14em] text-white/45"
-            style={{ fontFamily: "var(--token-font-body)" }}
-          >
-            {bulletinLabel}
-          </p>
-        </div>
-      </div>
+      {showPhoto ? (
+        <>
+          <img
+            src={coverImage}
+            alt=""
+            className="absolute inset-0 h-full w-full object-cover"
+            onError={() => setImageFailed(true)}
+          />
+          <span
+            className="pointer-events-none absolute inset-y-0 left-0 w-[3px]"
+            style={{
+              background: "linear-gradient(90deg, rgba(8,18,28,0.28) 0%, rgba(8,18,28,0.04) 100%)",
+            }}
+          />
+        </>
+      ) : (
+        <>
+          <div
+            className="absolute left-0 top-0 bottom-0 w-0.5"
+            style={{
+              background: "linear-gradient(180deg, rgba(68,137,198,0.95) 0%, rgba(68,137,198,0.45) 100%)",
+            }}
+          />
+          <div
+            className="absolute -right-3 -top-5 h-14 w-14 rounded-full opacity-[0.12]"
+            style={{ background: "var(--regu-blue)" }}
+          />
+          <div className="relative flex h-full flex-col justify-between p-[0.4rem] pl-[0.45rem] pt-[0.4rem]">
+            <p
+              className="text-[5px] font-bold uppercase leading-tight tracking-[0.18em] text-white/85"
+              style={{ fontFamily: "var(--token-font-body)" }}
+            >
+              GTAI
+            </p>
+            <div>
+              <p
+                className="text-[1.05rem] font-semibold leading-none tracking-tight text-white"
+                style={{ fontFamily: "var(--token-font-heading)" }}
+              >
+                {String(issue).padStart(2, "0")}
+              </p>
+              <p
+                className="mt-[0.15rem] text-[6px] font-medium uppercase tracking-[0.14em] text-white/45"
+                style={{ fontFamily: "var(--token-font-body)" }}
+              >
+                {bulletinLabel}
+              </p>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 }
@@ -173,7 +204,13 @@ export default function HomeBoletinGtaiAnnouncement() {
 
       <div className="heroAnnouncePad px-3.5 pb-3 pt-3.5 pr-9 sm:px-[0.9rem] sm:pb-[0.85rem] sm:pt-[0.95rem] sm:pr-9">
         <div className="flex gap-2.5">
-          <GtaiCoverMini issue={featured.issueNumber} bulletinLabel={t("homeSections.bulletinLabel")} />
+          <CoverPreviewTrigger url={featured.pdfFile} title={`${featured.title} · ${featured.year}`}>
+            <GtaiCoverMini
+              issue={featured.issueNumber}
+              bulletinLabel={t("homeSections.bulletinLabel")}
+              coverImage={featured.coverImage}
+            />
+          </CoverPreviewTrigger>
 
           <div className="min-w-0 flex-1 pt-[1px]">
             <p

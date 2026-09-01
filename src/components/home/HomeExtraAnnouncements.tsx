@@ -20,6 +20,7 @@ import { api } from "@/lib/api";
 import { notifyCmsSaved, cloneJson } from "@/lib/siteEdit";
 import HomeBoletinGtaiAnnouncement from "./HomeBoletinGtaiAnnouncement";
 import HomeRevistaAnnouncement from "./HomeRevistaAnnouncement";
+import CoverPreviewTrigger from "./CoverPreviewTrigger";
 import {
   HOME_AVISO_KIND_META,
   HOME_AVISO_MAX,
@@ -77,6 +78,8 @@ type ResolvedAviso = {
   cover: ReactNode;
   meta?: string;
   external?: boolean;
+  /** PDF de revista/boletín: clic en la miniatura abre visor en la misma página. */
+  previewUrl?: string;
 };
 
 function TypographicCover({ kicker, line, sub }: { kicker: string; line: string; sub: string }) {
@@ -178,7 +181,12 @@ function resolveAviso(
       moreHref: GESTION_REVISTA_ARCHIVE_PATH,
       meta: [item.year, item.coverEdition || item.quarter].filter(Boolean).join(" · "),
       external: href.startsWith("http"),
-      cover: <TypographicCover kicker="Revista" line={item.year} sub={item.coverEdition || "REGULATEL"} />,
+      previewUrl: item.url,
+      cover: item.coverImage ? (
+        <ImageCover src={item.coverImage} alt="" />
+      ) : (
+        <TypographicCover kicker="Revista" line={item.year} sub={item.coverEdition || "REGULATEL"} />
+      ),
     };
   }
   if (slot.kind === "boletin") {
@@ -191,6 +199,7 @@ function resolveAviso(
       href: `${BOLETINES_GTAI_LIST_PATH}/${item.slug}`,
       moreHref: BOLETINES_GTAI_LIST_PATH,
       meta: `${item.year} · Nº ${item.issueNumber}`,
+      previewUrl: item.pdfFile,
       cover: item.coverImage ? (
         <ImageCover src={item.coverImage} alt="" />
       ) : (
@@ -292,7 +301,9 @@ function HomeAvisoCard({ slot }: { slot: HomeAvisoSlot }) {
       </button>
       <div className="heroAnnouncePad px-3.5 pb-3 pt-3.5 pr-9 sm:px-[0.9rem] sm:pb-[0.85rem] sm:pt-[0.95rem] sm:pr-9">
         <div className="flex gap-2.5">
-          {resolved.cover}
+          <CoverPreviewTrigger url={resolved.previewUrl} title={resolved.title}>
+            {resolved.cover}
+          </CoverPreviewTrigger>
           <div className="min-w-0 flex-1 pt-[1px]">
             <p
               className="text-[8px] font-semibold uppercase leading-none tracking-[0.22em] text-[var(--regu-blue)]"

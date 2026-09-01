@@ -362,6 +362,27 @@ function ArticleBody({ payload, isStaticCumbre }: { payload: ArticlePayload; isS
         </div>
       )}
 
+      {payload.slug === "webinar-violencia-digital-rol-entes-reguladores" && (
+        <Link
+          to="/violencia-digital"
+          className="mt-8 flex items-center justify-between gap-4 rounded-2xl border px-5 py-4 transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)]"
+          style={{
+            borderColor: "rgba(22,61,89,0.12)",
+            backgroundColor: "rgba(68,137,198,0.06)",
+          }}
+        >
+          <span>
+            <span className="block text-[0.68rem] font-bold uppercase tracking-[0.14em]" style={{ color: "var(--regu-blue)" }}>
+              {t("nav.columns.knowledge")}
+            </span>
+            <span className="mt-1 block text-base font-bold" style={{ color: "var(--regu-navy)" }}>
+              {t("pages.violenciaDigital.newsCta")}
+            </span>
+          </span>
+          <ArrowRight className="h-5 w-5 shrink-0" style={{ color: "var(--regu-blue)" }} aria-hidden />
+        </Link>
+      )}
+
       {/* Embedded video at end of article */}
       {payload.videoUrl?.startsWith("/") && (
         <ArticleEndVideo

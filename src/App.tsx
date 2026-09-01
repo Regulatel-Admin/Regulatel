@@ -33,6 +33,7 @@ import AdminContentCumbres from '@/pages/admin/content/AdminContentCumbres';
 import AdminContentGaleria from '@/pages/admin/content/AdminContentGaleria';
 import AdminContentAccesos from '@/pages/admin/content/AdminContentAccesos';
 import AdminContentNavigation from '@/pages/admin/content/AdminContentNavigation';
+import AdminContentPaginas from '@/pages/admin/content/AdminContentPaginas';
 import AdminMedia from '@/pages/admin/AdminMedia';
 import Home from '@/pages/Home';
 import Autoridades from '@/pages/Autoridades';
@@ -65,10 +66,12 @@ import Unsubscribe from '@/pages/Unsubscribe';
 import CanalYouTube from '@/pages/CanalYouTube';
 import DeclaracionPrivacidad from '@/pages/DeclaracionPrivacidad';
 import HablaElRegulador from '@/pages/HablaElRegulador';
+import ViolenciaDigital from '@/pages/ViolenciaDigital';
 import QueSomos from '@/pages/quienes-somos/QueSomos';
 import VisionMision from '@/pages/quienes-somos/VisionMision';
 import ObjetivosYFunciones from '@/pages/quienes-somos/ObjetivosYFunciones';
 import ProtocolosYProcedimientos from '@/pages/quienes-somos/ProtocolosYProcedimientos';
+import CustomPageView from '@/pages/CustomPage';
 import NotFound from '@/pages/NotFound';
 
 function App() {
@@ -87,6 +90,7 @@ function App() {
               <Route path="content/galeria" element={<AdminContentGaleria />} />
               <Route path="content/accesos" element={<AdminContentAccesos />} />
               <Route path="content/navigation" element={<AdminContentNavigation />} />
+              <Route path="content/paginas" element={<AdminContentPaginas />} />
               <Route path="media" element={<AdminMedia />} />
               <Route path="noticias" element={<AdminNoticias />} />
               <Route path="eventos" element={<AdminEventos />} />
@@ -142,7 +146,9 @@ function App() {
               <Route path="/unsubscribe" element={<Unsubscribe />} />
               <Route path="/canal-youtube" element={<CanalYouTube />} />
               <Route path="/habla-el-regulador" element={<HablaElRegulador />} />
+              <Route path="/violencia-digital" element={<ViolenciaDigital />} />
               <Route path="/declaracion-de-privacidad" element={<DeclaracionPrivacidad />} />
+              <Route path="/pagina/:slug" element={<CustomPageView />} />
               <Route path="/pendiente/:slug" element={<TodoPlaceholder />} />
               {/* Ficha de cada ente: /enacom, /siget, o la ruta que indiquen en el CMS */}
               <Route path="/:slug" element={<EnteRegulador />} />

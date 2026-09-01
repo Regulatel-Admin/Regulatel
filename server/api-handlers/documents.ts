@@ -59,6 +59,7 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
         const year = typeof body.year === "string" ? body.year : undefined;
         const quarter = typeof body.quarter === "string" ? body.quarter : undefined;
         const category = typeof body.category === "string" ? body.category : "otros";
+        const coverImage = typeof body.coverImage === "string" ? body.coverImage : undefined;
         const item = await createDocument({
           id: newId,
           title,
@@ -69,6 +70,7 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
           year,
           quarter,
           category,
+          coverImage,
         });
         await logAudit({
           userId: auth.user.id,
@@ -108,6 +110,7 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
         year: typeof body.year === "string" ? body.year : undefined,
         quarter: typeof body.quarter === "string" ? body.quarter : undefined,
         category: typeof body.category === "string" ? body.category : undefined,
+        coverImage: typeof body.coverImage === "string" ? body.coverImage : undefined,
       });
       if (!item) {
         sendJson(res, 404, { error: "Not found" });

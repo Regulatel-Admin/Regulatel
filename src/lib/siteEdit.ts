@@ -21,6 +21,7 @@ export type SiteEditTarget =
   | { kind: "estudio"; id?: string }
   | { kind: "entrevista"; slug?: string }
   | { kind: "evento"; id?: string }
+  | { kind: "custom-page"; slug: string }
   | { kind: "panel"; path: string; label: string };
 
 export function notifyCmsSaved(key?: string) {
@@ -45,6 +46,7 @@ export function adminPathForPublic(pathname: string, search = ""): string | null
   if (pathname.startsWith("/micrositio-buenas-practicas")) return "/admin/buenas-practicas";
   if (pathname.startsWith("/estudios-e-investigacion")) return "/admin/documentos";
   if (pathname.startsWith("/habla-el-regulador")) return "/admin";
+  if (pathname.startsWith("/pagina/")) return "/admin/content/paginas";
   if (pathname === "/gestion" || pathname === "/recursos") {
     if (search.includes("tipo=revista")) return "/admin/revista";
     return "/admin/documentos";
@@ -69,5 +71,6 @@ export function publicPathForAdmin(adminPath: string): string {
   if (adminPath.startsWith("/admin/comite-ejecutivo")) return "/comite-ejecutivo";
   if (adminPath.startsWith("/admin/buenas-practicas")) return "/micrositio-buenas-practicas";
   if (adminPath.startsWith("/admin/cifras")) return "/";
+  if (adminPath.startsWith("/admin/content/paginas")) return "/";
   return "/";
 }

@@ -24,7 +24,7 @@ import { defaultDirectorioAutoridades, parseDirectorioFromSettingValue, stampDir
 import type { BuenasPracticasRegulatoriasSetting } from "@/data/mejoresPracticas";
 import { parseBuenasPracticasRegulatoriasFromSettingValue } from "@/data/mejoresPracticas";
 import type { RevistaEdition } from "@/data/revistaDigital";
-import { defaultRevistaEditions, parseRevistaDigitalFromSettingValue } from "@/data/revistaDigital";
+import { mergeRevistaDigitalWithDefaults, parseRevistaDigitalFromSettingValue } from "@/data/revistaDigital";
 import type { HomeAvisoSlot } from "@/data/homeAnnouncements";
 import { mergeHomeAnnouncements, parseHomeAnnouncementsFromSettingValue, parseHeroAnnounceOrder, visibleHomeAvisos } from "@/data/homeAnnouncements";
 import type { GrupoTrabajoSerialized } from "@/data/gruposTrabajo";
@@ -47,6 +47,8 @@ import {
 } from "@/data/hablaElRegulador";
 import { CMS_SAVED_EVENT } from "@/lib/siteEdit";
 import { useSiteEdit } from "@/contexts/SiteEditContext";
+import type { CustomPage } from "@/data/customPages";
+import { parseCustomPagesFromSettingValue } from "@/data/customPages";
 
 export interface SiteSettingsState {
   homeHero: HomeHeroSetting | null;
@@ -68,6 +70,7 @@ export interface SiteSettingsState {
   comiteEjecutivo: ComiteEjecutivoCmsDocument | null;
   estudiosInvestigacion: EstudioInvestigacion[] | null;
   hablaElRegulador: HablaElReguladorInterview[] | null;
+  customPages: CustomPage[] | null;
   loading: boolean;
   /** Vuelve a pedir los settings al API (útil al volver al Home tras guardar en admin). */
   refetch: () => Promise<void>;
@@ -91,6 +94,7 @@ const defaultState: SiteSettingsState = {
   comiteEjecutivo: null,
   estudiosInvestigacion: null,
   hablaElRegulador: null,
+  customPages: null,
   loading: true,
   refetch: async () => {},
 };
@@ -327,6 +331,20 @@ async function fetchSettings(retry = false): Promise<Omit<SiteSettingsState, "re
           : d.habla_el_regulador;
       return parseHablaInterviewsFromSettingValue(raw);
     })(),
+    customPages: (() => {
+      if (!("custom_pages" in d)) return null;
+      const raw =
+        typeof d.custom_pages === "string"
+          ? (() => {
+              try {
+                return JSON.parse(d.custom_pages as string) as unknown;
+              } catch {
+                return d.custom_pages;
+              }
+            })()
+          : d.custom_pages;
+      return parseCustomPagesFromSettingValue(raw);
+    })(),
     loading: false,
   };
 }
@@ -424,6 +442,7 @@ export function useFeaturedCarouselSettings(): FeaturedCarouselItemSetting[] {
     ctaPrimaryLabel: it.ctaPrimaryLabel,
     location: it.location,
     imagePosition: it.imagePosition,
+    imageFit: it.imageFit,
   }));
 }
 
@@ -490,13 +509,12 @@ export function useDirectorioAutoridades(): DirectorioAutoridad[] {
   return stampDirectorioIds(defaultDirectorioAutoridades);
 }
 
-/** Ediciones de la Revista Digital: CMS, vista previa o listado original. */
+/** Ediciones de la Revista Digital: CMS (mezclado con defaults), vista previa o listado original. */
 export function useRevistaDigitalEditions(): RevistaEdition[] {
   const { revistaDigital } = useSiteSettings();
   const { enabled, preview } = useSiteEdit();
   if (enabled && preview.revista) return preview.revista;
-  if (revistaDigital !== null) return revistaDigital;
-  return defaultRevistaEditions;
+  return mergeRevistaDigitalWithDefaults(revistaDigital);
 }
 
 /** Avisos extra del hero: CMS o vista previa al editar en el sitio. */
@@ -549,4 +567,13 @@ export function useHablaElReguladorInterviews(): HablaElReguladorInterview[] {
   if (enabled && preview.entrevistas) return preview.entrevistas;
   if (!loading && hablaElRegulador !== null) return hablaElRegulador;
   return defaultHablaInterviews;
+}
+
+/** Páginas de categorías creadas desde el menú. */
+export function useCustomPages(): CustomPage[] {
+  const { customPages, loading } = useSiteSettings();
+  const { enabled, preview } = useSiteEdit();
+  if (enabled && preview.customPages) return preview.customPages;
+  if (!loading && customPages !== null) return customPages;
+  return [];
 }

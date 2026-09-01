@@ -4,12 +4,14 @@
 import { useState, useEffect, useMemo } from "react";
 import { api } from "@/lib/api";
 import { AdminBlobUploadField } from "@/components/admin/AdminBlobUploadField";
+import { PdfCoverPicker } from "@/components/admin/PdfCoverPicker";
 import { NotifySubscribersButton } from "@/components/admin/NotifySubscribersOption";
 import { slugify } from "@/lib/slugify";
 import { useSiteSettings } from "@/contexts/SiteSettingsContext";
 import {
   REVISTA_DIGITAL_SETTINGS_KEY,
   defaultRevistaEditions,
+  mergeRevistaDigitalWithDefaults,
   parseRevistaDigitalFromSettingValue,
   type RevistaEdition,
 } from "@/data/revistaDigital";
@@ -62,7 +64,7 @@ export default function AdminRevista() {
       if (cancelled) return;
       if (res.ok && res.data && res.data.value != null) {
         const parsed = parseRevistaDigitalFromSettingValue(res.data.value);
-        setEntries(parsed !== null ? parsed.map((e) => ({ ...e })) : cloneDefaults());
+        setEntries(mergeRevistaDigitalWithDefaults(parsed).map((e) => ({ ...e })));
       } else {
         setEntries(cloneDefaults());
       }
@@ -120,6 +122,7 @@ export default function AdminRevista() {
         quarter: e.quarter?.trim() || undefined,
         description: e.description?.trim() || undefined,
         coverEdition: e.coverEdition?.trim() || undefined,
+        coverImage: e.coverImage?.trim() || undefined,
         fileName: e.fileName?.trim() || undefined,
       };
     });
@@ -151,7 +154,7 @@ export default function AdminRevista() {
           Revista Digital
         </h1>
         <p className="mt-1 text-sm" style={{ color: "var(--regu-gray-500)" }}>
-          Ediciones que se ven en Gestión. La marcada «En portada» aparece en el aviso de la home.
+          Ediciones que se ven en Gestión. Al subir el PDF, la miniatura se arma sola con la primera página (puedes elegir otra). La marcada «En portada» aparece en el aviso de la home.
         </p>
       </div>
 
@@ -318,11 +321,25 @@ export default function AdminRevista() {
             <AdminBlobUploadField
               label="PDF de la edición"
               value={row.url}
-              onChange={(url) => updateRow(index, { url, fileName: undefined })}
+              onChange={(url) =>
+                updateRow(index, {
+                  url,
+                  fileName: undefined,
+                  ...(url.trim() ? {} : { coverImage: undefined }),
+                })
+              }
               kind="document"
               folder="documents"
-              helpText="El archivo que la gente descarga o lee."
+              helpText="El archivo que la gente descarga o lee. La miniatura se arma sola con la primera página."
             />
+
+            <div className="mt-3">
+              <PdfCoverPicker
+                pdfUrl={row.url}
+                coverUrl={row.coverImage}
+                onCoverChange={(coverImage) => updateRow(index, { coverImage: coverImage || undefined })}
+              />
+            </div>
 
             <label className="mt-3 block">
               <span className="mb-1 block text-xs font-medium" style={{ color: "var(--regu-gray-600)" }}>

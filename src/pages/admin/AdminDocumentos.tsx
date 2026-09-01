@@ -6,6 +6,8 @@ import { GESTION_TAB_LABELS, getCategoryDisplayLabel } from "@/data/gestion";
 import { Pencil, Trash2, Plus, FileText, History, X } from "lucide-react";
 import { uploadAdminFile } from "@/lib/uploads";
 import { api } from "@/lib/api";
+import { PdfCoverPicker } from "@/components/admin/PdfCoverPicker";
+import { isPdfDocument } from "@/lib/documentPreview";
 
 const CATEGORY_OPTIONS: { value: GestionCategory; label: string }[] = [
   { value: "planes-actas", label: GESTION_TAB_LABELS["planes-actas"] },
@@ -114,6 +116,7 @@ export default function AdminDocumentos() {
       category: d.category === "banco" || d.category === "revista" ? "otros" : d.category,
       year: d.year ?? "",
       quarter: d.quarter ?? "",
+      coverImage: d.coverImage,
     });
     setEditingId(d.id);
     setAdding(false);
@@ -217,6 +220,7 @@ export default function AdminDocumentos() {
                           fileName: uploaded.fileName,
                           fileType: uploaded.mimeType,
                           fileSize: uploaded.size,
+                          coverImage: undefined,
                         }));
                       } catch (error) {
                         setFormError(
@@ -242,6 +246,7 @@ export default function AdminDocumentos() {
                     fileName: undefined,
                     fileType: undefined,
                     fileSize: undefined,
+                    ...(e.target.value.trim() ? {} : { coverImage: undefined }),
                   }))
                 }
                 placeholder="O pega el enlace si el documento ya está en internet"
@@ -253,6 +258,18 @@ export default function AdminDocumentos() {
                   Archivo listo: {form.fileName}
                 </p>
               )}
+              {isPdfDocument(form.url, form.fileType, form.fileName) ? (
+                <div className="mt-3">
+                  <PdfCoverPicker
+                    pdfUrl={form.url}
+                    coverUrl={form.coverImage}
+                    onCoverChange={(coverImage) =>
+                      setForm((f) => ({ ...f, coverImage: coverImage || undefined }))
+                    }
+                    usageHint="Así se ve en la ficha de Gestión."
+                  />
+                </div>
+              ) : null}
             </div>
             <div>
               <label className="mb-1 block text-sm font-medium" style={{ color: "var(--regu-gray-700)" }}>Categoría *</label>

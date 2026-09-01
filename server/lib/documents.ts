@@ -10,8 +10,24 @@ export interface DocumentRow {
   year: string | null;
   quarter: string | null;
   category: string;
+  cover_image: string | null;
   created_at: string;
   updated_at: string;
+}
+
+let schemaEnsured: Promise<void> | null = null;
+
+async function ensureDocumentsSchema() {
+  if (!schemaEnsured) {
+    schemaEnsured = (async () => {
+      const sql = getDb();
+      await sql`ALTER TABLE documents ADD COLUMN IF NOT EXISTS cover_image TEXT`;
+    })().catch((err) => {
+      schemaEnsured = null;
+      throw err;
+    });
+  }
+  await schemaEnsured;
 }
 
 function rowToDoc(r: DocumentRow) {
@@ -25,13 +41,15 @@ function rowToDoc(r: DocumentRow) {
     year: r.year ?? undefined,
     quarter: r.quarter ?? undefined,
     category: r.category,
+    coverImage: r.cover_image ?? undefined,
   };
 }
 
 export async function listDocuments(): Promise<ReturnType<typeof rowToDoc>[]> {
+  await ensureDocumentsSchema();
   const sql = getDb();
   const rows = await sql<DocumentRow[]>`
-    SELECT id, title, url, file_name, file_type, file_size, year, quarter, category, created_at, updated_at
+    SELECT id, title, url, file_name, file_type, file_size, year, quarter, category, cover_image, created_at, updated_at
     FROM documents
     ORDER BY year DESC NULLS LAST, title
   `;
@@ -39,9 +57,10 @@ export async function listDocuments(): Promise<ReturnType<typeof rowToDoc>[]> {
 }
 
 export async function getDocumentById(id: string): Promise<ReturnType<typeof rowToDoc> | null> {
+  await ensureDocumentsSchema();
   const sql = getDb();
   const [row] = await sql<DocumentRow[]>`
-    SELECT id, title, url, file_name, file_type, file_size, year, quarter, category, created_at, updated_at
+    SELECT id, title, url, file_name, file_type, file_size, year, quarter, category, cover_image, created_at, updated_at
     FROM documents WHERE id = ${id}
   `;
   return row ? rowToDoc(row) : null;
@@ -57,22 +76,25 @@ export interface CreateDocumentInput {
   year?: string;
   quarter?: string;
   category: string;
+  coverImage?: string;
 }
 
 export async function createDocument(input: CreateDocumentInput): Promise<ReturnType<typeof rowToDoc>> {
+  await ensureDocumentsSchema();
   const sql = getDb();
   const now = new Date().toISOString();
   const [row] = await sql<DocumentRow[]>`
     INSERT INTO documents (
-      id, title, url, file_name, file_type, file_size, year, quarter, category, created_at, updated_at
+      id, title, url, file_name, file_type, file_size, year, quarter, category, cover_image, created_at, updated_at
     )
     VALUES (
       ${input.id}, ${input.title}, ${input.url},
       ${input.fileName ?? null}, ${input.fileType ?? null}, ${input.fileSize ?? null},
       ${input.year ?? null}, ${input.quarter ?? null}, ${input.category},
+      ${input.coverImage ?? null},
       ${now}::timestamptz, ${now}::timestamptz
     )
-    RETURNING id, title, url, file_name, file_type, file_size, year, quarter, category, created_at, updated_at
+    RETURNING id, title, url, file_name, file_type, file_size, year, quarter, category, cover_image, created_at, updated_at
   `;
   return rowToDoc(row);
 }
@@ -92,6 +114,7 @@ export async function updateDocument(
     year: input.year !== undefined ? input.year : existing.year,
     quarter: input.quarter !== undefined ? input.quarter : existing.quarter,
     category: input.category ?? existing.category,
+    coverImage: input.coverImage !== undefined ? input.coverImage || undefined : existing.coverImage,
   };
   const sql = getDb();
   const now = new Date().toISOString();
@@ -101,14 +124,16 @@ export async function updateDocument(
       file_name = ${merged.fileName ?? null}, file_type = ${merged.fileType ?? null},
       file_size = ${merged.fileSize ?? null}, year = ${merged.year ?? null},
       quarter = ${merged.quarter ?? null}, category = ${merged.category},
+      cover_image = ${merged.coverImage ?? null},
       updated_at = ${now}::timestamptz
     WHERE id = ${id}
-    RETURNING id, title, url, file_name, file_type, file_size, year, quarter, category, created_at, updated_at
+    RETURNING id, title, url, file_name, file_type, file_size, year, quarter, category, cover_image, created_at, updated_at
   `;
   return row ? rowToDoc(row) : null;
 }
 
 export async function deleteDocument(id: string): Promise<boolean> {
+  await ensureDocumentsSchema();
   const sql = getDb();
   const result = await sql`DELETE FROM documents WHERE id = ${id}`;
   return result.count > 0;

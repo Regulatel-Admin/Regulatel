@@ -129,6 +129,11 @@ export const navigationItems: NavigationItem[] = [
             description: "Entrevistas con líderes regulatorios de la región",
           },
           {
+            label: "Violencia Digital",
+            href: "/violencia-digital",
+            description: "Webinar regional y rol de los entes reguladores",
+          },
+          {
             label: "Galería fotográfica",
             href: "/galeria",
             description: "Imágenes de eventos y actividades",

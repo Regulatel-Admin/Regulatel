@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ChevronDown, Lock, Pencil } from "lucide-react";
 import NavMegaPanel from "@/components/layout/NavMegaPanel";
 import MegaMenuEvents from "@/components/layout/MegaMenuEvents";
@@ -7,6 +7,14 @@ import ConveniosMenu from "@/components/convenios/ConveniosMenu";
 import TopBarBerecLike from "@/components/layout/TopBarBerecLike";
 import { useLocalizedNavigation } from "@/hooks/useLocalizedNavigation";
 import { useSiteEdit } from "@/contexts/SiteEditContext";
+import { useCustomPages, useSiteSettings } from "@/contexts/SiteSettingsContext";
+import {
+  AddCategoryDialog,
+  MegaAddCategoryButton,
+  type AddCategoryDialogState,
+} from "@/components/site-edit/AddCategoryDialog";
+import { createCustomCategory, createNavGroup } from "@/lib/customPagesSave";
+import { draftCustomHrefs } from "@/lib/customPagesNav";
 
 /** Histéresis: evita flicker al hacer scroll cerca del umbral. Ocultar solo al bajar pasado HIDE; mostrar solo al subir hasta SHOW o menos. */
 const SCROLL_THRESHOLD_HIDE = 80; // px — al bajar pasado esto se oculta la top bar
@@ -24,6 +32,11 @@ export default function HeaderMegaMenu() {
   const location = useLocation();
   const navItems = useLocalizedNavigation();
   const { enabled: siteEditEnabled, open: openSiteEdit } = useSiteEdit();
+  const customPages = useCustomPages();
+  const { refetch } = useSiteSettings();
+  const navigate = useNavigate();
+  const draftHrefs = useMemo(() => draftCustomHrefs(customPages), [customPages]);
+  const [addDialog, setAddDialog] = useState<AddCategoryDialogState | null>(null);
   const navRef = useRef<HTMLDivElement>(null);
   const topbarWrapperRef = useRef<HTMLDivElement>(null);
   const [openDesktopMenu, setOpenDesktopMenu] = useState<string | null>(null);
@@ -163,7 +176,33 @@ export default function HeaderMegaMenu() {
 
   const openItem = navItems.find((item) => item.id === openDesktopMenu);
 
+  const submitAddDialog = async (title: string, description: string) => {
+    if (!addDialog) return "No hay nada que añadir.";
+    if (addDialog.kind === "column") {
+      const res = await createNavGroup({ navItemId: addDialog.itemId, title });
+      if (!res.ok) return res.error;
+      await refetch();
+      setAddDialog(null);
+      setOpenDesktopMenu(addDialog.itemId);
+      return null;
+    }
+    const res = await createCustomCategory({
+      navItemId: addDialog.itemId,
+      columnIndex: addDialog.columnIndex,
+      title,
+      description,
+    });
+    if (!res.ok) return res.error;
+    await refetch();
+    setAddDialog(null);
+    setOpenDesktopMenu(null);
+    setMobileMenuOpen(false);
+    navigate(`/pagina/${res.slug}`);
+    return null;
+  };
+
   return (
+    <>
     <header
       className="header-font-fixed sticky top-0 z-40 backdrop-blur-md"
       style={{
@@ -343,6 +382,20 @@ export default function HeaderMegaMenu() {
               columns={openItem.columns}
               isOpen={Boolean(openDesktopMenu)}
               onLinkClick={() => setOpenDesktopMenu(null)}
+              editMode={siteEditEnabled}
+              draftHrefs={draftHrefs}
+              onAddCategory={(columnIndex, columnTitle) =>
+                setAddDialog({
+                  kind: "category",
+                  itemId: openItem.id,
+                  itemLabel: openItem.label,
+                  columnIndex,
+                  columnTitle,
+                })
+              }
+              onAddColumn={() =>
+                setAddDialog({ kind: "column", itemId: openItem.id, itemLabel: openItem.label })
+              }
             />
           ) : null}
         </div>
@@ -428,8 +481,8 @@ export default function HeaderMegaMenu() {
                   </div>
                 ) : hasPanel && expanded && item.columns?.length ? (
                   <div id={panelId} className="space-y-6 border-t px-4 py-5" style={{ borderColor: "var(--mega-divider)" }}>
-                    {item.columns?.map((column) => (
-                      <div key={column.title} className="space-y-3">
+                    {item.columns?.map((column, columnIndex) => (
+                      <div key={column.uid || `${column.title}-${columnIndex}`} className="space-y-3">
                         <h3
                           className="mega-panel-subheader uppercase"
                           style={{
@@ -528,6 +581,20 @@ export default function HeaderMegaMenu() {
                             </li>
                           ))}
                         </ul>
+                        {siteEditEnabled && (
+                          <MegaAddCategoryButton
+                            compact
+                            onClick={() =>
+                              setAddDialog({
+                                kind: "category",
+                                itemId: item.id,
+                                itemLabel: item.label,
+                                columnIndex,
+                                columnTitle: column.title,
+                              })
+                            }
+                          />
+                        )}
                       </div>
                     ))}
                   </div>
@@ -539,5 +606,11 @@ export default function HeaderMegaMenu() {
         </div>
       </div>
     </header>
+    <AddCategoryDialog
+      state={addDialog}
+      onClose={() => setAddDialog(null)}
+      onSubmit={submitAddDialog}
+    />
+    </>
   );
 }

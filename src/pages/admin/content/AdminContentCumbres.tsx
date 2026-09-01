@@ -22,6 +22,7 @@ function toCarouselItem(item: FeaturedCarouselItemSetting): FeaturedCarouselItem
     ctaPrimaryLabel: item.ctaPrimaryLabel,
     location: item.location,
     imagePosition: item.imagePosition,
+    imageFit: item.imageFit,
   };
 }
 
@@ -35,6 +36,7 @@ const defaultItems: FeaturedCarouselItemSetting[] = featuredCarouselItems.map((i
   ctaPrimaryLabel: item.ctaPrimaryLabel,
   location: item.location,
   imagePosition: item.imagePosition,
+  imageFit: item.imageFit,
   active: true,
 }));
 

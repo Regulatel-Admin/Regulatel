@@ -10,7 +10,7 @@ type BoletinArticleTranslation = {
   groupName?: string;
 };
 
-const KNOWN_BOLETIN_KEYS = ["boletin-1-2026", "boletin-2-2026", "boletin-3-2026"] as const;
+const KNOWN_BOLETIN_KEYS = ["boletin-1-2026", "boletin-2-2026", "boletin-3-2026", "boletin-4-2026"] as const;
 
 function resolveArticleKey(entry: BoletinGtaiSerialized): string {
   const slug = entry.slug.trim().toLowerCase();
@@ -19,7 +19,7 @@ function resolveArticleKey(entry: BoletinGtaiSerialized): string {
   const byIssueYear = `boletin-${entry.issueNumber}-${entry.year}`.toLowerCase();
   if ((KNOWN_BOLETIN_KEYS as readonly string[]).includes(byIssueYear)) return byIssueYear;
 
-  if (entry.issueNumber >= 1 && entry.issueNumber <= 3 && entry.year === 2026) {
+  if (entry.issueNumber >= 1 && entry.issueNumber <= 4 && entry.year === 2026) {
     return `boletin-${entry.issueNumber}-2026`;
   }
 

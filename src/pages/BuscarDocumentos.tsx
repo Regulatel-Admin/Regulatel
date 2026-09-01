@@ -15,7 +15,7 @@ import {
   Lock,
 } from "lucide-react";
 import { resolveDocumentSearch } from "@/data/searchMaps";
-import { searchDocumentsInList, type GestionDocument } from "@/data/gestion";
+import { searchDocumentsInList, sortGestionDocuments, type GestionDocument } from "@/data/gestion";
 import { useMergedGestionDocuments } from "@/contexts/AdminDataContext";
 import { getRestrictedDocument, isRestrictedUnlocked } from "@/config/restrictedDocuments";
 import DocumentPreviewModal from "@/components/DocumentPreviewModal";
@@ -46,7 +46,7 @@ export default function BuscarDocumentos() {
   const q = searchParams.get("q") ?? "";
   const mergedDocuments = useMergedGestionDocuments();
   const categoryResults = resolveDocumentSearch(q);
-  const docResults = searchDocumentsInList(mergedDocuments, q);
+  const docResults = sortGestionDocuments(searchDocumentsInList(mergedDocuments, q));
   const [previewDoc, setPreviewDoc] = useState<DocumentPreviewTarget | null>(null);
   const hasResults = docResults.length > 0 || categoryResults.length > 0;
   const tryTerms = ["revista", "planes", "actas", "declaraciones"];
