@@ -230,8 +230,12 @@ CREATE TABLE IF NOT EXISTS page_views (
   visitor_id TEXT NOT NULL,
   path TEXT NOT NULL,
   referrer TEXT,
+  country TEXT,
+  city TEXT,
+  device TEXT,
   visited_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 CREATE INDEX IF NOT EXISTS idx_page_views_visited_at ON page_views (visited_at DESC);
 CREATE INDEX IF NOT EXISTS idx_page_views_visitor_at ON page_views (visitor_id, visited_at DESC);
 CREATE INDEX IF NOT EXISTS idx_page_views_path ON page_views (path);
+CREATE INDEX IF NOT EXISTS idx_page_views_country ON page_views (country);

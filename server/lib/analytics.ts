@@ -1,9 +1,10 @@
 /**
  * Visitas anónimas del sitio público.
- * No guarda IP, nombre ni correo: solo un id de cookie y la ruta.
+ * No guarda IP, nombre ni correo: cookie anónima, ruta, país (cabecera de Vercel) y tipo de aparato.
  */
 
 import crypto from "crypto";
+import type { IncomingHttpHeaders } from "http";
 import { getDb } from "./db.js";
 
 const TZ = "America/Santo_Domingo";
@@ -28,6 +29,21 @@ export type AnalyticsTopPage = {
   visitors: number;
 };
 
+export type AnalyticsBreakdown = {
+  key: string;
+  visitors: number;
+  views: number;
+};
+
+export type AnalyticsRecentHit = {
+  path: string;
+  country: string | null;
+  city: string | null;
+  device: string | null;
+  referrer: string | null;
+  visitedAt: string;
+};
+
 export type AnalyticsStats = {
   timezone: string;
   generatedAt: string;
@@ -35,8 +51,14 @@ export type AnalyticsStats = {
   yesterday: PeriodCounts;
   week: PeriodCounts;
   prevWeek: PeriodCounts;
+  todayNew: number;
+  todayReturning: number;
   days: AnalyticsDay[];
   topPages: AnalyticsTopPage[];
+  countries: AnalyticsBreakdown[];
+  referrers: AnalyticsBreakdown[];
+  devices: AnalyticsBreakdown[];
+  recent: AnalyticsRecentHit[];
 };
 
 let schemaEnsured: Promise<void> | null = null;
@@ -51,12 +73,19 @@ export async function ensureAnalyticsSchema() {
           visitor_id TEXT NOT NULL,
           path TEXT NOT NULL,
           referrer TEXT,
+          country TEXT,
+          city TEXT,
+          device TEXT,
           visited_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
         )
       `;
+      await sql`ALTER TABLE page_views ADD COLUMN IF NOT EXISTS country TEXT`;
+      await sql`ALTER TABLE page_views ADD COLUMN IF NOT EXISTS city TEXT`;
+      await sql`ALTER TABLE page_views ADD COLUMN IF NOT EXISTS device TEXT`;
       await sql`CREATE INDEX IF NOT EXISTS idx_page_views_visited_at ON page_views (visited_at DESC)`;
       await sql`CREATE INDEX IF NOT EXISTS idx_page_views_visitor_at ON page_views (visitor_id, visited_at DESC)`;
       await sql`CREATE INDEX IF NOT EXISTS idx_page_views_path ON page_views (path)`;
+      await sql`CREATE INDEX IF NOT EXISTS idx_page_views_country ON page_views (country)`;
     })().catch((err) => {
       schemaEnsured = null;
       throw err;
@@ -129,10 +158,51 @@ export function sanitizeReferrer(input: unknown): string | null {
   }
 }
 
+function headerValue(headers: IncomingHttpHeaders, name: string): string | null {
+  const raw = headers[name];
+  const value = Array.isArray(raw) ? raw[0] : raw;
+  return typeof value === "string" && value.trim() ? value.trim() : null;
+}
+
+export function countryFromHeaders(headers: IncomingHttpHeaders): string | null {
+  const raw =
+    headerValue(headers, "x-vercel-ip-country") ||
+    headerValue(headers, "cf-ipcountry") ||
+    headerValue(headers, "x-country-code");
+  if (!raw) return null;
+  const code = raw.toUpperCase();
+  if (code === "XX" || code === "T1") return null;
+  if (!/^[A-Z]{2}$/.test(code)) return null;
+  return code;
+}
+
+export function cityFromHeaders(headers: IncomingHttpHeaders): string | null {
+  const raw = headerValue(headers, "x-vercel-ip-city");
+  if (!raw) return null;
+  let city = raw;
+  try {
+    city = decodeURIComponent(raw.replace(/\+/g, " "));
+  } catch {
+    city = raw;
+  }
+  city = city.replace(/[^\p{L}\p{N} .'-]/gu, "").trim().slice(0, 80);
+  return city || null;
+}
+
+export function deviceFromUserAgent(ua: string | undefined): "mobile" | "tablet" | "desktop" | null {
+  if (!ua) return null;
+  if (/iPad|Tablet|PlayBook/i.test(ua) && !/Mobile/i.test(ua)) return "tablet";
+  if (/Mobi|Android.+Mobile|iPhone|iPod|webOS|BlackBerry|IEMobile/i.test(ua)) return "mobile";
+  return "desktop";
+}
+
 export async function recordPageView(input: {
   visitorId: string;
   path: string;
   referrer?: string | null;
+  country?: string | null;
+  city?: string | null;
+  device?: string | null;
 }): Promise<boolean> {
   await ensureAnalyticsSchema();
   const sql = getDb();
@@ -146,12 +216,15 @@ export async function recordPageView(input: {
   if (recent.length > 0) return false;
 
   await sql`
-    INSERT INTO page_views (id, visitor_id, path, referrer, visited_at)
+    INSERT INTO page_views (id, visitor_id, path, referrer, country, city, device, visited_at)
     VALUES (
       ${crypto.randomUUID()},
       ${input.visitorId},
       ${input.path},
       ${input.referrer ?? null},
+      ${input.country ?? null},
+      ${input.city ?? null},
+      ${input.device ?? null},
       NOW()
     )
   `;
@@ -242,11 +315,81 @@ export async function getAnalyticsStats(): Promise<AnalyticsStats> {
     LIMIT 12
   `;
 
+  const [split] = await sql<{ new_visitors: number; returning_visitors: number }[]>`
+    WITH today_ids AS (
+      SELECT DISTINCT visitor_id
+      FROM page_views
+      WHERE (visited_at AT TIME ZONE 'America/Santo_Domingo')::date
+          = (NOW() AT TIME ZONE 'America/Santo_Domingo')::date
+    )
+    SELECT
+      COUNT(*) FILTER (
+        WHERE NOT EXISTS (
+          SELECT 1 FROM page_views older
+          WHERE older.visitor_id = today_ids.visitor_id
+            AND (older.visited_at AT TIME ZONE 'America/Santo_Domingo')::date
+                < (NOW() AT TIME ZONE 'America/Santo_Domingo')::date
+        )
+      )::int AS new_visitors,
+      COUNT(*) FILTER (
+        WHERE EXISTS (
+          SELECT 1 FROM page_views older
+          WHERE older.visitor_id = today_ids.visitor_id
+            AND (older.visited_at AT TIME ZONE 'America/Santo_Domingo')::date
+                < (NOW() AT TIME ZONE 'America/Santo_Domingo')::date
+        )
+      )::int AS returning_visitors
+    FROM today_ids
+  `;
+  const countryRows = await sql<{ key: string; visitors: number; views: number }[]>`
+    SELECT COALESCE(country, '') AS key, COUNT(*)::int AS views, COUNT(DISTINCT visitor_id)::int AS visitors
+    FROM page_views
+    WHERE (visited_at AT TIME ZONE 'America/Santo_Domingo')::date
+        >= (NOW() AT TIME ZONE 'America/Santo_Domingo')::date - 6
+    GROUP BY 1
+    ORDER BY visitors DESC, views DESC
+    LIMIT 12
+  `;
+  const referrerRows = await sql<{ key: string; visitors: number; views: number }[]>`
+    SELECT COALESCE(NULLIF(referrer, ''), '(directo)') AS key, COUNT(*)::int AS views, COUNT(DISTINCT visitor_id)::int AS visitors
+    FROM page_views
+    WHERE (visited_at AT TIME ZONE 'America/Santo_Domingo')::date
+        >= (NOW() AT TIME ZONE 'America/Santo_Domingo')::date - 6
+    GROUP BY 1
+    ORDER BY visitors DESC, views DESC
+    LIMIT 8
+  `;
+  const deviceRows = await sql<{ key: string; visitors: number; views: number }[]>`
+    SELECT COALESCE(device, '') AS key, COUNT(*)::int AS views, COUNT(DISTINCT visitor_id)::int AS visitors
+    FROM page_views
+    WHERE (visited_at AT TIME ZONE 'America/Santo_Domingo')::date
+        >= (NOW() AT TIME ZONE 'America/Santo_Domingo')::date - 6
+      AND device IS NOT NULL
+      AND device <> ''
+    GROUP BY 1
+    ORDER BY visitors DESC, views DESC
+  `;
+  const recentRows = await sql<
+    { path: string; country: string | null; city: string | null; device: string | null; referrer: string | null; visited_at: Date }[]
+  >`
+    SELECT path, country, city, device, referrer, visited_at
+    FROM page_views
+    ORDER BY visited_at DESC
+    LIMIT 16
+  `;
+
   const days: AnalyticsDay[] = dayRows.map((row) => ({
     date: asDayKey(row.day),
     visitors: Number(row.visitors ?? 0),
     views: Number(row.views ?? 0),
   }));
+
+  const toBreakdown = (rows: { key: string; visitors: number; views: number }[]): AnalyticsBreakdown[] =>
+    rows.map((row) => ({
+      key: row.key,
+      visitors: Number(row.visitors ?? 0),
+      views: Number(row.views ?? 0),
+    }));
 
   return {
     timezone: TZ,
@@ -255,11 +398,24 @@ export async function getAnalyticsStats(): Promise<AnalyticsStats> {
     yesterday: asCounts(yesterday),
     week: asCounts(week),
     prevWeek: asCounts(prevWeek),
+    todayNew: Number(split?.new_visitors ?? 0),
+    todayReturning: Number(split?.returning_visitors ?? 0),
     days,
     topPages: topPages.map((row) => ({
       path: row.path,
       views: Number(row.views ?? 0),
       visitors: Number(row.visitors ?? 0),
+    })),
+    countries: toBreakdown(countryRows),
+    referrers: toBreakdown(referrerRows),
+    devices: toBreakdown(deviceRows),
+    recent: recentRows.map((row) => ({
+      path: row.path,
+      country: row.country,
+      city: row.city,
+      device: row.device,
+      referrer: row.referrer,
+      visitedAt: row.visited_at instanceof Date ? row.visited_at.toISOString() : String(row.visited_at),
     })),
   };
 }

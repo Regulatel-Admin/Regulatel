@@ -2,6 +2,9 @@ import type { IncomingMessage, ServerResponse } from "http";
 import { parseJsonBody } from "../lib/parseBody.js";
 import { isDbConfigured } from "../lib/db.js";
 import {
+  cityFromHeaders,
+  countryFromHeaders,
+  deviceFromUserAgent,
   getVisitorIdFromCookie,
   isBotUserAgent,
   newVisitorId,
@@ -64,6 +67,9 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
       visitorId,
       path,
       referrer: sanitizeReferrer(body.referrer),
+      country: countryFromHeaders(req.headers),
+      city: cityFromHeaders(req.headers),
+      device: deviceFromUserAgent(req.headers["user-agent"]),
     });
     res.setHeader("Set-Cookie", visitorCookieHeader(visitorId, isSecureRequest(req)));
     res.statusCode = 204;

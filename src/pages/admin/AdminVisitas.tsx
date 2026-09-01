@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { BarChart3, Clock3, Eye, RefreshCw, Users } from "lucide-react";
+import { BarChart3, Clock3, Eye, Globe2, Link2, MonitorSmartphone, RefreshCw, Users } from "lucide-react";
 import { api } from "@/lib/api";
 import { AdminLockedScreen, useAdminOnlySection } from "@/components/admin/AdminLockedScreen";
 
@@ -8,6 +8,17 @@ const REFRESH_MS = 15_000;
 
 type PeriodCounts = { visitors: number; views: number };
 
+type BreakdownRow = { key: string; visitors: number; views: number };
+
+type RecentHit = {
+  path: string;
+  country: string | null;
+  city: string | null;
+  device: string | null;
+  referrer: string | null;
+  visitedAt: string;
+};
+
 type AnalyticsStats = {
   timezone: string;
   generatedAt?: string;
@@ -15,12 +26,97 @@ type AnalyticsStats = {
   yesterday: PeriodCounts;
   week: PeriodCounts;
   prevWeek: PeriodCounts;
+  todayNew: number;
+  todayReturning: number;
   days: Array<{ date: string; visitors: number; views: number }>;
   topPages: Array<{ path: string; views: number; visitors: number }>;
+  countries: BreakdownRow[];
+  referrers: BreakdownRow[];
+  devices: BreakdownRow[];
+  recent: RecentHit[];
 };
 
 function formatInt(n: number) {
   return new Intl.NumberFormat("es-DO").format(n);
+}
+
+function countryLabel(code: string) {
+  if (!code) return "Sin país aún";
+  try {
+    return new Intl.DisplayNames(["es"], { type: "region" }).of(code.toUpperCase()) ?? code;
+  } catch {
+    return code;
+  }
+}
+
+function flagEmoji(code: string) {
+  if (!/^[A-Za-z]{2}$/.test(code)) return "";
+  return String.fromCodePoint(...[...code.toUpperCase()].map((ch) => 127397 + ch.charCodeAt(0)));
+}
+
+function deviceLabel(key: string) {
+  if (key === "mobile") return "Celular";
+  if (key === "tablet") return "Tableta";
+  if (key === "desktop") return "Computadora";
+  return key || "Sin dato";
+}
+
+function referrerLabel(key: string) {
+  if (!key || key === "(directo)") return "Entrada directa";
+  return key;
+}
+
+function formatRecentTime(iso: string) {
+  const date = new Date(iso);
+  if (Number.isNaN(date.getTime())) return iso;
+  return date.toLocaleString("es-DO", {
+    timeZone: TZ,
+    day: "numeric",
+    month: "short",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+}
+
+function BreakdownList({
+  rows,
+  labelOf,
+  empty,
+}: {
+  rows: BreakdownRow[];
+  labelOf: (key: string) => string;
+  empty: string;
+}) {
+  const max = Math.max(1, ...rows.map((row) => row.visitors));
+  if (!rows.length) {
+    return (
+      <p className="px-5 pb-5 text-sm" style={{ color: "var(--regu-gray-500)" }}>
+        {empty}
+      </p>
+    );
+  }
+  return (
+    <ul className="space-y-2.5 px-5 pb-5">
+      {rows.map((row) => (
+        <li key={row.key}>
+          <div className="mb-1 flex items-center justify-between gap-2 text-sm">
+            <span className="min-w-0 truncate font-medium" style={{ color: "var(--regu-navy)" }}>
+              {labelOf(row.key)}
+            </span>
+            <span className="shrink-0 tabular-nums text-xs" style={{ color: "var(--regu-gray-600)" }}>
+              {formatInt(row.visitors)} personas · {formatInt(row.views)} vistas
+            </span>
+          </div>
+          <div className="h-1.5 overflow-hidden rounded-full" style={{ backgroundColor: "rgba(22,61,89,0.08)" }}>
+            <div
+              className="h-full rounded-full"
+              style={{ width: `${Math.max(6, Math.round((row.visitors / max) * 100))}%`, backgroundColor: "#4489C6" }}
+            />
+          </div>
+        </li>
+      ))}
+    </ul>
+  );
 }
 
 function formatDayLabel(isoDate: string) {
@@ -171,6 +267,8 @@ function VisitorsChart({ days }: { days: Array<{ date: string; visitors: number;
     </svg>
   );
 }
+
+function StatCard({
   title,
   visitors,
   views,
@@ -316,15 +414,23 @@ export default function AdminVisitas() {
   if (!allowed) return null;
 
   const empty = !loading && !error && stats && stats.week.views === 0 && stats.today.views === 0;
+  const countries = stats?.countries ?? [];
+  const referrers = stats?.referrers ?? [];
+  const devices = stats?.devices ?? [];
+  const recent = stats?.recent ?? [];
+  const todayNew = stats?.todayNew ?? 0;
+  const todayReturning = stats?.todayReturning ?? 0;
 
   return (
     <div>
       <h1 className="mb-2 text-2xl font-bold" style={{ color: "var(--regu-gray-900)" }}>
         Visitas
       </h1>
-      <p className="mb-6 max-w-2xl text-sm" style={{ color: "var(--regu-gray-500)" }}>
-        Cifras reales del sitio público: cada persona anónima que abre una página. No hay números de prueba. No se guarda
-        nombre, correo ni IP.
+      <p className="mb-6 max-w-3xl text-sm" style={{ color: "var(--regu-gray-500)" }}>
+        Una «persona» es un navegador con una cookie anónima que dura un año. Si cierras la pestaña y vuelves a entrar
+        desde la misma computadora y el mismo navegador, sigues contando como la misma persona; solo suma páginas
+        vistas. Otra computadora, otro navegador o una ventana de incógnito sí cuenta como persona nueva. No se guarda
+        IP: el país lo informa Vercel en el servidor.
       </p>
 
       <DayResetClock
@@ -362,12 +468,26 @@ export default function AdminVisitas() {
 
           <div className="mb-6 grid gap-3 sm:grid-cols-2">
             <div
+              className="rounded-xl border bg-white px-4 py-3 text-sm"
+              style={{ borderColor: "rgba(22,61,89,0.10)", color: "var(--regu-navy)" }}
+            >
+              <p className="text-[11px] font-semibold uppercase tracking-[0.12em]" style={{ color: "var(--regu-gray-500)" }}>
+                Hoy · nuevas vs. que ya habían venido
+              </p>
+              <p className="mt-1 font-bold">
+                {formatInt(todayNew)} nuevas · {formatInt(todayReturning)} que ya conocían el sitio
+              </p>
+            </div>
+            <div
               className="flex items-center gap-3 rounded-xl border bg-white px-4 py-3 text-sm"
               style={{ borderColor: "rgba(22,61,89,0.10)", color: "var(--regu-navy)" }}
             >
-              <Users className="h-4 w-4" style={{ color: "var(--regu-blue)" }} />
+              <Users className="h-4 w-4 shrink-0" style={{ color: "var(--regu-blue)" }} />
               Ayer: {formatInt(stats.yesterday.visitors)} personas · {formatInt(stats.yesterday.views)} páginas
             </div>
+          </div>
+
+          <div className="mb-6">
             <div
               className="flex items-center gap-3 rounded-xl border bg-white px-4 py-3 text-sm"
               style={{ borderColor: "rgba(22,61,89,0.10)", color: "var(--regu-navy)" }}
@@ -403,6 +523,96 @@ export default function AdminVisitas() {
               <p className="text-sm" style={{ color: "var(--regu-gray-500)" }}>
                 Aún no hay días con visitas.
               </p>
+            )}
+          </div>
+
+          <div className="mb-8 grid gap-4 lg:grid-cols-2">
+            <div className="overflow-hidden rounded-2xl border bg-white" style={{ borderColor: "rgba(22,61,89,0.10)" }}>
+              <div className="flex items-center gap-2 px-5 py-4">
+                <Globe2 className="h-4 w-4" style={{ color: "var(--regu-blue)" }} />
+                <h2 className="text-sm font-bold" style={{ color: "var(--regu-navy)" }}>
+                  Países (7 días)
+                </h2>
+              </div>
+              <BreakdownList
+                rows={countries}
+                labelOf={(key) => (key ? `${flagEmoji(key)} ${countryLabel(key)}` : "Sin país aún")}
+                empty="Todavía no hay país registrado. A partir de ahora, las visitas en regulatel.org traen el país sin guardar la IP."
+              />
+            </div>
+            <div className="overflow-hidden rounded-2xl border bg-white" style={{ borderColor: "rgba(22,61,89,0.10)" }}>
+              <div className="flex items-center gap-2 px-5 py-4">
+                <Link2 className="h-4 w-4" style={{ color: "var(--regu-blue)" }} />
+                <h2 className="text-sm font-bold" style={{ color: "var(--regu-navy)" }}>
+                  De dónde llegaron (7 días)
+                </h2>
+              </div>
+              <BreakdownList
+                rows={referrers}
+                labelOf={referrerLabel}
+                empty="Aún no hay procedencias registradas."
+              />
+            </div>
+          </div>
+
+          <div className="mb-8 overflow-hidden rounded-2xl border bg-white" style={{ borderColor: "rgba(22,61,89,0.10)" }}>
+            <div className="flex items-center gap-2 px-5 py-4">
+              <MonitorSmartphone className="h-4 w-4" style={{ color: "var(--regu-blue)" }} />
+              <h2 className="text-sm font-bold" style={{ color: "var(--regu-navy)" }}>
+                Dispositivo (7 días)
+              </h2>
+            </div>
+            <BreakdownList
+              rows={devices}
+              labelOf={deviceLabel}
+              empty="Aún no hay tipo de dispositivo. Se empieza a guardar con las visitas nuevas."
+            />
+          </div>
+
+          <div className="mb-8 overflow-hidden rounded-2xl border bg-white" style={{ borderColor: "rgba(22,61,89,0.10)" }}>
+            <div className="px-5 py-4">
+              <h2 className="text-sm font-bold" style={{ color: "var(--regu-navy)" }}>
+                Actividad reciente
+              </h2>
+              <p className="mt-1 text-xs" style={{ color: "var(--regu-gray-500)" }}>
+                Últimas páginas abiertas. No se muestra quién: solo ruta, país y hora.
+              </p>
+            </div>
+            {recent.length === 0 ? (
+              <p className="px-5 pb-5 text-sm" style={{ color: "var(--regu-gray-500)" }}>
+                Todavía no hay actividad.
+              </p>
+            ) : (
+              <table className="w-full text-left text-sm">
+                <thead style={{ backgroundColor: "#FAFBFC", color: "var(--regu-gray-500)" }}>
+                  <tr>
+                    <th className="px-5 py-3 font-semibold">Cuándo</th>
+                    <th className="px-5 py-3 font-semibold">Página</th>
+                    <th className="px-5 py-3 font-semibold">País</th>
+                    <th className="px-5 py-3 font-semibold">Aparato</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {recent.map((hit, index) => (
+                    <tr key={`${hit.visitedAt}-${hit.path}-${index}`} className="border-t" style={{ borderColor: "rgba(22,61,89,0.08)" }}>
+                      <td className="px-5 py-3 tabular-nums" style={{ color: "var(--regu-gray-600)" }}>
+                        {formatRecentTime(hit.visitedAt)}
+                      </td>
+                      <td className="px-5 py-3 font-medium" style={{ color: "var(--regu-navy)" }}>
+                        {hit.path === "/" ? "Portada" : hit.path}
+                      </td>
+                      <td className="px-5 py-3" style={{ color: "var(--regu-gray-600)" }}>
+                        {hit.country
+                          ? `${flagEmoji(hit.country)} ${countryLabel(hit.country)}${hit.city ? ` · ${hit.city}` : ""}`
+                          : "—"}
+                      </td>
+                      <td className="px-5 py-3" style={{ color: "var(--regu-gray-600)" }}>
+                        {hit.device ? deviceLabel(hit.device) : "—"}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             )}
           </div>
 

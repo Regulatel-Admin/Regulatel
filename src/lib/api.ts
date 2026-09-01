@@ -228,8 +228,21 @@ export const api = {
           week: { visitors: number; views: number };
           prevWeek: { visitors: number; views: number };
           generatedAt?: string;
+          todayNew?: number;
+          todayReturning?: number;
           days: Array<{ date: string; visitors: number; views: number }>;
           topPages: Array<{ path: string; views: number; visitors: number }>;
+          countries?: Array<{ key: string; visitors: number; views: number }>;
+          referrers?: Array<{ key: string; visitors: number; views: number }>;
+          devices?: Array<{ key: string; visitors: number; views: number }>;
+          recent?: Array<{
+            path: string;
+            country: string | null;
+            city: string | null;
+            device: string | null;
+            referrer: string | null;
+            visitedAt: string;
+          }>;
         }>("/admin/analytics"),
     },
     subscribers: {
