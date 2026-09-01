@@ -450,15 +450,13 @@ export default function AdminVisitas() {
             )}
           </div>
 
-          <div className={`mb-4 grid items-start gap-3 ${countries.length ? "lg:grid-cols-3" : "lg:grid-cols-2"}`}>
-            {countries.length > 0 ? (
-              <Panel title="Países" icon={<Globe2 className="h-4 w-4" style={{ color: "var(--regu-blue)" }} />}>
-                <BreakdownList
-                  rows={countries}
-                  labelOf={(key) => `${flagEmoji(key)} ${countryLabel(key)}`.trim()}
-                />
-              </Panel>
-            ) : null}
+          <div className="mb-4 grid items-start gap-3 lg:grid-cols-3">
+            <Panel title="Países" icon={<Globe2 className="h-4 w-4" style={{ color: "var(--regu-blue)" }} />}>
+              <BreakdownList
+                rows={countries}
+                labelOf={(key) => `${flagEmoji(key)} ${countryLabel(key)}`.trim()}
+              />
+            </Panel>
             <Panel title="Origen" icon={<Link2 className="h-4 w-4" style={{ color: "var(--regu-blue)" }} />}>
               <BreakdownList rows={referrers} labelOf={referrerLabel} />
             </Panel>

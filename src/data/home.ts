@@ -490,6 +490,7 @@ export const featuredCarouselItems = [
     ctaPrimaryLabel: "Ver Cumbre",
     location: "Punta Cana, Rep. Dom.",
     imagePosition: "center",
+    imageFit: "cover" as const,
   },
   {
     id: "cumbre-regulatel-prai-2025",
@@ -501,6 +502,7 @@ export const featuredCarouselItems = [
     ctaPrimaryLabel: "Leer más",
     location: "Virtual a través de Microsoft Teams",
     imagePosition: "center",
+    imageFit: "cover" as const,
   },
   {
     id: "berec-eapereg-regulatel",
@@ -511,6 +513,7 @@ export const featuredCarouselItems = [
     href: "https://www.berec.europa.eu/en/events/four-lateral-berec-eapereg-regulatel-and-emerg-summit-0",
     ctaPrimaryLabel: "Leer más",
     location: "Barcelona, España",
+    imageFit: "cover" as const,
   },
   {
     id: "regulatel-asiet-cartagena-dic-2024",
@@ -521,6 +524,7 @@ export const featuredCarouselItems = [
     href: "https://www.crcom.gov.co/es/noticias/comunicado-prensa/cumbre-regulatel-asiet",
     ctaPrimaryLabel: "Leer más",
     imagePosition: "center",
+    imageFit: "cover" as const,
   },
   {
     id: "berec-regulatel-bolivia-junio-2025",
@@ -530,5 +534,6 @@ export const featuredCarouselItems = [
     imageUrl: "/images/cumbre-berec-santa-cruz-2024.jpg",
     href: "/noticias/concluye-con-exito-la-historica-cumbre-regulatel-berec-en-bolivia-2024",
     ctaPrimaryLabel: "Leer más",
+    imageFit: "cover" as const,
   },
 ];
