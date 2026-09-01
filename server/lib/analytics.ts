@@ -30,6 +30,7 @@ export type AnalyticsTopPage = {
 
 export type AnalyticsStats = {
   timezone: string;
+  generatedAt: string;
   today: PeriodCounts;
   yesterday: PeriodCounts;
   week: PeriodCounts;
@@ -169,6 +170,20 @@ function asCounts(row: { visitors?: number; views?: number } | undefined): Perio
   };
 }
 
+function asDayKey(value: unknown): string {
+  if (value instanceof Date && !Number.isNaN(value.getTime())) {
+    return new Intl.DateTimeFormat("en-CA", {
+      timeZone: TZ,
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    }).format(value);
+  }
+  const text = String(value ?? "");
+  const match = text.match(/^(\d{4}-\d{2}-\d{2})/);
+  return match ? match[1] : text.slice(0, 10);
+}
+
 export async function getAnalyticsStats(): Promise<AnalyticsStats> {
   await ensureAnalyticsSchema();
   const sql = getDb();
@@ -200,15 +215,22 @@ export async function getAnalyticsStats(): Promise<AnalyticsStats> {
         <= (NOW() AT TIME ZONE 'America/Santo_Domingo')::date - 7
   `;
   const dayRows = await sql<{ day: string; visitors: number; views: number }[]>`
+    WITH bounds AS (
+      SELECT (NOW() AT TIME ZONE 'America/Santo_Domingo')::date AS today
+    ),
+    days AS (
+      SELECT generate_series(today - 13, today, INTERVAL '1 day')::date AS day
+      FROM bounds
+    )
     SELECT
-      ((visited_at AT TIME ZONE 'America/Santo_Domingo')::date)::text AS day,
-      COUNT(*)::int AS views,
-      COUNT(DISTINCT visitor_id)::int AS visitors
-    FROM page_views
-    WHERE (visited_at AT TIME ZONE 'America/Santo_Domingo')::date
-        >= (NOW() AT TIME ZONE 'America/Santo_Domingo')::date - 13
-    GROUP BY 1
-    ORDER BY 1
+      to_char(days.day, 'YYYY-MM-DD') AS day,
+      COUNT(pv.id)::int AS views,
+      COUNT(DISTINCT pv.visitor_id)::int AS visitors
+    FROM days
+    LEFT JOIN page_views pv
+      ON (pv.visited_at AT TIME ZONE 'America/Santo_Domingo')::date = days.day
+    GROUP BY days.day
+    ORDER BY days.day
   `;
   const topPages = await sql<AnalyticsTopPage[]>`
     SELECT path, COUNT(*)::int AS views, COUNT(DISTINCT visitor_id)::int AS visitors
@@ -220,25 +242,15 @@ export async function getAnalyticsStats(): Promise<AnalyticsStats> {
     LIMIT 12
   `;
 
-  const byDay = new Map(dayRows.map((row) => [row.day, row]));
-  const days: AnalyticsDay[] = [];
-  for (let i = 13; i >= 0; i--) {
-    const key = new Intl.DateTimeFormat("en-CA", {
-      timeZone: TZ,
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-    }).format(new Date(Date.now() - i * 24 * 60 * 60 * 1000));
-    const row = byDay.get(key);
-    days.push({
-      date: key,
-      visitors: Number(row?.visitors ?? 0),
-      views: Number(row?.views ?? 0),
-    });
-  }
+  const days: AnalyticsDay[] = dayRows.map((row) => ({
+    date: asDayKey(row.day),
+    visitors: Number(row.visitors ?? 0),
+    views: Number(row.views ?? 0),
+  }));
 
   return {
     timezone: TZ,
+    generatedAt: new Date().toISOString(),
     today: asCounts(today),
     yesterday: asCounts(yesterday),
     week: asCounts(week),

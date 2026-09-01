@@ -227,6 +227,7 @@ export const api = {
           yesterday: { visitors: number; views: number };
           week: { visitors: number; views: number };
           prevWeek: { visitors: number; views: number };
+          generatedAt?: string;
           days: Array<{ date: string; visitors: number; views: number }>;
           topPages: Array<{ path: string; views: number; visitors: number }>;
         }>("/admin/analytics"),
