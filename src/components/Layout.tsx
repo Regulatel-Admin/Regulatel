@@ -210,6 +210,7 @@ export default function Layout({ children }: LayoutProps) {
                   <Link
                     key={l.to}
                     to={l.to}
+                    rel={l.to === "/login" ? "nofollow" : undefined}
                     style={{ fontSize: "0.8125rem", color: "rgba(255,255,255,0.60)", textDecoration: "none", transition: "color 0.15s" }}
                     className="hover:!text-white"
                   >

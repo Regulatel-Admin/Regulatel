@@ -324,6 +324,7 @@ export default function TopBarBerecLike({
           {/* Login icon */}
           <Link
             to="/login"
+            rel="nofollow"
             aria-label={t("common.topbar.login")}
             className="hidden md:inline-flex items-center justify-center rounded-md p-1.5 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-1 shrink-0"
             style={{ color: iconColor }}

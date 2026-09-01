@@ -3,6 +3,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Lock, User, KeyRound, ArrowLeft } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
+import { useNoIndex } from "@/hooks/useNoIndex";
+
+function configErrorForVisitors(raw: string | null, fallback: string): string {
+  if (!raw) return fallback;
+  if (/compute|quota|exceeded|insufficient/i.test(raw)) return fallback;
+  return raw;
+}
 
 export default function Login() {
   const { t } = useTranslation();
@@ -12,6 +19,9 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const visitorConfigError = configErrorForVisitors(configError, t("pages.login.notConfiguredDefault"));
+
+  useNoIndex();
 
   useEffect(() => {
     if (!isChecking && isAdmin) {
@@ -101,7 +111,7 @@ export default function Login() {
                   <p className="font-semibold" style={{ color: "var(--regu-navy)" }}>
                     {t("pages.login.notConfiguredTitle")}
                   </p>
-                  <p>{configError ?? t("pages.login.notConfiguredDefault")}</p>
+                  <p>{visitorConfigError}</p>
                   {(configError?.includes("DATABASE") ?? false) && (
                     <p className="text-xs mt-2">
                       En Vercel: <strong>Settings → Environment Variables</strong> → añade <code className="bg-black/10 px-1 rounded">DATABASE_URL</code> con la cadena de conexión de Neon y vuelve a desplegar.

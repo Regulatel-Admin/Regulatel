@@ -38,6 +38,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { useSiteEdit } from "@/contexts/SiteEditContext";
+import { useNoIndex } from "@/hooks/useNoIndex";
 
 type NavItem = {
   to: string;
@@ -157,6 +158,7 @@ function NavItemLink({
 }
 
 export default function AdminLayout() {
+  useNoIndex();
   const { isAdmin, isChecking, canManageUsers, user, logout } = useAuth();
   const { enter: enterSiteEdit } = useSiteEdit();
   const { contentSource, contentError, recheckContentSource } = useAdminData();
