@@ -95,25 +95,31 @@ function BreakdownList({
     );
   }
   return (
-    <ul className="space-y-1.5 px-3 pb-3">
-      {rows.map((row) => (
-        <li key={row.key}>
-          <div className="mb-0.5 flex items-center justify-between gap-2 text-xs">
-            <span className="min-w-0 truncate font-medium" style={{ color: "var(--regu-navy)" }}>
-              {labelOf(row.key)}
-            </span>
-            <span className="shrink-0 tabular-nums" style={{ color: "var(--regu-gray-600)" }}>
-              {formatInt(row.visitors)} · {formatInt(row.views)}
-            </span>
-          </div>
-          <div className="h-1 overflow-hidden rounded-full" style={{ backgroundColor: "rgba(22,61,89,0.08)" }}>
-            <div
-              className="h-full rounded-full"
-              style={{ width: `${Math.max(6, Math.round((row.visitors / max) * 100))}%`, backgroundColor: "#4489C6" }}
-            />
-          </div>
-        </li>
-      ))}
+    <ul className="space-y-2 px-3 pb-3">
+      {rows.map((row) => {
+        const name = labelOf(row.key);
+        return (
+          <li key={row.key}>
+            <div className="mb-0.5 flex items-start justify-between gap-3 text-xs">
+              <span className="min-w-0 font-medium leading-snug" style={{ color: "var(--regu-navy)" }} title={name}>
+                {name}
+              </span>
+              <span className="shrink-0 text-right leading-snug tabular-nums" style={{ color: "var(--regu-gray-600)" }}>
+                <span className="block font-semibold" style={{ color: "var(--regu-navy)" }}>
+                  {formatInt(row.visitors)} personas
+                </span>
+                <span className="block text-[10px]">{formatInt(row.views)} páginas</span>
+              </span>
+            </div>
+            <div className="h-1.5 overflow-hidden rounded-full" style={{ backgroundColor: "rgba(22,61,89,0.08)" }}>
+              <div
+                className="h-full rounded-full"
+                style={{ width: `${Math.max(8, Math.round((row.visitors / max) * 100))}%`, backgroundColor: "#4489C6" }}
+              />
+            </div>
+          </li>
+        );
+      })}
     </ul>
   );
 }
@@ -192,7 +198,7 @@ function formatAgo(from: number, now: number) {
 
 function chartAxisLabel(isoDate: string) {
   const [year, month, day] = isoDate.split("-").map(Number);
-  if (!year || !month || !day) return { weekday: isoDate, day: "", month: "" };
+  if (!year || !month || !day) return { weekday: isoDate, dayMonth: "" };
   const date = new Date(Date.UTC(year, month - 1, day));
   const weekday = new Intl.DateTimeFormat("es-DO", { weekday: "short", timeZone: "UTC" })
     .format(date)
@@ -201,105 +207,66 @@ function chartAxisLabel(isoDate: string) {
   const monthShort = new Intl.DateTimeFormat("es-DO", { month: "short", timeZone: "UTC" })
     .format(date)
     .replace(".", "");
-  return { weekday, day: String(day).padStart(2, "0"), month: monthShort };
+  return { weekday, dayMonth: `${String(day).padStart(2, "0")} ${monthShort}` };
 }
 
 function VisitorsChart({ days }: { days: Array<{ date: string; visitors: number; views: number }> }) {
   const todayKey = dominicanDateKey(new Date());
-  const n = Math.max(days.length, 1);
-  const barW = 30;
-  const gap = 7;
-  const slot = barW + gap;
-  const padL = 28;
-  const padR = 8;
-  const padT = 18;
-  const padB = 32;
-  const innerH = 102;
-  const width = padL + n * slot - gap + padR;
-  const height = padT + innerH + padB;
   const max = Math.max(1, ...days.map((day) => day.visitors));
-  const ticks = [0, 0.5, 1];
+  const barMaxH = 112;
 
   return (
-    <div className="overflow-x-auto">
-      <svg
-        viewBox={`0 0 ${width} ${height}`}
-        width={width}
-        height={height}
-        className="mx-auto block max-w-full"
-        role="img"
-        aria-label="Personas distintas por día en los últimos 14 días"
-      >
-        {ticks.map((tick) => {
-          const y = padT + innerH - tick * innerH;
-          return (
-            <g key={tick}>
-              <line x1={padL - 4} x2={width - padR} y1={y} y2={y} stroke="rgba(22,61,89,0.10)" strokeWidth="1" />
-              <text x={padL - 8} y={y + 3} textAnchor="end" fill="#7E909E" fontSize="9" fontFamily="inherit">
-                {Math.round(tick * max)}
-              </text>
-            </g>
-          );
-        })}
-        {days.map((day, index) => {
-          const barH = day.visitors > 0 ? Math.max(5, (day.visitors / max) * innerH) : 3;
-          const x = padL + index * slot;
-          const y = padT + innerH - barH;
-          const label = chartAxisLabel(day.date);
-          const isToday = day.date === todayKey;
-          return (
-            <g key={day.date}>
-              <rect
-                x={x}
-                y={y}
-                width={barW}
-                height={barH}
-                rx="5"
-                fill={day.visitors > 0 ? (isToday ? "#2F6FA8" : "#4489C6") : "rgba(22,61,89,0.12)"}
-              >
-                <title>
-                  {`${formatDayLabel(day.date)}: ${day.visitors} personas distintas, ${day.views} páginas vistas`}
-                </title>
-              </rect>
-              {day.visitors > 0 ? (
-                <text
-                  x={x + barW / 2}
-                  y={y - 5}
-                  textAnchor="middle"
-                  fill="#163D59"
-                  fontSize="10"
-                  fontWeight="700"
-                  fontFamily="inherit"
-                >
-                  {day.visitors}
-                </text>
-              ) : null}
-              <text
-                x={x + barW / 2}
-                y={height - 18}
-                textAnchor="middle"
-                fill="#5B6E7A"
-                fontSize="8"
-                fontFamily="inherit"
-              >
-                {`${label.weekday}, ${label.day}`}
-              </text>
-              <text
-                x={x + barW / 2}
-                y={height - 6}
-                textAnchor="middle"
-                fill="#7E909E"
-                fontSize="8"
-                fontFamily="inherit"
-              >
-                {label.month}
-              </text>
-            </g>
-          );
-        })}
-      </svg>
-      <p className="mt-1 text-center text-[10px]" style={{ color: "var(--regu-gray-500)" }}>
-        El número es personas distintas. Pasa el cursor por la barra para ver las páginas vistas.
+    <div>
+      <div className="flex gap-2" role="img" aria-label="Personas distintas por día en los últimos 14 días">
+        <div className="flex w-7 shrink-0 flex-col">
+          <div className="h-4" />
+          <div
+            className="flex h-[112px] flex-col justify-between text-right text-[10px] leading-none"
+            style={{ color: "#7E909E" }}
+          >
+            <span>{max}</span>
+            <span>{Math.round(max / 2)}</span>
+            <span>0</span>
+          </div>
+        </div>
+        <div className="flex min-w-0 flex-1 items-end gap-[3px]">
+          {days.map((day) => {
+            const label = chartAxisLabel(day.date);
+            const barH = day.visitors > 0 ? Math.max(6, Math.round((day.visitors / max) * barMaxH)) : 3;
+            const isToday = day.date === todayKey;
+            return (
+              <div key={day.date} className="flex min-w-0 flex-1 flex-col items-center">
+                <div className="flex h-[128px] w-full flex-col items-center justify-end">
+                  {day.visitors > 0 ? (
+                    <span className="mb-0.5 text-[11px] font-bold leading-none tabular-nums" style={{ color: "var(--regu-navy)" }}>
+                      {day.visitors}
+                    </span>
+                  ) : (
+                    <span className="mb-0.5 h-[11px]" />
+                  )}
+                  <div
+                    className="w-full rounded-t-md"
+                    title={`${formatDayLabel(day.date)}: ${day.visitors} personas distintas, ${day.views} páginas vistas`}
+                    style={{
+                      height: barH,
+                      backgroundColor: day.visitors > 0 ? (isToday ? "#2F6FA8" : "#4489C6") : "rgba(22,61,89,0.12)",
+                    }}
+                  />
+                </div>
+                <span className="mt-1.5 text-[10px] font-semibold leading-none" style={{ color: "var(--regu-navy)" }}>
+                  {label.weekday}
+                </span>
+                <span className="mt-0.5 text-[10px] leading-none" style={{ color: "var(--regu-gray-500)" }}>
+                  {label.dayMonth}
+                </span>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+      <p className="mt-2 text-[10px]" style={{ color: "var(--regu-gray-500)" }}>
+        El número encima de cada barra es cuántas personas distintas hubo ese día. Pasa el cursor para ver las páginas
+        vistas.
       </p>
     </div>
   );
@@ -333,7 +300,10 @@ function MiniStat({
         {formatInt(visitors)}
       </p>
       <p className="mt-1 text-[11px] leading-snug" style={{ color: "var(--regu-gray-600)" }}>
-        {formatInt(views)} páginas · {hint}
+        personas distintas
+      </p>
+      <p className="text-[11px] leading-snug" style={{ color: "var(--regu-gray-600)" }}>
+        {formatInt(views)} páginas vistas · {hint}
       </p>
     </div>
   );
@@ -412,7 +382,7 @@ export default function AdminVisitas() {
   const remaining = msUntilNextDominicanMidnight(new Date(now));
 
   return (
-    <div className="max-w-5xl">
+    <div>
       <div className="mb-3 flex flex-wrap items-end justify-between gap-2">
         <div>
           <h1 className="text-lg font-bold" style={{ color: "var(--regu-gray-900)" }}>
@@ -529,12 +499,12 @@ export default function AdminVisitas() {
               <BreakdownList
                 rows={countries}
                 labelOf={(key) => `${flagEmoji(key)} ${countryLabel(key)}`}
-                empty="Cuando alguien abra el sitio público, el país aparece aquí. Las visitas viejas no lo tenían."
+                empty="Aún no hay países. No se puede recuperar el de las visitas viejas: no se guardó. Las nuevas sí salen aquí."
               />
               {unknownCountry.visitors > 0 ? (
                 <p className="border-t px-3 py-2 text-[10px]" style={{ borderColor: "rgba(22,61,89,0.08)", color: "var(--regu-gray-500)" }}>
-                  {formatInt(unknownCountry.visitors)} personas de esta semana aún sin país (visitas anteriores). Se
-                  completa cuando vuelven a entrar.
+                  {formatInt(unknownCountry.visitors)} personas de esta semana todavía sin país. Si vuelven a entrar, se
+                  completa.
                 </p>
               ) : null}
             </div>
@@ -613,8 +583,8 @@ export default function AdminVisitas() {
                   <thead style={{ backgroundColor: "#FAFBFC", color: "var(--regu-gray-500)" }}>
                     <tr>
                       <th className="px-3 py-1.5 font-semibold">Página</th>
-                      <th className="px-3 py-1.5 font-semibold">Personas</th>
-                      <th className="px-3 py-1.5 font-semibold">Vistas</th>
+                      <th className="px-3 py-1.5 font-semibold">Personas distintas</th>
+                      <th className="px-3 py-1.5 font-semibold">Páginas vistas</th>
                     </tr>
                   </thead>
                   <tbody>
