@@ -1,6 +1,6 @@
 /**
  * Visitas anónimas del sitio público.
- * No guarda IP, nombre ni correo: cookie anónima, ruta, país (cabecera de Vercel) y tipo de aparato.
+ * No guarda IP, nombre ni correo: cookie anónima, ruta, país (cabecera o geo puntual) y tipo de aparato.
  */
 
 import crypto from "crypto";
@@ -56,6 +56,7 @@ export type AnalyticsStats = {
   days: AnalyticsDay[];
   topPages: AnalyticsTopPage[];
   countries: AnalyticsBreakdown[];
+  unknownCountry: PeriodCounts;
   referrers: AnalyticsBreakdown[];
   devices: AnalyticsBreakdown[];
   recent: AnalyticsRecentHit[];
@@ -158,26 +159,43 @@ export function sanitizeReferrer(input: unknown): string | null {
   }
 }
 
-function headerValue(headers: IncomingHttpHeaders, name: string): string | null {
-  const raw = headers[name];
-  const value = Array.isArray(raw) ? raw[0] : raw;
-  return typeof value === "string" && value.trim() ? value.trim() : null;
+function flattenHeaders(
+  headers: IncomingHttpHeaders | Headers | Record<string, unknown> | undefined,
+): Record<string, string> {
+  const out: Record<string, string> = {};
+  if (!headers) return out;
+  const maybeForEach = headers as { forEach?: (cb: (value: string, key: string) => void) => void };
+  if (typeof maybeForEach.forEach === "function") {
+    maybeForEach.forEach((value, key) => {
+      if (value) out[String(key).toLowerCase()] = String(value).trim();
+    });
+    return out;
+  }
+  for (const [key, raw] of Object.entries(headers as Record<string, unknown>)) {
+    if (raw == null) continue;
+    const value = Array.isArray(raw) ? raw[0] : raw;
+    if (typeof value === "string" && value.trim()) out[key.toLowerCase()] = value.trim();
+  }
+  return out;
 }
 
-export function countryFromHeaders(headers: IncomingHttpHeaders): string | null {
-  const raw =
-    headerValue(headers, "x-vercel-ip-country") ||
-    headerValue(headers, "cf-ipcountry") ||
-    headerValue(headers, "x-country-code");
+function headerValue(
+  headers: IncomingHttpHeaders | Headers | Record<string, unknown> | undefined,
+  name: string,
+): string | null {
+  const value = flattenHeaders(headers)[name.toLowerCase()];
+  return value || null;
+}
+
+function normalizeCountry(raw: string | null | undefined): string | null {
   if (!raw) return null;
-  const code = raw.toUpperCase();
-  if (code === "XX" || code === "T1") return null;
+  const code = raw.trim().toUpperCase();
+  if (code === "XX" || code === "T1" || code === "ZZ" || code === "A1" || code === "A2") return null;
   if (!/^[A-Z]{2}$/.test(code)) return null;
   return code;
 }
 
-export function cityFromHeaders(headers: IncomingHttpHeaders): string | null {
-  const raw = headerValue(headers, "x-vercel-ip-city");
+function sanitizeCity(raw: string | null | undefined): string | null {
   if (!raw) return null;
   let city = raw;
   try {
@@ -187,6 +205,114 @@ export function cityFromHeaders(headers: IncomingHttpHeaders): string | null {
   }
   city = city.replace(/[^\p{L}\p{N} .'-]/gu, "").trim().slice(0, 80);
   return city || null;
+}
+
+function isPublicIp(ip: string): boolean {
+  if (!ip) return false;
+  const value = ip.trim().toLowerCase();
+  if (value === "127.0.0.1" || value === "::1" || value === "0.0.0.0" || value === "::") return false;
+  if (value.startsWith("10.")) return false;
+  if (value.startsWith("192.168.")) return false;
+  if (value.startsWith("169.254.")) return false;
+  const m = value.match(/^172\.(\d+)\./);
+  if (m && Number(m[1]) >= 16 && Number(m[1]) <= 31) return false;
+  if (value.startsWith("fc") || value.startsWith("fd") || value.startsWith("fe80:")) return false;
+  return /^\d{1,3}(\.\d{1,3}){3}$/.test(value) || value.includes(":");
+}
+
+function firstPublicIp(raw: string | null): string | null {
+  if (!raw) return null;
+  for (const part of raw.split(",")) {
+    let ip = part.trim();
+    if (!ip) continue;
+    if (ip.startsWith("[")) {
+      ip = ip.slice(1).replace(/\]:\d+$/, "").replace(/\]$/, "");
+    } else if (/^\d{1,3}(\.\d{1,3}){3}:\d+$/.test(ip)) {
+      ip = ip.slice(0, ip.lastIndexOf(":"));
+    }
+    if (isPublicIp(ip)) return ip;
+  }
+  return null;
+}
+
+export function clientIpFromHeaders(
+  headers: IncomingHttpHeaders | Headers | Record<string, unknown> | undefined,
+): string | null {
+  const bag = flattenHeaders(headers);
+  return (
+    firstPublicIp(bag["cf-connecting-ip"]) ||
+    firstPublicIp(bag["true-client-ip"]) ||
+    firstPublicIp(bag["x-real-ip"]) ||
+    firstPublicIp(bag["x-vercel-forwarded-for"]) ||
+    firstPublicIp(bag["x-forwarded-for"])
+  );
+}
+
+export function countryFromHeaders(
+  headers: IncomingHttpHeaders | Headers | Record<string, unknown> | undefined,
+): string | null {
+  const bag = flattenHeaders(headers);
+  return normalizeCountry(
+    bag["x-vercel-ip-country"] ||
+      bag["cf-ipcountry"] ||
+      bag["cloudfront-viewer-country"] ||
+      bag["x-country-code"] ||
+      bag["x-appengine-country"] ||
+      bag["fastly-client-country-code"],
+  );
+}
+
+export function cityFromHeaders(
+  headers: IncomingHttpHeaders | Headers | Record<string, unknown> | undefined,
+): string | null {
+  return sanitizeCity(headerValue(headers, "x-vercel-ip-city") || headerValue(headers, "cf-ipcity"));
+}
+
+type GeoHit = { country: string | null; city: string | null };
+
+const geoCache = new Map<string, { geo: GeoHit; at: number }>();
+
+function ipCacheKey(ip: string) {
+  return crypto.createHash("sha256").update(ip).digest("hex").slice(0, 24);
+}
+
+async function countryFromIp(ip: string): Promise<GeoHit> {
+  const key = ipCacheKey(ip);
+  const cached = geoCache.get(key);
+  if (cached && Date.now() - cached.at < 6 * 60 * 60 * 1000) return cached.geo;
+  try {
+    const res = await fetch(`https://get.geojs.io/v1/ip/geo/${encodeURIComponent(ip)}.json`, {
+      signal: AbortSignal.timeout(1200),
+      headers: { Accept: "application/json" },
+    });
+    if (!res.ok) return { country: null, city: null };
+    const data = (await res.json()) as { country_code?: string; city?: string };
+    const geo: GeoHit = {
+      country: normalizeCountry(data.country_code),
+      city: sanitizeCity(data.city),
+    };
+    if (geoCache.size > 2000) {
+      const oldest = geoCache.keys().next().value;
+      if (oldest) geoCache.delete(oldest);
+    }
+    geoCache.set(key, { geo, at: Date.now() });
+    return geo;
+  } catch {
+    return { country: null, city: null };
+  }
+}
+
+/** País y ciudad sin guardar la IP: cabeceras de Vercel/CDN o consulta puntual. */
+export async function resolveVisitGeo(
+  headers: IncomingHttpHeaders | Headers | Record<string, unknown> | undefined,
+): Promise<GeoHit> {
+  const country = countryFromHeaders(headers);
+  const city = cityFromHeaders(headers);
+  if (country) return { country, city };
+  const ip = clientIpFromHeaders(headers);
+  if (!ip) return { country: null, city };
+  const looked = await countryFromIp(ip);
+  return { country: looked.country, city: looked.city ?? city };
 }
 
 export function deviceFromUserAgent(ua: string | undefined): "mobile" | "tablet" | "desktop" | null {
@@ -213,7 +339,17 @@ export async function recordPageView(input: {
       AND visited_at > NOW() - INTERVAL '25 seconds'
     LIMIT 1
   `;
-  if (recent.length > 0) return false;
+  if (recent.length > 0) {
+    if (input.country) {
+      await sql`
+        UPDATE page_views
+        SET country = ${input.country}
+        WHERE visitor_id = ${input.visitorId}
+          AND (country IS NULL OR country = '')
+      `;
+    }
+    return false;
+  }
 
   await sql`
     INSERT INTO page_views (id, visitor_id, path, referrer, country, city, device, visited_at)
@@ -228,6 +364,30 @@ export async function recordPageView(input: {
       NOW()
     )
   `;
+  if (input.country) {
+    await sql`
+      UPDATE page_views
+      SET country = ${input.country}
+      WHERE visitor_id = ${input.visitorId}
+        AND (country IS NULL OR country = '')
+    `;
+  }
+  if (input.city) {
+    await sql`
+      UPDATE page_views
+      SET city = ${input.city}
+      WHERE visitor_id = ${input.visitorId}
+        AND (city IS NULL OR city = '')
+    `;
+  }
+  if (input.device) {
+    await sql`
+      UPDATE page_views
+      SET device = ${input.device}
+      WHERE visitor_id = ${input.visitorId}
+        AND (device IS NULL OR device = '')
+    `;
+  }
   return true;
 }
 
@@ -342,13 +502,22 @@ export async function getAnalyticsStats(): Promise<AnalyticsStats> {
     FROM today_ids
   `;
   const countryRows = await sql<{ key: string; visitors: number; views: number }[]>`
-    SELECT COALESCE(country, '') AS key, COUNT(*)::int AS views, COUNT(DISTINCT visitor_id)::int AS visitors
+    SELECT country AS key, COUNT(*)::int AS views, COUNT(DISTINCT visitor_id)::int AS visitors
     FROM page_views
     WHERE (visited_at AT TIME ZONE 'America/Santo_Domingo')::date
         >= (NOW() AT TIME ZONE 'America/Santo_Domingo')::date - 6
+      AND country IS NOT NULL
+      AND country <> ''
     GROUP BY 1
     ORDER BY visitors DESC, views DESC
     LIMIT 12
+  `;
+  const [unknownCountry] = await sql<{ visitors: number; views: number }[]>`
+    SELECT COUNT(*)::int AS views, COUNT(DISTINCT visitor_id)::int AS visitors
+    FROM page_views
+    WHERE (visited_at AT TIME ZONE 'America/Santo_Domingo')::date
+        >= (NOW() AT TIME ZONE 'America/Santo_Domingo')::date - 6
+      AND (country IS NULL OR country = '')
   `;
   const referrerRows = await sql<{ key: string; visitors: number; views: number }[]>`
     SELECT COALESCE(NULLIF(referrer, ''), '(directo)') AS key, COUNT(*)::int AS views, COUNT(DISTINCT visitor_id)::int AS visitors
@@ -407,6 +576,7 @@ export async function getAnalyticsStats(): Promise<AnalyticsStats> {
       visitors: Number(row.visitors ?? 0),
     })),
     countries: toBreakdown(countryRows),
+    unknownCountry: asCounts(unknownCountry),
     referrers: toBreakdown(referrerRows),
     devices: toBreakdown(deviceRows),
     recent: recentRows.map((row) => ({

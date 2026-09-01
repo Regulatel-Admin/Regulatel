@@ -233,6 +233,7 @@ export const api = {
           days: Array<{ date: string; visitors: number; views: number }>;
           topPages: Array<{ path: string; views: number; visitors: number }>;
           countries?: Array<{ key: string; visitors: number; views: number }>;
+          unknownCountry?: { visitors: number; views: number };
           referrers?: Array<{ key: string; visitors: number; views: number }>;
           devices?: Array<{ key: string; visitors: number; views: number }>;
           recent?: Array<{

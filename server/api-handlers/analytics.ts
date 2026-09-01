@@ -2,13 +2,12 @@ import type { IncomingMessage, ServerResponse } from "http";
 import { parseJsonBody } from "../lib/parseBody.js";
 import { isDbConfigured } from "../lib/db.js";
 import {
-  cityFromHeaders,
-  countryFromHeaders,
   deviceFromUserAgent,
   getVisitorIdFromCookie,
   isBotUserAgent,
   newVisitorId,
   recordPageView,
+  resolveVisitGeo,
   sanitizePath,
   sanitizeReferrer,
   visitorCookieHeader,
@@ -63,12 +62,13 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
     }
 
     const visitorId = getVisitorIdFromCookie(req.headers.cookie) ?? newVisitorId();
+    const geo = await resolveVisitGeo(req.headers);
     await recordPageView({
       visitorId,
       path,
       referrer: sanitizeReferrer(body.referrer),
-      country: countryFromHeaders(req.headers),
-      city: cityFromHeaders(req.headers),
+      country: geo.country,
+      city: geo.city,
       device: deviceFromUserAgent(req.headers["user-agent"]),
     });
     res.setHeader("Set-Cookie", visitorCookieHeader(visitorId, isSecureRequest(req)));
