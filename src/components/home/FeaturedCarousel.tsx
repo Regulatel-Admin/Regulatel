@@ -76,6 +76,9 @@ function slideImageUrl(item: FeaturedCarouselItem): string {
   if (url === "/images/cumbre-berec-cartagena-2026.jpg") {
     return "/images/cumbre-berec-cartagena-2026.jpg?v=4";
   }
+  if (url === "/images/semana-regulatel-montevideo-2026-carousel.jpg") {
+    return "/images/semana-regulatel-montevideo-2026-carousel.jpg?v=1";
+  }
   return item.imageUrl;
 }
 
@@ -161,13 +164,11 @@ export default function FeaturedCarousel({
               backgroundColor: "#000e32",
               backgroundImage: `url(${slideImageUrl(item)})`,
               backgroundRepeat: "no-repeat",
-              backgroundSize: isMontevideo2026Banner(item)
-                ? "contain"
-                : isGraphicBanner(item)
-                  ? "100% 100%"
-                  : fit === "contain"
-                    ? "contain"
-                    : "cover",
+              backgroundSize: isGraphicBanner(item)
+                ? "100% 100%"
+                : fit === "contain"
+                  ? "contain"
+                  : "cover",
               backgroundPosition: isGraphicBanner(item)
                 ? "center"
                 : item.imagePosition ?? (fit === "contain" ? "right center" : "center"),

@@ -4,6 +4,7 @@ export const SEMANA_REGULATEL_2026_EVENT_ID = "cumbre-regulatel-asiet-comtelca-2
 export const SEMANA_REGULATEL_2026_NEWS_SLUG = "semana-regulatel-montevideo-2026";
 export const SEMANA_REGULATEL_2026_IMAGE = "/images/noticias/semana-regulatel-montevideo-2026.png";
 export const SEMANA_REGULATEL_2026_NEWS_IMAGE = "/images/noticias/semana-regulatel-montevideo-2026-card.png";
+export const SEMANA_REGULATEL_2026_CAROUSEL_IMAGE = "/images/semana-regulatel-montevideo-2026-carousel.jpg";
 
 export function isSemanaRegulatelNews(slug: string | undefined | null): boolean {
   return (slug ?? "").toLowerCase() === SEMANA_REGULATEL_2026_NEWS_SLUG;
@@ -26,12 +27,12 @@ export const SEMANA_REGULATEL_2026_CAROUSEL_ITEM = {
   type: "eventos" as const,
   date: "16 de octubre de 2026",
   title: "Cumbre REGULATEL - ASIET - COMTELCA",
-  imageUrl: SEMANA_REGULATEL_2026_IMAGE,
+  imageUrl: SEMANA_REGULATEL_2026_CAROUSEL_IMAGE,
   href: `/eventos/${SEMANA_REGULATEL_2026_EVENT_ID}`,
   ctaPrimaryLabel: "Ver Cumbre",
   location: "Montevideo, Uruguay",
-  imagePosition: "center",
-  imageFit: "contain" as const,
+  imagePosition: "center right",
+  imageFit: "cover" as const,
 };
 
 const DOCS_BASE = "/documents/semana-regulatel-montevideo-2026";
