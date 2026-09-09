@@ -182,6 +182,35 @@
     "description": "Cumbre REGULATEL - PRAI."
   },
   {
+    "id": "cumbre-regulatel-asiet-comtelca-2026",
+    "title": "Cumbre REGULATEL - ASIET - COMTELCA",
+    "organizer": "REGULATEL",
+    "location": "Montevideo, Uruguay",
+    "startDate": "2026-10-16",
+    "endDate": null,
+    "registrationUrl": null,
+    "detailsUrl": null,
+    "isFeatured": true,
+    "tags": ["ASIET", "COMTELCA", "Montevideo"],
+    "description": "XVIII Cumbre REGULATEL–ASIET–COMTELCA, el 16 de octubre de 2026 en el CAF (Montevideo), en el marco de la Semana REGULATEL 2026.",
+    "attachments": [
+      {
+        "id": "boletin-semana-regulatel-2026",
+        "title": "Boletín informativo — Semana REGULATEL Uruguay",
+        "url": "/documents/semana-regulatel-montevideo-2026/boletin-informativo-semana-regulatel-uruguay.pdf",
+        "fileName": "boletin-informativo-semana-regulatel-uruguay.pdf",
+        "fileType": "application/pdf"
+      },
+      {
+        "id": "nota-prensa-semana-regulatel-2026",
+        "title": "Nota de prensa — REGULATEL reunirá en Montevideo a reguladores y organizaciones aliadas",
+        "url": "/documents/semana-regulatel-montevideo-2026/regulatel-reunira-en-montevideo-a-reguladores.docx",
+        "fileName": "regulatel-reunira-en-montevideo-a-reguladores.docx",
+        "fileType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+      }
+    ]
+  },
+  {
     "id": "conferencia-plenipotenciarios-2026",
     "title": "Conferencia de Plenipotenciarios de 2026 (PP-26)",
     "organizer": "UIT",

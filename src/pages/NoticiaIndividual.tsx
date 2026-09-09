@@ -19,6 +19,8 @@ import { useAdminData } from "@/contexts/AdminDataContext";
 import type { NoticiaData } from "./noticiasData";
 import { localizeNoticiaData } from "@/hooks/useLocalizedNews";
 import { EditableSpot } from "@/components/site-edit/EditableSpot";
+import EventDocumentsSection from "@/components/events/EventDocumentsSection";
+import { SEMANA_REGULATEL_2026_ATTACHMENTS, SEMANA_REGULATEL_2026_NEWS_SLUG, SEMANA_REGULATEL_2026_IMAGE, SEMANA_REGULATEL_2026_NEWS_IMAGE } from "@/data/semanaRegulatel2026";
 
 const fadeIn = {
   hidden: { opacity: 0, y: 16 },
@@ -360,6 +362,10 @@ function ArticleBody({ payload, isStaticCumbre }: { payload: ArticlePayload; isS
             </span>
           ))}
         </div>
+      )}
+
+      {payload.slug === SEMANA_REGULATEL_2026_NEWS_SLUG && (
+        <EventDocumentsSection documents={SEMANA_REGULATEL_2026_ATTACHMENTS} />
       )}
 
       {payload.slug === "webinar-violencia-digital-rol-entes-reguladores" && (
@@ -719,7 +725,17 @@ function ArticleLayout({ payload, isStaticCumbre }: { payload: ArticlePayload; i
 
       {/* Main image / video carousel */}
       {(() => {
-        const allImages = [payload.imageUrl, ...(payload.additionalImages ?? [])].filter(Boolean) as string[];
+        let allImages = [payload.imageUrl, ...(payload.additionalImages ?? [])].filter(
+          (url): url is string => Boolean(url)
+        );
+        if (payload.slug === SEMANA_REGULATEL_2026_NEWS_SLUG) {
+          allImages = [
+            SEMANA_REGULATEL_2026_IMAGE,
+            ...allImages.filter(
+              (url) => url !== SEMANA_REGULATEL_2026_IMAGE && url !== SEMANA_REGULATEL_2026_NEWS_IMAGE
+            ),
+          ];
+        }
         const videos = payload.videoUrl?.startsWith("/") ? [payload.videoUrl] : [];
         const hasCarousel = allImages.length + videos.length > 1;
 

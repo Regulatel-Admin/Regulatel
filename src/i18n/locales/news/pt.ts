@@ -6,6 +6,21 @@ export default {
     Eventos: "Eventos",
   },
   newsArticles: {
+    "semana-regulatel-montevideo-2026": {
+      title:
+        "A REGULATEL reunirá em Montevideu reguladores e organizações parceiras durante a Semana REGULATEL 2026",
+      excerpt:
+        "A agenda regional, prevista de 13 a 16 de outubro, integrará reuniões de trabalho e cimeiras com a BEREC, a PRAI, a ASIET e a COMTELCA para reforçar a cooperação e o intercâmbio de experiências perante os desafios da transformação digital.",
+      category: "Notícias",
+      content: [
+        "Montevideu, Uruguai.– O Fórum Latino-Americano de Entidades Reguladoras de Telecomunicações (REGULATEL) reunirá de 13 a 16 de outubro de 2026 em Montevideu representantes de organismos reguladores e organizações parceiras durante a Semana REGULATEL 2026, um espaço regional orientado a reforçar a cooperação, partilhar experiências e avançar em respostas conjuntas perante os desafios e oportunidades do ecossistema digital.",
+        "Durante quatro dias, a capital uruguaia será palco de reuniões técnicas e encontros de alto nível que congregarão a REGULATEL, o Organismo de Reguladores Europeus das Comunicações Eletrónicas (BEREC), a Plataforma de Reguladores do Setor Audiovisual da Ibero-América (PRAI), a Associação Interamericana de Empresas de Telecomunicações (ASIET) e a Comissão Técnica Regional de Telecomunicações (COMTELCA).",
+        "A Semana REGULATEL 2026 começará nos dias 13 e 14 de outubro com as reuniões dos Grupos de Trabalho e do Comité Executivo do Fórum.",
+        "No dia 15 de outubro celebrar-se-ão a Cimeira BEREC–REGULATEL e a Cimeira BEREC–PRAI, no Centro de Formação da Cooperação Espanhola (AECID), em Montevideu.",
+        "A agenda concluirá a 16 de outubro com a XVIII Cimeira REGULATEL–ASIET–COMTELCA, nas instalações do Banco de Desenvolvimento da América Latina e das Caraíbas (CAF).",
+        "O Instituto Dominicano das Telecomunicações (Indotel), na qualidade de organismo que exerce a Presidência da REGULATEL, participa na organização da Semana juntamente com as entidades envolvidas nas distintas atividades previstas em Montevideu.",
+      ],
+    },
     "webinar-violencia-digital-rol-entes-reguladores": {
       title: "REGULATEL abordará o papel das entidades reguladoras face à violência digital",
       excerpt:

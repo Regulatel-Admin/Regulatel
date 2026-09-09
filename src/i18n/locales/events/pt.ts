@@ -94,6 +94,13 @@ export default {
       location: "Virtual",
       description: "Cimeira REGULATEL - PRAI.",
     },
+    "cumbre-regulatel-asiet-comtelca-2026": {
+      title: "Cimeira REGULATEL - ASIET - COMTELCA",
+      organizer: "REGULATEL",
+      location: "Montevideu, Uruguai",
+      description:
+        "XVIII Cimeira REGULATEL–ASIET–COMTELCA, a 16 de outubro de 2026 no CAF (Montevideu), no âmbito da Semana REGULATEL 2026.",
+    },
     "conferencia-plenipotenciarios-2026": {
       title: "Conferência de Plenipotenciários de 2026 (PP-26)",
       organizer: "UIT",

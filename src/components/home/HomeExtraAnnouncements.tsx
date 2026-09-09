@@ -33,8 +33,11 @@ import {
   type HomeAvisoKind,
   type HomeAvisoSlot,
 } from "@/data/homeAnnouncements";
+import type { HablaElReguladorInterview } from "@/data/hablaElRegulador";
 import { GESTION_REVISTA_ARCHIVE_PATH } from "@/data/gestion";
 import { BOLETINES_GTAI_LIST_PATH, type BoletinGtaiSerialized } from "@/data/boletinesGtai";
+import { countryFlagSrc } from "@/data/hablaElRegulador";
+import { flagSrcFromCountryName, logoSrcForAcronym } from "@/data/miembrosVisuals";
 import type { RevistaEdition } from "@/data/revistaDigital";
 import type { HomeNewsItemLike } from "@/contexts/AdminDataContext";
 import type { Event } from "@/types/event";
@@ -69,6 +72,16 @@ const CARD_STYLE: CSSProperties = {
   WebkitBackdropFilter: "blur(14px)",
 };
 
+type EpisodeAvisoMeta = {
+  label: string;
+  role: string;
+  organization: string;
+  orgLogo?: string;
+  country: string;
+  countryCode: string;
+  latest: boolean;
+};
+
 type ResolvedAviso = {
   kind: HomeAvisoKind;
   title: string;
@@ -78,6 +91,7 @@ type ResolvedAviso = {
   cover: ReactNode;
   meta?: string;
   external?: boolean;
+  episode?: EpisodeAvisoMeta;
   /** PDF de revista/boletín: clic en la miniatura abre visor en la misma página. */
   previewUrl?: string;
 };
@@ -125,6 +139,53 @@ function ImageCover({ src, alt }: { src: string; alt: string }) {
   );
 }
 
+function EnteMark({
+  organization,
+  orgLogo,
+  country,
+  countryCode,
+}: {
+  organization: string;
+  orgLogo?: string;
+  country: string;
+  countryCode: string;
+}) {
+  if (!organization && !country) return null;
+  const flagSrc = countryCode
+    ? countryFlagSrc(countryCode)
+    : country
+      ? flagSrcFromCountryName(country)
+      : undefined;
+  return (
+    <div className="mt-1.5 flex min-w-0 items-center gap-1.5">
+      {flagSrc ? (
+        <img
+          src={flagSrc}
+          alt=""
+          width={14}
+          height={10}
+          className="h-2.5 w-[14px] shrink-0 rounded-[1px] object-cover"
+          style={{ boxShadow: "0 0 0 1px rgba(22,61,89,0.12)" }}
+        />
+      ) : null}
+      {orgLogo ? (
+        <span
+          className="flex h-[18px] w-[18px] shrink-0 items-center justify-center overflow-hidden rounded-[3px] bg-white"
+          style={{ boxShadow: "0 0 0 1px rgba(22,61,89,0.10)" }}
+        >
+          <img src={orgLogo} alt="" className="h-[14px] w-[14px] object-contain" />
+        </span>
+      ) : null}
+      <span
+        className="truncate text-[10px] font-semibold tracking-[0.01em]"
+        style={{ fontFamily: "var(--token-font-body)", color: "rgba(18, 45, 66, 0.82)" }}
+      >
+        {[organization, country].filter(Boolean).join(" · ")}
+      </span>
+    </div>
+  );
+}
+
 function resolveAviso(
   slot: HomeAvisoSlot,
   news: HomeNewsItemLike[],
@@ -154,14 +215,25 @@ function resolveAviso(
   if (slot.kind === "episodio") {
     const item = episodes.find((e) => e.slug === slot.refId);
     if (!item) return null;
-    const epLabel = item.episode > 0 ? `Ep. ${item.episode}` : "Tráiler";
+    const isTeaser = item.episode <= 0;
+    const maxEpisode = episodes.reduce((max, row) => (row.episode > max ? row.episode : max), 0);
+    const epLabel = isTeaser ? "Tráiler" : `Episodio ${item.episode}`;
     return {
       kind: "episodio",
-      title: `${item.name}`,
-      description: [item.role, item.organization].filter(Boolean).join(" · "),
-      href: "/habla-el-regulador",
+      title: item.name,
+      description: item.role,
+      href: `/habla-el-regulador#${item.slug}`,
       moreHref: "/habla-el-regulador",
       meta: epLabel,
+      episode: {
+        label: epLabel,
+        role: item.role,
+        organization: item.organization,
+        orgLogo: logoSrcForAcronym(item.organization),
+        country: item.country,
+        countryCode: item.countryCode,
+        latest: !isTeaser && item.episode === maxEpisode,
+      },
       cover: item.poster ? (
         <ImageCover src={item.poster} alt="" />
       ) : (
@@ -227,6 +299,26 @@ function resolveAviso(
 
 function dismissKey(id: string) {
   return `regulatel_home_aviso_dismissed_${id}`;
+}
+
+/** En local, si aún no hay aviso de episodio, muestra el más reciente para poder ver el diseño. */
+function withDevEpisodePreview(
+  slots: HomeAvisoSlot[],
+  interviews: HablaElReguladorInterview[],
+): HomeAvisoSlot[] {
+  if (!import.meta.env.DEV) return slots;
+  if (slots.some((slot) => slot.kind === "episodio")) return slots;
+  if (slots.length >= HOME_AVISO_MAX) return slots;
+  let latest: HablaElReguladorInterview | null = null;
+  for (const row of interviews) {
+    if (row.episode <= 0) continue;
+    if (!latest || row.episode > latest.episode) latest = row;
+  }
+  if (!latest) return slots;
+  return [
+    { id: "dev-preview-episodio", kind: "episodio", refId: latest.slug, visible: true },
+    ...slots,
+  ];
 }
 
 function GlassCard({ children }: { children: ReactNode }) {
@@ -305,25 +397,54 @@ function HomeAvisoCard({ slot }: { slot: HomeAvisoSlot }) {
             {resolved.cover}
           </CoverPreviewTrigger>
           <div className="min-w-0 flex-1 pt-[1px]">
-            <p
-              className="text-[8px] font-semibold uppercase leading-none tracking-[0.22em] text-[var(--regu-blue)]"
-              style={{ fontFamily: "var(--token-font-body)" }}
-            >
-              {meta.badge}
-            </p>
-            <div
-              className="mb-[0.35rem] mt-[0.35rem] h-px w-[1.45rem] rounded-full opacity-[0.78]"
-              style={{
-                background: "linear-gradient(90deg, rgba(68,137,198,0.52) 0%, rgba(90,82,74,0.12) 72%, transparent 100%)",
-              }}
-              aria-hidden
-            />
+            <div className="flex min-w-0 flex-wrap items-center gap-1.5">
+              <p
+                className="text-[8px] font-semibold uppercase leading-none tracking-[0.22em] text-[var(--regu-blue)]"
+                style={{ fontFamily: "var(--token-font-body)" }}
+              >
+                {meta.badge}
+              </p>
+            </div>
+            {resolved.episode ? (
+              <div className="mt-[0.38rem] flex min-w-0 items-center gap-1.5">
+                <p
+                  className="text-[8.5px] font-semibold uppercase leading-none tracking-[0.16em]"
+                  style={{ fontFamily: "var(--token-font-body)", color: "rgba(18, 45, 66, 0.48)" }}
+                >
+                  {resolved.episode.label}
+                </p>
+                {resolved.episode.latest ? (
+                  <span
+                    className="rounded-[3px] px-[5px] py-[2px] text-[6.5px] font-bold uppercase leading-none tracking-[0.16em] text-white"
+                    style={{ backgroundColor: "var(--regu-navy)", fontFamily: "var(--token-font-body)" }}
+                  >
+                    Último
+                  </span>
+                ) : null}
+              </div>
+            ) : (
+              <div
+                className="mb-[0.35rem] mt-[0.35rem] h-px w-[1.45rem] rounded-full opacity-[0.78]"
+                style={{
+                  background: "linear-gradient(90deg, rgba(68,137,198,0.52) 0%, rgba(90,82,74,0.12) 72%, transparent 100%)",
+                }}
+                aria-hidden
+              />
+            )}
             <h2
-              className="text-[0.765rem] font-semibold leading-[1.33] tracking-[-0.012em] sm:text-[0.8rem]"
+              className={`text-[0.765rem] font-semibold leading-[1.33] tracking-[-0.012em] sm:text-[0.8rem] ${resolved.episode ? "mt-[0.32rem]" : ""}`}
               style={{ fontFamily: "var(--token-font-heading)", color: "#122d42" }}
             >
               {resolved.title}
             </h2>
+            {resolved.episode ? (
+              <EnteMark
+                organization={resolved.episode.organization}
+                orgLogo={resolved.episode.orgLogo}
+                country={resolved.episode.country}
+                countryCode={resolved.episode.countryCode}
+              />
+            ) : null}
           </div>
         </div>
         <p
@@ -386,7 +507,12 @@ function HomeAddAvisoCard() {
 }
 
 export function HomeExtraAnnouncements() {
-  const slots = useHomeAnnouncements();
+  const slotsFromCms = useHomeAnnouncements();
+  const interviews = useHablaElReguladorInterviews();
+  const slots = useMemo(
+    () => withDevEpisodePreview(slotsFromCms, interviews),
+    [slotsFromCms, interviews],
+  );
   const savedOrder = useHeroAnnounceOrder();
   const { enabled, setPreview, recordPersistedChange, clearPreview } = useSiteEdit();
   const { heroAnnounceOrder, refetch } = useSiteSettings();

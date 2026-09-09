@@ -346,6 +346,12 @@ export default {
         location: "Punta Cana, Dominican Rep.",
         cta: "View Summit",
       },
+      montevideo2026: {
+        title: "REGULATEL - ASIET - COMTELCA Summit",
+        date: "October 16, 2026",
+        location: "Montevideo, Uruguay",
+        cta: "View Summit",
+      },
       prai: {
         title: "REGULATEL PRAI Summit 2025",
         date: "November 13, 2025",

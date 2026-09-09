@@ -13,6 +13,7 @@ import type { FeaturedCarouselItem } from "@/components/home/FeaturedCarousel";
 import { formatCarouselDisplayDate } from "@/lib/carouselDate";
 
 const CAROUSEL_ITEM_I18N: Record<string, string> = {
+  "cumbre-regulatel-asiet-comtelca-2026": "montevideo2026",
   "cumbre-punta-cana": "puntaCana",
   "cumbre-regulatel-prai-2025": "prai",
   "berec-eapereg-regulatel": "berecEapereg",
@@ -40,6 +41,9 @@ function resolveCarouselItemKey(id: string): string | undefined {
   if (CAROUSEL_ITEM_I18N[id]) return CAROUSEL_ITEM_I18N[id];
 
   const normalized = normalizeToken(id);
+  if (normalized.includes("montevideo") || (normalized.includes("asiet") && normalized.includes("comtelca") && normalized.includes("2026"))) {
+    return "montevideo2026";
+  }
   if (normalized.includes("punta-cana") || normalized.includes("punta cana")) return "puntaCana";
   if (normalized.includes("prai")) return "prai";
   if (normalized.includes("berec") && normalized.includes("eapereg")) return "berecEapereg";

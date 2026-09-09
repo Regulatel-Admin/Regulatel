@@ -94,6 +94,13 @@ export default {
       location: "Virtuale",
       description: "Vertice REGULATEL - PRAI.",
     },
+    "cumbre-regulatel-asiet-comtelca-2026": {
+      title: "Vertice REGULATEL - ASIET - COMTELCA",
+      organizer: "REGULATEL",
+      location: "Montevideo, Uruguay",
+      description:
+        "XVIII Vertice REGULATEL–ASIET–COMTELCA, il 16 ottobre 2026 presso la CAF (Montevideo), nell'ambito della Settimana REGULATEL 2026.",
+    },
     "conferencia-plenipotenciarios-2026": {
       title: "Conferenza plenipotenziaria 2026 (PP-26)",
       organizer: "UIT",

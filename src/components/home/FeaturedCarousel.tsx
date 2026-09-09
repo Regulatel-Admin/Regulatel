@@ -35,9 +35,17 @@ function resolveSlideFit(item: FeaturedCarouselItem): "cover" | "contain" {
   return item.imageFit ?? "cover";
 }
 
+function isMontevideo2026Banner(item: FeaturedCarouselItem): boolean {
+  return (
+    item.id === "cumbre-regulatel-asiet-comtelca-2026" ||
+    item.imageUrl.includes("semana-regulatel-montevideo-2026")
+  );
+}
+
 function isGraphicBanner(item: FeaturedCarouselItem): boolean {
   const url = `${item.imageUrl} ${item.id}`;
   return (
+    isMontevideo2026Banner(item) ||
     url.includes("carousel") ||
     url.includes("cumbre-regulatel-ASIET") ||
     url.includes("cumbre-regulatel-asiet-comtelca") ||
@@ -153,7 +161,13 @@ export default function FeaturedCarousel({
               backgroundColor: "#000e32",
               backgroundImage: `url(${slideImageUrl(item)})`,
               backgroundRepeat: "no-repeat",
-              backgroundSize: isGraphicBanner(item) ? "100% 100%" : fit === "contain" ? "contain" : "cover",
+              backgroundSize: isMontevideo2026Banner(item)
+                ? "contain"
+                : isGraphicBanner(item)
+                  ? "100% 100%"
+                  : fit === "contain"
+                    ? "contain"
+                    : "cover",
               backgroundPosition: isGraphicBanner(item)
                 ? "center"
                 : item.imagePosition ?? (fit === "contain" ? "right center" : "center"),

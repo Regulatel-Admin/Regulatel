@@ -108,6 +108,10 @@ export default {
       registrationPendingTitle: "Enlace de registro: por definir.",
       registrationPendingHint: "El enlace de inscripción se publicará cuando esté disponible.",
       viewNews: "Ver noticias",
+      documentsLabel: "Documentos",
+      documentsHint: "Boletín y nota de prensa de este evento. Puede leerlos aquí o descargarlos.",
+      openDocument: "Ver en grande",
+      documentFile: "Archivo",
     },
     noticias: {
       title: "Noticias",

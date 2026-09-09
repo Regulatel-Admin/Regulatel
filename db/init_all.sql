@@ -52,6 +52,7 @@ CREATE TABLE IF NOT EXISTS events (
   image_file_name TEXT,
   image_mime_type TEXT,
   image_size INTEGER,
+  attachments JSONB DEFAULT '[]',
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
@@ -255,7 +256,8 @@ ALTER TABLE news
 ALTER TABLE events
   ADD COLUMN IF NOT EXISTS image_file_name TEXT,
   ADD COLUMN IF NOT EXISTS image_mime_type TEXT,
-  ADD COLUMN IF NOT EXISTS image_size INTEGER;
+  ADD COLUMN IF NOT EXISTS image_size INTEGER,
+  ADD COLUMN IF NOT EXISTS attachments JSONB DEFAULT '[]';
 
 ALTER TABLE documents
   ADD COLUMN IF NOT EXISTS file_name TEXT,

@@ -6,6 +6,7 @@ import { notifyCmsSaved, cloneJson } from "@/lib/siteEdit";
 import { useDraftHistory } from "@/hooks/useDraftHistory";
 import { usePreviewSync } from "@/hooks/usePreviewSync";
 import { AdminBlobUploadField } from "@/components/admin/AdminBlobUploadField";
+import EventAttachmentsField from "@/components/admin/EventAttachmentsField";
 import { NotifySubscribersButton } from "@/components/admin/NotifySubscribersOption";
 import {
   getEventStatus,
@@ -58,6 +59,7 @@ function emptyEvento(): Event {
     tags: [],
     description: "",
     imageUrl: "",
+    attachments: [],
     createdAt: now,
     updatedAt: now,
   };
@@ -164,6 +166,7 @@ export function EventoForm({ id }: { id?: string }) {
       description: row.description?.trim() || undefined,
       tags: row.tags ?? [],
       imageUrl: imageUrl || undefined,
+      attachments: (row.attachments ?? []).filter((item) => item.url.trim()),
     };
 
     setSaving(true);
@@ -182,6 +185,7 @@ export function EventoForm({ id }: { id?: string }) {
           description: existing.description,
           tags: existing.tags,
           imageUrl: existing.imageUrl,
+          attachments: existing.attachments ?? [],
         };
         await updateEvent(existing.id, payload);
         recordPersistedChange({
@@ -338,6 +342,14 @@ export function EventoForm({ id }: { id?: string }) {
         }}
         kind="image"
         folder="events"
+      />
+      <EventAttachmentsField
+        value={row.attachments ?? []}
+        onChange={(attachments) => {
+          setRow({ ...row, attachments });
+          setPublished(false);
+        }}
+        disabled={saving}
       />
       <label className="flex items-center gap-2 text-sm" style={{ color: "var(--regu-navy)" }}>
         <input

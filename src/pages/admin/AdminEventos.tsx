@@ -6,13 +6,14 @@
 
 import { useState, useMemo, useEffect, useCallback } from "react";
 import { useAdminData } from "@/contexts/AdminDataContext";
-import type { Event } from "@/types/event";
+import type { Event, EventAttachment } from "@/types/event";
 import { getEventYear, slugifyEventId, EVENT_STATUS_LABEL } from "@/types/event";
-import { Pencil, Trash2, Plus, Copy, X, Image as ImageIcon, History } from "lucide-react";
+import { Pencil, Trash2, Plus, Copy, X, Image as ImageIcon, History, FileText } from "lucide-react";
 import { uploadAdminFile } from "@/lib/uploads";
 import { api } from "@/lib/api";
 import { notifyCmsSaved } from "@/lib/siteEdit";
 import { NotifySubscribersButton } from "@/components/admin/NotifySubscribersOption";
+import EventAttachmentsField from "@/components/admin/EventAttachmentsField";
 
 const emptyForm = {
   title: "",
@@ -29,6 +30,7 @@ const emptyForm = {
   imageFileName: "",
   imageMimeType: "",
   imageSize: undefined as number | undefined,
+  attachments: [] as EventAttachment[],
 };
 
 function isValidUrl(s: string): boolean {
@@ -110,6 +112,7 @@ export default function AdminEventos() {
       imageFileName: e.imageFileName ?? "",
       imageMimeType: e.imageMimeType ?? "",
       imageSize: e.imageSize,
+      attachments: e.attachments ?? [],
     });
     setEditingId(e.id);
     setAdding(false);
@@ -160,6 +163,7 @@ export default function AdminEventos() {
           imageFileName: form.imageFileName || undefined,
           imageMimeType: form.imageMimeType || undefined,
           imageSize: form.imageSize,
+          attachments: form.attachments.filter((item) => item.url.trim()),
         });
       } else {
         await addEvent({
@@ -178,6 +182,7 @@ export default function AdminEventos() {
           imageFileName: form.imageFileName || undefined,
           imageMimeType: form.imageMimeType || undefined,
           imageSize: form.imageSize,
+          attachments: form.attachments.filter((item) => item.url.trim()),
         });
       }
       const extra = editingId ? "Evento actualizado correctamente." : "Evento creado correctamente.";
@@ -205,7 +210,7 @@ export default function AdminEventos() {
         <p className="mb-4 text-sm font-medium text-red-600" role="alert">{urlError}</p>
       )}
       <p className="mb-4 text-sm" style={{ color: "var(--regu-gray-600)" }}>
-        Crea y edita los eventos que se ven en el sitio y en el carrusel de la portada. Si hay inscripción, pega el enlace del formulario.
+        Crea y edita los eventos que se ven en el sitio y en el carrusel de la portada. Si hay inscripción, pega el enlace del formulario. En cada evento puede subir PDF o Word; esos archivos salen al pulsar Leer más.
       </p>
 
       {events.length === 0 && !adding && !editingId && (
@@ -445,6 +450,11 @@ export default function AdminEventos() {
                   style={{ borderColor: "var(--regu-gray-100)" }}
                 />
               </div>
+              <EventAttachmentsField
+                value={form.attachments}
+                onChange={(attachments) => setForm((f) => ({ ...f, attachments }))}
+                disabled={isSubmitting}
+              />
               <div>
                 <label className="mb-1 block text-sm font-medium" style={{ color: "var(--regu-gray-700)" }}>
                   Descripción
@@ -556,6 +566,12 @@ export default function AdminEventos() {
                 {ev.isFeatured ? (
                   <span className="rounded-full px-2 py-0.5 text-xs font-medium" style={{ backgroundColor: "rgba(183,212,0,0.25)", color: "var(--regu-navy)" }}>
                     En portada
+                  </span>
+                ) : null}
+                {(ev.attachments?.length ?? 0) > 0 ? (
+                  <span className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium" style={{ backgroundColor: "rgba(68,137,198,0.12)", color: "var(--regu-blue)" }}>
+                    <FileText className="h-3 w-3" />
+                    {ev.attachments!.length} doc{ev.attachments!.length === 1 ? "" : "s"}
                   </span>
                 ) : null}
               </div>

@@ -6,6 +6,15 @@
 
 export type EventStatus = "upcoming" | "past";
 
+export interface EventAttachment {
+  id: string;
+  title: string;
+  url: string;
+  fileName?: string;
+  fileType?: string;
+  fileSize?: number;
+}
+
 export interface Event {
   id: string;
   title: string;
@@ -24,8 +33,39 @@ export interface Event {
   imageFileName?: string;
   imageMimeType?: string;
   imageSize?: number;
+  /** PDF/Word que se muestran en /eventos/[id] al pulsar Leer más. */
+  attachments?: EventAttachment[];
   createdAt: string; // ISO
   updatedAt: string;
+}
+
+export function parseEventAttachments(value: unknown): EventAttachment[] {
+  let raw: unknown = value;
+  if (typeof raw === "string") {
+    try {
+      raw = JSON.parse(raw);
+    } catch {
+      return [];
+    }
+  }
+  if (!Array.isArray(raw)) return [];
+  return raw.flatMap((item, index) => {
+    if (!item || typeof item !== "object") return [];
+    const o = item as Record<string, unknown>;
+    const url = typeof o.url === "string" ? o.url.trim() : "";
+    if (!url) return [];
+    const title = typeof o.title === "string" ? o.title.trim() : "";
+    return [
+      {
+        id: typeof o.id === "string" && o.id.trim() ? o.id.trim() : `att-${index + 1}`,
+        title: title || "Documento",
+        url,
+        fileName: typeof o.fileName === "string" ? o.fileName : undefined,
+        fileType: typeof o.fileType === "string" ? o.fileType : undefined,
+        fileSize: typeof o.fileSize === "number" ? o.fileSize : undefined,
+      },
+    ];
+  });
 }
 
 /** Deriva status: upcoming si endDate (o startDate) >= hoy, sino past. */
@@ -154,5 +194,6 @@ export function normalizeEvent(e: Event): Event {
     ...e,
     status: getEventStatus(e),
     year: getEventYear(e.startDate),
+    attachments: parseEventAttachments(e.attachments),
   };
 }

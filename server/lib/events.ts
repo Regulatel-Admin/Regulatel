@@ -1,5 +1,14 @@
 import { getDb } from "./db.js";
 
+export interface EventAttachment {
+  id: string;
+  title: string;
+  url: string;
+  fileName?: string;
+  fileType?: string;
+  fileSize?: number;
+}
+
 export interface EventRow {
   id: string;
   title: string;
@@ -18,6 +27,7 @@ export interface EventRow {
   image_file_name: string | null;
   image_mime_type: string | null;
   image_size: number | null;
+  attachments: unknown;
   created_at: string;
   updated_at: string;
 }
@@ -40,6 +50,35 @@ function toDateStrOrNull(v: unknown): string | null {
   return r || null;
 }
 
+function parseAttachments(value: unknown): EventAttachment[] {
+  let raw: unknown = value;
+  if (typeof raw === "string") {
+    try {
+      raw = JSON.parse(raw);
+    } catch {
+      return [];
+    }
+  }
+  if (!Array.isArray(raw)) return [];
+  return raw.flatMap((item, index) => {
+    if (!item || typeof item !== "object") return [];
+    const o = item as Record<string, unknown>;
+    const url = typeof o.url === "string" ? o.url.trim() : "";
+    if (!url) return [];
+    const title = typeof o.title === "string" ? o.title.trim() : "";
+    return [
+      {
+        id: typeof o.id === "string" && o.id.trim() ? o.id.trim() : `att-${index + 1}`,
+        title: title || "Documento",
+        url,
+        fileName: typeof o.fileName === "string" ? o.fileName : undefined,
+        fileType: typeof o.fileType === "string" ? o.fileType : undefined,
+        fileSize: typeof o.fileSize === "number" ? o.fileSize : undefined,
+      },
+    ];
+  });
+}
+
 function rowToEvent(r: EventRow) {
   return {
     id: r.id,
@@ -59,6 +98,7 @@ function rowToEvent(r: EventRow) {
     imageFileName: r.image_file_name ?? undefined,
     imageMimeType: r.image_mime_type ?? undefined,
     imageSize: r.image_size ?? undefined,
+    attachments: parseAttachments(r.attachments),
     createdAt: r.created_at,
     updatedAt: r.updated_at,
   };
@@ -69,7 +109,7 @@ export async function listEvents(): Promise<ReturnType<typeof rowToEvent>[]> {
   const rows = await sql<EventRow[]>`
     SELECT id, title, organizer, location, start_date, end_date, year, status,
            registration_url, details_url, is_featured, tags, description, image_url,
-           image_file_name, image_mime_type, image_size,
+           image_file_name, image_mime_type, image_size, attachments,
            created_at, updated_at
     FROM events
     ORDER BY start_date DESC
@@ -82,7 +122,7 @@ export async function getEventById(id: string): Promise<ReturnType<typeof rowToE
   const [row] = await sql<EventRow[]>`
     SELECT id, title, organizer, location, start_date, end_date, year, status,
            registration_url, details_url, is_featured, tags, description, image_url,
-           image_file_name, image_mime_type, image_size,
+           image_file_name, image_mime_type, image_size, attachments,
            created_at, updated_at
     FROM events WHERE id = ${id}
   `;
@@ -107,16 +147,18 @@ export interface CreateEventInput {
   imageFileName?: string;
   imageMimeType?: string;
   imageSize?: number;
+  attachments?: EventAttachment[];
 }
 
 export async function createEvent(input: CreateEventInput): Promise<ReturnType<typeof rowToEvent>> {
   const sql = getDb();
   const now = new Date().toISOString();
+  const attachments = parseAttachments(input.attachments);
   const [row] = await sql<EventRow[]>`
     INSERT INTO events (
       id, title, organizer, location, start_date, end_date, year, status,
       registration_url, details_url, is_featured, tags, description, image_url,
-      image_file_name, image_mime_type, image_size,
+      image_file_name, image_mime_type, image_size, attachments,
       created_at, updated_at
     ) VALUES (
       ${input.id}, ${input.title}, ${input.organizer}, ${input.location},
@@ -124,11 +166,12 @@ export async function createEvent(input: CreateEventInput): Promise<ReturnType<t
       ${input.registrationUrl ?? null}, ${input.detailsUrl ?? null}, ${input.isFeatured},
       ${JSON.stringify(input.tags)}::jsonb, ${input.description ?? null}, ${input.imageUrl ?? null},
       ${input.imageFileName ?? null}, ${input.imageMimeType ?? null}, ${input.imageSize ?? null},
+      ${JSON.stringify(attachments)}::jsonb,
       ${now}::timestamptz, ${now}::timestamptz
     )
     RETURNING id, title, organizer, location, start_date, end_date, year, status,
               registration_url, details_url, is_featured, tags, description, image_url,
-              image_file_name, image_mime_type, image_size,
+              image_file_name, image_mime_type, image_size, attachments,
               created_at, updated_at
   `;
   return rowToEvent(row);
@@ -159,6 +202,7 @@ export async function updateEvent(
     imageMimeType:
       input.imageMimeType !== undefined ? input.imageMimeType : existing.imageMimeType,
     imageSize: input.imageSize !== undefined ? input.imageSize : existing.imageSize,
+    attachments: input.attachments !== undefined ? parseAttachments(input.attachments) : existing.attachments,
   };
   const sql = getDb();
   const now = new Date().toISOString();
@@ -173,11 +217,12 @@ export async function updateEvent(
       image_file_name = ${merged.imageFileName ?? null},
       image_mime_type = ${merged.imageMimeType ?? null},
       image_size = ${merged.imageSize ?? null},
+      attachments = ${JSON.stringify(merged.attachments)}::jsonb,
       updated_at = ${now}::timestamptz
     WHERE id = ${id}
     RETURNING id, title, organizer, location, start_date, end_date, year, status,
               registration_url, details_url, is_featured, tags, description, image_url,
-              image_file_name, image_mime_type, image_size,
+              image_file_name, image_mime_type, image_size, attachments,
               created_at, updated_at
   `;
   return row ? rowToEvent(row) : null;

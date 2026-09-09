@@ -20,6 +20,14 @@ export interface LegacyEventJsonRow {
   tags: string[];
   description?: string;
   imageUrl?: string;
+  attachments?: Array<{
+    id: string;
+    title: string;
+    url: string;
+    fileName?: string;
+    fileType?: string;
+    fileSize?: number;
+  }>;
 }
 
 function eventStatus(startDate: string, endDate: string | null): string {
@@ -68,32 +76,33 @@ export async function seedLegacyEventsIfMissing(): Promise<{
     const status = eventStatus(e.startDate, e.endDate ?? null);
     const year = eventYear(e.startDate);
     const result = await sql`
-      INSERT INTO events (
-        id, title, organizer, location, start_date, end_date, year, status,
-        registration_url, details_url, is_featured, tags, description, image_url,
-        image_file_name, image_mime_type, image_size,
-        created_at, updated_at
-      ) VALUES (
-        ${e.id},
-        ${e.title},
-        ${e.organizer},
-        ${e.location},
-        ${e.startDate}::date,
-        ${e.endDate ?? null}::date,
-        ${year},
-        ${status},
-        ${e.registrationUrl ?? null},
-        ${e.detailsUrl ?? null},
-        ${e.isFeatured ?? false},
-        ${sql.json(Array.isArray(e.tags) ? e.tags : [])},
-        ${e.description ?? null},
-        ${e.imageUrl ?? null},
-        ${null},
-        ${null},
-        ${null},
-        ${now}::timestamptz,
-        ${now}::timestamptz
-      )
+        INSERT INTO events (
+          id, title, organizer, location, start_date, end_date, year, status,
+          registration_url, details_url, is_featured, tags, description, image_url,
+          image_file_name, image_mime_type, image_size, attachments,
+          created_at, updated_at
+        ) VALUES (
+          ${e.id},
+          ${e.title},
+          ${e.organizer},
+          ${e.location},
+          ${e.startDate}::date,
+          ${e.endDate ?? null}::date,
+          ${year},
+          ${status},
+          ${e.registrationUrl ?? null},
+          ${e.detailsUrl ?? null},
+          ${e.isFeatured ?? false},
+          ${sql.json(Array.isArray(e.tags) ? e.tags : [])},
+          ${e.description ?? null},
+          ${e.imageUrl ?? null},
+          ${null},
+          ${null},
+          ${null},
+          ${sql.json(Array.isArray(e.attachments) ? e.attachments : [])},
+          ${now}::timestamptz,
+          ${now}::timestamptz
+        )
       ON CONFLICT (id) DO NOTHING
       RETURNING id
     `;

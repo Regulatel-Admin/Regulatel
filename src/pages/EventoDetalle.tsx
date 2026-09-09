@@ -9,6 +9,34 @@ import { normalizeEvent } from "@/types/event";
 import { useLocalizedEvents, useLocalizedEvent } from "@/hooks/useLocalizedEvents";
 import { api } from "@/lib/api";
 import RegistrationOpenHint from "@/components/events/RegistrationOpenHint";
+import EventDocumentsSection from "@/components/events/EventDocumentsSection";
+import {
+  SEMANA_REGULATEL_2026_ATTACHMENTS,
+  SEMANA_REGULATEL_2026_EVENT_ID,
+  SEMANA_REGULATEL_2026_IMAGE,
+} from "@/data/semanaRegulatel2026";
+
+function isSemanaAsietEvent(event: Event) {
+  return (
+    event.id === SEMANA_REGULATEL_2026_EVENT_ID ||
+    (event.startDate === "2026-10-16" && /asiet/i.test(event.title) && /comtelca/i.test(event.title))
+  );
+}
+
+function RegisterButton({ href, label }: { href: string; label: string }) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="inline-flex items-center justify-center gap-2 rounded-xl px-5 py-3.5 text-sm font-bold text-white transition hover:opacity-95 focus:outline-none focus:ring-2 focus:ring-[rgba(68,137,198,0.40)] focus:ring-offset-2"
+      style={{ backgroundColor: "var(--regu-blue)" }}
+    >
+      <ExternalLink size={16} />
+      {label}
+    </a>
+  );
+}
 
 export default function EventoDetalle() {
   const { t, i18n } = useTranslation();
@@ -17,7 +45,7 @@ export default function EventoDetalle() {
   const events = useLocalizedEvents(eventsRaw);
   const eventFromList = id ? events.find((e) => e.id === id) : null;
   const [fetchedEvent, setFetchedEvent] = useState<Event | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
 
   useEffect(() => {
@@ -25,6 +53,7 @@ export default function EventoDetalle() {
     if (eventFromList) {
       setFetchedEvent(null);
       setNotFound(false);
+      setLoading(false);
       return;
     }
     let cancelled = false;
@@ -69,6 +98,16 @@ export default function EventoDetalle() {
   const dateLabel = formatEventDateRange(event.startDate, event.endDate, i18n.language);
   const hasRegistrationUrl = Boolean(event.registrationUrl?.trim());
   const isUpcoming = event.status === "upcoming";
+  const documents =
+    event.attachments && event.attachments.length > 0
+      ? event.attachments
+      : isSemanaAsietEvent(event)
+        ? SEMANA_REGULATEL_2026_ATTACHMENTS
+        : [];
+  const bannerSrc = isSemanaAsietEvent(event)
+    ? SEMANA_REGULATEL_2026_IMAGE
+    : event.imageUrl?.trim() || "";
+  const pageMaxWidth = bannerSrc ? 1120 : 820;
 
   return (
     <div
@@ -81,7 +120,7 @@ export default function EventoDetalle() {
     >
       <div style={{ height: 4, background: "var(--regu-blue)", width: "100%" }} aria-hidden />
 
-      <div className="mx-auto px-4 pb-14 pt-8 md:px-6 md:pt-10" style={{ maxWidth: 820 }}>
+      <div className="mx-auto px-4 pb-14 pt-8 md:px-6 md:pt-10" style={{ maxWidth: pageMaxWidth }}>
         <nav className="mb-6 flex items-center gap-2 text-sm" style={{ color: "var(--regu-gray-400)" }} aria-label="Breadcrumb">
           <Link to="/" className="hover:underline" style={{ color: "var(--regu-gray-500)" }}>{t("common.home")}</Link>
           <span aria-hidden>/</span>
@@ -128,29 +167,39 @@ export default function EventoDetalle() {
               {event.title}
             </h1>
 
-            <div className="flex flex-wrap gap-4 text-sm" style={{ color: "var(--regu-gray-600)" }}>
-              <span className="flex items-center gap-1.5">
-                <Calendar size={14} style={{ color: "var(--regu-blue)" }} />
-                {dateLabel}
-              </span>
-              <span className="flex items-center gap-1.5">
-                <Building2 size={14} style={{ color: "var(--regu-blue)" }} />
-                {event.organizer}
-              </span>
-              <span className="flex items-center gap-1.5">
-                <MapPin size={14} style={{ color: "var(--regu-blue)" }} />
-                {event.location}
-              </span>
+            <div className="flex flex-wrap items-center justify-between gap-4">
+              <div className="flex flex-wrap gap-4 text-sm" style={{ color: "var(--regu-gray-600)" }}>
+                <span className="flex items-center gap-1.5">
+                  <Calendar size={14} style={{ color: "var(--regu-blue)" }} />
+                  {dateLabel}
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <Building2 size={14} style={{ color: "var(--regu-blue)" }} />
+                  {event.organizer}
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <MapPin size={14} style={{ color: "var(--regu-blue)" }} />
+                  {event.location}
+                </span>
+              </div>
+              {hasRegistrationUrl ? (
+                <RegisterButton href={event.registrationUrl!} label={t("pages.eventos.register")} />
+              ) : null}
             </div>
 
-            {event.imageUrl?.trim() && (
+            {bannerSrc ? (
               <div
-                className="mt-6 overflow-hidden rounded-xl"
-                style={{ aspectRatio: "16/9", backgroundColor: "var(--regu-gray-100)" }}
+                className="mt-6 -mx-6 overflow-hidden md:-mx-8"
+                style={{ backgroundColor: "#E7F1FA" }}
               >
-                <img src={event.imageUrl} alt="" className="h-full w-full object-cover" />
+                <img
+                  src={bannerSrc}
+                  alt={event.title}
+                  className="block h-auto w-full"
+                  style={{ objectFit: "contain" }}
+                />
               </div>
-            )}
+            ) : null}
 
             {event.description && (
               <div
@@ -169,18 +218,11 @@ export default function EventoDetalle() {
               </div>
             )}
 
+            <EventDocumentsSection documents={documents} />
+
             <div className="mt-8 flex flex-wrap items-center gap-4">
               {hasRegistrationUrl ? (
-                <a
-                  href={event.registrationUrl!}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 rounded-xl px-5 py-3.5 text-sm font-bold text-white transition hover:opacity-95 focus:outline-none focus:ring-2 focus:ring-[rgba(68,137,198,0.40)] focus:ring-offset-2"
-                  style={{ backgroundColor: "var(--regu-blue)" }}
-                >
-                  <ExternalLink size={16} />
-                  {t("pages.eventos.register")}
-                </a>
+                <RegisterButton href={event.registrationUrl!} label={t("pages.eventos.register")} />
               ) : (
                 <div
                   className="rounded-xl border px-4 py-3 text-sm"

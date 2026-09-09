@@ -8,6 +8,10 @@ import { api } from "@/lib/api";
 import { notifyCmsSaved, cloneJson } from "@/lib/siteEdit";
 import { useDraftHistory } from "@/hooks/useDraftHistory";
 import { usePreviewSync } from "@/hooks/usePreviewSync";
+import { NotifySubscribersButton } from "@/components/admin/NotifySubscribersOption";
+import type { SubscriberNotifyPayload, SubscriberNotifyType } from "@/lib/notifySubscribers";
+import { BOLETINES_GTAI_LIST_PATH } from "@/data/boletinesGtai";
+import { GESTION_REVISTA_ARCHIVE_PATH } from "@/data/gestion";
 import {
   HOME_ANNOUNCEMENTS_SETTINGS_KEY,
   HOME_AVISO_KIND_META,
@@ -48,6 +52,12 @@ function matchesQuery(query: string, ...parts: Array<string | undefined>) {
   return parts.some((part) => (part ?? "").toLowerCase().includes(query));
 }
 
+function notifyTypeForAviso(kind: HomeAvisoKind): SubscriberNotifyType {
+  if (kind === "noticia") return "noticia";
+  if (kind === "evento") return "evento";
+  return "publicación";
+}
+
 export function HomeAvisoForm({ id }: { id?: string }) {
   const { homeAnnouncements, refetch } = useSiteSettings();
   const { recordPersistedChange, clearPreview } = useSiteEdit();
@@ -69,6 +79,9 @@ export function HomeAvisoForm({ id }: { id?: string }) {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [published, setPublished] = useState(false);
+  const [askNotify, setAskNotify] = useState(false);
+  const [notifyOpenId, setNotifyOpenId] = useState(0);
+  const [notifySent, setNotifySent] = useState<string | null>(null);
 
   const previewSlots = useMemo(() => {
     const list = persisted.map((s) => ({ ...s }));
@@ -146,7 +159,7 @@ export function HomeAvisoForm({ id }: { id?: string }) {
           draft: !e.isPublished,
         }));
     }
-    return [...events]
+      return [...events]
       .filter((e) => matchesQuery(q, e.title, e.location, e.description))
       .sort((a, b) => b.startDate.localeCompare(a.startDate))
       .map((e) => ({
@@ -156,6 +169,69 @@ export function HomeAvisoForm({ id }: { id?: string }) {
         thumb: e.imageUrl,
       }));
   }, [slot.kind, publishedNews, adminNews, events, episodes, revistas, boletines, q]);
+
+  const notifyPayload = useMemo((): SubscriberNotifyPayload => {
+    const type = notifyTypeForAviso(slot.kind);
+    if (slot.kind === "noticia") {
+      const publishedItem = publishedNews.find((n) => n.slug.toLowerCase() === slot.refId.toLowerCase());
+      const draftItem = adminNews.find((n) => (n.slug || n.id).toLowerCase() === slot.refId.toLowerCase());
+      const item = publishedItem ?? draftItem;
+      return {
+        type,
+        title: item?.title ?? "",
+        excerpt: item?.excerpt,
+        url: `/noticias/${item?.slug || slot.refId}`,
+        date: item?.dateFormatted || item?.date,
+      };
+    }
+    if (slot.kind === "episodio") {
+      const item = episodes.find((e) => e.slug === slot.refId);
+      const title = item
+        ? item.episode > 0
+          ? `Episodio ${item.episode} · ${item.name}`
+          : `Tráiler · ${item.name}`
+        : "";
+      return {
+        type,
+        title,
+        excerpt: item ? [item.role, item.organization, item.country].filter(Boolean).join(" · ") : undefined,
+        url: `/habla-el-regulador#${item?.slug || slot.refId}`,
+        date: item?.date,
+      };
+    }
+    if (slot.kind === "revista") {
+      const item = revistas.find((e) => e.id === slot.refId);
+      const href =
+        item && (item.url.startsWith("http") || item.url.startsWith("/"))
+          ? item.url
+          : GESTION_REVISTA_ARCHIVE_PATH;
+      return {
+        type,
+        title: item?.title ?? "",
+        excerpt: item?.description,
+        url: href,
+        date: item?.year,
+      };
+    }
+    if (slot.kind === "boletin") {
+      const item = boletines.find((e) => e.slug === slot.refId);
+      return {
+        type,
+        title: item?.title ?? "",
+        excerpt: item?.shortSummary || item?.description,
+        url: `${BOLETINES_GTAI_LIST_PATH}/${item?.slug || slot.refId}`,
+        date: item?.publicationDate,
+      };
+    }
+    const item = events.find((e) => e.id === slot.refId);
+    return {
+      type,
+      title: item?.title ?? "",
+      excerpt: item?.description || [item?.location, item?.startDate].filter(Boolean).join(" · ") || undefined,
+      url: `/eventos/${item?.id || slot.refId}`,
+      date: item?.startDate,
+    };
+  }, [slot.kind, slot.refId, publishedNews, adminNews, episodes, revistas, boletines, events]);
 
   const save = async () => {
     const next = previewSlots.filter((s) => s.visible && s.refId.trim()).slice(0, HOME_AVISO_MAX);
@@ -190,15 +266,22 @@ export function HomeAvisoForm({ id }: { id?: string }) {
     captureBaseline();
     clearPreview("homeAnnouncements");
     setPublished(true);
+    setNotifySent(null);
+    setAskNotify(true);
   };
 
   const remove = () => {
     setSlot({ ...slot, refId: "", visible: false });
     setPublished(false);
+    setAskNotify(false);
+    setNotifySent(null);
   };
 
   const isExisting = persisted.some((s) => s.id === slot.id && s.refId);
   const selectedChoice = choices.find((item) => item.id === slot.refId);
+  const liveMatch = persisted.some(
+    (s) => s.id === slot.id && s.kind === slot.kind && s.refId === slot.refId && s.visible,
+  );
 
   return (
     <div className="space-y-5">
@@ -223,6 +306,8 @@ export function HomeAvisoForm({ id }: { id?: string }) {
                   setSlot({ ...slot, kind, refId: "" });
                   setQuery("");
                   setPublished(false);
+                  setAskNotify(false);
+                  setNotifySent(null);
                 }}
                 className="flex flex-col items-center gap-1.5 rounded-xl border px-2 py-3 text-center transition"
                 style={{
@@ -279,6 +364,8 @@ export function HomeAvisoForm({ id }: { id?: string }) {
                   onClick={() => {
                     setSlot({ ...slot, refId: item.id, visible: true });
                     setPublished(false);
+                    setAskNotify(false);
+                    setNotifySent(null);
                   }}
                   className="flex w-full items-center gap-2.5 border-b px-2.5 py-2 text-left last:border-b-0"
                   style={{
@@ -346,34 +433,90 @@ export function HomeAvisoForm({ id }: { id?: string }) {
       )}
       {published && !error && (
         <p className="text-sm font-medium" style={{ color: "#0f766e" }}>
-          Ya está en el sitio público.
+          Ya está en el sitio público. Publicar no envía ningún correo.
         </p>
       )}
-      <p className="text-[12px] leading-relaxed" style={{ color: "var(--regu-gray-500)" }}>
-        Se ve al instante en esta página. Hasta que publiques, el sitio real no cambia.
-      </p>
-      <div className="flex flex-wrap gap-2">
-        <button
-          type="button"
-          onClick={() => void save()}
-          disabled={saving}
-          className="inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold text-white disabled:opacity-60"
-          style={{ backgroundColor: "var(--regu-blue)" }}
+      {askNotify && !notifySent ? (
+        <div
+          className="rounded-xl border px-3 py-3"
+          style={{
+            borderColor: "var(--regu-blue)",
+            backgroundColor: "rgba(68,137,198,0.10)",
+          }}
         >
-          <Send className="h-4 w-4" />
-          {saving ? "Publicando…" : published ? "Publicar otra vez" : "Publicar"}
-        </button>
-        {isExisting && (
+          <p className="text-sm font-semibold" style={{ color: "var(--regu-navy)" }}>
+            ¿Avisar por correo a los suscriptores?
+          </p>
+          <p className="mt-1 text-[12px] leading-relaxed" style={{ color: "var(--regu-gray-600)" }}>
+            El aviso ya está en portada. Si quieres, ahora puedes mandar el correo a quienes están inscritos. Verás
+            la vista previa antes de enviar.
+          </p>
+          <div className="mt-3 flex flex-wrap gap-2">
+            <button
+              type="button"
+              onClick={() => {
+                setAskNotify(false);
+                setNotifyOpenId((n) => n + 1);
+              }}
+              className="inline-flex items-center gap-2 rounded-xl px-3.5 py-2 text-sm font-semibold text-white"
+              style={{ backgroundColor: "var(--regu-blue)" }}
+            >
+              Sí, avisar
+            </button>
+            <button
+              type="button"
+              onClick={() => setAskNotify(false)}
+              className="rounded-xl border bg-white px-3.5 py-2 text-sm font-semibold"
+              style={{ borderColor: "rgba(22,61,89,0.18)", color: "var(--regu-navy)" }}
+            >
+              Ahora no
+            </button>
+          </div>
+        </div>
+      ) : null}
+      <p className="text-[12px] leading-relaxed" style={{ color: "var(--regu-gray-500)" }}>
+        Se ve al instante en esta página. Hasta que publiques, el sitio real no cambia. El correo a los suscriptores
+        es un paso aparte: nunca se manda al pulsar Publicar.
+      </p>
+      <div
+        className="sticky bottom-0 -mx-6 space-y-3 border-t bg-white px-6 py-4"
+        style={{ borderColor: "rgba(22,61,89,0.08)" }}
+      >
+        <NotifySubscribersButton
+          payload={notifyPayload}
+          disabled={saving || !slot.refId.trim()}
+          disabledHint="Elige la pieza que quieres mostrar y después puedes avisar por correo."
+          warnUnpublished={(!published && !liveMatch) || Boolean(selectedChoice?.draft)}
+          openRequestId={notifyOpenId}
+          fullWidth
+          onSent={(message) => {
+            setNotifySent(message);
+            setAskNotify(false);
+          }}
+        />
+        <div className="flex flex-wrap gap-2">
           <button
             type="button"
-            onClick={remove}
-            className="inline-flex items-center gap-1.5 rounded-xl border bg-white px-3 py-2.5 text-sm font-semibold"
-            style={{ borderColor: "rgba(22,61,89,0.14)", color: "#991b1b" }}
+            onClick={() => void save()}
+            disabled={saving}
+            className="inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold text-white disabled:opacity-60"
+            style={{ backgroundColor: "var(--regu-blue)" }}
           >
-            <Trash2 className="h-4 w-4" />
-            Quitar de la portada
+            <Send className="h-4 w-4" />
+            {saving ? "Publicando…" : published ? "Publicar otra vez" : "Publicar"}
           </button>
-        )}
+          {isExisting && (
+            <button
+              type="button"
+              onClick={remove}
+              className="inline-flex items-center gap-1.5 rounded-xl border bg-white px-3 py-2.5 text-sm font-semibold"
+              style={{ borderColor: "rgba(22,61,89,0.14)", color: "#991b1b" }}
+            >
+              <Trash2 className="h-4 w-4" />
+              Quitar de la portada
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );

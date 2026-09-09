@@ -110,6 +110,16 @@ function logoFromRoute(route: string, logoUrl?: string, name?: string): string |
   return enteLogoByRoute[logoKeyFromEnteRoute(route, name)];
 }
 
+/** Logo local a partir del acrónimo del ente (SUBTEL, INDOTEL, CRC…). */
+export function logoSrcForAcronym(acronym: string): string | undefined {
+  const acr = normalizeName(acronym);
+  if (!acr) return undefined;
+  const fromRoute = enteLogoByRoute[canonicalEnteSlug(acronym)];
+  if (fromRoute) return fromRoute;
+  const keyed = ACRONYM_LOGO_KEY[acr];
+  return keyed ? enteLogoByRoute[keyed] : undefined;
+}
+
 export function logoSrcForDirectorio(
   acronym: string,
   pais: string,

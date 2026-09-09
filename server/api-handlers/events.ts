@@ -2,7 +2,7 @@
  * GET/POST /api/events y GET/PATCH/DELETE /api/events/:id
  */
 import type { IncomingMessage, ServerResponse } from "http";
-import { listEvents, createEvent, getEventById, updateEvent, deleteEvent } from "../lib/events.js";
+import { listEvents, createEvent, getEventById, updateEvent, deleteEvent, type CreateEventInput } from "../lib/events.js";
 import { ensureAdmin } from "../lib/adminAuth.js";
 import { logAudit } from "../lib/auditLog.js";
 import { parseJsonBody } from "../lib/parseBody.js";
@@ -84,6 +84,7 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
           imageFileName: typeof body.imageFileName === "string" ? body.imageFileName : undefined,
           imageMimeType: typeof body.imageMimeType === "string" ? body.imageMimeType : undefined,
           imageSize: typeof body.imageSize === "number" ? body.imageSize : undefined,
+          attachments: Array.isArray(body.attachments) ? (body.attachments as CreateEventInput["attachments"]) : undefined,
         });
         await logAudit({
           userId: auth.user.id,
@@ -131,6 +132,7 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
         imageFileName: typeof body.imageFileName === "string" ? body.imageFileName : undefined,
         imageMimeType: typeof body.imageMimeType === "string" ? body.imageMimeType : undefined,
         imageSize: typeof body.imageSize === "number" ? body.imageSize : undefined,
+        attachments: Array.isArray(body.attachments) ? (body.attachments as CreateEventInput["attachments"]) : undefined,
       });
       if (!item) {
         sendJson(res, 404, { error: "Not found" });

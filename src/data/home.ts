@@ -11,6 +11,7 @@ import {
   Users,
   type LucideIcon,
 } from "lucide-react";
+import { SEMANA_REGULATEL_2026_CAROUSEL_ITEM } from "./semanaRegulatel2026";
 
 export interface KPIItem {
   value: string;
@@ -480,6 +481,7 @@ export const featuredSummit = {
 
 /** Items para el carrusel "Cumbres Destacadas" (featured hero con card overlay). Orden exacto del slider. */
 export const featuredCarouselItems = [
+  SEMANA_REGULATEL_2026_CAROUSEL_ITEM,
   {
     id: "cumbre-punta-cana",
     type: "eventos" as const,

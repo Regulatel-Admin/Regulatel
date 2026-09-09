@@ -15,6 +15,10 @@ type NotifySubscribersButtonProps = {
   warnUnpublished?: boolean;
   disabledHint?: string;
   onSent?: (message: string) => void;
+  /** Incrementar para abrir la vista previa (p. ej. tras publicar). */
+  openRequestId?: number;
+  fullWidth?: boolean;
+  buttonLabel?: string;
 };
 
 export function NotifySubscribersButton({
@@ -23,6 +27,9 @@ export function NotifySubscribersButton({
   warnUnpublished,
   disabledHint,
   onSent,
+  openRequestId,
+  fullWidth,
+  buttonLabel = "Notificar por correo a los suscriptores",
 }: NotifySubscribersButtonProps) {
   const titleId = useId();
   const dialogRef = useRef<HTMLDivElement>(null);
@@ -34,8 +41,21 @@ export function NotifySubscribersButton({
   const [preview, setPreview] = useState<{ subject: string; html: string; total: number } | null>(null);
   const [sentMessage, setSentMessage] = useState<string | null>(null);
 
+  const lastOpenRequestId = useRef(0);
   const missingTitle = !payload.title.trim();
   const isDisabled = disabled || missingTitle;
+
+  const openPreview = () => {
+    setSentMessage(null);
+    setDraft({
+      type: payload.type,
+      title: payload.title.trim(),
+      excerpt: payload.excerpt?.trim() || undefined,
+      url: payload.url?.trim() || undefined,
+      date: payload.date?.trim() || undefined,
+    });
+    setOpen(true);
+  };
 
   useEffect(() => {
     if (!open) return;
@@ -45,6 +65,14 @@ export function NotifySubscribersButton({
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [open, sending]);
+
+  useEffect(() => {
+    if (!openRequestId || openRequestId === lastOpenRequestId.current) return;
+    if (isDisabled) return;
+    lastOpenRequestId.current = openRequestId;
+    openPreview();
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- open on signal, not on payload edits
+  }, [openRequestId, isDisabled]);
 
   useEffect(() => {
     if (!open || !draft) return;
@@ -98,18 +126,10 @@ export function NotifySubscribersButton({
       <button
         type="button"
         disabled={isDisabled}
-        onClick={() => {
-          setSentMessage(null);
-          setDraft({
-            type: payload.type,
-            title: payload.title.trim(),
-            excerpt: payload.excerpt?.trim() || undefined,
-            url: payload.url?.trim() || undefined,
-            date: payload.date?.trim() || undefined,
-          });
-          setOpen(true);
-        }}
-        className="inline-flex items-center gap-2 rounded-xl border px-4 py-2.5 text-sm font-semibold disabled:cursor-not-allowed disabled:opacity-60"
+        onClick={openPreview}
+        className={`inline-flex items-center gap-2 rounded-xl border px-4 py-2.5 text-sm font-semibold disabled:cursor-not-allowed disabled:opacity-60 ${
+          fullWidth ? "w-full justify-center" : ""
+        }`}
         style={{
           borderColor: "rgba(22,61,89,0.18)",
           backgroundColor: "#f0f7fb",
@@ -117,7 +137,7 @@ export function NotifySubscribersButton({
         }}
       >
         <Mail className="h-4 w-4" />
-        Notificar a todos los suscriptores
+        {buttonLabel}
       </button>
       {hint ? (
         <p className="mt-1.5 text-[12px] leading-relaxed" style={{ color: "var(--regu-gray-500)" }}>

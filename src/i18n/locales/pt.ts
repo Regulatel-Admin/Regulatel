@@ -346,6 +346,12 @@ export default {
         location: "Punta Cana, Rep. Dom.",
         cta: "Ver Cúpula",
       },
+      montevideo2026: {
+        title: "Cúpula REGULATEL - ASIET - COMTELCA",
+        date: "16 de outubro de 2026",
+        location: "Montevidéu, Uruguai",
+        cta: "Ver Cúpula",
+      },
       prai: {
         title: "Cúpula REGULATEL PRAI 2025",
         date: "13 de novembro de 2025",

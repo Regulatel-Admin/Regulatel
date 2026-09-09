@@ -57,7 +57,7 @@ async function main() {
         INSERT INTO events (
           id, title, organizer, location, start_date, end_date, year, status,
           registration_url, details_url, is_featured, tags, description, image_url,
-          image_file_name, image_mime_type, image_size,
+          image_file_name, image_mime_type, image_size, attachments,
           created_at, updated_at
         ) VALUES (
           ${e.id},
@@ -77,6 +77,7 @@ async function main() {
           ${null},
           ${null},
           ${null},
+          ${sql.json(Array.isArray(e.attachments) ? e.attachments : [])},
           ${now}::timestamptz,
           ${now}::timestamptz
         )

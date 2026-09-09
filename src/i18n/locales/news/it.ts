@@ -6,6 +6,21 @@ export default {
     Eventos: "Eventi",
   },
   newsArticles: {
+    "semana-regulatel-montevideo-2026": {
+      title:
+        "REGULATEL riunirà a Montevideo regolatori e organizzazioni partner durante la Settimana REGULATEL 2026",
+      excerpt:
+        "L'agenda regionale, prevista dal 13 al 16 ottobre, integrerà riunioni di lavoro e vertici con BEREC, PRAI, ASIET e COMTELCA per rafforzare la cooperazione e lo scambio di esperienze di fronte alle sfide della trasformazione digitale.",
+      category: "Notizie",
+      content: [
+        "Montevideo, Uruguay.– Il Forum Latinoamericano degli Organismi Regolatori delle Telecomunicazioni (REGULATEL) riunirà dal 13 al 16 ottobre 2026 a Montevideo rappresentanti di organismi regolatori e organizzazioni partner durante la Settimana REGULATEL 2026, uno spazio regionale orientato a rafforzare la cooperazione, scambiare esperienze e avanzare in risposte comuni di fronte alle sfide e alle opportunità dell'ecosistema digitale.",
+        "Durante quattro giorni, la capitale uruguaiana sarà teatro di riunioni tecniche e incontri di alto livello che riuniranno REGULATEL, l'Organismo dei Regolatori Europei delle Comunicazioni Elettroniche (BEREC), la Piattaforma dei Regolatori del Settore Audiovisivo dell'Iberoamerica (PRAI), l'Associazione Interamericana delle Imprese di Telecomunicazioni (ASIET) e la Commissione Tecnica Regionale delle Telecomunicazioni (COMTELCA).",
+        "La Settimana REGULATEL 2026 inizierà il 13 e 14 ottobre con le riunioni dei Gruppi di Lavoro e del Comitato Esecutivo del Forum.",
+        "Il 15 ottobre si terranno il Vertice BEREC–REGULATEL e il Vertice BEREC–PRAI, presso il Centro di Formazione della Cooperazione Spagnola (AECID) a Montevideo.",
+        "L'agenda si concluderà il 16 ottobre con il XVIII Vertice REGULATEL–ASIET–COMTELCA, presso la Banca di Sviluppo dell'America Latina e dei Caraibi (CAF).",
+        "L'Istituto Dominicano delle Telecomunicazioni (Indotel), in qualità di organismo che esercita la Presidenza di REGULATEL, partecipa all'organizzazione della Settimana insieme alle entità coinvolte nelle diverse attività previste a Montevideo.",
+      ],
+    },
     "webinar-violencia-digital-rol-entes-reguladores": {
       title: "REGULATEL affronterà il ruolo degli organismi regolatori di fronte alla violenza digitale",
       excerpt:

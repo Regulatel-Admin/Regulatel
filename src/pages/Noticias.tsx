@@ -7,6 +7,7 @@ import { useAdminData } from "@/contexts/AdminDataContext";
 import { localizeNewsFields } from "@/hooks/useLocalizedNews";
 import { EditableSpot } from "@/components/site-edit/EditableSpot";
 import { useSiteEdit } from "@/contexts/SiteEditContext";
+import { semanaRegulatelListingImage } from "@/data/semanaRegulatel2026";
 
 /** Item para listado: estático o admin (misma forma). */
 export interface NewsListItem {
@@ -398,35 +399,32 @@ function NewsItemRow({ item, isFeatured }: NewsItemRowProps) {
   const isDraft = item.slug.startsWith("preview-news-");
   const href = `/noticias/${item.slug}`;
 
+  const coverUrl = semanaRegulatelListingImage(item.slug, item.imageUrl);
   const body = (
-        <div className={`flex gap-4 md:gap-6 ${isFeatured ? "flex-col md:flex-row" : "flex-row items-start"}`}>
-          {/* Image: only the listing cover, shown in full (no crop) */}
+        <div className={`flex gap-4 md:gap-6 ${isFeatured ? "flex-col md:flex-row md:items-start" : "flex-row items-start"}`}>
           <div
-            className={`relative flex-shrink-0 overflow-hidden bg-white ${
+            className={`relative flex-shrink-0 overflow-hidden ${
               isFeatured
-                ? "w-full rounded-2xl md:w-[480px] lg:w-[520px]"
-                : "flex h-[110px] w-28 items-center justify-center rounded-xl sm:w-36 md:w-44"
+                ? "aspect-[4/3] w-full self-start rounded-2xl md:w-[480px] lg:w-[520px]"
+                : "h-[110px] w-28 self-start rounded-xl sm:w-36 md:w-44"
             }`}
             style={{
               border: "1px solid rgba(22,61,89,0.08)",
+              backgroundColor: "#E7F1FA",
             }}
           >
-            {item.imageUrl ? (
+            {coverUrl ? (
               <img
-                src={item.imageUrl}
+                src={coverUrl}
                 alt=""
-                className={
-                  isFeatured
-                    ? "h-auto w-full object-contain"
-                    : "max-h-full max-w-full object-contain"
-                }
+                className="absolute inset-0 h-full w-full object-cover"
                 onError={(e) => {
                   e.currentTarget.style.display = "none";
                 }}
               />
             ) : (
               <div
-                className={isFeatured ? "min-h-[180px] w-full" : "h-full w-full"}
+                className="absolute inset-0"
                 style={{ background: "linear-gradient(135deg, rgba(68,137,198,0.08) 0%, rgba(22,61,89,0.05) 100%)" }}
                 aria-hidden
               />

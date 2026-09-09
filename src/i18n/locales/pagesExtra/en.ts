@@ -108,6 +108,10 @@ export default {
       registrationPendingTitle: "Registration link: to be defined.",
       registrationPendingHint: "The registration link will be published when available.",
       viewNews: "View news",
+      documentsLabel: "Documents",
+      documentsHint: "Bulletin and press release for this event. You can read them here or download them.",
+      openDocument: "Open larger",
+      documentFile: "File",
     },
     noticias: {
       title: "News",

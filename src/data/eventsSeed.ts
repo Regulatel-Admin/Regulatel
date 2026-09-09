@@ -11,6 +11,7 @@
  */
 
 import type { Event } from "@/types/event";
+import { SEMANA_REGULATEL_2026_ATTACHMENTS } from "@/data/semanaRegulatel2026";
 
 const now = new Date().toISOString();
 
@@ -35,6 +36,7 @@ function seedEvent(partial: Partial<Event> & Pick<Event, "id" | "title" | "organ
     tags: partial.tags ?? [],
     description: partial.description,
     imageUrl: partial.imageUrl,
+    attachments: partial.attachments ?? [],
     createdAt: now,
     updatedAt: now,
   };
@@ -209,6 +211,20 @@ export const EVENTS_SEED: Event[] = [
     detailsUrl: null,
     isFeatured: false,
     description: "Cumbre REGULATEL - PRAI.",
+  }),
+  seedEvent({
+    id: "cumbre-regulatel-asiet-comtelca-2026",
+    title: "Cumbre REGULATEL - ASIET - COMTELCA",
+    organizer: "REGULATEL",
+    location: "Montevideo, Uruguay",
+    startDate: "2026-10-16",
+    endDate: null,
+    registrationUrl: null,
+    detailsUrl: null,
+    isFeatured: true,
+    attachments: SEMANA_REGULATEL_2026_ATTACHMENTS,
+    description:
+      "XVIII Cumbre REGULATEL–ASIET–COMTELCA, el 16 de octubre de 2026 en el CAF (Montevideo), en el marco de la Semana REGULATEL 2026.",
   }),
   seedEvent({
     id: "conferencia-plenipotenciarios-2026",

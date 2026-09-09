@@ -346,6 +346,12 @@ export default {
         location: "Punta Cana, Rep. Dom.",
         cta: "Ver Cumbre",
       },
+      montevideo2026: {
+        title: "Cumbre REGULATEL - ASIET - COMTELCA",
+        date: "16 de octubre de 2026",
+        location: "Montevideo, Uruguay",
+        cta: "Ver Cumbre",
+      },
       prai: {
         title: "Cumbre REGULATEL PRAI 2025",
         date: "13 de noviembre 2025",

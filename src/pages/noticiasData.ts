@@ -28,6 +28,30 @@ export interface NoticiaData {
 
 export const noticiasData: NoticiaData[] = [
   {
+    slug: 'semana-regulatel-montevideo-2026',
+    title: 'REGULATEL reunirá en Montevideo a reguladores y organizaciones aliadas durante la Semana REGULATEL 2026',
+    date: '2026-09-08',
+    dateFormatted: '8 septiembre 2026',
+    category: 'Noticias',
+    excerpt: 'La agenda regional, prevista del 13 al 16 de octubre, integrará reuniones de trabajo y cumbres junto a BEREC, PRAI, ASIET y COMTELCA para fortalecer la cooperación y el intercambio de experiencias ante los desafíos de la transformación digital.',
+    imageUrl: '/images/noticias/semana-regulatel-montevideo-2026.png',
+    author: 'REGULATEL',
+    content: [
+      'Montevideo, Uruguay.– El Foro Latinoamericano de Entes Reguladores de Telecomunicaciones (REGULATEL) reunirá del 13 al 16 de octubre de 2026 en Montevideo a representantes de organismos reguladores y organizaciones aliadas durante la Semana REGULATEL 2026, un espacio regional orientado a fortalecer la cooperación, intercambiar experiencias y avanzar en respuestas conjuntas ante los desafíos y oportunidades del ecosistema digital.',
+      'Durante cuatro días, la capital uruguaya será escenario de reuniones técnicas y encuentros de alto nivel que congregarán a REGULATEL, el Organismo de Reguladores Europeos de las Comunicaciones Electrónicas (BEREC), la Plataforma de Reguladores del Sector Audiovisual de Iberoamérica (PRAI), la Asociación Interamericana de Empresas de Telecomunicaciones (ASIET) y la Comisión Técnica Regional de Telecomunicaciones (COMTELCA).',
+      'La Semana REGULATEL 2026 iniciará los días 13 y 14 de octubre con las reuniones de los Grupos de Trabajo y del Comité Ejecutivo del Foro, espacios destinados al seguimiento de las iniciativas regionales, el intercambio de buenas prácticas y la coordinación de acciones entre sus miembros.',
+      'El 15 de octubre se celebrarán la Cumbre BEREC–REGULATEL y la Cumbre BEREC–PRAI, encuentros que permitirán ampliar el diálogo entre los organismos reguladores de América Latina, el Caribe y Europa y compartir experiencias sobre los principales retos que plantea la evolución de los mercados y servicios digitales.',
+      'Ambas cumbres tendrán lugar en las instalaciones del Centro de Formación de la Cooperación Española (AECID), en Montevideo.',
+      'La agenda concluirá el 16 de octubre con la XVIII Cumbre REGULATEL–ASIET–COMTELCA, que reunirá a representantes de los sectores público y privado para abordar temas de interés común y continuar impulsando mecanismos de articulación que contribuyan al desarrollo de las telecomunicaciones y la transformación digital en la región.',
+      'Este encuentro se desarrollará en las instalaciones del Banco de Desarrollo de América Latina y el Caribe (CAF), en la capital uruguaya.',
+      'La Semana REGULATEL 2026 busca consolidar un espacio de diálogo regional que permita estrechar los vínculos entre reguladores, organizaciones internacionales y actores del sector, así como promover el intercambio de conocimientos y experiencias frente a un entorno tecnológico en constante evolución.',
+      'La celebración conjunta de estas reuniones y cumbres permitirá articular distintas perspectivas regulatorias e institucionales y fortalecer la cooperación entre América Latina, el Caribe y Europa en torno a los desafíos que acompañan la transformación digital.',
+      'El Instituto Dominicano de las Telecomunicaciones (Indotel), en su condición de organismo que ejerce la Presidencia de REGULATEL, participa en la organización de la Semana junto con las entidades involucradas en las distintas actividades previstas en Montevideo.'
+    ],
+    tags: ['Semana REGULATEL', 'Montevideo', 'ASIET', 'COMTELCA', 'BEREC', 'PRAI', 'Nota de prensa', '2026'],
+    link: '/eventos/cumbre-regulatel-asiet-comtelca-2026'
+  },
+  {
     slug: 'webinar-violencia-digital-rol-entes-reguladores',
     title: 'REGULATEL abordará el rol de los entes reguladores frente a la violencia digital',
     date: '2026-08-19',

@@ -10,9 +10,13 @@
  * Para borrarlo en Neon: DELETE FROM admin_users WHERE email = 'admin@regulatel.local';
  */
 import "dotenv/config";
+import dotenv from "dotenv";
+import path from "path";
 import crypto from "crypto";
 import bcrypt from "bcryptjs";
 import postgres from "postgres";
+
+dotenv.config({ path: path.resolve(process.cwd(), ".env.local"), override: true });
 
 const DEV_EMAIL = "admin@regulatel.local";
 const DEV_PASSWORD = "DevAdmin2026!";

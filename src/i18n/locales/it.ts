@@ -346,6 +346,12 @@ export default {
         location: "Punta Cana, Rep. Dominicana",
         cta: "Vedi il vertice",
       },
+      montevideo2026: {
+        title: "Vertice REGULATEL - ASIET - COMTELCA",
+        date: "16 ottobre 2026",
+        location: "Montevideo, Uruguay",
+        cta: "Vedi il vertice",
+      },
       prai: {
         title: "Vertice REGULATEL PRAI 2025",
         date: "13 novembre 2025",

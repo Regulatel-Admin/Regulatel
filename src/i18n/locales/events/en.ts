@@ -94,6 +94,13 @@ export default {
       location: "Virtual",
       description: "REGULATEL - PRAI Summit.",
     },
+    "cumbre-regulatel-asiet-comtelca-2026": {
+      title: "REGULATEL - ASIET - COMTELCA Summit",
+      organizer: "REGULATEL",
+      location: "Montevideo, Uruguay",
+      description:
+        "18th REGULATEL–ASIET–COMTELCA Summit, on 16 October 2026 at CAF (Montevideo), as part of REGULATEL Week 2026.",
+    },
     "conferencia-plenipotenciarios-2026": {
       title: "2026 Plenipotentiary Conference (PP-26)",
       organizer: "UIT",

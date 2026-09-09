@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { ArrowRight } from "lucide-react";
 import { EditableSpot } from "@/components/site-edit/EditableSpot";
+import { semanaRegulatelArticleImage } from "@/data/semanaRegulatel2026";
 
 export interface NewsItemBerec {
   slug: string;
@@ -43,6 +44,7 @@ export default function NewsSectionBerec({ news }: NewsSectionBerecProps) {
 
   if (!featuredNews) return null;
 
+  const featuredCover = semanaRegulatelArticleImage(featuredNews.slug, featuredNews.imageUrl);
   const featuredDate = formatDateEditorial(featuredNews.date, featuredNews.dateFormatted, i18n.language);
   const newsCategoryLabel = t("nav.news").toUpperCase();
 
@@ -105,9 +107,9 @@ export default function NewsSectionBerec({ news }: NewsSectionBerecProps) {
                   style={{ backgroundColor: "var(--regu-blue)" }}
                   aria-hidden
                 />
-                {featuredNews.imageUrl ? (
+                {featuredCover ? (
                   <img
-                    src={featuredNews.imageUrl}
+                    src={featuredCover}
                     alt=""
                     className="h-auto w-full object-contain"
                     loading="eager"

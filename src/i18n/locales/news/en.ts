@@ -6,6 +6,25 @@ export default {
     Eventos: "Events",
   },
   newsArticles: {
+    "semana-regulatel-montevideo-2026": {
+      title:
+        "REGULATEL will bring regulators and partner organizations together in Montevideo during REGULATEL Week 2026",
+      excerpt:
+        "The regional agenda, scheduled for 13–16 October, will combine working meetings and summits with BEREC, PRAI, ASIET and COMTELCA to strengthen cooperation and the exchange of experience in the face of digital transformation.",
+      category: "News",
+      content: [
+        "Montevideo, Uruguay.– The Latin American Forum of Telecommunications Regulatory Bodies (REGULATEL) will bring together representatives of regulatory authorities and partner organizations in Montevideo from 13 to 16 October 2026 during REGULATEL Week 2026, a regional space aimed at strengthening cooperation, exchanging experience and advancing joint responses to the challenges and opportunities of the digital ecosystem.",
+        "Over four days, Uruguay’s capital will host technical meetings and high-level encounters bringing together REGULATEL, the Body of European Regulators for Electronic Communications (BEREC), the Platform of Audiovisual Regulators of Ibero-America (PRAI), the Inter-American Association of Telecommunications Companies (ASIET) and the Regional Technical Commission for Telecommunications (COMTELCA).",
+        "REGULATEL Week 2026 will begin on 13 and 14 October with meetings of the Forum’s Working Groups and Executive Committee, spaces devoted to following up regional initiatives, exchanging good practices and coordinating action among members.",
+        "On 15 October the BEREC–REGULATEL Summit and the BEREC–PRAI Summit will be held, meetings that will broaden dialogue among regulators from Latin America, the Caribbean and Europe and share experience on the main challenges posed by the evolution of digital markets and services.",
+        "Both summits will take place at the Spanish Cooperation Training Centre (AECID) in Montevideo.",
+        "The agenda will conclude on 16 October with the 18th REGULATEL–ASIET–COMTELCA Summit, which will bring together public- and private-sector representatives to address issues of common interest and continue promoting coordination mechanisms that contribute to the development of telecommunications and digital transformation in the region.",
+        "This meeting will be held at the Development Bank of Latin America and the Caribbean (CAF) in Uruguay’s capital.",
+        "REGULATEL Week 2026 seeks to consolidate a regional dialogue space that tightens ties among regulators, international organizations and sector actors, and promotes the exchange of knowledge and experience in a constantly evolving technological environment.",
+        "Holding these meetings and summits together will make it possible to bring together different regulatory and institutional perspectives and strengthen cooperation among Latin America, the Caribbean and Europe around the challenges that accompany digital transformation.",
+        "The Dominican Institute of Telecommunications (Indotel), as the body currently holding the Presidency of REGULATEL, is taking part in organizing the Week together with the entities involved in the various activities planned in Montevideo.",
+      ],
+    },
     "webinar-violencia-digital-rol-entes-reguladores": {
       title: "REGULATEL to address the role of regulators in the face of digital violence",
       excerpt:
