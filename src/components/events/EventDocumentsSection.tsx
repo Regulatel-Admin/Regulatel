@@ -12,8 +12,10 @@ import type { EventAttachment } from "@/types/event";
 
 export default function EventDocumentsSection({
   documents,
+  hint,
 }: {
   documents: EventAttachment[];
+  hint?: string;
 }) {
   const { t } = useTranslation();
   const [preview, setPreview] = useState<DocumentPreviewTarget | null>(null);
@@ -30,7 +32,7 @@ export default function EventDocumentsSection({
           {t("pages.eventos.documentsLabel")}
         </h2>
         <p className="mb-5 text-sm" style={{ color: "var(--regu-gray-600)" }}>
-          {t("pages.eventos.documentsHint")}
+          {hint ?? t("pages.eventos.documentsHint")}
         </p>
         <div className="space-y-6">
           {usable.map((doc) => {

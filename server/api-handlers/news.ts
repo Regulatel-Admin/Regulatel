@@ -2,7 +2,7 @@
  * GET/POST /api/news y GET/PATCH/DELETE /api/news/:id
  */
 import type { IncomingMessage, ServerResponse } from "http";
-import { listNews, createNews, getNewsById, updateNews, deleteNews } from "../lib/news.js";
+import { listNews, createNews, getNewsById, updateNews, deleteNews, type CreateNewsInput } from "../lib/news.js";
 import { ensureAdmin } from "../lib/adminAuth.js";
 import { logAudit } from "../lib/auditLog.js";
 import { parseJsonBody } from "../lib/parseBody.js";
@@ -71,6 +71,7 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
         const link = typeof body.link === "string" ? body.link : undefined;
         const videoUrl = typeof body.videoUrl === "string" ? body.videoUrl : undefined;
         const published = body.published !== false;
+        const attachments = Array.isArray(body.attachments) ? body.attachments : undefined;
         const item = await createNews({
           id: newId,
           slug,
@@ -91,6 +92,7 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
           link,
           videoUrl,
           published,
+          attachments: attachments as CreateNewsInput["attachments"],
         });
         await logAudit({
           userId: auth.user.id,
@@ -142,6 +144,9 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
         link: typeof body.link === "string" ? body.link : undefined,
         videoUrl: typeof body.videoUrl === "string" ? body.videoUrl : undefined,
         published: typeof body.published === "boolean" ? body.published : undefined,
+        attachments: Array.isArray(body.attachments)
+          ? (body.attachments as CreateNewsInput["attachments"])
+          : undefined,
       });
       if (!item) {
         sendJson(res, 404, { error: "Not found" });

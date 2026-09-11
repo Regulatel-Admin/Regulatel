@@ -11,7 +11,7 @@ import { statsKpis, cifrasPorAno } from "@/data/home";
 import { EVENTS_SEED } from "@/data/eventsSeed";
 import { homeNews } from "@/data/news";
 import { noticiasData } from "@/pages/noticiasData";
-import type { Event } from "@/types/event";
+import type { Event, EventAttachment } from "@/types/event";
 import { getEventStatus, getEventYear, normalizeEvent, slugifyEventId } from "@/types/event";
 import type { GestionDocument } from "@/data/gestion";
 import { gestionDocuments } from "@/data/gestion";
@@ -46,6 +46,8 @@ export interface AdminNewsItem {
   link?: string;
   videoUrl?: string;
   published: boolean;
+  /** PDF/Word al final de la noticia. `undefined` = aún no gestionados por el admin. */
+  attachments?: EventAttachment[];
 }
 
 function loadJson<T>(key: string, defaultVal: T): T {

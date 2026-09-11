@@ -23,6 +23,7 @@ CREATE TABLE IF NOT EXISTS news (
   link TEXT,
   video_url TEXT,
   published BOOLEAN DEFAULT true,
+  attachments JSONB,
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );

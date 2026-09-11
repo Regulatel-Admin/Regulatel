@@ -37,7 +37,8 @@ export const SEMANA_REGULATEL_2026_CAROUSEL_ITEM = {
 
 const DOCS_BASE = "/documents/semana-regulatel-montevideo-2026";
 
-export const SEMANA_REGULATEL_2026_ATTACHMENTS: EventAttachment[] = [
+/** Documentos por defecto en la noticia (sin la nota de prensa en Word). */
+export const SEMANA_REGULATEL_2026_NEWS_ATTACHMENTS: EventAttachment[] = [
   {
     id: "boletin-semana-regulatel-2026",
     title: "Boletín informativo — Semana REGULATEL Uruguay",
@@ -45,6 +46,10 @@ export const SEMANA_REGULATEL_2026_ATTACHMENTS: EventAttachment[] = [
     fileName: "boletin-informativo-semana-regulatel-uruguay.pdf",
     fileType: "application/pdf",
   },
+];
+
+export const SEMANA_REGULATEL_2026_ATTACHMENTS: EventAttachment[] = [
+  ...SEMANA_REGULATEL_2026_NEWS_ATTACHMENTS,
   {
     id: "nota-prensa-semana-regulatel-2026",
     title: "Nota de prensa — REGULATEL reunirá en Montevideo a reguladores y organizaciones aliadas",
@@ -53,3 +58,13 @@ export const SEMANA_REGULATEL_2026_ATTACHMENTS: EventAttachment[] = [
     fileType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
   },
 ];
+
+/** Si el admin aún no guardó documentos, se usa el PDF por defecto de esta noticia. Un array vacío (aunque sea `[]`) se respeta. */
+export function resolveNewsAttachments(
+  slug: string | undefined | null,
+  stored?: EventAttachment[] | null
+): EventAttachment[] {
+  if (Array.isArray(stored)) return stored;
+  if (isSemanaRegulatelNews(slug)) return SEMANA_REGULATEL_2026_NEWS_ATTACHMENTS;
+  return [];
+}

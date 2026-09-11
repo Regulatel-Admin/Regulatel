@@ -145,6 +145,7 @@ export default {
       viewOnYoutube: "Ver no YouTube",
       viewAlbumFlickr: "Ver álbum no Flickr",
       presentationsTitle: "Apresentações dos expositores",
+      documentsHint: "Pode ler os documentos aqui ou descarregá-los.",
     },
     miembros: {
       title: "Membros",

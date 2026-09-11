@@ -1,12 +1,16 @@
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useAdminData } from "@/contexts/AdminDataContext";
 import type { AdminNewsItem } from "@/contexts/AdminDataContext";
-import { Pencil, Trash2, Plus, History, X } from "lucide-react";
+import { Pencil, Trash2, Plus, History, X, FileText } from "lucide-react";
 import { uploadAdminFile } from "@/lib/uploads";
 import type { UploadedFileMeta } from "@/types/uploads";
 import { api } from "@/lib/api";
 import { NotifySubscribersButton } from "@/components/admin/NotifySubscribersOption";
+import EventAttachmentsField from "@/components/admin/EventAttachmentsField";
+import type { EventAttachment } from "@/types/event";
+import { noticiasData } from "@/pages/noticiasData";
+import { resolveNewsAttachments } from "@/data/semanaRegulatel2026";
 
 const emptyItem: Omit<AdminNewsItem, "id"> = {
   slug: "",
@@ -25,6 +29,7 @@ const emptyItem: Omit<AdminNewsItem, "id"> = {
   additionalImageNames: undefined,
   additionalImageMeta: undefined,
   published: true,
+  attachments: [],
 };
 
 type ImageSlot = {
@@ -33,7 +38,7 @@ type ImageSlot = {
   mimeType?: string;
   size?: number;
 };
-type FormState = Omit<AdminNewsItem, "id"> & { imageSlots: ImageSlot[] };
+type FormState = Omit<AdminNewsItem, "id"> & { imageSlots: ImageSlot[]; attachments: EventAttachment[] };
 
 function formatDate(s: string) {
   if (!s) return "";
@@ -49,7 +54,34 @@ const initialFormState = (): FormState => ({
   ...emptyItem,
   date: new Date().toISOString().slice(0, 10),
   imageSlots: [{ url: "" }],
+  attachments: [],
 });
+
+const STATIC_NEWS_PREFIX = "static:";
+
+function isStaticNewsId(id: string | null | undefined): boolean {
+  return Boolean(id?.startsWith(STATIC_NEWS_PREFIX));
+}
+
+function staticNewsToAdminItem(n: (typeof noticiasData)[number]): AdminNewsItem {
+  return {
+    id: `${STATIC_NEWS_PREFIX}${n.slug}`,
+    slug: n.slug,
+    title: n.title,
+    date: n.date,
+    dateFormatted: n.dateFormatted,
+    category: n.category,
+    excerpt: n.excerpt,
+    imageUrl: n.imageUrl,
+    additionalImages: [],
+    content: n.content.join("\n\n"),
+    author: n.author,
+    link: n.link,
+    videoUrl: n.videoUrl,
+    published: true,
+    attachments: resolveNewsAttachments(n.slug, undefined),
+  };
+}
 
 type AuditEntry = {
   id: string;
@@ -62,6 +94,13 @@ type AuditEntry = {
 
 export default function AdminNoticias() {
   const { adminNews, addNews, updateNews, deleteNews } = useAdminData();
+  const listedNews = useMemo(() => {
+    const dbSlugs = new Set(adminNews.map((n) => (n.slug || n.id).toLowerCase()));
+    const staticOnly = noticiasData
+      .filter((n) => !dbSlugs.has(n.slug.toLowerCase()))
+      .map(staticNewsToAdminItem);
+    return [...adminNews, ...staticOnly].sort((a, b) => (a.date > b.date ? -1 : 1));
+  }, [adminNews]);
   const [searchParams, setSearchParams] = useSearchParams();
   const openedFromQuery = useRef(false);
   const formAnchorRef = useRef<HTMLFormElement | null>(null);
@@ -147,11 +186,12 @@ export default function AdminNoticias() {
       link: form.link,
       videoUrl: form.videoUrl,
       published: form.published,
+      attachments: form.attachments.filter((item) => item.url.trim()),
     };
     setFormError(null);
     setIsSubmitting(true);
     try {
-      if (editingId) {
+      if (editingId && !isStaticNewsId(editingId)) {
         await updateNews(editingId, payload);
       } else {
         const slug =
@@ -209,6 +249,7 @@ export default function AdminNoticias() {
       link: n.link,
       videoUrl: n.videoUrl,
       published: n.published !== false,
+      attachments: resolveNewsAttachments(n.slug, n.attachments),
       imageSlots,
     });
     setEditingId(n.id);
@@ -220,7 +261,7 @@ export default function AdminNoticias() {
     if (openedFromQuery.current) return;
     const editId = searchParams.get("edit");
     if (!editId) return;
-    const found = adminNews.find((n) => n.id === editId || n.slug === editId);
+    const found = listedNews.find((n) => n.id === editId || n.slug === editId);
     if (!found) return;
     openedFromQuery.current = true;
     startEdit(found);
@@ -233,7 +274,7 @@ export default function AdminNoticias() {
       formAnchorRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
       contentRef.current?.focus();
     }, 80);
-  }, [adminNews, searchParams, setSearchParams, startEdit]);
+  }, [listedNews, searchParams, setSearchParams, startEdit]);
 
   useEffect(() => {
     const editId = searchParams.get("edit");
@@ -253,7 +294,7 @@ export default function AdminNoticias() {
         Noticias
       </h1>
       <p className="mb-6 text-sm" style={{ color: "var(--regu-gray-600)" }}>
-        Publica notas con foto, texto y, si quieres, un video.
+        Publica notas con foto, texto, documentos y, si quieres, un video.
       </p>
       {fromSiteEditDraft && (
         <p className="mb-4 rounded-xl border px-3 py-2 text-sm" style={{ borderColor: "rgba(15,118,110,0.25)", backgroundColor: "#f0fdfa", color: "#0f766e" }} role="status">
@@ -501,6 +542,17 @@ export default function AdminNoticias() {
                 style={{ borderColor: fromSiteEditDraft ? "var(--regu-blue)" : "var(--regu-gray-100)" }}
               />
             </div>
+            <div className="md:col-span-2">
+              <EventAttachmentsField
+                value={form.attachments}
+                onChange={(attachments) => setForm((f) => ({ ...f, attachments }))}
+                disabled={isSubmitting || isUploading}
+                folder="news"
+                label="Documentos"
+                hint="PDF o Word que se muestran al final de la noticia. Puede subir varios, cambiar el título o quitarlos."
+                emptyHint="Todavía no hay documentos. Suba un PDF o Word para que aparezcan en la noticia."
+              />
+            </div>
             <div>
               <label className="mb-1 block text-sm font-medium" style={{ color: "var(--regu-gray-700)" }}>Enlace externo</label>
               <input
@@ -570,7 +622,10 @@ export default function AdminNoticias() {
       )}
 
       <div className="space-y-3">
-        {adminNews.map((n) => (
+        {listedNews.map((n) => {
+          const docCount = resolveNewsAttachments(n.slug, n.attachments).length;
+          const staticItem = isStaticNewsId(n.id);
+          return (
           <div
             key={n.id}
             className="flex items-center gap-4 overflow-hidden rounded-2xl border bg-white shadow-sm"
@@ -597,10 +652,28 @@ export default function AdminNoticias() {
                 >
                   {n.published !== false ? "Publicado" : "Borrador"}
                 </span>
+                {staticItem && (
+                  <span
+                    className="rounded-full px-2 py-0.5 text-xs font-medium"
+                    style={{ backgroundColor: "var(--regu-gray-100)", color: "var(--regu-gray-600)" }}
+                  >
+                    En el sitio
+                  </span>
+                )}
+                {docCount > 0 && (
+                  <span
+                    className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium"
+                    style={{ backgroundColor: "rgba(68,137,198,0.10)", color: "var(--regu-blue)" }}
+                  >
+                    <FileText className="h-3 w-3" />
+                    {docCount} doc{docCount === 1 ? "" : "s"}
+                  </span>
+                )}
               </div>
               <p className="text-sm" style={{ color: "var(--regu-gray-500)" }}>{formatDate(n.date)}</p>
             </div>
             <div className="flex shrink-0 gap-1 pr-3">
+              {!staticItem && (
               <button
                 type="button"
                 onClick={() => loadHistory(n.id)}
@@ -610,6 +683,7 @@ export default function AdminNoticias() {
               >
                 <History className="h-4 w-4" style={{ color: "var(--regu-gray-600)" }} />
               </button>
+              )}
               <button
                 type="button"
                 onClick={() => startEdit(n)}
@@ -618,6 +692,7 @@ export default function AdminNoticias() {
               >
                 <Pencil className="h-4 w-4" style={{ color: "var(--regu-blue)" }} />
               </button>
+              {!staticItem && (
               <button
                 type="button"
                 onClick={() => {
@@ -640,10 +715,12 @@ export default function AdminNoticias() {
               >
                 <Trash2 className="h-4 w-4" style={{ color: "var(--regu-salmon)" }} />
               </button>
+              )}
             </div>
           </div>
-        ))}
-        {adminNews.length === 0 && !adding && (
+          );
+        })}
+        {listedNews.length === 0 && !adding && (
           <p className="text-sm" style={{ color: "var(--regu-gray-500)" }}>
             Todavía no hay noticias nuevas aquí. Las que ya están en el sitio siguen visibles. Añade una para publicarla.
           </p>

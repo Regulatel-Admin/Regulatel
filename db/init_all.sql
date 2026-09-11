@@ -26,6 +26,7 @@ CREATE TABLE IF NOT EXISTS news (
   link TEXT,
   video_url TEXT,
   published BOOLEAN DEFAULT true,
+  attachments JSONB,
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
@@ -251,7 +252,8 @@ ALTER TABLE page_views
 ALTER TABLE news
   ADD COLUMN IF NOT EXISTS image_mime_type TEXT,
   ADD COLUMN IF NOT EXISTS image_size INTEGER,
-  ADD COLUMN IF NOT EXISTS additional_image_meta JSONB DEFAULT '[]';
+  ADD COLUMN IF NOT EXISTS additional_image_meta JSONB DEFAULT '[]',
+  ADD COLUMN IF NOT EXISTS attachments JSONB;
 
 ALTER TABLE events
   ADD COLUMN IF NOT EXISTS image_file_name TEXT,

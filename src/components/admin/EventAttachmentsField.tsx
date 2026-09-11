@@ -15,10 +15,18 @@ export default function EventAttachmentsField({
   value,
   onChange,
   disabled = false,
+  folder = "events",
+  label = "Documentos (Leer más)",
+  hint = "PDF o Word que se muestran al abrir el evento. Puede subir varios y cambiar el título.",
+  emptyHint = "Todavía no hay documentos. Suba el boletín o la nota de prensa para que aparezcan en Leer más.",
 }: {
   value: EventAttachment[];
   onChange: (next: EventAttachment[]) => void;
   disabled?: boolean;
+  folder?: "news" | "events" | "documents" | "attachments";
+  label?: string;
+  hint?: string;
+  emptyHint?: string;
 }) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [uploading, setUploading] = useState(false);
@@ -31,7 +39,7 @@ export default function EventAttachmentsField({
     try {
       const uploaded = await Promise.all(
         Array.from(files).map(async (file) => {
-          const res = await uploadAdminFile({ file, kind: "document", folder: "events" });
+          const res = await uploadAdminFile({ file, kind: "document", folder });
           const attachment: EventAttachment = {
             id: newAttachmentId(),
             title: titleFromFileName(res.fileName || file.name) || file.name,
@@ -57,10 +65,10 @@ export default function EventAttachmentsField({
       <div className="flex flex-wrap items-start justify-between gap-2">
         <div>
           <span className="block text-sm font-medium" style={{ color: "var(--regu-gray-700)" }}>
-            Documentos (Leer más)
+            {label}
           </span>
           <p className="mt-0.5 text-[11px] leading-snug" style={{ color: "var(--regu-gray-500)" }}>
-            PDF o Word que se muestran al abrir el evento. Puede subir varios y cambiar el título.
+            {hint}
           </p>
         </div>
         <div>
@@ -97,7 +105,7 @@ export default function EventAttachmentsField({
           className="rounded-xl border border-dashed px-4 py-3 text-xs"
           style={{ borderColor: "var(--regu-gray-200)", color: "var(--regu-gray-500)" }}
         >
-          Todavía no hay documentos. Suba el boletín o la nota de prensa para que aparezcan en Leer más.
+          {emptyHint}
         </p>
       ) : (
         <ul className="space-y-2">

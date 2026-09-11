@@ -14,13 +14,13 @@ import {
   ArrowRight,
 } from "lucide-react";
 import ImageCarousel from "@/components/ImageCarousel";
-import { noticiasData } from "./noticiasData";
+import { noticiasData, type NoticiaData } from "./noticiasData";
 import { useAdminData } from "@/contexts/AdminDataContext";
-import type { NoticiaData } from "./noticiasData";
+import type { EventAttachment } from "@/types/event";
 import { localizeNoticiaData } from "@/hooks/useLocalizedNews";
 import { EditableSpot } from "@/components/site-edit/EditableSpot";
 import EventDocumentsSection from "@/components/events/EventDocumentsSection";
-import { SEMANA_REGULATEL_2026_ATTACHMENTS, SEMANA_REGULATEL_2026_NEWS_SLUG, SEMANA_REGULATEL_2026_IMAGE, SEMANA_REGULATEL_2026_NEWS_IMAGE } from "@/data/semanaRegulatel2026";
+import { SEMANA_REGULATEL_2026_NEWS_SLUG, SEMANA_REGULATEL_2026_IMAGE, SEMANA_REGULATEL_2026_NEWS_IMAGE, resolveNewsAttachments } from "@/data/semanaRegulatel2026";
 
 const fadeIn = {
   hidden: { opacity: 0, y: 16 },
@@ -50,6 +50,7 @@ interface ArticlePayload {
   link?: string;
   videoUrl?: string;
   slug: string;
+  attachments?: EventAttachment[];
 }
 
 function normalizeAdminNoticia(admin: {
@@ -65,6 +66,7 @@ function normalizeAdminNoticia(admin: {
   videoUrl?: string;
   slug?: string;
   id?: string;
+  attachments?: EventAttachment[];
 }): ArticlePayload {
   const paragraphs = admin.content ? admin.content.split(/\n\n+/).filter(Boolean) : [];
   return {
@@ -79,6 +81,7 @@ function normalizeAdminNoticia(admin: {
     slug: admin.slug ?? admin.id ?? "",
     link: admin.link,
     videoUrl: admin.videoUrl,
+    attachments: admin.attachments,
   };
 }
 
@@ -364,9 +367,11 @@ function ArticleBody({ payload, isStaticCumbre }: { payload: ArticlePayload; isS
         </div>
       )}
 
-      {payload.slug === SEMANA_REGULATEL_2026_NEWS_SLUG && (
-        <EventDocumentsSection documents={SEMANA_REGULATEL_2026_ATTACHMENTS} />
-      )}
+      {(() => {
+        const documents = resolveNewsAttachments(payload.slug, payload.attachments);
+        if (documents.length === 0) return null;
+        return <EventDocumentsSection documents={documents} hint={t("pages.noticias.documentsHint")} />;
+      })()}
 
       {payload.slug === "webinar-violencia-digital-rol-entes-reguladores" && (
         <Link

@@ -11,6 +11,7 @@ import { isPdfDocument } from "@/lib/documentPreview";
 import { useDraftHistory } from "@/hooks/useDraftHistory";
 import { usePreviewSync } from "@/hooks/usePreviewSync";
 import { AdminBlobUploadField } from "@/components/admin/AdminBlobUploadField";
+import EventAttachmentsField from "@/components/admin/EventAttachmentsField";
 import { PdfCoverPicker } from "@/components/admin/PdfCoverPicker";
 import AdminSlideshowField from "@/components/admin/AdminSlideshowField";
 import { NotifySubscribersButton } from "@/components/admin/NotifySubscribersOption";
@@ -41,6 +42,8 @@ import { AlbumForm, ConvenioForm, EntrevistaForm, EstudioForm } from "@/componen
 import { EventoForm } from "@/components/site-edit/EventoEditForm";
 import { CustomPageTemplateForm } from "@/components/site-edit/CustomPageTemplateForm";
 import { noticiasData } from "@/pages/noticiasData";
+import { resolveNewsAttachments } from "@/data/semanaRegulatel2026";
+import type { EventAttachment } from "@/types/event";
 import {
   GESTION_TAB_LABELS,
   gestionDocuments,
@@ -1442,6 +1445,7 @@ function emptyNoticia(): AdminNewsItem {
     content: "",
     author: "REGULATEL",
     published: true,
+    attachments: [] as EventAttachment[],
   };
 }
 
@@ -1456,7 +1460,10 @@ function NoticiaForm({ slug }: { slug?: string }) {
     ? noticiasData.find((n) => n.slug.toLowerCase() === slug.toLowerCase())
     : undefined;
   const seedBase = existing
-    ? existing
+    ? {
+        ...existing,
+        attachments: resolveNewsAttachments(existing.slug, existing.attachments),
+      }
     : staticNews
       ? ({
           id: "",
@@ -1472,6 +1479,7 @@ function NoticiaForm({ slug }: { slug?: string }) {
           link: staticNews.link,
           videoUrl: staticNews.videoUrl,
           published: true,
+          attachments: resolveNewsAttachments(staticNews.slug, undefined),
         } satisfies AdminNewsItem)
       : slug
         ? null
@@ -1532,6 +1540,7 @@ function NoticiaForm({ slug }: { slug?: string }) {
         imageUrl: existing.imageUrl,
         published: existing.published,
         category: existing.category,
+        attachments: existing.attachments,
       };
       const after = {
         title: row.title.trim(),
@@ -1541,6 +1550,7 @@ function NoticiaForm({ slug }: { slug?: string }) {
         imageUrl: row.imageUrl,
         published: publishedFlag,
         category: row.category,
+        attachments: (row.attachments ?? []).filter((item) => item.url.trim()),
       };
       await updateNews(existing.id, after);
       recordPersistedChange({
@@ -1572,6 +1582,7 @@ function NoticiaForm({ slug }: { slug?: string }) {
       link: row.link,
       videoUrl: row.videoUrl,
       published: publishedFlag,
+      attachments: (row.attachments ?? []).filter((item) => item.url.trim()),
     });
     if (!created.id) throw new Error("No se pudo guardar el borrador.");
     return { id: created.id, slug: created.slug || nextSlug };
@@ -1670,6 +1681,15 @@ function NoticiaForm({ slug }: { slug?: string }) {
         kind="image"
         folder="news"
         helpText="Esta es la foto de afuera, en Noticias y en la portada. Se muestra completa, sin recortar. Las fotos extra del artículo se suben en el panel."
+      />
+      <EventAttachmentsField
+        value={row.attachments ?? []}
+        onChange={(attachments) => setRow({ ...row, attachments })}
+        disabled={saving || drafting}
+        folder="news"
+        label="Documentos"
+        hint="PDF o Word al final de la noticia. Puede subir varios o quitarlos."
+        emptyHint="Todavía no hay documentos en esta noticia."
       />
       <p className="text-[12px] leading-relaxed" style={{ color: "var(--regu-gray-500)" }}>
         Semiguardar deja un borrador y te lleva al panel para el texto largo. Publicar la pone en el sitio.
