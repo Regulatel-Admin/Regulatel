@@ -136,6 +136,7 @@ export default {
       notFound: "Notícia não encontrada",
       highlights: "Destaques",
       viewOfficialLink: "Ver ligação oficial",
+      viewRegistrationLink: "Ver ligação de inscrição",
       viewVideo: "Ver vídeo",
       videoSectionTitle: "Assista ao vídeo",
       videoSectionDesc: "Promo Habla el Regulador",
