@@ -29,6 +29,12 @@ const fadeIn = {
 
 const CONTAINER_MAX = "1060px";
 
+function newsLinkLabelKey(slug: string) {
+  return slug === "agenda-de-la-cumbre-regulatel-asiet-comtelca"
+    ? "pages.noticias.viewRegistrationLink"
+    : "pages.noticias.viewOfficialLink";
+}
+
 /** Slugs de notas estáticas de la Cumbre que comparten el bloque (YouTube, Flickr, PDFs). */
 const STATIC_CUMBRE_EXTRA_SLUGS = new Set([
   "cumbre-regulatel-asiet-comtelca",
@@ -170,7 +176,7 @@ function ArticleHeader({ payload }: { payload: ArticlePayload }) {
   );
 }
 
-function ArticleImage({ imageUrl, link }: { imageUrl: string; link?: string }) {
+function ArticleImage({ imageUrl, link, slug }: { imageUrl: string; link?: string; slug: string }) {
   const { t } = useTranslation();
   const image = (
     <figure
@@ -188,7 +194,7 @@ function ArticleImage({ imageUrl, link }: { imageUrl: string; link?: string }) {
     </figure>
   );
   return link && /^https?:\/\//i.test(link) ? (
-    <a href={link} aria-label={t("pages.noticias.viewOfficialLink")} className="block rounded-2xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4">
+    <a href={link} aria-label={t(newsLinkLabelKey(slug))} className="block rounded-2xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4">
       {image}
     </a>
   ) : image;
@@ -420,7 +426,7 @@ function ArticleBody({ payload, isStaticCumbre }: { payload: ArticlePayload; isS
             style={{ backgroundColor: "var(--regu-blue)", color: "#fff" }}
           >
             <Maximize2 className="h-4 w-4" />
-            {t("pages.noticias.viewOfficialLink")}
+            {t(newsLinkLabelKey(payload.slug))}
           </a>
         </div>
       )}
@@ -772,7 +778,7 @@ function ArticleLayout({ payload, isStaticCumbre }: { payload: ArticlePayload; i
           }
           return (
             <div className="mb-8">
-              <ArticleImage imageUrl={allImages[0]} link={payload.link} />
+              <ArticleImage imageUrl={allImages[0]} link={payload.link} slug={payload.slug} />
             </div>
           );
         }
