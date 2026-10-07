@@ -170,8 +170,9 @@ function ArticleHeader({ payload }: { payload: ArticlePayload }) {
   );
 }
 
-function ArticleImage({ imageUrl }: { imageUrl: string }) {
-  return (
+function ArticleImage({ imageUrl, link }: { imageUrl: string; link?: string }) {
+  const { t } = useTranslation();
+  const image = (
     <figure
       className="mb-0 w-full overflow-hidden rounded-2xl"
       style={{
@@ -186,6 +187,11 @@ function ArticleImage({ imageUrl }: { imageUrl: string }) {
       />
     </figure>
   );
+  return link && /^https?:\/\//i.test(link) ? (
+    <a href={link} aria-label={t("pages.noticias.viewOfficialLink")} className="block rounded-2xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4">
+      {image}
+    </a>
+  ) : image;
 }
 
 const bodyTextStyle: React.CSSProperties = {
@@ -766,7 +772,7 @@ function ArticleLayout({ payload, isStaticCumbre }: { payload: ArticlePayload; i
           }
           return (
             <div className="mb-8">
-              <ArticleImage imageUrl={allImages[0]} />
+              <ArticleImage imageUrl={allImages[0]} link={payload.link} />
             </div>
           );
         }

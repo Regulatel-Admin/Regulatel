@@ -19,6 +19,7 @@ export interface NewsListItem {
   excerpt: string;
   imageUrl: string;
   additionalImages?: string[];
+  link?: string;
 }
 
 const CONTAINER_MAX = "1220px";
@@ -102,6 +103,7 @@ function Noticias() {
         excerpt: n.excerpt || "",
         imageUrl: n.imageUrl || "",
         additionalImages: n.additionalImages ?? [],
+        link: n.link,
       }));
     return [...staticFiltered, ...dbItems].sort((a, b) => (a.date > b.date ? -1 : 1));
   }, [adminNews, contentSource]);
@@ -398,10 +400,10 @@ function NewsItemRow({ item, isFeatured }: NewsItemRowProps) {
   const { t } = useTranslation();
   const isDraft = item.slug.startsWith("preview-news-");
   const href = `/noticias/${item.slug}`;
+  const imageHref = item.link && /^https?:\/\//i.test(item.link) ? item.link : href;
 
   const coverUrl = semanaRegulatelListingImage(item.slug, item.imageUrl);
-  const body = (
-        <div className={`flex gap-4 md:gap-6 ${isFeatured ? "flex-col md:flex-row md:items-start" : "flex-row items-start"}`}>
+  const cover = (
           <div
             className={`relative flex-shrink-0 overflow-hidden ${
               isFeatured
@@ -430,8 +432,10 @@ function NewsItemRow({ item, isFeatured }: NewsItemRowProps) {
               />
             )}
           </div>
+  );
 
-          {/* Content */}
+  // Article text keeps its own link to the agenda.
+  const content = (
           <div className={`flex-1 min-w-0 flex flex-col ${isFeatured ? "justify-center py-2 md:py-4" : "justify-start"}`}>
             {/* Meta */}
             <div className="mb-2 flex flex-wrap items-center gap-2">
@@ -478,13 +482,27 @@ function NewsItemRow({ item, isFeatured }: NewsItemRowProps) {
               <ArrowRight className="h-3.5 w-3.5" aria-hidden />
             </span>
           </div>
-        </div>
+  );
+
+  const body = (
+    <div className={`flex gap-4 md:gap-6 ${isFeatured ? "flex-col md:flex-row md:items-start" : "flex-row items-start"}`}>
+      {isDraft ? cover : (
+        <a
+          href={imageHref}
+          aria-label={item.title}
+          className={`block flex-shrink-0 self-start rounded-2xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 ${isFeatured ? "w-full md:w-[480px] lg:w-[520px]" : ""}`}
+        >
+          {cover}
+        </a>
+      )}
+      {isDraft ? content : <Link to={href} className="block min-w-0 flex-1">{content}</Link>}
+    </div>
   );
 
   return (
     <EditableSpot target={{ kind: "noticia", slug: item.slug }} label="Editar esta noticia">
       <article className={`group ${isFeatured ? "py-0" : "py-5 px-5 md:py-6 md:px-6"}`}>
-        {isDraft ? <div>{body}</div> : <Link to={href} className="block">{body}</Link>}
+        {body}
       </article>
     </EditableSpot>
   );
