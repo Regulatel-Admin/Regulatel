@@ -8,6 +8,9 @@ type Subscriber = {
   email: string;
   created_at: string;
   unsubscribed_at: string | null;
+  verification_required?: boolean;
+  confirmed_at?: string | null;
+  status?: "active" | "pending" | "unsubscribed";
 };
 
 function formatDate(iso: string) {
@@ -52,7 +55,9 @@ export default function AdminSuscriptores() {
     }
   };
 
-  const activeCount = items.filter((item) => !item.unsubscribed_at).length;
+  const isPending = (item: Subscriber) => item.verification_required === true && !item.confirmed_at && !item.unsubscribed_at;
+  const activeCount = items.filter((item) => !item.unsubscribed_at && !isPending(item)).length;
+  const pendingCount = items.filter(isPending).length;
 
   if (isChecking) return null;
   if (locked) return <AdminLockedScreen title="Suscriptores" />;
@@ -72,7 +77,7 @@ export default function AdminSuscriptores() {
         style={{ borderColor: "rgba(22,61,89,0.10)", color: "var(--regu-navy)" }}
       >
         <Bell className="h-4 w-4" style={{ color: "var(--regu-blue)" }} />
-        {activeCount} activos · {items.length} en total
+        {activeCount} activos · {pendingCount} pendientes de confirmar · {items.length} en total
       </div>
 
       {error && (
@@ -110,6 +115,8 @@ export default function AdminSuscriptores() {
                   <td className="px-5 py-3">
                     {item.unsubscribed_at ? (
                       <span style={{ color: "var(--regu-gray-500)" }}>Dado de baja</span>
+                    ) : isPending(item) ? (
+                      <span style={{ color: "#92400e" }}>Pendiente de confirmar</span>
                     ) : (
                       <span style={{ color: "var(--regu-blue)" }}>Activo</span>
                     )}

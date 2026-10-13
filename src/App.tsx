@@ -27,6 +27,7 @@ import AdminBuenasPracticasRegulatorias from '@/pages/admin/AdminBuenasPracticas
 import AdminUsuarios from '@/pages/admin/AdminUsuarios';
 import AdminAccesoActas from '@/pages/admin/AdminAccesoActas';
 import AdminSuscriptores from '@/pages/admin/AdminSuscriptores';
+import ContactMessages from '@/pages/admin/ContactMessages';
 import AdminVisitas from '@/pages/admin/AdminVisitas';
 import AdminContentHome from '@/pages/admin/content/AdminContentHome';
 import AdminContentCumbres from '@/pages/admin/content/AdminContentCumbres';
@@ -63,6 +64,7 @@ import Galeria from '@/pages/Galeria';
 import GaleriaAlbum from '@/pages/GaleriaAlbum';
 import Subscribe from '@/pages/Subscribe';
 import Unsubscribe from '@/pages/Unsubscribe';
+import ConfirmSubscription from '@/pages/ConfirmSubscription';
 import CanalYouTube from '@/pages/CanalYouTube';
 import DeclaracionPrivacidad from '@/pages/DeclaracionPrivacidad';
 import HablaElRegulador from '@/pages/HablaElRegulador';
@@ -108,6 +110,7 @@ function App() {
               <Route path="usuarios" element={<AdminUsuarios />} />
               <Route path="acceso-actas" element={<AdminAccesoActas />} />
               <Route path="suscriptores" element={<AdminSuscriptores />} />
+              <Route path="mensajes-contacto" element={<ContactMessages />} />
               <Route path="visitas" element={<AdminVisitas />} />
             </Route>
             <Route element={<Layout><Outlet /></Layout>}>
@@ -144,6 +147,7 @@ function App() {
           <Route path="/contacto" element={<Contacto />} />
               <Route path="/subscribe" element={<Subscribe />} />
               <Route path="/unsubscribe" element={<Unsubscribe />} />
+              <Route path="/confirm-subscription" element={<ConfirmSubscription />} />
               <Route path="/canal-youtube" element={<CanalYouTube />} />
               <Route path="/habla-el-regulador" element={<HablaElRegulador />} />
               <Route path="/violencia-digital" element={<ViolenciaDigital />} />

@@ -76,6 +76,18 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
       return;
     }
 
+    if (segment === "form-security") {
+      const mod = await import("../server/api-handlers/form-security.js");
+      await mod.default(req, res);
+      return;
+    }
+
+    if (segment === "confirm-subscription") {
+      const mod = await import("../server/api-handlers/confirm-subscription.js");
+      await mod.default(req, res);
+      return;
+    }
+
     if (segment === "subscribe") {
       const mod = await import("../server/api-handlers/subscribe.js");
       await mod.default(req, res);

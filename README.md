@@ -140,6 +140,23 @@ npm run preview
 
 ### Despliegue en Vercel
 
+#### Protección de suscripciones y contacto
+
+- Configurar `TURNSTILE_SITE_KEY` y `TURNSTILE_SECRET_KEY` en el entorno Production de Vercel. El widget gratuito de Cloudflare debe autorizar `regulatel.org` y `www.regulatel.org`. La clave secreta nunca se incluye en el navegador. Las claves de prueba se rechazan en producción.
+- Ambos formularios requieren verificación de Turnstile en servidor, un formulario firmado vigente, un campo trampa vacío, JSON y origen autorizado. Las solicitudes sin prueba no guardan suscriptores ni envían correo.
+- Los límites persisten en Neon: contacto permite tres envíos por IP cada 15 minutos y uno por correo cada 10 minutos; suscripción permite cinco por IP cada 15 minutos y uno por correo cada 10 minutos. Los alias de Gmail comparten el mismo límite. El mismo contacto no se repite en 24 horas. Los contadores almacenan hashes y caducan.
+- Las nuevas suscripciones quedan pendientes hasta confirmar un enlace de un solo uso que vence en 24 horas. Abrir el enlace no activa el registro: se requiere pulsar el botón de confirmar. Solo entonces se avisa a Secretaría y se incluye en boletines. Los suscriptores anteriores y sus bajas se conservan.
+- Los contactos se guardan antes de enviar. Los mensajes con numerosos enlaces o patrones aleatorios en nombre y asunto quedan en revisión. Un administrador puede revisarlos en **Mensajes de contacto**, aprobar/enviar o descartar conservando el historial. Los envíos fallidos o interrumpidos siguen visibles; compruebe la entrega con el proveedor antes de reenviar.
+- El esquema se amplía de manera aditiva al primer uso; no se borran registros existentes. No se requiere un servicio antispam de pago. El uso de Vercel, Neon y Resend sigue sujeto a las cuotas de esos servicios.
+
+Comprobaciones sin correos reales ni acceso a producción:
+
+```powershell
+node --test scripts/test-contact-antispam.mjs scripts/test-form-security.mjs
+node scripts/test-frontend-antispam.cjs
+npm run build
+```
+
 - **Base de datos:** en el proyecto de Vercel, en **Settings → Environment Variables**, añade `DATABASE_URL` con la connection string de Neon (por ejemplo la que incluye `?sslmode=require`). Así las funciones serverless en `api/` podrán conectarse a Postgres. Sin esta variable, las rutas `/api/news`, `/api/events`, `/api/documents` devolverán 503 y el frontend usará localStorage.
 - **Archivos:** añade también `BLOB_READ_WRITE_TOKEN` para que `POST /api/uploads` pueda subir imágenes y PDFs a Vercel Blob. Las URLs resultantes se guardan en Neon.
 - **Admin:** crea al menos un usuario en `admin_users` con `npm run admin:create ...` antes de intentar entrar al panel.

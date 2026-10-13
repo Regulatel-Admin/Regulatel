@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { ChevronDown, ChevronUp, Mail, Linkedin, Twitter, Rss, Send, Bell } from "lucide-react";
 import { api } from "@/lib/api";
+import FormSecurity, { emptyFormSecurity, type FormSecurityState } from "@/components/FormSecurity";
+import { formSecurityMessages } from "@/lib/formSecurityMessages";
 
 function SubscribeAccordion({
   title,
@@ -61,22 +63,43 @@ function SubscribeAccordion({
 }
 
 export default function Subscribe() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const securityCopy = formSecurityMessages(i18n.language);
   const [accordionOpen, setAccordionOpen] = useState(true);
   const [email, setEmail] = useState("");
   const [agree, setAgree] = useState(false);
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [message, setMessage] = useState("");
+  const [security, setSecurity] = useState<FormSecurityState>(emptyFormSecurity);
+  const [securityKey, setSecurityKey] = useState(0);
 
-  const handleSubmit = async (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (status === "loading") return;
+    if (!e.currentTarget.checkValidity() || !agree || !email.trim() || email.trim().length > 254) {
+      setStatus("error");
+      setMessage(securityCopy.invalidFields);
+      return;
+    }
+    if (!security.ready) {
+      setStatus("error");
+      setMessage(securityCopy.required);
+      return;
+    }
+    const website = String(new FormData(e.currentTarget).get("website") ?? "");
     setStatus("loading");
     setMessage("");
     try {
-      const res = await api.subscribe.send({ email: email.trim() });
+      const res = await api.subscribe.send({
+        email: email.trim(),
+        consent: true,
+        website,
+        formToken: security.formToken,
+        turnstileToken: security.turnstileToken,
+      });
       if (res.ok) {
         setStatus("success");
-        setMessage(res.data.message || t("pages.subscribe.successDetail"));
+        setMessage(securityCopy.subscriptionPending);
         setEmail("");
         setAgree(false);
       } else {
@@ -86,6 +109,10 @@ export default function Subscribe() {
     } catch {
       setStatus("error");
       setMessage(t("pages.subscribe.connectionError"));
+    } finally {
+      // Turnstile tokens are single-use, including when the server rejects the request.
+      setSecurity(emptyFormSecurity);
+      setSecurityKey((value) => value + 1);
     }
   };
 
@@ -197,6 +224,7 @@ export default function Subscribe() {
             {status === "success" && (
               <div
                 className="mb-4 rounded-xl border border-[var(--regu-blue)] px-4 py-3 text-sm"
+                role="status"
                 style={{ backgroundColor: "rgba(68,137,198,0.08)", color: "var(--regu-navy)" }}
               >
                 {message}
@@ -205,6 +233,7 @@ export default function Subscribe() {
             {status === "error" && (
               <div
                 className="mb-4 rounded-xl border border-red-300 px-4 py-3 text-sm text-red-800"
+                role="alert"
                 style={{ backgroundColor: "#fef2f2" }}
               >
                 {message}
@@ -218,6 +247,7 @@ export default function Subscribe() {
                 <input
                   id="subscribe-email"
                   type="email"
+                  maxLength={254}
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -246,9 +276,10 @@ export default function Subscribe() {
                   {t("pages.subscribe.privacySuffix")} <span style={{ color: "var(--regu-blue)" }}>*</span>
                 </label>
               </div>
+              <FormSecurity key={securityKey} action="subscribe" onChange={setSecurity} />
               <button
                 type="submit"
-                disabled={status === "loading"}
+                disabled={status === "loading" || !security.ready || !agree}
                 className="inline-flex items-center justify-center gap-2 rounded-xl px-5 py-3.5 text-sm font-bold text-white transition hover:opacity-95 focus:outline-none focus:ring-2 focus:ring-[rgba(68,137,198,0.40)] focus:ring-offset-2 disabled:opacity-70"
                 style={{ backgroundColor: "var(--regu-blue)" }}
               >

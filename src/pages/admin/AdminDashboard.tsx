@@ -26,6 +26,7 @@ import {
   Scale,
   Images,
   Bell,
+  Inbox,
   Users,
   Lock,
   PenLine,
@@ -72,6 +73,7 @@ const adminOnlyLinks: Shortcut[] = [
   { to: "/admin/media", icon: Images, title: "Archivos", desc: "Fotos subidas." },
   { to: "/admin/visitas", icon: BarChart3, title: "Visitas", desc: "Personas por día y semana." },
   { to: "/admin/suscriptores", icon: Bell, title: "Suscriptores", desc: "Correos inscritos." },
+  { to: "/admin/mensajes-contacto", icon: Inbox, title: "Mensajes de contacto", desc: "Revisar posibles mensajes de spam." },
   { to: "/admin/usuarios", icon: Users, title: "Usuarios", desc: "Cuentas del panel." },
   { to: "/admin/acceso-actas", icon: Lock, title: "Acceso a actas", desc: "Cuentas restringidas." },
 ];

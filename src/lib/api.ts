@@ -4,6 +4,27 @@
  */
 const API_BASE = "";
 
+export type FormSecurityAction = "contact" | "subscribe";
+export type PublicFormSecurityPayload = {
+  turnstileToken: string;
+  formToken: string;
+  website: string;
+};
+export type ContactMessageRecord = {
+  id: string;
+  name: string;
+  email: string;
+  organization: string | null;
+  subject: string;
+  message: string;
+  reasons: string[];
+  status: "pending" | "sending" | "approved" | "discarded" | "failed";
+  created_at: string;
+  reviewed_at: string | null;
+  reviewed_by: string | null;
+  last_error: string | null;
+};
+
 function buildApiUrl(path: string): string {
   const pathPart = path.replace(/^\//, "").split("?")[0];
   const restQuery = path.includes("?") ? path.slice(path.indexOf("?") + 1) : "";
@@ -131,8 +152,12 @@ export const api = {
     upload: (body: unknown) => request<unknown>("/uploads", { method: "POST", body }),
     delete: (body: unknown) => request<void>("/uploads", { method: "DELETE", body }),
   },
+  formSecurity: {
+    config: (action: FormSecurityAction) =>
+      request<{ siteKey: string; formToken: string; expiresAt: number }>(`/form-security?action=${action}`),
+  },
   contact: {
-    send: (body: { name: string; email: string; organization?: string; subject: string; message: string }) =>
+    send: (body: { name: string; email: string; organization?: string; subject: string; message: string } & PublicFormSecurityPayload) =>
       request<{ ok: boolean }>("/contact", { method: "POST", body }),
   },
   analytics: {
@@ -140,8 +165,12 @@ export const api = {
       request<{ ok?: boolean }>("/analytics", { method: "POST", body }),
   },
   subscribe: {
-    send: (body: { email: string }) =>
+    send: (body: { email: string; consent: true } & PublicFormSecurityPayload) =>
       request<{ ok: boolean; alreadySubscribed?: boolean; message?: string }>("/subscribe", { method: "POST", body }),
+  },
+  confirmSubscription: {
+    confirm: (token: string) =>
+      request<{ ok: boolean; message?: string }>("/confirm-subscription", { method: "POST", body: { token } }),
   },
   unsubscribe: {
     confirm: (token: string) =>
@@ -251,6 +280,14 @@ export const api = {
         request<Array<{ id: string; email: string; created_at: string; unsubscribed_at: string | null }>>("/admin/subscribers"),
       unsubscribe: (id: string) =>
         request<{ ok: boolean }>(`/admin/subscribers/${encodeURIComponent(id)}`, { method: "DELETE" }),
+    },
+    contactMessages: {
+      list: (status: ContactMessageRecord["status"] | "all" = "pending", limit = 50, offset = 0) =>
+        request<{ items: ContactMessageRecord[]; total: number }>(`/admin/contact-messages?status=${encodeURIComponent(status)}&limit=${limit}&offset=${offset}`),
+      approve: (id: string) =>
+        request<{ ok: boolean }>(`/admin/contact-messages/${encodeURIComponent(id)}/approve`, { method: "POST", body: {} }),
+      discard: (id: string) =>
+        request<{ ok: boolean }>(`/admin/contact-messages/${encodeURIComponent(id)}/discard`, { method: "POST", body: {} }),
     },
     notifySubscribers: (body: {
       type: "noticia" | "evento" | "publicación";

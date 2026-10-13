@@ -28,6 +28,7 @@ import { seedLegacyEventsIfMissing } from "../lib/seedLegacyEvents.js";
 import { listSubscribers, unsubscribeById } from "../lib/subscribers.js";
 import { getAnalyticsStats } from "../lib/analytics.js";
 import { notifySubscribersNewContent, previewSubscriberNotifyEmail } from "../lib/sendNewsletter.js";
+import { listContactReviews, approveContactReview, discardContactReview, type ContactReviewStatus } from "../lib/contactReview.js";
 
 
 function sendJson(res: ServerResponse, status: number, data: unknown) {
@@ -270,6 +271,43 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
         return;
       }
       sendJson(res, 405, { error: "Method Not Allowed" });
+      return;
+    }
+
+    if (subpath === "contact-messages") {
+      const auth = await ensureAdmin(req);
+      if (!canManageUsers(auth.user.role)) {
+        sendJson(res, 403, { error: "Solo los administradores pueden revisar los mensajes de contacto." });
+        return;
+      }
+      res.setHeader("Cache-Control", "no-store");
+      const segments = getAdminPathSegments(req);
+      const id = segments[1];
+      const action = segments[2];
+      if (req.method === "GET" && !id) {
+        const url = new URL(req.url ?? "", `http://${req.headers.host}`);
+        const status = url.searchParams.get("status") ?? "pending";
+        const statuses = ["pending", "sending", "approved", "discarded", "failed", "all"];
+        if (!statuses.includes(status)) {
+          sendJson(res, 400, { error: "Estado de revisión no válido." });
+          return;
+        }
+        const items = await listContactReviews(status as ContactReviewStatus | "all", Number(url.searchParams.get("limit") ?? 50), Number(url.searchParams.get("offset") ?? 0));
+        sendJson(res, 200, items);
+        return;
+      }
+      if (req.method === "POST" && id && segments.length === 3 && (action === "approve" || action === "discard")) {
+        if (!/^contact_[0-9a-f-]{36}$/i.test(id)) {
+          sendJson(res, 400, { error: "Identificador de mensaje no válido." });
+          return;
+        }
+        const result = action === "approve"
+          ? await approveContactReview(id, auth.user.id)
+          : await discardContactReview(id, auth.user.id);
+        sendJson(res, result.ok ? 200 : result.status, result.ok ? { ok: true } : { error: result.error });
+        return;
+      }
+      sendJson(res, 405, { error: "Método no permitido." });
       return;
     }
 

@@ -13,6 +13,8 @@ import {
 } from 'lucide-react';
 import PageHero from '@/components/PageHero';
 import { api } from '@/lib/api';
+import FormSecurity, { emptyFormSecurity, type FormSecurityState } from '@/components/FormSecurity';
+import { formSecurityMessages } from '@/lib/formSecurityMessages';
 
 const fadeIn = {
   hidden: { opacity: 0, y: 14 },
@@ -20,10 +22,13 @@ const fadeIn = {
 };
 
 const Contacto: React.FC = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const securityCopy = formSecurityMessages(i18n.language);
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [formError, setFormError] = useState('');
+  const [security, setSecurity] = useState<FormSecurityState>(emptyFormSecurity);
+  const [securityKey, setSecurityKey] = useState(0);
 
   const infoItems = [
     {
@@ -51,6 +56,7 @@ const Contacto: React.FC = () => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (submitting) return;
     setFormError('');
     const form = e.currentTarget;
     const data = new FormData(form);
@@ -59,8 +65,13 @@ const Contacto: React.FC = () => {
     const organization = String(data.get('organization') ?? '').trim();
     const subject = String(data.get('subject') ?? '').trim();
     const message = String(data.get('message') ?? '').trim();
-    if (!name || !email || !subject || !message) {
-      setFormError(t('pages.contacto.sendError'));
+    if (!form.checkValidity() || !name || !email || !subject || !message ||
+      name.length > 120 || email.length > 254 || organization.length > 160 || subject.length > 180 || message.length > 5000) {
+      setFormError(securityCopy.invalidFields);
+      return;
+    }
+    if (!security.ready) {
+      setFormError(securityCopy.required);
       return;
     }
     setSubmitting(true);
@@ -70,8 +81,13 @@ const Contacto: React.FC = () => {
       organization: organization || undefined,
       subject,
       message,
+      formToken: security.formToken,
+      turnstileToken: security.turnstileToken,
+      website: String(data.get('website') ?? ''),
     });
     setSubmitting(false);
+    setSecurity(emptyFormSecurity);
+    setSecurityKey((value) => value + 1);
     if (!res.ok) {
       setFormError(res.error || t('pages.contacto.sendError'));
       return;
@@ -261,6 +277,7 @@ const Contacto: React.FC = () => {
                             id="nombre"
                             name="name"
                             type="text"
+                            maxLength={120}
                             placeholder={t('pages.contacto.placeholders.fullName')}
                             required
                             className="h-11 rounded-xl border bg-[#F4F6F8] px-4 text-sm outline-none transition-all placeholder:text-[var(--regu-gray-400)] focus:bg-white focus:ring-2 focus:ring-[rgba(68,137,198,0.30)]"
@@ -280,6 +297,7 @@ const Contacto: React.FC = () => {
                             id="email"
                             name="email"
                             type="email"
+                            maxLength={254}
                             placeholder={t('pages.contacto.placeholders.email')}
                             required
                             className="h-11 rounded-xl border bg-[#F4F6F8] px-4 text-sm outline-none transition-all placeholder:text-[var(--regu-gray-400)] focus:bg-white focus:ring-2 focus:ring-[rgba(68,137,198,0.30)]"
@@ -303,6 +321,7 @@ const Contacto: React.FC = () => {
                           id="organizacion"
                           name="organization"
                           type="text"
+                          maxLength={160}
                           placeholder={t('pages.contacto.placeholders.organization')}
                           className="h-11 rounded-xl border bg-[#F4F6F8] px-4 text-sm outline-none transition-all placeholder:text-[var(--regu-gray-400)] focus:bg-white focus:ring-2 focus:ring-[rgba(68,137,198,0.30)]"
                           style={{ borderColor: 'rgba(22,61,89,0.12)', color: 'var(--regu-navy)' }}
@@ -321,6 +340,7 @@ const Contacto: React.FC = () => {
                           id="asunto"
                           name="subject"
                           type="text"
+                          maxLength={180}
                           placeholder={t('pages.contacto.placeholders.subject')}
                           required
                           className="h-11 rounded-xl border bg-[#F4F6F8] px-4 text-sm outline-none transition-all placeholder:text-[var(--regu-gray-400)] focus:bg-white focus:ring-2 focus:ring-[rgba(68,137,198,0.30)]"
@@ -342,6 +362,7 @@ const Contacto: React.FC = () => {
                           placeholder={t('pages.contacto.placeholders.message')}
                           required
                           rows={6}
+                          maxLength={5000}
                           className="rounded-xl border bg-[#F4F6F8] px-4 py-3 text-sm outline-none transition-all resize-none placeholder:text-[var(--regu-gray-400)] focus:bg-white focus:ring-2 focus:ring-[rgba(68,137,198,0.30)]"
                           style={{ borderColor: 'rgba(22,61,89,0.12)', color: 'var(--regu-navy)' }}
                         />
@@ -351,9 +372,13 @@ const Contacto: React.FC = () => {
                       </div>
 
                       <div className="pt-2">
+                        <div className="mb-4">
+                          <FormSecurity key={securityKey} action="contact" onChange={setSecurity} />
+                        </div>
                         {formError && (
                           <div
                             className="mb-3 rounded-xl px-4 py-3 text-sm font-medium"
+                            role="alert"
                             style={{ backgroundColor: 'rgba(185,28,28,0.08)', color: '#B91C1C' }}
                           >
                             {formError}
@@ -361,7 +386,7 @@ const Contacto: React.FC = () => {
                         )}
                         <button
                           type="submit"
-                          disabled={submitting}
+                          disabled={submitting || !security.ready}
                           className="inline-flex w-full items-center justify-center gap-2 rounded-xl py-3 text-sm font-bold text-white transition-opacity hover:opacity-85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2 disabled:opacity-70"
                           style={{ backgroundColor: 'var(--regu-blue)' }}
                         >
