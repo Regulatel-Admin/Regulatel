@@ -94,7 +94,7 @@ export async function sendContactMessage(input: ContactMessageInput): Promise<Co
     `,
   });
 
-  const { error } = await resend.emails.send({
+  const { data, error } = await resend.emails.send({
     from: FROM_EMAIL,
     to,
     replyTo: email,
@@ -105,6 +105,10 @@ export async function sendContactMessage(input: ContactMessageInput): Promise<Co
   if (error) {
     console.error("[contact] El proveedor rechazó el envío del mensaje.");
     return { ok: false, error: "No se pudo enviar el mensaje. Intente más tarde.", status: 502 };
+  }
+  if (!data?.id) {
+    console.error("[contact] El proveedor no confirmó la aceptación del mensaje.");
+    return { ok: false, error: "No se pudo confirmar la entrega. Revise el proveedor de correo antes de reenviar.", status: 502 };
   }
   return { ok: true };
 }
