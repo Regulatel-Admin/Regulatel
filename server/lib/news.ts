@@ -83,6 +83,19 @@ function parseAttachments(value: unknown): NewsAttachment[] | undefined {
   });
 }
 
+// Older writes encoded JSON twice. Read those rows without discarding the gallery.
+function parseJsonArray<T>(value: unknown): T[] {
+  let raw = value;
+  if (typeof raw === "string") {
+    try {
+      raw = JSON.parse(raw);
+    } catch {
+      return [];
+    }
+  }
+  return Array.isArray(raw) ? raw : [];
+}
+
 function rowToItem(r: NewsRow) {
   return {
     id: r.id,
@@ -96,9 +109,9 @@ function rowToItem(r: NewsRow) {
     imageFileName: r.image_file_name ?? undefined,
     imageMimeType: r.image_mime_type ?? undefined,
     imageSize: r.image_size ?? undefined,
-    additionalImages: Array.isArray(r.additional_images) ? r.additional_images : [],
-    additionalImageNames: Array.isArray(r.additional_image_names) ? r.additional_image_names : [],
-    additionalImageMeta: Array.isArray(r.additional_image_meta) ? r.additional_image_meta : [],
+    additionalImages: parseJsonArray<string>(r.additional_images),
+    additionalImageNames: parseJsonArray<string | undefined>(r.additional_image_names),
+    additionalImageMeta: parseJsonArray<{ fileName?: string; mimeType?: string; size?: number }>(r.additional_image_meta),
     content: r.body,
     author: r.author ?? undefined,
     link: r.link ?? undefined,
@@ -182,8 +195,8 @@ export async function createNews(input: CreateNewsInput): Promise<ReturnType<typ
       ${input.id}, ${input.slug}, ${input.title}, ${input.date}, ${input.dateFormatted},
       ${input.category}, ${input.excerpt}, ${input.imageUrl}, ${input.imageFileName ?? null},
       ${input.imageMimeType ?? null}, ${input.imageSize ?? null},
-      ${JSON.stringify(input.additionalImages ?? [])}, ${JSON.stringify(input.additionalImageNames ?? [])},
-      ${JSON.stringify(input.additionalImageMeta ?? [])},
+      ${sql.json(input.additionalImages ?? [])}, ${sql.json((input.additionalImageNames ?? []).map((name) => name ?? null))},
+      ${sql.json(input.additionalImageMeta ?? [])},
       ${input.body}, ${input.author ?? null}, ${input.link ?? null}, ${input.videoUrl ?? null},
       ${input.published}, ${attachmentsJson(attachments)}::jsonb, ${now}::timestamptz, ${now}::timestamptz
     )
@@ -231,9 +244,9 @@ export async function updateNews(
       date_formatted = ${merged.dateFormatted}, category = ${merged.category}, excerpt = ${merged.excerpt},
       image_url = ${merged.imageUrl}, image_file_name = ${merged.imageFileName ?? null},
       image_mime_type = ${merged.imageMimeType ?? null}, image_size = ${merged.imageSize ?? null},
-      additional_images = ${JSON.stringify(merged.additionalImages)}::jsonb,
-      additional_image_names = ${JSON.stringify(merged.additionalImageNames)}::jsonb,
-      additional_image_meta = ${JSON.stringify(merged.additionalImageMeta)}::jsonb,
+      additional_images = ${sql.json(merged.additionalImages)},
+      additional_image_names = ${sql.json(merged.additionalImageNames.map((name) => name ?? null))},
+      additional_image_meta = ${sql.json(merged.additionalImageMeta)},
       body = ${merged.body}, author = ${merged.author ?? null}, link = ${merged.link ?? null},
       video_url = ${merged.videoUrl ?? null}, published = ${merged.published},
       attachments = ${attachmentsJson(mergedAttachments)}::jsonb,
