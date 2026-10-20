@@ -110,6 +110,8 @@ export default function AdminNoticias() {
   const [form, setForm] = useState<FormState>(initialFormState);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
+  const uploadInProgress = useRef(false);
+  const [uploadProgress, setUploadProgress] = useState("");
   const [formError, setFormError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [fromSiteEditDraft, setFromSiteEditDraft] = useState(false);
@@ -160,6 +162,7 @@ export default function AdminNoticias() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (uploadInProgress.current || isSubmitting) return;
     const dateFormatted = formatDate(form.date);
     const slots = form.imageSlots.filter((s) => s.url.trim());
     const additionalImageMeta: UploadedFileMeta[] = slots.slice(1).map((s) => ({
@@ -233,7 +236,7 @@ export default function AdminNoticias() {
     setForm({
       slug: n.slug,
       title: n.title,
-      date: n.date,
+      date: n.date.slice(0, 10),
       dateFormatted: n.dateFormatted,
       category: n.category,
       excerpt: n.excerpt,
@@ -412,7 +415,10 @@ export default function AdminNoticias() {
                 Imágenes y enlaces
               </label>
               <p className="mb-2 text-xs leading-relaxed" style={{ color: "var(--regu-gray-500)" }}>
-                La primera es la imagen del listado (se ve entera, sin recortar). Las demás solo aparecen dentro del artículo.
+                Puedes seleccionar varias fotos a la vez. La primera es la portada y las demás aparecen dentro del artículo, en el orden elegido.
+              </p>
+              <p className="mb-2 text-xs" role="status" aria-live="polite">
+                {isUploading ? uploadProgress : `${form.imageSlots.filter((slot) => slot.url.trim()).length} imágenes listas para guardar`}
               </p>
               <div className="space-y-2">
                 {form.imageSlots.map((slot, i) => (
@@ -429,6 +435,7 @@ export default function AdminNoticias() {
                     ) : (
                       <input
                         type="text"
+                        disabled={isSubmitting || isUploading}
                         value={slot.url}
                         onChange={(e) =>
                           setForm((f) => ({
@@ -452,6 +459,7 @@ export default function AdminNoticias() {
                     )}
                     <button
                       type="button"
+                      disabled={isSubmitting || isUploading}
                       onClick={() =>
                         setForm((f) => ({
                           ...f,
@@ -469,6 +477,7 @@ export default function AdminNoticias() {
               <div className="mt-2 flex flex-wrap items-center gap-2">
                 <button
                   type="button"
+                  disabled={isSubmitting || isUploading}
                   onClick={() => setForm((f) => ({ ...f, imageSlots: [...f.imageSlots, { url: "" }] }))}
                   className="rounded-lg border px-3 py-1.5 text-sm font-medium"
                   style={{ borderColor: "var(--regu-gray-200)", color: "var(--regu-gray-700)" }}
@@ -480,51 +489,46 @@ export default function AdminNoticias() {
                     className="inline-flex items-center gap-2 rounded-lg border px-3 py-1.5 text-sm font-medium transition-colors hover:bg-[var(--regu-gray-50)]"
                     style={{ borderColor: "var(--regu-gray-200)", color: "var(--regu-gray-700)" }}
                   >
-                    {isUploading ? "Subiendo..." : "Subir imagen(es)"}
+                    {isUploading ? "Subiendo..." : "Subir imágenes"}
                   </span>
                   <input
                     type="file"
                     accept="image/jpeg,image/png,image/webp"
                     multiple
                     className="sr-only"
+                    aria-label="Subir imágenes"
+                    disabled={isSubmitting || isUploading}
                     onChange={async (e) => {
-                      const files = e.target.files;
-                      if (!files?.length) return;
+                      const files = Array.from(e.currentTarget.files ?? []);
+                      e.currentTarget.value = "";
+                      if (!files.length || uploadInProgress.current) return;
+                      uploadInProgress.current = true;
                       setFormError(null);
                       setIsUploading(true);
+                      const failures: string[] = [];
                       try {
-                        const uploaded = await Promise.all(
-                          Array.from(files).map((file) =>
-                            uploadAdminFile({
-                              file,
-                              kind: "image",
-                              folder: "news",
-                            })
-                          )
-                        );
-                        setForm((f) => ({
-                          ...f,
-                          imageSlots: [
-                            ...(f.imageSlots.length === 1 && !f.imageSlots[0].url.trim()
-                              ? []
-                              : f.imageSlots),
-                            ...uploaded.map((item) => ({
-                              url: item.url,
-                              name: item.fileName,
-                              mimeType: item.mimeType,
-                              size: item.size,
-                            })),
-                          ],
-                        }));
-                      } catch (error) {
-                        setFormError(
-                          error instanceof Error
-                            ? error.message
-                            : "No se pudieron subir las imágenes."
-                        );
+                        for (const [index, file] of files.entries()) {
+                          setUploadProgress(`Subiendo ${index + 1} de ${files.length}: ${file.name}`);
+                          try {
+                            const item = await uploadAdminFile({ file, kind: "image", folder: "news" });
+                            setForm((f) => ({
+                              ...f,
+                              imageSlots: [
+                                ...f.imageSlots.filter((slot) => slot.url.trim()),
+                                { url: item.url, name: item.fileName, mimeType: item.mimeType, size: item.size },
+                              ],
+                            }));
+                          } catch (error) {
+                            failures.push(`${file.name}: ${error instanceof Error ? error.message : "No se pudo subir."}`);
+                          }
+                        }
+                        if (failures.length) {
+                          setFormError(`No se subieron ${failures.length} de ${files.length} imágenes. Las demás están listas para guardar. ${failures.join(" ")}`);
+                        }
                       } finally {
+                        uploadInProgress.current = false;
                         setIsUploading(false);
-                        e.currentTarget.value = "";
+                        setUploadProgress("");
                       }
                     }}
                   />
@@ -587,6 +591,7 @@ export default function AdminNoticias() {
             <button
               type="button"
               onClick={resetForm}
+              disabled={isSubmitting || isUploading}
               className="rounded-xl border px-4 py-2 text-sm font-medium"
               style={{ borderColor: "var(--regu-gray-100)", color: "var(--regu-gray-700)" }}
             >
