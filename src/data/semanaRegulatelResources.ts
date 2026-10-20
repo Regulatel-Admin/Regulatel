@@ -1,0 +1,76 @@
+import type { Event } from "@/types/event";
+
+// Official AECID event dates and read-only fallback for the local preview.
+export const SEMANA_RESOURCE_EVENTS: Event[] = [
+  {
+    "id": "cumbre-berec-regulatel-2026",
+    "title": "Cumbre BEREC - REGULATEL",
+    "organizer": "BEREC",
+    "location": "Montevideo, Uruguay",
+    "startDate": "2026-10-15",
+    "endDate": "2026-10-15",
+    "year": 2026,
+    "status": "upcoming",
+    "registrationUrl": null,
+    "detailsUrl": null,
+    "isFeatured": true,
+    "tags": [],
+    "description": "Cumbre BEREC - REGULATEL.",
+    "attachments": [],
+    "createdAt": "2026-04-14T19:43:30.797Z",
+    "updatedAt": "2026-04-14T20:45:36.389Z"
+  },
+  {
+    "id": "cumbre-regulatel-prai-2026",
+    "title": "Cumbre REGULATEL - PRAI",
+    "organizer": "REGULATEL",
+    "location": "Montevideo, Uruguay",
+    "startDate": "2026-10-15",
+    "endDate": "2026-10-15",
+    "year": 2026,
+    "status": "upcoming",
+    "registrationUrl": null,
+    "detailsUrl": null,
+    "isFeatured": false,
+    "tags": [],
+    "description": "Cumbre REGULATEL - PRAI.",
+    "attachments": [],
+    "createdAt": "2026-04-14T19:43:30.797Z",
+    "updatedAt": "2026-04-14T20:45:02.587Z"
+  },
+  {
+    "id": "reunio-n-anual-grupos-de-trabajo-regulatel-2026",
+    "title": "Reunión Anual Grupos de Trabajo REGULATEL",
+    "organizer": "Regulatel",
+    "location": "Montevideo, Uruguay",
+    "startDate": "2026-10-13",
+    "endDate": "2026-10-14",
+    "year": 2026,
+    "status": "upcoming",
+    "registrationUrl": null,
+    "detailsUrl": null,
+    "isFeatured": false,
+    "tags": [],
+    "attachments": [],
+    "createdAt": "2026-04-14T20:50:02.929Z",
+    "updatedAt": "2026-04-14T20:50:02.929Z"
+  },
+  {
+    "id": "asamblea-general-prai-2026",
+    "title": "Asamblea General PRAI",
+    "organizer": "PRAI",
+    "location": "Montevideo, Uruguay",
+    "startDate": "2026-10-16",
+    "endDate": null,
+    "year": 2026,
+    "status": "upcoming",
+    "registrationUrl": null,
+    "detailsUrl": null,
+    "isFeatured": false,
+    "tags": [],
+    "description": "Asamblea General PRAI · 16 de octubre de 2026 · Semana REGULATEL, Montevideo.",
+    "attachments": [],
+    "createdAt": "2026-04-14T19:43:30.797Z",
+    "updatedAt": "2026-04-14T20:45:36.389Z"
+  }
+];

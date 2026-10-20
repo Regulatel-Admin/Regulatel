@@ -1,0 +1,621 @@
+{
+  "comite": {
+    "programs": [
+      {
+        "title": "Ver programa",
+        "url": "/eventos/semana-regulatel-2026/comite/pdf/programa-1.pdf?v=1792069976"
+      },
+      {
+        "title": "CUMBRE REGULATEL–BEREC",
+        "url": "/eventos/semana-regulatel-2026/comite/pdf/programa-2.pdf?v=1792070020"
+      }
+    ],
+    "documents": [
+      {
+        "title": "Regulatel",
+        "description": "Informe Ejecutivo",
+        "url": "/eventos/semana-regulatel-2026/comite/pdf/regulatel.pdf?v=1792070582"
+      },
+      {
+        "title": "Joe Lynch",
+        "description": "BEREC",
+        "url": "/eventos/semana-regulatel-2026/comite/pdf/joe-lynch.pdf?v=1792070643"
+      },
+      {
+        "title": "Chiara Caccinelli & Margarida Santos",
+        "description": "BEREC",
+        "url": "/eventos/semana-regulatel-2026/comite/pdf/chiara-caccinelli-margarida-santos.pdf?v=1792070670"
+      },
+      {
+        "title": "Salerme Inacio Oliveira",
+        "description": "",
+        "url": "/eventos/semana-regulatel-2026/comite/pdf/salerme-inacio-oliveira.pdf?v=1792070714"
+      },
+      {
+        "title": "Ana Veneroso",
+        "description": "ITU Americas Regional Office",
+        "url": "/eventos/semana-regulatel-2026/comite/pdf/ana-veneroso.pdf?v=1792070758"
+      },
+      {
+        "title": "Andrea Guglielminetti",
+        "description": "ENACOM",
+        "url": "/eventos/semana-regulatel-2026/comite/pdf/andrea-guglielminetti.pdf?v=1792070793"
+      },
+      {
+        "title": "Amparo Arango Echeverri",
+        "description": "Directora Relaciones Internacionales",
+        "url": "/eventos/semana-regulatel-2026/comite/pdf/amparo-arango-echeverri.pdf?v=1792070819"
+      },
+      {
+        "title": "Comtelca",
+        "description": "",
+        "url": "/eventos/semana-regulatel-2026/comite/pdf/comtelca.pdf?v=1792070851"
+      },
+      {
+        "title": "Jorge Infante González",
+        "description": "CNMC",
+        "url": "/eventos/semana-regulatel-2026/comite/pdf/jorge-infante-gonzalez.pdf?v=1792070874"
+      },
+      {
+        "title": "Carlos Lugo Silva",
+        "description": "Sandboxes en el Sector Público",
+        "url": "/eventos/semana-regulatel-2026/comite/pdf/carlos-lugo-silva.pdf?v=1792070911"
+      },
+      {
+        "title": "Análisis regulatorio de ciberseguridad",
+        "description": "",
+        "url": "/eventos/semana-regulatel-2026/comite/pdf/analisis-regulatorio-de-ciberseguridad.pdf?v=1792070934"
+      },
+      {
+        "title": "Luís Molina",
+        "description": "MedUX",
+        "url": "/eventos/semana-regulatel-2026/comite/pdf/luis-molina.pdf?v=1792071015"
+      },
+      {
+        "title": "GT - Paridad en la Sociedad de la Información - Podcast",
+        "description": "Semana REGULATEL · Grupos de Trabajo",
+        "url": "/eventos/semana-regulatel-2026/comite/pdf/gt-paridad-sociedad-informacion-podcast.pdf"
+      }
+    ],
+    "photos": [
+      {
+        "src": "/eventos/semana-regulatel-2026/comite/images/galeria/20261015-061803-e6400.jpg",
+        "caption": "",
+        "filename": "20261015-061803-e6400.jpg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/comite/images/galeria/20261015-061722-0fcac.jpg",
+        "caption": "",
+        "filename": "20261015-061722-0fcac.jpg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/comite/images/galeria/20261015-061723-78aff.jpg",
+        "caption": "",
+        "filename": "20261015-061723-78aff.jpg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/comite/images/galeria/20261015-061723-f27ca.jpg",
+        "caption": "",
+        "filename": "20261015-061723-f27ca.jpg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/comite/images/galeria/20261015-061724-8a89a.jpg",
+        "caption": "",
+        "filename": "20261015-061724-8a89a.jpg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/comite/images/galeria/20261015-061725-1d1e1.jpg",
+        "caption": "",
+        "filename": "20261015-061725-1d1e1.jpg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/comite/images/galeria/20261015-061725-ac877.jpg",
+        "caption": "",
+        "filename": "20261015-061725-ac877.jpg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/comite/images/galeria/20261015-061726-fd381.jpg",
+        "caption": "",
+        "filename": "20261015-061726-fd381.jpg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/comite/images/galeria/20261015-061727-1db9c.jpg",
+        "caption": "",
+        "filename": "20261015-061727-1db9c.jpg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/comite/images/galeria/20261015-061727-f9dc4.jpg",
+        "caption": "",
+        "filename": "20261015-061727-f9dc4.jpg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/comite/images/galeria/20261015-061728-b47b0.jpg",
+        "caption": "",
+        "filename": "20261015-061728-b47b0.jpg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/comite/images/galeria/20261015-061729-c694d.jpg",
+        "caption": "",
+        "filename": "20261015-061729-c694d.jpg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/comite/images/galeria/20261015-061730-b1bb8.jpg",
+        "caption": "",
+        "filename": "20261015-061730-b1bb8.jpg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/comite/images/galeria/20261015-061731-73da7.jpg",
+        "caption": "",
+        "filename": "20261015-061731-73da7.jpg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/comite/images/galeria/20261015-061731-5448c.jpg",
+        "caption": "",
+        "filename": "20261015-061731-5448c.jpg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/comite/images/galeria/20261015-061732-05a49.jpg",
+        "caption": "",
+        "filename": "20261015-061732-05a49.jpg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/comite/images/galeria/20261015-061733-105b8.jpg",
+        "caption": "",
+        "filename": "20261015-061733-105b8.jpg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/comite/images/galeria/20261015-061733-ce7fc.jpg",
+        "caption": "",
+        "filename": "20261015-061733-ce7fc.jpg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/comite/images/galeria/20261015-061734-0b2c8.jpg",
+        "caption": "",
+        "filename": "20261015-061734-0b2c8.jpg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/comite/images/galeria/20261015-061735-72791.jpg",
+        "caption": "",
+        "filename": "20261015-061735-72791.jpg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/comite/images/galeria/20261015-061736-32d12.jpg",
+        "caption": "",
+        "filename": "20261015-061736-32d12.jpg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/comite/images/galeria/20261015-061737-2c680.jpg",
+        "caption": "",
+        "filename": "20261015-061737-2c680.jpg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/comite/images/galeria/20261015-061738-57441.jpg",
+        "caption": "",
+        "filename": "20261015-061738-57441.jpg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/comite/images/galeria/20261015-061739-69b58.jpg",
+        "caption": "",
+        "filename": "20261015-061739-69b58.jpg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/comite/images/galeria/20261015-061740-36ce0.jpg",
+        "caption": "",
+        "filename": "20261015-061740-36ce0.jpg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/comite/images/galeria/20261015-061740-b400d.jpg",
+        "caption": "",
+        "filename": "20261015-061740-b400d.jpg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/comite/images/galeria/20261015-061741-8f7ed.jpg",
+        "caption": "",
+        "filename": "20261015-061741-8f7ed.jpg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/comite/images/galeria/20261015-061742-dae83.jpg",
+        "caption": "",
+        "filename": "20261015-061742-dae83.jpg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/comite/images/galeria/20261015-061742-eac3c.jpg",
+        "caption": "",
+        "filename": "20261015-061742-eac3c.jpg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/comite/images/galeria/20261015-061743-20961.jpg",
+        "caption": "",
+        "filename": "20261015-061743-20961.jpg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/comite/images/galeria/20261015-061744-87b44.jpg",
+        "caption": "",
+        "filename": "20261015-061744-87b44.jpg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/comite/images/galeria/20261015-061744-47997.jpg",
+        "caption": "",
+        "filename": "20261015-061744-47997.jpg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/comite/images/galeria/20261015-061745-e7e49.jpg",
+        "caption": "",
+        "filename": "20261015-061745-e7e49.jpg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/comite/images/galeria/20261015-061746-8870d.jpg",
+        "caption": "",
+        "filename": "20261015-061746-8870d.jpg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/comite/images/galeria/20261015-061746-a2417.jpg",
+        "caption": "",
+        "filename": "20261015-061746-a2417.jpg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/comite/images/galeria/20261015-061747-45556.jpg",
+        "caption": "",
+        "filename": "20261015-061747-45556.jpg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/comite/images/galeria/20261015-061748-042c7.jpg",
+        "caption": "",
+        "filename": "20261015-061748-042c7.jpg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/comite/images/galeria/20261015-061748-7ffd0.jpg",
+        "caption": "",
+        "filename": "20261015-061748-7ffd0.jpg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/comite/images/galeria/20261015-061750-017aa.jpg",
+        "caption": "",
+        "filename": "20261015-061750-017aa.jpg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/comite/images/galeria/20261015-061751-7b06e.jpg",
+        "caption": "",
+        "filename": "20261015-061751-7b06e.jpg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/comite/images/galeria/20261015-061751-b49ef.jpg",
+        "caption": "",
+        "filename": "20261015-061751-b49ef.jpg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/comite/images/galeria/20261015-061752-9f1c5.jpg",
+        "caption": "",
+        "filename": "20261015-061752-9f1c5.jpg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/comite/images/galeria/20261015-061752-167c5.jpg",
+        "caption": "",
+        "filename": "20261015-061752-167c5.jpg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/comite/images/galeria/20261015-061753-9aee9.jpg",
+        "caption": "",
+        "filename": "20261015-061753-9aee9.jpg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/comite/images/galeria/20261015-061753-89468.jpg",
+        "caption": "",
+        "filename": "20261015-061753-89468.jpg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/comite/images/galeria/20261015-061754-5cd9d.jpg",
+        "caption": "",
+        "filename": "20261015-061754-5cd9d.jpg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/comite/images/galeria/20261015-061755-0e40b.jpg",
+        "caption": "",
+        "filename": "20261015-061755-0e40b.jpg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/comite/images/galeria/20261015-061756-cece3.jpg",
+        "caption": "",
+        "filename": "20261015-061756-cece3.jpg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/comite/images/galeria/20261015-061756-e1e6a.jpg",
+        "caption": "",
+        "filename": "20261015-061756-e1e6a.jpg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/comite/images/galeria/20261015-061758-3ef14.jpg",
+        "caption": "",
+        "filename": "20261015-061758-3ef14.jpg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/comite/images/galeria/20261015-061759-06458.jpg",
+        "caption": "",
+        "filename": "20261015-061759-06458.jpg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/comite/images/galeria/20261015-061800-48ad3.jpg",
+        "caption": "",
+        "filename": "20261015-061800-48ad3.jpg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/comite/images/galeria/20261015-061800-8521a.jpg",
+        "caption": "",
+        "filename": "20261015-061800-8521a.jpg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/comite/images/galeria/20261015-061801-51cf3.jpg",
+        "caption": "",
+        "filename": "20261015-061801-51cf3.jpg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/comite/images/galeria/20261015-061801-134cb.jpg",
+        "caption": "",
+        "filename": "20261015-061801-134cb.jpg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/comite/images/galeria/20261015-061802-42613.jpg",
+        "caption": "",
+        "filename": "20261015-061802-42613.jpg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/comite/images/galeria/20261015-061802-bfa22.jpg",
+        "caption": "",
+        "filename": "20261015-061802-bfa22.jpg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/comite/images/galeria/20261015-061803-770e3.jpg",
+        "caption": "",
+        "filename": "20261015-061803-770e3.jpg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/comite/images/galeria/20261015-061804-d7052.jpg",
+        "caption": "",
+        "filename": "20261015-061804-d7052.jpg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/comite/images/galeria/20261015-061804-dd76c.jpg",
+        "caption": "",
+        "filename": "20261015-061804-dd76c.jpg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/comite/images/galeria/20261015-061805-02579.jpg",
+        "caption": "",
+        "filename": "20261015-061805-02579.jpg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/comite/images/galeria/20261015-061805-04b87.jpg",
+        "caption": "",
+        "filename": "20261015-061805-04b87.jpg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/comite/images/galeria/20261015-061806-20857.jpg",
+        "caption": "",
+        "filename": "20261015-061806-20857.jpg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/comite/images/galeria/20261015-061806-aee23.jpg",
+        "caption": "",
+        "filename": "20261015-061806-aee23.jpg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/comite/images/galeria/20261015-061807-310d3.jpg",
+        "caption": "",
+        "filename": "20261015-061807-310d3.jpg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/comite/images/galeria/20261015-061807-c8040.jpg",
+        "caption": "",
+        "filename": "20261015-061807-c8040.jpg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/comite/images/galeria/20261015-061808-df60c.jpg",
+        "caption": "",
+        "filename": "20261015-061808-df60c.jpg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/comite/images/galeria/20261015-061808-fcda1.jpg",
+        "caption": "",
+        "filename": "20261015-061808-fcda1.jpg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/comite/images/galeria/20261015-061809-7b888.jpg",
+        "caption": "",
+        "filename": "20261015-061809-7b888.jpg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/comite/images/galeria/20261015-061809-963a9.jpg",
+        "caption": "",
+        "filename": "20261015-061809-963a9.jpg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/comite/images/galeria/20261015-061810-eb05e.jpg",
+        "caption": "",
+        "filename": "20261015-061810-eb05e.jpg"
+      }
+    ],
+    "survey": "https://forms.cloud.microsoft/pages/responsepage.aspx?id=Fh5merYTQE-SvexPIp0wrWWw2-kuyBJAvvr4NFzsx7BURVE2SEc2TEZXRjJTMzYxMDJLNDE0SDlCQS4u&route=shorturl",
+    "taxi": "/eventos/semana-regulatel-2026/comite/images/taxi-modern.jpg"
+  },
+  "cumbres": {
+    "programs": [
+      {
+        "title": "Cumbre REGULATEL–BEREC · 15 oct (mañana)",
+        "url": "/eventos/semana-regulatel-2026/cumbres/pdf/cumbre-regulatel-berec.pdf?v=1791552982"
+      },
+      {
+        "title": "Cumbre REGULATEL–PRAI · 15 oct (tarde)",
+        "url": "/eventos/semana-regulatel-2026/cumbres/pdf/cumbre-regulatel-prai.pdf?v=1791552984"
+      },
+      {
+        "title": "Asamblea General PRAI · 16 oct",
+        "url": "/eventos/semana-regulatel-2026/cumbres/pdf/asamblea-general-prai.pdf?v=1791552982"
+      }
+    ],
+    "documents": [
+      {
+        "title": "Grupo 1 - Conclusiones de trabajo",
+        "description": "",
+        "url": "/eventos/semana-regulatel-2026/cumbres/pdf/grupo-1-conclusiones.pdf",
+        "sourceUrl": "https://docs.google.com/document/d/13BFz2mqT_EWcOVt0ghrTYUmWeVWFP7ksx8dGwnIEmDc/edit?usp=sharing"
+      },
+      {
+        "title": "Grupo 2 - Conclusiones de trabajo",
+        "description": "",
+        "url": "/eventos/semana-regulatel-2026/cumbres/pdf/grupo-2-conclusiones.pdf",
+        "sourceUrl": "https://docs.google.com/document/d/1ratES4Csys7WET5eb92V4nQDVfjBUUXWbes27NEfQdo/edit?usp=sharing"
+      },
+      {
+        "title": "Grupo 3 - Conclusiones de trabajo",
+        "description": "",
+        "url": "/eventos/semana-regulatel-2026/cumbres/pdf/grupo-3-conclusiones.pdf",
+        "sourceUrl": "https://docs.google.com/document/d/1g315QC-Z5CREE0F0sG8tVC6Y5eQmd5apIeTKFWgpc4Q/edit?usp=sharing"
+      },
+      {
+        "title": "Grupo 4 - Conclusiones de trabajo",
+        "description": "",
+        "url": "/eventos/semana-regulatel-2026/cumbres/pdf/grupo-4-conclusiones.pdf",
+        "sourceUrl": "https://docs.google.com/document/d/1ZoZ227OArWrzROr81KelTpiq58wrQ3FExh2Ftbc1y8M/edit?usp=sharing"
+      }
+    ],
+    "photos": [
+      {
+        "src": "/eventos/semana-regulatel-2026/cumbres/images/galeria/Foto%201.jpeg",
+        "caption": "Foto 1",
+        "filename": "Foto 1.jpeg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/cumbres/images/galeria/Foto%204.jpeg",
+        "caption": "Foto 4",
+        "filename": "Foto 4.jpeg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/cumbres/images/galeria/Foto%205.jpeg",
+        "caption": "Foto 5",
+        "filename": "Foto 5.jpeg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/cumbres/images/galeria/Foto%206.jpeg",
+        "caption": "Foto 6",
+        "filename": "Foto 6.jpeg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/cumbres/images/galeria/IMG_8897.jpeg",
+        "caption": "IMG_8897",
+        "filename": "IMG_8897.jpeg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/cumbres/images/galeria/IMG_8900.jpeg",
+        "caption": "IMG_8900",
+        "filename": "IMG_8900.jpeg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/cumbres/images/galeria/IMG_8902.jpeg",
+        "caption": "IMG_8902",
+        "filename": "IMG_8902.jpeg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/cumbres/images/galeria/IMG_8905.jpeg",
+        "caption": "IMG_8905",
+        "filename": "IMG_8905.jpeg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/cumbres/images/galeria/IMG_8912.jpeg",
+        "caption": "IMG_8912",
+        "filename": "IMG_8912.jpeg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/cumbres/images/galeria/IMG_8931.jpeg",
+        "caption": "IMG_8931",
+        "filename": "IMG_8931.jpeg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/cumbres/images/galeria/IMG_8934.jpeg",
+        "caption": "IMG_8934",
+        "filename": "IMG_8934.jpeg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/cumbres/images/galeria/IMG_8946.jpeg",
+        "caption": "IMG_8946",
+        "filename": "IMG_8946.jpeg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/cumbres/images/galeria/IMG_8951.jpeg",
+        "caption": "IMG_8951",
+        "filename": "IMG_8951.jpeg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/cumbres/images/galeria/IMG_8954.jpeg",
+        "caption": "IMG_8954",
+        "filename": "IMG_8954.jpeg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/cumbres/images/galeria/IMG_8977.jpeg",
+        "caption": "IMG_8977",
+        "filename": "IMG_8977.jpeg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/cumbres/images/galeria/IMG_8981.jpeg",
+        "caption": "IMG_8981",
+        "filename": "IMG_8981.jpeg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/cumbres/images/galeria/IMG_8992.jpeg",
+        "caption": "IMG_8992",
+        "filename": "IMG_8992.jpeg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/cumbres/images/galeria/IMG_8998.jpeg",
+        "caption": "IMG_8998",
+        "filename": "IMG_8998.jpeg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/cumbres/images/galeria/IMG_9022.jpeg",
+        "caption": "IMG_9022",
+        "filename": "IMG_9022.jpeg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/cumbres/images/galeria/IMG_9028.jpeg",
+        "caption": "IMG_9028",
+        "filename": "IMG_9028.jpeg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/cumbres/images/galeria/IMG_9030.jpeg",
+        "caption": "IMG_9030",
+        "filename": "IMG_9030.jpeg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/cumbres/images/galeria/IMG_9051.jpeg",
+        "caption": "IMG_9051",
+        "filename": "IMG_9051.jpeg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/cumbres/images/galeria/IMG_9057.jpeg",
+        "caption": "IMG_9057",
+        "filename": "IMG_9057.jpeg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/cumbres/images/galeria/foto%2010.jpeg",
+        "caption": "foto 10",
+        "filename": "foto 10.jpeg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/cumbres/images/galeria/foto%207.jpeg",
+        "caption": "foto 7",
+        "filename": "foto 7.jpeg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/cumbres/images/galeria/foto%208.jpeg",
+        "caption": "foto 8",
+        "filename": "foto 8.jpeg"
+      },
+      {
+        "src": "/eventos/semana-regulatel-2026/cumbres/images/galeria/foto%209.jpeg",
+        "caption": "foto 9",
+        "filename": "foto 9.jpeg"
+      }
+    ],
+    "survey": "https://forms.cloud.microsoft/pages/responsepage.aspx?id=Fh5merYTQE-SvexPIp0wrWWw2-kuyBJAvvr4NFzsx7BUMDZIWVQ3WDNaTUQzVEFKSFFMUVRJQUFRSi4u&route=shorturl",
+    "taxi": "/eventos/semana-regulatel-2026/cumbres/images/taxi-modern.jpg"
+  }
+}

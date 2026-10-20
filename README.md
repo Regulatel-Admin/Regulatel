@@ -234,3 +234,18 @@ webage regulatel/
 ## Licencia
 
 Proyecto desarrollado para REGULATEL.
+
+
+### Formatos de las páginas de materiales de eventos
+
+Admin → **Formato de eventos** (`/admin/content/formato-eventos`) permite comparar tres diseños con los mismos archivos y fotografías: Sencillo, Fotografías destacadas y Por secciones. Elegir una tarjeta solo cambia la vista previa. **Publicar formato** guarda la elección en `site_settings.event_materials_layout` y la aplica a los eventos del selector, sin otro despliegue. El formato inicial es Sencillo.
+
+La vista a pantalla completa usa `eventFormatPreview` y requiere una sesión de administrador. Los visitantes sin sesión ven el formato publicado aunque reciban un enlace de previsualización. El guardado valida el formato, comprueba revisiones anteriores y registra el cambio en auditoría.
+
+Validación aislada con PostgreSQL en memoria, sin credenciales ni escrituras de producción:
+
+```sh
+node scripts/test-event-layouts.mjs
+```
+
+Los materiales de estos encuentros proceden de https://www.aecidcf.org.uy/regulatel/index.php y https://www.aecidcf.org.uy/regulatel_comite/index.php. Las fotografías y PDF se sirven desde `public/eventos/semana-regulatel-2026/`; los cuatro documentos públicos de conclusiones se conservaron como PDF. También se incluye la presentación de Paridad proporcionada para la reunión de grupos de trabajo.

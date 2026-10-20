@@ -1,5 +1,6 @@
 /** Nombres visibles del panel. Nunca mostrar rutas crudas como content/home. */
 export const ADMIN_PATH_LABELS: Record<string, string> = {
+  "/admin/content/formato-eventos": "Formato de eventos",
   "/admin": "Inicio",
   "/admin/content/home": "Portada",
   "/admin/content/cumbres": "Cumbres",

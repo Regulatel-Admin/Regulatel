@@ -1,3 +1,4 @@
+import { EVENT_LAYOUT_KEY, isValidEventLayoutSetting, sameEventLayoutRevision } from "../../src/data/eventLayouts.js";
 import type { IncomingMessage, ServerResponse } from "http";
 import { getSetting, getAllSettings, setSetting } from "../lib/siteSettings.js";
 import { ensureAdmin } from "../lib/adminAuth.js";
@@ -69,6 +70,20 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
       if (!key) {
         sendJson(res, 400, { error: "Missing key" });
         return;
+      }
+
+      if (key === EVENT_LAYOUT_KEY) {
+        if (!isValidEventLayoutSetting(body.value)) {
+          sendJson(res, 400, { error: "Formato de eventos inválido." });
+          return;
+        }
+        if (typeof body.baseUpdatedAt === "string") {
+          const current = await getSetting(key);
+          if (current && !sameEventLayoutRevision(current.updated_at, body.baseUpdatedAt)) {
+            sendJson(res, 409, { error: "Otro administrador cambió el formato. Recarga el formato publicado antes de guardar." });
+            return;
+          }
+        }
       }
 
       let valueToStore = body.value ?? {};

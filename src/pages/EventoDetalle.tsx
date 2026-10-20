@@ -1,3 +1,5 @@
+import { SEMANA_RESOURCE_EVENTS } from "@/data/semanaRegulatelResources";
+import { SemanaRegulatelPage, hasSemanaResources } from "@/components/events/SemanaRegulatelResources";
 import { useState, useEffect } from "react";
 import { useParams, Link, Navigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -43,7 +45,7 @@ export default function EventoDetalle() {
   const { id } = useParams<{ id: string }>();
   const eventsRaw = useEvents();
   const events = useLocalizedEvents(eventsRaw);
-  const eventFromList = id ? events.find((e) => e.id === id) : null;
+  const eventFromList = id ? events.find((e) => e.id === id) ?? SEMANA_RESOURCE_EVENTS.find((e) => e.id === id) : null;
   const [fetchedEvent, setFetchedEvent] = useState<Event | null>(null);
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
@@ -108,6 +110,10 @@ export default function EventoDetalle() {
     ? SEMANA_REGULATEL_2026_IMAGE
     : event.imageUrl?.trim() || "";
   const pageMaxWidth = bannerSrc ? 1120 : 820;
+
+  if (hasSemanaResources(event.id)) {
+    return <SemanaRegulatelPage event={event} dateLabel={dateLabel} documents={documents} />;
+  }
 
   return (
     <div
@@ -182,7 +188,7 @@ export default function EventoDetalle() {
                   {event.location}
                 </span>
               </div>
-              {hasRegistrationUrl ? (
+              {isUpcoming && hasRegistrationUrl ? (
                 <RegisterButton href={event.registrationUrl!} label={t("pages.eventos.register")} />
               ) : null}
             </div>
@@ -221,9 +227,9 @@ export default function EventoDetalle() {
             <EventDocumentsSection documents={documents} />
 
             <div className="mt-8 flex flex-wrap items-center gap-4">
-              {hasRegistrationUrl ? (
+              {isUpcoming && hasRegistrationUrl ? (
                 <RegisterButton href={event.registrationUrl!} label={t("pages.eventos.register")} />
-              ) : (
+              ) : isUpcoming ? (
                 <div
                   className="rounded-xl border px-4 py-3 text-sm"
                   style={{
@@ -237,7 +243,7 @@ export default function EventoDetalle() {
                     {t("pages.eventos.registrationPendingHint")}
                   </p>
                 </div>
-              )}
+              ) : null}
             </div>
           </div>
         </article>

@@ -1,3 +1,4 @@
+import { DEFAULT_EVENT_LAYOUT, parseEventLayoutSetting, type EventLayoutSetting } from "@/data/eventLayouts";
 /**
  * Site-wide CMS settings for the public site (hero, quick links, carousel).
  * Fetches from /api/settings when DB is configured; falls back to static data when not.
@@ -51,6 +52,7 @@ import type { CustomPage } from "@/data/customPages";
 import { parseCustomPagesFromSettingValue } from "@/data/customPages";
 
 export interface SiteSettingsState {
+  eventMaterialsLayout: EventLayoutSetting;
   homeHero: HomeHeroSetting | null;
   quickLinks: QuickLinkSettingItem[] | null;
   featuredCarousel: FeaturedCarouselItemSetting[] | null;
@@ -77,6 +79,7 @@ export interface SiteSettingsState {
 }
 
 const defaultState: SiteSettingsState = {
+  eventMaterialsLayout: DEFAULT_EVENT_LAYOUT,
   homeHero: null,
   quickLinks: null,
   featuredCarousel: null,
@@ -140,6 +143,7 @@ async function fetchSettings(retry = false): Promise<Omit<SiteSettingsState, "re
       : rawHero;
   const hasHero = homeHeroParsed && typeof homeHeroParsed === "object";
   return {
+    eventMaterialsLayout: parseEventLayoutSetting(d.event_materials_layout),
     homeHero:
       hasHero && homeHeroParsed && typeof homeHeroParsed === "object" && !Array.isArray(homeHeroParsed)
         ? (homeHeroParsed as HomeHeroSetting)

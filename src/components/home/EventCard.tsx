@@ -1,3 +1,4 @@
+import EventMaterialsBadge from "@/components/events/EventMaterialsBadge";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { ChevronRight } from "lucide-react";
@@ -78,6 +79,8 @@ export default function EventCard({ event }: EventCardProps) {
           {event.description}
         </p>
       )}
+
+      <EventMaterialsBadge event={event} />
 
       <div
         className="mt-4 flex flex-wrap items-center justify-end gap-2 border-t pt-3"

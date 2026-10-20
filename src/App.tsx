@@ -1,3 +1,4 @@
+import AdminEventLayouts from "@/pages/admin/content/AdminEventLayouts";
 /**
  * Portal REGULATEL – Enrutado principal y layout.
  * Versión inicial desarrollada por Diego Cuervo (INDOTEL). 2026.
@@ -88,6 +89,7 @@ function App() {
             <Route path="/admin" element={<AdminLayout />}>
               <Route index element={<AdminDashboard />} />
               <Route path="content/home" element={<AdminContentHome />} />
+              <Route path="content/formato-eventos" element={<AdminEventLayouts />} />
               <Route path="content/cumbres" element={<AdminContentCumbres />} />
               <Route path="content/galeria" element={<AdminContentGaleria />} />
               <Route path="content/accesos" element={<AdminContentAccesos />} />

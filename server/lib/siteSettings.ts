@@ -7,6 +7,7 @@ import { getDb } from "./db.js";
 import { deepFixMojibakeUtf8 } from "./utf8Mojibake.js";
 
 const ALLOWED_KEYS = [
+  "event_materials_layout",
   "home_hero",
   "featured_carousel",
   "quick_links",

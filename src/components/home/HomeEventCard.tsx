@@ -1,3 +1,4 @@
+import EventMaterialsBadge from "@/components/events/EventMaterialsBadge";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { ArrowRight } from "lucide-react";
@@ -107,6 +108,8 @@ export default function HomeEventCard({ event }: HomeEventCardProps) {
       ) : (
         <div className="mt-0 flex-1 min-h-0" aria-hidden />
       )}
+
+      <EventMaterialsBadge event={event} />
 
       {/* CTA */}
       <div

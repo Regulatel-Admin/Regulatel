@@ -53,6 +53,7 @@ const featured: Shortcut[] = [
 ];
 
 const moreLinks: Shortcut[] = [
+  { to: "/admin/content/formato-eventos", icon: Calendar, title: "Formato de eventos", desc: "Previsualizar y publicar uno de los tres formatos." },
   { to: "/admin/content/galeria", icon: FolderOpen, title: "Galería", desc: "Álbumes y fotos." },
   { to: "/admin/content/cumbres", icon: Zap, title: "Cumbres", desc: "Carrusel de cumbres." },
   { to: "/admin/content/accesos", icon: ImageIcon, title: "Accesos de la portada", desc: "Los cuatro atajos." },

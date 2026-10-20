@@ -66,6 +66,7 @@ const groups: NavGroup[] = [
       { to: "/admin/content/paginas", label: "Páginas de categorías", icon: FilePlus2 },
       { to: "/admin/content/galeria", label: "Galería", icon: FolderOpen },
       { to: "/admin/content/cumbres", label: "Cumbres", icon: Zap },
+      { to: "/admin/content/formato-eventos", label: "Formato de eventos", icon: Calendar },
       { to: "/admin/content/accesos", label: "Accesos de la portada", icon: ImageIcon },
     ],
   },

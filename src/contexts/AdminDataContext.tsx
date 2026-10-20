@@ -1,3 +1,4 @@
+import { SEMANA_RESOURCE_EVENTS } from "@/data/semanaRegulatelResources";
 import {
   createContext,
   useCallback,
@@ -467,8 +468,11 @@ export function useMergedNews(): HomeNewsItemLike[] {
 export function useEvents(): Event[] {
   const ctx = useContext(AdminDataContext);
   const seedNormalized = EVENTS_SEED.map(normalizeEvent);
-  if (!ctx || ctx.contentSource === "legacy") return seedNormalized;
-  return (ctx.events ?? []).map(normalizeEvent);
+  const source = !ctx || ctx.contentSource === "legacy" ? seedNormalized : (ctx.events ?? []).map(normalizeEvent);
+  if (ctx?.contentSource === "loading") return source;
+  // Fill events documented by AECID without replacing any CMS record.
+  const ids = new Set(source.map((event) => event.id));
+  return [...source, ...SEMANA_RESOURCE_EVENTS.filter((event) => !ids.has(event.id)).map(normalizeEvent)];
 }
 
 export function useMergedCifras(): KPIItem[] {

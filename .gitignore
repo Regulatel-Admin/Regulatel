@@ -29,3 +29,6 @@ public/videos/
 *.sln
 *.sw?
 .vercel
+
+# Local QA artifacts and isolated test bundles
+output/
