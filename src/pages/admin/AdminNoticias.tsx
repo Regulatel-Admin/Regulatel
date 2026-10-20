@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useAdminData } from "@/contexts/AdminDataContext";
 import type { AdminNewsItem } from "@/contexts/AdminDataContext";
-import { Pencil, Trash2, Plus, History, X, FileText } from "lucide-react";
+import { Pencil, Trash2, Plus, History, X, FileText, ArrowUp, ArrowDown } from "lucide-react";
 import { uploadAdminFile } from "@/lib/uploads";
 import type { UploadedFileMeta } from "@/types/uploads";
 import { api } from "@/lib/api";
@@ -160,6 +160,17 @@ export default function AdminNoticias() {
     setFromSiteEditDraft(false);
   };
 
+  const moveImage = (from: number, to: number) => {
+    if (uploadInProgress.current || isSubmitting) return;
+    setForm((current) => {
+      if (to < 0 || to >= current.imageSlots.length) return current;
+      const imageSlots = [...current.imageSlots];
+      const [image] = imageSlots.splice(from, 1);
+      imageSlots.splice(to, 0, image);
+      return { ...current, imageSlots };
+    });
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (uploadInProgress.current || isSubmitting) return;
@@ -176,7 +187,7 @@ export default function AdminNoticias() {
       date: form.date,
       dateFormatted,
       category: form.category,
-      excerpt: form.excerpt,
+      excerpt: form.excerpt.trim(),
       imageUrl: slots[0]?.url ?? "",
       imageFileName: slots[0]?.name,
       imageMimeType: slots[0]?.mimeType,
@@ -400,22 +411,26 @@ export default function AdminNoticias() {
               />
             </div>
             <div className="md:col-span-2">
-              <label className="mb-1 block text-sm font-medium" style={{ color: "var(--regu-gray-700)" }}>Resumen *</label>
+              <label htmlFor="news-excerpt" className="mb-1 block text-sm font-medium" style={{ color: "var(--regu-gray-700)" }}>Resumen (opcional)</label>
               <textarea
+                id="news-excerpt"
+                aria-describedby="news-excerpt-help"
                 value={form.excerpt}
                 onChange={(e) => setForm((f) => ({ ...f, excerpt: e.target.value }))}
                 rows={2}
                 className="w-full rounded-lg border px-3 py-2"
                 style={{ borderColor: "var(--regu-gray-100)" }}
-                required
               />
+              <p id="news-excerpt-help" className="mt-1 text-xs" style={{ color: "var(--regu-gray-500)" }}>
+                Puedes publicar la noticia sin este párrafo.
+              </p>
             </div>
             <div className="md:col-span-2">
               <label className="mb-1 block text-sm font-medium" style={{ color: "var(--regu-gray-700)" }}>
                 Imágenes y enlaces
               </label>
               <p className="mb-2 text-xs leading-relaxed" style={{ color: "var(--regu-gray-500)" }}>
-                Puedes seleccionar varias fotos a la vez. La primera es la portada y las demás aparecen dentro del artículo, en el orden elegido.
+                Puedes seleccionar varias fotos a la vez. Usa las flechas para cambiar el orden. La primera será la portada y las demás aparecerán dentro del artículo.
               </p>
               <p className="mb-2 text-xs" role="status" aria-live="polite">
                 {isUploading ? uploadProgress : `${form.imageSlots.filter((slot) => slot.url.trim()).length} imágenes listas para guardar`}
@@ -435,6 +450,7 @@ export default function AdminNoticias() {
                     ) : (
                       <input
                         type="text"
+                        aria-label={i === 0 ? "Enlace de la portada" : `Enlace de la foto ${i + 1}`}
                         disabled={isSubmitting || isUploading}
                         value={slot.url}
                         onChange={(e) =>
@@ -457,6 +473,30 @@ export default function AdminNoticias() {
                         style={{ borderColor: "var(--regu-gray-100)" }}
                       />
                     )}
+                    <div role="group" aria-label={`Orden de la foto ${i + 1}`} className="flex items-center gap-1">
+                      <button
+                        type="button"
+                        aria-label={`Mover foto ${i + 1} hacia arriba`}
+                        title="Mover hacia arriba"
+                        disabled={i === 0 || isSubmitting || isUploading}
+                        onClick={() => moveImage(i, i - 1)}
+                        className="rounded-lg border p-2 hover:bg-[var(--regu-gray-50)] disabled:opacity-30 disabled:cursor-not-allowed"
+                        style={{ borderColor: "var(--regu-gray-200)", color: "var(--regu-gray-700)" }}
+                      >
+                        <ArrowUp className="h-4 w-4" aria-hidden="true" />
+                      </button>
+                      <button
+                        type="button"
+                        aria-label={`Mover foto ${i + 1} hacia abajo`}
+                        title="Mover hacia abajo"
+                        disabled={i === form.imageSlots.length - 1 || isSubmitting || isUploading}
+                        onClick={() => moveImage(i, i + 1)}
+                        className="rounded-lg border p-2 hover:bg-[var(--regu-gray-50)] disabled:opacity-30 disabled:cursor-not-allowed"
+                        style={{ borderColor: "var(--regu-gray-200)", color: "var(--regu-gray-700)" }}
+                      >
+                        <ArrowDown className="h-4 w-4" aria-hidden="true" />
+                      </button>
+                    </div>
                     <button
                       type="button"
                       disabled={isSubmitting || isUploading}
@@ -617,9 +657,11 @@ export default function AdminNoticias() {
                 <p className="mt-1 text-xs" style={{ color: "var(--regu-gray-500)" }}>
                   {formatDate(form.date) || "—"}
                 </p>
-                <p className="mt-2 line-clamp-2 text-sm" style={{ color: "var(--regu-gray-600)" }}>
-                  {form.excerpt || "Resumen…"}
-                </p>
+                {form.excerpt.trim() && (
+                  <p className="mt-2 line-clamp-2 text-sm" style={{ color: "var(--regu-gray-600)" }}>
+                    {form.excerpt}
+                  </p>
+                )}
               </div>
             </div>
           </div>
