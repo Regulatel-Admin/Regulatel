@@ -26,6 +26,9 @@ import { SiteEditUndoRedo } from "@/components/site-edit/SiteEditUndoRedo";
 import { useSiteEdit } from "@/contexts/SiteEditContext";
 import { useDraftHistory } from "@/hooks/useDraftHistory";
 import { usePreviewSync } from "@/hooks/usePreviewSync";
+import { useRecoverableDraft } from "@/hooks/useRecoverableDraft";
+import { DraftRecoveryNotice } from "@/components/site-edit/DraftRecoveryNotice";
+import { DraftEditableText } from "@/components/site-edit/DraftEditableText";
 import { cloneJson, notifyCmsSaved } from "@/lib/siteEdit";
 import { type ContentBlock } from "@/types/contentBlocks";
 import { safeContentUrl } from "@/types/contentBlocks";
@@ -908,6 +911,8 @@ function InlineNewsEditor({ initial }: { initial: AdminNewsItem }) {
   const sourceRevision = useRef(JSON.stringify(initial));
   const preview = newsDraftPreview(row);
   const captureBaseline = usePreviewSync("news", preview);
+  const draft = useRecoverableDraft({ identity: `news:${initial.slug}`, kind: "news", path: initial.slug.startsWith("preview-news-") ? "/noticias/nueva" : `/noticias/${encodeURIComponent(initial.slug)}`,
+    label: row.title, value: row, baseline: JSON.parse(baselineRow.current) as AdminNewsItem, enabled: true, onRestore: reset });
   useEffect(() => {
     const revision = JSON.stringify(initial);
     if (revision === sourceRevision.current) return;
@@ -978,6 +983,7 @@ function InlineNewsEditor({ initial }: { initial: AdminNewsItem }) {
         saved = { ...normalized, ...created };
         recordPersistedChange({ label: "noticia", undo: async () => { await deleteNews(created.id); notifyCmsSaved("news"); }, redo: async () => { await addNews({ ...saved }); notifyCmsSaved("news"); } });
       }
+      draft.clear(saved);
       reset(saved);
       baselineRow.current = JSON.stringify(saved);
       captureBaseline(newsDraftPreview(saved));
@@ -997,13 +1003,14 @@ function InlineNewsEditor({ initial }: { initial: AdminNewsItem }) {
       <button type="button" disabled={saving || uploadBusy} onClick={() => void save(false)} className="rounded-lg border border-red-200 px-3 py-2 text-sm font-semibold text-red-700 disabled:opacity-50">Despublicar</button>
       {error && <p role="alert" className="w-full text-sm text-red-700">{error}</p>}
       {message && <p role="status" className="w-full text-sm text-teal-800">{message}</p>}
+      <div className="w-full"><DraftRecoveryNotice draft={draft} disabled={saving || uploadBusy} /></div>
     </div>
     {previewMode ? <ArticleLayout payload={payload} isStaticCumbre /> : <>
     <ArticleBreadcrumb title={row.title} />
     <header className="mb-7 space-y-3">
       <div className="flex flex-wrap items-center gap-3 text-sm text-slate-600"><CategoryBadge label={row.category} /><span>{row.dateFormatted}</span>{!row.published && <span className="rounded bg-amber-50 px-2 py-1 text-amber-800">Sin publicar</span>}</div>
-      <h1 aria-label="Título de la noticia" role="textbox" contentEditable={saving ? false : "plaintext-only"} suppressContentEditableWarning onBlur={event => { if (event.currentTarget.innerText !== row.title) patch({ title: event.currentTarget.innerText }); }} data-placeholder="Escribe el título" className="min-h-[1.25em] rounded-sm font-bold leading-tight tracking-tight outline-none transition hover:bg-teal-50/40 focus:ring-1 focus:ring-teal-300 empty:before:text-slate-300 empty:before:content-[attr(data-placeholder)]" style={{ color: "var(--regu-navy)", fontSize: "clamp(1.5rem, 2.2vw, 2.25rem)", lineHeight: 1.25, fontFamily: "var(--token-font-heading)" }}>{row.title}</h1>
-      <p aria-label="Resumen de la noticia" role="textbox" contentEditable={saving ? false : "plaintext-only"} suppressContentEditableWarning onBlur={event => { if (event.currentTarget.innerText !== row.excerpt) patch({ excerpt: event.currentTarget.innerText }); }} data-placeholder="Añadir resumen" className="min-h-[1.5em] rounded-sm text-base leading-relaxed outline-none transition hover:bg-teal-50/40 focus:ring-1 focus:ring-teal-300 empty:before:text-slate-300 empty:before:content-[attr(data-placeholder)]" style={{ color: "var(--regu-gray-600)" }}>{row.excerpt}</p>
+      <DraftEditableText as="h1" aria-label="Título de la noticia" disabled={saving} value={row.title} onChange={title => patch({ title })} data-placeholder="Escribe el título" className="min-h-[1.25em] rounded-sm font-bold leading-tight tracking-tight outline-none transition hover:bg-teal-50/40 focus:ring-1 focus:ring-teal-300 empty:before:text-slate-300 empty:before:content-[attr(data-placeholder)]" style={{ color: "var(--regu-navy)", fontSize: "clamp(1.5rem, 2.2vw, 2.25rem)", lineHeight: 1.25, fontFamily: "var(--token-font-heading)" }} />
+      <DraftEditableText as="p" aria-label="Resumen de la noticia" disabled={saving} value={row.excerpt} onChange={excerpt => patch({ excerpt })} data-placeholder="Añadir resumen" className="min-h-[1.5em] rounded-sm text-base leading-relaxed outline-none transition hover:bg-teal-50/40 focus:ring-1 focus:ring-teal-300 empty:before:text-slate-300 empty:before:content-[attr(data-placeholder)]" style={{ color: "var(--regu-gray-600)" }} />
     </header>
     <ContentBlocksEditor blocks={row.contentBlocks ?? []} onChange={blocks => patch({ contentBlocks: blocks })} editing disabled={saving} onBusyChange={setUploadBusy} folder="news" renderText={renderNewsText} />
     <details className="my-6 text-sm"><summary className="cursor-pointer text-xs font-semibold text-slate-500">Opciones de noticia</summary><fieldset disabled={saving} className="mt-4 grid gap-4 rounded-xl border border-slate-200 p-4 sm:grid-cols-2">

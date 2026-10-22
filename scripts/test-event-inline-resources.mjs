@@ -69,6 +69,7 @@ function reset() {
     event: {}, busy: false,
     patch(values) { if (values.resources) resources = values.resources; },
     onBusyChange(value) { this.busy = value; busyEvents.push(value); },
+    setResourceDraft(value) { this.resourceDraft = value; },
   };
   globalThis.__EVENT_RESOURCE_UPLOAD = async () => ({ url: "/replacement.pdf" });
 }
@@ -112,10 +113,12 @@ await check("inline replacement changes only the chosen URL after Apply", async 
   byLabel(tools.dialogs, "Archivo de reemplazo").props.onChange({ target: { files: [file] } });
   await flush();
   assert.deepEqual(resources, before, "The uploaded draft must not be applied before Apply");
+  assert.equal(globalThis.__EVENT_RESOURCE_CONTEXT.resourceDraft.draft.url, "/replacement.pdf", "Pending modal upload is included in the private recoverable draft");
   tools = renderTools();
   button(tools.dialogs, "Aplicar").props.onClick();
   before.documents[1].url = "/replacement.pdf";
   assert.deepEqual(resources, before);
+  assert.equal(globalThis.__EVENT_RESOURCE_CONTEXT.resourceDraft, undefined, "Apply removes only the temporary dialog draft");
   assert.deepEqual(busyEvents, [true, false]);
 });
 

@@ -1,10 +1,12 @@
-import { useState, type ReactNode } from "react";
+import { useRef, useState, type ReactNode } from "react";
 import { Send, Trash2 } from "lucide-react";
 import { useSiteEdit } from "@/contexts/SiteEditContext";
 import { useAdminData, useEvents } from "@/contexts/AdminDataContext";
 import { notifyCmsSaved, cloneJson } from "@/lib/siteEdit";
 import { useDraftHistory } from "@/hooks/useDraftHistory";
 import { usePreviewSync } from "@/hooks/usePreviewSync";
+import { useRecoverableDraft } from "@/hooks/useRecoverableDraft";
+import { DraftRecoveryNotice } from "@/components/site-edit/DraftRecoveryNotice";
 import { AdminBlobUploadField } from "@/components/admin/AdminBlobUploadField";
 import EventAttachmentsField from "@/components/admin/EventAttachmentsField";
 import { NotifySubscribersButton } from "@/components/admin/NotifySubscribersOption";
@@ -88,14 +90,16 @@ export function EventoForm({ id }: { id?: string }) {
 
 function LoadedEventoForm({ id, seed }: { id?: string; seed?: Event }) {
   const { events, addEvent, updateEvent, deleteEvent } = useAdminData();
-  const { recordPersistedChange, clearPreview, close } = useSiteEdit();
+  const { recordPersistedChange, clearPreview, close, open } = useSiteEdit();
   const [savedId, setSavedId] = useState(id);
   const storedEvent = events.find((e) => e.id === (savedId ?? id));
   const existing = storedEvent ?? seed;
 
-  const { value: row, setValue: setRow } = useDraftHistory<Event>(() =>
-    existing ? { ...existing } : emptyEvento(),
-  );
+  const initial = useRef(existing ? { ...existing } : emptyEvento());
+  const [baseline, setBaseline] = useState(initial.current);
+  const { value: row, setValue: setRow, reset } = useDraftHistory<Event>(initial.current);
+  const draft = useRecoverableDraft({ identity: `event:${id ?? "new"}`, kind: "event", path: id ? `/eventos/${encodeURIComponent(id)}` : "/eventos?tab=todos", label: row.title,
+    value: row, baseline, enabled: true, newEvent: !id, onRestore: reset });
 
   const [removed, setRemoved] = useState(existing?.published === false);
   const [saving, setSaving] = useState(false);
@@ -110,6 +114,7 @@ function LoadedEventoForm({ id, seed }: { id?: string; seed?: Event }) {
   const remove = async () => {
     if (saving || removed) return;
     if (!existing) {
+      draft.clear(baseline);
       captureBaseline();
       clearPreview("evento");
       close();
@@ -202,6 +207,7 @@ function LoadedEventoForm({ id, seed }: { id?: string; seed?: Event }) {
     setSaving(true);
     setError(null);
     try {
+      const finalId = existing?.id ?? slugifyEventId(payload.title, year);
       if (storedEvent && existing) {
         const before = {
           title: existing.title,
@@ -249,11 +255,14 @@ function LoadedEventoForm({ id, seed }: { id?: string; seed?: Event }) {
         setRow(normalizeEvent({ ...row, ...payload, id: nextId, year }));
       }
       notifyCmsSaved("events");
-      captureBaseline();
+      const saved = normalizeEvent({ ...row, ...payload, id: finalId, year });
+      draft.clear(saved); setBaseline(saved); reset(saved);
+      captureBaseline(saved);
       clearPreview("evento");
       setRemoved(false);
       setPublishedNote("Ya está en el sitio público.");
       setPublished(true);
+      if (!id) open({ kind: "evento", id: finalId });
     } catch (err) {
       setError(err instanceof Error ? err.message : "No se pudo publicar.");
     } finally {
@@ -263,6 +272,7 @@ function LoadedEventoForm({ id, seed }: { id?: string; seed?: Event }) {
 
   return (
     <div className="space-y-5">
+      <DraftRecoveryNotice draft={draft} disabled={saving} />
       <p className="text-[12px] leading-relaxed" style={{ color: "var(--regu-gray-500)" }}>
         Título, fechas y lugar. Se ve en la grilla al instante.
       </p>

@@ -73,7 +73,7 @@ function testOrderAndFilters() {
 
 async function testSaving() {
   const preview = { eventOrder: ['b','a','hidden'] };
-  const writes = [], history = [], errors = [];
+  const writes = [], history = [], errors = [], clearedDrafts = [];
   let saved = ['a','hidden','b','new-hidden'];
   let failRead = false, failWrite = false, clears = 0, refreshes = 0;
   const busy = { current: false };
@@ -89,12 +89,13 @@ async function testSaving() {
     orderDirty: true, draftOrder: preview.eventOrder, orderBusy: busy,
     setSavingOrder: () => {}, setOrderError: value => errors.push(value), setOrderMessage: () => {},
     api, ...order, recordPersistedChange: value => history.push(value), notifyCmsSaved: () => {},
-    refetchSettings: async () => refreshes++, clearPreview: () => clears++, ...extras,
+    refetchSettings: async () => refreshes++, clearPreview: () => clears++, orderDraft: {clear:value=>clearedDrafts.push(clean(value))}, ...extras,
   });
   const before = clean(saved);
   await createSave()();
   check(saved, ['b','a','hidden','new-hidden'], 'Saving preserves IDs added or hidden since page load');
   check([writes.length, history.length, clears, refreshes, busy.current], [1,1,1,1,false], 'Save awaits persistence then records history and clears draft');
+  check(clearedDrafts,[saved],'Recoverable order draft clears only after persistence');
   await history[0].undo();
   check(saved, before, 'Undo restores original manual order');
   await history[0].redo();
@@ -107,6 +108,7 @@ async function testSaving() {
   failRead = false; failWrite = true;
   await createSave()();
   check([writes.length,clears,errors.at(-1),busy.current], [previousWrites,previousClears,'write failed',false], 'Write failure preserves draft and enables retry');
+  check(clearedDrafts.length,1,'Failed reads/writes never discard the recoverable order draft');
   failWrite = false;
   await createSave({ draftOrder: [] })();
   check(saved, [], 'Returning to date order persists an explicit reset');

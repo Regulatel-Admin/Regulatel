@@ -5,11 +5,12 @@ import EventDocumentsSection from "@/components/events/EventDocumentsSection";
 import EventAttachmentsField from "@/components/admin/EventAttachmentsField";
 import ContentBlocksEditor from "@/components/site-edit/ContentBlocksEditor";
 import type { Event, EventAttachment } from "@/types/event";
+import { DraftEditableText } from "@/components/site-edit/DraftEditableText";
 
 export function EventEditableText({ field, children, label }: { field: "title" | "description"; children: ReactNode; label: string }) {
   const editor = useEventInlineEditor();
   if (!editor) return <>{children}</>;
-  return <span role="textbox" aria-label={label} aria-multiline contentEditable={editor.busy ? false : "plaintext-only"} suppressContentEditableWarning className="cursor-text rounded outline-none hover:ring-1 hover:ring-teal-200 focus:ring-2 focus:ring-teal-300" onBlur={event => editor.patch({ [field]: field === "description" ? event.currentTarget.innerText : event.currentTarget.textContent ?? "" })}>{children || "Pulsa aquí para escribir…"}</span>;
+  return <DraftEditableText aria-label={label} aria-multiline disabled={editor.busy} value={editor.event[field] ?? ""} onChange={text => editor.patch({ [field]: text })} data-placeholder="Pulsa aquí para escribir…" className="cursor-text whitespace-pre-wrap rounded outline-none hover:ring-1 hover:ring-teal-200 focus:ring-2 focus:ring-teal-300 empty:before:content-[attr(data-placeholder)]" />;
 }
 
 export function EventInlineBlocks({ event }: { event: Event }) {

@@ -5,6 +5,8 @@ import { useAdminData } from "@/contexts/AdminDataContext";
 import { useSiteEdit } from "@/contexts/SiteEditContext";
 import { useDraftHistory } from "@/hooks/useDraftHistory";
 import { usePreviewSync } from "@/hooks/usePreviewSync";
+import { useRecoverableDraft } from "@/hooks/useRecoverableDraft";
+import { DraftRecoveryNotice } from "@/components/site-edit/DraftRecoveryNotice";
 import { cloneJson, notifyCmsSaved } from "@/lib/siteEdit";
 import { getEventStatus, getEventYear, type Event } from "@/types/event";
 import { safeContentUrl } from "@/types/contentBlocks";
@@ -13,7 +15,7 @@ import ContentBlocksEditor from "@/components/site-edit/ContentBlocksEditor";
 import { AdminBlobUploadField } from "@/components/admin/AdminBlobUploadField";
 import EventAttachmentsField from "@/components/admin/EventAttachmentsField";
 import EventResourcesEditor from "@/components/site-edit/EventResourcesEditor";
-import { EventInlineEditContext } from "@/contexts/EventInlineEditContext";
+import { EventInlineEditContext, type EventResourceDraft } from "@/contexts/EventInlineEditContext";
 import { getSemanaResources } from "@/components/events/SemanaRegulatelResources";
 import { SEMANA_REGULATEL_2026_ATTACHMENTS, SEMANA_REGULATEL_2026_EVENT_ID, SEMANA_REGULATEL_2026_IMAGE } from "@/data/semanaRegulatel2026";
 
@@ -47,7 +49,10 @@ export default function EventPageEditor({ event, children }: {
   const [error, setError] = useState("");
   const [saved, setSaved] = useState<Event>(seed.current);
   const [removed, setRemoved] = useState(event.published === false);
+  const [resourceDraft, setResourceDraft] = useState<EventResourceDraft>();
   const captureBaseline = usePreviewSync("evento", row, enabled);
+  const draft = useRecoverableDraft<Event & { resourceDraft?: EventResourceDraft }>({ identity: `event:${event.id}`, kind: "event", path: `/eventos/${encodeURIComponent(event.id)}`, label: row.title,
+    value: { ...row, resourceDraft }, baseline: saved, enabled, onRestore: ({ resourceDraft: dialog, ...next }) => { setResourceDraft(dialog); rowRef.current = next; reset(next); } });
   const busyRef = useRef(false);
   const patch = (values: Partial<Event>) => {
     const next = { ...rowRef.current, ...values };
@@ -88,12 +93,14 @@ export default function EventPageEditor({ event, children }: {
         }
         notifyCmsSaved("events");
         const next = editableSeed(value ?? event);
-        setSaved(next); reset(next); captureBaseline(next); clearPreview("evento");
+        draft.clear(next); setResourceDraft(undefined); setSaved(next); reset(next); captureBaseline(next); clearPreview("evento");
         setRemoved(next.published === false); setMessage("");
       };
       recordPersistedChange({ label: published ? "publicar evento" : "despublicar evento", undo: () => restore(previous), redo: () => restore(payload) });
       const next = editableSeed(payload);
-      setSaved(next); reset(next); captureBaseline(next); clearPreview("evento");
+      const editingNext = !published ? { ...rowRef.current, published: false } : next;
+      if (published) { draft.clear(next); setResourceDraft(undefined); }
+      setSaved(next); reset(editingNext); rowRef.current = editingNext; captureBaseline(next); clearPreview("evento");
       setRemoved(!published);
       setMessage(published ? "Evento publicado. Los cambios ya están en el sitio." : "Evento despublicado. Los documentos y fotografías se conservan.");
       notifyCmsSaved("events");
@@ -117,8 +124,9 @@ export default function EventPageEditor({ event, children }: {
     {resources && <EventResourcesEditor value={resources} onChange={value => patch({ resources: value })} disabled={saving || uploadBusy} onBusyChange={setUploadBusy} />}
     <EventAttachmentsField value={row.attachments ?? []} onChange={attachments => patch({ attachments })} disabled={saving || uploadBusy} label="Documentos adjuntos del evento" onBusyChange={setUploadBusy} />
   </fieldset>;
-  return <EventInlineEditContext.Provider value={previewing ? null : { event: row, patch, busy: saving || uploadBusy, onBusyChange: setUploadBusy }}>
-    <div className="relative z-30 border-b border-teal-200 bg-white px-4 py-3"><div className="mx-auto flex max-w-6xl flex-wrap items-center gap-2"><Link className={`${buttonClass} mr-auto`} to="/eventos?tab=todos"><ArrowLeft size={16} />Eventos</Link><button className={buttonClass} disabled={saving || uploadBusy} onClick={() => setOptionsOpen(true)}><Settings2 size={16} />Opciones</button><button className={buttonClass} disabled={saving || uploadBusy} onClick={() => setPreviewing(!previewing)}>{previewing ? <Pencil size={16} /> : <Eye size={16} />}{previewing ? "Editar" : "Vista previa"}</button><button className={buttonClass} disabled={saving || uploadBusy} onClick={() => { reset(saved); captureBaseline(saved); clearPreview("evento"); setMessage(""); }}><RotateCcw size={16} />Revertir</button><button className={buttonClass} style={{ color: "#b91c1c" }} disabled={saving || uploadBusy || removed} onClick={() => void persist(false)}><Trash2 size={16} />{removed ? "Despublicado" : "Despublicar"}</button><button className={buttonClass} style={{ backgroundColor: "#0f766e", color: "#fff", borderColor: "#0f766e" }} disabled={saving || uploadBusy} onClick={() => void persist(true)}><Send size={16} />{saving ? "Guardando…" : removed ? "Volver a publicar" : "Publicar cambios"}</button></div>{message && <p role="status" className="mx-auto mt-2 max-w-6xl text-sm text-teal-800">{message}</p>}{error && <p role="alert" className="mx-auto mt-2 max-w-6xl text-sm text-red-700">{error}</p>}</div>
+  return <EventInlineEditContext.Provider value={previewing ? null : { event: row, patch, busy: saving || uploadBusy, onBusyChange: setUploadBusy, resourceDraft, setResourceDraft }}>
+    <div className="relative z-30 border-b border-teal-200 bg-white px-4 py-3"><div className="mx-auto flex max-w-6xl flex-wrap items-center gap-2"><Link className={`${buttonClass} mr-auto`} to="/eventos?tab=todos"><ArrowLeft size={16} />Eventos</Link><button className={buttonClass} disabled={saving || uploadBusy} onClick={() => setOptionsOpen(true)}><Settings2 size={16} />Opciones</button><button className={buttonClass} disabled={saving || uploadBusy} onClick={() => setPreviewing(!previewing)}>{previewing ? <Pencil size={16} /> : <Eye size={16} />}{previewing ? "Editar" : "Vista previa"}</button><button className={buttonClass} disabled={saving || uploadBusy} onClick={() => { draft.clear(saved); setResourceDraft(undefined); reset(saved); captureBaseline(saved); clearPreview("evento"); setMessage(""); }}><RotateCcw size={16} />Revertir</button><button className={buttonClass} style={{ color: "#b91c1c" }} disabled={saving || uploadBusy || removed} onClick={() => void persist(false)}><Trash2 size={16} />{removed ? "Despublicado" : "Despublicar"}</button><button className={buttonClass} style={{ backgroundColor: "#0f766e", color: "#fff", borderColor: "#0f766e" }} disabled={saving || uploadBusy} onClick={() => void persist(true)}><Send size={16} />{saving ? "Guardando…" : removed ? "Volver a publicar" : "Publicar cambios"}</button></div>{message && <p role="status" className="mx-auto mt-2 max-w-6xl text-sm text-teal-800">{message}</p>}{error && <p role="alert" className="mx-auto mt-2 max-w-6xl text-sm text-red-700">{error}</p>}</div>
+    <div className="mx-auto max-w-6xl px-4 pt-3"><DraftRecoveryNotice draft={draft} disabled={saving || uploadBusy} /></div>
     {!previewing && <p className="mx-auto max-w-6xl px-4 pt-4 text-xs text-teal-700">Pulsa el título o el texto para escribir. Usa el asa para mover archivos y bloques. Publica cuando termines.</p>}
     {children(row)}
     {optionsOpen && <div className="fixed inset-0 z-[120] overflow-y-auto bg-slate-950/35 p-4 md:p-8" role="dialog" aria-modal="true" aria-label="Opciones del evento"><div className="mx-auto max-w-3xl rounded-2xl bg-white p-4 shadow-xl"><div className="mb-4 flex items-center justify-between"><h2 className="text-lg font-bold text-[var(--regu-navy)]">Opciones del evento</h2><button className={buttonClass} disabled={saving || uploadBusy} onClick={() => setOptionsOpen(false)} aria-label="Cerrar opciones"><X size={18} /></button></div>{editor}<button className={`${buttonClass} mt-4`} disabled={saving || uploadBusy} onClick={() => setOptionsOpen(false)}>Volver a la página</button></div></div>}

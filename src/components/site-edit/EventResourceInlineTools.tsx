@@ -25,6 +25,8 @@ export function useEventResourceInlineTools(resources: EventResources, order: Re
   inlineRef.current = inline;
   const [target, setTarget] = useState<Target | null>(null);
   const [draft, setDraft] = useState<Draft>({ title: "", url: "", description: "" });
+  const draftRef = useRef(draft);
+  draftRef.current = draft;
   const [manager, setManager] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState("");
@@ -36,6 +38,16 @@ export function useEventResourceInlineTools(resources: EventResources, order: Re
   const modal = useRef<HTMLDivElement>(null);
   const busy = uploading || Boolean(inline?.busy);
   const modalOpen = Boolean(inline && (target || manager));
+  useEffect(() => {
+    if (inline?.resourceDraft) { setTarget(inline.resourceDraft.target); setDraft(inline.resourceDraft.draft); }
+  }, [inline?.resourceDraft]);
+  const updateDialogDraft = (next: Draft) => {
+    draftRef.current = next; setDraft(next);
+    if (target) inlineRef.current?.setResourceDraft?.({ target, draft: next });
+  };
+  const closeDialog = () => {
+    setTarget(null); setManager(false); inlineRef.current?.setResourceDraft?.(undefined);
+  };
 
   useEffect(() => {
     if (!modalOpen) return;
@@ -45,7 +57,7 @@ export function useEventResourceInlineTools(resources: EventResources, order: Re
     const firstField = modal.current?.querySelector<HTMLElement>("input:not([type='file']), textarea");
     (firstField ?? modal.current?.querySelector<HTMLElement>("button"))?.focus();
     const onKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape" && !uploadInFlight.current && !inlineRef.current?.busy) { setTarget(null); setManager(false); }
+      if (event.key === "Escape" && !uploadInFlight.current && !inlineRef.current?.busy) closeDialog();
       if (event.key === "Tab" && modal.current) {
         const elements = Array.from(modal.current.querySelectorAll<HTMLElement>("button:not([disabled]), input:not([type='file']):not([disabled]), textarea:not([disabled]), a[href], [tabindex='0']"));
         const first = elements[0]; const last = elements[elements.length - 1];
@@ -92,7 +104,7 @@ export function useEventResourceInlineTools(resources: EventResources, order: Re
       const next = { ...(targetIndex === null ? {} : current[section][targetIndex]), title: draft.title, url, description: draft.description };
       change({ ...current, [section]: targetIndex === null ? [...current[section], next] : current[section].map((item, index) => index === targetIndex ? next : item) });
     }
-    setTarget(null);
+    closeDialog();
   };
   const replaceFile = async (file: File | undefined) => {
     if (!file || !target || busy || uploadInFlight.current) return;
@@ -100,7 +112,8 @@ export function useEventResourceInlineTools(resources: EventResources, order: Re
     inlineRef.current?.onBusyChange(true);
     try {
       const result = await uploadAdminFile({ file, kind: target.section === "photos" ? "image" : "document", folder: "events" });
-      setDraft(current => ({ ...current, url: result.url, title: target.index === null && !current.title ? file.name.replace(/\.[^.]+$/, "") : current.title }));
+      const current = draftRef.current;
+      updateDialogDraft({ ...current, url: result.url, title: target.index === null && !current.title ? file.name.replace(/\.[^.]+$/, "") : current.title });
     } catch (error) {
       setError(error instanceof Error ? error.message : "No se pudo subir el archivo. El anterior se conserva.");
     } finally {
@@ -178,18 +191,18 @@ export function useEventResourceInlineTools(resources: EventResources, order: Re
       <button type="button" disabled={busy || !resources[section].length} className={`${toolClass} hover:text-red-700`} aria-label={`Quitar sección ${labels[section]}`} onClick={() => change({ ...resources, [section]: [] })}><Trash2 size={12}/></button>
     </span>;
   };
-  const dialogs = inline && modalOpen && <div className="se-modal-overlay" onClick={() => { if (!busy) { setTarget(null); setManager(false); } }}>
+  const dialogs = inline && modalOpen && <div className="se-modal-overlay" onClick={() => { if (!busy) closeDialog() }}>
     <div ref={modal} role="dialog" aria-modal="true" aria-label={manager ? "Administrar archivos del evento" : target?.index === null ? "Añadir archivo del evento" : "Editar archivo del evento"} className="max-h-[85dvh] w-full overflow-y-auto rounded-xl bg-white p-5 shadow-xl" style={{ maxWidth: manager ? 880 : 480 }} onClick={event => event.stopPropagation()}>
-      <div className="mb-5 flex items-center justify-between gap-4"><h2 className="text-lg font-semibold text-slate-800">{manager ? "Administrar archivos" : target?.index === null ? `Añadir ${itemLabels[target.section]}` : "Editar archivo"}</h2><button type="button" disabled={busy} className={toolClass} aria-label="Cerrar edición del archivo" onClick={() => { setTarget(null); setManager(false); }}><X size={17}/></button></div>
+      <div className="mb-5 flex items-center justify-between gap-4"><h2 className="text-lg font-semibold text-slate-800">{manager ? "Administrar archivos" : target?.index === null ? `Añadir ${itemLabels[target.section]}` : "Editar archivo"}</h2><button type="button" disabled={busy} className={toolClass} aria-label="Cerrar edición del archivo" onClick={closeDialog}><X size={17}/></button></div>
       {manager ? <EventResourcesEditor value={resources} onChange={change} disabled={Boolean(inline.busy)} onBusyChange={inline.onBusyChange}/> : target && <>
-        <div className="space-y-4"><label className="block text-sm text-slate-600">{target.section === "photos" ? "Descripción de la fotografía" : "Título"}<input autoFocus disabled={busy} className={fieldClass} value={draft.title} onChange={event => setDraft({ ...draft, title: event.target.value })}/></label>
-          <label className="block text-sm text-slate-600">Enlace<input disabled={busy} className={fieldClass} value={draft.url} onChange={event => setDraft({ ...draft, url: event.target.value })} placeholder="https://… o /…"/></label>
-          {target.section !== "photos" && <label className="block text-sm text-slate-600">Descripción<textarea disabled={busy} className={`${fieldClass} min-h-20`} value={draft.description} onChange={event => setDraft({ ...draft, description: event.target.value })}/></label>}
+        <div className="space-y-4"><label className="block text-sm text-slate-600">{target.section === "photos" ? "Descripción de la fotografía" : "Título"}<input autoFocus disabled={busy} className={fieldClass} value={draft.title} onChange={event => updateDialogDraft({ ...draft, title: event.target.value })}/></label>
+          <label className="block text-sm text-slate-600">Enlace<input disabled={busy} className={fieldClass} value={draft.url} onChange={event => updateDialogDraft({ ...draft, url: event.target.value })} placeholder="https://… o /…"/></label>
+          {target.section !== "photos" && <label className="block text-sm text-slate-600">Descripción<textarea disabled={busy} className={`${fieldClass} min-h-20`} value={draft.description} onChange={event => updateDialogDraft({ ...draft, description: event.target.value })}/></label>}
           <input ref={fileInput} type="file" tabIndex={-1} disabled={busy} accept={target.section === "photos" ? "image/jpeg,image/png,image/webp" : ".pdf,.doc,.docx,.xls,.xlsx"} className="sr-only" aria-label="Archivo de reemplazo" onChange={event => void replaceFile(event.target.files?.[0])}/>
           <button type="button" disabled={busy} className={actionClass} onClick={() => fileInput.current?.click()}><Upload size={16}/>{uploading ? "Subiendo…" : target.index === null ? "Subir archivo" : "Reemplazar archivo"}</button>
         </div>
         {error && <p role="alert" className="mt-4 text-sm text-red-700">{error}</p>}
-        <div className="mt-6 flex justify-end gap-2"><button type="button" disabled={busy} className={actionClass} onClick={() => setTarget(null)}>Cancelar</button><button type="button" disabled={busy} className={`${actionClass} border-teal-700 bg-teal-700 text-white`} onClick={apply}>Aplicar</button></div>
+        <div className="mt-6 flex justify-end gap-2"><button type="button" disabled={busy} className={actionClass} onClick={closeDialog}>Cancelar</button><button type="button" disabled={busy} className={`${actionClass} border-teal-700 bg-teal-700 text-white`} onClick={apply}>Aplicar</button></div>
       </>}
     </div>
   </div>;

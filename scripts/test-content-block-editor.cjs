@@ -129,7 +129,7 @@ async function testBlurThenPublish() {
     startDate:'2026-10-16',endDate:null,year:2026,status:'past',registrationUrl:null,detailsUrl:null,isFeatured:false,
     published:true,tags:[],attachments:[],contentBlocks:[],createdAt:'',updatedAt:'',
   };
-  const rowRef = {current:clean(initial)}, queuedRows=[], writes=[], history=[], errors=[];
+  const rowRef = {current:clean(initial)}, queuedRows=[], writes=[], history=[], errors=[], clearedDrafts=[];
   const globals = {
     row:clean(initial),rowRef,events:[clean(initial)],saved:clean(initial),event:clean(initial),
     getEventYear:eventModel.getEventYear,getEventStatus:eventModel.getEventStatus,
@@ -140,6 +140,7 @@ async function testBlurThenPublish() {
     addEvent:async()=>{throw new Error('Unexpected create');},deleteEvent:async()=>{},
     notifyCmsSaved:()=>{},editableSeed:value=>clean(value),setSaved:()=>{},reset:()=>{},captureBaseline:()=>{},clearPreview:()=>{},setRemoved:()=>{},
     recordPersistedChange:value=>history.push(value),
+    draft: {clear:value=>clearedDrafts.push(clean(value))}, setResourceDraft:()=>{},
   };
   const patch=extract(ast,'patch',globals),persist=extract(ast,'persist',globals);
   patch({title:'Title committed by blur'});
@@ -149,6 +150,14 @@ async function testBlurThenPublish() {
   check([writes[0].payload.title,writes[0].payload.description],['Title committed by blur','Description committed before click'],'Blur commits are published even before React has rerendered');
   check(globals.row.title,'Old title','Test really keeps the render closure stale');
   check([queuedRows.length,history.length,errors.at(-1)],[2,1,''],'Both field edits are queued and the publication succeeds');
+  check(clearedDrafts[0],writes[0].payload,'Successful publication clears only the persisted draft snapshot');
+  patch({title:''}); await persist(true);
+  check(clearedDrafts.length,1,'Validation failure keeps the recoverable draft');
+  patch({title:'Unpublished draft after an error'});
+  await extract(ast,'persist',{...globals,updateEvent:async()=>{throw new Error('Network failed');}})(true);
+  check([clearedDrafts.length,errors.at(-1)],[1,'Network failed'],'Network failure keeps the draft and reports the failure');
+  await persist(false);
+  check([clearedDrafts.length,rowRef.current.title,rowRef.current.published],[1,'Unpublished draft after an error',false],'Unpublishing keeps in-progress edits private and recoverable');
 }
 
 function testSearchMerge() {

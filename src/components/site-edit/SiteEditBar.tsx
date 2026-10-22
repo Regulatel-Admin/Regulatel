@@ -4,6 +4,7 @@ import { Pencil, Plus, X } from "lucide-react";
 import { useSiteEdit } from "@/contexts/SiteEditContext";
 import { adminPathForPublic, type SiteEditTarget } from "@/lib/siteEdit";
 import { SiteEditUndoRedo } from "@/components/site-edit/SiteEditUndoRedo";
+import { DraftLibrary } from "@/components/site-edit/DraftLibrary";
 
 function addTargetForPath(pathname: string, search: string): SiteEditTarget | null {
   if (pathname === "/boletines-gtai" || pathname.startsWith("/boletines-gtai/")) {
@@ -93,6 +94,7 @@ export function SiteEditBar() {
       </div>
       <div className="flex flex-wrap items-center gap-2">
         <SiteEditUndoRedo variant="bar" />
+        <DraftLibrary />
         {addTarget && (
           <button
             type="button"

@@ -13,6 +13,8 @@ import { useSiteSettings } from "@/contexts/SiteSettingsContext";
 import { api } from "@/lib/api";
 import { notifyCmsSaved } from "@/lib/siteEdit";
 import { EVENT_ORDER_SETTINGS_KEY, applyEventOrder, completeEventOrder, moveVisibleEvent, parseEventOrder } from "@/data/eventOrder";
+import { useRecoverableDraft } from "@/hooks/useRecoverableDraft";
+import { DraftRecoveryNotice } from "@/components/site-edit/DraftRecoveryNotice";
 
 type Segment = "upcoming" | "past" | "all";
 
@@ -64,7 +66,7 @@ export default function Eventos() {
   const eventsRaw = useEvents();
   const { enabled: siteEditEnabled, open: openSiteEdit, preview: siteEditPreview, target: siteEditTarget, setPreview, clearPreview, recordPersistedChange } =
     useSiteEdit();
-  const { eventOrder, refetch: refetchSettings } = useSiteSettings();
+  const { eventOrder, loading: settingsLoading, refetch: refetchSettings } = useSiteSettings();
   const eventsMerged = useMemo(() => {
     const patch = siteEditEnabled ? siteEditPreview.evento : undefined;
     if (!patch) return eventsRaw;
@@ -98,6 +100,9 @@ export default function Eventos() {
   const orderBusy = useRef(false);
   const draftOrder = siteEditEnabled ? siteEditPreview.eventOrder : undefined;
   const effectiveOrder = draftOrder ?? eventOrder ?? [];
+  const orderDraft = useRecoverableDraft({ identity: "event-order", kind: "event-order", path: "/eventos?tab=todos", label: "Orden de los eventos",
+    value: effectiveOrder, baseline: eventOrder ?? [], enabled: siteEditEnabled && !settingsLoading,
+    onRestore: next => setPreview({ eventOrder: next }) });
   const fullOrder = useMemo(
     () => completeEventOrder(filterAndSort(events, "all", "all", "").map((event) => event.id), eventOrder),
     [events, eventOrder],
@@ -164,6 +169,7 @@ export default function Eventos() {
       });
       notifyCmsSaved(EVENT_ORDER_SETTINGS_KEY);
       await refetchSettings();
+      orderDraft.clear(after);
       clearPreview("eventOrder");
       setOrderMessage("Orden guardado en el sitio público.");
     } catch (error) {
@@ -355,6 +361,7 @@ export default function Eventos() {
             </div>
             {orderError && <p className="mt-2 text-sm text-red-700" role="alert">{orderError}</p>}
             {orderMessage && <p className="mt-2 text-sm font-medium text-teal-700" role="status">{orderMessage}</p>}
+            <div className="mt-3"><DraftRecoveryNotice draft={orderDraft} disabled={savingOrder} publishLabel="Guardar orden" /></div>
           </div>
         )}
 

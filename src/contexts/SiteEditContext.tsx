@@ -208,7 +208,7 @@ export function SiteEditProvider({ children }: { children: ReactNode }) {
   const exit = useCallback((): boolean => {
     if (Object.keys(previewRef.current).length > 0) {
       const ok = window.confirm(
-        "Hay cambios que aún no publicaste. Si sales, se pierden y el sitio público no cambia."
+        "Hay cambios sin publicar. Los borradores de noticias y eventos que indican ‘Borrador guardado’ se conservarán en este navegador. Los demás cambios de esta sesión se descartarán. ¿Salir del editor?"
       );
       if (!ok) return false;
     }
