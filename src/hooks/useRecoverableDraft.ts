@@ -62,14 +62,14 @@ export function useRecoverableDraft<T>(options: Options<T>) {
     } catch (err) { report(err); }
   }, [report]);
 
-  const initialize = useCallback(() => {
+  const initialize = useCallback((recover = true) => {
     try {
       session.current = new DraftSession<T>(window.localStorage, key, latest.current.identity);
       const record = session.current.read();
       const current = latest.current;
       lastSaved.current = draftSignature(current.baseline);
       failed.current = false;
-      if (record) {
+      if (record && recover) {
         pendingRestore.current = draftSignature(record.value);
         lastSaved.current = pendingRestore.current;
         setStatus({ ...empty, savedAt: record.savedAt, recovered: true, changedPublished: !current.newEvent && record.baseline !== draftSignature(current.baseline) });
@@ -134,6 +134,10 @@ export function useRecoverableDraft<T>(options: Options<T>) {
     try { session.current?.acceptLatest(); lastSaved.current = null; pendingRestore.current = null; flush(); }
     catch (err) { report(err); }
   };
-  const retry = () => { if (!session.current && enabled) initialize(); else flush(); };
+  const retry = () => {
+    // Retrying storage must retain text typed while storage was unavailable.
+    if (!session.current && enabled) initialize(false);
+    flush();
+  };
   return { ...status, clear, discard, retry, recoverLatest, keepCurrent };
 }
