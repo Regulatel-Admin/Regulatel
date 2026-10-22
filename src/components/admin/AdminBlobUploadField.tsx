@@ -13,6 +13,7 @@ export interface AdminBlobUploadFieldProps {
   folder?: UploadFolder;
   helpText?: string;
   disabled?: boolean;
+  onBusyChange?: (busy: boolean) => void;
   /** Si es false, no muestra la miniatura (útil cuando ya hay foto arriba). */
   showPreview?: boolean;
 }
@@ -26,6 +27,7 @@ export function AdminBlobUploadField({
   helpText,
   disabled = false,
   showPreview = true,
+  onBusyChange,
 }: AdminBlobUploadFieldProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [uploading, setUploading] = useState(false);
@@ -43,6 +45,7 @@ export function AdminBlobUploadField({
     if (!file || disabled) return;
     setError(null);
     setUploading(true);
+    onBusyChange?.(true);
     try {
       const res = await uploadAdminFile({ file, kind, folder });
       onChange(res.url);
@@ -50,6 +53,7 @@ export function AdminBlobUploadField({
       setError(err instanceof Error ? err.message : "No se pudo subir el archivo.");
     } finally {
       setUploading(false);
+      onBusyChange?.(false);
     }
   };
 

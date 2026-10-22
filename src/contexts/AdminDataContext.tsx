@@ -4,6 +4,7 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useRef,
   useState,
   type ReactNode,
 } from "react";
@@ -13,6 +14,7 @@ import { EVENTS_SEED } from "@/data/eventsSeed";
 import { homeNews } from "@/data/news";
 import { noticiasData } from "@/pages/noticiasData";
 import type { Event, EventAttachment } from "@/types/event";
+import type { ContentBlock } from "@/types/contentBlocks";
 import { getEventStatus, getEventYear, normalizeEvent, slugifyEventId } from "@/types/event";
 import type { GestionDocument } from "@/data/gestion";
 import { gestionDocuments } from "@/data/gestion";
@@ -49,6 +51,8 @@ export interface AdminNewsItem {
   published: boolean;
   /** PDF/Word al final de la noticia. `undefined` = aún no gestionados por el admin. */
   attachments?: EventAttachment[];
+  /** Ordered article content. Undefined retains the legacy rendering. */
+  contentBlocks?: ContentBlock[];
 }
 
 function loadJson<T>(key: string, defaultVal: T): T {
@@ -73,13 +77,17 @@ interface AdminDataContextValue {
   /** Vuelve a comprobar si la API/Neon está disponible (p. ej. desde el banner "Reintentar"). */
   recheckContentSource: () => Promise<void>;
   adminNews: AdminNewsItem[];
+  /** Solo true después de recibir una lista completa y válida de noticias. */
+  newsLoaded: boolean;
   setAdminNews: (v: AdminNewsItem[] | ((prev: AdminNewsItem[]) => AdminNewsItem[])) => void;
-  addNews: (item: Omit<AdminNewsItem, "id">) => Promise<AdminNewsItem>;
+  addNews: (item: Omit<AdminNewsItem, "id"> & { id?: string }) => Promise<AdminNewsItem>;
   updateNews: (id: string, item: Partial<AdminNewsItem>) => Promise<void>;
   deleteNews: (id: string) => Promise<void>;
 
   /** Lista completa de eventos (source of truth). Gestionar en /admin/eventos. */
   events: Event[];
+  /** Evita restaurar eventos estáticos antes de conocer sus marcas de publicación. */
+  eventsLoaded: boolean;
   setEvents: (v: Event[] | ((prev: Event[]) => Event[])) => void;
   /** status y year se derivan en el contexto si no se pasan. */
   addEvent: (item: Omit<Event, "createdAt" | "updatedAt" | "status" | "year"> & { status?: Event["status"]; year?: number }) => Promise<void>;
@@ -98,6 +106,7 @@ interface AdminDataContextValue {
 
   /** Documentos añadidos por el admin. Se muestran en Gestión junto a los estáticos. */
   adminDocuments: GestionDocument[];
+  documentsLoaded: boolean;
   addDocument: (item: Omit<GestionDocument, "id"> & { id?: string }) => Promise<GestionDocument>;
   updateDocument: (id: string, item: Partial<Omit<GestionDocument, "id">>) => Promise<void>;
   deleteDocument: (id: string) => Promise<void>;
@@ -109,7 +118,11 @@ export function AdminDataProvider({ children }: { children: ReactNode }) {
   const [contentSource, setContentSource] = useState<"database" | "legacy" | "loading">("loading");
   const [contentError, setContentError] = useState<string | null>(null);
   const [adminNews, setAdminNewsState] = useState<AdminNewsItem[]>([]);
+  const [newsLoaded, setNewsLoaded] = useState(false);
   const [events, setEventsState] = useState<Event[]>([]);
+  const [eventsLoaded, setEventsLoaded] = useState(false);
+  const contentRequest = useRef(0);
+  const databaseSeen = useRef(false);
   const [adminCifras, setAdminCifrasState] = useState<KPIItem[] | null>(() =>
     loadJson<KPIItem[] | null>(KEY_CIFRAS, null)
   );
@@ -117,9 +130,11 @@ export function AdminDataProvider({ children }: { children: ReactNode }) {
     loadJson<Record<number, CifrasAnuales>>(KEY_CIFRAS_POR_ANO, {})
   );
   const [adminDocuments, setAdminDocumentsState] = useState<GestionDocument[]>([]);
+  const [documentsLoaded, setDocumentsLoaded] = useState(false);
 
-  /** Comprueba si la API/Neon está disponible. Si GET /api/settings responde JSON, se considera "database" aunque news/events/docs fallen. */
+  /** Un fallo de red conserva la última lista confirmada, incluidas las fichas despublicadas. */
   const checkContentSource = useCallback(async () => {
+    const request = ++contentRequest.current;
     const [newsRes, eventsRes, docsRes, cifrasRes, settingsRes] = await Promise.all([
       api.news.list(),
       api.events.list(),
@@ -127,12 +142,22 @@ export function AdminDataProvider({ children }: { children: ReactNode }) {
       api.cifras.list(),
       api.settings.getAll(),
     ]);
-    const newsItems = newsRes.ok && Array.isArray(newsRes.data) ? (newsRes.data as AdminNewsItem[]) : [];
-    const eventItems = eventsRes.ok && Array.isArray(eventsRes.data) ? (eventsRes.data as Event[]) : [];
-    const docItems = docsRes.ok && Array.isArray(docsRes.data) ? (docsRes.data as GestionDocument[]) : [];
-    setAdminNewsState(newsItems.map((n) => ({ ...n, published: n.published !== false })));
-    setEventsState(eventItems.map((e) => normalizeEvent(e)));
-    setAdminDocumentsState(docItems);
+    if (request !== contentRequest.current) return;
+    const newsValid = newsRes.ok && Array.isArray(newsRes.data);
+    const eventsValid = eventsRes.ok && Array.isArray(eventsRes.data);
+    const docsValid = docsRes.ok && Array.isArray(docsRes.data);
+    if (newsRes.ok && Array.isArray(newsRes.data)) {
+      setAdminNewsState((newsRes.data as AdminNewsItem[]).map((item) => ({ ...item, published: item.published !== false })));
+      setNewsLoaded(true);
+    }
+    if (eventsRes.ok && Array.isArray(eventsRes.data)) {
+      setEventsState((eventsRes.data as Event[]).map(normalizeEvent));
+      setEventsLoaded(true);
+    }
+    if (docsRes.ok && Array.isArray(docsRes.data)) {
+      setAdminDocumentsState(docsRes.data as GestionDocument[]);
+      setDocumentsLoaded(true);
+    }
     if (cifrasRes.ok && cifrasRes.data && typeof cifrasRes.data === "object") {
       const raw = cifrasRes.data as Record<string, { gruposTrabajo: number; comitesEjecutivos: number; revistaDigital: number; paises: number }>;
       const byYear: Record<number, CifrasAnuales> = {};
@@ -149,20 +174,10 @@ export function AdminDataProvider({ children }: { children: ReactNode }) {
       }
       setAdminCifrasPorAnoState(byYear);
     }
-    if (newsRes.ok && eventsRes.ok && docsRes.ok) {
-      setContentSource("database");
-      setContentError(null);
-      return;
-    }
-    if (settingsRes.ok) {
-      setContentSource("database");
-      setContentError(null);
-      return;
-    }
-    setContentSource("legacy");
-    setContentError(
-      !newsRes.ok ? newsRes.error : !eventsRes.ok ? eventsRes.error : !docsRes.ok ? docsRes.error : "API no disponible"
-    );
+    databaseSeen.current ||= newsValid || eventsValid || docsValid || settingsRes.ok;
+    setContentSource(databaseSeen.current ? "database" : "legacy");
+    const missing = [!newsValid && "noticias", !eventsValid && "eventos", !docsValid && "documentos"].filter(Boolean);
+    setContentError(missing.length ? `No se pudieron actualizar ${missing.join(", ")}. Se conservan los últimos datos confirmados.` : null);
   }, []);
 
   useEffect(() => {
@@ -200,8 +215,8 @@ export function AdminDataProvider({ children }: { children: ReactNode }) {
   );
 
   const addNews = useCallback(
-    async (item: Omit<AdminNewsItem, "id">): Promise<AdminNewsItem> => {
-      const id = "admin-" + Date.now();
+    async (item: Omit<AdminNewsItem, "id"> & { id?: string }): Promise<AdminNewsItem> => {
+      const id = item.id || "admin-" + Date.now();
       const payload = { ...item, id, published: item.published !== false };
       const res = await api.news.create(payload);
       if (!res.ok || !res.data) throw new Error(res.ok ? "No se pudo crear la noticia." : res.error);
@@ -353,8 +368,7 @@ export function AdminDataProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const recheckContentSource = useCallback(async () => {
-    setContentSource("loading");
-    setContentError(null);
+    setContentSource((current) => current === "database" ? current : "loading");
     await checkContentSource();
   }, [checkContentSource]);
 
@@ -365,11 +379,13 @@ export function AdminDataProvider({ children }: { children: ReactNode }) {
         contentError,
         recheckContentSource,
         adminNews,
+        newsLoaded,
         setAdminNews,
         addNews,
         updateNews,
         deleteNews,
         events,
+        eventsLoaded,
         setEvents,
         addEvent,
         updateEvent,
@@ -382,6 +398,7 @@ export function AdminDataProvider({ children }: { children: ReactNode }) {
         setCifrasForYear,
         clearCifrasForYear,
         adminDocuments,
+        documentsLoaded,
         addDocument,
         updateDocument,
         deleteDocument,
@@ -419,11 +436,12 @@ export function useMergedNews(): HomeNewsItemLike[] {
     return { ...item, imageUrl: full?.imageUrl };
   });
   const list =
-    ctx?.contentSource !== "database"
+    !ctx
       ? [...staticWithImages].sort((a, b) => (a.date > b.date ? -1 : 1))
+      : !ctx.newsLoaded ? []
       : (() => {
           const dbSlugs = new Set(
-            (ctx.adminNews ?? []).filter((n) => n.published).map((n) => (n.slug || n.id).toLowerCase())
+            (ctx.adminNews ?? []).map((n) => (n.slug || n.id).toLowerCase())
           );
           const staticFiltered = staticWithImages.filter((item) => !dbSlugs.has(item.slug.toLowerCase()));
           const dbItems = (ctx.adminNews ?? [])
@@ -462,17 +480,18 @@ export function useMergedNews(): HomeNewsItemLike[] {
 
 /**
  * Lista de eventos para el sitio público y búsqueda.
- * Con API/Neon: solo lo guardado en el admin. El seed estático queda
- * como respaldo si la base no responde.
+ * Espera una lectura completa antes de completar los materiales estáticos:
+ * un fallo de red no debe volver a mostrar un evento despublicado.
  */
 export function useEvents(): Event[] {
   const ctx = useContext(AdminDataContext);
+  if (ctx && !ctx.eventsLoaded) return [];
   const seedNormalized = EVENTS_SEED.map(normalizeEvent);
-  const source = !ctx || ctx.contentSource === "legacy" ? seedNormalized : (ctx.events ?? []).map(normalizeEvent);
-  if (ctx?.contentSource === "loading") return source;
+  const source = !ctx ? seedNormalized : (ctx.events ?? []).map(normalizeEvent);
   // Fill events documented by AECID without replacing any CMS record.
   const ids = new Set(source.map((event) => event.id));
-  return [...source, ...SEMANA_RESOURCE_EVENTS.filter((event) => !ids.has(event.id)).map(normalizeEvent)];
+  return [...source, ...SEMANA_RESOURCE_EVENTS.filter((event) => !ids.has(event.id)).map(normalizeEvent)]
+    .filter((event) => event.published !== false);
 }
 
 export function useMergedCifras(): KPIItem[] {
@@ -486,8 +505,9 @@ export function useMergedGestionDocuments(): GestionDocument[] {
   const revistaEditions = useRevistaDigitalEditions();
   const revistas = getPublishedRevistaEditions(revistaEditions).map(revistaEditionToGestionDocument);
   const base =
-    ctx?.contentSource !== "database"
+    !ctx
       ? gestionDocuments
+      : !ctx.documentsLoaded ? []
       : (() => {
           const staticById = new Map(gestionDocuments.map((d) => [d.id, d]));
           const dbIds = new Set((ctx.adminDocuments ?? []).map((d) => d.id));

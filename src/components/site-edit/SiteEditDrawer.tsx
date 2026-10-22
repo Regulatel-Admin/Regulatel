@@ -183,14 +183,14 @@ export function SiteEditDrawer() {
         </div>
       </div>
       <div className="min-h-0 flex-1 overflow-y-auto px-6 py-5">
-        {target.kind === "boletin" && <BoletinForm slug={target.slug} />}
+        {target.kind === "boletin" && <BoletinForm key={target.slug ?? "new-boletin"} slug={target.slug} />}
         {target.kind === "hero" && <HeroForm />}
-        {target.kind === "quick-link" && <QuickLinkForm index={target.index} />}
-        {target.kind === "cumbre" && <CumbreForm id={target.id} />}
+        {target.kind === "quick-link" && <QuickLinkForm key={target.index} index={target.index} />}
+        {target.kind === "cumbre" && <CumbreForm key={target.id} id={target.id} />}
         {target.kind === "noticia" && (
           <NoticiaForm key={target.slug ?? "new-noticia"} slug={target.slug} />
         )}
-        {target.kind === "revista" && <RevistaForm id={target.id} />}
+        {target.kind === "revista" && <RevistaForm key={target.id ?? "new-revista"} id={target.id} />}
         {target.kind === "documento" && (
           <DocumentoForm
             key={target.id ?? `new-${target.category ?? "documentos"}`}
@@ -1202,6 +1202,7 @@ function DocumentoForm({
 }) {
   const { adminDocuments, addDocument, updateDocument, deleteDocument } = useAdminData();
   const { recordPersistedChange, clearPreview, preview } = useSiteEdit();
+  const [savedId, setSavedId] = useState(id);
   const found =
     (id && adminDocuments.find((d) => d.id === id)) ||
     (id && gestionDocuments.find((d) => d.id === id)) ||
@@ -1242,7 +1243,7 @@ function DocumentoForm({
   );
   const captureBaseline = usePreviewSync("document", previewDoc);
 
-  const isNew = !id || row.id.startsWith("preview-doc-");
+  const isNew = !savedId;
 
   const save = async () => {
     if (!row.title.trim()) {
@@ -1266,9 +1267,13 @@ function DocumentoForm({
     };
     setSaving(true);
     setError(null);
+    let savedDocument = previewDoc;
     try {
       if (isNew) {
         const created = await addDocument(payload);
+        setSavedId(created.id);
+        setRow({ ...created });
+        savedDocument = created;
         recordPersistedChange({
           label: "documento",
           undo: async () => {
@@ -1306,11 +1311,7 @@ function DocumentoForm({
           },
         });
       } else {
-        try {
-          await updateDocument(row.id, payload);
-        } catch {
-          await addDocument({ ...payload, id: row.id });
-        }
+        await addDocument({ ...payload, id: row.id });
         recordPersistedChange({
           label: "documento",
           undo: async () => {
@@ -1324,7 +1325,7 @@ function DocumentoForm({
         });
       }
       notifyCmsSaved("documents");
-      captureBaseline();
+      captureBaseline(savedDocument);
       clearPreview("document");
       setPublished(true);
     } catch (err) {
@@ -1450,8 +1451,14 @@ function emptyNoticia(): AdminNewsItem {
 }
 
 function NoticiaForm({ slug }: { slug?: string }) {
+  const { contentSource } = useAdminData();
+  if (contentSource === "loading") return <p className="text-sm text-slate-500">Cargando noticia…</p>;
+  return <NoticiaFormReady key={slug ?? "new-noticia-ready"} slug={slug} />;
+}
+
+function NoticiaFormReady({ slug }: { slug?: string }) {
   const navigate = useNavigate();
-  const { exit, recordPersistedChange, clearPreview, preview } = useSiteEdit();
+  const { exit, open: openSiteEdit, recordPersistedChange, clearPreview, preview } = useSiteEdit();
   const { adminNews, updateNews, addNews } = useAdminData();
   const existing = slug
     ? adminNews.find((n) => (n.slug || n.id).toLowerCase() === slug.toLowerCase())
@@ -1592,12 +1599,13 @@ function NoticiaForm({ slug }: { slug?: string }) {
     setSaving(true);
     setError(null);
     try {
-      await persistNoticia(false);
+      const saved = await persistNoticia(false);
       notifyCmsSaved("news");
       captureBaseline();
       clearPreview("news");
       setPublishedNote("Ya está en el sitio público.");
       setPublished(true);
+      openSiteEdit({ kind: "noticia", slug: saved.slug });
     } catch (err) {
       setError(err instanceof Error ? err.message : "No se pudo publicar.");
     } finally {

@@ -50,6 +50,13 @@ export interface SearchEventSource {
   startDate: string;
 }
 
+/** Keep unpublished overrides out of search, including their static originals. */
+export function mergeSearchNews<T extends SearchNewsSource>(staticNews: T[], stored: (SearchNewsSource & { published?: boolean })[], loaded: boolean): SearchNewsSource[] {
+  if (!loaded) return [];
+  const reserved = new Set(stored.map(item => (item.slug || item.id || "").toLowerCase()));
+  return [...staticNews.filter(item => !reserved.has(item.slug.toLowerCase())), ...stored.filter(item => item.published !== false).map(item => ({ ...item, slug: item.slug || item.id || "" }))];
+}
+
 export interface SearchDocumentSource {
   id: string;
   title: string;

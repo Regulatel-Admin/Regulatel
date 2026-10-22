@@ -5,6 +5,40 @@
  */
 
 export type EventStatus = "upcoming" | "past";
+import { parseContentBlocks, safeContentUrl, type ContentBlock } from "./contentBlocks.js";
+
+export interface EventResources {
+  programs: { title: string; url: string; description?: string }[];
+  documents: { title: string; url: string; description?: string }[];
+  photos: { src: string; caption?: string }[];
+  survey: string;
+  taxi: string;
+  sectionOrder?: ("programs" | "documents" | "photos")[];
+}
+
+export function parseEventResources(value: unknown): EventResources | undefined {
+  let raw = value;
+  if (typeof raw === "string") { try { raw = JSON.parse(raw); } catch { return undefined; } }
+  if (!raw || typeof raw !== "object" || Array.isArray(raw)) return undefined;
+  const data = raw as Record<string, unknown>;
+  if (!Array.isArray(data.programs) || !Array.isArray(data.documents) || !Array.isArray(data.photos)) return undefined;
+  const files = (items: unknown[]) => items.flatMap(item => {
+    if (!item || typeof item !== "object") return [];
+    const row = item as Record<string, unknown>;
+    return [{ title: typeof row.title === "string" ? row.title : "Documento", url: safeContentUrl(typeof row.url === "string" ? row.url : ""), description: typeof row.description === "string" ? row.description : undefined }];
+  });
+  return {
+    programs: files(data.programs), documents: files(data.documents),
+    photos: data.photos.flatMap(item => {
+      if (!item || typeof item !== "object") return [];
+      const row = item as Record<string, unknown>;
+      return [{ src: safeContentUrl(typeof row.src === "string" ? row.src : ""), caption: typeof row.caption === "string" ? row.caption : undefined }];
+    }),
+    survey: safeContentUrl(typeof data.survey === "string" ? data.survey : ""),
+    taxi: safeContentUrl(typeof data.taxi === "string" ? data.taxi : ""),
+    sectionOrder: Array.isArray(data.sectionOrder) ? Array.from(new Set(data.sectionOrder.filter((key): key is "programs" | "documents" | "photos" => ["programs", "documents", "photos"].includes(String(key))))) : undefined,
+  };
+}
 
 export interface EventAttachment {
   id: string;
@@ -27,6 +61,10 @@ export interface Event {
   registrationUrl: string | null;
   detailsUrl: string | null;
   isFeatured: boolean;
+  /** false conserva el evento como borrador y lo retira de todas las vistas públicas. */
+  published?: boolean;
+  contentBlocks?: ContentBlock[];
+  resources?: EventResources;
   tags: string[];
   description?: string;
   imageUrl?: string;
@@ -194,6 +232,8 @@ export function normalizeEvent(e: Event): Event {
     ...e,
     status: getEventStatus(e),
     year: getEventYear(e.startDate),
-    attachments: parseEventAttachments(e.attachments),
+    attachments: e.attachments === undefined ? undefined : parseEventAttachments(e.attachments),
+    contentBlocks: parseContentBlocks(e.contentBlocks),
+    resources: parseEventResources(e.resources),
   };
 }

@@ -1,14 +1,15 @@
 /**
- * Panel Admin: gestionar TODOS los eventos (crear / editar / eliminar / duplicar).
+ * Panel Admin: gestionar TODOS los eventos (crear / editar / despublicar / duplicar).
  * Source of truth: events en AdminDataContext (Neon / API).
  * Añadir nuevos eventos o URLs: usar el formulario "Nuevo evento" o editar una fila.
  */
 
-import { useState, useMemo, useEffect, useCallback } from "react";
+import { useState, useMemo, useEffect, useCallback, useRef } from "react";
 import { useAdminData } from "@/contexts/AdminDataContext";
+import { useSiteEdit } from "@/contexts/SiteEditContext";
 import type { Event, EventAttachment } from "@/types/event";
 import { getEventYear, slugifyEventId, EVENT_STATUS_LABEL } from "@/types/event";
-import { Pencil, Trash2, Plus, Copy, X, Image as ImageIcon, History, FileText } from "lucide-react";
+import { Pencil, EyeOff, UploadCloud, Plus, Copy, X, Image as ImageIcon, History, FileText } from "lucide-react";
 import { uploadAdminFile } from "@/lib/uploads";
 import { api } from "@/lib/api";
 import { notifyCmsSaved } from "@/lib/siteEdit";
@@ -44,7 +45,10 @@ function isValidUrl(s: string): boolean {
 }
 
 export default function AdminEventos() {
-  const { events, addEvent, updateEvent, deleteEvent, duplicateEvent, recheckContentSource } = useAdminData();
+  const { events, addEvent, updateEvent, duplicateEvent, recheckContentSource } = useAdminData();
+  const { enter } = useSiteEdit();
+  const [busyEventId, setBusyEventId] = useState<string | null>(null);
+  const eventBusy = useRef(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [adding, setAdding] = useState(false);
   const [form, setForm] = useState(emptyForm);
@@ -96,27 +100,45 @@ export default function AdminEventos() {
     setUrlError(null);
   };
 
-  const openEdit = (e: Event) => {
-    setForm({
-      title: e.title,
-      organizer: e.organizer,
-      location: e.location,
-      startDate: e.startDate,
-      endDate: e.endDate ?? "",
-      registrationUrl: e.registrationUrl ?? "",
-      detailsUrl: e.detailsUrl ?? "",
-      isFeatured: e.isFeatured,
-      description: e.description ?? "",
-      tags: e.tags ?? [],
-      imageUrl: e.imageUrl ?? "",
-      imageFileName: e.imageFileName ?? "",
-      imageMimeType: e.imageMimeType ?? "",
-      imageSize: e.imageSize,
-      attachments: e.attachments ?? [],
-    });
-    setEditingId(e.id);
-    setAdding(false);
+  const openEdit = (event: Event) => {
+    enter(`/eventos/${encodeURIComponent(event.id)}`);
+  };
+
+  const changePublication = async (event: Event) => {
+    if (eventBusy.current) return;
+    eventBusy.current = true;
+    setBusyEventId(event.id);
     setUrlError(null);
+    try {
+      const published = event.published === false;
+      await updateEvent(event.id, { published });
+      setSuccessMessage(published
+        ? "Evento publicado otra vez."
+        : "Evento despublicado. Sus fotos y documentos se conservan; puedes publicarlo otra vez aquí.");
+      notifyCmsSaved("events");
+    } catch (error) {
+      setUrlError(error instanceof Error ? error.message : "No se pudo cambiar la publicación. Intenta de nuevo.");
+    } finally {
+      eventBusy.current = false;
+      setBusyEventId(null);
+    }
+  };
+
+  const duplicate = async (event: Event) => {
+    if (eventBusy.current) return;
+    eventBusy.current = true;
+    setBusyEventId(event.id);
+    setUrlError(null);
+    try {
+      await duplicateEvent(event.id);
+      setSuccessMessage("Evento duplicado.");
+      notifyCmsSaved("events");
+    } catch (error) {
+      setUrlError(error instanceof Error ? error.message : "No se pudo duplicar el evento.");
+    } finally {
+      eventBusy.current = false;
+      setBusyEventId(null);
+    }
   };
 
   const closeModal = () => {
@@ -563,7 +585,10 @@ export default function AdminEventos() {
                 >
                   {EVENT_STATUS_LABEL[ev.status]}
                 </span>
-                {ev.isFeatured ? (
+                {ev.published === false && (
+                  <span className="rounded-full bg-amber-100 px-2 py-0.5 text-xs font-semibold text-amber-900">Despublicado</span>
+                )}
+                {ev.isFeatured && ev.published !== false ? (
                   <span className="rounded-full px-2 py-0.5 text-xs font-medium" style={{ backgroundColor: "rgba(183,212,0,0.25)", color: "var(--regu-navy)" }}>
                     En portada
                   </span>
@@ -593,6 +618,7 @@ export default function AdminEventos() {
                     <button
                       type="button"
                       onClick={() => openEdit(ev)}
+                      disabled={busyEventId !== null}
                       className="rounded-lg p-2 transition hover:bg-slate-100"
                       aria-label="Editar"
                     >
@@ -600,19 +626,8 @@ export default function AdminEventos() {
                     </button>
                     <button
                       type="button"
-                      onClick={() => {
-                        void (async () => {
-                          try {
-                            await duplicateEvent(ev.id);
-                          } catch (error) {
-                            setUrlError(
-                              error instanceof Error
-                                ? error.message
-                                : "No se pudo duplicar el evento."
-                            );
-                          }
-                        })();
-                      }}
+                      onClick={() => void duplicate(ev)}
+                      disabled={busyEventId !== null}
                       className="rounded-lg p-2 transition hover:bg-slate-100"
                       aria-label="Duplicar"
                     >
@@ -620,26 +635,16 @@ export default function AdminEventos() {
                     </button>
                     <button
                       type="button"
-                      onClick={() => {
-                        if (!window.confirm("¿Eliminar este evento?")) return;
-                        void (async () => {
-                          try {
-                            await deleteEvent(ev.id);
-                            setSuccessMessage("Evento eliminado.");
-                            notifyCmsSaved("events");
-                          } catch (error) {
-                            setUrlError(
-                              error instanceof Error
-                                ? error.message
-                                : "No se pudo eliminar el evento."
-                            );
-                          }
-                        })();
-                      }}
-                      className="rounded-lg p-2 transition hover:bg-red-50"
-                      aria-label="Eliminar"
+                      onClick={() => void changePublication(ev)}
+                      disabled={busyEventId !== null}
+                      className="inline-flex items-center gap-1 rounded-lg p-2 text-xs font-semibold transition hover:bg-slate-50 disabled:opacity-50"
+                      aria-label={`${ev.published === false ? "Volver a publicar" : "Despublicar"}: ${ev.title}`}
+                      title={ev.published === false ? "Volver a publicar" : "Despublicar conservando fotos y documentos"}
                     >
-                      <Trash2 className="h-4 w-4" style={{ color: "var(--regu-salmon, #c53030)" }} />
+                      {ev.published === false
+                        ? <UploadCloud className="h-4 w-4" style={{ color: "#0f766e" }} aria-hidden />
+                        : <EyeOff className="h-4 w-4" style={{ color: "var(--regu-salmon, #c53030)" }} aria-hidden />}
+                      <span className="hidden sm:inline">{busyEventId === ev.id ? "Guardando…" : ev.published === false ? "Publicar" : "Despublicar"}</span>
                     </button>
             </div>
           </article>

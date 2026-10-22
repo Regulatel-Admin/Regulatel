@@ -1,14 +1,18 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, Filter, Calendar, Plus } from "lucide-react";
+import { Search, Filter, Calendar, Plus, GripVertical, ArrowUp, ArrowDown, Save, RotateCcw } from "lucide-react";
 import EventCard from "@/components/home/EventCard";
 import { useEvents } from "@/contexts/AdminDataContext";
 import { useSiteEdit } from "@/contexts/SiteEditContext";
 import { useLocalizedEvents } from "@/hooks/useLocalizedEvents";
 import type { Event } from "@/types/event";
 import { normalizeEvent } from "@/types/event";
+import { useSiteSettings } from "@/contexts/SiteSettingsContext";
+import { api } from "@/lib/api";
+import { notifyCmsSaved } from "@/lib/siteEdit";
+import { EVENT_ORDER_SETTINGS_KEY, applyEventOrder, completeEventOrder, moveVisibleEvent, parseEventOrder } from "@/data/eventOrder";
 
 type Segment = "upcoming" | "past" | "all";
 
@@ -42,17 +46,10 @@ function filterAndSort(
   }
 
   if (searchQuery.trim()) {
-    const q = searchQuery
-      .trim()
-      .toLowerCase()
-      .normalize("NFD")
-      .replace(/\u0300/g, "");
-    list = list.filter(
-      (e) =>
-        e.title.toLowerCase().normalize("NFD").replace(/\u0300/g, "").includes(q) ||
-        e.organizer.toLowerCase().includes(q) ||
-        e.location.toLowerCase().includes(q) ||
-        (e.description ?? "").toLowerCase().includes(q)
+    const normalizeSearch = (value: string) => value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    const q = normalizeSearch(searchQuery.trim());
+    list = list.filter((event) =>
+      [event.title, event.organizer, event.location, event.description ?? ""].some((value) => normalizeSearch(value).includes(q)),
     );
   }
 
@@ -65,8 +62,9 @@ export default function Eventos() {
   const qFromUrl = searchParams.get("q") ?? "";
   const tabFromUrl = searchParams.get("tab");
   const eventsRaw = useEvents();
-  const { enabled: siteEditEnabled, open: openSiteEdit, preview: siteEditPreview, target: siteEditTarget } =
+  const { enabled: siteEditEnabled, open: openSiteEdit, preview: siteEditPreview, target: siteEditTarget, setPreview, clearPreview, recordPersistedChange } =
     useSiteEdit();
+  const { eventOrder, refetch: refetchSettings } = useSiteSettings();
   const eventsMerged = useMemo(() => {
     const patch = siteEditEnabled ? siteEditPreview.evento : undefined;
     if (!patch) return eventsRaw;
@@ -92,6 +90,21 @@ export default function Eventos() {
   });
   const [yearFilter, setYearFilter] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState(qFromUrl);
+  const [savingOrder, setSavingOrder] = useState(false);
+  const [orderError, setOrderError] = useState<string | null>(null);
+  const [orderMessage, setOrderMessage] = useState<string | null>(null);
+  const [draggedId, setDraggedId] = useState<string | null>(null);
+  const [dropTargetId, setDropTargetId] = useState<string | null>(null);
+  const orderBusy = useRef(false);
+  const draftOrder = siteEditEnabled ? siteEditPreview.eventOrder : undefined;
+  const effectiveOrder = draftOrder ?? eventOrder ?? [];
+  const fullOrder = useMemo(
+    () => completeEventOrder(filterAndSort(events, "all", "all", "").map((event) => event.id), eventOrder),
+    [events, eventOrder],
+  );
+  const orderDirty = draftOrder !== undefined && (draftOrder.length === 0
+    ? Boolean(eventOrder?.length)
+    : JSON.stringify(draftOrder) !== JSON.stringify(fullOrder));
 
   useEffect(() => {
     if (qFromUrl !== searchQuery) setSearchQuery(qFromUrl);
@@ -103,9 +116,63 @@ export default function Eventos() {
   }, [events]);
 
   const filtered = useMemo(
-    () => filterAndSort(events, segment, yearFilter, searchQuery),
-    [events, segment, yearFilter, searchQuery]
+    () => applyEventOrder(filterAndSort(events, segment, yearFilter, searchQuery), effectiveOrder),
+    [events, segment, yearFilter, searchQuery, effectiveOrder]
   );
+
+  const stageOrder = (next: string[]) => {
+    setOrderError(null);
+    setOrderMessage(null);
+    const matchesSaved = next.length === 0
+      ? !eventOrder?.length
+      : JSON.stringify(next) === JSON.stringify(fullOrder);
+    if (matchesSaved) clearPreview("eventOrder");
+    else setPreview({ eventOrder: next });
+  };
+
+  const moveCard = (sourceId: string, targetId: string) => {
+    if (!siteEditEnabled || savingOrder || draftingNew) return;
+    const current = completeEventOrder(fullOrder, effectiveOrder.length ? effectiveOrder : fullOrder);
+    stageOrder(moveVisibleEvent(current, filtered.map((event) => event.id), sourceId, targetId));
+  };
+
+  const saveOrder = async () => {
+    if (!orderDirty || draftOrder === undefined || orderBusy.current) return;
+    orderBusy.current = true;
+    setSavingOrder(true);
+    setOrderError(null);
+    setOrderMessage(null);
+    try {
+      const loaded = await api.settings.get(EVENT_ORDER_SETTINGS_KEY);
+      if (!loaded.ok) throw new Error(loaded.error || "No se pudo cargar el orden guardado.");
+      const before = parseEventOrder(loaded.data.value) ?? [];
+      const after = draftOrder.length ? completeEventOrder(before, draftOrder) : [];
+      const result = await api.settings.set(EVENT_ORDER_SETTINGS_KEY, after);
+      if (!result.ok) throw new Error(result.error || "No se pudo guardar el orden.");
+      recordPersistedChange({
+        label: "orden de eventos",
+        undo: async () => {
+          const result = await api.settings.set(EVENT_ORDER_SETTINGS_KEY, before);
+          if (!result.ok) throw new Error(result.error || "No se pudo deshacer el orden.");
+          notifyCmsSaved(EVENT_ORDER_SETTINGS_KEY);
+        },
+        redo: async () => {
+          const result = await api.settings.set(EVENT_ORDER_SETTINGS_KEY, after);
+          if (!result.ok) throw new Error(result.error || "No se pudo rehacer el orden.");
+          notifyCmsSaved(EVENT_ORDER_SETTINGS_KEY);
+        },
+      });
+      notifyCmsSaved(EVENT_ORDER_SETTINGS_KEY);
+      await refetchSettings();
+      clearPreview("eventOrder");
+      setOrderMessage("Orden guardado en el sitio público.");
+    } catch (error) {
+      setOrderError(error instanceof Error ? error.message : "No se pudo guardar el orden. Intenta de nuevo.");
+    } finally {
+      orderBusy.current = false;
+      setSavingOrder(false);
+    }
+  };
 
   return (
     <div
@@ -265,6 +332,32 @@ export default function Eventos() {
           </div>
         </div>
 
+        {siteEditEnabled && (
+          <div className="mb-5 rounded-xl border bg-white p-4" style={{ borderColor: "rgba(15,118,110,0.25)" }} aria-label="Orden de los eventos" role="region">
+            <p className="text-sm" style={{ color: "var(--regu-navy)" }}>
+              Arrastra el asa de una tarjeta o usa las flechas. Guarda el orden para que lo vean los visitantes.
+            </p>
+            <div className="mt-3 flex flex-wrap items-center gap-2">
+              <button type="button" onClick={() => void saveOrder()} disabled={!orderDirty || savingOrder}
+                className="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold text-white disabled:opacity-50"
+                style={{ backgroundColor: "#0f766e" }}>
+                <Save className="h-4 w-4" aria-hidden /> {savingOrder ? "Guardando…" : "Guardar orden"}
+              </button>
+              <button type="button" onClick={() => { clearPreview("eventOrder"); setOrderError(null); setOrderMessage(null); }}
+                disabled={!orderDirty || savingOrder} className="inline-flex items-center gap-2 rounded-lg border px-3 py-2 text-sm font-semibold disabled:opacity-50">
+                <RotateCcw className="h-4 w-4" aria-hidden /> Revertir
+              </button>
+              <button type="button" onClick={() => stageOrder([])} disabled={savingOrder || effectiveOrder.length === 0}
+                className="rounded-lg px-3 py-2 text-sm font-medium underline underline-offset-2 disabled:opacity-50">
+                Volver al orden por fecha
+              </button>
+              {orderDirty && <span className="text-xs font-medium text-amber-800" role="status">Orden sin guardar.</span>}
+            </div>
+            {orderError && <p className="mt-2 text-sm text-red-700" role="alert">{orderError}</p>}
+            {orderMessage && <p className="mt-2 text-sm font-medium text-teal-700" role="status">{orderMessage}</p>}
+          </div>
+        )}
+
         <AnimatePresence mode="wait">
           {filtered.length > 0 || showAdd ? (
             <motion.div
@@ -313,8 +406,54 @@ export default function Eventos() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3, delay: index * 0.03 }}
                   className="eventListCardWrapper"
+                  layout={siteEditEnabled ? "position" : false}
                 >
-                  <EventCard event={event} />
+                  <div
+                    className={`h-full rounded-2xl ${dropTargetId === event.id && draggedId !== event.id ? "ring-2 ring-teal-600 ring-offset-2" : ""}`}
+                    style={{ opacity: draggedId === event.id ? 0.55 : 1 }}
+                    onDragOver={(drag) => {
+                      if (!draggedId || savingOrder) return;
+                      drag.preventDefault();
+                      drag.dataTransfer.dropEffect = "move";
+                      setDropTargetId(event.id);
+                    }}
+                    onDrop={(drag) => {
+                      drag.preventDefault();
+                      if (draggedId) moveCard(draggedId, event.id);
+                      setDraggedId(null);
+                      setDropTargetId(null);
+                    }}
+                  >
+                    {siteEditEnabled && (
+                      <div className="mb-2 flex items-center gap-1 rounded-xl border bg-white px-2 py-1" style={{ borderColor: "rgba(15,118,110,0.2)", color: "#0f766e" }}>
+                        <button type="button" draggable={!savingOrder && !draftingNew} disabled={savingOrder || draftingNew}
+                          onDragStart={(drag) => {
+                            drag.dataTransfer.setData("text/plain", event.id);
+                            drag.dataTransfer.effectAllowed = "move";
+                            setDraggedId(event.id);
+                          }}
+                          onDragEnd={() => { setDraggedId(null); setDropTargetId(null); }}
+                          className="inline-flex h-11 w-11 cursor-grab items-center justify-center rounded-lg hover:bg-teal-50 active:cursor-grabbing disabled:opacity-40"
+                          aria-label={`Arrastrar para ordenar: ${event.title}`} title="Arrastrar para ordenar">
+                          <GripVertical className="h-5 w-5" aria-hidden />
+                        </button>
+                        <span className="mr-auto text-xs font-semibold">{index + 1}</span>
+                        <button type="button" disabled={index === 0 || savingOrder || draftingNew}
+                          onClick={() => moveCard(event.id, filtered[index - 1].id)}
+                          className="inline-flex h-11 w-11 items-center justify-center rounded-lg hover:bg-teal-50 disabled:opacity-40"
+                          aria-label={`Subir: ${event.title}`} title="Subir">
+                          <ArrowUp className="h-4 w-4" aria-hidden />
+                        </button>
+                        <button type="button" disabled={index === filtered.length - 1 || savingOrder || draftingNew}
+                          onClick={() => moveCard(event.id, filtered[index + 1].id)}
+                          className="inline-flex h-11 w-11 items-center justify-center rounded-lg hover:bg-teal-50 disabled:opacity-40"
+                          aria-label={`Bajar: ${event.title}`} title="Bajar">
+                          <ArrowDown className="h-4 w-4" aria-hidden />
+                        </button>
+                      </div>
+                    )}
+                    <EventCard event={event} />
+                  </div>
                 </motion.div>
               ))}
             </motion.div>

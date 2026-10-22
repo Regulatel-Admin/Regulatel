@@ -66,7 +66,7 @@ function CategoryBadge({ label }: { label: string }) {
 
 function Noticias() {
   const { t, i18n } = useTranslation();
-  const { adminNews, contentSource } = useAdminData();
+  const { adminNews, newsLoaded, contentError, recheckContentSource } = useAdminData();
   const { enabled: siteEditEnabled, open: openSiteEdit, preview: siteEditPreview, target: siteEditTarget } = useSiteEdit();
   const [sidebarFilter, setSidebarFilter] = useState<SidebarFilter>("Todas");
   const [yearFilter, setYearFilter] = useState<string>("all");
@@ -85,11 +85,9 @@ function Noticias() {
       excerpt: n.excerpt,
       imageUrl: n.imageUrl,
     }));
-    if (contentSource !== "database") {
-      return [...staticItems].sort((a, b) => (a.date > b.date ? -1 : 1));
-    }
+    if (!newsLoaded) return [];
     const dbSlugs = new Set(
-      (adminNews ?? []).filter((n) => n.published).map((n) => (n.slug || n.id).toLowerCase())
+      (adminNews ?? []).map((n) => (n.slug || n.id).toLowerCase())
     );
     const staticFiltered = staticItems.filter((item) => !dbSlugs.has(item.slug.toLowerCase()));
     const dbItems: NewsListItem[] = (adminNews ?? [])
@@ -106,7 +104,7 @@ function Noticias() {
         link: n.link,
       }));
     return [...staticFiltered, ...dbItems].sort((a, b) => (a.date > b.date ? -1 : 1));
-  }, [adminNews, contentSource]);
+  }, [adminNews, newsLoaded]);
 
   const mergedList = useMemo(() => {
     const patch = siteEditEnabled ? siteEditPreview.news : undefined;
@@ -166,6 +164,8 @@ function Noticias() {
 
   const featured = paginated[0];
   const rest = paginated.slice(1);
+
+  if (!newsLoaded) return <div className="mx-auto max-w-5xl px-6 py-14"><p role="status" className="text-sm text-slate-600">{contentError ? "No se pudieron cargar las noticias. Reintenta para ver el contenido actualizado." : "Cargando noticias…"}</p>{contentError && <button type="button" onClick={() => void recheckContentSource()} className="mt-4 rounded-lg border px-4 py-2 text-sm font-semibold">Reintentar</button>}</div>;
 
   return (
     <div

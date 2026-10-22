@@ -8,6 +8,7 @@ import { api } from "@/lib/api";
 import { notifyCmsSaved, cloneJson } from "@/lib/siteEdit";
 import { useDraftHistory } from "@/hooks/useDraftHistory";
 import { usePreviewSync } from "@/hooks/usePreviewSync";
+import { useSettingRemoval } from "@/hooks/useSettingRemoval";
 import { NotifySubscribersButton } from "@/components/admin/NotifySubscribersOption";
 import type { SubscriberNotifyPayload, SubscriberNotifyType } from "@/lib/notifySubscribers";
 import { BOLETINES_GTAI_LIST_PATH } from "@/data/boletinesGtai";
@@ -270,12 +271,19 @@ export function HomeAvisoForm({ id }: { id?: string }) {
     setAskNotify(true);
   };
 
-  const remove = () => {
-    setSlot({ ...slot, refId: "", visible: false });
-    setPublished(false);
-    setAskNotify(false);
-    setNotifySent(null);
-  };
+  const { remove, removing } = useSettingRemoval({
+    settingsKey: HOME_ANNOUNCEMENTS_SETTINGS_KEY,
+    previewKey: "homeAnnouncements",
+    label: "aviso de portada",
+    fallbackValue: { slots: persisted },
+    removeFromValue: (value) => ({
+      ...(Array.isArray(value) ? {} : value),
+      slots: (Array.isArray(value) ? value : value.slots).filter((entry: HomeAvisoSlot) => entry.id !== slot.id),
+    }),
+    saving,
+    setSaving,
+    setError,
+  });
 
   const isExisting = persisted.some((s) => s.id === slot.id && s.refId);
   const selectedChoice = choices.find((item) => item.id === slot.refId);
@@ -508,12 +516,13 @@ export function HomeAvisoForm({ id }: { id?: string }) {
           {isExisting && (
             <button
               type="button"
-              onClick={remove}
+              onClick={() => void remove()}
+              disabled={saving}
               className="inline-flex items-center gap-1.5 rounded-xl border bg-white px-3 py-2.5 text-sm font-semibold"
               style={{ borderColor: "rgba(22,61,89,0.14)", color: "#991b1b" }}
             >
               <Trash2 className="h-4 w-4" />
-              Quitar de la portada
+              {removing ? "Quitando…" : "Quitar de la portada"}
             </button>
           )}
         </div>

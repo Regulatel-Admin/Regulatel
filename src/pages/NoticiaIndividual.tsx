@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { useParams, useLocation, Link } from "react-router-dom";
+import { useParams, useLocation, useNavigate, Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
@@ -15,12 +15,22 @@ import {
 } from "lucide-react";
 import ImageCarousel from "@/components/ImageCarousel";
 import { noticiasData, type NoticiaData } from "./noticiasData";
-import { useAdminData } from "@/contexts/AdminDataContext";
+import { useAdminData, type AdminNewsItem } from "@/contexts/AdminDataContext";
 import type { EventAttachment } from "@/types/event";
 import { localizeNoticiaData } from "@/hooks/useLocalizedNews";
 import { EditableSpot } from "@/components/site-edit/EditableSpot";
 import EventDocumentsSection from "@/components/events/EventDocumentsSection";
 import { SEMANA_REGULATEL_2026_NEWS_SLUG, SEMANA_REGULATEL_2026_IMAGE, SEMANA_REGULATEL_2026_NEWS_IMAGE, resolveNewsAttachments } from "@/data/semanaRegulatel2026";
+import ContentBlocksEditor from "@/components/site-edit/ContentBlocksEditor";
+import { SiteEditUndoRedo } from "@/components/site-edit/SiteEditUndoRedo";
+import { useSiteEdit } from "@/contexts/SiteEditContext";
+import { useDraftHistory } from "@/hooks/useDraftHistory";
+import { usePreviewSync } from "@/hooks/usePreviewSync";
+import { cloneJson, notifyCmsSaved } from "@/lib/siteEdit";
+import { type ContentBlock } from "@/types/contentBlocks";
+import { safeContentUrl } from "@/types/contentBlocks";
+import { legacyNewsBlocks, newsVisualPayload } from "@/lib/newsVisualContent";
+import { slugify } from "@/lib/slugify";
 
 const fadeIn = {
   hidden: { opacity: 0, y: 16 },
@@ -57,6 +67,7 @@ interface ArticlePayload {
   videoUrl?: string;
   slug: string;
   attachments?: EventAttachment[];
+  contentBlocks?: ContentBlock[];
 }
 
 function normalizeAdminNoticia(admin: {
@@ -73,8 +84,10 @@ function normalizeAdminNoticia(admin: {
   slug?: string;
   id?: string;
   attachments?: EventAttachment[];
+  contentBlocks?: ContentBlock[];
 }): ArticlePayload {
   const paragraphs = admin.content ? admin.content.split(/\n\n+/).filter(Boolean) : [];
+  const staticArticle = noticiasData.find((item) => item.slug === admin.slug);
   return {
     title: admin.title,
     dateFormatted: admin.dateFormatted,
@@ -88,6 +101,10 @@ function normalizeAdminNoticia(admin: {
     link: admin.link,
     videoUrl: admin.videoUrl,
     attachments: admin.attachments,
+    contentBlocks: admin.contentBlocks,
+    quotes: staticArticle?.quotes,
+    highlights: staticArticle?.highlights,
+    tags: staticArticle?.tags,
   };
 }
 
@@ -238,7 +255,9 @@ function ArticleBody({ payload, isStaticCumbre }: { payload: ArticlePayload; isS
 
   return (
     <div className="article-body">
-      <div className="space-y-1">
+      {payload.contentBlocks !== undefined ? (
+        <PublishedNewsBlocks blocks={payload.contentBlocks} payload={payload} />
+      ) : <div className="space-y-1">
         {payload.content.map((paragraph, index) => {
           if (paragraph.startsWith("**") && paragraph.endsWith("**")) {
             const title = paragraph.replace(/\*\*/g, "");
@@ -299,7 +318,7 @@ function ArticleBody({ payload, isStaticCumbre }: { payload: ArticlePayload; isS
           }
           return renderParagraph(paragraph, index);
         })}
-      </div>
+      </div>}
 
       {/* Quotes */}
       {payload.quotes && payload.quotes.length > 0 && (
@@ -380,6 +399,7 @@ function ArticleBody({ payload, isStaticCumbre }: { payload: ArticlePayload; isS
       )}
 
       {(() => {
+        if (payload.contentBlocks !== undefined) return null;
         const documents = resolveNewsAttachments(payload.slug, payload.attachments);
         if (documents.length === 0) return null;
         return <EventDocumentsSection documents={documents} hint={t("pages.noticias.documentsHint")} />;
@@ -742,6 +762,7 @@ function ArticleLayout({ payload, isStaticCumbre }: { payload: ArticlePayload; i
 
       {/* Main image / video carousel */}
       {(() => {
+        if (payload.contentBlocks !== undefined) return null;
         let allImages = [payload.imageUrl, ...(payload.additionalImages ?? [])].filter(
           (url): url is string => Boolean(url)
         );
@@ -820,20 +841,213 @@ function ArticleWrapper({ children }: { children: React.ReactNode }) {
   );
 }
 
+function renderNewsText(text: string) {
+  return <ArticleBody payload={{ title: "", dateFormatted: "", category: "", imageUrl: null, slug: "", content: [text], attachments: [] }} />;
+}
+
+function PublishedNewsBlocks({ blocks, payload }: { blocks: ContentBlock[]; payload: ArticlePayload }) {
+  const groups: ContentBlock[][] = [];
+  for (const block of blocks) {
+    const previous = groups[groups.length - 1];
+    if (block.type === "image" && previous?.[0].type === "image") previous.push(block);
+    else groups.push([block]);
+  }
+  return <div className="space-y-6">{groups.map((group, index) => {
+    if (group[0].type !== "image") return <ContentBlocksEditor key={group[0].id} blocks={group} renderText={renderNewsText} />;
+    const images = group.map(block => safeContentUrl(block.url)).filter(Boolean);
+    const videos = index === 0 && payload.videoUrl?.startsWith("/") ? [payload.videoUrl] : [];
+    if (!images.length && !videos.length) return null;
+    return <div key={group[0].id} className={index === 0 ? "mb-8" : undefined}>
+      {images.length + videos.length > 1 ? <ImageCarousel images={images} videos={videos} variant="article" aspectRatio="auto" slideHeight="60vh" autoPlayMs={videos.length ? 0 : 6000} className="rounded-2xl overflow-hidden" />
+        : images.length ? <ArticleImage imageUrl={images[0]} link={payload.link} slug={payload.slug} />
+          : <video src={videos[0]} controls playsInline className="h-auto max-h-[60vh] w-full rounded-2xl bg-black" />}
+      {group.some(block => block.caption) && <p className="mt-2 text-center text-sm text-slate-500">{group.map(block => block.caption).filter(Boolean).join(" · ")}</p>}
+    </div>;
+  })}</div>;
+}
+
+function staticNewsForEditing(article: NoticiaData): AdminNewsItem {
+  return {
+    id: "", slug: article.slug, title: article.title, date: article.date, dateFormatted: article.dateFormatted,
+    category: article.category, excerpt: article.excerpt, imageUrl: article.imageUrl,
+    content: article.content.join("\n\n"), author: article.author, link: article.link, videoUrl: article.videoUrl,
+    published: true, attachments: resolveNewsAttachments(article.slug, undefined),
+  };
+}
+
+function newsDraftPreview(row: AdminNewsItem) {
+  return { slug: row.slug, title: row.title, excerpt: row.excerpt, date: row.date, dateFormatted: row.dateFormatted, imageUrl: row.imageUrl, category: row.category, contentBlocks: row.contentBlocks, draftSignature: JSON.stringify(row) };
+}
+
+function legacyNewsImageOrder(row: AdminNewsItem) {
+  const images = [row.imageUrl, ...(row.additionalImages ?? [])].filter(Boolean);
+  return row.slug === SEMANA_REGULATEL_2026_NEWS_SLUG
+    ? [SEMANA_REGULATEL_2026_IMAGE, ...images.filter(url => url !== SEMANA_REGULATEL_2026_IMAGE && url !== SEMANA_REGULATEL_2026_NEWS_IMAGE)]
+    : images;
+}
+
+function editableLegacyNewsBlocks(row: AdminNewsItem) {
+  return legacyNewsBlocks(row, legacyNewsImageOrder(row));
+}
+
+function InlineNewsEditor({ initial }: { initial: AdminNewsItem }) {
+  const navigate = useNavigate();
+  const { adminNews, addNews, updateNews, deleteNews } = useAdminData();
+  const { recordPersistedChange, clearPreview } = useSiteEdit();
+  const { value: row, setValue: setRow, reset } = useDraftHistory<AdminNewsItem>(() => {
+    const seed = cloneJson({ ...initial, attachments: resolveNewsAttachments(initial.slug, initial.attachments) });
+    return { ...seed, contentBlocks: seed.contentBlocks ?? editableLegacyNewsBlocks(seed) };
+  });
+  const [saving, setSaving] = useState(false);
+  const [uploadBusy, setUploadBusy] = useState(false);
+  const [previewMode, setPreviewMode] = useState(false);
+  const busyRef = useRef(false);
+  const [message, setMessage] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const baselineRow = useRef(JSON.stringify(row));
+  const sourceRevision = useRef(JSON.stringify(initial));
+  const preview = newsDraftPreview(row);
+  const captureBaseline = usePreviewSync("news", preview);
+  useEffect(() => {
+    const revision = JSON.stringify(initial);
+    if (revision === sourceRevision.current) return;
+    sourceRevision.current = revision;
+    // Published undo/redo updates the article without replacing a user's current draft.
+    if (JSON.stringify(row) !== baselineRow.current) return;
+    const seed = { ...initial, attachments: resolveNewsAttachments(initial.slug, initial.attachments) };
+    const next = { ...seed, contentBlocks: seed.contentBlocks ?? editableLegacyNewsBlocks(seed) };
+    baselineRow.current = JSON.stringify(next);
+    reset(next);
+    captureBaseline(newsDraftPreview(next));
+    clearPreview("news");
+  }, [initial, row, reset, captureBaseline, clearPreview]);
+  const patch = (value: Partial<AdminNewsItem>) => { setRow(current => ({ ...current, ...value })); setMessage(null); };
+  const unpublish = async () => {
+    if (busyRef.current || uploadBusy) return;
+    const before = adminNews.find(item => item.id === row.id || item.slug === row.slug);
+    const stored = before ?? (initial.slug.startsWith("preview-news-") ? undefined : initial);
+    if (!stored) { setMessage("Este borrador todavía no está publicado."); return; }
+    const hadDraft = JSON.stringify(row) !== baselineRow.current;
+    busyRef.current = true; setSaving(true); setError(null); setMessage(null);
+    try {
+      let saved: AdminNewsItem;
+      if (before) {
+        await updateNews(before.id, { published: false });
+        saved = { ...before, published: false };
+        recordPersistedChange({ label: "noticia", undo: async () => { await updateNews(before.id, { published: before.published }); notifyCmsSaved("news"); }, redo: async () => { await updateNews(before.id, { published: false }); notifyCmsSaved("news"); } });
+      } else {
+        saved = await addNews({ ...stored, published: false });
+        const snapshot = saved;
+        recordPersistedChange({ label: "noticia", undo: async () => { await deleteNews(snapshot.id); notifyCmsSaved("news"); }, redo: async () => { await addNews(snapshot); notifyCmsSaved("news"); } });
+      }
+      const baseline = { ...JSON.parse(baselineRow.current) as AdminNewsItem, id: saved.id, published: false };
+      baselineRow.current = JSON.stringify(baseline);
+      captureBaseline(newsDraftPreview(baseline));
+      if (hadDraft) setRow(current => ({ ...current, id: saved.id, published: false }));
+      else { reset(baseline); clearPreview("news"); }
+      notifyCmsSaved("news");
+      setMessage("Noticia despublicada. Tus cambios pendientes siguen aquí sin publicarse.");
+    } catch (err) { setError(err instanceof Error ? err.message : "No se pudo despublicar la noticia."); }
+    finally { busyRef.current = false; setSaving(false); }
+  };
+  const save = async (published: boolean) => {
+    if (!published) { await unpublish(); return; }
+    if (busyRef.current || uploadBusy) return;
+    if (!row.title.trim()) { setError("La noticia necesita un título."); return; }
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(row.date.slice(0, 10))) { setError("Indica una fecha válida para la noticia."); return; }
+    if ([row.link, row.videoUrl].some(url => url?.trim() && !safeContentUrl(url))) { setError("Los enlaces deben empezar por https://, http:// o /."); return; }
+    if (row.contentBlocks?.some(block => (block.type === "image" || block.type === "document") && !safeContentUrl(block.url))) {
+      setError("Completa el enlace de cada imagen y documento, o quita el bloque vacío."); return;
+    }
+    busyRef.current = true; setSaving(true); setError(null); setMessage(null);
+    const before = adminNews.find(item => item.id === row.id || item.slug === row.slug);
+    const baseSlug = slugify(row.title) || `noticia-${Date.now()}`;
+    const newSlug = adminNews.some(item => item.slug === baseSlug) || noticiasData.some(item => item.slug === baseSlug) ? `${baseSlug}-${Date.now()}` : baseSlug;
+    const normalized = newsVisualPayload({ ...row, title: row.title.trim(), published, slug: row.slug.startsWith("preview-news-") ? newSlug : row.slug }, legacyNewsImageOrder(row));
+    try {
+      let saved = normalized;
+      if (before) {
+        const beforeWithBlocks = before.contentBlocks === undefined
+          ? { ...before, contentBlocks: editableLegacyNewsBlocks({ ...before, attachments: resolveNewsAttachments(before.slug, before.attachments) }) }
+          : before;
+        await updateNews(before.id, normalized);
+        saved = { ...normalized, id: before.id };
+        recordPersistedChange({ label: "noticia", undo: async () => { await updateNews(before.id, beforeWithBlocks); notifyCmsSaved("news"); }, redo: async () => { await updateNews(before.id, saved); notifyCmsSaved("news"); } });
+      } else {
+        const created = await addNews(normalized);
+        saved = { ...normalized, ...created };
+        recordPersistedChange({ label: "noticia", undo: async () => { await deleteNews(created.id); notifyCmsSaved("news"); }, redo: async () => { await addNews({ ...saved }); notifyCmsSaved("news"); } });
+      }
+      reset(saved);
+      baselineRow.current = JSON.stringify(saved);
+      captureBaseline(newsDraftPreview(saved));
+      clearPreview("news"); notifyCmsSaved("news");
+      setMessage(published ? "Noticia publicada." : "Noticia despublicada. Puedes seguir editándola aquí.");
+      if (row.slug !== saved.slug) navigate(`/noticias/${saved.slug}`, { replace: true });
+    } catch (err) { setError(err instanceof Error ? err.message : "No se pudo guardar la noticia."); }
+    finally { busyRef.current = false; setSaving(false); }
+  };
+  const payload = normalizeAdminNoticia(row);
+  return <article className="w-full" data-inline-news-editor>
+    <div className="sticky top-14 z-40 mb-7 flex flex-wrap items-center gap-3 rounded-xl border border-teal-200 bg-white/95 p-3 shadow-sm backdrop-blur">
+      <span className="mr-auto text-sm font-semibold text-teal-800">{JSON.stringify(row) !== baselineRow.current ? "Cambios sin publicar" : "Esta noticia"}</span>
+      <button type="button" disabled={saving || uploadBusy} aria-pressed={previewMode} onClick={() => setPreviewMode(current => !current)} className="rounded-lg px-3 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-50">{previewMode ? "Editar" : "Vista previa"}</button>
+      <SiteEditUndoRedo variant="drawer" />
+      <button type="button" disabled={saving || uploadBusy} onClick={() => void save(true)} className="rounded-lg bg-[var(--regu-blue)] px-4 py-2 text-sm font-bold text-white disabled:opacity-50">{saving ? "Guardando…" : "Publicar"}</button>
+      <button type="button" disabled={saving || uploadBusy} onClick={() => void save(false)} className="rounded-lg border border-red-200 px-3 py-2 text-sm font-semibold text-red-700 disabled:opacity-50">Despublicar</button>
+      {error && <p role="alert" className="w-full text-sm text-red-700">{error}</p>}
+      {message && <p role="status" className="w-full text-sm text-teal-800">{message}</p>}
+    </div>
+    {previewMode ? <ArticleLayout payload={payload} isStaticCumbre /> : <>
+    <ArticleBreadcrumb title={row.title} />
+    <header className="mb-7 space-y-3">
+      <div className="flex flex-wrap items-center gap-3 text-sm text-slate-600"><CategoryBadge label={row.category} /><span>{row.dateFormatted}</span>{!row.published && <span className="rounded bg-amber-50 px-2 py-1 text-amber-800">Sin publicar</span>}</div>
+      <h1 aria-label="Título de la noticia" role="textbox" contentEditable={saving ? false : "plaintext-only"} suppressContentEditableWarning onBlur={event => { if (event.currentTarget.innerText !== row.title) patch({ title: event.currentTarget.innerText }); }} data-placeholder="Escribe el título" className="min-h-[1.25em] rounded-sm font-bold leading-tight tracking-tight outline-none transition hover:bg-teal-50/40 focus:ring-1 focus:ring-teal-300 empty:before:text-slate-300 empty:before:content-[attr(data-placeholder)]" style={{ color: "var(--regu-navy)", fontSize: "clamp(1.5rem, 2.2vw, 2.25rem)", lineHeight: 1.25, fontFamily: "var(--token-font-heading)" }}>{row.title}</h1>
+      <p aria-label="Resumen de la noticia" role="textbox" contentEditable={saving ? false : "plaintext-only"} suppressContentEditableWarning onBlur={event => { if (event.currentTarget.innerText !== row.excerpt) patch({ excerpt: event.currentTarget.innerText }); }} data-placeholder="Añadir resumen" className="min-h-[1.5em] rounded-sm text-base leading-relaxed outline-none transition hover:bg-teal-50/40 focus:ring-1 focus:ring-teal-300 empty:before:text-slate-300 empty:before:content-[attr(data-placeholder)]" style={{ color: "var(--regu-gray-600)" }}>{row.excerpt}</p>
+    </header>
+    <ContentBlocksEditor blocks={row.contentBlocks ?? []} onChange={blocks => patch({ contentBlocks: blocks })} editing disabled={saving} onBusyChange={setUploadBusy} folder="news" renderText={renderNewsText} />
+    <details className="my-6 text-sm"><summary className="cursor-pointer text-xs font-semibold text-slate-500">Opciones de noticia</summary><fieldset disabled={saving} className="mt-4 grid gap-4 rounded-xl border border-slate-200 p-4 sm:grid-cols-2">
+      <label>Fecha<input aria-label="Fecha de la noticia" type="date" value={row.date.slice(0, 10)} onChange={event => { const date = event.target.value; patch({ date, dateFormatted: new Date(`${date}T12:00:00`).toLocaleDateString("es-ES", { day: "numeric", month: "long", year: "numeric" }) }); }} className="mt-1 w-full rounded-lg border p-2" /></label>
+      <label>Autor<input value={row.author ?? ""} onChange={event => patch({ author: event.target.value })} className="mt-1 w-full rounded-lg border p-2" /></label>
+      <label>Categoría<input value={row.category} onChange={event => patch({ category: event.target.value })} className="mt-1 w-full rounded-lg border p-2" /></label>
+      <label>Enlace de la noticia<input value={row.link ?? ""} onChange={event => patch({ link: event.target.value })} className="mt-1 w-full rounded-lg border p-2" /></label>
+      <label>Video<input value={row.videoUrl ?? ""} onChange={event => patch({ videoUrl: event.target.value })} className="mt-1 w-full rounded-lg border p-2" /></label>
+    </fieldset></details>
+    <ArticleBody payload={{ ...payload, content: [], contentBlocks: [], attachments: [] }} isStaticCumbre />
+    <ArticleShareFooter title={row.title} />
+    </>}
+  </article>;
+}
+
 export default function NoticiaIndividual() {
   const { t, i18n } = useTranslation();
   const { slug } = useParams<{ slug: string }>();
-  const { adminNews, contentSource } = useAdminData();
+  const { adminNews, contentSource, newsLoaded, contentError, recheckContentSource } = useAdminData();
+  const { enabled: editing } = useSiteEdit();
   if (contentSource === "loading") return null;
+  if (!newsLoaded) return <ArticleWrapper><p role="status" className="text-sm text-slate-600">{contentError ? "No se pudo cargar esta noticia. Reintenta para ver su estado actual." : "Cargando noticia…"}</p>{contentError && <button type="button" onClick={() => void recheckContentSource()} className="mt-4 rounded-lg border px-4 py-2 text-sm font-semibold">Reintentar</button>}</ArticleWrapper>;
 
-  const adminNoticia = adminNews.find((n) => n.published && (n.slug === slug || n.id === slug));
-  const noticiaStatic = noticiasData.find((n) => n.slug === slug);
+  const routeSlug = (slug ?? "").toLowerCase();
+  const adminNoticia = adminNews.find(
+    (n) => (n.slug || n.id).toLowerCase() === routeSlug || n.id.toLowerCase() === routeSlug,
+  );
+  // A CMS draft also overrides the static article, so unpublishing stays effective.
+  const noticiaStatic = adminNoticia ? undefined : noticiasData.find((n) => n.slug.toLowerCase() === routeSlug);
 
-  if (adminNoticia) {
+  if (editing && (adminNoticia || noticiaStatic)) {
+    return <ArticleWrapper><InlineNewsEditor key={routeSlug} initial={adminNoticia ?? staticNewsForEditing(noticiaStatic!)} /></ArticleWrapper>;
+  }
+  if (editing && routeSlug === "nueva") {
+    const date = new Date().toISOString().slice(0, 10);
+    const initial: AdminNewsItem = { id: "", slug: "preview-news-new", title: "", date, dateFormatted: new Date().toLocaleDateString("es-ES"), category: "Noticias", excerpt: "", imageUrl: "", content: "", author: "REGULATEL", published: false, attachments: [], contentBlocks: [] };
+    return <ArticleWrapper><InlineNewsEditor key="new-news" initial={initial} /></ArticleWrapper>;
+  }
+
+  if (adminNoticia?.published) {
     const payload = normalizeAdminNoticia(adminNoticia);
     return (
       <ArticleWrapper>
-        <ArticleLayout payload={payload} />
+        <ArticleLayout payload={payload} isStaticCumbre />
       </ArticleWrapper>
     );
   }

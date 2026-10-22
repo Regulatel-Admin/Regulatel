@@ -7,6 +7,7 @@ import { notifyCmsSaved, cloneJson } from "@/lib/siteEdit";
 import { slugify } from "@/lib/slugify";
 import { useDraftHistory } from "@/hooks/useDraftHistory";
 import { usePreviewSync } from "@/hooks/usePreviewSync";
+import { useSettingRemoval } from "@/hooks/useSettingRemoval";
 import { AdminBlobUploadField } from "@/components/admin/AdminBlobUploadField";
 import {
   GRUPOS_TRABAJO_SETTINGS_KEY,
@@ -150,6 +151,18 @@ export function GrupoForm({ id }: { id?: string }) {
   }, [allEntries, row, removed]);
 
   const captureBaseline = usePreviewSync("grupos", previewList);
+
+  const { remove, removing } = useSettingRemoval({
+    settingsKey: GRUPOS_TRABAJO_SETTINGS_KEY,
+    previewKey: "grupos",
+    label: "grupo de trabajo",
+    fallbackValue: { entries: gruposTrabajo ?? defaultGruposTrabajo },
+    removeFromValue: (value) => ({ ...value, entries: value.entries.filter((entry) => entry.id !== row.id) }),
+    saving,
+    setSaving,
+    setError,
+    onRemoved: () => setRemoved(true),
+  });
 
   const save = async () => {
     if (!removed && !row.title.trim()) {
@@ -321,16 +334,13 @@ export function GrupoForm({ id }: { id?: string }) {
         extra={
           <button
             type="button"
-            onClick={() => {
-              setRemoved(true);
-              setAllEntries((prev) => prev.filter((g) => g.id !== row.id));
-              setPublished(false);
-            }}
-            className="inline-flex items-center gap-1.5 rounded-xl border bg-white px-3 py-2.5 text-sm font-semibold text-red-700"
+            onClick={() => void remove()}
+            disabled={saving}
+            className="inline-flex items-center gap-1.5 rounded-xl border bg-white px-3 py-2.5 text-sm font-semibold text-red-700 disabled:opacity-60"
             style={{ borderColor: "rgba(22,61,89,0.14)" }}
           >
             <Trash2 className="h-4 w-4" />
-            Quitar
+            {removing ? "Quitando…" : "Quitar"}
           </button>
         }
       />

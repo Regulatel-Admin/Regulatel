@@ -2,7 +2,7 @@ import { useSearchParams, Link } from "react-router-dom";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import {
-  buildSearchDocs,
+  buildSearchDocs, mergeSearchNews,
   searchSiteDocs,
   getTypeLabel,
   suggestQueryDocs,
@@ -103,7 +103,7 @@ function ResultCard({ r }: { r: SiteSearchResult }) {
 
 export default function Search() {
   const { t, i18n } = useTranslation();
-  const { adminNews, contentSource } = useAdminData();
+  const { adminNews, newsLoaded } = useAdminData();
   const eventsRaw = useEvents();
   const events = useLocalizedEvents(eventsRaw);
   const documents = useMergedGestionDocuments();
@@ -119,25 +119,11 @@ export default function Search() {
     () =>
       buildSearchDocs({
         authorities: autoridadesActuales,
-        news:
-          contentSource === "database"
-            ? adminNews
-                .filter((n) => n.published)
-                .map((n) => ({
-                  id: n.id,
-                  slug: n.slug || n.id,
-                  title: n.title,
-                  date: n.date,
-                  dateFormatted: n.dateFormatted,
-                  excerpt: n.excerpt,
-                  category: n.category,
-                  content: n.content,
-                }))
-            : localizedNoticias,
+        news: mergeSearchNews(localizedNoticias, adminNews, newsLoaded),
         events,
         documents,
       }),
-    [adminNews, autoridadesActuales, contentSource, documents, events, localizedNoticias]
+    [adminNews, autoridadesActuales, newsLoaded, documents, events, localizedNoticias]
   );
 
   const results = q.trim()

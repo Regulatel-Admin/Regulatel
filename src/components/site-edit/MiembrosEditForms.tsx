@@ -7,6 +7,7 @@ import { notifyCmsSaved, cloneJson } from "@/lib/siteEdit";
 import { slugify } from "@/lib/slugify";
 import { useDraftHistory } from "@/hooks/useDraftHistory";
 import { usePreviewSync } from "@/hooks/usePreviewSync";
+import { useSettingRemoval } from "@/hooks/useSettingRemoval";
 import { AdminBlobUploadField } from "@/components/admin/AdminBlobUploadField";
 import {
   ENTES_MIEMBROS_SETTINGS_KEY,
@@ -141,6 +142,21 @@ export function EnteForm({ id }: { id?: string }) {
   }, [allEntries, row, removed]);
 
   const captureBaseline = usePreviewSync("entes", previewList);
+
+  const { remove, removing } = useSettingRemoval({
+    settingsKey: ENTES_MIEMBROS_SETTINGS_KEY,
+    previewKey: "entes",
+    label: "ente regulador",
+    fallbackValue: { entes: stampEnteIds(entesReguladoresMiembros ?? defaultEntesReguladoresMiembros) },
+    removeFromValue: (value) => {
+      const stamped = stampEnteIds(value.entes);
+      return { ...value, entes: value.entes.filter((_, index) => stamped[index].id !== row.id) };
+    },
+    saving,
+    setSaving,
+    setError,
+    onRemoved: () => setRemoved(true),
+  });
 
   const save = async () => {
     const next = removed ? previewList : previewList.map((e) => (e.id === row.id ? { ...row } : e));
@@ -304,16 +320,13 @@ export function EnteForm({ id }: { id?: string }) {
         extra={
           <button
             type="button"
-            onClick={() => {
-              setRemoved(true);
-              setAllEntries((prev) => prev.filter((e) => e.id !== row.id));
-              setPublished(false);
-            }}
-            className="inline-flex items-center gap-1.5 rounded-xl border bg-white px-3 py-2.5 text-sm font-semibold text-red-700"
+            onClick={() => void remove()}
+            disabled={saving}
+            className="inline-flex items-center gap-1.5 rounded-xl border bg-white px-3 py-2.5 text-sm font-semibold text-red-700 disabled:opacity-60"
             style={{ borderColor: "rgba(22,61,89,0.14)" }}
           >
             <Trash2 className="h-4 w-4" />
-            Quitar
+            {removing ? "Quitando…" : "Quitar"}
           </button>
         }
       />
@@ -349,6 +362,21 @@ export function DirectorioForm({ id }: { id?: string }) {
   }, [allEntries, row, removed]);
 
   const captureBaseline = usePreviewSync("directorio", previewList);
+
+  const { remove, removing } = useSettingRemoval({
+    settingsKey: DIRECTORIO_AUTORIDADES_SETTINGS_KEY,
+    previewKey: "directorio",
+    label: "directorio",
+    fallbackValue: { entries: stampDirectorioIds(directorioAutoridades ?? defaultDirectorioAutoridades) },
+    removeFromValue: (value) => {
+      const stamped = stampDirectorioIds(value.entries);
+      return { ...value, entries: value.entries.filter((_, index) => stamped[index].id !== row.id) };
+    },
+    saving,
+    setSaving,
+    setError,
+    onRemoved: () => setRemoved(true),
+  });
 
   const save = async () => {
     if (!removed && (!row.pais.trim() || !row.acronym.trim())) {
@@ -485,16 +513,13 @@ export function DirectorioForm({ id }: { id?: string }) {
         extra={
           <button
             type="button"
-            onClick={() => {
-              setRemoved(true);
-              setAllEntries((prev) => prev.filter((e) => e.id !== row.id));
-              setPublished(false);
-            }}
-            className="inline-flex items-center gap-1.5 rounded-xl border bg-white px-3 py-2.5 text-sm font-semibold text-red-700"
+            onClick={() => void remove()}
+            disabled={saving}
+            className="inline-flex items-center gap-1.5 rounded-xl border bg-white px-3 py-2.5 text-sm font-semibold text-red-700 disabled:opacity-60"
             style={{ borderColor: "rgba(22,61,89,0.14)" }}
           >
             <Trash2 className="h-4 w-4" />
-            Quitar
+            {removing ? "Quitando…" : "Quitar"}
           </button>
         }
       />

@@ -21,6 +21,8 @@ const SCROLL_THRESHOLD_HIDE = 80; // px — al bajar pasado esto se oculta la to
 const SCROLL_THRESHOLD_SHOW = 8; // px — solo volver a mostrar cuando scroll esté casi en 0 (evita loop al colapsar: el reflow no dispara expand)
 /** Tras navegar (menú → filtro), ignorar scroll unos ms para que el topbar no suba/baje de golpe. */
 const NAV_STABILIZE_MS = 450;
+const DESKTOP_MENU_OPEN_DELAY_MS = 200;
+const DESKTOP_MENU_CLOSE_DELAY_MS = 350;
 
 function isPathActive(currentPath: string, href?: string): boolean {
   if (!href) return false;
@@ -55,12 +57,54 @@ export default function HeaderMegaMenu() {
     const y = window.scrollY;
     return y > SCROLL_THRESHOLD_HIDE;
   });
+  const openTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const closeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const hoverOpenedMenuRef = useRef<string | null>(null);
   const lastCompactRef = useRef(
     typeof window !== "undefined" ? window.scrollY > SCROLL_THRESHOLD_HIDE : false
   );
   const ignoreScrollUntilRef = useRef(0);
   const onScrollRef = useRef<() => void>(() => {});
+
+  const cancelDesktopMenuOpen = useCallback(() => {
+    if (openTimeoutRef.current) {
+      clearTimeout(openTimeoutRef.current);
+      openTimeoutRef.current = null;
+    }
+  }, []);
+
+  const clearDesktopMenuTimeouts = useCallback(() => {
+    cancelDesktopMenuOpen();
+    if (closeTimeoutRef.current) {
+      clearTimeout(closeTimeoutRef.current);
+      closeTimeoutRef.current = null;
+    }
+  }, [cancelDesktopMenuOpen]);
+
+  const closeDesktopMenu = useCallback(() => {
+    clearDesktopMenuTimeouts();
+    hoverOpenedMenuRef.current = null;
+    setOpenDesktopMenu(null);
+  }, [clearDesktopMenuTimeouts]);
+
+  const scheduleDesktopMenuOpen = (id: string) => {
+    clearDesktopMenuTimeouts();
+    if (openDesktopMenu === id) return;
+    openTimeoutRef.current = setTimeout(() => {
+      openTimeoutRef.current = null;
+      hoverOpenedMenuRef.current = id;
+      setOpenDesktopMenu(id);
+    }, DESKTOP_MENU_OPEN_DELAY_MS);
+  };
+
+  const toggleDesktopMenu = (id: string, keyboardClick: boolean) => {
+    clearDesktopMenuTimeouts();
+    // El primer clic confirma lo abierto con hover; el siguiente lo cierra.
+    const shouldClose = openDesktopMenu === id &&
+      (keyboardClick || hoverOpenedMenuRef.current !== id);
+    hoverOpenedMenuRef.current = null;
+    setOpenDesktopMenu(shouldClose ? null : id);
+  };
 
   const activeByItemId = useMemo(() => {
     const map: Record<string, boolean> = {};
@@ -87,7 +131,7 @@ export default function HeaderMegaMenu() {
 
   useEffect(() => {
     setMobileMenuOpen(false);
-    setOpenDesktopMenu(null);
+    closeDesktopMenu();
     // Evitar que el topbar colapse/expanda al instante tras navegar (ej. Recursos → Gestión?tipo=banco).
     ignoreScrollUntilRef.current = Date.now() + NAV_STABILIZE_MS;
     setIsCompact(false);
@@ -97,7 +141,7 @@ export default function HeaderMegaMenu() {
       onScrollRef.current();
     }, NAV_STABILIZE_MS);
     return () => clearTimeout(t);
-  }, [location.pathname, location.search]);
+  }, [location.pathname, location.search, closeDesktopMenu]);
 
   useEffect(() => {
     if (!mobileMenuOpen) {
@@ -113,14 +157,14 @@ export default function HeaderMegaMenu() {
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
-        setOpenDesktopMenu(null);
+        closeDesktopMenu();
         setMobileMenuOpen(false);
       }
     };
 
     const onClickOutside = (event: MouseEvent) => {
       if (navRef.current && !navRef.current.contains(event.target as Node)) {
-        setOpenDesktopMenu(null);
+        closeDesktopMenu();
       }
     };
 
@@ -129,14 +173,16 @@ export default function HeaderMegaMenu() {
     return () => {
       window.removeEventListener("keydown", onKeyDown);
       window.removeEventListener("mousedown", onClickOutside);
-      if (closeTimeoutRef.current) clearTimeout(closeTimeoutRef.current);
+      clearDesktopMenuTimeouts();
     };
-  }, []);
+  }, [closeDesktopMenu, clearDesktopMenuTimeouts]);
 
   // BEREC-like: TopBar se oculta al bajar (solo desktop). Histéresis para evitar flicker al scroll cerca del umbral.
   const onScroll = useCallback(() => {
     const isDesktop = typeof window !== "undefined" && window.innerWidth >= 768;
     if (!isDesktop) return;
+    // Mantener el panel en su sitio mientras se está usando.
+    if (openDesktopMenu) return;
     if (Date.now() < ignoreScrollUntilRef.current) return;
     const y = window.scrollY;
     const currentlyCompact = lastCompactRef.current;
@@ -156,7 +202,7 @@ export default function HeaderMegaMenu() {
       }
       setIsCompact(nextCompact);
     }
-  }, [getCompact, getExpand]);
+  }, [getCompact, getExpand, openDesktopMenu]);
 
   onScrollRef.current = onScroll;
 
@@ -226,17 +272,10 @@ export default function HeaderMegaMenu() {
         {/* Fila nav + línea fina (solo desktop); menú Quiénes somos, Recursos, etc. */}
         <div
           className="hidden md:block"
-          onMouseEnter={() => {
-            if (closeTimeoutRef.current) {
-              clearTimeout(closeTimeoutRef.current);
-              closeTimeoutRef.current = null;
-            }
-          }}
+          onMouseEnter={clearDesktopMenuTimeouts}
           onMouseLeave={() => {
-            closeTimeoutRef.current = setTimeout(() => {
-              setOpenDesktopMenu(null);
-              closeTimeoutRef.current = null;
-            }, 130);
+            clearDesktopMenuTimeouts();
+            closeTimeoutRef.current = setTimeout(closeDesktopMenu, DESKTOP_MENU_CLOSE_DELAY_MS);
           }}
           style={{ borderBottom: "var(--header-separator)" }}
         >
@@ -277,17 +316,16 @@ export default function HeaderMegaMenu() {
                     key={item.id}
                     className="flex items-stretch"
                     onMouseEnter={() => {
-                      if (hasPanel) setOpenDesktopMenu(item.id);
+                      if (hasPanel) scheduleDesktopMenuOpen(item.id);
                     }}
+                    onMouseLeave={cancelDesktopMenuOpen}
                   >
                     {hasPanel && item.id !== "eventos" ? (
                       <button
                         type="button"
                         aria-expanded={isOpen}
                         aria-controls={panelId}
-                        onClick={() =>
-                          setOpenDesktopMenu((current) => (current === item.id ? null : item.id))
-                        }
+                        onClick={(event) => toggleDesktopMenu(item.id, event.detail === 0)}
                         className={
                           navLinkBase +
                           (isActive
@@ -309,9 +347,7 @@ export default function HeaderMegaMenu() {
                         type="button"
                         aria-expanded={isOpen}
                         aria-controls={panelId}
-                        onClick={() =>
-                          setOpenDesktopMenu((current) => (current === item.id ? null : item.id))
-                        }
+                        onClick={(event) => toggleDesktopMenu(item.id, event.detail === 0)}
                         className={
                           navLinkBase +
                           (isActive
@@ -331,6 +367,7 @@ export default function HeaderMegaMenu() {
                     ) : (
                       <Link
                         to={item.href ?? "/"}
+                        onClick={closeDesktopMenu}
                         className={
                           navLinkBase +
                           (isActive
@@ -365,14 +402,14 @@ export default function HeaderMegaMenu() {
             <MegaMenuEvents
               panelId="eventos-mega-panel"
               isOpen={openDesktopMenu === "eventos"}
-              onLinkClick={() => setOpenDesktopMenu(null)}
+              onLinkClick={closeDesktopMenu}
               variant="desktop"
             />
           ) : openItem?.id === "convenios" ? (
             <ConveniosMenu
               panelId="convenios-mega-panel"
               isOpen={openDesktopMenu === "convenios"}
-              onLinkClick={() => setOpenDesktopMenu(null)}
+              onLinkClick={closeDesktopMenu}
               variant="desktop"
             />
           ) : openItem?.columns?.length ? (
@@ -381,7 +418,7 @@ export default function HeaderMegaMenu() {
               label={openItem.panelLabel ?? openItem.label}
               columns={openItem.columns}
               isOpen={Boolean(openDesktopMenu)}
-              onLinkClick={() => setOpenDesktopMenu(null)}
+              onLinkClick={closeDesktopMenu}
               editMode={siteEditEnabled}
               draftHrefs={draftHrefs}
               onAddCategory={(columnIndex, columnTitle) =>

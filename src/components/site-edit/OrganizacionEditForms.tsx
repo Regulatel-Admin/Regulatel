@@ -7,6 +7,7 @@ import { notifyCmsSaved, cloneJson } from "@/lib/siteEdit";
 import { slugify } from "@/lib/slugify";
 import { useDraftHistory } from "@/hooks/useDraftHistory";
 import { usePreviewSync } from "@/hooks/usePreviewSync";
+import { useSettingRemoval } from "@/hooks/useSettingRemoval";
 import { AdminBlobUploadField } from "@/components/admin/AdminBlobUploadField";
 import {
   AUTORIDADES_ACTUALES_SETTINGS_KEY,
@@ -128,6 +129,21 @@ export function AutoridadForm({ id }: { id?: string }) {
   }, [allEntries, row, removed]);
 
   const captureBaseline = usePreviewSync("autoridades", previewList);
+
+  const { remove, removing } = useSettingRemoval({
+    settingsKey: AUTORIDADES_ACTUALES_SETTINGS_KEY,
+    previewKey: "autoridades",
+    label: "autoridad",
+    fallbackValue: { authorities: autoridadesActuales ?? defaultAuthorities },
+    removeFromValue: (value) => ({
+      ...value,
+      authorities: value.authorities.filter((entry, index) => (entry.id || String(index + 1)) !== row.id),
+    }),
+    saving,
+    setSaving,
+    setError,
+    onRemoved: () => setRemoved(true),
+  });
 
   const save = async () => {
     if (!removed && !row.name.trim()) {
@@ -284,16 +300,13 @@ export function AutoridadForm({ id }: { id?: string }) {
         extra={
           <button
             type="button"
-            onClick={() => {
-              setRemoved(true);
-              setAllEntries((prev) => prev.filter((a) => a.id !== row.id));
-              setPublished(false);
-            }}
-            className="inline-flex items-center gap-1.5 rounded-xl border bg-white px-3 py-2.5 text-sm font-semibold text-red-700"
+            onClick={() => void remove()}
+            disabled={saving}
+            className="inline-flex items-center gap-1.5 rounded-xl border bg-white px-3 py-2.5 text-sm font-semibold text-red-700 disabled:opacity-60"
             style={{ borderColor: "rgba(22,61,89,0.14)" }}
           >
             <Trash2 className="h-4 w-4" />
-            Quitar
+            {removing ? "Quitando…" : "Quitar"}
           </button>
         }
       />
@@ -381,6 +394,22 @@ export function ComiteLogoForm({
       };
     });
   };
+
+  const { remove, removing } = useSettingRemoval({
+    settingsKey: COMITE_EJECUTIVO_SETTINGS_KEY,
+    previewKey: "comite",
+    label: "integrante del comité",
+    fallbackValue: comiteEjecutivo ?? defaultComiteEjecutivoCmsDocument(),
+    removeFromValue: (value) => {
+      const key = slot === "vice" ? "vicepresidentes" : "miembros";
+      const stamped = stampComiteIds(value);
+      return { ...value, [key]: value[key].filter((_, index) => stamped[key][index].id !== workingId) };
+    },
+    saving,
+    setSaving,
+    setError,
+    onRemoved: () => setRemoved(true),
+  });
 
   const save = async () => {
     const toSave = cloneComite(previewDoc);
@@ -472,15 +501,13 @@ export function ComiteLogoForm({
           slot === "presidente" ? undefined : (
             <button
               type="button"
-              onClick={() => {
-                setRemoved(true);
-                setPublished(false);
-              }}
-              className="inline-flex items-center gap-1.5 rounded-xl border bg-white px-3 py-2.5 text-sm font-semibold text-red-700"
+              onClick={() => void remove()}
+              disabled={saving}
+              className="inline-flex items-center gap-1.5 rounded-xl border bg-white px-3 py-2.5 text-sm font-semibold text-red-700 disabled:opacity-60"
               style={{ borderColor: "rgba(22,61,89,0.14)" }}
             >
               <Trash2 className="h-4 w-4" />
-              Quitar
+              {removing ? "Quitando…" : "Quitar"}
             </button>
           )
         }

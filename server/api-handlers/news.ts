@@ -7,6 +7,7 @@ import { ensureAdmin } from "../lib/adminAuth.js";
 import { logAudit } from "../lib/auditLog.js";
 import { parseJsonBody } from "../lib/parseBody.js";
 import { isDbConfigured } from "../lib/db.js";
+import { parseContentBlocks } from "../../src/types/contentBlocks.js";
 
 function sendJson(res: ServerResponse, status: number, data: unknown) {
   res.setHeader("Content-Type", "application/json");
@@ -72,6 +73,11 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
         const videoUrl = typeof body.videoUrl === "string" ? body.videoUrl : undefined;
         const published = body.published !== false;
         const attachments = Array.isArray(body.attachments) ? body.attachments : undefined;
+        const contentBlocks = parseContentBlocks(body.contentBlocks);
+        if (body.contentBlocks !== undefined && contentBlocks === undefined) {
+          sendJson(res, 400, { error: "El contenido del artículo no es válido." });
+          return;
+        }
         const item = await createNews({
           id: newId,
           slug,
@@ -93,6 +99,7 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
           videoUrl,
           published,
           attachments: attachments as CreateNewsInput["attachments"],
+          contentBlocks,
         });
         await logAudit({
           userId: auth.user.id,
@@ -123,6 +130,11 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
     if (req.method === "PATCH") {
       const auth = await ensureAdmin(req);
       const body = (await parseJsonBody(req)) as Record<string, unknown>;
+      const contentBlocks = parseContentBlocks(body.contentBlocks);
+      if (body.contentBlocks !== undefined && contentBlocks === undefined) {
+        sendJson(res, 400, { error: "El contenido del artículo no es válido." });
+        return;
+      }
       const item = await updateNews(id, {
         slug: typeof body.slug === "string" ? body.slug : undefined,
         title: typeof body.title === "string" ? body.title : undefined,
@@ -147,6 +159,7 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
         attachments: Array.isArray(body.attachments)
           ? (body.attachments as CreateNewsInput["attachments"])
           : undefined,
+        contentBlocks,
       });
       if (!item) {
         sendJson(res, 404, { error: "Not found" });

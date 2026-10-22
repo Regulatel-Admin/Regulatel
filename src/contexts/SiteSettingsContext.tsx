@@ -1,3 +1,4 @@
+import { parseEventOrder } from "@/data/eventOrder";
 import { DEFAULT_EVENT_LAYOUT, parseEventLayoutSetting, type EventLayoutSetting } from "@/data/eventLayouts";
 /**
  * Site-wide CMS settings for the public site (hero, quick links, carousel).
@@ -53,6 +54,7 @@ import { parseCustomPagesFromSettingValue } from "@/data/customPages";
 
 export interface SiteSettingsState {
   eventMaterialsLayout: EventLayoutSetting;
+  eventOrder: string[] | null;
   homeHero: HomeHeroSetting | null;
   quickLinks: QuickLinkSettingItem[] | null;
   featuredCarousel: FeaturedCarouselItemSetting[] | null;
@@ -80,6 +82,7 @@ export interface SiteSettingsState {
 
 const defaultState: SiteSettingsState = {
   eventMaterialsLayout: DEFAULT_EVENT_LAYOUT,
+  eventOrder: null,
   homeHero: null,
   quickLinks: null,
   featuredCarousel: null,
@@ -144,6 +147,7 @@ async function fetchSettings(retry = false): Promise<Omit<SiteSettingsState, "re
   const hasHero = homeHeroParsed && typeof homeHeroParsed === "object";
   return {
     eventMaterialsLayout: parseEventLayoutSetting(d.event_materials_layout),
+    eventOrder: parseEventOrder(d.event_order),
     homeHero:
       hasHero && homeHeroParsed && typeof homeHeroParsed === "object" && !Array.isArray(homeHeroParsed)
         ? (homeHeroParsed as HomeHeroSetting)
@@ -462,7 +466,7 @@ export function useGalleryAlbums(): AlbumGaleria[] {
     images: a.images,
   });
   if (enabled && preview.galleryAlbums) return preview.galleryAlbums.map(toAlbum);
-  if (!loading && galleryAlbums && galleryAlbums.length > 0) {
+  if (!loading && galleryAlbums !== null) {
     return galleryAlbums.map(toAlbum);
   }
   return albumesGaleria;

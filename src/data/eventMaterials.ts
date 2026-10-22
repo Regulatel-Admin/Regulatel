@@ -12,6 +12,10 @@ export const SEMANA_RESOURCE_GROUPS: Record<string, "cumbres" | "comite"> = {
 
 /** Advertise only resources actually rendered by the event detail page. */
 export function getEventMaterials(event: Event) {
+  if (event.resources !== undefined) {
+    const result = { programs: event.resources.programs.length, documents: event.resources.documents.length + (event.attachments?.length ?? 0), photos: event.resources.photos.length };
+    return result.programs || result.documents || result.photos ? result : null;
+  }
   const group = SEMANA_RESOURCE_GROUPS[event.id];
   if (group) {
     const data = materials[group];
@@ -20,6 +24,6 @@ export function getEventMaterials(event: Event) {
   const attachments = event.attachments?.filter(doc => doc.url?.trim()) ?? [];
   const isAsiet = event.id === SEMANA_REGULATEL_2026_EVENT_ID ||
     (event.startDate === "2026-10-16" && /asiet/i.test(event.title) && /comtelca/i.test(event.title));
-  const documents = attachments.length || (isAsiet ? SEMANA_REGULATEL_2026_ATTACHMENTS.length : 0);
+  const documents = event.attachments !== undefined ? attachments.length : (isAsiet ? SEMANA_REGULATEL_2026_ATTACHMENTS.length : 0);
   return documents ? { programs: 0, documents, photos: 0 } : null;
 }

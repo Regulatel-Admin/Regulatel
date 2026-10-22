@@ -21,10 +21,12 @@ import type { GalleryAlbumSetting } from "@/types/siteSettings";
 import type { EstudioInvestigacion } from "@/data/estudiosInvestigacion";
 import type { HablaElReguladorInterview } from "@/data/hablaElRegulador";
 import type { Event } from "@/types/event";
+import type { ContentBlock } from "@/types/contentBlocks";
 import type { NavigationItem } from "@/data/navigation";
 import type { CustomPage } from "@/data/customPages";
 
 export type SiteEditNewsPreview = {
+  contentBlocks?: ContentBlock[];
   slug: string;
   title: string;
   excerpt: string;
@@ -35,6 +37,7 @@ export type SiteEditNewsPreview = {
 };
 
 export type SiteEditPreview = {
+  eventOrder?: string[];
   homeHero?: HomeHeroSetting;
   quickLinks?: QuickLinkSettingItem[];
   featuredCarousel?: FeaturedCarouselItemSetting[];
@@ -240,8 +243,18 @@ export function SiteEditProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const open = useCallback((next: SiteEditTarget) => {
+    if (next.kind === "evento" && next.id) {
+      setTarget(null);
+      navigate(`/eventos/${encodeURIComponent(next.id)}`);
+      return;
+    }
+    if (next.kind === "noticia") {
+      setTarget(null);
+      navigate(`/noticias/${next.slug ? encodeURIComponent(next.slug) : "nueva"}`);
+      return;
+    }
     setTarget(next);
-  }, []);
+  }, [navigate]);
 
   const close = useCallback(() => {
     setTarget(null);
@@ -310,6 +323,8 @@ export function SiteEditProvider({ children }: { children: ReactNode }) {
     if (!enabled) return;
     const onKey = (event: KeyboardEvent) => {
       if (!(event.ctrlKey || event.metaKey) || event.altKey) return;
+      const target = event.target;
+      if (target instanceof HTMLElement && target.closest('[contenteditable="true"], [contenteditable="plaintext-only"], input, textarea')) return;
       const key = event.key.toLowerCase();
       const isUndo = key === "z" && !event.shiftKey;
       const isRedo = key === "y" || (key === "z" && event.shiftKey);

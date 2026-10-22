@@ -24,6 +24,7 @@ const ALLOWED_KEYS = [
   "revista_digital",
   "home_announcements",
   "hero_announce_order",
+  "event_order",
   "estudios_investigacion",
   "habla_el_regulador",
   "custom_pages",

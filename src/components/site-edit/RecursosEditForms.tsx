@@ -8,6 +8,7 @@ import { slugify } from "@/lib/slugify";
 import { extractYoutubeId } from "@/lib/youtube";
 import { useDraftHistory } from "@/hooks/useDraftHistory";
 import { usePreviewSync } from "@/hooks/usePreviewSync";
+import { useSettingRemoval } from "@/hooks/useSettingRemoval";
 import { AdminBlobUploadField } from "@/components/admin/AdminBlobUploadField";
 import AdminSlideshowField from "@/components/admin/AdminSlideshowField";
 import { NotifySubscribersButton } from "@/components/admin/NotifySubscribersOption";
@@ -144,6 +145,18 @@ export function ConvenioForm({ slug }: { slug?: string }) {
   }, [allEntries, row, removed]);
 
   const captureBaseline = usePreviewSync("convenios", previewList);
+
+  const { remove, removing } = useSettingRemoval({
+    settingsKey: CONVENIOS_SETTINGS_KEY,
+    previewKey: "convenios",
+    label: "convenio",
+    fallbackValue: { items: conveniosList ?? defaultConvenios },
+    removeFromValue: (value) => ({ ...value, items: value.items.filter((entry) => entry.slug !== row.slug) }),
+    saving,
+    setSaving,
+    setError,
+    onRemoved: () => setRemoved(true),
+  });
 
   const save = async () => {
     if (!removed && !row.title.trim() && !row.acronym.trim()) {
@@ -302,16 +315,13 @@ export function ConvenioForm({ slug }: { slug?: string }) {
         extra={
           <button
             type="button"
-            onClick={() => {
-              setRemoved(true);
-              setAllEntries((prev) => prev.filter((c) => c.slug !== row.slug));
-              setPublished(false);
-            }}
-            className="inline-flex items-center gap-1.5 rounded-xl border bg-white px-3 py-2.5 text-sm font-semibold text-red-700"
+            onClick={() => void remove()}
+            disabled={saving}
+            className="inline-flex items-center gap-1.5 rounded-xl border bg-white px-3 py-2.5 text-sm font-semibold text-red-700 disabled:opacity-60"
             style={{ borderColor: "rgba(22,61,89,0.14)" }}
           >
             <Trash2 className="h-4 w-4" />
-            Quitar
+            {removing ? "Quitando…" : "Quitar"}
           </button>
         }
       />
@@ -370,6 +380,18 @@ export function AlbumForm({ slug }: { slug?: string }) {
   }, [allEntries, row, removed]);
 
   const captureBaseline = usePreviewSync("galleryAlbums", previewList);
+
+  const { remove, removing } = useSettingRemoval({
+    settingsKey: "gallery_albums",
+    previewKey: "galleryAlbums",
+    label: "álbum",
+    fallbackValue: galleryAlbums ?? defaultAlbums(),
+    removeFromValue: (value) => value.filter((entry) => entry.slug !== row.slug),
+    saving,
+    setSaving,
+    setError,
+    onRemoved: () => setRemoved(true),
+  });
 
   const save = async () => {
     if (!removed && !row.title.trim()) {
@@ -474,16 +496,13 @@ export function AlbumForm({ slug }: { slug?: string }) {
         extra={
           <button
             type="button"
-            onClick={() => {
-              setRemoved(true);
-              setAllEntries((prev) => prev.filter((a) => a.slug !== row.slug));
-              setPublished(false);
-            }}
-            className="inline-flex items-center gap-1.5 rounded-xl border bg-white px-3 py-2.5 text-sm font-semibold text-red-700"
+            onClick={() => void remove()}
+            disabled={saving}
+            className="inline-flex items-center gap-1.5 rounded-xl border bg-white px-3 py-2.5 text-sm font-semibold text-red-700 disabled:opacity-60"
             style={{ borderColor: "rgba(22,61,89,0.14)" }}
           >
             <Trash2 className="h-4 w-4" />
-            Quitar
+            {removing ? "Quitando…" : "Quitar"}
           </button>
         }
       />
@@ -525,6 +544,23 @@ export function EstudioForm({ id }: { id?: string }) {
   }, [allEntries, row, removed]);
 
   const captureBaseline = usePreviewSync("estudios", previewList);
+
+  const { remove, removing } = useSettingRemoval({
+    settingsKey: ESTUDIOS_INVESTIGACION_SETTINGS_KEY,
+    previewKey: "estudios",
+    label: "estudio",
+    fallbackValue: { items: estudiosInvestigacion ?? defaultEstudiosInvestigacion },
+    removeFromValue: (value) => ({
+      ...(Array.isArray(value) ? {} : value),
+      items: (Array.isArray(value) ? value : value.items).filter(
+        (entry: EstudioInvestigacion, index: number) => (entry.id || `estudio-${index + 1}`) !== row.id,
+      ),
+    }),
+    saving,
+    setSaving,
+    setError,
+    onRemoved: () => setRemoved(true),
+  });
 
   const save = async () => {
     if (!removed && !row.title.trim()) {
@@ -621,16 +657,13 @@ export function EstudioForm({ id }: { id?: string }) {
         extra={
           <button
             type="button"
-            onClick={() => {
-              setRemoved(true);
-              setAllEntries((prev) => prev.filter((e) => e.id !== row.id));
-              setPublished(false);
-            }}
-            className="inline-flex items-center gap-1.5 rounded-xl border bg-white px-3 py-2.5 text-sm font-semibold text-red-700"
+            onClick={() => void remove()}
+            disabled={saving}
+            className="inline-flex items-center gap-1.5 rounded-xl border bg-white px-3 py-2.5 text-sm font-semibold text-red-700 disabled:opacity-60"
             style={{ borderColor: "rgba(22,61,89,0.14)" }}
           >
             <Trash2 className="h-4 w-4" />
-            Quitar
+            {removing ? "Quitando…" : "Quitar"}
           </button>
         }
       />
@@ -684,6 +717,23 @@ export function EntrevistaForm({ slug }: { slug?: string }) {
   }, [allEntries, row, removed]);
 
   const captureBaseline = usePreviewSync("entrevistas", previewList);
+
+  const { remove, removing } = useSettingRemoval({
+    settingsKey: HABLA_EL_REGULADOR_SETTINGS_KEY,
+    previewKey: "entrevistas",
+    label: "entrevista",
+    fallbackValue: { interviews: hablaElRegulador ?? defaultHablaInterviews },
+    removeFromValue: (value) => ({
+      ...(Array.isArray(value) ? {} : value),
+      interviews: (Array.isArray(value) ? value : value.interviews).filter(
+        (entry: HablaElReguladorInterview) => entry.slug !== row.slug,
+      ),
+    }),
+    saving,
+    setSaving,
+    setError,
+    onRemoved: () => setRemoved(true),
+  });
 
   const save = async () => {
     if (!removed && !row.name.trim()) {
@@ -899,16 +949,13 @@ export function EntrevistaForm({ slug }: { slug?: string }) {
         extra={
           <button
             type="button"
-            onClick={() => {
-              setRemoved(true);
-              setAllEntries((prev) => prev.filter((e) => e.slug !== row.slug));
-              setPublished(false);
-            }}
-            className="inline-flex items-center gap-1.5 rounded-xl border bg-white px-3 py-2.5 text-sm font-semibold text-red-700"
+            onClick={() => void remove()}
+            disabled={saving}
+            className="inline-flex items-center gap-1.5 rounded-xl border bg-white px-3 py-2.5 text-sm font-semibold text-red-700 disabled:opacity-60"
             style={{ borderColor: "rgba(22,61,89,0.14)" }}
           >
             <Trash2 className="h-4 w-4" />
-            Quitar
+            {removing ? "Quitando…" : "Quitar"}
           </button>
         }
       />

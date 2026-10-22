@@ -11,6 +11,7 @@ import EventAttachmentsField from "@/components/admin/EventAttachmentsField";
 import type { EventAttachment } from "@/types/event";
 import { noticiasData } from "@/pages/noticiasData";
 import { resolveNewsAttachments } from "@/data/semanaRegulatel2026";
+import { useSiteEdit } from "@/contexts/SiteEditContext";
 
 const emptyItem: Omit<AdminNewsItem, "id"> = {
   slug: "",
@@ -93,7 +94,8 @@ type AuditEntry = {
 };
 
 export default function AdminNoticias() {
-  const { adminNews, addNews, updateNews, deleteNews } = useAdminData();
+  const { adminNews, addNews, updateNews } = useAdminData();
+  const { enter: enterSiteEdit } = useSiteEdit();
   const listedNews = useMemo(() => {
     const dbSlugs = new Set(adminNews.map((n) => (n.slug || n.id).toLowerCase()));
     const staticOnly = noticiasData
@@ -326,8 +328,7 @@ export default function AdminNoticias() {
         <button
           type="button"
           onClick={() => {
-            setAdding(true);
-            setForm(initialFormState());
+            enterSiteEdit("/noticias/nueva");
           }}
           className="mb-6 flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold text-white"
           style={{ backgroundColor: "var(--regu-blue)" }}
@@ -733,7 +734,7 @@ export default function AdminNoticias() {
               )}
               <button
                 type="button"
-                onClick={() => startEdit(n)}
+                onClick={() => enterSiteEdit(`/noticias/${n.slug || n.id}`)}
                 className="rounded-lg p-2 transition hover:bg-slate-100"
                 aria-label="Editar"
               >
@@ -743,22 +744,21 @@ export default function AdminNoticias() {
               <button
                 type="button"
                 onClick={() => {
-                  if (!window.confirm("¿Eliminar esta noticia? Esta acción no se puede deshacer.")) return;
                   void (async () => {
                     try {
-                      await deleteNews(n.id);
-                      setSuccessMessage("Noticia eliminada.");
+                      await updateNews(n.id, { published: false });
+                      setSuccessMessage("Noticia despublicada.");
                     } catch (error) {
                       setFormError(
                         error instanceof Error
                           ? error.message
-                          : "No se pudo eliminar la noticia."
+                          : "No se pudo despublicar la noticia."
                       );
                     }
                   })();
                 }}
                 className="rounded-lg p-2 transition hover:bg-red-50"
-                aria-label="Eliminar"
+                aria-label="Despublicar"
               >
                 <Trash2 className="h-4 w-4" style={{ color: "var(--regu-salmon)" }} />
               </button>

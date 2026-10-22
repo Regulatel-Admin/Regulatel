@@ -24,6 +24,7 @@ CREATE TABLE IF NOT EXISTS news (
   video_url TEXT,
   published BOOLEAN DEFAULT true,
   attachments JSONB,
+  content_blocks JSONB,
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
@@ -36,6 +37,9 @@ CREATE INDEX IF NOT EXISTS idx_news_published ON news(published) WHERE published
 CREATE TABLE IF NOT EXISTS events (
   id TEXT PRIMARY KEY,
   title TEXT NOT NULL,
+  published BOOLEAN NOT NULL DEFAULT true,
+  content_blocks JSONB,
+  resources JSONB,
   organizer TEXT NOT NULL,
   location TEXT NOT NULL,
   start_date DATE NOT NULL,
@@ -242,5 +246,10 @@ CREATE INDEX IF NOT EXISTS idx_page_views_visitor_at ON page_views (visitor_id, 
 CREATE INDEX IF NOT EXISTS idx_page_views_path ON page_views (path);
 CREATE INDEX IF NOT EXISTS idx_page_views_country ON page_views (country);
 
+ALTER TABLE news ADD COLUMN IF NOT EXISTS content_blocks JSONB;
+
 ALTER TABLE events
+  ADD COLUMN IF NOT EXISTS published BOOLEAN NOT NULL DEFAULT true,
+  ADD COLUMN IF NOT EXISTS content_blocks JSONB,
+  ADD COLUMN IF NOT EXISTS resources JSONB,
   ADD COLUMN IF NOT EXISTS attachments JSONB DEFAULT '[]';

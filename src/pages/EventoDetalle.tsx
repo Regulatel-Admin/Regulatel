@@ -1,9 +1,12 @@
-import { SEMANA_RESOURCE_EVENTS } from "@/data/semanaRegulatelResources";
 import { SemanaRegulatelPage, hasSemanaResources } from "@/components/events/SemanaRegulatelResources";
 import { useState, useEffect } from "react";
 import { useParams, Link, Navigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { useEvents } from "@/contexts/AdminDataContext";
+import { useAdminData, useEvents } from "@/contexts/AdminDataContext";
+import { useSiteEdit } from "@/contexts/SiteEditContext";
+import EventPageEditor from "@/components/site-edit/EventPageEditor";
+import { EventEditableText, EventInlineBlocks, EventInlineDocuments } from "@/components/site-edit/EventInlineContent";
+import type { ReactNode } from "react";
 import { formatEventDateRange } from "@/types/event";
 import type { Event } from "@/types/event";
 import { Calendar, MapPin, Building2, ArrowRight, ArrowLeft, ExternalLink } from "lucide-react";
@@ -11,7 +14,6 @@ import { normalizeEvent } from "@/types/event";
 import { useLocalizedEvents, useLocalizedEvent } from "@/hooks/useLocalizedEvents";
 import { api } from "@/lib/api";
 import RegistrationOpenHint from "@/components/events/RegistrationOpenHint";
-import EventDocumentsSection from "@/components/events/EventDocumentsSection";
 import {
   SEMANA_REGULATEL_2026_ATTACHMENTS,
   SEMANA_REGULATEL_2026_EVENT_ID,
@@ -44,14 +46,17 @@ export default function EventoDetalle() {
   const { t, i18n } = useTranslation();
   const { id } = useParams<{ id: string }>();
   const eventsRaw = useEvents();
+  const { events: storedEvents, eventsLoaded, contentError } = useAdminData();
+  const { enabled: editing } = useSiteEdit();
   const events = useLocalizedEvents(eventsRaw);
-  const eventFromList = id ? events.find((e) => e.id === id) ?? SEMANA_RESOURCE_EVENTS.find((e) => e.id === id) : null;
+  const eventFromList = id ? (editing ? storedEvents.find(e => e.id === id) : undefined) ?? events.find((e) => e.id === id) : null;
   const [fetchedEvent, setFetchedEvent] = useState<Event | null>(null);
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
 
   useEffect(() => {
     if (!id) return;
+    if (!eventsLoaded) return;
     if (eventFromList) {
       setFetchedEvent(null);
       setNotFound(false);
@@ -64,7 +69,7 @@ export default function EventoDetalle() {
     api.events.get(id).then((res) => {
       if (cancelled) return;
       setLoading(false);
-      if (res.ok && res.data) {
+      if (res.ok && res.data && ((res.data as Event).published !== false || editing)) {
         setFetchedEvent(normalizeEvent(res.data as Event));
         setNotFound(false);
       } else {
@@ -75,7 +80,7 @@ export default function EventoDetalle() {
     return () => {
       cancelled = true;
     };
-  }, [id, eventFromList]);
+  }, [id, eventFromList, editing, eventsLoaded]);
 
   const eventRaw = eventFromList ?? fetchedEvent;
   const event = useLocalizedEvent(eventRaw);
@@ -83,6 +88,7 @@ export default function EventoDetalle() {
   if (!id) {
     return <Navigate to="/eventos" replace />;
   }
+  if (!eventsLoaded) return <div className="mx-auto max-w-3xl px-4 py-12" role="status">{contentError ? "No se pudo cargar el evento. Recarga la página para reintentar." : "Cargando evento…"}</div>;
   if (notFound || (!event && !loading)) {
     return <Navigate to="/eventos" replace />;
   }
@@ -97,22 +103,21 @@ export default function EventoDetalle() {
     );
   }
 
+  const renderEvent = (event: Event, editor?: ReactNode) => {
   const dateLabel = formatEventDateRange(event.startDate, event.endDate, i18n.language);
   const hasRegistrationUrl = Boolean(event.registrationUrl?.trim());
   const isUpcoming = event.status === "upcoming";
   const documents =
-    event.attachments && event.attachments.length > 0
+    event.attachments !== undefined
       ? event.attachments
       : isSemanaAsietEvent(event)
         ? SEMANA_REGULATEL_2026_ATTACHMENTS
         : [];
-  const bannerSrc = isSemanaAsietEvent(event)
-    ? SEMANA_REGULATEL_2026_IMAGE
-    : event.imageUrl?.trim() || "";
+  const bannerSrc = event.imageUrl !== undefined ? event.imageUrl.trim() : isSemanaAsietEvent(event) ? SEMANA_REGULATEL_2026_IMAGE : "";
   const pageMaxWidth = bannerSrc ? 1120 : 820;
 
-  if (hasSemanaResources(event.id)) {
-    return <SemanaRegulatelPage event={event} dateLabel={dateLabel} documents={documents} />;
+  if (hasSemanaResources(event.id, event.resources)) {
+    return <SemanaRegulatelPage event={event} dateLabel={dateLabel} documents={documents} editor={editor} />;
   }
 
   return (
@@ -170,7 +175,7 @@ export default function EventoDetalle() {
                 fontFamily: "var(--token-font-heading)",
               }}
             >
-              {event.title}
+              <EventEditableText field="title" label="Título del evento">{event.title}</EventEditableText>
             </h1>
 
             <div className="flex flex-wrap items-center justify-between gap-4">
@@ -193,7 +198,7 @@ export default function EventoDetalle() {
               ) : null}
             </div>
 
-            {bannerSrc ? (
+            {!editor && bannerSrc ? (
               <div
                 className="mt-6 -mx-6 overflow-hidden md:-mx-8"
                 style={{ backgroundColor: "#E7F1FA" }}
@@ -207,7 +212,7 @@ export default function EventoDetalle() {
               </div>
             ) : null}
 
-            {event.description && (
+            {!editor && (event.description || editing) && (
               <div
                 className="mt-6 border-t pt-6"
                 style={{ borderColor: "rgba(22,61,89,0.08)" }}
@@ -219,12 +224,12 @@ export default function EventoDetalle() {
                   {t("pages.eventos.descriptionLabel")}
                 </h2>
                 <p className="text-base leading-relaxed" style={{ color: "var(--regu-gray-700)" }}>
-                  {event.description}
+                  <EventEditableText field="description" label="Descripción del evento">{event.description}</EventEditableText>
                 </p>
               </div>
             )}
 
-            <EventDocumentsSection documents={documents} />
+            {editor ?? <><EventInlineBlocks event={event} /><EventInlineDocuments documents={documents} /></>}
 
             <div className="mt-8 flex flex-wrap items-center gap-4">
               {isUpcoming && hasRegistrationUrl ? (
@@ -272,4 +277,6 @@ export default function EventoDetalle() {
       </div>
     </div>
   );
+  };
+  return <EventPageEditor key={event.id} event={editing ? eventRaw ?? event : event}>{(draft, editor) => renderEvent(draft, editor)}</EventPageEditor>;
 }

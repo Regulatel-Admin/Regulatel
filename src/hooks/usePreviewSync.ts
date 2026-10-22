@@ -37,9 +37,10 @@ export function usePreviewSync<K extends keyof SiteEditPreview>(
     setPreview({ [key]: value } as Partial<SiteEditPreview>);
   }, [enabled, ready, key, value, setPreview, clearPreview]);
 
-  const captureBaseline = useCallback(() => {
-    if (valueRef.current === undefined) return;
-    baselineRef.current = JSON.stringify(valueRef.current);
+  const captureBaseline = useCallback((savedValue?: SiteEditPreview[K]) => {
+    const baseline = savedValue ?? valueRef.current;
+    if (baseline === undefined) return;
+    baselineRef.current = JSON.stringify(baseline);
   }, []);
 
   return captureBaseline;

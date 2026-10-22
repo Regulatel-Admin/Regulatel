@@ -7,6 +7,8 @@ import { ensureAdmin } from "../lib/adminAuth.js";
 import { logAudit } from "../lib/auditLog.js";
 import { parseJsonBody } from "../lib/parseBody.js";
 import { isDbConfigured } from "../lib/db.js";
+import { parseContentBlocks } from "../../src/types/contentBlocks.js";
+import { parseEventResources } from "../../src/types/event.js";
 
 function sendJson(res: ServerResponse, status: number, data: unknown) {
   res.setHeader("Content-Type", "application/json");
@@ -78,6 +80,9 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
           registrationUrl: typeof body.registrationUrl === "string" ? body.registrationUrl : null,
           detailsUrl: typeof body.detailsUrl === "string" ? body.detailsUrl : null,
           isFeatured: body.isFeatured === true,
+          published: body.published !== false,
+          contentBlocks: parseContentBlocks(body.contentBlocks),
+          resources: parseEventResources(body.resources),
           tags: Array.isArray(body.tags) ? (body.tags as string[]) : [],
           description: typeof body.description === "string" ? body.description : undefined,
           imageUrl: typeof body.imageUrl === "string" ? body.imageUrl : undefined,
@@ -126,6 +131,9 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
         registrationUrl: body.registrationUrl !== undefined ? (body.registrationUrl === null ? null : (typeof body.registrationUrl === "string" ? body.registrationUrl : undefined)) : undefined,
         detailsUrl: body.detailsUrl !== undefined ? (body.detailsUrl === null ? null : (typeof body.detailsUrl === "string" ? body.detailsUrl : undefined)) : undefined,
         isFeatured: typeof body.isFeatured === "boolean" ? body.isFeatured : undefined,
+        published: typeof body.published === "boolean" ? body.published : undefined,
+        contentBlocks: parseContentBlocks(body.contentBlocks),
+        resources: parseEventResources(body.resources),
         tags: Array.isArray(body.tags) ? (body.tags as string[]) : undefined,
         description: typeof body.description === "string" ? body.description : undefined,
         imageUrl: typeof body.imageUrl === "string" ? body.imageUrl : undefined,

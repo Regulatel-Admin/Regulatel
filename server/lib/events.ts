@@ -1,4 +1,6 @@
 import { getDb } from "./db.js";
+import { parseContentBlocks, type ContentBlock } from "../../src/types/contentBlocks.js";
+import { parseEventResources, type EventResources } from "../../src/types/event.js";
 
 export interface EventAttachment {
   id: string;
@@ -21,6 +23,9 @@ export interface EventRow {
   registration_url: string | null;
   details_url: string | null;
   is_featured: boolean;
+  published: boolean;
+  content_blocks: unknown;
+  resources: unknown;
   tags: string[];
   description: string | null;
   image_url: string | null;
@@ -30,6 +35,21 @@ export interface EventRow {
   attachments: unknown;
   created_at: string;
   updated_at: string;
+}
+
+let publicationSchemaReady: Promise<void> | undefined;
+async function ensurePublicationSchema(): Promise<void> {
+  publicationSchemaReady ??= (async () => {
+    const sql = getDb();
+    await sql`ALTER TABLE events
+      ADD COLUMN IF NOT EXISTS published BOOLEAN NOT NULL DEFAULT true,
+      ADD COLUMN IF NOT EXISTS content_blocks JSONB,
+      ADD COLUMN IF NOT EXISTS resources JSONB`;
+  })().catch((error) => {
+    publicationSchemaReady = undefined;
+    throw error;
+  });
+  await publicationSchemaReady;
 }
 
 /**
@@ -92,6 +112,9 @@ function rowToEvent(r: EventRow) {
     registrationUrl: r.registration_url,
     detailsUrl: r.details_url,
     isFeatured: r.is_featured,
+    published: r.published !== false,
+    contentBlocks: parseContentBlocks(r.content_blocks),
+    resources: parseEventResources(r.resources),
     tags: Array.isArray(r.tags) ? r.tags : [],
     description: r.description ?? undefined,
     imageUrl: r.image_url ?? undefined,
@@ -105,10 +128,11 @@ function rowToEvent(r: EventRow) {
 }
 
 export async function listEvents(): Promise<ReturnType<typeof rowToEvent>[]> {
+  await ensurePublicationSchema();
   const sql = getDb();
   const rows = await sql<EventRow[]>`
     SELECT id, title, organizer, location, start_date, end_date, year, status,
-           registration_url, details_url, is_featured, tags, description, image_url,
+           registration_url, details_url, is_featured, published, content_blocks, resources, tags, description, image_url,
            image_file_name, image_mime_type, image_size, attachments,
            created_at, updated_at
     FROM events
@@ -118,10 +142,11 @@ export async function listEvents(): Promise<ReturnType<typeof rowToEvent>[]> {
 }
 
 export async function getEventById(id: string): Promise<ReturnType<typeof rowToEvent> | null> {
+  await ensurePublicationSchema();
   const sql = getDb();
   const [row] = await sql<EventRow[]>`
     SELECT id, title, organizer, location, start_date, end_date, year, status,
-           registration_url, details_url, is_featured, tags, description, image_url,
+           registration_url, details_url, is_featured, published, content_blocks, resources, tags, description, image_url,
            image_file_name, image_mime_type, image_size, attachments,
            created_at, updated_at
     FROM events WHERE id = ${id}
@@ -141,6 +166,9 @@ export interface CreateEventInput {
   registrationUrl?: string | null;
   detailsUrl?: string | null;
   isFeatured: boolean;
+  published?: boolean;
+  contentBlocks?: ContentBlock[];
+  resources?: EventResources;
   tags: string[];
   description?: string;
   imageUrl?: string;
@@ -151,26 +179,29 @@ export interface CreateEventInput {
 }
 
 export async function createEvent(input: CreateEventInput): Promise<ReturnType<typeof rowToEvent>> {
+  await ensurePublicationSchema();
   const sql = getDb();
   const now = new Date().toISOString();
   const attachments = parseAttachments(input.attachments);
   const [row] = await sql<EventRow[]>`
     INSERT INTO events (
       id, title, organizer, location, start_date, end_date, year, status,
-      registration_url, details_url, is_featured, tags, description, image_url,
+      registration_url, details_url, is_featured, published, content_blocks, resources, tags, description, image_url,
       image_file_name, image_mime_type, image_size, attachments,
       created_at, updated_at
     ) VALUES (
       ${input.id}, ${input.title}, ${input.organizer}, ${input.location},
       ${input.startDate}::date, ${input.endDate ?? null}::date, ${input.year}, ${input.status},
-      ${input.registrationUrl ?? null}, ${input.detailsUrl ?? null}, ${input.isFeatured},
+      ${input.registrationUrl ?? null}, ${input.detailsUrl ?? null}, ${input.isFeatured}, ${input.published !== false},
+      ${input.contentBlocks === undefined ? null : JSON.stringify(parseContentBlocks(input.contentBlocks))}::jsonb,
+      ${input.resources === undefined ? null : JSON.stringify(parseEventResources(input.resources))}::jsonb,
       ${JSON.stringify(input.tags)}::jsonb, ${input.description ?? null}, ${input.imageUrl ?? null},
       ${input.imageFileName ?? null}, ${input.imageMimeType ?? null}, ${input.imageSize ?? null},
       ${JSON.stringify(attachments)}::jsonb,
       ${now}::timestamptz, ${now}::timestamptz
     )
     RETURNING id, title, organizer, location, start_date, end_date, year, status,
-              registration_url, details_url, is_featured, tags, description, image_url,
+              registration_url, details_url, is_featured, published, content_blocks, resources, tags, description, image_url,
               image_file_name, image_mime_type, image_size, attachments,
               created_at, updated_at
   `;
@@ -194,6 +225,9 @@ export async function updateEvent(
     registrationUrl: input.registrationUrl !== undefined ? input.registrationUrl : existing.registrationUrl,
     detailsUrl: input.detailsUrl !== undefined ? input.detailsUrl : existing.detailsUrl,
     isFeatured: input.isFeatured ?? existing.isFeatured,
+    published: input.published ?? existing.published,
+    contentBlocks: input.contentBlocks !== undefined ? parseContentBlocks(input.contentBlocks) : existing.contentBlocks,
+    resources: input.resources !== undefined ? parseEventResources(input.resources) : existing.resources,
     tags: input.tags ?? existing.tags,
     description: input.description !== undefined ? input.description : existing.description,
     imageUrl: input.imageUrl !== undefined ? input.imageUrl : existing.imageUrl,
@@ -212,16 +246,18 @@ export async function updateEvent(
       start_date = ${merged.startDate}::date, end_date = ${merged.endDate ?? null}::date,
       year = ${merged.year}, status = ${merged.status},
       registration_url = ${merged.registrationUrl ?? null}, details_url = ${merged.detailsUrl ?? null},
-      is_featured = ${merged.isFeatured}, tags = ${JSON.stringify(merged.tags)}::jsonb,
+      is_featured = ${merged.isFeatured}, published = ${merged.published}, tags = ${JSON.stringify(merged.tags)}::jsonb,
       description = ${merged.description ?? null}, image_url = ${merged.imageUrl ?? null},
       image_file_name = ${merged.imageFileName ?? null},
       image_mime_type = ${merged.imageMimeType ?? null},
       image_size = ${merged.imageSize ?? null},
       attachments = ${JSON.stringify(merged.attachments)}::jsonb,
+      content_blocks = ${merged.contentBlocks === undefined ? null : JSON.stringify(merged.contentBlocks)}::jsonb,
+      resources = ${merged.resources === undefined ? null : JSON.stringify(merged.resources)}::jsonb,
       updated_at = ${now}::timestamptz
     WHERE id = ${id}
     RETURNING id, title, organizer, location, start_date, end_date, year, status,
-              registration_url, details_url, is_featured, tags, description, image_url,
+              registration_url, details_url, is_featured, published, content_blocks, resources, tags, description, image_url,
               image_file_name, image_mime_type, image_size, attachments,
               created_at, updated_at
   `;

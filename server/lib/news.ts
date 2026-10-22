@@ -1,4 +1,5 @@
 import { getDb } from "./db.js";
+import { parseContentBlocks, type ContentBlock } from "../../src/types/contentBlocks.js";
 
 export interface NewsAttachment {
   id: string;
@@ -34,6 +35,7 @@ export interface NewsRow {
   video_url: string | null;
   published: boolean;
   attachments: unknown;
+  content_blocks: unknown;
   created_at: string;
   updated_at: string;
 }
@@ -45,6 +47,7 @@ async function ensureNewsAttachmentsColumn() {
     attachmentsColumnReady = (async () => {
       const sql = getDb();
       await sql`ALTER TABLE news ADD COLUMN IF NOT EXISTS attachments JSONB`;
+      await sql`ALTER TABLE news ADD COLUMN IF NOT EXISTS content_blocks JSONB`;
     })().catch((err) => {
       attachmentsColumnReady = null;
       throw err;
@@ -118,6 +121,7 @@ function rowToItem(r: NewsRow) {
     videoUrl: r.video_url ?? undefined,
     published: r.published,
     attachments: parseAttachments(r.attachments),
+    contentBlocks: parseContentBlocks(r.content_blocks),
   };
 }
 
@@ -128,7 +132,7 @@ export async function listNews(): Promise<ReturnType<typeof rowToItem>[]> {
     SELECT id, slug, title, date, date_formatted, category, excerpt,
            image_url, image_file_name, image_mime_type, image_size,
            additional_images, additional_image_names, additional_image_meta,
-           body, author, link, video_url, published, attachments, created_at, updated_at
+           body, author, link, video_url, published, attachments, content_blocks, created_at, updated_at
     FROM news
     ORDER BY date DESC
   `;
@@ -142,7 +146,7 @@ export async function getNewsById(id: string): Promise<ReturnType<typeof rowToIt
     SELECT id, slug, title, date, date_formatted, category, excerpt,
            image_url, image_file_name, image_mime_type, image_size,
            additional_images, additional_image_names, additional_image_meta,
-           body, author, link, video_url, published, attachments, created_at, updated_at
+           body, author, link, video_url, published, attachments, content_blocks, created_at, updated_at
     FROM news WHERE id = ${id}
   `;
   return row ? rowToItem(row) : null;
@@ -173,6 +177,7 @@ export interface CreateNewsInput {
   videoUrl?: string;
   published: boolean;
   attachments?: NewsAttachment[];
+  contentBlocks?: ContentBlock[];
 }
 
 function attachmentsJson(value: NewsAttachment[] | undefined): string | null {
@@ -190,7 +195,7 @@ export async function createNews(input: CreateNewsInput): Promise<ReturnType<typ
       id, slug, title, date, date_formatted, category, excerpt,
       image_url, image_file_name, image_mime_type, image_size,
       additional_images, additional_image_names, additional_image_meta,
-      body, author, link, video_url, published, attachments, created_at, updated_at
+      body, author, link, video_url, published, attachments, content_blocks, created_at, updated_at
     ) VALUES (
       ${input.id}, ${input.slug}, ${input.title}, ${input.date}, ${input.dateFormatted},
       ${input.category}, ${input.excerpt}, ${input.imageUrl}, ${input.imageFileName ?? null},
@@ -198,12 +203,14 @@ export async function createNews(input: CreateNewsInput): Promise<ReturnType<typ
       ${sql.json(input.additionalImages ?? [])}, ${sql.json((input.additionalImageNames ?? []).map((name) => name ?? null))},
       ${sql.json(input.additionalImageMeta ?? [])},
       ${input.body}, ${input.author ?? null}, ${input.link ?? null}, ${input.videoUrl ?? null},
-      ${input.published}, ${attachmentsJson(attachments)}::jsonb, ${now}::timestamptz, ${now}::timestamptz
+      ${input.published}, ${attachmentsJson(attachments)}::jsonb,
+      ${input.contentBlocks === undefined ? null : JSON.stringify(input.contentBlocks)}::jsonb,
+      ${now}::timestamptz, ${now}::timestamptz
     )
     RETURNING id, slug, title, date, date_formatted, category, excerpt,
               image_url, image_file_name, image_mime_type, image_size,
               additional_images, additional_image_names, additional_image_meta,
-              body, author, link, video_url, published, attachments, created_at, updated_at
+              body, author, link, video_url, published, attachments, content_blocks, created_at, updated_at
   `;
   return rowToItem(row);
 }
@@ -235,6 +242,7 @@ export async function updateNews(
     link: input.link !== undefined ? input.link : existing.link,
     videoUrl: input.videoUrl !== undefined ? input.videoUrl : existing.videoUrl,
     published: input.published ?? existing.published,
+    contentBlocks: input.contentBlocks ?? existing.contentBlocks,
   };
   const sql = getDb();
   const now = new Date().toISOString();
@@ -250,12 +258,13 @@ export async function updateNews(
       body = ${merged.body}, author = ${merged.author ?? null}, link = ${merged.link ?? null},
       video_url = ${merged.videoUrl ?? null}, published = ${merged.published},
       attachments = ${attachmentsJson(mergedAttachments)}::jsonb,
+      content_blocks = ${merged.contentBlocks === undefined ? null : JSON.stringify(merged.contentBlocks)}::jsonb,
       updated_at = ${now}::timestamptz
     WHERE id = ${id}
     RETURNING id, slug, title, date, date_formatted, category, excerpt,
               image_url, image_file_name, image_mime_type, image_size,
               additional_images, additional_image_names, additional_image_meta,
-              body, author, link, video_url, published, attachments, created_at, updated_at
+              body, author, link, video_url, published, attachments, content_blocks, created_at, updated_at
   `;
   return row ? rowToItem(row) : null;
 }

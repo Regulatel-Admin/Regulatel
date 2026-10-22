@@ -1,7 +1,7 @@
 import { useState, type ReactNode } from "react";
 import { Send, Trash2 } from "lucide-react";
 import { useSiteEdit } from "@/contexts/SiteEditContext";
-import { useAdminData } from "@/contexts/AdminDataContext";
+import { useAdminData, useEvents } from "@/contexts/AdminDataContext";
 import { notifyCmsSaved, cloneJson } from "@/lib/siteEdit";
 import { useDraftHistory } from "@/hooks/useDraftHistory";
 import { usePreviewSync } from "@/hooks/usePreviewSync";
@@ -76,16 +76,28 @@ function withDerivedDates(row: Event, startDate: string, endDate: string | null)
 }
 
 export function EventoForm({ id }: { id?: string }) {
+  const { events, contentSource } = useAdminData();
+  const visibleEvents = useEvents();
+  if (contentSource === "loading") return <p role="status">Cargando evento…</p>;
+  const seed = events.find((event) => event.id === id) ?? visibleEvents.find((event) => event.id === id);
+  if (id && !seed) {
+    return <p role="alert">No se encontró este evento. Recarga el listado antes de editarlo.</p>;
+  }
+  return <LoadedEventoForm key={id ?? "new-evento"} id={id} seed={seed} />;
+}
+
+function LoadedEventoForm({ id, seed }: { id?: string; seed?: Event }) {
   const { events, addEvent, updateEvent, deleteEvent } = useAdminData();
-  const { recordPersistedChange, clearPreview } = useSiteEdit();
+  const { recordPersistedChange, clearPreview, close } = useSiteEdit();
   const [savedId, setSavedId] = useState(id);
-  const existing = events.find((e) => e.id === (savedId ?? id));
+  const storedEvent = events.find((e) => e.id === (savedId ?? id));
+  const existing = storedEvent ?? seed;
 
   const { value: row, setValue: setRow } = useDraftHistory<Event>(() =>
     existing ? { ...existing } : emptyEvento(),
   );
 
-  const [removed, setRemoved] = useState(false);
+  const [removed, setRemoved] = useState(existing?.published === false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [published, setPublished] = useState(false);
@@ -95,39 +107,56 @@ export function EventoForm({ id }: { id?: string }) {
   const previewEvent = removed ? undefined : normalizeEvent(row);
   const captureBaseline = usePreviewSync("evento", previewEvent, !removed);
 
-  const save = async () => {
-    if (removed) {
-      if (!existing) {
-        clearPreview("evento");
-        return;
-      }
-      setSaving(true);
-      setError(null);
-      const before = cloneJson(existing);
-      try {
-        await deleteEvent(existing.id);
-        recordPersistedChange({
-          label: "evento",
-          undo: async () => {
-            await addEvent({ ...before, id: before.id });
-            notifyCmsSaved("events");
-          },
-          redo: async () => {
-            await deleteEvent(before.id);
-            notifyCmsSaved("events");
-          },
-        });
-        notifyCmsSaved("events");
-        captureBaseline();
-        clearPreview("evento");
-        setPublished(true);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : "No se pudo quitar el evento.");
-      } finally {
-        setSaving(false);
-      }
+  const remove = async () => {
+    if (saving || removed) return;
+    if (!existing) {
+      captureBaseline();
+      clearPreview("evento");
+      close();
       return;
     }
+    setSaving(true);
+    setError(null);
+    const before = cloneJson(existing);
+    try {
+      if (storedEvent && existing) {
+        await updateEvent(before.id, { published: false });
+      } else {
+        // A CMS override also suppresses the static fallback after a reload.
+        await addEvent({ ...before, published: false });
+        setSavedId(before.id);
+      }
+      recordPersistedChange({
+        label: "retirar evento",
+        undo: async () => {
+          await updateEvent(before.id, { published: before.published !== false });
+          notifyCmsSaved("events");
+          setRemoved(before.published === false);
+          setPublished(false);
+        },
+        redo: async () => {
+          await updateEvent(before.id, { published: false });
+          notifyCmsSaved("events");
+          setRemoved(true);
+          setPublishedNote("Evento despublicado. Sus datos y documentos se conservan.");
+          setPublished(true);
+        },
+      });
+      captureBaseline();
+      clearPreview("evento");
+      setRemoved(true);
+      setPublishedNote("Evento despublicado. Sus datos y documentos se conservan.");
+      setPublished(true);
+      notifyCmsSaved("events");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "No se pudo despublicar el evento.");
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const save = async () => {
+    if (saving) return;
 
     if (!row.title.trim()) {
       setError("El evento necesita un título.");
@@ -163,6 +192,7 @@ export function EventoForm({ id }: { id?: string }) {
       registrationUrl: registrationUrl || null,
       detailsUrl: detailsUrl || null,
       isFeatured: row.isFeatured,
+      published: true,
       description: row.description?.trim() || undefined,
       tags: row.tags ?? [],
       imageUrl: imageUrl || undefined,
@@ -172,7 +202,7 @@ export function EventoForm({ id }: { id?: string }) {
     setSaving(true);
     setError(null);
     try {
-      if (existing) {
+      if (storedEvent && existing) {
         const before = {
           title: existing.title,
           organizer: existing.organizer,
@@ -182,6 +212,7 @@ export function EventoForm({ id }: { id?: string }) {
           registrationUrl: existing.registrationUrl,
           detailsUrl: existing.detailsUrl,
           isFeatured: existing.isFeatured,
+          published: existing.published !== false,
           description: existing.description,
           tags: existing.tags,
           imageUrl: existing.imageUrl,
@@ -201,8 +232,8 @@ export function EventoForm({ id }: { id?: string }) {
         });
         setRow(normalizeEvent({ ...existing, ...payload, year }));
       } else {
-        const nextId = slugifyEventId(payload.title, year);
-        await addEvent({ ...payload, id: nextId });
+        const nextId = existing?.id ?? slugifyEventId(payload.title, year);
+        await addEvent({ ...existing, ...payload, id: nextId });
         setSavedId(nextId);
         recordPersistedChange({
           label: "evento",
@@ -220,6 +251,7 @@ export function EventoForm({ id }: { id?: string }) {
       notifyCmsSaved("events");
       captureBaseline();
       clearPreview("evento");
+      setRemoved(false);
       setPublishedNote("Ya está en el sitio público.");
       setPublished(true);
     } catch (err) {
@@ -402,20 +434,17 @@ export function EventoForm({ id }: { id?: string }) {
             style={{ backgroundColor: "var(--regu-blue)" }}
           >
             <Send className="h-4 w-4" />
-            {saving ? "Publicando…" : published ? "Publicar otra vez" : removed ? "Quitar del sitio" : "Publicar"}
+            {saving ? "Guardando…" : removed ? "Volver a publicar" : published ? "Publicar otra vez" : "Publicar"}
           </button>
           <button
             type="button"
-            onClick={() => {
-              setRemoved(true);
-              setPublished(false);
-              if (isNew) clearPreview("evento");
-            }}
-            className="inline-flex items-center gap-1.5 rounded-xl border bg-white px-3 py-2.5 text-sm font-semibold text-red-700"
+            onClick={() => void remove()}
+            disabled={saving || removed}
+            className="inline-flex items-center gap-1.5 rounded-xl border bg-white px-3 py-2.5 text-sm font-semibold text-red-700 disabled:opacity-60"
             style={{ borderColor: "rgba(22,61,89,0.14)" }}
           >
             <Trash2 className="h-4 w-4" />
-            Quitar
+            {removed ? "Despublicado" : isNew ? "Descartar" : "Quitar"}
           </button>
         </div>
       </div>
