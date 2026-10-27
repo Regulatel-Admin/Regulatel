@@ -100,7 +100,7 @@ export default function SemanaRegulatelResources({ id, resources: override, extr
         {(url || doc.comingSoon || inline) && <div className="se-file-actions" style={inline ? { flexWrap: "wrap", flexShrink: 1 } : undefined}>{(url || doc.comingSoon) && <button type="button" className="se-outline" onClick={() => setPreview({ title: doc.title, url, comingSoon: !url && doc.comingSoon })}>Ver programa<ArrowUpRight size={16}/></button>}{tools.replaceButton("programs", index)}{url && <a className="se-download" href={url} download aria-label={`Descargar programa: ${doc.title}`} title="Descargar documento"><Download size={18}/></a>}</div>}
       </article>;
     })}
-  </div>}</section>;
+  </div>}{inline && <div className="mt-5">{tools.addProgramButton}</div>}</section>;
 
   const documents = <section id="presentaciones" className="se-section" {...tools.sectionDragProps("documents")}><h2 className={inline ? "relative group" : undefined}>Documentos{tools.sectionTools("documents")}</h2>{data.documents.length > 0 && <div className="se-file-list">
     {data.documents.map((doc, index) => {
