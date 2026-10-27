@@ -995,7 +995,7 @@ function InlineNewsEditor({ initial }: { initial: AdminNewsItem }) {
   };
   const payload = normalizeAdminNoticia(row);
   return <article className="w-full" data-inline-news-editor>
-    <div className="sticky top-14 z-40 mb-7 flex flex-wrap items-center gap-3 rounded-xl border border-teal-200 bg-white/95 p-3 shadow-sm backdrop-blur">
+    <div role="region" aria-label="Acciones de la noticia" style={{ top: "var(--site-edit-bar-h, 3.25rem)" }} className="sticky z-50 mb-7 flex flex-wrap items-center gap-3 rounded-xl border border-teal-200 bg-white/95 p-3 shadow-sm backdrop-blur">
       <span className="mr-auto text-sm font-semibold text-teal-800">{JSON.stringify(row) !== baselineRow.current ? "Cambios sin publicar" : "Esta noticia"}</span>
       <button type="button" disabled={saving || uploadBusy} aria-pressed={previewMode} onClick={() => setPreviewMode(current => !current)} className="rounded-lg px-3 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-50">{previewMode ? "Editar" : "Vista previa"}</button>
       <SiteEditUndoRedo variant="drawer" />
