@@ -210,6 +210,7 @@ export function useEventResourceInlineTools(resources: EventResources, order: Re
   </div>;
   return {
     editing: Boolean(inline), itemTools, sectionTools, dialogs,
+    addDocumentButton: inline && <button type="button" disabled={busy} className="se-outline" onClick={() => edit("documents", null)}><Plus size={18} aria-hidden/>Agregar documento</button>,
     replacementInput: inline && <input ref={directFileInput} type="file" tabIndex={-1} disabled={busy} className="sr-only" aria-label="Reemplazo directo del archivo" onChange={event => void replaceDirectFile(event.target.files?.[0])}/>,
     replaceButton: (section: ResourceSection, index: number) => inline && <span className="inline-flex max-w-full flex-col items-start gap-1">
       <button type="button" disabled={busy} className="se-outline" title={`Reemplazar archivo del ${itemLabels[section]} ${index + 1}`} onClick={() => chooseDirectReplacement(section, index)}><Upload size={15}/>{uploading && directTarget.current?.section === section && directTarget.current.index === index ? "Subiendo…" : section === "photos" ? "Cambiar imagen" : "Reemplazar archivo"}</button>

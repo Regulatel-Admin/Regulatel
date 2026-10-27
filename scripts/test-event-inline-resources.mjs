@@ -188,6 +188,7 @@ await check("public and preview context returns no editing controls", async () =
   globalThis.__EVENT_RESOURCE_CONTEXT = null;
   const tools = renderTools();
   assert.equal(tools.editing, false);
+  assert.equal(tools.addDocumentButton, null);
   assert.equal(tools.itemTools("documents", 0), null);
   assert.equal(tools.sectionTools("programs"), null);
   assert.equal(tools.manageButton, null);
@@ -275,4 +276,15 @@ await check("failed manager replacement retains all resources", async () => {
   assert.deepEqual(busyEvents, [true, false]);
 });
 
-console.log(`${count} inline resource event checks passed: replacement success/failure, unchanged titles/descriptions/captions, stable identity, ordering, removal and public controls.`);
+await check("visible add button appends a titled document and preserves existing resources", async () => {
+  button(renderTools().addDocumentButton, "Agregar documento").props.onClick();
+  const title = nodes(renderTools().dialogs, item => item.type === "input" && item.props.type !== "file")[0];
+  title.props.onChange({ target: { value: "Nuevo documento de trabajo" } });
+  byLabel(renderTools().dialogs, "Archivo de reemplazo").props.onChange({ target: { files: [file] } });
+  await flush();
+  assert.deepEqual(resources, source);
+  button(renderTools().dialogs, "Aplicar").props.onClick();
+  assert.deepEqual(resources, { ...source, documents: [...source.documents, { title: "Nuevo documento de trabajo", url: "/replacement.pdf", description: "" }] });
+});
+
+console.log(`${count} inline resource event checks passed: addition, replacement success/failure, unchanged titles/descriptions/captions, stable identity, ordering, removal and public controls.`);
