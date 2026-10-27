@@ -3,7 +3,7 @@ import type { Event } from "@/types/event";
 
 export interface EventResourceDraft {
   target: { section: "programs" | "documents" | "photos"; index: number | null; original?: string };
-  draft: { title: string; url: string; description: string };
+  draft: { title: string; url: string; description: string; comingSoon?: boolean };
 }
 
 export interface EventInlineEditValue {

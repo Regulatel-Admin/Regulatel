@@ -14,7 +14,7 @@ const toolClass = "inline-flex h-6 w-6 items-center justify-center rounded bg-wh
 const actionClass = "inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 hover:border-teal-500 disabled:opacity-40";
 const fieldClass = "mt-1 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-800 outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-100";
 type Target = { section: ResourceSection; index: number | null; original?: string };
-type Draft = { title: string; url: string; description: string };
+type Draft = { title: string; url: string; description: string; comingSoon?: boolean };
 
 /** Small controls over the published resource rows; the form opens only on demand. */
 export function useEventResourceInlineTools(resources: EventResources, order: ResourceSection[]) {
@@ -83,13 +83,13 @@ export function useEventResourceInlineTools(resources: EventResources, order: Re
     if (busy) return;
     const item = index === null ? undefined : resourcesRef.current[section][index];
     setDraft(item && "src" in item ? { title: item.caption ?? "", url: item.src, description: "" }
-      : item ? { title: item.title, url: item.url, description: item.description ?? "" } : { title: "", url: "", description: "" });
+      : item ? { title: item.title, url: item.url, description: item.description ?? "", comingSoon: item.comingSoon } : { title: "", url: "", description: "" });
     setError(""); setTarget({ section, index, original: item ? JSON.stringify(item) : undefined });
   };
   const apply = () => {
     if (!target || !inline || busy) return;
     const url = safeContentUrl(draft.url);
-    if (!url) { setError("Añade un archivo o un enlace que empiece por https://, http:// o /."); return; }
+    if (!url && (target.section === "photos" || draft.url.trim())) { setError("Añade un archivo o un enlace que empiece por https://, http:// o /."); return; }
     if (target.section !== "photos" && !draft.title.trim()) { setError("Escribe el título del archivo."); return; }
     const current = resourcesRef.current;
     const items = current[target.section];
@@ -101,7 +101,8 @@ export function useEventResourceInlineTools(resources: EventResources, order: Re
       change({ ...current, photos: targetIndex === null ? [...current.photos, next] : current.photos.map((item, index) => index === targetIndex ? next : item) });
     } else {
       const section = target.section;
-      const next = { ...(targetIndex === null ? {} : current[section][targetIndex]), title: draft.title, url, description: draft.description };
+      const next = { ...(targetIndex === null ? {} : current[section][targetIndex]), title: draft.title, url, description: draft.description, comingSoon: Boolean(draft.comingSoon && !url) };
+      if (!next.comingSoon) delete (next as { comingSoon?: boolean }).comingSoon;
       change({ ...current, [section]: targetIndex === null ? [...current[section], next] : current[section].map((item, index) => index === targetIndex ? next : item) });
     }
     closeDialog();
@@ -196,11 +197,12 @@ export function useEventResourceInlineTools(resources: EventResources, order: Re
       <div className="mb-5 flex items-center justify-between gap-4"><h2 className="text-lg font-semibold text-slate-800">{manager ? "Administrar archivos" : target?.index === null ? `Añadir ${itemLabels[target.section]}` : "Editar archivo"}</h2><button type="button" disabled={busy} className={toolClass} aria-label="Cerrar edición del archivo" onClick={closeDialog}><X size={17}/></button></div>
       {manager ? <EventResourcesEditor value={resources} onChange={change} disabled={Boolean(inline.busy)} onBusyChange={inline.onBusyChange}/> : target && <>
         <div className="space-y-4"><label className="block text-sm text-slate-600">{target.section === "photos" ? "Descripción de la fotografía" : "Título"}<input autoFocus disabled={busy} className={fieldClass} value={draft.title} onChange={event => updateDialogDraft({ ...draft, title: event.target.value })}/></label>
-          <label className="block text-sm text-slate-600">Enlace<input disabled={busy} className={fieldClass} value={draft.url} onChange={event => updateDialogDraft({ ...draft, url: event.target.value })} placeholder="https://… o /…"/></label>
+          <label className="block text-sm text-slate-600">{target.section === "photos" ? "Enlace" : "Enlace (opcional)"}<input disabled={busy} className={fieldClass} value={draft.url} onChange={event => updateDialogDraft({ ...draft, url: event.target.value })} placeholder="https://… o /…"/></label>
           {target.section !== "photos" && <label className="block text-sm text-slate-600">Descripción<textarea disabled={busy} className={`${fieldClass} min-h-20`} value={draft.description} onChange={event => updateDialogDraft({ ...draft, description: event.target.value })}/></label>}
           <input ref={fileInput} type="file" tabIndex={-1} disabled={busy} accept={target.section === "photos" ? "image/jpeg,image/png,image/webp" : ".pdf,.doc,.docx,.xls,.xlsx"} className="sr-only" aria-label="Archivo de reemplazo" onChange={event => void replaceFile(event.target.files?.[0])}/>
-          <button type="button" disabled={busy} className={actionClass} onClick={() => fileInput.current?.click()}><Upload size={16}/>{uploading ? "Subiendo…" : target.index === null ? "Subir archivo" : "Reemplazar archivo"}</button>
+          <button type="button" disabled={busy} className={actionClass} onClick={() => fileInput.current?.click()}><Upload size={16}/>{uploading ? "Subiendo…" : (target.index === null || !draft.url) ? "Subir archivo" : "Reemplazar archivo"}</button>
         </div>
+        {target.section !== "photos" && <div className="mt-4"><button type="button" disabled={busy || (!draft.url && !draft.comingSoon)} className={actionClass} onClick={() => { updateDialogDraft({ ...draft, url: "", comingSoon: false }); setError(""); }}>Solo título, sin documento</button><button type="button" disabled={busy} className={`${actionClass} ml-2`} onClick={() => { updateDialogDraft({ ...draft, url: "", comingSoon: true }); setError(""); }}>Documento próximamente</button>{draft.comingSoon && !draft.url && <p className="mt-2 text-sm text-teal-800">El botón Abrir mostrará un aviso de próxima disponibilidad.</p>}{!draft.url && !draft.comingSoon && <p className="mt-2 text-sm text-teal-800">Se mostrará el título y, si la escribes, la descripción. Sin botones de abrir o descargar. Puedes volver a subir un archivo cuando quieras.</p>}</div>}
         {error && <p role="alert" className="mt-4 text-sm text-red-700">{error}</p>}
         <div className="mt-6 flex justify-end gap-2"><button type="button" disabled={busy} className={actionClass} onClick={closeDialog}>Cancelar</button><button type="button" disabled={busy} className={`${actionClass} border-teal-700 bg-teal-700 text-white`} onClick={apply}>Aplicar</button></div>
       </>}

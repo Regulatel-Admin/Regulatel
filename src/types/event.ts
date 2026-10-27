@@ -8,8 +8,8 @@ export type EventStatus = "upcoming" | "past";
 import { parseContentBlocks, safeContentUrl, type ContentBlock } from "./contentBlocks.js";
 
 export interface EventResources {
-  programs: { title: string; url: string; description?: string }[];
-  documents: { title: string; url: string; description?: string }[];
+  programs: { title: string; url: string; description?: string; comingSoon?: boolean }[];
+  documents: { title: string; url: string; description?: string; comingSoon?: boolean }[];
   photos: { src: string; caption?: string }[];
   survey: string;
   taxi: string;
@@ -25,7 +25,7 @@ export function parseEventResources(value: unknown): EventResources | undefined 
   const files = (items: unknown[]) => items.flatMap(item => {
     if (!item || typeof item !== "object") return [];
     const row = item as Record<string, unknown>;
-    return [{ title: typeof row.title === "string" ? row.title : "Documento", url: safeContentUrl(typeof row.url === "string" ? row.url : ""), description: typeof row.description === "string" ? row.description : undefined }];
+    return [{ ...(row.comingSoon === true ? { comingSoon: true } : {}), title: typeof row.title === "string" ? row.title : "Documento", url: safeContentUrl(typeof row.url === "string" ? row.url : ""), description: typeof row.description === "string" ? row.description : undefined }];
   });
   return {
     programs: files(data.programs), documents: files(data.documents),

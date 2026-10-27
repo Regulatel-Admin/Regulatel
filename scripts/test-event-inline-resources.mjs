@@ -106,6 +106,22 @@ async function check(name, run) {
   catch (error) { error.message = `${name}: ${error.message}`; throw error; }
 }
 
+await check("title-only rows retain title description and position without a document", async () => {
+  const before = structuredClone(resources);
+  byLabel(renderTools().itemTools("programs", 0), "Editar programa 1").props.onClick();
+  button(renderTools().dialogs, "Solo título, sin documento").props.onClick();
+  button(renderTools().dialogs, "Aplicar").props.onClick();
+  before.programs[0].url = "";
+  assert.deepEqual(resources, before);
+});
+
+await check("coming-soon choice preserves the row and persists its pending state", async () => {
+  byLabel(renderTools().itemTools("documents", 0), "Editar documento 1").props.onClick();
+  button(renderTools().dialogs, "Documento próximamente").props.onClick();
+  button(renderTools().dialogs, "Aplicar").props.onClick();
+  assert.deepEqual(resources.documents[0], { ...source.documents[0], url: "", comingSoon: true });
+});
+
 await check("inline replacement changes only the chosen URL after Apply", async () => {
   const before = structuredClone(resources);
   byLabel(renderTools().itemTools("documents", 1), "Editar documento 2").props.onClick();

@@ -368,6 +368,15 @@ try {
     assert.deepEqual(persisted.attachments, []);
   });
 
+  await check("title-only and coming-soon documents survive real SQL reload", async () => {
+    const resources = { programs: [{ title: "Solo título", url: "", description: "Conservada" }], documents: [{ title: "Pendiente", url: "", comingSoon: true }], photos: [], survey: "", taxi: "" };
+    assert.equal((await request("PATCH", { resources }, true, newEvent.id)).status, 200);
+    const fresh = (await request("GET", undefined, false, newEvent.id)).data;
+    assert.equal(fresh.resources.programs[0].title, "Solo título");
+    assert.equal(fresh.resources.programs[0].url, "");
+    assert.equal(fresh.resources.documents[0].comingSoon, true);
+  });
+
   console.log(`${checks.length} event publication checks passed: legacy migration, preserved content/attachments, durable publish cycles, creation defaults, structured resources/blocks, ordering, intentional removal, auth and audit.`);
   if (!process.argv.includes("--serve")) {
     await pg.close();

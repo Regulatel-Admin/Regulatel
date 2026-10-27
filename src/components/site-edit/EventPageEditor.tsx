@@ -73,7 +73,7 @@ export default function EventPageEditor({ event, children }: {
       if (published && row.attachments?.some(document => !safeContentUrl(document.url))) throw new Error("Completa el enlace de cada documento adjunto o quita la fila vacía.");
       if (published && row.resources) {
         const resources = row.resources;
-        if ([...resources.programs, ...resources.documents].some(document => !safeContentUrl(document.url)) || resources.photos.some(photo => !safeContentUrl(photo.src))) throw new Error("Completa los enlaces de los programas, documentos y fotografías o quita las filas vacías.");
+        if ([...resources.programs, ...resources.documents].some(document => !document.title.trim() || (document.url.trim() && !safeContentUrl(document.url))) || resources.photos.some(photo => !safeContentUrl(photo.src))) throw new Error("Completa los enlaces de los programas, documentos y fotografías o quita las filas vacías.");
         if ([resources.survey, resources.taxi].some(url => url && !safeContentUrl(url))) throw new Error("Revisa los enlaces de encuesta y transporte.");
       }
       for (const value of [payload.registrationUrl, payload.detailsUrl, payload.imageUrl]) {
