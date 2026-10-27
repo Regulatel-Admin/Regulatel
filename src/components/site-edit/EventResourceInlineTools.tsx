@@ -204,7 +204,7 @@ export function useEventResourceInlineTools(resources: EventResources, order: Re
         </div>
         {target.section !== "photos" && <div className="mt-4"><button type="button" disabled={busy || (!draft.url && !draft.comingSoon)} className={actionClass} onClick={() => { updateDialogDraft({ ...draft, url: "", comingSoon: false }); setError(""); }}>Solo título, sin documento</button><button type="button" disabled={busy} className={`${actionClass} ml-2`} onClick={() => { updateDialogDraft({ ...draft, url: "", comingSoon: true }); setError(""); }}>Documento próximamente</button>{draft.comingSoon && !draft.url && <p className="mt-2 text-sm text-teal-800">El botón Abrir mostrará un aviso de próxima disponibilidad.</p>}{!draft.url && !draft.comingSoon && <p className="mt-2 text-sm text-teal-800">Se mostrará el título y, si la escribes, la descripción. Sin botones de abrir o descargar. Puedes volver a subir un archivo cuando quieras.</p>}</div>}
         {error && <p role="alert" className="mt-4 text-sm text-red-700">{error}</p>}
-        <div className="mt-6 flex justify-end gap-2"><button type="button" disabled={busy} className={actionClass} onClick={closeDialog}>Cancelar</button><button type="button" disabled={busy} className={`${actionClass} border-teal-700 bg-teal-700 text-white`} onClick={apply}>Aplicar</button></div>
+        <div className="mt-6 flex justify-end gap-2"><button type="button" disabled={busy} className={actionClass} onClick={closeDialog}>Cancelar</button><button type="button" disabled={busy} className={actionClass} style={{ backgroundColor: "#0f766e", color: "#fff", borderColor: "#0f766e" }} onClick={apply}>Aplicar</button></div>
       </>}
     </div>
   </div>;
