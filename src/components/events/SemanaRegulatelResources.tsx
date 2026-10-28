@@ -69,7 +69,8 @@ export default function SemanaRegulatelResources({ id, resources: override, extr
   const customSections = data?.customSections ?? [];
   const definitions: Record<string, { id: string; label: string; icon: typeof FileText }> = { ...tabDefinitions };
   for (const section of customSections) definitions[section.id] = { id: section.id, label: section.title, icon: FileText };
-  const visibleSections: string[] = [...(inline ? order : order.filter(section => section === "photos" ? photos.length > 0 : (data?.[section].length ?? 0) > 0 || section === "documents")), ...customSections.map(section => section.id)];
+  // Programa, Documentos y Galería se muestran siempre; vacías llevan un aviso.
+  const visibleSections: string[] = [...order, ...customSections.map(section => section.id)];
   const selectedTab = visibleSections.includes(activeTab) ? activeTab : visibleSections[0];
 
   useEffect(() => {
@@ -109,7 +110,7 @@ export default function SemanaRegulatelResources({ id, resources: override, extr
         {doc.locked && !inline ? requestAccess(doc) : (url || doc.comingSoon || inline) && <div className="se-file-actions" style={inline ? { flexWrap: "wrap", flexShrink: 1 } : undefined}>{(url || doc.comingSoon) && <button type="button" className="se-outline" onClick={() => setPreview({ title: doc.title, url, comingSoon: !url && doc.comingSoon })}>Ver programa<ArrowUpRight size={16}/></button>}{tools.replaceButton("programs", index)}{url && <a className="se-download" href={url} download aria-label={`Descargar programa: ${doc.title}`} title="Descargar documento"><Download size={18}/></a>}</div>}
       </article>;
     })}
-  </div>}{inline && <div className="mt-5">{tools.addProgramButton}</div>}</section>;
+  </div>}{!inline && data.programs.length === 0 && <p className="se-empty-note">No hay programa disponible por el momento.</p>}{inline && <div className="mt-5">{tools.addProgramButton}</div>}</section>;
 
   const documents = <section id="presentaciones" className="se-section" {...tools.sectionDragProps("documents")}><h2 className={inline ? "relative group" : undefined}>Documentos{tools.sectionTools("documents")}</h2>{data.documents.length > 0 && <div className="se-file-list">
     {data.documents.map((doc, index) => {
@@ -121,7 +122,7 @@ export default function SemanaRegulatelResources({ id, resources: override, extr
   const gallery = <section id="galeria" className="se-section" {...tools.sectionDragProps("photos")}><h2 className={inline ? "relative group" : undefined}>Galería{tools.sectionTools("photos")}</h2><div className="se-photo-grid">{photos.slice(0, allPhotos ? undefined : 6).map((item, index) => {
     const button = <button type="button" key={`${item.src}-${index}`} className="se-photo" style={inline ? { aspectRatio: layout === "editorial" && index === 0 ? "1.9" : "4/3" } : undefined} onClick={() => setPhoto(index)} aria-label={`Ver fotografía ${index + 1}`}><img src={item.src} alt={item.caption || `Fotografía ${index + 1} del evento`} loading={allPhotos ? "eager" : "lazy"}/></button>;
     return inline ? <div key={`${item.src}-${index}`} className={`relative group min-w-0 ${layout === "editorial" && index === 0 ? "col-span-2" : ""}`} {...tools.itemDragProps("photos", index)}>{button}{tools.itemTools("photos", index)}<div className="absolute bottom-2 left-2">{tools.replaceButton("photos", index)}</div></div> : button;
-  })}</div>{photos.length > 6 && <button type="button" className="se-outline se-gallery-more" onClick={() => setAllPhotos(!allPhotos)}>{allPhotos ? "Mostrar menos fotografías" : "Ver todas las fotografías"}</button>}{inline && <div className="mt-5">{tools.addPhotoButton}</div>}</section>;
+  })}</div>{!inline && photos.length === 0 && <p className="se-empty-note">No hay fotografías disponibles por el momento.</p>}{photos.length > 6 && <button type="button" className="se-outline se-gallery-more" onClick={() => setAllPhotos(!allPhotos)}>{allPhotos ? "Mostrar menos fotografías" : "Ver todas las fotografías"}</button>}{inline && <div className="mt-5">{tools.addPhotoButton}</div>}</section>;
   const panels: Record<string, ReactNode> = { programs, documents, photos: gallery };
   for (const section of customSections) {
     const updateSection = (patch: Partial<typeof section>) => inline?.patch({ resources: { ...data, customSections: customSections.map(item => item.id === section.id ? { ...item, ...patch } : item) } });
