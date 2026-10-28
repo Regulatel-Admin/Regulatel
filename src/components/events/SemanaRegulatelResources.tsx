@@ -3,7 +3,7 @@ import { SEMANA_RESOURCE_GROUPS } from "@/data/eventMaterials";
 import { EVENT_LAYOUT_OPTIONS, isEventLayout, type EventLayout } from "@/data/eventLayouts";
 import { useEffect, useState, type ReactNode } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import { ArrowLeft, ArrowUpRight, CalendarDays, ChevronLeft, ChevronRight, Download, ExternalLink, FileText, Images, MapPin, X } from "lucide-react";
+import { ArrowLeft, ArrowUpRight, CalendarDays, ChevronLeft, ChevronRight, Download, ExternalLink, FileText, Images, MapPin, Plus, Trash2, X } from "lucide-react";
 import type { Event, EventAttachment, EventResources } from "@/types/event";
 import { safeContentUrl } from "@/types/contentBlocks";
 import { useSiteSettings } from "@/contexts/SiteSettingsContext";
@@ -60,11 +60,14 @@ export default function SemanaRegulatelResources({ id, resources: override, extr
   const [preview, setPreview] = useState<Preview | null>(null);
   const [photo, setPhoto] = useState<number | null>(null);
   const [allPhotos, setAllPhotos] = useState(false);
-  const [activeTab, setActiveTab] = useState<ResourceSection>("programs");
+  const [activeTab, setActiveTab] = useState<string>("programs");
   const photos = inline ? data?.photos ?? [] : data?.photos.filter(item => safeContentUrl(item.src)) ?? [];
   const order = data ? resourceOrder(data, layout) : standardOrder;
   const tools = useEventResourceInlineTools(data ?? emptyResources, order);
-  const visibleSections = inline ? order : order.filter(section => section === "photos" ? photos.length > 0 : (data?.[section].length ?? 0) > 0 || (section === "documents" && extraDocuments.length > 0));
+  const customSections = data?.customSections ?? [];
+  const definitions: Record<string, { id: string; label: string; icon: typeof FileText }> = { ...tabDefinitions };
+  for (const section of customSections) definitions[section.id] = { id: section.id, label: section.title, icon: FileText };
+  const visibleSections: string[] = [...(inline ? order : order.filter(section => section === "photos" ? photos.length > 0 : (data?.[section].length ?? 0) > 0 || (section === "documents" && extraDocuments.length > 0))), ...customSections.map(section => section.id)];
   const selectedTab = visibleSections.includes(activeTab) ? activeTab : visibleSections[0];
 
   useEffect(() => {
@@ -112,16 +115,27 @@ export default function SemanaRegulatelResources({ id, resources: override, extr
   const gallery = <section id="galeria" className="se-section" {...tools.sectionDragProps("photos")}><h2 className={inline ? "relative group" : undefined}>Galería{tools.sectionTools("photos")}</h2><div className="se-photo-grid">{photos.slice(0, allPhotos ? undefined : 6).map((item, index) => {
     const button = <button type="button" key={`${item.src}-${index}`} className="se-photo" style={inline ? { aspectRatio: layout === "editorial" && index === 0 ? "1.9" : "4/3" } : undefined} onClick={() => setPhoto(index)} aria-label={`Ver fotografía ${index + 1}`}><img src={item.src} alt={item.caption || `Fotografía ${index + 1} del evento`} loading={allPhotos ? "eager" : "lazy"}/></button>;
     return inline ? <div key={`${item.src}-${index}`} className={`relative group min-w-0 ${layout === "editorial" && index === 0 ? "col-span-2" : ""}`} {...tools.itemDragProps("photos", index)}>{button}{tools.itemTools("photos", index)}<div className="absolute bottom-2 left-2">{tools.replaceButton("photos", index)}</div></div> : button;
-  })}</div>{photos.length > 6 && <button type="button" className="se-outline se-gallery-more" onClick={() => setAllPhotos(!allPhotos)}>{allPhotos ? "Mostrar menos fotografías" : "Ver todas las fotografías"}</button>}</section>;
-  const panels = { programs, documents, photos: gallery };
+  })}</div>{photos.length > 6 && <button type="button" className="se-outline se-gallery-more" onClick={() => setAllPhotos(!allPhotos)}>{allPhotos ? "Mostrar menos fotografías" : "Ver todas las fotografías"}</button>}{inline && <div className="mt-5">{tools.addPhotoButton}</div>}</section>;
+  const panels: Record<string, ReactNode> = { programs, documents, photos: gallery };
+  for (const section of customSections) {
+    const updateSection = (patch: Partial<typeof section>) => inline?.patch({ resources: { ...data, customSections: customSections.map(item => item.id === section.id ? { ...item, ...patch } : item) } });
+    panels[section.id] = <section id={section.id} className="se-section" key={section.id}>
+      {inline ? <div className="mb-5 flex flex-wrap items-center gap-3"><label className="flex min-w-0 flex-1 flex-col gap-1 text-sm">Nombre de la columna<input aria-label="Nombre de la columna" className="rounded-lg border border-slate-200 px-3 py-2 text-lg font-semibold" disabled={inline.busy} value={section.title} onChange={event => updateSection({ title: event.target.value })}/></label><button type="button" className="se-outline" disabled={inline.busy} aria-label={`Eliminar columna ${section.title}`} onClick={() => { inline.patch({ resources: { ...data, customSections: customSections.filter(item => item.id !== section.id) } }); setActiveTab("documents"); }}><Trash2 size={16}/>Eliminar columna</button></div> : <h2>{section.title}</h2>}
+      <ContentBlocksEditor blocks={section.blocks} editing={Boolean(inline)} onChange={inline ? blocks => updateSection({ blocks }) : undefined} disabled={inline?.busy} onBusyChange={inline?.onBusyChange} folder="events"/>
+    </section>;
+  }
+  const addColumnButton = inline && <button type="button" className="se-outline" disabled={inline.busy} onClick={() => {
+    const section = { id: `custom-${crypto.randomUUID()}`, title: "Nueva columna", blocks: [] };
+    inline.patch({ resources: { ...data, customSections: [...customSections, section] } }); setActiveTab(section.id);
+  }}><Plus size={18} aria-hidden/>Agregar columna</button>;
   const currentPhoto = photo !== null ? photos[photo] : undefined;
   const survey = safeContentUrl(data.survey);
   const taxi = safeContentUrl(data.taxi);
 
   return <>
     {tools.replacementInput}
-    {layout === "sections" && selectedTab ? <div className="se-workspace"><div className="se-tabs" role="tablist" aria-label="Materiales del evento" style={{ gridTemplateColumns: `repeat(${visibleSections.length}, minmax(0, 1fr))` }}>{visibleSections.map((section, index) => {
-      const tab = tabDefinitions[section];
+    {layout === "sections" && selectedTab ? <div className="se-workspace"><div className="se-tabs" role="tablist" aria-label="Materiales del evento" style={{ gridTemplateColumns: `repeat(${visibleSections.length}, minmax(120px, 1fr))`, overflowX: "auto" }}>{visibleSections.map((section, index) => {
+      const tab = definitions[section];
       return <button key={section} type="button" role="tab" id={`se-tab-${id}-${tab.id}`} aria-selected={selectedTab === section} aria-controls={`se-panel-${id}-${tab.id}`} tabIndex={selectedTab === section ? 0 : -1} onClick={() => setActiveTab(section)} onKeyDown={event => {
         let next = index;
         if (event.key === "ArrowRight" || event.key === "ArrowDown") next = (index + 1) % visibleSections.length;
@@ -131,7 +145,8 @@ export default function SemanaRegulatelResources({ id, resources: override, extr
         else return;
         event.preventDefault(); setActiveTab(visibleSections[next]); event.currentTarget.parentElement?.querySelectorAll<HTMLButtonElement>("[role=tab]")[next]?.focus();
       }}><tab.icon size={21}/><span>{tab.label}</span></button>;
-    })}</div><div role="tabpanel" id={`se-panel-${id}-${tabDefinitions[selectedTab].id}`} aria-labelledby={`se-tab-${id}-${tabDefinitions[selectedTab].id}`} className="se-tab-panel">{panels[selectedTab]}</div></div> : visibleSections.map(section => <div key={section} data-resource-section={section}>{panels[section]}</div>)}
+    })}</div>{inline && <div className="flex justify-end border-b border-slate-100 p-3">{addColumnButton}</div>}<div role="tabpanel" id={`se-panel-${id}-${definitions[selectedTab].id}`} aria-labelledby={`se-tab-${id}-${definitions[selectedTab].id}`} className="se-tab-panel">{panels[selectedTab]}</div></div> : visibleSections.map(section => <div key={section} data-resource-section={section}>{panels[section]}</div>)}
+    {layout !== "sections" && inline && <div className="my-5">{addColumnButton}</div>}
     {(survey || taxi || inline) && <div className="se-practical-links">{survey && <a className="se-text-link" href={survey} target="_blank" rel="noopener noreferrer">Encuesta de satisfacción<ArrowUpRight size={15}/></a>}{taxi && <a className="se-text-link" href={taxi} target="_blank" rel="noopener noreferrer">Transporte<ArrowUpRight size={15}/></a>}{tools.manageButton}</div>}
     {tools.dialogs}
     {preview && <div className="se-modal-overlay" onClick={() => setPreview(null)}><div className="se-document-modal" role="dialog" aria-modal="true" aria-label={preview.title} onClick={event => event.stopPropagation()}><div className="se-modal-header"><h2>{preview.title}</h2><div>{preview.url && <a href={preview.url} target="_blank" rel="noopener noreferrer" aria-label="Abrir documento en otra pestaña"><ExternalLink size={20}/></a>}<button type="button" autoFocus onClick={() => setPreview(null)} aria-label="Cerrar vista previa"><X size={23}/></button></div></div>{preview.comingSoon ? <div className="p-8 text-center"><FileText size={36} className="mx-auto mb-4 text-teal-700"/><h3 className="text-xl font-semibold">Documento próximamente</h3><p className="mt-3 text-slate-600">Este documento estará disponible próximamente. Estamos preparando su publicación. Te invitamos a consultar esta página más adelante.</p></div> : /\.pdf(?:[?#]|$)/i.test(preview.url) ? <EventPdfReader url={preview.url} title={preview.title}/> : <div className="p-6"><a className="se-outline" href={preview.url} target="_blank" rel="noopener noreferrer">Abrir documento<ExternalLink size={18}/></a></div>}</div></div>}

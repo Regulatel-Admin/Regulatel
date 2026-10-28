@@ -210,6 +210,7 @@ export function useEventResourceInlineTools(resources: EventResources, order: Re
   </div>;
   return {
     editing: Boolean(inline), itemTools, sectionTools, dialogs,
+    addPhotoButton: inline && <button type="button" disabled={busy} className="se-outline" onClick={() => edit("photos", null)}><Plus size={18} aria-hidden/>Agregar foto</button>,
     addProgramButton: inline && <button type="button" disabled={busy} className="se-outline" onClick={() => edit("programs", null)}><Plus size={18} aria-hidden/>Agregar programa</button>,
     addDocumentButton: inline && <button type="button" disabled={busy} className="se-outline" onClick={() => edit("documents", null)}><Plus size={18} aria-hidden/>Agregar documento</button>,
     replacementInput: inline && <input ref={directFileInput} type="file" tabIndex={-1} disabled={busy} className="sr-only" aria-label="Reemplazo directo del archivo" onChange={event => void replaceDirectFile(event.target.files?.[0])}/>,

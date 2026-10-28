@@ -14,6 +14,7 @@ export interface EventResources {
   survey: string;
   taxi: string;
   sectionOrder?: ("programs" | "documents" | "photos")[];
+  customSections?: { id: string; title: string; blocks: ContentBlock[] }[];
 }
 
 export function parseEventResources(value: unknown): EventResources | undefined {
@@ -29,6 +30,11 @@ export function parseEventResources(value: unknown): EventResources | undefined 
   });
   return {
     programs: files(data.programs), documents: files(data.documents),
+    ...(Array.isArray(data.customSections) ? { customSections: data.customSections.flatMap((item, index) => {
+      if (!item || typeof item !== "object") return [];
+      const section = item as Record<string, unknown>;
+      return [{ id: typeof section.id === "string" && /^custom-[a-zA-Z0-9-]+$/.test(section.id) ? section.id : `custom-${index}`, title: typeof section.title === "string" && section.title.trim() ? section.title : "Nueva columna", blocks: parseContentBlocks(section.blocks) ?? [] }];
+    }).filter((section, index, sections) => sections.findIndex(item => item.id === section.id) === index) } : {}),
     photos: data.photos.flatMap(item => {
       if (!item || typeof item !== "object") return [];
       const row = item as Record<string, unknown>;

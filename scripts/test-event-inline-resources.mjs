@@ -189,6 +189,7 @@ await check("public and preview context returns no editing controls", async () =
   const tools = renderTools();
   assert.equal(tools.editing, false);
   assert.equal(tools.addDocumentButton, null);
+  assert.equal(tools.addPhotoButton, null);
   assert.equal(tools.itemTools("documents", 0), null);
   assert.equal(tools.sectionTools("programs"), null);
   assert.equal(tools.manageButton, null);
@@ -285,6 +286,16 @@ await check("visible add button appends a titled document and preserves existing
   assert.deepEqual(resources, source);
   button(renderTools().dialogs, "Aplicar").props.onClick();
   assert.deepEqual(resources, { ...source, documents: [...source.documents, { title: "Nuevo documento de trabajo", url: "/replacement.pdf", description: "" }] });
+});
+
+await check("visible gallery button appends a photo and preserves existing resources", async () => {
+  globalThis.__EVENT_RESOURCE_UPLOAD = async () => ({ url: "/new-photo.jpg" });
+  button(renderTools().addPhotoButton, "Agregar foto").props.onClick();
+  byLabel(renderTools().dialogs, "Archivo de reemplazo").props.onChange({ target: { files: [{ ...file, name: "foto.jpg", type: "image/jpeg" }] } });
+  await flush();
+  assert.deepEqual(resources, source);
+  button(renderTools().dialogs, "Aplicar").props.onClick();
+  assert.deepEqual(resources, { ...source, photos: [...source.photos, { src: "/new-photo.jpg", caption: "foto" }] });
 });
 
 console.log(`${count} inline resource event checks passed: addition, replacement success/failure, unchanged titles/descriptions/captions, stable identity, ordering, removal and public controls.`);

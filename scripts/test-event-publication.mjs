@@ -377,6 +377,19 @@ try {
     assert.equal(fresh.resources.documents[0].comingSoon, true);
   });
 
+  await check("custom columns survive storage, publication and unrelated edits", async () => {
+    const before = (await request("GET", undefined, true, newEvent.id)).data;
+    const customSections = [{ id: "custom-test", title: "Presentaciones", blocks: [{ id: "document-test", type: "document", title: "Informe", url: "/informe.pdf" }] }];
+    const resources = { ...before.resources, customSections };
+    assert.equal((await request("PATCH", { resources }, true, newEvent.id)).status, 200);
+    assert.equal((await request("PATCH", { published: true }, true, newEvent.id)).status, 200);
+    const fresh = (await request("GET", undefined, false, newEvent.id)).data;
+    assert.deepEqual(JSON.parse(JSON.stringify(fresh.resources)), JSON.parse(JSON.stringify(resources)));
+    assert.deepEqual((await rawEvent(newEvent.id)).resources.customSections, customSections);
+    assert.equal((await request("PATCH", { resources: { ...resources, customSections: [] } }, true, newEvent.id)).status, 200);
+    assert.deepEqual((await request("GET", undefined, false, newEvent.id)).data.resources.customSections, []);
+  });
+
   console.log(`${checks.length} event publication checks passed: legacy migration, preserved content/attachments, durable publish cycles, creation defaults, structured resources/blocks, ordering, intentional removal, auth and audit.`);
   if (!process.argv.includes("--serve")) {
     await pg.close();
