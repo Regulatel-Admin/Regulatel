@@ -7,9 +7,15 @@
 export type EventStatus = "upcoming" | "past";
 import { parseContentBlocks, safeContentUrl, type ContentBlock } from "./contentBlocks.js";
 
+/**
+ * private: solo administradores y usuarios con acceso aprobado reciben la URL.
+ * locked: lo añade el servidor al ocultar la URL de un archivo privado; nunca se guarda.
+ */
+export interface EventResourceFile { title: string; url: string; description?: string; comingSoon?: boolean; private?: boolean; locked?: boolean }
+
 export interface EventResources {
-  programs: { title: string; url: string; description?: string; comingSoon?: boolean }[];
-  documents: { title: string; url: string; description?: string; comingSoon?: boolean }[];
+  programs: EventResourceFile[];
+  documents: EventResourceFile[];
   photos: { src: string; caption?: string }[];
   survey: string;
   taxi: string;
@@ -26,7 +32,7 @@ export function parseEventResources(value: unknown): EventResources | undefined 
   const files = (items: unknown[]) => items.flatMap(item => {
     if (!item || typeof item !== "object") return [];
     const row = item as Record<string, unknown>;
-    return [{ ...(row.comingSoon === true ? { comingSoon: true } : {}), title: typeof row.title === "string" ? row.title : "Documento", url: safeContentUrl(typeof row.url === "string" ? row.url : ""), description: typeof row.description === "string" ? row.description : undefined }];
+    return [{ ...(row.comingSoon === true ? { comingSoon: true } : {}), ...(row.private === true ? { private: true } : {}), ...(row.private === true && row.locked === true ? { locked: true } : {}), title: typeof row.title === "string" ? row.title : "Documento", url: safeContentUrl(typeof row.url === "string" ? row.url : ""), description: typeof row.description === "string" ? row.description : undefined }];
   });
   return {
     programs: files(data.programs), documents: files(data.documents),
@@ -44,6 +50,16 @@ export function parseEventResources(value: unknown): EventResources | undefined 
     taxi: safeContentUrl(typeof data.taxi === "string" ? data.taxi : ""),
     sectionOrder: Array.isArray(data.sectionOrder) ? Array.from(new Set(data.sectionOrder.filter((key): key is "programs" | "documents" | "photos" => ["programs", "documents", "photos"].includes(String(key))))) : undefined,
   };
+}
+
+export function hasPrivateEventFiles(resources: EventResources | undefined): boolean {
+  return Boolean(resources && [...resources.programs, ...resources.documents].some(file => file.private));
+}
+
+/** Copia pública: los archivos privados conservan título y descripción, pero no su enlace. */
+export function redactPrivateEventFiles(resources: EventResources): EventResources {
+  const redact = (files: EventResourceFile[]) => files.map(file => file.private ? { ...file, url: "", locked: true } : file);
+  return { ...resources, programs: redact(resources.programs), documents: redact(resources.documents) };
 }
 
 export interface EventAttachment {

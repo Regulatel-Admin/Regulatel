@@ -43,7 +43,7 @@ const built = await build({
       const sources = {
         hooks: "export const useState=globalThis.__EVENT_RESOURCE_HOOKS.useState; export const useRef=globalThis.__EVENT_RESOURCE_HOOKS.useRef; export function useEffect(){}",
         jsx: "export const jsx=globalThis.__EVENT_RESOURCE_HOOKS.jsx; export const jsxs=jsx; export const Fragment=Symbol.for('test.fragment');",
-        icons: "export const ArrowDown=()=>null,ArrowUp=()=>null,CalendarDays=()=>null,FileText=()=>null,GripVertical=()=>null,Images=()=>null,Plus=()=>null,Trash2=()=>null,Upload=()=>null,X=()=>null,Pencil=()=>null,Settings2=()=>null;",
+        icons: "export const ArrowDown=()=>null,ArrowUp=()=>null,CalendarDays=()=>null,FileText=()=>null,GripVertical=()=>null,Images=()=>null,Plus=()=>null,Trash2=()=>null,Upload=()=>null,X=()=>null,Pencil=()=>null,Settings2=()=>null,Lock=()=>null,LockOpen=()=>null;",
         context: "export function useEventInlineEditor(){return globalThis.__EVENT_RESOURCE_CONTEXT;}",
         upload: "export async function uploadAdminFile(input){return await globalThis.__EVENT_RESOURCE_UPLOAD(input);}",
       };

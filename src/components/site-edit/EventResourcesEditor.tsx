@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { ArrowDown, ArrowUp, CalendarDays, FileText, GripVertical, Images, Plus, Trash2, Upload } from "lucide-react";
+import { ArrowDown, ArrowUp, CalendarDays, FileText, GripVertical, Images, Lock, Plus, Trash2, Upload } from "lucide-react";
 import type { EventResources } from "@/types/event";
 import { moveContentBlock, safeContentUrl } from "@/types/contentBlocks";
 import { uploadAdminFile } from "@/lib/uploads";
@@ -144,6 +144,7 @@ export default function EventResourcesEditor({ value, onChange, disabled = false
               <button type="button" disabled={controlsDisabled || (!item.url && !item.comingSoon)} className={buttonClass} onClick={() => updateDocument(section as "programs" | "documents", index, { url: "", comingSoon: false })}>Solo título, sin documento</button><button type="button" disabled={controlsDisabled} className={buttonClass} onClick={() => updateDocument(section as "programs" | "documents", index, { url: "", comingSoon: true })}>Documento próximamente</button>
               <label className="block text-xs text-slate-600">Enlace del archivo (opcional)<input disabled={controlsDisabled} className={`${inputClass} mt-1`} value={item.url} onChange={event => updateDocument(section as "programs" | "documents", index, { url: event.target.value })} placeholder="https://… o /documents/…"/></label>
               <label className="block text-xs text-slate-600">Descripción<input disabled={controlsDisabled} className={`${inputClass} mt-1`} value={item.description ?? ""} onChange={event => updateDocument(section as "programs" | "documents", index, { description: event.target.value })}/></label>
+              <label className="flex items-center gap-2 text-xs text-slate-700"><input type="checkbox" disabled={controlsDisabled} checked={Boolean(item.private)} onChange={event => updateDocument(section as "programs" | "documents", index, { private: event.target.checked || undefined })}/><Lock size={13}/>Privado: los visitantes deben solicitar acceso</label>
             </div>}
           </article>)}
         </div>

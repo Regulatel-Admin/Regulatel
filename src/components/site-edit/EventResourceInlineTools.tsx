@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type DragEvent } from "react";
-import { ArrowDown, ArrowUp, GripVertical, Pencil, Plus, Settings2, Trash2, Upload, X } from "lucide-react";
+import { ArrowDown, ArrowUp, GripVertical, Lock, LockOpen, Pencil, Plus, Settings2, Trash2, Upload, X } from "lucide-react";
 import type { EventResources } from "@/types/event";
 import { moveContentBlock, safeContentUrl } from "@/types/contentBlocks";
 import { useEventInlineEditor } from "@/contexts/EventInlineEditContext";
@@ -14,7 +14,7 @@ const toolClass = "inline-flex h-6 w-6 items-center justify-center rounded bg-wh
 const actionClass = "inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 hover:border-teal-500 disabled:opacity-40";
 const fieldClass = "mt-1 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-800 outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-100";
 type Target = { section: ResourceSection; index: number | null; original?: string };
-type Draft = { title: string; url: string; description: string; comingSoon?: boolean };
+type Draft = { title: string; url: string; description: string; comingSoon?: boolean; isPrivate?: boolean };
 
 /** Small controls over the published resource rows; the form opens only on demand. */
 export function useEventResourceInlineTools(resources: EventResources, order: ResourceSection[]) {
@@ -83,7 +83,7 @@ export function useEventResourceInlineTools(resources: EventResources, order: Re
     if (busy) return;
     const item = index === null ? undefined : resourcesRef.current[section][index];
     setDraft(item && "src" in item ? { title: item.caption ?? "", url: item.src, description: "" }
-      : item ? { title: item.title, url: item.url, description: item.description ?? "", comingSoon: item.comingSoon } : { title: "", url: "", description: "" });
+      : item ? { title: item.title, url: item.url, description: item.description ?? "", comingSoon: item.comingSoon, isPrivate: item.private } : { title: "", url: "", description: "" });
     setError(""); setTarget({ section, index, original: item ? JSON.stringify(item) : undefined });
   };
   const apply = () => {
@@ -101,8 +101,9 @@ export function useEventResourceInlineTools(resources: EventResources, order: Re
       change({ ...current, photos: targetIndex === null ? [...current.photos, next] : current.photos.map((item, index) => index === targetIndex ? next : item) });
     } else {
       const section = target.section;
-      const next = { ...(targetIndex === null ? {} : current[section][targetIndex]), title: draft.title, url, description: draft.description, comingSoon: Boolean(draft.comingSoon && !url) };
+      const next = { ...(targetIndex === null ? {} : current[section][targetIndex]), title: draft.title, url, description: draft.description, comingSoon: Boolean(draft.comingSoon && !url), private: Boolean(draft.isPrivate) };
       if (!next.comingSoon) delete (next as { comingSoon?: boolean }).comingSoon;
+      if (!next.private) delete (next as { private?: boolean }).private;
       change({ ...current, [section]: targetIndex === null ? [...current[section], next] : current[section].map((item, index) => index === targetIndex ? next : item) });
     }
     closeDialog();
@@ -175,10 +176,23 @@ export function useEventResourceInlineTools(resources: EventResources, order: Re
     } catch { /* Other draggable elements retain their normal behavior. */ }
   };
 
+  const togglePrivate = (section: "programs" | "documents", index: number) => {
+    if (busy) return;
+    const current = resourcesRef.current;
+    change({ ...current, [section]: current[section].map((item, itemIndex) => {
+      if (itemIndex !== index) return item;
+      const { private: wasPrivate, ...rest } = item;
+      return wasPrivate ? rest : { ...rest, private: true };
+    }) });
+  };
   const itemTools = (section: ResourceSection, index: number) => inline && <div className="absolute top-1 right-1 z-10 flex items-center gap-1 opacity-55 transition-opacity group-hover:opacity-100 focus-within:opacity-100" data-inline-resource-tools>
     <button type="button" draggable={!busy} disabled={busy} className={`${toolClass} cursor-grab`} title="Arrastrar" aria-label={`Arrastrar ${itemLabels[section]} ${index + 1}`} onDragStart={event => startDrag(event, { section, index })}><GripVertical size={13}/></button>
     <button type="button" disabled={busy || index === 0} className={toolClass} aria-label={`Subir ${itemLabels[section]} ${index + 1}`} onClick={() => moveItem(section, index, index - 1)}><ArrowUp size={12}/></button>
     <button type="button" disabled={busy || index === resources[section].length - 1} className={toolClass} aria-label={`Bajar ${itemLabels[section]} ${index + 1}`} onClick={() => moveItem(section, index, index + 1)}><ArrowDown size={12}/></button>
+    {section !== "photos" && (() => {
+      const isPrivate = Boolean(resources[section][index]?.private);
+      return <button type="button" disabled={busy} className={`${toolClass} ${isPrivate ? "text-amber-700 ring-amber-300" : ""}`} title={isPrivate ? "Privado: pide solicitar acceso. Pulsa para hacerlo público." : "Público. Pulsa para hacerlo privado (solicitar acceso)."} aria-pressed={isPrivate} aria-label={`${isPrivate ? "Hacer público" : "Hacer privado"} ${itemLabels[section]} ${index + 1}`} onClick={() => togglePrivate(section, index)}>{isPrivate ? <Lock size={12}/> : <LockOpen size={12}/>}</button>;
+    })()}
     <button type="button" disabled={busy} className={toolClass} title="Editar archivo" aria-label={`Editar ${itemLabels[section]} ${index + 1}`} onClick={() => edit(section, index)}><Pencil size={12}/></button>
     <button type="button" disabled={busy} className={`${toolClass} hover:text-red-700`} aria-label={`Quitar ${itemLabels[section]} ${index + 1}`} onClick={() => change({ ...resources, [section]: resources[section].filter((_, itemIndex) => itemIndex !== index) })}><Trash2 size={12}/></button>
   </div>;
@@ -198,6 +212,7 @@ export function useEventResourceInlineTools(resources: EventResources, order: Re
       {manager ? <EventResourcesEditor value={resources} onChange={change} disabled={Boolean(inline.busy)} onBusyChange={inline.onBusyChange}/> : target && <>
         <div className="space-y-4"><label className="block text-sm text-slate-600">{target.section === "photos" ? "Descripción de la fotografía" : "Título"}<input autoFocus disabled={busy} className={fieldClass} value={draft.title} onChange={event => updateDialogDraft({ ...draft, title: event.target.value })}/></label>
           <label className="block text-sm text-slate-600">{target.section === "photos" ? "Enlace" : "Enlace (opcional)"}<input disabled={busy} className={fieldClass} value={draft.url} onChange={event => updateDialogDraft({ ...draft, url: event.target.value })} placeholder="https://… o /…"/></label>
+          {target.section !== "photos" && <label className="flex items-start gap-2 rounded-lg border border-slate-200 p-3 text-sm text-slate-700"><input type="checkbox" disabled={busy} className="mt-0.5" checked={Boolean(draft.isPrivate)} onChange={event => updateDialogDraft({ ...draft, isPrivate: event.target.checked })}/><span><span className="flex items-center gap-1 font-semibold"><Lock size={14}/>Privado</span><span className="block text-xs text-slate-500">Los visitantes verán el título y un botón «Solicitar acceso». Solo administradores y usuarios aprobados podrán abrirlo.</span></span></label>}
           {target.section !== "photos" && <label className="block text-sm text-slate-600">Descripción<textarea disabled={busy} className={`${fieldClass} min-h-20`} value={draft.description} onChange={event => updateDialogDraft({ ...draft, description: event.target.value })}/></label>}
           <input ref={fileInput} type="file" tabIndex={-1} disabled={busy} accept={target.section === "photos" ? "image/jpeg,image/png,image/webp" : ".pdf,.doc,.docx,.xls,.xlsx"} className="sr-only" aria-label="Archivo de reemplazo" onChange={event => void replaceFile(event.target.files?.[0])}/>
           <button type="button" disabled={busy} className={actionClass} onClick={() => fileInput.current?.click()}><Upload size={16}/>{uploading ? "Subiendo…" : (target.index === null || !draft.url) ? "Subir archivo" : "Reemplazar archivo"}</button>

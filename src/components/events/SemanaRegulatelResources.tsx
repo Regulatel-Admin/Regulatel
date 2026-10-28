@@ -3,8 +3,8 @@ import { SEMANA_RESOURCE_GROUPS } from "@/data/eventMaterials";
 import { EVENT_LAYOUT_OPTIONS, isEventLayout, type EventLayout } from "@/data/eventLayouts";
 import { useEffect, useState, type ReactNode } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import { ArrowLeft, ArrowUpRight, CalendarDays, ChevronLeft, ChevronRight, Download, ExternalLink, FileText, Images, MapPin, Plus, Trash2, X } from "lucide-react";
-import type { Event, EventAttachment, EventResources } from "@/types/event";
+import { ArrowLeft, ArrowUpRight, CalendarDays, ChevronLeft, ChevronRight, Download, ExternalLink, FileText, Images, Lock, MapPin, Plus, Trash2, X } from "lucide-react";
+import type { Event, EventAttachment, EventResourceFile, EventResources } from "@/types/event";
 import { safeContentUrl } from "@/types/contentBlocks";
 import { useSiteSettings } from "@/contexts/SiteSettingsContext";
 import { useAuth } from "@/contexts/AuthContext";
@@ -90,6 +90,9 @@ export default function SemanaRegulatelResources({ id, resources: override, extr
   }, [preview, photo, photos.length]);
   if (!data) return null;
 
+  const privateBadge = (doc: EventResourceFile) => doc.private && <span className="se-private-badge" title="Requiere solicitar acceso"><Lock size={11} aria-hidden/>Privado</span>;
+  const requestAccess = (doc: EventResourceFile) => <div className="se-file-actions"><Link className="se-outline" to={`/acceso-documentos?solicitar=1&evento=${encodeURIComponent(id)}&titulo=${encodeURIComponent(doc.title)}`} aria-label={`Solicitar acceso a ${doc.title}`}><Lock size={15} aria-hidden/>Solicitar acceso</Link></div>;
+
   const programs = <section id="programas" className="se-section" {...tools.sectionDragProps("programs")}><h2 className={inline ? "relative group" : undefined}>Programa{tools.sectionTools("programs")}</h2>{data.programs.length > 0 && <div className="se-file-list">
     {data.programs.map((doc, index) => {
       const url = safeContentUrl(doc.url);
@@ -99,8 +102,9 @@ export default function SemanaRegulatelResources({ id, resources: override, extr
         {tools.itemTools("programs", index)}
         {url && (layout === "editorial" ? <button type="button" className="se-paper-cover" disabled={!url} onClick={() => setPreview({ title: doc.title, url, comingSoon: !url && doc.comingSoon })} aria-label={`Vista previa de ${doc.title}`}>
           {original ? <img src={`/eventos/semana-regulatel-2026/${resourceGroups[id]}/covers/${stem}.png`} alt={`Portada: ${doc.title}`} loading="lazy"/> : <FileText size={30} aria-hidden style={{ margin: "auto" }}/>}</button> : <FileText className="se-file-icon" size={21} aria-hidden/>)}
-        <div className="se-file-info"><h3>{doc.title}</h3>{doc.description && <p>{doc.description}</p>}</div>
-        {(url || doc.comingSoon || inline) && <div className="se-file-actions" style={inline ? { flexWrap: "wrap", flexShrink: 1 } : undefined}>{(url || doc.comingSoon) && <button type="button" className="se-outline" onClick={() => setPreview({ title: doc.title, url, comingSoon: !url && doc.comingSoon })}>Ver programa<ArrowUpRight size={16}/></button>}{tools.replaceButton("programs", index)}{url && <a className="se-download" href={url} download aria-label={`Descargar programa: ${doc.title}`} title="Descargar documento"><Download size={18}/></a>}</div>}
+        {doc.locked && <Lock className="se-file-icon" size={21} aria-hidden/>}
+        <div className="se-file-info"><h3>{doc.title}{privateBadge(doc)}</h3>{doc.description && <p>{doc.description}</p>}</div>
+        {doc.locked && !inline ? requestAccess(doc) : (url || doc.comingSoon || inline) && <div className="se-file-actions" style={inline ? { flexWrap: "wrap", flexShrink: 1 } : undefined}>{(url || doc.comingSoon) && <button type="button" className="se-outline" onClick={() => setPreview({ title: doc.title, url, comingSoon: !url && doc.comingSoon })}>Ver programa<ArrowUpRight size={16}/></button>}{tools.replaceButton("programs", index)}{url && <a className="se-download" href={url} download aria-label={`Descargar programa: ${doc.title}`} title="Descargar documento"><Download size={18}/></a>}</div>}
       </article>;
     })}
   </div>}{inline && <div className="mt-5">{tools.addProgramButton}</div>}</section>;
@@ -108,7 +112,7 @@ export default function SemanaRegulatelResources({ id, resources: override, extr
   const documents = <section id="presentaciones" className="se-section" {...tools.sectionDragProps("documents")}><h2 className={inline ? "relative group" : undefined}>Documentos{tools.sectionTools("documents")}</h2>{data.documents.length > 0 && <div className="se-file-list">
     {data.documents.map((doc, index) => {
       const url = safeContentUrl(doc.url);
-      return <article className={inline ? "se-file-row relative group" : "se-file-row"} key={`${doc.url}-${index}`} {...tools.itemDragProps("documents", index)}>{tools.itemTools("documents", index)}{url && <FileText className="se-file-icon" size={21} aria-hidden/>}<div className="se-file-info"><h3>{doc.title}</h3>{doc.description && <p>{doc.description}</p>}</div>{(url || doc.comingSoon || inline) && <div className="se-file-actions" style={inline ? { flexWrap: "wrap", flexShrink: 1 } : undefined}>{(url || doc.comingSoon) && <button type="button" className="se-text-link" onClick={() => setPreview({ title: doc.title, url, comingSoon: !url && doc.comingSoon })} aria-label={`Abrir ${doc.title}`}>Abrir<ArrowUpRight size={16}/></button>}{tools.replaceButton("documents", index)}{url && <a className="se-download" href={url} download aria-label={`Descargar ${doc.title}`} title="Descargar documento"><Download size={18}/></a>}</div>}</article>;
+      return <article className={inline ? "se-file-row relative group" : "se-file-row"} key={`${doc.url}-${index}`} {...tools.itemDragProps("documents", index)}>{tools.itemTools("documents", index)}{url && <FileText className="se-file-icon" size={21} aria-hidden/>}{doc.locked && <Lock className="se-file-icon" size={21} aria-hidden/>}<div className="se-file-info"><h3>{doc.title}{privateBadge(doc)}</h3>{doc.description && <p>{doc.description}</p>}</div>{doc.locked && !inline ? requestAccess(doc) : (url || doc.comingSoon || inline) && <div className="se-file-actions" style={inline ? { flexWrap: "wrap", flexShrink: 1 } : undefined}>{(url || doc.comingSoon) && <button type="button" className="se-text-link" onClick={() => setPreview({ title: doc.title, url, comingSoon: !url && doc.comingSoon })} aria-label={`Abrir ${doc.title}`}>Abrir<ArrowUpRight size={16}/></button>}{tools.replaceButton("documents", index)}{url && <a className="se-download" href={url} download aria-label={`Descargar ${doc.title}`} title="Descargar documento"><Download size={18}/></a>}</div>}</article>;
     })}
   </div>}{extraDocuments.length > 0 && <EventDocumentsSection documents={extraDocuments}/>} {inline && <div className="mt-5">{tools.addDocumentButton}</div>}</section>;
 

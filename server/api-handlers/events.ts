@@ -3,12 +3,13 @@
  */
 import type { IncomingMessage, ServerResponse } from "http";
 import { listEvents, createEvent, getEventById, updateEvent, deleteEvent, type CreateEventInput } from "../lib/events.js";
-import { ensureAdmin } from "../lib/adminAuth.js";
+import { ensureAdmin, getAuthenticatedAdmin } from "../lib/adminAuth.js";
+import { getDocumentAccessSession } from "../lib/documentAccess.js";
 import { logAudit } from "../lib/auditLog.js";
 import { parseJsonBody } from "../lib/parseBody.js";
 import { isDbConfigured } from "../lib/db.js";
 import { parseContentBlocks } from "../../src/types/contentBlocks.js";
-import { parseEventResources } from "../../src/types/event.js";
+import { hasPrivateEventFiles, parseEventResources, redactPrivateEventFiles, type EventResources } from "../../src/types/event.js";
 
 function sendJson(res: ServerResponse, status: number, data: unknown) {
   res.setHeader("Content-Type", "application/json");
@@ -34,6 +35,24 @@ function getIdFromPath(req: IncomingMessage): string | null {
   return parts[i + 1] ?? null;
 }
 
+/** Administradores y usuarios con acceso aprobado ven los archivos privados. */
+async function canSeePrivateFiles(req: IncomingMessage): Promise<boolean> {
+  if (await getAuthenticatedAdmin(req).catch(() => null)) return true;
+  return Boolean(await getDocumentAccessSession(req).catch(() => null));
+}
+
+async function forViewer<T extends { resources?: EventResources }>(req: IncomingMessage, items: T[]): Promise<T[]> {
+  if (!items.some(item => hasPrivateEventFiles(item.resources))) return items;
+  if (await canSeePrivateFiles(req)) return items;
+  return items.map(item => item.resources && hasPrivateEventFiles(item.resources) ? { ...item, resources: redactPrivateEventFiles(item.resources) } : item);
+}
+
+/** Una copia redactada nunca debe sobrescribir los enlaces privados guardados. */
+function hasLockedFiles(value: unknown): boolean {
+  const resources = parseEventResources(value);
+  return Boolean(resources && [...resources.programs, ...resources.documents].some(file => file.locked));
+}
+
 export default async function handler(req: IncomingMessage, res: ServerResponse) {
   const id = getIdFromPath(req);
   const isBase = id == null || id === "";
@@ -41,6 +60,7 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  res.setHeader("Cache-Control", "private, no-store");
   if (req.method === "OPTIONS") {
     res.statusCode = 204;
     res.end();
@@ -55,13 +75,17 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
   try {
     if (isBase) {
       if (req.method === "GET") {
-        const items = await listEvents();
+        const items = await forViewer(req, await listEvents());
         sendJson(res, 200, items);
         return;
       }
       if (req.method === "POST") {
         const auth = await ensureAdmin(req);
         const body = (await parseJsonBody(req)) as Record<string, unknown>;
+        if (hasLockedFiles(body.resources)) {
+          sendJson(res, 409, { error: "Recarga la página con tu sesión de administrador antes de guardar archivos privados." });
+          return;
+        }
         const title = typeof body.title === "string" ? body.title : "";
         const startDate = typeof body.startDate === "string" ? body.startDate : "";
         const endDate = typeof body.endDate === "string" ? body.endDate : (body.endDate === null ? null : undefined);
@@ -114,12 +138,17 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
         sendJson(res, 404, { error: "Not found" });
         return;
       }
-      sendJson(res, 200, item);
+      const [visible] = await forViewer(req, [item]);
+      sendJson(res, 200, visible);
       return;
     }
     if (req.method === "PATCH") {
       const auth = await ensureAdmin(req);
       const body = (await parseJsonBody(req)) as Record<string, unknown>;
+      if (hasLockedFiles(body.resources)) {
+        sendJson(res, 409, { error: "Recarga la página con tu sesión de administrador antes de guardar archivos privados." });
+        return;
+      }
       const item = await updateEvent(id, {
         title: typeof body.title === "string" ? body.title : undefined,
         organizer: typeof body.organizer === "string" ? body.organizer : undefined,

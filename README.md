@@ -249,3 +249,13 @@ node scripts/test-event-layouts.mjs
 ```
 
 Los materiales de estos encuentros proceden de https://www.aecidcf.org.uy/regulatel/index.php y https://www.aecidcf.org.uy/regulatel_comite/index.php. Las fotografías y PDF se sirven desde `public/eventos/semana-regulatel-2026/`; los cuatro documentos públicos de conclusiones se conservaron como PDF. También se incluye la presentación de Paridad proporcionada para la reunión de grupos de trabajo.
+
+### Archivos privados en eventos
+
+En la página del evento (modo edición), cada programa o documento tiene un candado: al activarlo, el archivo queda **Privado**. También está la casilla «Privado» al añadir o editar un archivo y en «Administrar archivos». Los visitantes ven el título, la descripción y un botón **Solicitar acceso**, que abre `/acceso-documentos` con el evento y el archivo indicados. Secretaría aprueba o deniega la solicitud por correo, como con las actas; el usuario aprobado inicia sesión y vuelve al evento con los enlaces visibles.
+
+El servidor quita el enlace de los archivos privados en `GET /api/events` salvo para administradores o usuarios con sesión de acceso a documentos, y rechaza guardar una copia sin enlaces. Los archivos de Vercel Blob siguen siendo URLs públicas difíciles de adivinar: quien ya tenga el enlace podría abrirlo.
+
+```sh
+node scripts/test-event-publication.mjs
+```

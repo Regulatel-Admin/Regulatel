@@ -19,11 +19,18 @@ export default function AccesoDocumentos() {
   const startInRequest = searchParams.get("solicitar") === "1";
   const document = getRestrictedDocument(docId);
   const collection = getRestrictedCollection(tipo);
-  const fallbackUrl = collection?.redirectUrl ?? "/gestion?tipo=planes-actas";
+  // Archivos privados de eventos: /acceso-documentos?evento=<id>&titulo=<archivo>
+  const eventId = searchParams.get("evento")?.match(/^[a-z0-9-]{1,160}$/)?.[0] ?? null;
+  const eventFileTitle = eventId ? searchParams.get("titulo")?.trim().slice(0, 200) || null : null;
+  const eventUrl = eventId ? `/eventos/${eventId}` : null;
+  const fallbackUrl = eventUrl ?? collection?.redirectUrl ?? "/gestion?tipo=planes-actas";
 
   const goAfterUnlock = () => {
     markAllRestrictedUnlocked();
-    if (document) {
+    if (eventUrl) {
+      // Recarga completa: los enlaces privados del evento solo llegan con la nueva sesión.
+      window.location.assign(eventUrl);
+    } else if (document) {
       markRestrictedUnlocked(document.id);
       navigate(document.redirectUrl, { replace: true });
     } else {
@@ -66,7 +73,7 @@ export default function AccesoDocumentos() {
     return () => {
       cancelled = true;
     };
-  }, [document?.id, document?.redirectUrl, fallbackUrl, navigate]);
+  }, [document?.id, document?.redirectUrl, fallbackUrl, eventUrl, navigate]);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -120,8 +127,8 @@ export default function AccesoDocumentos() {
       institution: reqInstitution.trim() || undefined,
       position: reqPosition.trim() || undefined,
       country: reqCountry.trim() || undefined,
-      documentId: document?.id ?? undefined,
-      documentTitle: document?.title ?? collection?.title ?? undefined,
+      documentId: document?.id ?? (eventId ? `evento:${eventId}` : undefined),
+      documentTitle: document?.title ?? collection?.title ?? (eventId ? `${eventFileTitle ?? "Archivo privado"} — evento ${eventId}` : undefined),
       collectionTipo: tipo ?? undefined,
     });
     setReqSubmitting(false);
@@ -185,11 +192,11 @@ export default function AccesoDocumentos() {
             {t("pages.accesoDocumentos.restrictedTitle")}
           </h1>
           <p className="mt-1 text-sm" style={{ color: "var(--regu-gray-500)" }}>
-            {t("pages.accesoDocumentos.subtitle")}
+            {eventId ? "Documentos privados de eventos · Solo usuarios autorizados" : t("pages.accesoDocumentos.subtitle")}
           </p>
-          {(document || collection) && (
+          {(document || collection || eventFileTitle) && (
             <p className="mt-2 text-sm font-medium" style={{ color: "var(--regu-blue)" }}>
-              {document?.title ?? collection?.title}
+              {document?.title ?? collection?.title ?? eventFileTitle}
             </p>
           )}
         </div>
@@ -296,7 +303,7 @@ export default function AccesoDocumentos() {
                   }}
                 >
                   <ArrowLeft className="h-4 w-4" aria-hidden />
-                  {t("pages.accesoDocumentos.backToGestion")}
+                  {eventUrl ? "Volver al evento" : t("pages.accesoDocumentos.backToGestion")}
                 </Link>
               </div>
             </form>

@@ -147,11 +147,17 @@ const built = await build({
     setup(builder) {
       builder.onResolve({ filter: /(?:^|\/)db\.js$/ }, () => ({ path: "db", namespace: "fixture" }));
       builder.onResolve({ filter: /(?:^|\/)adminAuth\.js$/ }, () => ({ path: "auth", namespace: "fixture" }));
+      builder.onResolve({ filter: /(?:^|\/)documentAccess\.js$/ }, () => ({ path: "documentAccess", namespace: "fixture" }));
       builder.onLoad({ filter: /.*/, namespace: "fixture" }, args => ({
         loader: "js",
         contents: args.path === "db"
           ? 'export function getDb(){return globalThis.__EVENT_PUBLICATION_SQL;} export function isDbConfigured(){return true;}'
-          : `export async function ensureAdmin(req) {
+          : args.path === "documentAccess"
+          ? "export async function getDocumentAccessSession(req){return req.headers['x-event-publication-fixture-reader'] === 'true' ? { userId: 'fixture-reader' } : null;}"
+          : `export async function getAuthenticatedAdmin(req) {
+              return req.headers['x-event-publication-fixture-admin'] === 'true' ? { user: { id: 'fixture-admin' } } : null;
+            }
+            export async function ensureAdmin(req) {
               if (req.headers['x-event-publication-fixture-admin'] !== 'true') {
                 const error = new Error('Sesión requerida');
                 error.name = 'UnauthorizedError';
@@ -173,7 +179,7 @@ async function request(method, body, authenticated = false, id = null) {
   const req = Readable.from(body === undefined ? [] : [Buffer.from(JSON.stringify(body))]);
   req.method = method;
   req.url = "/api/events" + (id ? "/" + encodeURIComponent(id) : "");
-  req.headers = authenticated ? { "x-event-publication-fixture-admin": "true" } : {};
+  req.headers = authenticated === "reader" ? { "x-event-publication-fixture-reader": "true" } : authenticated ? { "x-event-publication-fixture-admin": "true" } : {};
   let text = "";
   const res = { statusCode: 200, setHeader() {}, end(value = "") { text += value; } };
   await app.handler(req, res);
@@ -388,6 +394,30 @@ try {
     assert.deepEqual((await rawEvent(newEvent.id)).resources.customSections, customSections);
     assert.equal((await request("PATCH", { resources: { ...resources, customSections: [] } }, true, newEvent.id)).status, 200);
     assert.deepEqual((await request("GET", undefined, false, newEvent.id)).data.resources.customSections, []);
+  });
+
+  await check("private programs and documents hide their links from visitors only", async () => {
+    const before = (await request("GET", undefined, true, newEvent.id)).data;
+    const secret = "/documents/privado-qa.pdf";
+    const resources = { ...before.resources, programs: [{ title: "Programa público", url: "/programa.pdf" }], documents: [{ title: "Acta privada", url: secret, description: "Visible", private: true }] };
+    assert.equal((await request("PATCH", { resources, published: true }, true, newEvent.id)).status, 200);
+    const visitorOne = (await request("GET", undefined, false, newEvent.id)).data;
+    const visitorList = (await request("GET", undefined, false)).data.find(item => item.id === newEvent.id);
+    for (const visitor of [visitorOne, visitorList]) {
+      assert.equal(visitor.resources.programs[0].url, "/programa.pdf");
+      assert.deepEqual(visitor.resources.documents[0], { title: "Acta privada", url: "", description: "Visible", private: true, locked: true });
+      assert.ok(!JSON.stringify(visitor).includes(secret));
+    }
+    for (const viewer of [true, "reader"]) {
+      const allowed = (await request("GET", undefined, viewer, newEvent.id)).data;
+      assert.equal(allowed.resources.documents[0].url, secret);
+      assert.equal(allowed.resources.documents[0].locked, undefined);
+    }
+    assert.equal((await request("PATCH", { resources: visitorOne.resources }, true, newEvent.id)).status, 409);
+    assert.equal((await rawEvent(newEvent.id)).resources.documents[0].url, secret);
+    const reopened = { ...resources, documents: [{ title: "Acta privada", url: secret, description: "Visible" }] };
+    assert.equal((await request("PATCH", { resources: reopened }, true, newEvent.id)).status, 200);
+    assert.equal((await request("GET", undefined, false, newEvent.id)).data.resources.documents[0].url, secret);
   });
 
   console.log(`${checks.length} event publication checks passed: legacy migration, preserved content/attachments, durable publish cycles, creation defaults, structured resources/blocks, ordering, intentional removal, auth and audit.`);
