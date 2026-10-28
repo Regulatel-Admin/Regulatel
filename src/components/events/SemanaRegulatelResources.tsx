@@ -69,7 +69,7 @@ export default function SemanaRegulatelResources({ id, resources: override, extr
   const customSections = data?.customSections ?? [];
   const definitions: Record<string, { id: string; label: string; icon: typeof FileText }> = { ...tabDefinitions };
   for (const section of customSections) definitions[section.id] = { id: section.id, label: section.title, icon: FileText };
-  const visibleSections: string[] = [...(inline ? order : order.filter(section => section === "photos" ? photos.length > 0 : (data?.[section].length ?? 0) > 0 || (section === "documents" && extraDocuments.length > 0))), ...customSections.map(section => section.id)];
+  const visibleSections: string[] = [...(inline ? order : order.filter(section => section === "photos" ? photos.length > 0 : (data?.[section].length ?? 0) > 0 || section === "documents")), ...customSections.map(section => section.id)];
   const selectedTab = visibleSections.includes(activeTab) ? activeTab : visibleSections[0];
 
   useEffect(() => {
@@ -116,7 +116,7 @@ export default function SemanaRegulatelResources({ id, resources: override, extr
       const url = safeContentUrl(doc.url);
       return <article className={inline ? "se-file-row relative group" : "se-file-row"} key={`${doc.url}-${index}`} {...tools.itemDragProps("documents", index)}>{tools.itemTools("documents", index)}{url && <FileText className="se-file-icon" size={21} aria-hidden/>}{doc.locked && <Lock className="se-file-icon" size={21} aria-hidden/>}<div className="se-file-info"><h3>{doc.title}{privateBadge(doc)}</h3>{doc.description && <p>{doc.description}</p>}</div>{doc.locked && !inline ? requestAccess(doc) : (url || doc.comingSoon || inline) && <div className="se-file-actions" style={inline ? { flexWrap: "wrap", flexShrink: 1 } : undefined}>{(url || doc.comingSoon) && <button type="button" className="se-text-link" onClick={() => setPreview({ title: doc.title, url, comingSoon: !url && doc.comingSoon })} aria-label={`Abrir ${doc.title}`}>Abrir<ArrowUpRight size={16}/></button>}{tools.replaceButton("documents", index)}{url && <a className="se-download" href={url} download aria-label={`Descargar ${doc.title}`} title="Descargar documento"><Download size={18}/></a>}</div>}</article>;
     })}
-  </div>}{extraDocuments.length > 0 && <EventDocumentsSection documents={extraDocuments}/>} {inline && <div className="mt-5">{tools.addDocumentButton}</div>}</section>;
+  </div>}{extraDocuments.length > 0 && <EventDocumentsSection documents={extraDocuments}/>}{!inline && data.documents.length === 0 && extraDocuments.length === 0 && <p className="se-empty-note">No hay documentos disponibles por el momento.</p>} {inline && <div className="mt-5">{tools.addDocumentButton}</div>}</section>;
 
   const gallery = <section id="galeria" className="se-section" {...tools.sectionDragProps("photos")}><h2 className={inline ? "relative group" : undefined}>Galería{tools.sectionTools("photos")}</h2><div className="se-photo-grid">{photos.slice(0, allPhotos ? undefined : 6).map((item, index) => {
     const button = <button type="button" key={`${item.src}-${index}`} className="se-photo" style={inline ? { aspectRatio: layout === "editorial" && index === 0 ? "1.9" : "4/3" } : undefined} onClick={() => setPhoto(index)} aria-label={`Ver fotografía ${index + 1}`}><img src={item.src} alt={item.caption || `Fotografía ${index + 1} del evento`} loading={allPhotos ? "eager" : "lazy"}/></button>;
