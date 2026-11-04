@@ -3,7 +3,8 @@ import { motion } from 'framer-motion';
 import { useLocation, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { ArrowLeft, Globe, ExternalLink, User, ArrowRight } from 'lucide-react';
-import { useEntesReguladoresMiembros, useSiteSettings } from '@/contexts/SiteSettingsContext';
+import { useDirectorioAutoridades, useEntesReguladoresMiembros, useSiteSettings } from '@/contexts/SiteSettingsContext';
+import { findDirectorioForEnte } from '@/data/directorioAutoridades';
 import NotFound from '@/pages/NotFound';
 import { slugify } from '@/lib/slugify';
 import {
@@ -269,6 +270,7 @@ const EnteRegulador: React.FC = () => {
   const location = useLocation();
   const { loading } = useSiteSettings();
   const cmsEntes = useEntesReguladoresMiembros();
+  const directorio = useDirectorioAutoridades();
   const routePath = location.pathname;
 
   const resolved = useMemo(() => {
@@ -294,16 +296,19 @@ const EnteRegulador: React.FC = () => {
       route: normalizeEnteInternalRoute(cms?.route || hardcoded?.route || routePath) || routePath,
       externalUrl: cms?.externalUrl || hardcoded?.externalUrl || website,
       website,
-      description: hardcoded?.description,
+      description: cms?.description?.trim() || hardcoded?.description,
       authorities: hardcoded?.authorities,
     };
+    // La autoridad se edita una sola vez en el Directorio de autoridades.
+    const contact = findDirectorioForEnte(directorio, { name: ente.name, country: ente.country });
+    if (contact?.presidente.trim()) ente.authorities = [{ name: contact.presidente.trim(), role: contact.cargo.trim() }];
     return {
       ente,
       key: key || canonicalEnteSlug(ente.route) || enteRouteSlug(ente.route),
       logoUrl: cms?.logoUrl,
       cmsId: cms?.id,
     };
-  }, [cmsEntes, routePath]);
+  }, [cmsEntes, directorio, routePath]);
 
   const otherMembers = useMemo(() => {
     const currentKey = resolved?.key;

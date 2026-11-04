@@ -17,6 +17,8 @@ export interface EnteReguladorMiembro {
   externalUrl: string;
   /** Si es true, la tarjeta enlaza solo a externalUrl (nueva pestaña), sin ficha interna. Útil para nuevos miembros sin página propia aún. */
   linkExternalOnly?: boolean;
+  /** Texto de la ficha; si falta, se usa la descripción original del sitio. */
+  description?: string;
 }
 
 export const ENTES_MIEMBROS_SETTINGS_KEY = "entes_reguladores_miembros" as const;
@@ -98,6 +100,7 @@ export function parseEntesMiembrosFromSettingValue(value: unknown): EnteRegulado
       route: normalizeEnteInternalRoute(route) || "/",
       externalUrl,
       linkExternalOnly: r.linkExternalOnly === true,
+      description: typeof r.description === "string" && r.description.trim() ? r.description : undefined,
     });
   }
   return out;

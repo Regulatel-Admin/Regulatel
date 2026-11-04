@@ -65,6 +65,17 @@ export function parseDirectorioFromSettingValue(value: unknown): DirectorioAutor
   return out;
 }
 
+const comparable = (value: string) => value.normalize("NFD").replace(/[̀-ͯ]/g, "").trim().toUpperCase();
+
+/** Entrada del directorio de un ente (mismo acrónimo y país); une la ficha y el directorio. */
+export function findDirectorioForEnte(entries: DirectorioAutoridad[], ente: { name: string; country: string }): DirectorioAutoridad | undefined {
+  const name = comparable(ente.name);
+  const country = comparable(ente.country);
+  if (!name) return undefined;
+  const sameName = entries.filter((entry) => comparable(entry.acronym) === name);
+  return sameName.find((entry) => comparable(entry.pais) === country) ?? (sameName.length === 1 && !country ? sameName[0] : undefined);
+}
+
 export function stampDirectorioIds(list: DirectorioAutoridad[]): DirectorioAutoridad[] {
   return list.map((e, i) => ({
     ...e,

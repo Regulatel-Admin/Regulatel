@@ -19,6 +19,7 @@ import {
 import {
   DIRECTORIO_AUTORIDADES_SETTINGS_KEY,
   defaultDirectorioAutoridades,
+  findDirectorioForEnte,
   stampDirectorioIds,
   type DirectorioAutoridad,
 } from "@/data/directorioAutoridades";
@@ -91,6 +92,18 @@ function PublishBar({
   );
 }
 
+function Section({ title, hint, children }: { title: string; hint?: string; children: ReactNode }) {
+  return (
+    <section className="space-y-4 rounded-2xl border p-4" style={{ borderColor: "rgba(22,61,89,0.10)", backgroundColor: "#fbfcfd" }}>
+      <div>
+        <h3 className="text-[13px] font-bold uppercase tracking-wide" style={{ color: "var(--regu-navy)" }}>{title}</h3>
+        {hint ? <p className="mt-1 text-[12px] leading-relaxed" style={{ color: "var(--regu-gray-500)" }}>{hint}</p> : null}
+      </div>
+      {children}
+    </section>
+  );
+}
+
 function emptyEnte(): EnteReguladorMiembro {
   return {
     id: `ente-new-${Date.now()}`,
@@ -131,6 +144,13 @@ export function EnteForm({ id }: { id?: string }) {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [published, setPublished] = useState(false);
+  // La autoridad vive en el Directorio de autoridades; aquí se edita esa misma entrada.
+  const { directorioAutoridades } = useSiteSettings();
+  const directorio = stampDirectorioIds(preview.directorio ?? directorioAutoridades ?? defaultDirectorioAutoridades);
+  const contact = findDirectorioForEnte(directorio, row);
+  const [authority, setAuthority] = useState(() => ({ presidente: contact?.presidente ?? "", cargo: contact?.cargo ?? "" }));
+  const authorityChanged =
+    (contact?.presidente ?? "") !== authority.presidente.trim() || (contact?.cargo ?? "") !== authority.cargo.trim();
 
   const previewList = useMemo(() => {
     const list = allEntries.map((e) => ({ ...e }));
@@ -179,6 +199,7 @@ export function EnteForm({ id }: { id?: string }) {
           country: e.country.trim(),
           fullName: e.fullName?.trim() || undefined,
           logoUrl: e.logoUrl?.trim() || undefined,
+          description: e.description?.trim() || undefined,
           route,
           externalUrl: e.externalUrl.trim(),
           linkExternalOnly: e.linkExternalOnly === true,
@@ -188,11 +209,28 @@ export function EnteForm({ id }: { id?: string }) {
     setError(null);
     const before = cloneJson(entesReguladoresMiembros ?? defaultEntesReguladoresMiembros);
     const res = await api.settings.set(ENTES_MIEMBROS_SETTINGS_KEY, { entes: prepared });
-    setSaving(false);
     if (!res.ok) {
+      setSaving(false);
       setError(res.error ?? "No se pudo publicar.");
       return;
     }
+    if (!removed && authorityChanged && (authority.presidente.trim() || contact)) {
+      const current = stampDirectorioIds(directorioAutoridades ?? defaultDirectorioAutoridades);
+      const target = findDirectorioForEnte(current, row);
+      const update = { presidente: authority.presidente.trim(), cargo: authority.cargo.trim() };
+      const nextDirectorio = target
+        ? current.map((entry) => (entry.id === target.id ? { ...entry, ...update } : entry))
+        : [...current, { ...emptyDirectorio(), pais: row.country.trim().toUpperCase(), acronym: row.name.trim(), ...update }];
+      const dirRes = await api.settings.set(DIRECTORIO_AUTORIDADES_SETTINGS_KEY, { entries: nextDirectorio });
+      if (!dirRes.ok) {
+        setSaving(false);
+        setError(`La tarjeta se publicó, pero la autoridad no: ${dirRes.error ?? "inténtalo otra vez."}`);
+        await refetch();
+        return;
+      }
+      notifyCmsSaved(DIRECTORIO_AUTORIDADES_SETTINGS_KEY);
+    }
+    setSaving(false);
     recordPersistedChange({
       label: "entes miembros",
       undo: async () => {
@@ -221,97 +259,151 @@ export function EnteForm({ id }: { id?: string }) {
   return (
     <div className="space-y-5">
       <p className="text-[12px] leading-relaxed" style={{ color: "var(--regu-gray-500)" }}>
-        Logo, nombre y país de la tarjeta. Se ve en el carrusel al instante.
+        Todo lo de este miembro en un solo lugar: la tarjeta del carrusel, su ficha y el Directorio de autoridades.
       </p>
-      <Field label="Nombre corto">
-        <input
-          className={fieldClass}
-          style={fieldStyle}
-          value={row.name}
-          placeholder="ENACOM"
-          onChange={(e) => {
-            setRow({ ...row, name: e.target.value });
+      <Section title="Logo">
+        <AdminBlobUploadField
+          label="Logo de la tarjeta y la ficha"
+          value={row.logoUrl ?? ""}
+          onChange={(url) => {
+            setRow({ ...row, logoUrl: url || undefined });
             setPublished(false);
           }}
+          kind="image"
+          folder="attachments"
+          helpText="PNG o JPG con fondo claro. Si no subes uno, se usa el logo que ya hay en el sitio."
         />
-      </Field>
-      <Field label="País">
-        <input
-          className={fieldClass}
-          style={fieldStyle}
-          value={row.country}
-          placeholder="Argentina"
-          onChange={(e) => {
-            setRow({ ...row, country: e.target.value });
-            setPublished(false);
-          }}
-        />
-      </Field>
-      <Field label="Nombre completo">
-        <textarea
-          rows={2}
-          className={`${fieldClass} resize-y`}
-          style={fieldStyle}
-          value={row.fullName ?? ""}
-          onChange={(e) => {
-            setRow({ ...row, fullName: e.target.value });
-            setPublished(false);
-          }}
-        />
-      </Field>
-      <Field label="Sitio web">
-        <input
-          className={fieldClass}
-          style={fieldStyle}
-          value={row.externalUrl}
-          placeholder="https://"
-          onChange={(e) => {
-            setRow({ ...row, externalUrl: e.target.value });
-            setPublished(false);
-          }}
-        />
-      </Field>
-      <Field
-        label="Página en este sitio (opcional)"
-        hint="La tarjeta abre esta ficha en REGULATEL. Ejemplo: /siget. Si marcas “solo el sitio web”, no se usa."
+      </Section>
+      <Section title="Datos del ente">
+        <div className="grid gap-4 sm:grid-cols-2">
+          <Field label="Nombre corto">
+            <input
+              className={fieldClass}
+              style={fieldStyle}
+              value={row.name}
+              placeholder="ENACOM"
+              onChange={(e) => {
+                setRow({ ...row, name: e.target.value });
+                setPublished(false);
+              }}
+            />
+          </Field>
+          <Field label="País">
+            <input
+              className={fieldClass}
+              style={fieldStyle}
+              value={row.country}
+              placeholder="Argentina"
+              onChange={(e) => {
+                setRow({ ...row, country: e.target.value });
+                setPublished(false);
+              }}
+            />
+          </Field>
+        </div>
+        <Field label="Nombre completo">
+          <textarea
+            rows={2}
+            className={`${fieldClass} resize-y`}
+            style={fieldStyle}
+            value={row.fullName ?? ""}
+            onChange={(e) => {
+              setRow({ ...row, fullName: e.target.value });
+              setPublished(false);
+            }}
+          />
+        </Field>
+      </Section>
+      <Section
+        title="Autoridad"
+        hint={
+          contact
+            ? "Se actualiza también en el Directorio de autoridades y en la ficha del ente."
+            : "Este ente no tiene entrada en el Directorio de autoridades; al publicar se crea una."
+        }
       >
-        <input
-          className={fieldClass}
-          style={fieldStyle}
-          value={row.route === "/" ? "" : row.route}
-          placeholder="/siget"
-          onChange={(e) => {
-            setRow({ ...row, route: e.target.value || "/" });
-            setPublished(false);
-          }}
-          onBlur={() => {
-            const next = normalizeEnteInternalRoute(row.route) || "/";
-            if (next !== row.route) setRow({ ...row, route: next });
-          }}
-        />
-      </Field>
-      <AdminBlobUploadField
-        label="Logo"
-        value={row.logoUrl ?? ""}
-        onChange={(url) => {
-          setRow({ ...row, logoUrl: url || undefined });
-          setPublished(false);
-        }}
-        kind="image"
-        folder="attachments"
-        helpText="Si no subes foto, se usa el logo que ya hay en el sitio."
-      />
-      <label className="flex items-center gap-2 text-sm cursor-pointer">
-        <input
-          type="checkbox"
-          checked={row.linkExternalOnly === true}
-          onChange={(e) => {
-            setRow({ ...row, linkExternalOnly: e.target.checked });
-            setPublished(false);
-          }}
-        />
-        <span style={{ color: "var(--regu-gray-800)" }}>Abrir solo el sitio web (sin ficha en REGULATEL)</span>
-      </label>
+        <Field label="Nombre">
+          <input
+            className={fieldClass}
+            style={fieldStyle}
+            value={authority.presidente}
+            placeholder="Nombre y apellidos"
+            onChange={(e) => {
+              setAuthority({ ...authority, presidente: e.target.value });
+              setPublished(false);
+            }}
+          />
+        </Field>
+        <Field label="Cargo">
+          <input
+            className={fieldClass}
+            style={fieldStyle}
+            value={authority.cargo}
+            placeholder="Presidente"
+            onChange={(e) => {
+              setAuthority({ ...authority, cargo: e.target.value });
+              setPublished(false);
+            }}
+          />
+        </Field>
+      </Section>
+      <Section title="Ficha del ente">
+        <Field label="Descripción" hint="Texto de la ficha. Déjalo vacío para usar el texto original.">
+          <textarea
+            rows={4}
+            className={`${fieldClass} resize-y`}
+            style={fieldStyle}
+            value={row.description ?? ""}
+            onChange={(e) => {
+              setRow({ ...row, description: e.target.value });
+              setPublished(false);
+            }}
+          />
+        </Field>
+      </Section>
+      <Section title="Enlaces">
+        <Field label="Sitio web oficial">
+          <input
+            className={fieldClass}
+            style={fieldStyle}
+            value={row.externalUrl}
+            placeholder="https://"
+            onChange={(e) => {
+              setRow({ ...row, externalUrl: e.target.value });
+              setPublished(false);
+            }}
+          />
+        </Field>
+        <label className="flex cursor-pointer items-center gap-2 text-sm">
+          <input
+            type="checkbox"
+            checked={row.linkExternalOnly === true}
+            onChange={(e) => {
+              setRow({ ...row, linkExternalOnly: e.target.checked });
+              setPublished(false);
+            }}
+          />
+          <span style={{ color: "var(--regu-gray-800)" }}>La tarjeta abre directamente el sitio web oficial (sin ficha en REGULATEL)</span>
+        </label>
+        {row.linkExternalOnly !== true && (
+          <Field label="Página de la ficha en este sitio" hint="Ejemplo: /siget. Si lo dejas vacío, se crea a partir del nombre corto.">
+            <input
+              className={fieldClass}
+              style={fieldStyle}
+              value={row.route === "/" ? "" : row.route}
+              placeholder="/siget"
+              onChange={(e) => {
+                setRow({ ...row, route: e.target.value || "/" });
+                setPublished(false);
+              }}
+              onBlur={() => {
+                const next = normalizeEnteInternalRoute(row.route) || "/";
+                if (next !== row.route) setRow({ ...row, route: next });
+              }}
+            />
+          </Field>
+        )}
+      </Section>
       <PublishBar
         saving={saving}
         error={error}
