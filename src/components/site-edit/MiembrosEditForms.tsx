@@ -9,6 +9,7 @@ import { useDraftHistory } from "@/hooks/useDraftHistory";
 import { usePreviewSync } from "@/hooks/usePreviewSync";
 import { useSettingRemoval } from "@/hooks/useSettingRemoval";
 import { AdminBlobUploadField } from "@/components/admin/AdminBlobUploadField";
+import { enteLogoByRoute, logoKeyFromEnteRoute } from "@/data/miembrosVisuals";
 import {
   ENTES_MIEMBROS_SETTINGS_KEY,
   defaultEntesReguladoresMiembros,
@@ -144,13 +145,32 @@ export function EnteForm({ id }: { id?: string }) {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [published, setPublished] = useState(false);
-  // La autoridad vive en el Directorio de autoridades; aquí se edita esa misma entrada.
+  // La autoridad y el contacto viven en el Directorio de autoridades; aquí se edita esa misma entrada.
   const { directorioAutoridades } = useSiteSettings();
-  const directorio = stampDirectorioIds(preview.directorio ?? directorioAutoridades ?? defaultDirectorioAutoridades);
+  const directorio = useMemo(
+    () => stampDirectorioIds(directorioAutoridades ?? defaultDirectorioAutoridades),
+    [directorioAutoridades]
+  );
   const contact = findDirectorioForEnte(directorio, row);
-  const [authority, setAuthority] = useState(() => ({ presidente: contact?.presidente ?? "", cargo: contact?.cargo ?? "" }));
-  const authorityChanged =
-    (contact?.presidente ?? "") !== authority.presidente.trim() || (contact?.cargo ?? "") !== authority.cargo.trim();
+  const [authority, setAuthority] = useState(() => ({
+    presidente: contact?.presidente ?? "",
+    cargo: contact?.cargo ?? "",
+    corresponsal: contact?.corresponsal ?? "",
+    correo: contact?.correo ?? "",
+  }));
+  const authorityFields = ["presidente", "cargo", "corresponsal", "correo"] as const;
+  const authorityChanged = authorityFields.some((field) => (contact?.[field] ?? "") !== authority[field].trim());
+  const hasAuthority = authorityFields.some((field) => authority[field].trim());
+  const nextDirectorio = useMemo(() => {
+    const update = Object.fromEntries(authorityFields.map((field) => [field, authority[field].trim()])) as Pick<DirectorioAutoridad, (typeof authorityFields)[number]>;
+    const target = findDirectorioForEnte(directorio, row);
+    if (target) return directorio.map((entry) => (entry.id === target.id ? { ...entry, ...update } : entry));
+    if (!hasAuthority || !row.name.trim() || !row.country.trim()) return directorio;
+    return [...directorio, { ...emptyDirectorio(), id: `dir-${row.id}`, pais: row.country.trim().toUpperCase(), acronym: row.name.trim(), ...update }];
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [directorio, row, authority, hasAuthority]);
+  const captureDirectorioBaseline = usePreviewSync("directorio", removed ? undefined : nextDirectorio);
+  const currentLogo = row.logoUrl?.trim() || enteLogoByRoute[logoKeyFromEnteRoute(row.route, row.name)];
 
   const previewList = useMemo(() => {
     const list = allEntries.map((e) => ({ ...e }));
@@ -214,21 +234,17 @@ export function EnteForm({ id }: { id?: string }) {
       setError(res.error ?? "No se pudo publicar.");
       return;
     }
-    if (!removed && authorityChanged && (authority.presidente.trim() || contact)) {
-      const current = stampDirectorioIds(directorioAutoridades ?? defaultDirectorioAutoridades);
-      const target = findDirectorioForEnte(current, row);
-      const update = { presidente: authority.presidente.trim(), cargo: authority.cargo.trim() };
-      const nextDirectorio = target
-        ? current.map((entry) => (entry.id === target.id ? { ...entry, ...update } : entry))
-        : [...current, { ...emptyDirectorio(), pais: row.country.trim().toUpperCase(), acronym: row.name.trim(), ...update }];
+    if (!removed && authorityChanged && (hasAuthority || contact)) {
       const dirRes = await api.settings.set(DIRECTORIO_AUTORIDADES_SETTINGS_KEY, { entries: nextDirectorio });
       if (!dirRes.ok) {
         setSaving(false);
-        setError(`La tarjeta se publicó, pero la autoridad no: ${dirRes.error ?? "inténtalo otra vez."}`);
+        setError(`La tarjeta se publicó, pero el contacto del Directorio no: ${dirRes.error ?? "inténtalo otra vez."}`);
         await refetch();
         return;
       }
       notifyCmsSaved(DIRECTORIO_AUTORIDADES_SETTINGS_KEY);
+      captureDirectorioBaseline(nextDirectorio);
+      clearPreview("directorio");
     }
     setSaving(false);
     recordPersistedChange({
@@ -259,11 +275,34 @@ export function EnteForm({ id }: { id?: string }) {
   return (
     <div className="space-y-5">
       <p className="text-[12px] leading-relaxed" style={{ color: "var(--regu-gray-500)" }}>
-        Todo lo de este miembro en un solo lugar: la tarjeta del carrusel, su ficha y el Directorio de autoridades.
+        Todo lo de este miembro en un solo lugar. Lo que cambies se ve al instante en la tarjeta, en el Directorio y en su ficha.
       </p>
-      <Section title="Logo">
+      <div
+        className="flex items-center gap-4 rounded-2xl border bg-white p-4"
+        style={{ borderColor: "rgba(68,137,198,0.35)", boxShadow: "0 4px 14px rgba(22,61,89,0.06)" }}
+        aria-label="Vista previa del miembro"
+      >
+        <div className="flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-xl border bg-white p-1.5" style={{ borderColor: "rgba(22,61,89,0.10)" }}>
+          {currentLogo ? (
+            <img src={currentLogo} alt={`Logo de ${row.name || "este ente"}`} className="max-h-full max-w-full object-contain" />
+          ) : (
+            <span className="text-[11px]" style={{ color: "var(--regu-gray-400)" }}>Sin logo</span>
+          )}
+        </div>
+        <div className="min-w-0">
+          <p className="truncate text-sm font-bold uppercase" style={{ color: "var(--regu-navy)" }}>
+            {(row.name || "Nombre corto") + " – " + (row.country || "País")}
+          </p>
+          <p className="mt-0.5 line-clamp-2 text-[12px]" style={{ color: "var(--regu-gray-500)" }}>{row.fullName || "Nombre completo"}</p>
+          <p className="mt-1.5 truncate text-[13px] font-semibold" style={{ color: "var(--regu-gray-800)" }}>
+            {authority.presidente || "Autoridad sin indicar"}
+            {authority.cargo ? <span className="font-normal" style={{ color: "var(--regu-gray-500)" }}> · {authority.cargo}</span> : null}
+          </p>
+        </div>
+      </div>
+      <Section title="Logo" hint="PNG o JPG con fondo claro. Se usa en la tarjeta, el Directorio y la ficha.">
         <AdminBlobUploadField
-          label="Logo de la tarjeta y la ficha"
+          label={row.logoUrl ? "Logo subido" : "Subir un logo nuevo"}
           value={row.logoUrl ?? ""}
           onChange={(url) => {
             setRow({ ...row, logoUrl: url || undefined });
@@ -271,7 +310,8 @@ export function EnteForm({ id }: { id?: string }) {
           }}
           kind="image"
           folder="attachments"
-          helpText="PNG o JPG con fondo claro. Si no subes uno, se usa el logo que ya hay en el sitio."
+          showPreview={false}
+          helpText={row.logoUrl ? "Quita el logo subido para volver al logo original del sitio." : "Ahora se muestra el logo original del sitio (arriba)."}
         />
       </Section>
       <Section title="Datos del ente">
@@ -315,11 +355,11 @@ export function EnteForm({ id }: { id?: string }) {
         </Field>
       </Section>
       <Section
-        title="Autoridad"
+        title="Autoridad y contacto"
         hint={
           contact
-            ? "Se actualiza también en el Directorio de autoridades y en la ficha del ente."
-            : "Este ente no tiene entrada en el Directorio de autoridades; al publicar se crea una."
+            ? "Es la misma información de su tarjeta en el Directorio de autoridades."
+            : "Este ente aún no está en el Directorio de autoridades; al publicar se añade."
         }
       >
         <Field label="Nombre">
@@ -346,6 +386,32 @@ export function EnteForm({ id }: { id?: string }) {
             }}
           />
         </Field>
+        <div className="grid gap-4 sm:grid-cols-2">
+          <Field label="Corresponsal">
+            <input
+              className={fieldClass}
+              style={fieldStyle}
+              value={authority.corresponsal}
+              onChange={(e) => {
+                setAuthority({ ...authority, corresponsal: e.target.value });
+                setPublished(false);
+              }}
+            />
+          </Field>
+          <Field label="Correo">
+            <input
+              type="email"
+              className={fieldClass}
+              style={fieldStyle}
+              value={authority.correo}
+              placeholder="nombre@ente.gob"
+              onChange={(e) => {
+                setAuthority({ ...authority, correo: e.target.value });
+                setPublished(false);
+              }}
+            />
+          </Field>
+        </div>
       </Section>
       <Section title="Ficha del ente">
         <Field label="Descripción" hint="Texto de la ficha. Déjalo vacío para usar el texto original.">
@@ -426,7 +492,23 @@ export function EnteForm({ id }: { id?: string }) {
   );
 }
 
+/** Una tarjeta del Directorio abre el mismo formulario del miembro; solo los contactos sin ente usan el formulario corto. */
 export function DirectorioForm({ id }: { id?: string }) {
+  const { directorioAutoridades, entesReguladoresMiembros } = useSiteSettings();
+  const { preview } = useSiteEdit();
+  const entry = id
+    ? stampDirectorioIds(preview.directorio ?? directorioAutoridades ?? defaultDirectorioAutoridades).find((e) => e.id === id)
+    : undefined;
+  const ente = entry
+    ? stampEnteIds(preview.entes ?? entesReguladoresMiembros ?? defaultEntesReguladoresMiembros).find(
+        (candidate) => findDirectorioForEnte([entry], candidate) === entry
+      )
+    : undefined;
+  if (ente?.id) return <EnteForm id={ente.id} />;
+  return <DirectorioContactForm id={id} />;
+}
+
+function DirectorioContactForm({ id }: { id?: string }) {
   const { directorioAutoridades, refetch } = useSiteSettings();
   const { clearPreview, preview, recordPersistedChange } = useSiteEdit();
   const persisted = stampDirectorioIds(

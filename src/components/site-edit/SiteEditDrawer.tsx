@@ -109,9 +109,9 @@ function drawerTitle(target: SiteEditTarget): string {
     case "home-aviso":
       return target.id ? "Este aviso" : "Nuevo aviso en portada";
     case "ente":
-      return target.id ? "Este ente" : "Nuevo ente";
+      return target.id ? "Este miembro" : "Nuevo miembro";
     case "directorio":
-      return target.id ? "Este contacto" : "Nuevo contacto";
+      return target.id ? "Este miembro" : "Nuevo contacto";
     case "grupo":
       return target.id ? "Este grupo" : "Nuevo grupo de trabajo";
     case "autoridad":
