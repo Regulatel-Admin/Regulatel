@@ -3,7 +3,7 @@ import { SEMANA_RESOURCE_GROUPS } from "@/data/eventMaterials";
 import { EVENT_LAYOUT_OPTIONS, isEventLayout, type EventLayout } from "@/data/eventLayouts";
 import { useEffect, useState, type ReactNode } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import { ArrowLeft, ArrowUpRight, CalendarDays, ChevronLeft, ChevronRight, Download, ExternalLink, FileText, Images, Lock, MapPin, Plus, Trash2, X } from "lucide-react";
+import { ArrowLeft, ArrowUpRight, CalendarDays, ChevronLeft, ChevronRight, Download, ExternalLink, FileText, Images, Lock, MapPin, Plus, Trash2, Video, X } from "lucide-react";
 import type { Event, EventAttachment, EventResourceFile, EventResources } from "@/types/event";
 import { safeContentUrl } from "@/types/contentBlocks";
 import { useSiteSettings } from "@/contexts/SiteSettingsContext";
@@ -68,7 +68,7 @@ export default function SemanaRegulatelResources({ id, resources: override, extr
   const tools = useEventResourceInlineTools(data ?? emptyResources, order);
   const customSections = data?.customSections ?? [];
   const definitions: Record<string, { id: string; label: string; icon: typeof FileText }> = { ...tabDefinitions };
-  for (const section of customSections) definitions[section.id] = { id: section.id, label: section.title, icon: FileText };
+  for (const section of customSections) definitions[section.id] = { id: section.id, label: section.title, icon: /entrevista|video/i.test(section.title) ? Video : FileText };
   // Programa, Documentos y Galería se muestran siempre; vacías llevan un aviso.
   const visibleSections: string[] = [...order, ...customSections.map(section => section.id)];
   const selectedTab = visibleSections.includes(activeTab) ? activeTab : visibleSections[0];
