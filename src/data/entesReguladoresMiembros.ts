@@ -115,7 +115,7 @@ export const defaultEntesReguladoresMiembros: EnteReguladorMiembro[] = [
   { name: "ARCOTEL", country: "Ecuador", fullName: "Agencia de Regulación y Control de las Telecomunicaciones", route: "/arcotel", externalUrl: "https://www.arcotel.gob.ec" },
   { name: "MINCOM", country: "Cuba", fullName: "Ministerio de Comunicaciones", route: "/min-com", externalUrl: "https://www.mincom.gob.cu" },
   { name: "CNMC", country: "España", fullName: "Comisión Nacional de los Mercados y la Competencia", route: "/cnmc", externalUrl: "https://www.regulatel.org/cnmc" },
-  { name: "CONATEL", country: "Guatemala", fullName: "Comisión Nacional de Telecomunicaciones", route: "/conatel-gt", externalUrl: "https://www.regulatel.org/conatel-gt" },
+  { name: "SIT", country: "Guatemala", fullName: "Superintendencia de Telecomunicaciones", route: "/conatel-gt", externalUrl: "https://sit.gob.gt/" },
   { name: "CONATEL", country: "Honduras", fullName: "Comisión Nacional de Telecomunicaciones", route: "/conatel", externalUrl: "https://www.regulatel.org/conatel" },
   { name: "AGCOM", country: "Italia", fullName: "Autorità per le Garanzie nelle Comunicazioni", route: "/agcom", externalUrl: "https://www.regulatel.org/agcom" },
   { name: "CRT", country: "México", fullName: "Comisión Reguladora de Telecomunicaciones", route: "/ift", externalUrl: "https://www.regulatel.org/ift" },

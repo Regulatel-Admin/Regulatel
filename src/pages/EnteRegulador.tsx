@@ -118,7 +118,7 @@ const websiteMap: Record<string, string> = {
   'indotel': 'https://www.indotel.gob.do',
   'ift': 'https://www.ift.org.mx',
   'osiptel': 'https://www.osiptel.gob.pe',
-  'conatel-gt': 'https://www.conatel.gob.gt',
+  'conatel-gt': 'https://sit.gob.gt',
   'sit': 'https://www.siget.gob.sv',
   'min-com': 'https://www.mincom.gob.cu',
   'sub-secretaria-telecom': 'https://www.argentina.gob.ar/secretaria-de-innovacion-publica/subsecretaria-de-telecomunicaciones',
@@ -132,21 +132,21 @@ const websiteMap: Record<string, string> = {
 };
 
 const authoritiesMap: Record<string, AuthorityInfo[]> = {
-  'enacom': [{ name: 'Juan Martín Ozores', role: 'Interventor' }],
+  'enacom': [{ name: 'Andrés Michelazzo', role: 'Presidente' }],
   'att': [{ name: 'Carlos Alberto Agreda Lema', role: 'Director Ejecutivo' }],
   'anatel': [{ name: 'Carlos Manuel Baigorri', role: 'Presidente' }],
   'subtel': [{ name: 'Claudio Araya San Martín', role: 'Subsecretario' }],
   'crc': [{ name: 'Felipe Augusto Díaz Suaza', role: 'Director Ejecutivo' }],
   'sutel': [{ name: 'Carlos Watson Carazo', role: 'Presidente' }],
   'arcotel': [{ name: 'Jorge Roberto Hoyos Zavala', role: 'Director Ejecutivo' }],
-  'sit': [{ name: 'Manuel Aguilar', role: 'Superintendente' }],
+  'sit': [{ name: 'Manuel Ernesto Aguilar', role: 'Superintendente General de Electricidad y Telecomunicaciones' }],
   'cnmc': [
     { name: 'Alejandra de Iturriaga', role: 'Directora de Telecomunicaciones y Servicios Audiovisuales' },
     { name: 'Bernardo Lorenzo', role: 'Miembro del Consejo' },
   ],
-  'conatel': [{ name: 'Lorenzo Sauceda Calix', role: 'Presidente' }],
+  'conatel': [{ name: 'Fernando Anduray Díaz', role: 'Comisionado Presidente' }],
   'agcom': [{ name: 'Giacomo Lasorella', role: 'Presidente' }],
-  'osiptel': [{ name: 'Jesus Guillén Marroquín', role: 'Presidente ejecutivo (e)' }],
+  'osiptel': [{ name: 'Rafael Eduardo Muente Schwarz', role: 'Presidente' }],
   'conatel-py': [{ name: 'Juan Carlos Duarte Duré', role: 'Presidente' }],
   'anacom': [{ name: 'Sandra Maximiano', role: 'Presidente del Consejo de Administración' }],
   'net': [{ name: 'Romina Garrido Iglesias', role: 'Comisionado Presidente' }],
@@ -160,7 +160,7 @@ const authoritiesMap: Record<string, AuthorityInfo[]> = {
   'telcor': [{ name: 'Nahima Díaz Flores', role: 'Directora General' }],
   'indotel': [{ name: 'Guido Orlando Gómez Mazara', role: 'Presidente del Consejo Directivo' }],
   'ift': [{ name: 'Norma Solano Rodríguez', role: 'Presidente' }],
-  'conatel-gt': [{ name: 'Herbert Armando Rubio Montes', role: 'Superintendente' }],
+  'conatel-gt': [{ name: 'Axel Gustavo Pérez Archila', role: 'Comisionado Presidente' }],
   'sub-secretaria-telecom': [],
   'min-com': [{ name: 'Wilfredo López Rodríguez', role: 'Director de Regulaciones' }],
 };
@@ -189,7 +189,7 @@ const entesInfo: Record<string, EnteInfo> = {
   'conatel-ve': { name: 'CONATEL', country: 'Venezuela', fullName: 'Comisión Nacional de Telecomunicaciones', displayTitle: 'CONATEL – VENEZUELA', route: '/conatel-ve', externalUrl: 'https://www.conatel.gob.ve', website: websiteMap['conatel-ve'], description: 'CONATEL es el organismo del Estado venezolano responsable de la regulación, supervisión y control del sector de telecomunicaciones en Venezuela.', authorities: authoritiesMap['conatel-ve'] },
   'asep': { name: 'ASEP', country: 'Panamá', fullName: 'Autoridad Nacional de los Servicios Públicos', displayTitle: 'ASEP – PANAMÁ', route: '/asep', externalUrl: 'https://www.asep.gob.pa', website: websiteMap['asep'], description: 'ASEP es la entidad reguladora de Panamá, responsable de regular, fiscalizar y controlar la prestación eficiente de los servicios públicos, incluidas las telecomunicaciones, electricidad, gas natural y agua potable.', authorities: authoritiesMap['asep'] },
   'telcor': { name: 'TELCOR', country: 'Nicaragua', fullName: 'Instituto Nicaraguense de Telecomunicaciones y Correo', displayTitle: 'TELCOR – NICARAGUA', route: '/telcor', externalUrl: 'https://www.telcor.gob.ni', website: websiteMap['telcor'], description: 'TELCOR es el instituto regulador de Nicaragua que norma, regula y supervisa los servicios de telecomunicaciones y servicios postales, promoviendo el acceso y la calidad de las comunicaciones.', authorities: authoritiesMap['telcor'] },
-  'conatel-gt': { name: 'CONATEL', country: 'Guatemala', fullName: 'Comisión Nacional de Telecomunicaciones', route: '/conatel-gt', externalUrl: 'https://www.regulatel.org/conatel-gt', website: websiteMap['conatel-gt'], description: 'CONATEL es la entidad reguladora de Guatemala, encargada de regular el sector de telecomunicaciones en el país, promoviendo la competencia, la inversión y el acceso a las comunicaciones para todos los guatemaltecos.', authorities: authoritiesMap['conatel-gt'] },
+  'conatel-gt': { name: 'SIT', country: 'Guatemala', fullName: 'Superintendencia de Telecomunicaciones', route: '/conatel-gt', externalUrl: 'https://www.regulatel.org/conatel-gt', website: websiteMap['conatel-gt'], description: 'La SIT es la entidad reguladora de Guatemala, encargada de regular el sector de telecomunicaciones en el país, promoviendo la competencia, la inversión y el acceso a las comunicaciones para todos los guatemaltecos.', authorities: authoritiesMap['conatel-gt'] },
 };
 
 // Quick lookup list for "Otros miembros" section
