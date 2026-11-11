@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 import { ExternalLink, BarChart2 } from "lucide-react";
 
 const POWER_BI_URL =
-  "https://app.powerbi.com/view?r=eyJrIjoiOWM5NWI3YWEtZjk0MC00NDlhLWI0YmYtMDQ4MGQ2OTM1ZTQwIiwidCI6ImVjYzY2NjY1LTFiYjktNDgxOC04YWJjLWE0MDk0Njg5NDE3OCIsImMiOjR9";
+  "https://app.powerbi.com/view?r=eyJrIjoiNjgyNTZmMzEtMDgzZS00NDk4LTg1ZWUtY2VjZmIwYzE5N2I1IiwidCI6ImVjYzY2NjY1LTFiYjktNDgxOC04YWJjLWE0MDk0Njg5NDE3OCIsImMiOjR9";
 
 export default function LiveIndicatorsSection() {
   const { t } = useTranslation();
