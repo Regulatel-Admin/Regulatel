@@ -2,6 +2,7 @@ import { DraftEditableText } from "@/components/site-edit/DraftEditableText";
 import { SEMANA_RESOURCE_GROUPS } from "@/data/eventMaterials";
 import { EVENT_LAYOUT_OPTIONS, isEventLayout, type EventLayout } from "@/data/eventLayouts";
 import { useEffect, useState, type ReactNode } from "react";
+import { useTranslation } from "react-i18next";
 import { Link, useSearchParams } from "react-router-dom";
 import { ArrowLeft, ArrowUpRight, CalendarDays, ChevronLeft, ChevronRight, Download, ExternalLink, FileText, Images, Lock, MapPin, Plus, Trash2, Video, X } from "lucide-react";
 import type { Event, EventAttachment, EventResourceFile, EventResources } from "@/types/event";
@@ -16,12 +17,23 @@ import ContentBlocksEditor from "@/components/site-edit/ContentBlocksEditor";
 import { useEventInlineEditor } from "@/contexts/EventInlineEditContext";
 import { useEventResourceInlineTools } from "@/components/site-edit/EventResourceInlineTools";
 import materials from "@/data/semanaRegulatelMaterials.json";
+import { localizePublishedText, localizePublishedValue } from "@/lib/publishedContent";
+import { localizePublishedNode } from "@/lib/publishedReact";
 import "./semana-event.css";
 
 const resourceGroups = SEMANA_RESOURCE_GROUPS;
 type ResourceSection = "programs" | "documents" | "photos";
 const standardOrder: ResourceSection[] = ["programs", "documents", "photos"];
 const emptyResources: EventResources = { programs: [], documents: [], photos: [], survey: "", taxi: "" };
+const resourceLabels = {
+  es: { requestAccess: "Solicitar acceso", preview: "Vista previa", cover: "Portada", downloadProgram: "Descargar programa", open: "Abrir", download: "Descargar", viewPhoto: "Ver fotografía", photo: "Fotografía", eventPhoto: "del evento", participants: "Participantes de", fewerPhotos: "Mostrar menos fotografías", allPhotos: "Ver todas las fotografías" },
+  en: { requestAccess: "Request access", preview: "Preview", cover: "Cover", downloadProgram: "Download programme", open: "Open", download: "Download", viewPhoto: "View photograph", photo: "Photograph", eventPhoto: "from the event", participants: "Participants in", fewerPhotos: "Show fewer photographs", allPhotos: "View all photographs" },
+  pt: { requestAccess: "Solicitar acesso", preview: "Pré-visualização", cover: "Capa", downloadProgram: "Descarregar programa", open: "Abrir", download: "Descarregar", viewPhoto: "Ver fotografia", photo: "Fotografia", eventPhoto: "do evento", participants: "Participantes de", fewerPhotos: "Mostrar menos fotografias", allPhotos: "Ver todas as fotografias" },
+  it: { requestAccess: "Richiedi accesso", preview: "Anteprima", cover: "Copertina", downloadProgram: "Scarica programma", open: "Apri", download: "Scarica", viewPhoto: "Visualizza fotografia", photo: "Fotografia", eventPhoto: "dell'evento", participants: "Partecipanti a", fewerPhotos: "Mostra meno fotografie", allPhotos: "Visualizza tutte le fotografie" },
+};
+function labelsFor(language: string) {
+  return resourceLabels[language.split("-")[0] as keyof typeof resourceLabels] ?? resourceLabels.es;
+}
 
 /** An explicit override, including empty lists, replaces the original resources. */
 export function getSemanaResources(id: string, override?: EventResources): EventResources | undefined {
@@ -54,11 +66,16 @@ const tabDefinitions = {
   photos: { id: "galeria", label: "Galería", icon: Images },
 } as const;
 
-export default function SemanaRegulatelResources({ id, resources: override, extraDocuments = [], layout = "simple" }: {
+export default function SemanaRegulatelResources({ id, resources: override, extraDocuments: sourceExtraDocuments = [], layout = "simple" }: {
   id: string; resources?: EventResources; extraDocuments?: EventAttachment[]; layout?: EventLayout;
 }) {
-  const data = getSemanaResources(id, override);
+  const { i18n } = useTranslation();
+  const language = i18n.resolvedLanguage ?? i18n.language;
   const inline = useEventInlineEditor();
+  const sourceData = getSemanaResources(id, override);
+  const data = inline ? sourceData : localizePublishedValue(sourceData, language);
+  const extraDocuments = inline ? sourceExtraDocuments : localizePublishedValue(sourceExtraDocuments, language);
+  const labels = labelsFor(inline ? "es" : language);
   const [preview, setPreview] = useState<Preview | null>(null);
   const [photo, setPhoto] = useState<number | null>(null);
   const [allPhotos, setAllPhotos] = useState(false);
@@ -68,7 +85,7 @@ export default function SemanaRegulatelResources({ id, resources: override, extr
   const tools = useEventResourceInlineTools(data ?? emptyResources, order);
   const customSections = data?.customSections ?? [];
   const definitions: Record<string, { id: string; label: string; icon: typeof FileText }> = { ...tabDefinitions };
-  for (const section of customSections) definitions[section.id] = { id: section.id, label: section.title, icon: /entrevista|video/i.test(section.title) ? Video : FileText };
+  for (const section of customSections) definitions[section.id] = { id: section.id, label: section.title, icon: /entrevista|interview|intervista|video/i.test(section.title) ? Video : FileText };
   // Programa, Documentos y Galería se muestran siempre; vacías llevan un aviso.
   const visibleSections: string[] = [...order, ...customSections.map(section => section.id)];
   const selectedTab = visibleSections.includes(activeTab) ? activeTab : visibleSections[0];
@@ -94,7 +111,7 @@ export default function SemanaRegulatelResources({ id, resources: override, extr
   if (!data) return null;
 
   const privateBadge = (doc: EventResourceFile) => doc.private && <span className="se-private-badge" title="Requiere solicitar acceso"><Lock size={11} aria-hidden/>Privado</span>;
-  const requestAccess = (doc: EventResourceFile) => <div className="se-file-actions"><Link className="se-outline" to={`/acceso-documentos?solicitar=1&evento=${encodeURIComponent(id)}&titulo=${encodeURIComponent(doc.title)}`} aria-label={`Solicitar acceso a ${doc.title}`}><Lock size={15} aria-hidden/>Solicitar acceso</Link></div>;
+  const requestAccess = (doc: EventResourceFile, sourceTitle = doc.title) => <div className="se-file-actions"><Link className="se-outline" to={`/acceso-documentos?solicitar=1&evento=${encodeURIComponent(id)}&titulo=${encodeURIComponent(sourceTitle)}`} aria-label={`${labels.requestAccess}: ${doc.title}`}><Lock size={15} aria-hidden/>Solicitar acceso</Link></div>;
 
   const programs = <section id="programas" className="se-section" {...tools.sectionDragProps("programs")}><h2 className={inline ? "relative group" : undefined}>Programa{tools.sectionTools("programs")}</h2>{data.programs.length > 0 && <div className="se-file-list">
     {data.programs.map((doc, index) => {
@@ -103,11 +120,11 @@ export default function SemanaRegulatelResources({ id, resources: override, extr
       const stem = doc.url.split("/").pop()?.split("?")[0].replace(/\.pdf$/i, "") ?? "";
       return <article className={inline ? "se-file-row relative group" : "se-file-row"} key={`${doc.url}-${index}`} {...tools.itemDragProps("programs", index)}>
         {tools.itemTools("programs", index)}
-        {url && (layout === "editorial" ? <button type="button" className="se-paper-cover" disabled={!url} onClick={() => setPreview({ title: doc.title, url, comingSoon: !url && doc.comingSoon })} aria-label={`Vista previa de ${doc.title}`}>
-          {original ? <img src={`/eventos/semana-regulatel-2026/${resourceGroups[id]}/covers/${stem}.png`} alt={`Portada: ${doc.title}`} loading="lazy"/> : <FileText size={30} aria-hidden style={{ margin: "auto" }}/>}</button> : <FileText className="se-file-icon" size={21} aria-hidden/>)}
+        {url && (layout === "editorial" ? <button type="button" className="se-paper-cover" disabled={!url} onClick={() => setPreview({ title: doc.title, url, comingSoon: !url && doc.comingSoon })} aria-label={`${labels.preview}: ${doc.title}`}>
+          {original ? <img src={`/eventos/semana-regulatel-2026/${resourceGroups[id]}/covers/${stem}.png`} alt={`${labels.cover}: ${doc.title}`} loading="lazy"/> : <FileText size={30} aria-hidden style={{ margin: "auto" }}/>}</button> : <FileText className="se-file-icon" size={21} aria-hidden/>)}
         {doc.locked && <Lock className="se-file-icon" size={21} aria-hidden/>}
         <div className="se-file-info"><h3>{doc.title}{privateBadge(doc)}</h3>{doc.description && <p>{doc.description}</p>}</div>
-        {doc.locked && !inline ? requestAccess(doc) : (url || doc.comingSoon || inline) && <div className="se-file-actions" style={inline ? { flexWrap: "wrap", flexShrink: 1 } : undefined}>{(url || doc.comingSoon) && <button type="button" className="se-outline" onClick={() => setPreview({ title: doc.title, url, comingSoon: !url && doc.comingSoon })}>Ver programa<ArrowUpRight size={16}/></button>}{tools.replaceButton("programs", index)}{url && <a className="se-download" href={url} download aria-label={`Descargar programa: ${doc.title}`} title="Descargar documento"><Download size={18}/></a>}</div>}
+        {doc.locked && !inline ? requestAccess(doc, sourceData?.programs[index]?.title) : (url || doc.comingSoon || inline) && <div className="se-file-actions" style={inline ? { flexWrap: "wrap", flexShrink: 1 } : undefined}>{(url || doc.comingSoon) && <button type="button" className="se-outline" onClick={() => setPreview({ title: doc.title, url, comingSoon: !url && doc.comingSoon })}>Ver programa<ArrowUpRight size={16}/></button>}{tools.replaceButton("programs", index)}{url && <a className="se-download" href={url} download aria-label={`${labels.downloadProgram}: ${doc.title}`} title="Descargar documento"><Download size={18}/></a>}</div>}
       </article>;
     })}
   </div>}{!inline && data.programs.length === 0 && <p className="se-empty-note">No hay programa disponible por el momento.</p>}{inline && <div className="mt-5">{tools.addProgramButton}</div>}</section>;
@@ -115,14 +132,14 @@ export default function SemanaRegulatelResources({ id, resources: override, extr
   const documents = <section id="presentaciones" className="se-section" {...tools.sectionDragProps("documents")}><h2 className={inline ? "relative group" : undefined}>Documentos{tools.sectionTools("documents")}</h2>{data.documents.length > 0 && <div className="se-file-list">
     {data.documents.map((doc, index) => {
       const url = safeContentUrl(doc.url);
-      return <article className={inline ? "se-file-row relative group" : "se-file-row"} key={`${doc.url}-${index}`} {...tools.itemDragProps("documents", index)}>{tools.itemTools("documents", index)}{url && <FileText className="se-file-icon" size={21} aria-hidden/>}{doc.locked && <Lock className="se-file-icon" size={21} aria-hidden/>}<div className="se-file-info"><h3>{doc.title}{privateBadge(doc)}</h3>{doc.description && <p>{doc.description}</p>}</div>{doc.locked && !inline ? requestAccess(doc) : (url || doc.comingSoon || inline) && <div className="se-file-actions" style={inline ? { flexWrap: "wrap", flexShrink: 1 } : undefined}>{(url || doc.comingSoon) && <button type="button" className="se-text-link" onClick={() => setPreview({ title: doc.title, url, comingSoon: !url && doc.comingSoon })} aria-label={`Abrir ${doc.title}`}>Abrir<ArrowUpRight size={16}/></button>}{tools.replaceButton("documents", index)}{url && <a className="se-download" href={url} download aria-label={`Descargar ${doc.title}`} title="Descargar documento"><Download size={18}/></a>}</div>}</article>;
+      return <article className={inline ? "se-file-row relative group" : "se-file-row"} key={`${doc.url}-${index}`} {...tools.itemDragProps("documents", index)}>{tools.itemTools("documents", index)}{url && <FileText className="se-file-icon" size={21} aria-hidden/>}{doc.locked && <Lock className="se-file-icon" size={21} aria-hidden/>}<div className="se-file-info"><h3>{doc.title}{privateBadge(doc)}</h3>{doc.description && <p>{doc.description}</p>}</div>{doc.locked && !inline ? requestAccess(doc, sourceData?.documents[index]?.title) : (url || doc.comingSoon || inline) && <div className="se-file-actions" style={inline ? { flexWrap: "wrap", flexShrink: 1 } : undefined}>{(url || doc.comingSoon) && <button type="button" className="se-text-link" onClick={() => setPreview({ title: doc.title, url, comingSoon: !url && doc.comingSoon })} aria-label={`${labels.open}: ${doc.title}`}>Abrir<ArrowUpRight size={16}/></button>}{tools.replaceButton("documents", index)}{url && <a className="se-download" href={url} download aria-label={`${labels.download}: ${doc.title}`} title="Descargar documento"><Download size={18}/></a>}</div>}</article>;
     })}
   </div>}{extraDocuments.length > 0 && <EventDocumentsSection documents={extraDocuments}/>}{!inline && data.documents.length === 0 && extraDocuments.length === 0 && <p className="se-empty-note">No hay documentos disponibles por el momento.</p>} {inline && <div className="mt-5">{tools.addDocumentButton}</div>}</section>;
 
   const gallery = <section id="galeria" className="se-section" {...tools.sectionDragProps("photos")}><h2 className={inline ? "relative group" : undefined}>Galería{tools.sectionTools("photos")}</h2><div className="se-photo-grid">{photos.slice(0, allPhotos ? undefined : 6).map((item, index) => {
-    const button = <button type="button" key={`${item.src}-${index}`} className="se-photo" style={inline ? { aspectRatio: layout === "editorial" && index === 0 ? "1.9" : "4/3" } : undefined} onClick={() => setPhoto(index)} aria-label={`Ver fotografía ${index + 1}`}><img src={item.src} alt={item.caption || `Fotografía ${index + 1} del evento`} loading={allPhotos ? "eager" : "lazy"}/></button>;
+    const button = <button type="button" key={`${item.src}-${index}`} className="se-photo" style={inline ? { aspectRatio: layout === "editorial" && index === 0 ? "1.9" : "4/3" } : undefined} onClick={() => setPhoto(index)} aria-label={`${labels.viewPhoto} ${index + 1}`}><img src={item.src} alt={item.caption || `${labels.photo} ${index + 1} ${labels.eventPhoto}`} loading={allPhotos ? "eager" : "lazy"}/></button>;
     return inline ? <div key={`${item.src}-${index}`} className={`relative group min-w-0 ${layout === "editorial" && index === 0 ? "col-span-2" : ""}`} {...tools.itemDragProps("photos", index)}>{button}{tools.itemTools("photos", index)}<div className="absolute bottom-2 left-2">{tools.replaceButton("photos", index)}</div></div> : button;
-  })}</div>{!inline && photos.length === 0 && <p className="se-empty-note">No hay fotografías disponibles por el momento.</p>}{photos.length > 6 && <button type="button" className="se-outline se-gallery-more" onClick={() => setAllPhotos(!allPhotos)}>{allPhotos ? "Mostrar menos fotografías" : "Ver todas las fotografías"}</button>}{inline && <div className="mt-5">{tools.addPhotoButton}</div>}</section>;
+  })}</div>{!inline && photos.length === 0 && <p className="se-empty-note">No hay fotografías disponibles por el momento.</p>}{photos.length > 6 && <button type="button" className="se-outline se-gallery-more" onClick={() => setAllPhotos(!allPhotos)}>{allPhotos ? labels.fewerPhotos : labels.allPhotos}</button>}{inline && <div className="mt-5">{tools.addPhotoButton}</div>}</section>;
   const panels: Record<string, ReactNode> = { programs, documents, photos: gallery };
   for (const section of customSections) {
     const updateSection = (patch: Partial<typeof section>) => inline?.patch({ resources: { ...data, customSections: customSections.map(item => item.id === section.id ? { ...item, ...patch } : item) } });
@@ -136,10 +153,11 @@ export default function SemanaRegulatelResources({ id, resources: override, extr
     inline.patch({ resources: { ...data, customSections: [...customSections, section] } }); setActiveTab(section.id);
   }}><Plus size={18} aria-hidden/>Agregar columna</button>;
   const currentPhoto = photo !== null ? photos[photo] : undefined;
+  const previewTitle = preview ? [...data.programs, ...data.documents].find(doc => safeContentUrl(doc.url) === preview.url)?.title ?? localizePublishedText(preview.title, language) : "";
   const survey = safeContentUrl(data.survey);
   const taxi = safeContentUrl(data.taxi);
 
-  return <>
+  const content = <>
     {tools.replacementInput}
     {layout === "sections" && selectedTab ? <div className="se-workspace"><div className="se-tabs" role="tablist" aria-label="Materiales del evento" style={{ gridTemplateColumns: `repeat(${visibleSections.length}, minmax(120px, 1fr))`, overflowX: "auto" }}>{visibleSections.map((section, index) => {
       const tab = definitions[section];
@@ -156,15 +174,19 @@ export default function SemanaRegulatelResources({ id, resources: override, extr
     {layout !== "sections" && inline && <div className="my-5">{addColumnButton}</div>}
     {(survey || taxi || inline) && <div className="se-practical-links">{survey && <a className="se-text-link" href={survey} target="_blank" rel="noopener noreferrer">Encuesta de satisfacción<ArrowUpRight size={15}/></a>}{taxi && <a className="se-text-link" href={taxi} target="_blank" rel="noopener noreferrer">Transporte<ArrowUpRight size={15}/></a>}{tools.manageButton}</div>}
     {tools.dialogs}
-    {preview && <div className="se-modal-overlay" onClick={() => setPreview(null)}><div className="se-document-modal" role="dialog" aria-modal="true" aria-label={preview.title} onClick={event => event.stopPropagation()}><div className="se-modal-header"><h2>{preview.title}</h2><div>{preview.url && <a href={preview.url} target="_blank" rel="noopener noreferrer" aria-label="Abrir documento en otra pestaña"><ExternalLink size={20}/></a>}<button type="button" autoFocus onClick={() => setPreview(null)} aria-label="Cerrar vista previa"><X size={23}/></button></div></div>{preview.comingSoon ? <div className="p-8 text-center"><FileText size={36} className="mx-auto mb-4 text-teal-700"/><h3 className="text-xl font-semibold">Documento próximamente</h3><p className="mt-3 text-slate-600">Este documento estará disponible próximamente. Estamos preparando su publicación. Te invitamos a consultar esta página más adelante.</p></div> : /\.pdf(?:[?#]|$)/i.test(preview.url) ? <EventPdfReader url={preview.url} title={preview.title}/> : isDocxDocument(preview.url) ? <div className="max-h-[78vh] overflow-auto p-3 md:p-4"><DocxPreview url={preview.url}/></div> : <div className="p-6"><a className="se-outline" href={preview.url} target="_blank" rel="noopener noreferrer">Abrir documento<ExternalLink size={18}/></a></div>}</div></div>}
-    {currentPhoto && photo !== null && <div className="se-lightbox" role="dialog" aria-modal="true" aria-label="Fotografías del evento"><button type="button" className="se-lightbox-close" autoFocus onClick={() => setPhoto(null)} aria-label="Cerrar fotografía"><X size={25}/></button><img src={currentPhoto.src} alt={currentPhoto.caption || `Fotografía ${photo + 1}`}/>{currentPhoto.caption && <p className="max-w-3xl text-center text-sm text-white">{currentPhoto.caption}</p>}<div className="se-lightbox-controls"><button type="button" onClick={() => setPhoto((photo + photos.length - 1) % photos.length)} aria-label="Fotografía anterior"><ChevronLeft size={23}/></button><span>{photo + 1} / {photos.length}</span><button type="button" onClick={() => setPhoto((photo + 1) % photos.length)} aria-label="Fotografía siguiente"><ChevronRight size={23}/></button></div></div>}
+    {preview && <div className="se-modal-overlay" onClick={() => setPreview(null)}><div className="se-document-modal" role="dialog" aria-modal="true" aria-label={previewTitle} onClick={event => event.stopPropagation()}><div className="se-modal-header"><h2>{previewTitle}</h2><div>{preview.url && <a href={preview.url} target="_blank" rel="noopener noreferrer" aria-label="Abrir documento en otra pestaña"><ExternalLink size={20}/></a>}<button type="button" autoFocus onClick={() => setPreview(null)} aria-label="Cerrar vista previa"><X size={23}/></button></div></div>{preview.comingSoon ? <div className="p-8 text-center"><FileText size={36} className="mx-auto mb-4 text-teal-700"/><h3 className="text-xl font-semibold">Documento próximamente</h3><p className="mt-3 text-slate-600">Este documento estará disponible próximamente. Estamos preparando su publicación. Te invitamos a consultar esta página más adelante.</p></div> : /\.pdf(?:[?#]|$)/i.test(preview.url) ? <EventPdfReader url={preview.url} title={previewTitle}/> : isDocxDocument(preview.url) ? <div className="max-h-[78vh] overflow-auto p-3 md:p-4"><DocxPreview url={preview.url}/></div> : <div className="p-6"><a className="se-outline" href={preview.url} target="_blank" rel="noopener noreferrer">Abrir documento<ExternalLink size={18}/></a></div>}</div></div>}
+    {currentPhoto && photo !== null && <div className="se-lightbox" role="dialog" aria-modal="true" aria-label="Fotografías del evento"><button type="button" className="se-lightbox-close" autoFocus onClick={() => setPhoto(null)} aria-label="Cerrar fotografía"><X size={25}/></button><img src={currentPhoto.src} alt={currentPhoto.caption || `${labels.photo} ${photo + 1}`}/>{currentPhoto.caption && <p className="max-w-3xl text-center text-sm text-white">{currentPhoto.caption}</p>}<div className="se-lightbox-controls"><button type="button" onClick={() => setPhoto((photo + photos.length - 1) % photos.length)} aria-label="Fotografía anterior"><ChevronLeft size={23}/></button><span>{photo + 1} / {photos.length}</span><button type="button" onClick={() => setPhoto((photo + 1) % photos.length)} aria-label="Fotografía siguiente"><ChevronRight size={23}/></button></div></div>}
   </>;
+  return inline ? content : localizePublishedNode(content, language);
 }
 
 export function SemanaRegulatelPage({ event, dateLabel, documents, layout: forcedLayout, embedded = false, editor }: { event: Event; dateLabel: string; documents: EventAttachment[]; layout?: EventLayout; embedded?: boolean; editor?: ReactNode }) {
+  const { i18n } = useTranslation();
+  const language = i18n.resolvedLanguage ?? i18n.language;
   const { eventMaterialsLayout } = useSiteSettings();
   const { isAdmin } = useAuth();
   const inline = useEventInlineEditor();
+  const labels = labelsFor(inline || editor ? "es" : language);
   const [params] = useSearchParams();
   const preview = params.get("eventFormatPreview");
   const previewLayout = isAdmin && isEventLayout(preview) ? preview : null;
@@ -172,12 +194,12 @@ export function SemanaRegulatelPage({ event, dateLabel, documents, layout: force
   const data = getSemanaResources(event.id, event.resources);
   const photos = data?.photos.filter(photo => safeContentUrl(photo.src)) ?? [];
   const sections = data ? resourceOrder(data, layout).filter(section => data[section].length || (section === "documents" && documents.length)) : [];
-  return <div className={`semana-event se-layout-${layout}`} data-event-layout={layout}>
+  const content = <div className={`semana-event se-layout-${layout}`} data-event-layout={layout}>
     {previewLayout && !embedded && <div className="se-preview-banner">Vista previa · {EVENT_LAYOUT_OPTIONS.find(option => option.id === layout)?.title}<Link to="/admin/content/formato-eventos">Volver al administrador</Link></div>}
     <div className="se-container"><header className="se-event-header">
       {!embedded && <Link className="se-back" to="/eventos?tab=pasados"><ArrowLeft size={15}/>Eventos pasados</Link>}
       {inline ? <DraftEditableText as="h1" disabled={inline.busy} value={event.title} aria-label="Título del evento" className="rounded-sm outline-none hover:ring-1 hover:ring-teal-200 focus:ring-2 focus:ring-teal-400" onChange={title => inline.patch({ title })} onKeyDown={change => { if (change.key === "Enter") { change.preventDefault(); change.currentTarget.blur(); } }} /> : <h1>{event.title}</h1>}<div className="se-event-meta"><span><CalendarDays size={16}/>{dateLabel} · {event.year}</span><span><MapPin size={16}/>{event.location}</span><span>{event.organizer}</span></div>
-      {layout === "editorial" && <>{sections.length > 0 && <nav className="se-editorial-nav" aria-label="Secciones del evento">{sections.map(section => <a key={section} href={`#${tabDefinitions[section].id}`}>{tabDefinitions[section].label}</a>)}</nav>}{photos.length > 0 && <div className="se-editorial-cover" style={photos.length === 1 ? { gridTemplateColumns: "1fr" } : undefined}><img src={photos[0].src} alt={photos[0].caption || `Participantes de ${event.title}`} fetchPriority="high"/>{photos.length > 1 && <div style={photos.length === 2 ? { gridTemplateRows: "1fr" } : undefined}>{photos.slice(1, 3).map((photo, index) => <img key={`${photo.src}-${index}`} src={photo.src} alt={photo.caption || "Fotografías del evento"}/>)}</div>}</div>}</>}
+      {layout === "editorial" && <>{sections.length > 0 && <nav className="se-editorial-nav" aria-label="Secciones del evento">{sections.map(section => <a key={section} href={`#${tabDefinitions[section].id}`}>{tabDefinitions[section].label}</a>)}</nav>}{photos.length > 0 && <div className="se-editorial-cover" style={photos.length === 1 ? { gridTemplateColumns: "1fr" } : undefined}><img src={photos[0].src} alt={photos[0].caption || `${labels.participants} ${event.title}`} fetchPriority="high"/>{photos.length > 1 && <div style={photos.length === 2 ? { gridTemplateRows: "1fr" } : undefined}>{photos.slice(1, 3).map((photo, index) => <img key={`${photo.src}-${index}`} src={photo.src} alt={photo.caption || "Fotografías del evento"}/>)}</div>}</div>}</>}
     </header>{editor ?? <>
       {(event.description || inline) && <div className="se-section">{inline ? <DraftEditableText as="p" disabled={inline.busy} value={event.description ?? ""} aria-label="Descripción del evento" data-placeholder="Añadir descripción…" className="min-h-6 whitespace-pre-wrap rounded-sm leading-relaxed outline-none hover:ring-1 hover:ring-teal-200 focus:ring-2 focus:ring-teal-400 [&:empty]:before:content-[attr(data-placeholder)] [&:empty]:before:text-slate-400" onChange={description => inline.patch({ description })} /> : <p className="whitespace-pre-wrap leading-relaxed">{event.description}</p>}</div>}
       {(inline || (event.contentBlocks && event.contentBlocks.length > 0)) && <div className="se-section"><ContentBlocksEditor blocks={event.contentBlocks ?? []} editing={Boolean(inline)} onChange={inline ? contentBlocks => inline.patch({ contentBlocks }) : undefined} disabled={inline?.busy} onBusyChange={inline?.onBusyChange} folder="events"/></div>}
@@ -185,4 +207,5 @@ export function SemanaRegulatelPage({ event, dateLabel, documents, layout: force
     </>}
     {!embedded && <footer className="se-event-footer"><Link className="se-text-link" to="/eventos?tab=pasados"><ArrowLeft size={16}/>Volver a eventos pasados</Link></footer>}
   </div></div>;
+  return inline || editor ? content : localizePublishedNode(content, language);
 }
