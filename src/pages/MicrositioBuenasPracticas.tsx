@@ -198,7 +198,7 @@ export default function MicrositioBuenasPracticas() {
         style={{ fontFamily: "var(--token-font-body)" }}
       >
         {/* Barra: buscador + filtro categoría + expandir/colapsar */}
-        <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div className="flex-1 min-w-0 max-w-xl">
             <MejoresPracticasSearch
               value={searchQuery}
@@ -207,7 +207,8 @@ export default function MicrositioBuenasPracticas() {
             />
           </div>
           <div className="flex flex-wrap items-center gap-3">
-            <div className="flex items-center gap-2">
+            {/* En móviles el selector ocupa el resto de la fila: sin esto mide lo que su opción más larga y se sale. */}
+            <div className="flex items-center gap-2 max-md:w-full max-md:max-w-xl">
               <label htmlFor="cat-filter" className="text-sm font-medium" style={{ color: "var(--regu-gray-600)" }}>
                 {t("pages.buenasPracticas.categoryLabel")}
               </label>
@@ -215,7 +216,7 @@ export default function MicrositioBuenasPracticas() {
                 id="cat-filter"
                 value={categoryFilter}
                 onChange={(e) => setCategoryFilter(e.target.value)}
-                className="rounded-lg border px-3 py-2 text-sm"
+                className="rounded-lg border px-3 py-2 text-sm max-md:min-w-0 max-md:flex-1"
                 style={{ borderColor: "rgba(22,61,89,0.12)", color: "var(--regu-gray-800)" }}
               >
                 <option value="">{t("pages.buenasPracticas.allCategories")}</option>

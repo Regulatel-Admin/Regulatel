@@ -56,7 +56,7 @@ export default function CategoryAccordion({
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className="flex w-full items-center gap-3 px-4 py-3.5 text-left transition hover:bg-[rgba(22,61,89,0.03)]"
+        className="flex w-full items-center gap-3 px-4 py-3.5 text-left transition hover:bg-[rgba(22,61,89,0.03)] max-md:flex-wrap"
         style={{ color: "var(--regu-gray-900)" }}
         aria-expanded={open}
       >
@@ -65,7 +65,8 @@ export default function CategoryAccordion({
         ) : (
           <ChevronRight className="h-5 w-5 shrink-0" style={{ color: "var(--regu-gray-400)" }} />
         )}
-        <span className="font-semibold" style={{ fontSize: "0.9375rem" }}>
+        {/* En móviles, si el nombre y el contador no caben juntos, el contador baja a otra línea (a la derecha). */}
+        <span className="font-semibold max-md:flex-1" style={{ fontSize: "0.9375rem" }}>
           {categoryLabel}
         </span>
         <span
