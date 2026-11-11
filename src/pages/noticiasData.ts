@@ -28,6 +28,46 @@ export interface NoticiaData {
 
 export const noticiasData: NoticiaData[] = [
   {
+    "slug": "conecta-latam-caribe-centroamerica-panama-2026",
+    "title": "Conecta LATAM Caribbean & Central America 2026 reúne en Panamá a operadores, reguladores y proveedores para discutir el operador de telecomunicaciones de 2030",
+    "date": "2026-11-11",
+    "dateFormatted": "11 noviembre 2026",
+    "category": "Noticias",
+    "excerpt": "El encuentro será el 17 y 18 de noviembre en el Hilton Panamá e incluye la 5ª edición de los Conecta LATAM Awards",
+    "imageUrl": "/images/noticias/conecta-latam-2026-es.png",
+    "author": "Conecta Latam",
+    "content": [
+      "Ciudad de Panamá, noviembre de 2026. Los días 17 y 18 de noviembre, el Hilton Panamá recibe una nueva edición de Conecta LATAM Caribbean & Central America, 5G, Digital Transformation & Innovation Summit. Son dos días de paneles, presentaciones y networking dirigidos a CEOs, vicepresidentes y directores de las telecomunicaciones de Panamá y de toda América Latina y el Caribe.",
+      "La industria vive un momento de presión. La demanda de datos sigue creciendo, mientras los ingresos por usuario no acompañan ese ritmo. A eso se suman la llegada de los agentes de inteligencia artificial, la necesidad de simplificar sistemas heredados y las nuevas exigencias de seguridad e identidad digital. El foro pone esas preguntas sobre la mesa con quienes toman las decisiones en la región.",
+      "Ya están inscritos más de 200 ejecutivos, cerca del 70% de ellos de operadores. Entre las organizaciones registradas figuran Liberty Latin America, Cable & Wireless Panamá / +Móvil, Tigo Panamá y Millicom, Telecable, RACSA, ICE, Nuevatel/VIVA, BTC, Telecom Argentina, ANTEL Uruguay, IZZI e Integratel Perú. Del lado público participan la ASEP, la Autoridad Nacional para la Innovación Gubernamental, SENACYT, COMTELCA, la CRC de Colombia y ANATEL de Brasil, además de proveedores como Amdocs, Mobileum, Eutelsat, Wavelo y floLive.",
+      "**Lo que estará en debate**",
+      "Día 1, martes 17 de noviembre. Ari Lopes, de OMDIA, abre el día con las tendencias del sector en Latinoamérica: la reconfiguración del mapa de operadores y la monetización del 5G. Después, el panel de líderes discute qué va a separar a los operadores ganadores en 2030 y qué no construirían si tuvieran que empezar un operador desde cero en 2027. Participan Mauricio Barrantes Quesada (RACSA) y Ryan Alvarez (Nuevatel/VIVA).",
+      "La mañana sigue con redes autónomas, a cargo de David Serrano Aranda (MINSAIT), y con un panel sobre satélites, centros de datos, energía e IA, con COMTELCA, NAP del Caribe, RACSA y Liberty Latin America. Por la tarde, Telecom Argentina, ANTEL Uruguay, UFINET e IZZI hablan de la transición hacia redes nativas en IA y del uso de agentes autónomos en la operación. Luego, GSMA, BTC, Indra Group y Enghouse discuten cómo el operador de red se convierte en proveedor de soluciones digitales para crecer en B2B. El día cierra con las presentaciones de los finalistas y la ceremonia de los Conecta LATAM Awards.",
+      "Día 2, miércoles 18 de noviembre. El panel regulatorio reúne a la ASEP de Panamá, la CRC de Colombia, ANATEL de Brasil, Integratel Perú y Telecable para hablar de modernización regulatoria, incentivos a la inversión y cierre de brechas de conectividad. También están en la agenda:",
+      "- monetización del 5G con redes privadas, FWA y APIs de red;\n- conectividad satelital NTN y D2D;\n- ciberseguridad en redes autónomas, con Tigo Panamá y Liberty Latin America;\n- cómo convertir las señales de red en ingresos sin identificar a los usuarios, con Tudor Marasescu (AdTech);\n- el impacto de la IA en los negocios, con Tigo Panamá, Sparkle / Panama Digital Gateway, DIG.IA-LAC, la UIT y el Canal de Panamá;\n- IA para eficiencia y creación de valor, con Liberty Latin America, Access Partnership y Telecom Argentina.",
+      "**5ª edición de los Conecta LATAM Awards**",
+      "Los ganadores se conocerán el 17 de noviembre, al final del primer día del foro. Este año hay 14 categorías, dos más que en 2025: Mejor MVNO y Mejor Datacenter son las novedades.",
+      "Los premios reconocen a operadores, ISPs, proveedores, reguladores y profesionales de América Latina, Centroamérica y el Caribe. En las categorías 2 a 14, un jurado de especialistas evalúa los proyectos finalistas, y algunos de ellos se presentarán en el escenario durante el evento. En la categoría Profesional de Telecomunicaciones del Año, el resultado depende del voto del público, cuya fecha límite anunciada fue el 9 de noviembre.",
+      "Conozca las categorías, los nominados y los finalistas en: https://www.conecta-latam.com/awards",
+      "**Detalles del evento**",
+      "- Evento: Conecta LATAM Caribbean & Central America 2026, 5G, Digital Transformation & Innovation Summit\n- Fechas: 17 y 18 de noviembre de 2026\n- Lugar: Hilton Panamá, Avenida Balboa y Calle Aquilino de la Guardia, Ciudad de Panamá\n- Agenda, oradores y registro: https://www.conecta-latam.com/latam\n- Descuento para socios y apoyadores: 15% en el registro con el código Partner@2026\n- Operadores e ISPs: cuentan con una tarifa especial. Solicite su código a info@conectaevents.com",
+      "**Oradores confirmados a la fecha**",
+      "- Alberto Luis Salas, CTO, UFINET\n- Alejandro Adamowicz, Director de Tecnología y Estrategia para América Latina y el Caribe, GSMA\n- Alejandro Herrera, Secretario Adjunto, Comisión Técnica Regional de Telecomunicaciones, COMTELCA\n- Alkin Saucedo, Director Nacional de Telecomunicaciones, Autoridad Nacional de los Servicios Públicos, ASEP\n- Ari Lopes, Practice Leader, Service Provider Americas Markets, OMDIA\n- Ariel Fernández, Gerente General, TELVISO\n- Betzalel Kenigsztein\n- Carlos Alvarado, Director de Desarrollo de Negocios Digitales, TIGO PANAMÁ\n- David Serrano Aranda, Senior Director y Global Head of OSS & Network, MINSAIT\n- Delreo Newman, Chairman, CANTO\n- Drexel Woods, Director of Technology Operations, The Bahamas Telecommunications Company, BTC BUSINESS\n- Eric Szymul, Vice President LATAM Sales, TECNOTREE\n- Esteban Gonzalez Duarte, Director de Telecomunicaciones y Media para Colombia, Ecuador, Centroamérica y Caribe, INDRA GROUP\n- Felipe Ruiz Rivillas, VP, Global Cybersecurity & Core Network Office, LIBERTY LATIN AMERICA\n- Fortunato Bertello\n- Gesiléa Fonseca Teles, Superintendente de Inspección, Agência Nacional de Telecomunicações, ANATEL\n- Geusseppe Gonzalez, Head of LatAm & Digital Infrastructure, ACCESS PARTNERSHIP\n- Giancarlo Orsenigo, Director de Producto B2B, TIGO PANAMÁ\n- Giuseppina Curreli\n- Guillermo Figueredo, Gerente de Planificación y Optimización de la Red Móvil, ANTEL URUGUAY\n- Gustavo Lagrotta, CEO of Panama Digital Gateway, SPARKLE / PANAMA DIGITAL GATEWAY\n- Ignacio Núñez Aceves, Senior PreSales Engineer LATAM, ENEA\n- Joaquín Victoria Díaz, Socio Director, JVD CONSULTORES\n- José Gutiérrez Salazar, Director de Legal y Regulación, LIBERTY LATIN AMERICA\n- Juan David Rodríguez, Senior Director of Business Analytics, LIBERTY LATIN AMERICA\n- Juan Manuel Gesto Appesseche, Director de Finanzas, INTEGRATEL PERÚ\n- Juan Ricardo Sandoval Sierra, Network Security Director, MILLICOM/TIGO\n- Luis Manuel Valle\n- Marcus Loureiro, LATAM Business Development Director, ENGHOUSE\n- Mauricio Barrantes Quesada, General Manager, RACSA\n- Mercedes Aramendía, Directora Ejecutiva de la Alianza por una Internet Abierta para América Latina y el Caribe, DIG.IA-LAC\n- Miguel Alcaine, ITU Representative, Central America, INTERNATIONAL TELECOMMUNICATION UNION\n- Nicolas Visca, Arquitecto Empresarial Sr en Redes Autónomas, TELECOM ARGENTINA\n- Paola Vélez, Comisionada de Comunicaciones, Comisión de Regulación de Comunicaciones de Colombia, CRC\n- Ricardo Fletcher, Chief Enterprise Architect, CANAL DE PANAMÁ\n- Rodrigo Cardenas, Director for Mobile Networks, LIBERTY LATIN AMERICA\n- Russell Bean, IXP Development Expert, INTERNET SOCIETY\n- Ryan Alvarez, Chief Executive Officer & General Manager, NUEVATEL/VIVA\n- Sebastián Klimunda, Gerente de Automatización de Acceso, TELECOM ARGENTINA\n- Tudor Marasescu, VP of Product, ADTECH",
+      "**Patrocinadores**",
+      "- Platinum: Indra Group\n- Gold: Ericsson, ENEA, JSC Ingenium, Speedcast, Tecnotree, VOX Solutions\n- Silver: Enghouse Networks, Skylane Optics\n- Sponsor: floLive",
+      "**Sobre Conecta Latam**",
+      "Conecta Latam organiza encuentros para líderes y ejecutivos de la industria de tecnología y telecomunicaciones en América Latina y el Caribe. Sus eventos buscan generar contactos de negocio y debates que ayuden al desarrollo digital de la región.",
+      "Contacto para prensa: Kaique Amaral, kaique.amaral@conectaevents.com"
+    ],
+    "tags": [
+      "Conecta LATAM",
+      "Panamá",
+      "Telecomunicaciones",
+      "2026"
+    ],
+    "link": "https://www.conecta-latam.com/latam"
+  },
+  {
     slug: 'semana-regulatel-montevideo-2026',
     title: 'REGULATEL reunirá en Montevideo a reguladores y organizaciones aliadas durante la Semana REGULATEL 2026',
     date: '2026-09-08',
