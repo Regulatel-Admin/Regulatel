@@ -24,7 +24,7 @@ function LogoBlock({
 }) {
   const { t } = useTranslation();
   const card = (
-    <div className="flex flex-col items-center gap-4">
+    <div className="flex flex-col items-center gap-4 max-sm:max-w-full">
       {label && (
         <span
           className="text-[10px] font-bold uppercase tracking-[0.14em]"
@@ -68,7 +68,7 @@ function LogoBlock({
         href={item.linkUrl}
         target="_blank"
         rel="noreferrer"
-        className="group focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2 rounded-2xl"
+        className="group focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2 rounded-2xl max-sm:max-w-full"
         aria-label={t("comite.websiteAria", { name: item.name })}
       >
         {card}
@@ -236,11 +236,11 @@ export default function ComiteEjecutivo() {
               {miembrosOrdenados.map((m, i) => (
                 <EditableSpot
                   key={m.id ?? i}
-                  className="rounded-2xl"
+                  className="rounded-2xl max-sm:max-w-full"
                   target={{ kind: "comite-logo", slot: "miembro", id: m.id }}
                   label={`Editar ${m.name || "miembro"}`}
                 >
-                  <div className="flex flex-col items-center gap-2">
+                  <div className="flex flex-col items-center gap-2 max-sm:max-w-full">
                     {(m.country || siteEditEnabled) && (
                       <span className="text-[10px] font-bold uppercase tracking-[0.10em]" style={{ color: "var(--regu-gray-500)" }}>
                         {m.country || "País"}

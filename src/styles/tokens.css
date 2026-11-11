@@ -309,6 +309,14 @@ html[data-font="lg"] {
   height: 12rem;
   padding: 1.25rem;
 }
+/* Móvil: en Miembros (2 columnas) la tarjeta no pasa del ancho de su columna y sigue siendo cuadrada. */
+@media (max-width: 639.98px) {
+  .logoCard--md {
+    max-width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+  }
+}
 @media (min-width: 640px) {
   .logoCard--xl,
   .logoCard--lg,
