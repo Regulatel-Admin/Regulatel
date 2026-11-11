@@ -1,4 +1,4 @@
-import { useRef, useState, type ReactNode } from "react";
+import { useMemo, useRef, useState, type ReactNode } from "react";
 import { ArrowUpRight, Clock3, Play, X } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -6,6 +6,8 @@ import { motion, useInView, useReducedMotion, useScroll, useTransform } from "fr
 import { countryFlagSrc } from "@/data/hablaElRegulador";
 import { useHablaElReguladorInterviews } from "@/contexts/SiteSettingsContext";
 import { extractYoutubeId } from "@/lib/youtube";
+import { useSiteEdit } from "@/contexts/SiteEditContext";
+import { localizePublishedValue } from "@/lib/publishedContent";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -40,8 +42,13 @@ function Reveal({
 }
 
 export default function HablaElReguladorHome() {
-  const { t } = useTranslation();
-  const interviews = useHablaElReguladorInterviews();
+  const { t, i18n } = useTranslation();
+  const sourceInterviews = useHablaElReguladorInterviews();
+  const { enabled: siteEditEnabled } = useSiteEdit();
+  const interviews = useMemo(
+    () => siteEditEnabled ? sourceInterviews : localizePublishedValue(sourceInterviews, i18n.language),
+    [sourceInterviews, siteEditEnabled, i18n.language],
+  );
   const featured = interviews[0];
   const supporting = interviews.slice(1, 4);
   const [featuredPlaying, setFeaturedPlaying] = useState(false);

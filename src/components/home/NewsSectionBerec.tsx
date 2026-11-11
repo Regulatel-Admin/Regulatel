@@ -24,7 +24,7 @@ function formatDateEditorial(dateStr: string, fallback: string, language: string
     const iso = /^\d{4}-\d{2}-\d{2}$/.test(dateStr) ? `${dateStr}T12:00:00` : dateStr;
     const d = new Date(iso);
     if (Number.isNaN(d.getTime())) return fallback;
-    const locale = language === "en" ? "en-GB" : language === "pt" ? "pt-PT" : "es-ES";
+    const locale = language === "en" ? "en-GB" : language === "pt" ? "pt-PT" : language === "it" ? "it-IT" : "es-ES";
     return d
       .toLocaleDateString(locale, { day: "numeric", month: "short", year: "numeric" })
       .toUpperCase();
