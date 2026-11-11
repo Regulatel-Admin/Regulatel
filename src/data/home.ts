@@ -248,7 +248,7 @@ export const accessMainItems: AccessMainItem[] = [
   {
     title: "Micrositio Buenas prácticas Power BI",
     shortDescription: "Indicadores internacionales REGULATEL y visualización Power BI (SUTEL).",
-    href: "https://app.powerbi.com/view?r=eyJrIjoiOWM5NWI3YWEtZjk0MC00NDlhLWI0YmYtMDQ4MGQ2OTM1ZTQwIiwidCI6ImVjYzY2NjY1LTFiYjktNDgxOC04YWJjLWE0MDk0Njg5NDE3OCIsImMiOjR9",
+    href: "https://app.powerbi.com/view?r=eyJrIjoiNjgyNTZmMzEtMDgzZS00NDk4LTg1ZWUtY2VjZmIwYzE5N2I1IiwidCI6ImVjYzY2NjY1LTFiYjktNDgxOC04YWJjLWE0MDk0Njg5NDE3OCIsImMiOjR9",
     icon: BookOpen,
   },
   {
@@ -432,7 +432,7 @@ export const berecFeatureCards: BerecFeatureCard[] = [
     variant: "tools",
     links: [
       { label: "INDICADORES REGULATEL", href: "https://sutel.go.cr/pagina/indicadores-internacionales-regulatel", external: true },
-      { label: "POWER BI", href: "https://app.powerbi.com/view?r=eyJrIjoiOWM5NWI3YWEtZjk0MC00NDlhLWI0YmYtMDQ4MGQ2OTM1ZTQwIiwidCI6ImVjYzY2NjY1LTFiYjktNDgxOC04YWJjLWE0MDk0Njg5NDE3OCIsImMiOjR9", external: true },
+      { label: "POWER BI", href: "https://app.powerbi.com/view?r=eyJrIjoiNjgyNTZmMzEtMDgzZS00NDk4LTg1ZWUtY2VjZmIwYzE5N2I1IiwidCI6ImVjYzY2NjY1LTFiYjktNDgxOC04YWJjLWE0MDk0Njg5NDE3OCIsImMiOjR9", external: true },
     ],
     buttons: [
       { label: "VER INDICADORES SUTEL", href: "https://sutel.go.cr/pagina/indicadores-internacionales-regulatel", external: true },
