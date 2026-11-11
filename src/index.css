@@ -452,11 +452,10 @@
   max-width: none !important;
 }
 @media (max-width: 767px) {
+  /* El logo (1920×860) mide ~98px de ancho a 44px de alto: sin min-width extra,
+     que reservaba 154px y empujaba la búsqueda y el menú fuera de la pantalla. */
   .topbarLogoImg {
     height: 44px !important;
-  }
-  .topbarLogoLink {
-    min-width: 154px !important;
   }
 }
 
@@ -465,11 +464,15 @@
   min-width: 0;
 }
 @media (max-width: 767px) {
-  .topbarBrandBlock {
-    margin-right: 16px !important;
-  }
   .topbarBrandInner {
     padding-right: 0 !important;
+  }
+  /* Móvil: logo · idioma · búsqueda · menú caben desde 320px sin scroll horizontal */
+  .topbarInner {
+    gap: 12px !important;
+  }
+  .topbarRight {
+    gap: 6px !important;
   }
 }
 

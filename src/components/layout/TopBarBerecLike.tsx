@@ -139,8 +139,8 @@ export default function TopBarBerecLike({
               <img
                 src="/images/regulatel-logo.png"
                 alt="REGULATEL"
-                width={220}
-                height={64}
+                width={192}
+                height={86}
                 className="topbarLogoImg"
                 style={{ height: "62px", width: "auto", maxWidth: "none", display: "block", objectFit: "contain" }}
                 loading="eager"
@@ -350,14 +350,14 @@ export default function TopBarBerecLike({
             {t("common.topbar.subscribe")}
           </Link>
 
-          {/* Mobile: search toggle */}
+          {/* Mobile: search toggle (40px fijos: no crece con a-/a/a+) */}
           <button
             type="button"
             aria-label={mobileSearchOpen ? t("common.topbar.closeSearch") : t("common.topbar.openSearch")}
             aria-expanded={mobileSearchOpen}
             onClick={() => setMobileSearchOpen((v) => !v)}
-            className="inline-flex rounded-md p-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] md:hidden"
-            style={{ color: "#1C1C1C" }}
+            className="inline-flex shrink-0 items-center justify-center rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] md:hidden"
+            style={{ color: "#1C1C1C", width: "40px", height: "40px" }}
           >
             <Search style={{ width: "22px", height: "22px" }} />
           </button>
@@ -369,8 +369,8 @@ export default function TopBarBerecLike({
               aria-label={mobileMenuOpen ? t("common.topbar.closeMenu") : t("common.topbar.openMenu")}
               aria-expanded={mobileMenuOpen}
               onClick={onMobileMenuToggle}
-              className="inline-flex rounded-md p-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] md:hidden"
-              style={{ color: "#1C1C1C" }}
+              className="inline-flex shrink-0 items-center justify-center rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] md:hidden"
+              style={{ color: "#1C1C1C", width: "40px", height: "40px" }}
             >
               {mobileMenuOpen ? <X style={{ width: "24px", height: "24px" }} /> : <Menu style={{ width: "24px", height: "24px" }} />}
             </button>
