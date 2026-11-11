@@ -180,6 +180,7 @@ for (const language of languages) {
 }
 check("Italian publication dates use the correct month and retain invalid-date fallback", () => {
   assert.equal(formatPublishedDate("2026-11-11", "it-IT", "11 noviembre 2026"), "11 novembre 2026");
+  assert.equal(formatPublishedDate("2026-11-11T00:00:00.000Z", "it-IT", "11 noviembre 2026"), "11 novembre 2026");
   assert.equal(formatPublishedDate("invalid", "it", "fecha original"), "fecha original");
 });
 console.log(JSON.stringify({ passed: passed.length, failed, checks: passed }, null, 2));
@@ -200,7 +201,7 @@ console.log(JSON.stringify({ editorialDiagnostics: {
   numberChangeCount: diagnostics.numberChanges.length,
   numberChangeExamples: diagnostics.numberChanges.slice(0, 10),
 } }, null, 2));
-const result = spawnSync(process.execPath, [bundle], { cwd: root, encoding: "utf8", maxBuffer: 8 * 1024 * 1024 });
+const result = spawnSync(process.execPath, [bundle], { cwd: root, env: { ...process.env, TZ: "America/La_Paz" }, encoding: "utf8", maxBuffer: 8 * 1024 * 1024 });
 if (result.stdout) process.stdout.write(result.stdout);
 if (result.stderr) process.stderr.write(result.stderr);
 if (result.error) throw result.error;
