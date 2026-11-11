@@ -21,6 +21,7 @@ const MONTH_ABBR_PT: Record<string, string> = {
 function localeTag(language: string): string {
   if (language === "en") return "en-GB";
   if (language === "pt") return "pt-PT";
+  if (language === "it") return "it-IT";
   return "es-ES";
 }
 
@@ -97,6 +98,7 @@ function translateMonthAbbrev(token: string, language: string): string {
   const key = token.toUpperCase().slice(0, 3);
   if (language === "en") return MONTH_ABBR_EN[key] ?? token;
   if (language === "pt") return MONTH_ABBR_PT[key] ?? token;
+  if (language === "it") return ({ ENE: "GEN", FEB: "FEB", MAR: "MAR", ABR: "APR", MAY: "MAG", JUN: "GIU", JUL: "LUG", AGO: "AGO", SEP: "SET", OCT: "OTT", NOV: "NOV", DIC: "DIC" } as Record<string, string>)[key] ?? token;
   return token;
 }
 
