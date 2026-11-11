@@ -29,7 +29,6 @@ import {
   sortGestionDocuments,
   GESTION_TIPO_VALUES,
   GESTION_TAB_LABELS,
-  getCategoryDisplayLabel,
   type GestionTipo,
   type GestionDocument,
   type GestionSortOrder,
@@ -445,7 +444,7 @@ export default function Gestion() {
                       {blockTitle}
                     </Link>
                     <p className="mt-0.5 text-sm" style={{ color: "var(--regu-gray-500)" }}>
-                      {t("pages.gestion.documentCount", { count: displayList.length })}
+                      {t(displayList.length === 1 ? "pages.gestion.documentCount" : "pages.gestion.documentCount_plural", { count: displayList.length })}
                     </p>
                   </div>
                 </div>
@@ -512,6 +511,7 @@ function DocCard({
   onPreview: () => void;
 }) {
   const { t } = useTranslation();
+  const categoryLabelKey = GESTION_TIPO_VALUES.includes(doc.category as GestionTipo) ? doc.category : "otros";
   const isRestrictedDoc = getRestrictedDocument(doc.id) !== null;
   const isUnlocked = isRestrictedDoc && isRestrictedUnlocked(doc.id);
   const isRestricted = isRestrictedDoc && !isUnlocked;
@@ -710,7 +710,7 @@ function DocCard({
 
         {/* Categoría */}
         <p className="mt-1 text-xs font-medium uppercase tracking-[0.08em]" style={{ color: "var(--regu-gray-500)" }}>
-          {getCategoryDisplayLabel(doc.category)}
+          {t(`pages.gestion.tabs.${categoryLabelKey}`)}
         </p>
 
         {/* Acceso restringido aviso */}

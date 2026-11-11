@@ -12,6 +12,7 @@ import type { Event } from "@/types/event";
 import { Calendar, MapPin, Building2, ArrowRight, ArrowLeft, ExternalLink } from "lucide-react";
 import { normalizeEvent } from "@/types/event";
 import { useLocalizedEvent } from "@/hooks/useLocalizedEvents";
+import { localizePublishedText } from "@/lib/publishedContent";
 import { api } from "@/lib/api";
 import RegistrationOpenHint from "@/components/events/RegistrationOpenHint";
 import {
@@ -87,7 +88,7 @@ export default function EventoDetalle() {
   if (!id) {
     return <Navigate to="/eventos" replace />;
   }
-  if (!eventsLoaded) return <div className="mx-auto max-w-3xl px-4 py-12" role="status">{contentError ? "No se pudo cargar el evento. Recarga la página para reintentar." : "Cargando evento…"}</div>;
+  if (!eventsLoaded) return <div className="mx-auto max-w-3xl px-4 py-12" role="status">{localizePublishedText(contentError ? "No se pudo cargar el evento. Recarga la página para reintentar." : "Cargando evento…", i18n.language)}</div>;
   if (notFound || (!event && !loading)) {
     return <Navigate to="/eventos" replace />;
   }

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useSearchParams, Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { localizePublishedValue } from "@/lib/publishedContent";
+import { hasPublishedTextTranslation, localizePublishedText, localizePublishedValue, publishedLanguage } from "@/lib/publishedContent";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   FileText,
@@ -15,7 +15,7 @@ import {
   Search,
   Lock,
 } from "lucide-react";
-import { resolveDocumentSearch } from "@/data/searchMaps";
+import { documentSearchEntries, resolveDocumentSearch } from "@/data/searchMaps";
 import { searchDocumentsInList, sortGestionDocuments, type GestionDocument } from "@/data/gestion";
 import { useMergedGestionDocuments } from "@/contexts/AdminDataContext";
 import { getRestrictedDocument, isRestrictedUnlocked } from "@/config/restrictedDocuments";
@@ -46,11 +46,31 @@ export default function BuscarDocumentos() {
   const [searchParams] = useSearchParams();
   const q = searchParams.get("q") ?? "";
   const mergedDocuments = localizePublishedValue(useMergedGestionDocuments(), i18n.language);
-  const categoryResults = resolveDocumentSearch(q);
+  const sourceCategoryResults = resolveDocumentSearch(q);
+  const publicLocale = publishedLanguage(i18n.language) !== "es";
+  const categoryCopy: Record<string, { label: string; description: string }> = {
+    "/gestion?tipo=revista": { label: t("nav.links.digitalMagazine"), description: t("nav.descriptions.digitalMagazine") },
+    "/gestion?tipo=planes-actas": { label: t("nav.links.workPlans"), description: t("nav.descriptions.workPlans") },
+    "/acceso-documentos": { label: t("nav.links.assemblies"), description: `${t("nav.descriptions.assemblies")} · ${t("pages.shared.restrictedAccess")}` },
+    "/acceso-documentos?tipo=comite-ejecutivo": { label: t("nav.links.executiveCommitteeActas"), description: t("nav.descriptions.executiveCommitteeActas") },
+    "/violencia-digital": { label: `${t("pages.violenciaDigital.agendaPdfTitle")} · ${t("nav.links.violenciaDigital")}`, description: t("pages.violenciaDigital.newsCta") },
+    "/gestion?tipo=documentos": { label: t("pages.gestion.tabs.documentos"), description: t("nav.descriptions.documents") },
+  };
+  const normalize = (text: string) => text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+  const query = normalize(q);
+  const categoryResults = publicLocale ? documentSearchEntries.map((entry) => {
+    const copy = categoryCopy[entry.path];
+    const text = (source: string, fallback: string | undefined) => hasPublishedTextTranslation(source, i18n.language)
+      ? localizePublishedText(source, i18n.language) : fallback ?? source;
+    return { ...entry, label: text(entry.label, copy?.label), description: text(entry.description ?? "", copy?.description) };
+  }).filter((entry) => sourceCategoryResults.some((source) => source.path === entry.path)
+    || Boolean(query && normalize(`${entry.label} ${entry.description}`).includes(query))) : sourceCategoryResults;
   const docResults = sortGestionDocuments(searchDocumentsInList(mergedDocuments, q));
   const [previewDoc, setPreviewDoc] = useState<DocumentPreviewTarget | null>(null);
   const hasResults = docResults.length > 0 || categoryResults.length > 0;
-  const tryTerms = ["revista", "planes", "actas", "declaraciones"];
+  const tryTerms = publicLocale
+    ? [t("pages.buscarDocumentos.categories.revista"), t("nav.links.workPlans"), t("nav.links.assemblies"), t("nav.links.declarations")]
+    : ["revista", "planes", "actas", "declaraciones"];
 
   return (
     <div
@@ -101,7 +121,7 @@ export default function BuscarDocumentos() {
                     className="text-[10px] font-bold uppercase tracking-[0.12em]"
                     style={{ color: "var(--regu-gray-400)" }}
                   >
-                    {t("pages.buscarDocumentos.documentsFound", { count: docResults.length })}
+                    {t(docResults.length === 1 ? "pages.buscarDocumentos.documentsFound" : "pages.buscarDocumentos.documentsFound_plural", { count: docResults.length })}
                   </p>
                 </div>
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
