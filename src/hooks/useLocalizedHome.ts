@@ -4,6 +4,7 @@ import type { TFunction } from "i18next";
 import {
   heroInstitucional,
   quickLinks as staticQuickLinks,
+  featuredCarouselItems as staticCarouselItems,
   cifrasCardsConfig,
   type CifraCardConfig,
 } from "@/data/home";
@@ -11,6 +12,8 @@ import type { HomeHeroSetting } from "@/types/siteSettings";
 import type { QuickLinkItem } from "@/components/home/QuickLinksBar";
 import type { FeaturedCarouselItem } from "@/components/home/FeaturedCarousel";
 import { formatCarouselDisplayDate } from "@/lib/carouselDate";
+import { useSiteEdit } from "@/contexts/SiteEditContext";
+import { hasPublishedTextTranslation, localizePublishedText, publishedLanguage } from "@/lib/publishedContent";
 
 const CAROUSEL_ITEM_I18N: Record<string, string> = {
   "cumbre-regulatel-asiet-comtelca-2026": "montevideo2026",
@@ -30,26 +33,25 @@ function normalizeToken(value: string): string {
 }
 
 export function localizeCarouselCta(label: string | undefined, t: TFunction, language: string): string {
-  if (language === "es") return label?.trim() || t("common.readMore");
+  if (publishedLanguage(language) === "es") return label?.trim() || t("common.readMore");
+  if (label && hasPublishedTextTranslation(label, language)) return localizePublishedText(label, language);
   const normalized = normalizeToken(label ?? "");
   if (normalized === "ver cumbre") return t("home.featuredSummits.cta");
   if (normalized === "leer mas") return t("common.readMore");
   return label?.trim() || t("common.readMore");
 }
 
-function resolveCarouselItemKey(id: string): string | undefined {
-  if (CAROUSEL_ITEM_I18N[id]) return CAROUSEL_ITEM_I18N[id];
-
-  const normalized = normalizeToken(id);
-  if (normalized.includes("montevideo") || (normalized.includes("asiet") && normalized.includes("comtelca") && normalized.includes("2026"))) {
-    return "montevideo2026";
-  }
-  if (normalized.includes("punta-cana") || normalized.includes("punta cana")) return "puntaCana";
-  if (normalized.includes("prai")) return "prai";
-  if (normalized.includes("berec") && normalized.includes("eapereg")) return "berecEapereg";
-  if (normalized.includes("asiet") && normalized.includes("cartagena")) return "asietCartagena";
-  if (normalized.includes("berec") && normalized.includes("bolivia")) return "berecBolivia";
-  return undefined;
+/** A known identifier alone must not overwrite a later CMS edit with old copy. */
+function localizeHomeText(
+  source: string,
+  defaultSource: string | undefined,
+  key: string | undefined,
+  t: TFunction,
+  language: string,
+): string {
+  if (publishedLanguage(language) === "es") return source;
+  if (hasPublishedTextTranslation(source, language)) return localizePublishedText(source, language);
+  return key && source === defaultSource ? t(key, { defaultValue: source }) : source;
 }
 
 /** Maps default Spanish quick-link labels to locale keys. */
@@ -67,8 +69,11 @@ export function localizeQuickLinkItems(
   t: TFunction,
   language: string
 ): QuickLinkItem[] {
-  if (language === "es") return items;
+  if (publishedLanguage(language) === "es") return items;
   return items.map((item) => {
+    if (hasPublishedTextTranslation(item.label, language)) {
+      return { ...item, label: localizePublishedText(item.label, language) };
+    }
     const key = QUICK_LINK_LABEL_KEYS[item.label.trim()];
     return key ? { ...item, label: t(key) } : item;
   });
@@ -76,25 +81,28 @@ export function localizeQuickLinkItems(
 
 export function useLocalizedHomeHeroSettings(hero: HomeHeroSetting): HomeHeroSetting {
   const { t, i18n } = useTranslation();
+  const { enabled: siteEditEnabled } = useSiteEdit();
 
   return useMemo(() => {
-    if (i18n.language === "es") return hero;
+    if (siteEditEnabled || publishedLanguage(i18n.language) === "es") return hero;
+    const text = (source: string, fallback: string, key: string) =>
+      localizeHomeText(source, fallback, `home.hero.institutional.${key}`, t, i18n.language);
     return {
       ...hero,
-      badge: t("home.hero.institutional.badge"),
-      title: t("home.hero.institutional.title"),
-      titleHighlight: t("home.hero.institutional.titleHighlight"),
-      description: t("home.hero.institutional.description"),
+      badge: text(hero.badge, heroInstitucional.badge, "badge"),
+      title: text(hero.title, heroInstitucional.title, "title"),
+      titleHighlight: text(hero.titleHighlight, heroInstitucional.titleHighlight, "titleHighlight"),
+      description: text(hero.description, heroInstitucional.description, "description"),
       primaryCta: {
         ...hero.primaryCta,
-        label: t("home.hero.institutional.primaryCta"),
+        label: text(hero.primaryCta.label, heroInstitucional.primaryCta.label, "primaryCta"),
       },
       secondaryCta: {
         ...hero.secondaryCta,
-        label: t("home.hero.institutional.secondaryCta"),
+        label: text(hero.secondaryCta.label, heroInstitucional.secondaryCta.label, "secondaryCta"),
       },
     };
-  }, [hero, t, i18n.language]);
+  }, [hero, t, i18n.language, siteEditEnabled]);
 }
 
 export function useLocalizedHeroInstitucional() {
@@ -143,28 +151,23 @@ export function localizeFeaturedCarouselItems(
         : { ...item, categoryLabel: undefined };
     }
 
-    const itemKey = resolveCarouselItemKey(item.id);
-    if (!itemKey) {
-      return {
-        ...item,
-        categoryLabel: undefined,
-        date: formatCarouselDisplayDate(item.date, language),
-        location: item.location?.includes("Virtual a través de")
-          ? t("home.carousel.prai.location", { defaultValue: item.location })
-          : item.location,
-        ctaPrimaryLabel,
-      };
-    }
-
-    const base = `home.carousel.${itemKey}`;
-    const location = t(`${base}.location`, { defaultValue: item.location ?? "" });
+    const itemKey = CAROUSEL_ITEM_I18N[item.id];
+    const defaults = staticCarouselItems.find((entry) => entry.id === item.id) as FeaturedCarouselItem | undefined;
+    const key = (field: string) => itemKey ? `home.carousel.${itemKey}.${field}` : undefined;
     return {
       ...item,
       categoryLabel: undefined,
-      title: t(`${base}.title`, { defaultValue: item.title }),
-      date: t(`${base}.date`, { defaultValue: formatCarouselDisplayDate(item.date, language) }),
-      location: location || item.location,
-      ctaPrimaryLabel: t(`${base}.cta`, { defaultValue: ctaPrimaryLabel }),
+      title: localizeHomeText(item.title, defaults?.title, key("title"), t, language),
+      date: hasPublishedTextTranslation(item.date, language)
+        ? localizePublishedText(item.date, language)
+        : formatCarouselDisplayDate(item.date, language),
+      location: item.location === undefined ? undefined
+        : localizeHomeText(item.location, defaults?.location, key("location"), t, language),
+      ctaPrimaryLabel,
+      ctaSecondary: item.ctaSecondary ? {
+        ...item.ctaSecondary,
+        label: localizePublishedText(item.ctaSecondary.label, language),
+      } : undefined,
     };
   });
 }

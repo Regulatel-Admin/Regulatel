@@ -2,6 +2,10 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import type { TFunction } from "i18next";
 import type { Event } from "@/types/event";
+import { hasPublishedTextTranslation, localizePublishedText, localizePublishedValue, publishedLanguage } from "@/lib/publishedContent";
+import { EVENTS_SEED } from "@/data/eventsSeed";
+import { SEMANA_RESOURCE_EVENTS } from "@/data/semanaRegulatelResources";
+import { PUBLIC_EVENT_ADDITIONS } from "@/data/publicEventAdditions";
 
 const LOCATION_KEYS: Record<string, string> = {
   "Por definir": "eventsShared.locations.toBeDefined",
@@ -19,26 +23,28 @@ export function localizeEventLocation(location: string, t: TFunction, language: 
 }
 
 export function localizeEvent(event: Event, t: TFunction, language: string): Event {
-  if (language === "es") return event;
+  if (publishedLanguage(language) === "es") return event;
 
   const prefix = eventPrefix(event.id);
+  const localized = localizePublishedValue(event, language);
+  const original = [...EVENTS_SEED, ...SEMANA_RESOURCE_EVENTS, ...PUBLIC_EVENT_ADDITIONS].find(item => item.id === event.id);
   const title = t(`${prefix}.title`, { defaultValue: "" });
   if (!title) {
     return {
-      ...event,
-      location: localizeEventLocation(event.location, t, language),
+      ...localized,
+      location: hasPublishedTextTranslation(event.location, language) ? localized.location : localizeEventLocation(event.location, t, language),
     };
   }
 
   return {
-    ...event,
-    title,
-    organizer: t(`${prefix}.organizer`, { defaultValue: event.organizer }),
-    location: t(`${prefix}.location`, {
+    ...localized,
+    title: hasPublishedTextTranslation(event.title, language) ? localized.title : original?.title === event.title ? title : event.title,
+    organizer: hasPublishedTextTranslation(event.organizer, language) ? localized.organizer : original?.organizer === event.organizer ? t(`${prefix}.organizer`, { defaultValue: event.organizer }) : event.organizer,
+    location: hasPublishedTextTranslation(event.location, language) ? localized.location : original?.location === event.location ? t(`${prefix}.location`, {
       defaultValue: localizeEventLocation(event.location, t, language),
-    }),
+    }) : localizeEventLocation(event.location, t, language),
     description: event.description
-      ? t(`${prefix}.description`, { defaultValue: event.description })
+      ? hasPublishedTextTranslation(event.description, language) ? localizePublishedText(event.description, language) : original?.description === event.description ? t(`${prefix}.description`, { defaultValue: event.description }) : event.description
       : event.description,
   };
 }
