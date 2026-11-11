@@ -206,13 +206,11 @@ export default function TopBarBerecLike({
               style={{ width: "15px", height: "15px", color: "#8A97A3" }}
               aria-hidden
             />
-            <input
-              type="search"
-              placeholder={t("common.topbar.searchDocuments")}
+            <SiteSearchAutocomplete
+              scope="documents"
               value={searchDocuments}
-              onChange={(e) => setSearchDocuments(e.target.value)}
-              className="flex-1 min-w-0 border-0 p-0 outline-none bg-transparent"
-              style={{ fontSize: "13px", fontWeight: 500, color: "#1C2B38" }}
+              onChange={setSearchDocuments}
+              placeholder={t("common.topbar.searchDocuments")}
             />
           </form>
         </div>
@@ -407,13 +405,13 @@ export default function TopBarBerecLike({
               style={{ height: "44px" }}
             >
               <FileText style={{ width: "18px", height: "18px", color: "#8A97A3", marginRight: "8px", flexShrink: 0 }} aria-hidden />
-              <input
-                type="search"
-                placeholder={t("common.topbar.searchDocuments")}
+              <SiteSearchAutocomplete
+                scope="documents"
                 value={searchDocuments}
-                onChange={(e) => setSearchDocuments(e.target.value)}
-                className="flex-1 min-w-0 border-0 p-0 outline-none bg-transparent"
-                style={{ fontSize: "14px", color: "#1C2B38" }}
+                onChange={setSearchDocuments}
+                onResultSelect={() => setMobileSearchOpen(false)}
+                placeholder={t("common.topbar.searchDocuments")}
+                compact
               />
             </div>
           </form>
