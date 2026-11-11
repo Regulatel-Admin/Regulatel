@@ -402,12 +402,18 @@ function NewsItemRow({ item, isFeatured }: NewsItemRowProps) {
   const href = `/noticias/${item.slug}`;
   const imageHref = item.link && /^https?:\/\//i.test(item.link) ? item.link : href;
 
+  // Destacada (md+): la foto mide como máximo 480 px (lg: 520 px), pero encoge sin perder el 4:3 para que
+  // el texto tenga al menos 16rem. Si no, entre 768 y 1279 px el título quedaba en 160–210 px, sus palabras
+  // largas no cabían y la página se salía por la derecha. Desde 1280 px y en móvil se ve igual que antes.
+  const featuredCoverSize = "w-full md:w-[480px] md:min-w-0 md:shrink lg:w-[520px]";
+  const featuredTextMin = isFeatured ? " md:min-w-[16rem]" : "";
+
   const coverUrl = semanaRegulatelListingImage(item.slug, item.imageUrl);
   const cover = (
           <div
             className={`relative flex-shrink-0 overflow-hidden ${
               isFeatured
-                ? "aspect-[4/3] w-full self-start rounded-2xl md:w-[480px] lg:w-[520px]"
+                ? `aspect-[4/3] self-start rounded-2xl ${isDraft ? featuredCoverSize : "w-full"}`
                 : "h-[110px] w-28 self-start rounded-xl sm:w-36 md:w-44"
             }`}
             style={{
@@ -436,7 +442,7 @@ function NewsItemRow({ item, isFeatured }: NewsItemRowProps) {
 
   // Article text keeps its own link to the agenda.
   const content = (
-          <div className={`flex-1 min-w-0 flex flex-col ${isFeatured ? "justify-center py-2 md:py-4" : "justify-start"}`}>
+          <div className={`flex-1 min-w-0 flex flex-col ${isFeatured ? "justify-center py-2 md:py-4" : "justify-start"}${isDraft ? featuredTextMin : ""}`}>
             {/* Meta */}
             <div className="mb-2 flex flex-wrap items-center gap-2">
               <CategoryBadge label={item.category} />
@@ -490,12 +496,12 @@ function NewsItemRow({ item, isFeatured }: NewsItemRowProps) {
         <a
           href={imageHref}
           aria-label={item.title}
-          className={`block flex-shrink-0 self-start rounded-2xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 ${isFeatured ? "w-full md:w-[480px] lg:w-[520px]" : ""}`}
+          className={`block flex-shrink-0 self-start rounded-2xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 ${isFeatured ? featuredCoverSize : ""}`}
         >
           {cover}
         </a>
       )}
-      {isDraft ? content : <Link to={href} className="block min-w-0 flex-1">{content}</Link>}
+      {isDraft ? content : <Link to={href} className={`block min-w-0 flex-1${featuredTextMin}`}>{content}</Link>}
     </div>
   );
 
