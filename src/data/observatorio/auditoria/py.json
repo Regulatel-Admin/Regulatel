@@ -1,0 +1,262 @@
+{
+  "iso": "py",
+  "pais": "Paraguay",
+  "revisado": "2026-11-11",
+  "documentos": [
+    {
+      "titulo": "Plan Nacional de Atribución de Frecuencias (PNAF)",
+      "url": "https://www.conatel.gov.py/conatel/pnaf/",
+      "categoriaOriginal": "Espectro Radioeléctrico",
+      "origen": "catalogo",
+      "tema": "espectro",
+      "estado": "actualizado",
+      "nota": "La RD 1232/2026 (03-06-2026) modificó el PNAF —ya adaptado al RR-24 por la RD 2135/2025— y lo renombró Plan Nacional de Frecuencias (PNF). La URL antigua redirige a la página del PNF.",
+      "urlNueva": "https://www.conatel.gov.py/wp-content/uploads/2026/08/PNF-RD-1232-2026-ANEXO-PRG69A.pdf",
+      "tituloNuevo": "Plan Nacional de Frecuencias (PNF) de la República del Paraguay, junio 2026 (Res. Dir. N° 1232/2026)",
+      "anioNuevo": 2026
+    },
+    {
+      "titulo": "Guía para la regulación con criterios de competencia",
+      "url": "https://conacom.gov.py/la-conacom-aprobo-la-guia-para-la-regulacion-con-criterios-de-competencia/",
+      "categoriaOriginal": "Competencia Económica",
+      "origen": "catalogo",
+      "tema": "competencia",
+      "estado": "vigente",
+      "nota": "La página oficial respondió (200) el 11-11-2026. Guía no vinculante aprobada por Res. D/AD N° 48/2023 de la CONACOM; sin indicios de reemplazo (luego el sitio quedó inaccesible)."
+    },
+    {
+      "titulo": "Plan Nacional de Telecomunicaciones 2021 - 2025",
+      "url": "https://www.conatel.gov.py/conatel/wp-content/uploads/2022/01/pnt21-25-1.pdf",
+      "categoriaOriginal": "Tecnologías de la Información y la Comunicación (TIC)",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "vigente",
+      "nota": "Último PNT aprobado (RD 2246/2021); su horizonte terminó en 2025. El borrador del PNT 2026-2030 (consulta pública abierta en oct-2026, ya cerrada) aún no fue aprobado."
+    },
+    {
+      "titulo": "Decreto N° 7052/17 que aprueba el Plan Nacional de Ciberseguridad (PNC)",
+      "url": "https://www.cert.gov.py/wp-content/uploads/2022/07/Decreto-N%C2%B0-7052-17.pdf",
+      "categoriaOriginal": "Ciberseguridad",
+      "origen": "catalogo",
+      "tema": "ciberseguridad",
+      "estado": "no_verificable",
+      "nota": "El PDF respondió (200) el 11-11-2026, pero CERT-PY presenta la Estrategia Nacional de Ciberseguridad 2025-2028 (mayo 2025) como sucesora; su sitio cayó y no se pudo comprobar ese enlace."
+    },
+    {
+      "titulo": "Ley N° 642/95 de Telecomunicaciones",
+      "url": "https://www.conatel.gov.py/conatel/ley-no-642-de-telecomunicaciones/",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "vigente",
+      "nota": "Ley marco vigente «y sus modificaciones» (p. ej. Ley 2478/04); CONATEL la invoca en resoluciones de 2026. La página y el PDF de la ley responden."
+    },
+    {
+      "titulo": "Decreto 14,135/96",
+      "url": "https://www.conatel.gov.py/conatel/decretos/",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "vigente",
+      "nota": "Reglamento de la Ley 642/95, vigente (citado en la RD 2373/2026). El enlace abre el listado de decretos; ficha directa: https://www.conatel.gov.py/decreto-n-14135-1996/"
+    },
+    {
+      "titulo": "Reglamento de Protección al Usuario de Telecomunicaciones",
+      "url": "https://www.conatel.gov.py/conatel/regimen-de-proteccion-a-abonados-y-usuarios/",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "vigente",
+      "nota": "Rige el Anexo de la RD 583/2020, modificado por la RD 2956/2021. Ojo: la página aún lista las RD 2377 y 2531/2021 (revocadas) y no enlaza la RD 2956/2021."
+    },
+    {
+      "titulo": "Manual de Funciones",
+      "url": "https://www.conatel.gov.py/conatel/wp-content/uploads/2019/09/manual-de-funciones.pdf",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "vigente",
+      "nota": "Manual aprobado por RD 1852/2015 (versión ene-2016), aún publicado en «Información institucional»; la estructura cambió luego (RD 1901/2018, mod. RD 745/2019), por lo que puede estar desfasado."
+    },
+    {
+      "titulo": "CONATEL al servicio del ciudadano usuario",
+      "url": "https://www.conatel.gov.py/conatel/conatel-al-servicio-del-ciudadano-usuario/",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "vigente",
+      "nota": "Nota informativa de 2022 sobre campañas de orientación al usuario; la página responde. Contenido histórico: CONATEL mantiene estas campañas en 2026."
+    },
+    {
+      "titulo": "Reglamentos de Calidad de Servicio",
+      "url": "https://www.conatel.gov.py/conatel/wp-content/uploads/2021/07/2021-rd-1662-reg.calidad.servicio-comprimido.pdf",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "actualizado",
+      "nota": "La RD 3196/2025 (03-12-2025) aprobó el Reglamento de Calidad de Servicio actualizado, vigente desde el 01-01-2026, y dejó sin efecto la RD 1662/2021.",
+      "urlNueva": "https://www.conatel.gov.py/wp-content/uploads/2025/12/2025-RD-3196.pdf",
+      "tituloNuevo": "Reglamento de Calidad de Servicio para los Servicios de Telecomunicaciones (Res. Dir. N° 3196/2025)",
+      "anioNuevo": 2025
+    },
+    {
+      "titulo": "Ley N° 5629/2016 de obligatoriedad a las empresas de telefonías celulares a realizar bloqueos de equipos terminales móviles celulares (ETM) robados, hurtados, o extraviados a través de su sistema internacional para la Identidad de Equipos Móviles (IMEI)",
+      "url": "https://www.conatel.gov.py/conatel/wp-content/uploads/2020/08/de-obligatoriedad-a-las-empresas-de-telefonia-celulares-a-realizar-bloqueos-de-imei.pdf",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "catalogo",
+      "tema": "homologacion",
+      "estado": "vigente",
+      "nota": "Vigente; reglamentada por el Decreto 6728/17 y la RD 647/2017. En sept-2026 la RD 2373/2026 cambió el art. 40 de esas normas (envío de IMEI bloqueados a la GSMA cada 24 h)."
+    },
+    {
+      "titulo": "Decreto N.2 6728/17 que reglamenta la Ley N° 5629/16",
+      "url": "https://www.conatel.gov.py/conatel/wp-content/uploads/2020/09/decreto-6728_2017.pdf",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "catalogo",
+      "tema": "homologacion",
+      "estado": "vigente",
+      "nota": "Vigente (citado en la RD 2373/2026); sus normas complementarias (RD 647/2017) se modificaron en sept-2026. El PDF responde."
+    },
+    {
+      "titulo": "Resolución Directorio N° 647/2017. por la cual se aprueban las normas complementarias del Decreto N.2 6728/17",
+      "url": "https://conatel.gov.py/conatel/wp-content/uploads/2020/09/2017-rd-647-cop.pdf",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "catalogo",
+      "tema": "homologacion",
+      "estado": "vigente",
+      "nota": "Vigente con cambio: la RD 2373/2026 (29-09-2026) sustituyó su art. 40, que obliga a remitir a la GSMA la lista de IMEI bloqueados (actualización ≤ 24 h). El PDF original responde."
+    },
+    {
+      "titulo": "Consulta de IMEI",
+      "url": "https://imei.conatel.gov.py/#/imei",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "catalogo",
+      "tema": "homologacion",
+      "estado": "no_verificable",
+      "nota": "CONATEL sigue enlazando el servicio (conatel.gov.py/consulta-el-estado-del-imei-movil redirige aquí), pero imei.conatel.gov.py no respondió (timeout/rechazo) el 11-11-2026."
+    },
+    {
+      "titulo": "Sistema de medición de calidad de servicios",
+      "url": "https://www.conatel.gov.py/conatel/sistema-de-medicion-de-calidad-de-servicios/",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "vigente",
+      "nota": "Página activa; su botón «Ir al formulario» apunta a qos.conatel.gov.py, dominio que no resuelve. El régimen de calidad vigente es la RD 3196/2025."
+    },
+    {
+      "titulo": "Proyectos para el despliegue de redes comunitarias",
+      "url": "https://www.conatel.gov.py/conatel/wp-content/uploads/2021/08/proy-pnt21-25-rd-1790-2021-consulta-publica.pdf",
+      "categoriaOriginal": "Accesibilidad",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "actualizado",
+      "nota": "Es el borrador en consulta (RD 1790/2021); el PNT 21-25 aprobado por la RD 2246/2021 mantiene este apartado (p. 106). Luego la RD 388/2024 creó el SARC para redes en comunidades indígenas rurales.",
+      "urlNueva": "https://www.conatel.gov.py/conatel/wp-content/uploads/2022/01/pnt21-25-1.pdf#page=106",
+      "tituloNuevo": "Plan Nacional de Telecomunicaciones 2021-2025 aprobado (Res. Dir. N° 2246/2021), apartado I.C.1.3 «Proyectos para el despliegue de redes comunitarias»",
+      "anioNuevo": 2021
+    },
+    {
+      "titulo": "Licitación Pública Fondo de Servicios Universales para la expansión de infraestructura de la red que sirve de plataforma de acceso a Internet",
+      "url": "https://www.conatel.gov.py/conatel/licitacion-publica-fsu-no-02-2022/",
+      "categoriaOriginal": "Asuntos relacionados con Internet",
+      "origen": "catalogo",
+      "tema": "competencia",
+      "estado": "vigente",
+      "nota": "Proceso concluido (título oficial: LP FSU N° 01/2022, expansión de redes móviles e Internet); página y pliego responden. La LP FSU 01/2026 es de videovigilancia, no lo reemplaza."
+    },
+    {
+      "titulo": "Conocé lo que pagas - Medí tu Internet",
+      "url": "https://www.conatel.gov.py/conatel/conoce-lo-que-pagas-medi-tu-internet/",
+      "categoriaOriginal": "Asuntos relacionados con Internet",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "vigente",
+      "nota": "Página activa que remite al Sistema de Medición de Calidad de CONATEL (sondas gratuitas para internet fijo)."
+    },
+    {
+      "titulo": "Resolución del Directorio N° 1287/2022, la CONATEL ha decidido conformar un Grupo de Trabajo para acompañar un objetivo de la Unión Internacional de Telecomunicaciones - UIT: que los países cuenten con planes nacionales de telecomunicaciones de emergencias",
+      "url": "https://www.conatel.gov.py/conatel/resolucion-directorio-n-1287-2022/",
+      "categoriaOriginal": "Telecomunicaciones de emergencia",
+      "origen": "catalogo",
+      "tema": "emergencia",
+      "estado": "vigente",
+      "nota": "Creó el grupo de trabajo del Plan Nacional de Telecomunicaciones de Emergencia; ese plan sigue sin aprobarse (el borrador del PNT 2026-2030 lo prevé como tarea). Página y PDF responden."
+    },
+    {
+      "titulo": "Política Nacional de Gestión y Reducción de Riesgos de Desastres 2018",
+      "url": "https://www.sen.gov.py/application/files/8015/9188/4586/Politica_Nacional_de_Gestion_y_Reduccion_de_Riesgos__2018.pdf",
+      "categoriaOriginal": "Telecomunicaciones de emergencia",
+      "origen": "catalogo",
+      "tema": "emergencia",
+      "estado": "no_verificable",
+      "nota": "Enlace roto: sen.gov.py devuelve 404 para este PDF y luego el sitio de la SEN dejó de responder; no se pudo ubicar la nueva URL oficial ni confirmar si hay versión posterior."
+    },
+    {
+      "titulo": "Atlas de Riesgos de Desastres de la República del Paraguay",
+      "url": "https://www.sen.gov.py/application/files/9015/9862/5498/Atlas_de_Riesgos_de_Desastres_de_la_Republica_del_Paraguay_2018.pdf",
+      "categoriaOriginal": "Telecomunicaciones de emergencia",
+      "origen": "catalogo",
+      "tema": "emergencia",
+      "estado": "no_verificable",
+      "nota": "Enlace roto: sen.gov.py devuelve 404 para este PDF y luego el sitio de la SEN dejó de responder; no se pudo ubicar una URL oficial alternativa del Atlas (2018)."
+    },
+    {
+      "titulo": "Homologación",
+      "url": "https://www.conatel.gov.py/conatel/homologacion/",
+      "categoriaOriginal": "Homologación de productos y dispositivos",
+      "origen": "catalogo",
+      "tema": "homologacion",
+      "estado": "vigente",
+      "nota": "Página activa: listado de equipos al 27-10-2026 y normativa. El reglamento (RD 588/2009) está en revisión integral vía AIR (consulta pública jul-ago 2026)."
+    },
+    {
+      "titulo": "Reglamento para la homologación de equipos y aparatos de telecomunicaciones aprobado por la Res. Dir. N° 588/2009",
+      "url": "https://www.conatel.gov.py/conatel/wp-content/uploads/2019/09/2009-rd-588-homologacion.pdf",
+      "categoriaOriginal": "Homologación de productos y dispositivos",
+      "origen": "catalogo",
+      "tema": "homologacion",
+      "estado": "vigente",
+      "nota": "Sigue siendo el reglamento de homologación vigente (CONATEL, jul-2026). Su actualización integral está en etapa de AIR y consulta pública; aún no hay norma nueva."
+    },
+    {
+      "titulo": "Listado de equipos homologados en la CONATEL",
+      "url": "https://www.conatel.gov.py/conatel/wp-content/uploads/2023/10/equipos-homologados-18-10-2023.pdf",
+      "categoriaOriginal": "Homologación de productos y dispositivos",
+      "origen": "catalogo",
+      "tema": "homologacion",
+      "estado": "actualizado",
+      "nota": "El listado de oct-2023 quedó desfasado; CONATEL publica versiones periódicas y la más reciente es al 27-10-2026 (PDF y XLSX en la página de Homologación).",
+      "urlNueva": "https://www.conatel.gov.py/wp-content/uploads/2026/10/Equipos-Homologados-27-10-2026.pdf",
+      "tituloNuevo": "Listado de equipos homologados en la CONATEL (actualizado al 27-10-2026)",
+      "anioNuevo": 2026
+    },
+    {
+      "titulo": "Normativa técnica para la evaluación de la tasa de absorción específica para la certificación y homologación de equipos y aparatos de telecomunicaciones",
+      "url": "https://www.conatel.gov.py/conatel/rd-n-1332-2016/",
+      "categoriaOriginal": "Homologación de productos y dispositivos",
+      "origen": "catalogo",
+      "tema": "homologacion",
+      "estado": "vigente",
+      "nota": "Vigente: la RD 3171/2023 (norma de conformidad de celulares) la cita como referencia y sigue listada en Homologación. Página y PDF (vía https) responden."
+    },
+    {
+      "titulo": "Norma técnica para la evaluación de la compactibilidad electromagnética (inmunidad) para la certificación y homologación de equipos y aparatos de telecomunicaciones",
+      "url": "https://www.conatel.gov.py/conatel/rd-n-1762-2016/",
+      "categoriaOriginal": "Homologación de productos y dispositivos",
+      "origen": "catalogo",
+      "tema": "homologacion",
+      "estado": "vigente",
+      "nota": "Vigente: citada como referencia en la RD 3171/2023 y listada en Homologación. Página y PDF (vía https) responden."
+    },
+    {
+      "titulo": "Consultar portal institucional del INDOTEL",
+      "url": "https://indotel.gob.do/",
+      "categoriaOriginal": "Contáctanos",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "vigente",
+      "nota": "El enlace funciona, pero es el portal de INDOTEL (Rep. Dominicana), no de CONATEL ni normativa paraguaya. Para contacto: https://www.conatel.gov.py/contacto-2/"
+    }
+  ]
+}

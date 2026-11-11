@@ -1,0 +1,531 @@
+{
+  "iso": "pt",
+  "pais": "Portugal",
+  "regulador": {
+    "sigla": "ANACOM",
+    "nombre": "Autoridade Nacional de Comunicações (Autoridad Nacional de Comunicaciones)",
+    "url": "https://www.anacom.pt",
+    "naturaleza": "Entidad administrativa independiente, con autonomía administrativa, financiera y de gestión (Estatutos: DL 39/2015). Regula comunicaciones electrónicas y postales, es autoridad espacial y Coordinador de Servicios Digitales (DL 20-B/2024)."
+  },
+  "otrasAutoridades": [
+    {
+      "sigla": "MIH",
+      "nombre": "Ministério das Infraestruturas e Habitação",
+      "rol": "Ministerio que propone la legislación de comunicaciones electrónicas (p. ej., DL 5/2026)",
+      "url": "https://www.portugal.gov.pt/pt/gc25/area-de-governo/infraestruturas-e-habitacao"
+    },
+    {
+      "sigla": "CNCS",
+      "nombre": "Centro Nacional de Cibersegurança",
+      "rol": "Autoridad nacional de ciberseguridad; integra el CERT.PT, equipo nacional de respuesta a incidentes (DL 125/2025)",
+      "url": "https://www.cncs.gov.pt"
+    },
+    {
+      "sigla": "ANEPC",
+      "nombre": "Autoridade Nacional de Emergência e Proteção Civil",
+      "rol": "Emite los avisos a la población por SMS (DL 2/2019)",
+      "url": "https://prociv.gov.pt"
+    },
+    {
+      "sigla": "AdC",
+      "nombre": "Autoridade da Concorrência",
+      "rol": "Autoridad de competencia; ANACOM le consulta en análisis de mercado y cesiones de espectro (LCE, arts. 42 y 79)",
+      "url": "https://www.concorrencia.pt"
+    },
+    {
+      "sigla": "CNPD",
+      "nombre": "Comissão Nacional de Proteção de Dados",
+      "rol": "Fiscaliza las comunicaciones comerciales no solicitadas (Lei 41/2004)",
+      "url": "https://www.cnpd.pt"
+    },
+    {
+      "sigla": "DGC",
+      "nombre": "Direção-Geral do Consumidor",
+      "rol": "Mantiene la lista nacional de oposición al marketing directo para personas jurídicas (Lei 41/2004, art. 13-B)",
+      "url": "https://www.consumidor.gov.pt"
+    }
+  ],
+  "marcoLegal": {
+    "nombre": "Ley de Comunicaciones Electrónicas (Lei 16/2022, de 16 de agosto), modificada por los DL 114/2024, 125/2025 y 5/2026",
+    "anio": 2022,
+    "url": "https://diariodarepublica.pt/dr/legislacao-consolidada/lei/2022-187527517"
+  },
+  "resumenPais": "ANACOM, regulador independiente, supervisa las comunicaciones electrónicas, los servicios postales y las actividades espaciales, y desde 2024 coordina los servicios digitales (DSA). Su base es la Ley de Comunicaciones Electrónicas de 2022, que traspone el Código Europeo; varias reglas clave vienen del derecho de la UE.",
+  "categorias": {
+    "espectro": {
+      "resumen": "ANACOM planifica y asigna el espectro y publica el Cuadro Nacional de Atribución de Frecuencias (QNAF). La subasta de 2021 asignó 700 MHz y 3,6 GHz para 5G; la parte baja de 6 GHz es de uso libre para Wi-Fi y la ley permite ceder o arrendar derechos de espectro.",
+      "instrumentos": [
+        {
+          "nombre": "Ley de Comunicaciones Electrónicas (Lei 16/2022): art. 35 (QNAF, que ANACOM actualiza y publica) y arts. 41–42 (renovación, cesión y arriendo de espectro)",
+          "anio": 2022,
+          "tipo": "ley",
+          "url": "https://diariodarepublica.pt/dr/legislacao-consolidada/lei/2022-187527517"
+        },
+        {
+          "nombre": "Reglamento ANACOM 987-A/2020 (subasta de 700 MHz, 900 MHz, 1800 MHz, 2,1 GHz, 2,6 GHz y 3,6 GHz)",
+          "anio": 2020,
+          "tipo": "reglamento",
+          "url": "https://diariodarepublica.pt/dr/detalhe/regulamento/987-a-2020-147782899"
+        },
+        {
+          "nombre": "Decisión de Ejecución (UE) 2021/1067 (banda 5945–6425 MHz para Wi-Fi; actualizada en 2024 y 2025)",
+          "anio": 2021,
+          "tipo": "norma",
+          "url": "https://eur-lex.europa.eu/eli/dec_impl/2021/1067/oj"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-07",
+        "texto": "ANACOM propuso renovar los derechos de espectro terrestre de MEO, NOS y Vodafone para dar previsibilidad a la inversión (consulta pública hasta oct-2026)."
+      },
+      "indicadores": {
+        "esp_cuadro": {
+          "estado": "si",
+          "nota": "La LCE (art. 35) obliga a ANACOM a actualizar y publicar el QNAF, vigente y consultable en línea (eQNAF), con atribuciones y derechos de uso por banda.",
+          "fuente": "https://diariodarepublica.pt/dr/legislacao-consolidada/lei/2022-187527517",
+          "anio": 2022
+        },
+        "esp_5g": {
+          "estado": "si",
+          "nota": "La subasta de 2021 (Reg. 987-A/2020) asignó 700 MHz y 3,6 GHz (3400–3800 MHz); MEO, NOS, Vodafone y DIGI tienen cobertura 5G.",
+          "fuente": "https://portal5g.pt/resultados-do-leilao-5g/",
+          "anio": 2021
+        },
+        "esp_licitacion": {
+          "estado": "si",
+          "nota": "Subasta multibanda (700 MHz a 3,6 GHz) concluida el 27-oct-2021 tras 1727 rondas; recaudó 566,8 millones de euros.",
+          "fuente": "https://portal5g.pt/resultados-do-leilao-5g/",
+          "anio": 2021
+        },
+        "esp_6ghz": {
+          "estado": "si",
+          "nota": "Opción de 500 MHz: 5945–6425 MHz (480 MHz) de uso libre para Wi-Fi, armonizada por la Decisión UE 2021/1067 (aplicable desde dic-2021, actualizada en 2025).",
+          "fuente": "https://eur-lex.europa.eu/eli/dec_impl/2021/1067/oj",
+          "anio": 2021
+        },
+        "esp_secundario": {
+          "estado": "si",
+          "nota": "LCE art. 42: cesión o arriendo de espectro autorizados por ANACOM, previo informe de la AdC; en 2026 propuso denegar un arriendo de EchoStar a SpaceX.",
+          "fuente": "https://diariodarepublica.pt/dr/legislacao-consolidada/lei/2022-187527517",
+          "anio": 2022
+        }
+      }
+    },
+    "competencia": {
+      "resumen": "ANACOM regula por análisis de mercado e impone a MEO obligaciones mayoristas, como ofertas de ductos y postes a precios orientados a costos. Los topes de terminación de voz los fija la UE. DIGI opera como cuarto operador móvil con red propia.",
+      "instrumentos": [
+        {
+          "nombre": "Ley de Comunicaciones Electrónicas (Lei 16/2022), arts. 69–109 (análisis de mercados, poder significativo y obligaciones de acceso)",
+          "anio": 2022,
+          "tipo": "ley",
+          "url": "https://diariodarepublica.pt/dr/legislacao-consolidada/lei/2022-187527517"
+        },
+        {
+          "nombre": "Reglamento Delegado (UE) 2021/654 (tarifas máximas únicas de terminación de voz en la UE)",
+          "anio": 2021,
+          "tipo": "norma",
+          "url": "https://eur-lex.europa.eu/eli/reg_del/2021/654/oj"
+        },
+        {
+          "nombre": "Reglamento (UE) 2015/2120 (internet abierta)",
+          "anio": 2015,
+          "tipo": "norma",
+          "url": "https://eur-lex.europa.eu/eli/reg/2015/2120/oj"
+        },
+        {
+          "nombre": "Lei 35/2012 (fondo de compensación del servicio universal)",
+          "anio": 2012,
+          "tipo": "ley",
+          "url": "https://diariodarepublica.pt/dr/legislacao-consolidada/lei/2012-70241311"
+        }
+      ],
+      "novedad": {
+        "fecha": "2025-12",
+        "texto": "ANACOM consultó (dic-2025 a mar-2026) si los precios de ductos (ORAC) y postes (ORAP) de MEO están orientados a costos, según la Recomendación Gigabit."
+      },
+      "indicadores": {
+        "comp_psm": {
+          "estado": "si",
+          "nota": "ANACOM impone a MEO obligaciones mayoristas asimétricas: ofertas de ductos (ORAC) y postes (ORAP) con precios orientados a costos, revisados en 2026.",
+          "fuente": "https://mailchi.mp/anacom/noticias_anacom_edicao_119"
+        },
+        "comp_omv": {
+          "estado": "si",
+          "nota": "Los OMV operan bajo autorización general; el Reg. 987-A/2020 (art. 45) obliga a los ganadores de 700 MHz o 3,6 GHz a negociar acceso para OMV.",
+          "fuente": "https://diariodarepublica.pt/dr/detalhe/regulamento/987-a-2020-147782899",
+          "anio": 2020
+        },
+        "comp_interconexion": {
+          "estado": "si",
+          "nota": "Terminación de voz con tope único fijado por la UE (Reg. Delegado 2021/654); ANACOM puede imponer ofertas de referencia mayoristas (LCE arts. 86 y 95).",
+          "fuente": "https://eur-lex.europa.eu/eli/reg_del/2021/654/oj",
+          "anio": 2021
+        },
+        "comp_fondo": {
+          "estado": "parcial",
+          "nota": "Fondo de compensación del servicio universal (Lei 35/2012) vigente; solo compensa el costo neto del servicio universal y no financia proyectos de conectividad.",
+          "fuente": "https://diariodarepublica.pt/dr/legislacao-consolidada/lei/2012-70241311",
+          "anio": 2012
+        },
+        "comp_neutralidad": {
+          "estado": "si",
+          "nota": "Rige el Reglamento UE 2015/2120 de internet abierta; ANACOM supervisa su cumplimiento y publica un informe anual.",
+          "fuente": "https://eur-lex.europa.eu/eli/reg/2015/2120/oj",
+          "anio": 2015
+        }
+      }
+    },
+    "ciberseguridad": {
+      "resumen": "Desde abril de 2026 rige el nuevo régimen jurídico de ciberseguridad (DL 125/2025, que traspone la directiva NIS2). El CNCS es la autoridad nacional e integra el CERT.PT; ANACOM es la autoridad sectorial para comunicaciones y servicios postales.",
+      "instrumentos": [
+        {
+          "nombre": "Decreto-Lei 125/2025 (régimen jurídico de la ciberseguridad, traspone NIS2)",
+          "anio": 2025,
+          "tipo": "decreto",
+          "url": "https://diariodarepublica.pt/dr/detalhe/decreto-lei/125-2025-962603401"
+        },
+        {
+          "nombre": "Reglamento 756/2026 del CNCS (ejecución del régimen jurídico de la ciberseguridad)",
+          "anio": 2026,
+          "tipo": "reglamento",
+          "url": "https://diariodarepublica.pt/dr/detalhe/regulamento/756-2026-1134399056"
+        },
+        {
+          "nombre": "Convenio de Budapest sobre la ciberdelincuencia (ratificado en 2010)",
+          "anio": 2010,
+          "tipo": "otro",
+          "url": "https://www.coe.int/en/web/conventions/full-list?module=signatures-by-treaty&treatynum=185"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-04",
+        "texto": "El 3-abr-2026 entró en vigor el DL 125/2025 (NIS2): extiende las obligaciones a 17 sectores y hace de ANACOM la autoridad sectorial de comunicaciones."
+      },
+      "indicadores": {
+        "ciber_estrategia": {
+          "estado": "parcial",
+          "nota": "La ENSC 2019–2023 (RCM 92/2019) venció y sigue como referencia del CNCS; el DL 125/2025 exige aprobar una nueva, aún no publicada.",
+          "fuente": "https://www.cncs.gov.pt/pt/estrategia-nacional/",
+          "anio": 2019
+        },
+        "ciber_ley": {
+          "estado": "si",
+          "nota": "DL 125/2025 (régimen jurídico de la ciberseguridad, NIS2) vigente desde el 3-abr-2026; sustituyó a la Lei 46/2018. Delitos: Ley del Cibercrimen 109/2009.",
+          "fuente": "https://www.cncs.gov.pt/pt/regime-juridico/",
+          "anio": 2025
+        },
+        "ciber_csirt": {
+          "estado": "si",
+          "nota": "CERT.PT, integrado en el CNCS, es el equipo nacional de respuesta a incidentes (DL 125/2025, art. 22); ANACOM tiene además un CSIRT propio.",
+          "fuente": "https://diariodarepublica.pt/dr/detalhe/decreto-lei/125-2025-962603401"
+        },
+        "ciber_reporte": {
+          "estado": "si",
+          "nota": "Los operadores de telecom, de cualquier tamaño, deben notificar incidentes significativos (DL 125/2025, arts. 3 y 40); ANACOM registró 87 incidentes en 2025.",
+          "fuente": "https://diariodarepublica.pt/dr/detalhe/decreto-lei/125-2025-962603401",
+          "anio": 2025
+        },
+        "ciber_budapest": {
+          "estado": "si",
+          "nota": "Ratificado el 24-mar-2010; en vigor desde el 1-jul-2010 (lista del Consejo de Europa al 11-nov-2026).",
+          "fuente": "https://www.coe.int/en/web/conventions/full-list?module=signatures-by-treaty&treatynum=185",
+          "anio": 2010
+        }
+      }
+    },
+    "usuario": {
+      "resumen": "Los derechos del usuario están en la propia Ley de Comunicaciones Electrónicas: contratos, permanencia, compensación por cortes de más de 24 horas y portabilidad en un día hábil. ANACOM recibe reclamos y publica estadísticas; los conflictos individuales van a arbitraje de consumo.",
+      "instrumentos": [
+        {
+          "nombre": "Ley de Comunicaciones Electrónicas (Lei 16/2022), arts. 110–146 (derechos de los usuarios finales)",
+          "anio": 2022,
+          "tipo": "ley",
+          "url": "https://diariodarepublica.pt/dr/legislacao-consolidada/lei/2022-187527517"
+        },
+        {
+          "nombre": "Reglamento ANACOM 38/2025 (portabilidad de números)",
+          "anio": 2025,
+          "tipo": "reglamento",
+          "url": "https://diariodarepublica.pt/dr/detalhe/regulamento/38-2025-902793263"
+        },
+        {
+          "nombre": "Lei 41/2004 (privacidad en las comunicaciones electrónicas: comunicaciones comerciales no solicitadas)",
+          "anio": 2004,
+          "tipo": "ley",
+          "url": "https://diariodarepublica.pt/dr/legislacao-consolidada/lei/2004-106523049"
+        }
+      ],
+      "novedad": {
+        "fecha": "2025-11",
+        "texto": "El 10-nov-2025 entró en vigor el nuevo Reglamento de Portabilidad (ANACOM 38/2025): validación con código (CVP) y reglas de compensación más claras."
+      },
+      "indicadores": {
+        "usu_reglamento": {
+          "estado": "si",
+          "nota": "La LCE de 2022 (arts. 110–146) fija los derechos del usuario: contratos, permanencia, suspensión, compensación por cortes de más de 24 h y portabilidad.",
+          "fuente": "https://diariodarepublica.pt/dr/legislacao-consolidada/lei/2022-187527517",
+          "anio": 2022
+        },
+        "usu_reclamos": {
+          "estado": "parcial",
+          "nota": "ANACOM recibe reclamos (libro de reclamaciones electrónico, línea gratuita 800 206 665) y fiscaliza, pero por ley no resuelve conflictos individuales.",
+          "fuente": "https://www.anacom-consumidor.pt/reclamar-a-anacom"
+        },
+        "usu_portabilidad": {
+          "estado": "si",
+          "nota": "Portabilidad móvil y fija implementada (LCE art. 141: máximo 1 día hábil); el Reglamento ANACOM 38/2025 rige desde el 10-nov-2025.",
+          "fuente": "https://www.anacom-consumidor.pt/faq-portabilidade-de-numeros",
+          "anio": 2025
+        },
+        "usu_calidad": {
+          "estado": "si",
+          "nota": "ANACOM publica resultados trimestrales de su medidor NET.mede (último: 2.º trim. 2026) y mapas de cobertura por operador; el medidor no opera en nov-2026.",
+          "fuente": "https://www.anacom-consumidor.pt/estatisticas-netmede",
+          "anio": 2026
+        },
+        "usu_nomolestar": {
+          "estado": "si",
+          "nota": "Lei 41/2004 (art. 13-A): marketing a personas físicas solo con consentimiento previo; las empresas pueden inscribirse en una lista de oposición de la DGC.",
+          "fuente": "https://diariodarepublica.pt/dr/legislacao-consolidada/lei/2004-106523049",
+          "anio": 2012
+        }
+      }
+    },
+    "emergentes": {
+      "resumen": "Cuatro operadores ofrecen 5G y existe un régimen de sandbox regulatorio (Zonas Libres Tecnológicas, 2021). Rige el Reglamento europeo de IA y el Gobierno anunció a ANACOM como autoridad nacional; Starlink figura entre los proveedores de internet satelital.",
+      "instrumentos": [
+        {
+          "nombre": "Decreto-Lei 67/2021 (Zonas Libres Tecnológicas: sandbox regulatorio)",
+          "anio": 2021,
+          "tipo": "decreto",
+          "url": "https://diariodarepublica.pt/dr/detalhe/decreto-lei/67-2021-168697990"
+        },
+        {
+          "nombre": "Reglamento ANACOM 532/2023 (gama de números «49» para servicios M2M)",
+          "anio": 2023,
+          "tipo": "reglamento",
+          "url": "https://diariodarepublica.pt/dr/detalhe/regulamento/532-2023-213109852"
+        },
+        {
+          "nombre": "Reglamento (UE) 2024/1689 de Inteligencia Artificial",
+          "anio": 2024,
+          "tipo": "norma",
+          "url": "https://eur-lex.europa.eu/eli/reg/2024/1689/oj"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-08",
+        "texto": "Desde ago-2026 rigen las reglas de transparencia del Reglamento de IA (chatbots y deepfakes); ANACOM sometió a consulta guías sobre IA prohibida."
+      },
+      "indicadores": {
+        "tec_sandbox": {
+          "estado": "si",
+          "nota": "El DL 67/2021 crea las Zonas Libres Tecnológicas, definidas como sandbox regulatorio para probar 5G, IoT, IA y otras tecnologías.",
+          "fuente": "https://diariodarepublica.pt/dr/detalhe/decreto-lei/67-2021-168697990",
+          "anio": 2021
+        },
+        "tec_5g": {
+          "estado": "si",
+          "nota": "Al cierre del 2.º trim. 2026 había 16 142 estaciones 5G y 6,2 millones de usuarios de internet móvil 5G; MEO, NOS, Vodafone y DIGI ofrecen 5G.",
+          "fuente": "https://stat.anacom.pt/pt-PT/Factos-e-Numeros/Atualidades/Atualidade/?id=ATU-2026-J7J6",
+          "anio": 2026
+        },
+        "tec_iot": {
+          "estado": "si",
+          "nota": "El Reglamento ANACOM 532/2023 reserva la gama de números «49» para servicios M2M y acceso móvil a internet, con uso extraterritorial permitido.",
+          "fuente": "https://diariodarepublica.pt/dr/detalhe/regulamento/532-2023-213109852",
+          "anio": 2023
+        },
+        "tec_satelital": {
+          "estado": "si",
+          "nota": "Starlink (órbita baja) figura entre los operadores de la capa de cobertura satelital de GEO.ANACOM, junto a Inmarsat, Avanti y EchoStar Mobile.",
+          "fuente": "https://geo.anacom.pt/publico/home"
+        },
+        "tec_ia": {
+          "estado": "si",
+          "nota": "Aplica el Reglamento UE de IA 2024/1689, directamente vigente; en sept-2025 el Gobierno anunció a ANACOM como autoridad nacional de IA.",
+          "fuente": "https://eur-lex.europa.eu/eli/reg/2024/1689/oj",
+          "anio": 2024
+        }
+      }
+    },
+    "infraestructura": {
+      "resumen": "El DL 123/2009 obliga a dar acceso a ductos, postes y otras infraestructuras aptas, también de energía, agua y transporte; exige infraestructura de telecom en edificios (ITED) y fija plazos con aprobación tácita. Desde nov-2025 se suma el Reglamento europeo de Infraestructura Gigabit.",
+      "instrumentos": [
+        {
+          "nombre": "Decreto-Lei 123/2009 (construcción, acceso e instalación de redes; ITED e ITUR)",
+          "anio": 2009,
+          "tipo": "decreto",
+          "url": "https://diariodarepublica.pt/dr/legislacao-consolidada/decreto-lei/2009-34550575"
+        },
+        {
+          "nombre": "Reglamento (UE) 2024/1309 (Ley de Infraestructura Gigabit)",
+          "anio": 2024,
+          "tipo": "norma",
+          "url": "https://eur-lex.europa.eu/eli/reg/2024/1309/oj"
+        },
+        {
+          "nombre": "Ley de Comunicaciones Electrónicas (Lei 16/2022), arts. 23–26 y 105 (derechos de paso, compartición y roaming localizado)",
+          "anio": 2022,
+          "tipo": "ley",
+          "url": "https://diariodarepublica.pt/dr/legislacao-consolidada/lei/2022-187527517"
+        },
+        {
+          "nombre": "Reglamento ANACOM 987-A/2020, art. 45 (roaming nacional para nuevos entrantes)",
+          "anio": 2020,
+          "tipo": "reglamento",
+          "url": "https://diariodarepublica.pt/dr/detalhe/regulamento/987-a-2020-147782899"
+        }
+      ],
+      "novedad": {
+        "fecha": "2025-11",
+        "texto": "Desde el 12-nov-2025 aplica el Reglamento europeo de Infraestructura Gigabit (2024/1309), que derogó la directiva incorporada al DL 123/2009."
+      },
+      "indicadores": {
+        "inf_pasiva": {
+          "estado": "si",
+          "nota": "El DL 123/2009 obliga a dar acceso a ductos, postes y demás infraestructuras aptas; MEO ofrece ductos (ORAC) y postes (ORAP) a precios regulados.",
+          "fuente": "https://diariodarepublica.pt/dr/legislacao-consolidada/decreto-lei/2009-34550575",
+          "anio": 2009
+        },
+        "inf_electrica": {
+          "estado": "si",
+          "nota": "El DL 123/2009 (art. 2) incluye a empresas de electricidad, gas, agua, saneamiento y transporte, que deben dar acceso a sus infraestructuras aptas.",
+          "fuente": "https://diariodarepublica.pt/dr/legislacao-consolidada/decreto-lei/2009-34550575",
+          "anio": 2017
+        },
+        "inf_permisos": {
+          "estado": "si",
+          "nota": "DL 123/2009 (art. 6): los derechos de paso municipales se deciden en 30 días, con aprobación tácita; trámites electrónicos y sistema de información central.",
+          "fuente": "https://diariodarepublica.pt/dr/legislacao-consolidada/decreto-lei/2009-34550575",
+          "anio": 2009
+        },
+        "inf_roaming": {
+          "estado": "parcial",
+          "nota": "Solo para nuevos entrantes: el Reg. 987-A/2020 (art. 45) obliga a negociar roaming nacional por 10 años; la LCE (art. 105) permite imponer roaming localizado.",
+          "fuente": "https://diariodarepublica.pt/dr/detalhe/regulamento/987-a-2020-147782899",
+          "anio": 2020
+        },
+        "inf_edificios": {
+          "estado": "si",
+          "nota": "Infraestructuras de telecom obligatorias en edificios (ITED) y urbanizaciones (ITUR), con proyecto técnico e instaladores habilitados (DL 123/2009).",
+          "fuente": "https://diariodarepublica.pt/dr/legislacao-consolidada/decreto-lei/2009-34550575",
+          "anio": 2009
+        }
+      }
+    },
+    "emergencia": {
+      "resumen": "El 112 es gratuito y los operadores móviles deben difundir gratis y con prioridad los avisos de protección civil, que la ANEPC envía por SMS. Tras las tormentas de 2026, ANACOM prepara reglas de autonomía energética y redundancia de redes.",
+      "instrumentos": [
+        {
+          "nombre": "Ley de Comunicaciones Electrónicas (Lei 16/2022), arts. 58 y 66–68 (emergencias, 112 y avisos a la población)",
+          "anio": 2022,
+          "tipo": "ley",
+          "url": "https://diariodarepublica.pt/dr/legislacao-consolidada/lei/2022-187527517"
+        },
+        {
+          "nombre": "Decreto-Lei 2/2019 (Sistema Nacional de Monitorización y Comunicación de Riesgo, Alerta Especial y Aviso a la Población)",
+          "anio": 2019,
+          "tipo": "decreto",
+          "url": "https://diariodarepublica.pt/dr/detalhe/decreto-lei/2-2019-117726476"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-03",
+        "texto": "Tras las tormentas Kristin y Leonardo, el DL 40-A/2026 prohibió cortar servicios por impago en las zonas afectadas y permitió suspender contratos hasta 3 meses."
+      },
+      "indicadores": {
+        "eme_alerta": {
+          "estado": "si",
+          "nota": "La ANEPC envía avisos por SMS georreferenciado (remitente AvisoPROCIV), gratuitos y sin registro (DL 2/2019); lo usó el 10-nov-2026 por la depresión Charles.",
+          "fuente": "https://prociv.gov.pt/pt/noticias/depressao-charles-anepc-avisa-populacao-por-sms/",
+          "anio": 2019
+        },
+        "eme_numero": {
+          "estado": "si",
+          "nota": "112, número único europeo de emergencia, gratuito y con localización del llamante (LCE art. 67).",
+          "fuente": "https://diariodarepublica.pt/dr/legislacao-consolidada/lei/2022-187527517",
+          "anio": 2022
+        },
+        "eme_plan": {
+          "estado": "si",
+          "nota": "LCE: máxima disponibilidad ante fallas de red o emergencias (art. 66) y planificación con la ANEPC (art. 58); ANACOM prepara un reglamento de resiliencia.",
+          "fuente": "https://diariodarepublica.pt/dr/legislacao-consolidada/lei/2022-187527517",
+          "anio": 2022
+        },
+        "eme_prioridad": {
+          "estado": "si",
+          "nota": "Acceso gratuito al 112 (LCE art. 67), avisos de protección civil gratuitos y con máxima prioridad (art. 68) y acceso ininterrumpido a emergencias (art. 66).",
+          "fuente": "https://diariodarepublica.pt/dr/legislacao-consolidada/lei/2022-187527517",
+          "anio": 2022
+        },
+        "eme_tampere": {
+          "estado": "parcial",
+          "nota": "Firmado el 18-jun-1998, sin ratificación (UN Treaty Collection, cap. XXV-4, estado al 11-nov-2026).",
+          "fuente": "https://treaties.un.org/Pages/ViewDetails.aspx?src=TREATY&mtdsg_no=XXV-4&chapter=25&clang=_en",
+          "anio": 1998
+        }
+      }
+    },
+    "homologacion": {
+      "resumen": "Rige el régimen europeo: los equipos de radio se venden con marcado CE y declaración UE de conformidad del fabricante (DL 57/2017, Directiva RED), sin homologación nacional previa. ANACOM y la ASAE vigilan el mercado.",
+      "instrumentos": [
+        {
+          "nombre": "Decreto-Lei 57/2017 (equipos de radio, traspone la Directiva RED 2014/53/UE; modificado por el DL 30/2024)",
+          "anio": 2017,
+          "tipo": "decreto",
+          "url": "https://diariodarepublica.pt/dr/legislacao-consolidada/decreto-lei/2017-156850835"
+        },
+        {
+          "nombre": "Acuerdos de reconocimiento mutuo de la UE en evaluación de la conformidad",
+          "tipo": "otro",
+          "url": "https://single-market-economy.ec.europa.eu/single-market/goods/international-aspects/mutual-recognition-agreements_en"
+        }
+      ],
+      "novedad": {
+        "fecha": "2024-04",
+        "texto": "El DL 30/2024 incorporó la Directiva UE 2022/2380: cargador común USB-C para móviles, tabletas y otros equipos de radio."
+      },
+      "indicadores": {
+        "hom_obligatoria": {
+          "estado": "si",
+          "nota": "Marcado CE y declaración UE de conformidad obligatorios antes de vender (DL 57/2017); sin homologación nacional: certifica el fabricante u organismo notificado.",
+          "fuente": "https://www.anacom-consumidor.pt/equipamentos-de-radio",
+          "anio": 2017
+        },
+        "hom_reconocimiento": {
+          "estado": "si",
+          "nota": "Se acepta la conformidad CE emitida en cualquier país de la UE y rigen los acuerdos de reconocimiento mutuo de la UE con terceros países.",
+          "fuente": "https://single-market-economy.ec.europa.eu/single-market/goods/international-aspects/mutual-recognition-agreements_en"
+        },
+        "hom_imei": {
+          "estado": "parcial",
+          "nota": "Tras un robo, el operador bloquea el equipo por IMEI a pedido del titular (ANACOM lo recomienda); no se identificó un registro nacional obligatorio.",
+          "fuente": "https://mailchi.mp/anacom/noticias_anacom_edicao_114",
+          "anio": 2025
+        },
+        "hom_enlinea": {
+          "estado": "no",
+          "nota": "No aplica: no existe trámite nacional de homologación; el fabricante declara la conformidad CE (DL 57/2017, Directiva RED).",
+          "fuente": "https://www.anacom-consumidor.pt/equipamentos-de-radio",
+          "anio": 2017
+        },
+        "hom_lista": {
+          "estado": "no",
+          "nota": "No hay lista nacional de equipos homologados, porque no existe homologación nacional; rige el marcado CE con declaración del fabricante.",
+          "fuente": "https://www.anacom-consumidor.pt/equipamentos-de-radio",
+          "anio": 2017
+        }
+      }
+    }
+  },
+  "cambiosDetectados": [
+    "No existía perfil de Portugal en el Observatorio anterior: se elaboró desde cero.",
+    "Catálogo regulatel.org: el enlace «Contáctanos» de Portugal apunta al portal de INDOTEL, no al de ANACOM.",
+    "Los enlaces del catálogo a anacom.pt no abren desde algunas redes fuera de Portugal (403/404); por eso se usan como fuentes el Diário da República y los portales de ANACOM que sí abren (consumidor, STAT, GEO, boletín).",
+    "Norma sustituida: la Lei 46/2018 (ciberseguridad) fue reemplazada por el DL 125/2025, vigente desde abr-2026.",
+    "Norma sustituida: el Reglamento de Portabilidad 58/2005 fue derogado por el Reglamento ANACOM 38/2025, vigente desde el 10-nov-2025."
+  ],
+  "verificadoEn": "2026-11-11",
+  "confianza": "alta"
+}

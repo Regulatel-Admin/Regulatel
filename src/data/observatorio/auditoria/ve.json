@@ -1,0 +1,199 @@
+{
+  "iso": "ve",
+  "pais": "Venezuela",
+  "revisado": "2026-11-11",
+  "documentos": [
+    {
+      "titulo": "Habilitación administrativa",
+      "url": "http://www.conatel.gob.ve/telecomunicaciones-2/?target=titulos",
+      "categoriaOriginal": "Espectro Radioeléctrico",
+      "origen": "catalogo",
+      "tema": "competencia",
+      "estado": "enlace_roto",
+      "nota": "Da 404 tras el rediseño del sitio. Los títulos están en Telecomunicaciones > Títulos y hay un módulo de habilitación en línea (SIGESTEL). Una reforma de atributos fue a consulta pública en 2026.",
+      "urlNueva": "https://conatel.gob.ve/telecomunicaciones/",
+      "tituloNuevo": "Telecomunicaciones – Títulos administrativos (habilitaciones, atributos, concesiones y recaudos)",
+      "anioNuevo": 2026
+    },
+    {
+      "titulo": "Cuadro Nacional de Atribución de Bandas de Frecuencias (CUNABAF)",
+      "url": "http://www.conatel.gob.ve/cunabaf-2/",
+      "categoriaOriginal": "Espectro Radioeléctrico",
+      "origen": "catalogo",
+      "tema": "espectro",
+      "estado": "enlace_roto",
+      "nota": "Da 404 tras el rediseño. El CUNABAF está ahora en la página Espectro (pestaña CUNABAF, con gráfico). Sigue rigiendo la PA 012/2016: no se halló versión posterior ni ajuste a CMR-19/23.",
+      "urlNueva": "https://conatel.gob.ve/espectro/",
+      "tituloNuevo": "Espectro – Cuadro Nacional de Atribución de Bandas de Frecuencias (CUNABAF)",
+      "anioNuevo": 2016
+    },
+    {
+      "titulo": "Providencia Administrativa N° 012. Cuadro Nacional de Atribución de Bandas de Frecuencia (CUNABAF). Año 2016",
+      "url": "http://www.conatel.gob.ve/providencia-administrativa-n-012-cuadro-nacional-de-atribucion-de-bandas-de-frecuencia-cunabaf-ano-2016/",
+      "categoriaOriginal": "Espectro Radioeléctrico",
+      "origen": "catalogo",
+      "tema": "espectro",
+      "estado": "enlace_roto",
+      "nota": "PA 012 (20-ene-2016, GO 40.917) sigue siendo el CUNABAF publicado: no se halló reforma pese a la subasta 5G de 2025 (2,5 y 3,5 GHz). El PDF oficial está en la página Leyes.",
+      "urlNueva": "https://conatel.gob.ve/wp-content/uploads/2024/08/Providencia-Administrativa-Numero-012-Cunabaf-2016.pdf",
+      "tituloNuevo": "Providencia Administrativa N° 012 – Cuadro Nacional de Atribución de Bandas de Frecuencias (CUNABAF), GO 40.917",
+      "anioNuevo": 2016
+    },
+    {
+      "titulo": "Sistema de Formación CONATEL",
+      "url": "http://www.conatel.gob.ve/centro-de-desarrollo-e-informacion-en-telecomunicaciones/?target=cronograma-de-cursos",
+      "categoriaOriginal": "Tecnologías de la Información y la Comunicación (TIC)",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "enlace_roto",
+      "nota": "Da 404 y la web nueva no tiene página de cursos (el logo Formación no enlaza). La Gerencia de Formación publica su oferta por trimestre en notas; la vigente es la del IV trimestre 2026.",
+      "urlNueva": "https://conatel.gob.ve/conatel-fortalece-el-talento-tecnico-nacional-con-nuevos-cursos-especializados-para-el-iv-trimestre-de-2026/",
+      "tituloNuevo": "Oferta de cursos de la Gerencia de Formación de CONATEL – IV trimestre 2026",
+      "anioNuevo": 2026
+    },
+    {
+      "titulo": "Ley Especial contra los Delitos Informáticos",
+      "url": "http://www.conatel.gob.ve/ley-especial-contra-los-delitos-informaticos-2/",
+      "categoriaOriginal": "Ciberseguridad",
+      "origen": "catalogo",
+      "tema": "ciberseguridad",
+      "estado": "enlace_roto",
+      "nota": "La ley de 2001 (GO 37.313) sigue vigente y su PDF está en la página Leyes. Una Ley de Ciberseguridad está en la agenda legislativa 2026, sin sanción hallada a nov-2026.",
+      "urlNueva": "https://conatel.gob.ve/wp-content/uploads/2024/08/PDF-Ley-Especial-contra-los-Delitos-Informaticos.pdf",
+      "tituloNuevo": "Ley Especial contra los Delitos Informáticos (GO 37.313, 30-oct-2001)",
+      "anioNuevo": 2001
+    },
+    {
+      "titulo": "Ley para la Protección de Niños, Niñas y Adolescentes en Salas de Uso de Internet, Videojuegos y otros Multimedias",
+      "url": "http://www.conatel.gob.ve/ley-para-la-proteccion-de-ninos-ninas-y-adolescentes-en-salas-de-uso-de-internet-videojuegos-y-otros-multimedias-2/",
+      "categoriaOriginal": "Protección del Usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "enlace_roto",
+      "nota": "La ley de 2006 (GO 38.529, 25-sep-2006) sigue vigente: su reforma para entornos digitales está en trámite en la AN desde 2025, sin sanción hallada a nov-2026. Su PDF está enlazado en la página Leyes.",
+      "urlNueva": "https://conatel.gob.ve/wp-content/uploads/2024/08/PDF-Ley-para-la-Proteccion-de-Ninos-Ninas-y-Adolescentes-en-Salas-de-Uso-de-Internet-Videojuegos-y-otros-Multimedias.pdf",
+      "tituloNuevo": "Ley para la Protección de Niños, Niñas y Adolescentes en Salas de Uso de Internet, Videojuegos y otros Multimedias (GO 38.529, 2006)",
+      "anioNuevo": 2006
+    },
+    {
+      "titulo": "Reglamento para la protección de los Derechos de los usuarios en la Prestación de los servicios de Telecomunicaciones",
+      "url": "http://www.conatel.gob.ve/reglamento-para-la-proteccion-de-los-derechos-de-los-usuarios-en-la-prestacion-de-los-servicios-de-telecomunicaciones/",
+      "categoriaOriginal": "Protección del Usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "enlace_roto",
+      "nota": "Decreto 3.691 (GO 41.533, 27-nov-2018) sigue vigente, sin reformas halladas a nov-2026. CONATEL publica la Gaceta completa en Leyes > Reglamentos.",
+      "urlNueva": "https://conatel.gob.ve/wp-content/uploads/2024/08/GO-41.533-Reglamento-de-Proteccion-de-Usuarios.pdf",
+      "tituloNuevo": "Reglamento para la Protección de los Derechos de los Usuarios en la Prestación de los Servicios de Telecomunicaciones (Decreto 3.691, GO 41.533)",
+      "anioNuevo": 2018
+    },
+    {
+      "titulo": "Servicio Universal",
+      "url": "http://www.conatel.gob.ve/servicio-universal/",
+      "categoriaOriginal": "Protección del Usuario",
+      "origen": "catalogo",
+      "tema": "competencia",
+      "estado": "vigente",
+      "nota": "Página operativa (redirige a /servicio-universal-2/). Rige el Reglamento del Servicio Universal y su Fondo (Decreto 4.429, GO 42.059, 2021); el Fondo sigue financiando proyectos en 2026."
+    },
+    {
+      "titulo": "Proyectos para la prestación del servicio universal",
+      "url": "http://www.conatel.gob.ve/servicio-universal/?target=proyectos",
+      "categoriaOriginal": "Protección del Usuario",
+      "origen": "catalogo",
+      "tema": "competencia",
+      "estado": "vigente",
+      "nota": "Página operativa, pero ?target ya no abre la pestaña. Solo lista proyectos antiguos del Fondo, y Noveno Proyecto abre el PDF del segundo. Los proyectos de 2026 solo aparecen en notas de prensa."
+    },
+    {
+      "titulo": "Organización de Usuarios",
+      "url": "http://www.conatel.gob.ve/responsabilidad-social/?target=organizaci%C3%B3n-de-usuarios",
+      "categoriaOriginal": "Protección del Usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "vigente",
+      "nota": "Página operativa (pestaña Organización de Usuarios en Responsabilidad Social). Rige la PA 533 de registro de organizaciones de usuarios; CONATEL certificó 46 nuevas en oct-2026."
+    },
+    {
+      "titulo": "Oficina de Atención al Usuario y a la Usuaria",
+      "url": "http://www.conatel.gob.ve/atencion-al-usuario-y-la-usuaria/?target=oficina-de-atenci%C3%B3n",
+      "categoriaOriginal": "Protección del Usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "enlace_roto",
+      "nota": "Ahora es la Oficina de Atención al Ciudadano: reclamos por sac.conatel.gob.ve (en mantenimiento el 11-nov-2026), 0800-CONATEL o en la sede. La nota oficial de oct-2026 detalla los canales.",
+      "urlNueva": "https://conatel.gob.ve/conatel-fortalece-sus-canales-de-atencion-para-proteger-a-los-usuarios-de-telecomunicaciones/",
+      "tituloNuevo": "Oficina de Atención al Ciudadano de CONATEL – canales de reclamo para usuarios de telecomunicaciones",
+      "anioNuevo": 2026
+    },
+    {
+      "titulo": "Informes anuales sobre servicio universal",
+      "url": "http://www.conatel.gob.ve/servicio-universal/?target=informe-anual",
+      "categoriaOriginal": "Protección del Usuario",
+      "origen": "catalogo",
+      "tema": "competencia",
+      "estado": "vigente",
+      "nota": "Página operativa, pero el último informe anual del Fondo de Servicio Universal publicado es el de 2015, aunque el art. 60 de la LOTEL exige publicarlo cada año."
+    },
+    {
+      "titulo": "Sobre Internet",
+      "url": "http://www.conatel.gob.ve/sobre-internet-2/",
+      "categoriaOriginal": "Asuntos relacionados con Internet",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "enlace_roto",
+      "nota": "Es el Decreto 825 (GO 36.955, 22-may-2000), que declara el acceso y uso de Internet como política prioritaria. Sigue publicado en la página Leyes; no se halló derogación.",
+      "urlNueva": "https://conatel.gob.ve/wp-content/uploads/2024/08/sobre-internet.pdf",
+      "tituloNuevo": "Decreto N° 825 – Acceso y uso de Internet como política prioritaria (GO 36.955)",
+      "anioNuevo": 2000
+    },
+    {
+      "titulo": "Plan Nacional de Numeración de Venezuela",
+      "url": "http://www.conatel.gob.ve/plan-nacional-de-numeracion-de-venezuela/",
+      "categoriaOriginal": "Telecomunicaciones de emergencia",
+      "origen": "catalogo",
+      "tema": "emergencia",
+      "estado": "enlace_roto",
+      "nota": "PA 096 (27-jul-2016, GO 40.969), reimpresa por Aviso Oficial 01; fija el 911 como número único de emergencia. Sin reforma posterior hallada. Está en Telecomunicaciones > Numeración.",
+      "urlNueva": "https://conatel.gob.ve/wp-content/uploads/2024/08/providencia_administrativa_096.pdf",
+      "tituloNuevo": "Providencia Administrativa N° 096 – Plan Nacional de Numeración para Telefonía y Radiocomunicaciones Móviles Terrestres",
+      "anioNuevo": 2016
+    },
+    {
+      "titulo": "Lista de Marcas y Modelos de Equipos y Aparatos Homologados 2023",
+      "url": "http://www.conatel.gob.ve/marcas-y-modelos-de-equipos-y-aparatos-homologados-en-2023/",
+      "categoriaOriginal": "Homologación de productos y dispositivos",
+      "origen": "catalogo",
+      "tema": "homologacion",
+      "estado": "actualizado",
+      "nota": "Hay listas posteriores en PDF (2024 y ene-ago 2025, la última). Desde jun-2026 la lista se consulta en línea en Consulta Homologación, con comprobante descargable.",
+      "urlNueva": "https://consultahomologacion.conatel.gob.ve/",
+      "tituloNuevo": "Consulta Homologación – lista en línea de equipos homologados (CONATEL)",
+      "anioNuevo": 2026
+    },
+    {
+      "titulo": "Resolución 253° Lista de entes u organismos extranjeros recomendados para la homologación y certificación de equipos",
+      "url": "http://www.conatel.gob.ve/resolucion-n-253-lista-de-entes-u-organismos-extranjeros-recomendados-para-la-homologacion-y-certificacion-de-equipos/",
+      "categoriaOriginal": "Homologación de productos y dispositivos",
+      "origen": "catalogo",
+      "tema": "homologacion",
+      "estado": "enlace_roto",
+      "nota": "Res. 253 (4-abr-2003, GO 37.698) sigue publicada por CONATEL. La PA 217/2025 (GO 43.208) renovó las categorías homologables y solo derogó la PA 736/2005, no esta resolución.",
+      "urlNueva": "https://conatel.gob.ve/wp-content/uploads/2024/08/Resolucion-Lista-Entes-u-Organismos-para-Homologacion-y-Certificacion-de-Equipos.pdf",
+      "tituloNuevo": "Resolución N° 253 – Lista de entes u organismos extranjeros recomendados para la homologación y certificación de equipos de telecomunicaciones",
+      "anioNuevo": 2003
+    },
+    {
+      "titulo": "Guía para la Tramitación de la Homologación de Equipos de Telecomunicaciones",
+      "url": "http://www.conatel.gob.ve/files/diccionario/guia_para_la_tramitacion_de_la_homologacion_de_equipos_de_telecomunicaciones.htm",
+      "categoriaOriginal": "Homologación de productos y dispositivos",
+      "origen": "catalogo",
+      "tema": "homologacion",
+      "estado": "sustituido",
+      "nota": "La guía (2008, aún en ZIP en la web) describe un trámite en papel. Desde nov-2025 la homologación es 100 % en línea en el módulo de SIGESTEL, y rigen las categorías de la PA 217/2025.",
+      "urlNueva": "https://sigestel.conatel.gob.ve/",
+      "tituloNuevo": "SIGESTEL – Módulo de Homologación y Certificación en línea (CONATEL)",
+      "anioNuevo": 2025
+    }
+  ]
+}

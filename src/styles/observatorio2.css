@@ -1,0 +1,168 @@
+/* Observatorio Regulatorio — Panel 2 (estilo editorial). Todo con prefijo obs2- para no afectar el Panel 1. */
+
+.obs2-page {
+  background: #ffffff;
+  color: #1e2b36;
+}
+
+/* Pestañas subrayadas */
+.obs2-tab {
+  color: #3b4b57;
+  border-bottom: 3px solid transparent;
+  transition: color 150ms ease, border-color 150ms ease, background-color 150ms ease;
+}
+.obs2-tab:hover {
+  color: #1f7f8c;
+  background: rgba(31, 127, 140, 0.06);
+}
+.obs2-tab[data-activo="true"] {
+  color: #1f7f8c;
+  border-bottom-color: #1f7f8c;
+}
+
+/* Botones de texto de la barra de herramientas */
+.obs2-accion {
+  color: #12344a;
+  border-radius: 8px;
+  transition: background-color 150ms ease;
+}
+.obs2-accion:hover {
+  background: rgba(31, 127, 140, 0.08);
+}
+
+/* Selectores */
+.obs2-select {
+  transition: border-color 150ms ease, box-shadow 150ms ease, background-color 150ms ease;
+}
+.obs2-select:hover {
+  border-color: #9cc7c1 !important;
+  background-color: #ffffff !important;
+}
+.obs2-select:focus-visible {
+  box-shadow: 0 0 0 3px rgba(31, 127, 140, 0.25);
+  outline: none;
+}
+.obs2-opcion {
+  transition: background-color 120ms ease;
+}
+.obs2-opcion:hover:not(:disabled) {
+  background: rgba(31, 127, 140, 0.08);
+}
+.obs2-opcion[data-activo="true"] {
+  background: rgba(31, 127, 140, 0.12);
+}
+
+/* Botón intercambiar */
+.obs2-swap {
+  background: #e6f2f3;
+  color: #1f7f8c;
+  transition: background-color 150ms ease;
+}
+.obs2-swap:hover {
+  background: #d3e8ea;
+}
+
+/* Lista de temas (barra lateral) */
+.obs2-tema {
+  color: #3b4b57;
+  box-shadow: inset 3px 0 0 transparent;
+  transition: background-color 150ms ease, color 150ms ease, box-shadow 150ms ease;
+}
+.obs2-tema:hover {
+  background: rgba(31, 127, 140, 0.08);
+  color: #12344a;
+}
+.obs2-tema[data-activo="true"] {
+  background: #e3eff0;
+  color: #1f7f8c;
+  font-weight: 700;
+  box-shadow: inset 3px 0 0 #1f7f8c;
+}
+.obs2-tema .obs2-tema-chev {
+  opacity: 0;
+}
+.obs2-tema[data-activo="true"] .obs2-tema-chev {
+  opacity: 1;
+}
+.obs2-badge {
+  background: #ffe9d5;
+  color: #9a4a12;
+}
+
+/* Filas del tablero */
+.obs2-fila {
+  transition: background-color 150ms ease;
+}
+.obs2-fila:hover,
+.obs2-fila[data-abierta="true"] {
+  background: #f6f9f9;
+}
+
+/* Filas de países (vista regional) */
+.obs2-fila-pais {
+  transition: background-color 150ms ease;
+}
+.obs2-fila-pais:hover {
+  background: #f3f8f8;
+}
+.obs2-fila-pais[data-activo="true"] {
+  background: #e3eff0;
+  box-shadow: inset 3px 0 0 #1f7f8c;
+}
+
+/* Filas de la huella (clic = ir al tema en el tablero) */
+.obs2-fila-huella {
+  transition: background-color 150ms ease;
+}
+.obs2-fila-huella:hover {
+  background: #f6f9f9;
+}
+.obs2-fila-huella:hover .obs2-link-tema {
+  color: #1f7f8c !important;
+  text-decoration: underline;
+}
+
+/* Enlaces de tema en la huella */
+.obs2-link-tema {
+  transition: color 150ms ease;
+}
+.obs2-link-tema:hover {
+  color: #1f7f8c !important;
+  text-decoration: underline;
+}
+
+/* Botón principal */
+.obs2-boton {
+  background: #1f7f8c;
+  color: #fff;
+  transition: background-color 150ms ease;
+}
+.obs2-boton:hover {
+  background: #186a75;
+}
+
+/* Ondas de la ilustración */
+.o2-ondas {
+  animation: o2Pulso 3.2s ease-in-out infinite;
+  transform-origin: 680px 150px;
+}
+@keyframes o2Pulso {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .o2-ondas { animation: none; }
+}
+
+.obs2-print-only {
+  display: none;
+}
+/* Impresión: acotada a la página del Panel 2 (no afecta al resto del sitio) */
+@media print {
+  body:has(.obs2-page) header,
+  body:has(.obs2-page) footer,
+  .obs2-noprint { display: none !important; }
+  .obs2-print-only { display: block !important; }
+  .obs2-avoid { break-inside: avoid; }
+  .obs2-page, .obs2-page * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+}

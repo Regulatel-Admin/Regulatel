@@ -1,0 +1,103 @@
+{
+  "iso": "gt",
+  "pais": "Guatemala",
+  "revisado": "2026-11-11",
+  "documentos": [
+    {
+      "titulo": "Proceso de subasta pública de frecuencias",
+      "url": "https://sit.gob.gt/gerencia-de-frecuencias/preguntas-frecuencias/",
+      "categoriaOriginal": "Espectro Radioeléctrico",
+      "origen": "catalogo",
+      "tema": "espectro",
+      "estado": "enlace_roto",
+      "nota": "La FAQ de frecuencias desapareció con el rediseño de sit.gob.gt (404 en navegador). El concurso y la subasta pública (arts. 61-62 LGT) se explican en el diagrama de la página Procedimientos.",
+      "urlNueva": "https://sit.gob.gt/procedimientos.html",
+      "tituloNuevo": "Procedimientos: concurso público y subasta de frecuencias (art. 61 LGT)",
+      "anioNuevo": null
+    },
+    {
+      "titulo": "Tabla Nacional de Atribución de Frecuencias (TNAF)",
+      "url": "https://sit.gob.gt/gerencia-de-frecuencias/frecuencias/tabla-nacional-de-atribucion-de-frecuencias/",
+      "categoriaOriginal": "Espectro Radioeléctrico",
+      "origen": "catalogo",
+      "tema": "espectro",
+      "estado": "enlace_roto",
+      "nota": "URL antigua da 404 tras el rediseño 2026. La TNAF (instructivo, gráfica, cuadro y pies de página) sigue en la nueva página: edición 2020 (PDF de 2020-2022), sin versión posterior a la CMR-23.",
+      "urlNueva": "https://sit.gob.gt/tabla-nacional-de-atribucion-de-frecuencias.html",
+      "tituloNuevo": "Tabla Nacional de Atribución de Frecuencias (TNAF), edición 2020",
+      "anioNuevo": 2020
+    },
+    {
+      "titulo": "Sistemas satelitales",
+      "url": "https://sit.gob.gt/gerencia-de-frecuencias/sistemas/sistema-satelital/",
+      "categoriaOriginal": "Espectro Radioeléctrico",
+      "origen": "catalogo",
+      "tema": "espectro",
+      "estado": "enlace_roto",
+      "nota": "URL antigua da 404 tras el rediseño 2026. El contenido (licencias satelitales y formas de solicitud según el Acuerdo Gubernativo 574-98) sigue vigente en la nueva página.",
+      "urlNueva": "https://sit.gob.gt/sistemas-satelitales.html",
+      "tituloNuevo": "Sistemas Satelitales (Reglamento para la Explotación de Sistemas Satelitales, AG 574-98)",
+      "anioNuevo": 1998
+    },
+    {
+      "titulo": "Estadísticas relacionadas con el espectro radioeléctrico",
+      "url": "https://sit.gob.gt/gerencia-de-frecuencias/mas-informacion/estadisticas/",
+      "categoriaOriginal": "Espectro Radioeléctrico",
+      "origen": "catalogo",
+      "tema": "espectro",
+      "estado": "enlace_roto",
+      "nota": "URL antigua da 404. La nueva página Estadísticas no trae archivos; los 6 cuadros AM/FM/TV (PDF del 16-abr-2020, sin actualizar) se publican ahora en Radiodifusión.",
+      "urlNueva": "https://sit.gob.gt/radiodifusion.html",
+      "tituloNuevo": "Radiodifusión: derechos otorgados en AM/FM y canales de TV autorizados",
+      "anioNuevo": 2020
+    },
+    {
+      "titulo": "Cursos SIT",
+      "url": "https://cursos.sit.gob.gt/",
+      "categoriaOriginal": "Tecnologías de la Información y Comunicación (TIC)",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "derogado",
+      "nota": "Responde 200, pero es la convocatoria de 2022 (Fortinet, Huawei, Cisco; inscripciones cerradas el 10-jun-2022). No hay oferta vigente ni enlace desde sit.gob.gt: retirar sin reemplazo.",
+      "urlNueva": null,
+      "tituloNuevo": null,
+      "anioNuevo": null
+    },
+    {
+      "titulo": "Literal f) artículo 5. Resolución SIT-553-2015",
+      "url": "https://sit.gob.gt/download/886/reglamento-organico-interno-sit-jur-pagina-web/1_pz236JKvm4ZOQNOpJM_Zn3SIb4upCzx/Reglamento%20Organico%20Interno%20SIT.pdf?__cf_chl_tk=Wy33MBLv2j2fS4ah4NhIu5GrZn1WJw8b.6WbZ4SuITg-1686007787-0-gaNycGzNDVA",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "enlace_roto",
+      "nota": "URL antigua (con token de Cloudflare) da 404. La misma Res. SIT-553-2015 (22-dic-2015) está en Normativas; su art. 5 f) encarga a Telefonía mediar para que se cumplan los contratos con usuarios.",
+      "urlNueva": "https://sit.gob.gt/files/Reglamento-Organico-Interno-SIT.pdf",
+      "tituloNuevo": "Reglamento Orgánico Interno de la SIT (Resolución SIT-553-2015)",
+      "anioNuevo": 2015
+    },
+    {
+      "titulo": "Plan Nacional de Numeración",
+      "url": "https://sit.gob.gt/gerencia-de-telefonia/recursos-de-telefonia/numeracion/plan-nacional-de-numeracion/",
+      "categoriaOriginal": "Telecomunicaciones de emergencia",
+      "origen": "catalogo",
+      "tema": "emergencia",
+      "estado": "enlace_roto",
+      "nota": "URL antigua da 404. El PNN (incluye códigos 11X/12X de emergencia) y la Res. SIT-DSI-226-2022 están en la nueva página. El Decreto 14-2025 (portabilidad) reformó el art. 41 LGT.",
+      "urlNueva": "https://sit.gob.gt/plan-nacional-de-numeracion.html",
+      "tituloNuevo": "Plan Nacional de Numeración (con Resolución SIT-DSI-226-2022)",
+      "anioNuevo": 2022
+    },
+    {
+      "titulo": "Dispensación de homologación",
+      "url": "https://sit.gob.gt/gerencia-de-frecuencias/mas-informacion/dispensacion-de-homologacion/",
+      "categoriaOriginal": "Homologación de productos y dispositivos",
+      "origen": "catalogo",
+      "tema": "homologacion",
+      "estado": "enlace_roto",
+      "nota": "URL antigua da 404. El trámite voluntario (Res. SIT-047-2016, act. SIT-DSI-155-2019) sigue en la nueva página. La SIT-DSI-084-2024 derogó la excepción COVID de recepción electrónica.",
+      "urlNueva": "https://sit.gob.gt/dispensacion-de-homologacion.html",
+      "tituloNuevo": "Dispensación de Homologación (procedimiento Res. SIT-DSI-155-2019)",
+      "anioNuevo": 2019
+    }
+  ]
+}

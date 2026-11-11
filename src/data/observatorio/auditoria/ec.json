@@ -1,0 +1,217 @@
+{
+  "iso": "ec",
+  "pais": "Ecuador",
+  "revisado": "2026-11-11",
+  "documentos": [
+    {
+      "titulo": "Plan Nacional de Frecuencias. Resolución 04-02-ARCOTEL-2021",
+      "url": "https://www.arcotel.gob.ec/wp-content/uploads/2021/10/PNF-V.6.0_14-07-21_v.1.pdf",
+      "categoriaOriginal": "Espectro radioeléctrico",
+      "origen": "catalogo",
+      "tema": "espectro",
+      "estado": "actualizado",
+      "nota": "La Res. 04-02-ARCOTEL-2021 fue derogada por la Res. 03-02SO-ARCOTEL-2026 (13-feb-2026; RO 253, 27-mar-2026), que aprueba el PNF 2026 v7.0, alineado con la CMR-23.",
+      "urlNueva": "https://www.arcotel.gob.ec/wp-content/uploads/2026/11/PNF_v.7.0_feb26-1.pdf",
+      "tituloNuevo": "Plan Nacional de Frecuencias 2026 (v7.0). Resolución 03-02SO-ARCOTEL-2026",
+      "anioNuevo": 2026
+    },
+    {
+      "titulo": "Norma Técnica de Espectro de Uso Libre y de Espectro para Uso Determinado en Bandas Libres. Resolución ARCOTEL-2018-0661",
+      "url": "https://www.arcotel.gob.ec/wp-content/uploads/downloads/2018/08/ARCOTEL-2018-0661-2018-08-01-RADIOCOMUNICACIONES-MDBA-MATRIZ.pdf",
+      "categoriaOriginal": "Espectro radioeléctrico",
+      "origen": "catalogo",
+      "tema": "espectro",
+      "estado": "vigente",
+      "nota": "Sigue vigente sin reformas (Catastro Regulatorio de ARCOTEL, oct-2026). Su modificación, que abarca la banda de 6 GHz, está en consulta pública; audiencia el 11-nov-2026."
+    },
+    {
+      "titulo": "Tarifa social para servicios de telefonía móvil (SMA)",
+      "url": "https://www.arcotel.gob.ec/tarifa-social-sma/",
+      "categoriaOriginal": "Protección al usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "vigente",
+      "nota": "Vigente: la Res. ARCOTEL-2022-0124 (RO 54, 3-may-2022) figura sin reformas en el Catastro de oct-2026. La página (abr-2025) aún nombra a Movistar, que hoy opera como Tigo."
+    },
+    {
+      "titulo": "Enmascaramiento de llamadas comerciales del Servicio Móvil Avanzado",
+      "url": "https://www.arcotel.gob.ec/enmascaramiento-de-llamadas-comerciales-del-servicio-movil-avanzado/",
+      "categoriaOriginal": "Protección al usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "vigente",
+      "nota": "Vigente: la Res. ARCOTEL-2020-0074 (RO 164, 18-mar-2020; plazo ampliado en ago-2020) consta en el Catastro Regulatorio de ARCOTEL de oct-2026."
+    },
+    {
+      "titulo": "Mapa de cobertura Servicio Móvil Avanzado (SMA)",
+      "url": "https://www.arcotel.gob.ec/mapa-de-cobertura-servicio-movil-avanzado-sma/",
+      "categoriaOriginal": "Protección al usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "vigente",
+      "nota": "La página de ARCOTEL (2022) responde y el mapa de CONECEL funciona, pero el geoportal de CNT no carga y el enlace de Movistar falla (OTECEL opera hoy como Tigo)."
+    },
+    {
+      "titulo": "Contratación de servicios",
+      "url": "https://www.arcotel.gob.ec/contratacion-de-servicios/",
+      "categoriaOriginal": "Protección al usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "vigente",
+      "nota": "Página índice activa (contratos de adhesión, bono de permanencia). Su norma base, Res. ARCOTEL-2018-0716, fue reformada por la Res. ARCOTEL-2025-0126 (RO 106, 20-ago-2025)."
+    },
+    {
+      "titulo": "Tu celular legal",
+      "url": "https://www.arcotel.gob.ec/tu-celular-legal/",
+      "categoriaOriginal": "Protección al usuario",
+      "origen": "catalogo",
+      "tema": "homologacion",
+      "estado": "vigente",
+      "nota": "Vigente: la consulta de IMEI en la base de listas negativas funciona (tucelularlegal.arcotel.gob.ec); página actualizada en abr-2025."
+    },
+    {
+      "titulo": "Plan Técnico Fundamental de Numeración",
+      "url": "https://www.arcotel.gob.ec/wp-content/uploads/2016/03/plan-tecnico-fundamental-de-numeracion-ptfn.pdf",
+      "categoriaOriginal": "Telecomunicaciones de emergencia",
+      "origen": "catalogo",
+      "tema": "emergencia",
+      "estado": "vigente",
+      "nota": "Vigente: Res. TEL-068-04-CONATEL-2013 (RO 424, abr-2013), sin reformas según el Catastro Regulatorio de ARCOTEL (oct-2026). Define el 911 y reserva el 112 como número alterno."
+    },
+    {
+      "titulo": "Consultar portal institucional del INDOTEL",
+      "url": "https://indotel.gob.do/",
+      "categoriaOriginal": "Contáctanos",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "vigente",
+      "nota": "Enlace genérico del catálogo REGULATEL (portal de INDOTEL, Rep. Dominicana), repetido en 12 países; no es un documento de Ecuador. El portal del regulador es arcotel.gob.ec."
+    },
+    {
+      "titulo": "Ley Orgánica de Telecomunicaciones (Registro Oficial Suplemento 439, 2015)",
+      "url": "https://www.asambleanacional.gob.ec/es/multimedios-legislativos/39027-ley-organica-de-telecomunicaciones",
+      "categoriaOriginal": "Espectro radioeléctrico",
+      "origen": "observatorio-anterior",
+      "tema": "otro",
+      "estado": "actualizado",
+      "nota": "Ley vigente, reformada (2023, jun-2025 y Ley Orgánica para el Fortalecimiento de la Ciberseguridad, RO 290, 22-may-2026). La página de la Asamblea solo trae el texto original de 2015.",
+      "urlNueva": "https://www.telecomunicaciones.gob.ec/wp-content/uploads/2026/06/Ley-organica-de-Telecomunicaciones.pdf",
+      "tituloNuevo": "Ley Orgánica de Telecomunicaciones – texto con reformas hasta el 22-may-2026 (MINTEL)",
+      "anioNuevo": 2026
+    },
+    {
+      "titulo": "Reglamento General a la Ley Orgánica de Telecomunicaciones (Decreto Ejecutivo 864)",
+      "url": "https://vlex.ec/vid/expidese-reglamento-general-ley-593044718",
+      "categoriaOriginal": "Espectro radioeléctrico",
+      "origen": "observatorio-anterior",
+      "tema": "otro",
+      "estado": "actualizado",
+      "nota": "vLex (sitio privado) muestra el texto original de 2016. El D.E. 864 sigue vigente con reformas (última registrada: D.E. 195, RO 154, 29-oct-2025); texto consolidado publicado por MINTEL.",
+      "urlNueva": "https://www.telecomunicaciones.gob.ec/wp-content/uploads/2025/11/CompletosSinConcordanciaspdf1085906_-_REGLAMENTO_GENERAL_A_LA_LEY_ORGANICA_DE_-3.pdf",
+      "tituloNuevo": "Reglamento General a la Ley Orgánica de Telecomunicaciones (D.E. 864) – texto con reformas hasta el 29-oct-2025 (MINTEL)",
+      "anioNuevo": 2025
+    },
+    {
+      "titulo": "Cuadro Nacional de Atribución de Frecuencias – aplicación de consulta de ARCOTEL",
+      "url": "https://www.arcotel.gob.ec/cuadro-nacional-de-atribucion-de-frecuencias-puede-ser-consultado-en-una-aplicacion/",
+      "categoriaOriginal": "Espectro radioeléctrico",
+      "origen": "observatorio-anterior",
+      "tema": "espectro",
+      "estado": "actualizado",
+      "nota": "La aplicación de consulta del CNAF ya no funciona (error 404) y la nota de 2019 cita el PNF 2017. El cuadro vigente está en el capítulo III del PNF 2026.",
+      "urlNueva": "https://www.arcotel.gob.ec/wp-content/uploads/2026/11/PNF_v.7.0_feb26-1.pdf",
+      "tituloNuevo": "Plan Nacional de Frecuencias 2026 (v7.0) – Cuadro Nacional de Atribución de Bandas de Frecuencias",
+      "anioNuevo": 2026
+    },
+    {
+      "titulo": "Reglamento General a la LOT – reglas de interconexión y acceso a infraestructuras esenciales",
+      "url": "https://derechoecuador.com/registro-oficial-no351-miercoles-16-de-diciembre-de-2020/",
+      "categoriaOriginal": "Competencia Económica",
+      "origen": "observatorio-anterior",
+      "tema": "competencia",
+      "estado": "enlace_roto",
+      "nota": "El enlace no lleva al Reglamento: abre el RO 351 (2020) con el Acuerdo MINTEL 033-2020 sobre compartición. Se enlaza el Reglamento General vigente (D.E. 864, con reformas hasta oct-2025).",
+      "urlNueva": "https://www.telecomunicaciones.gob.ec/wp-content/uploads/2025/11/CompletosSinConcordanciaspdf1085906_-_REGLAMENTO_GENERAL_A_LA_LEY_ORGANICA_DE_-3.pdf",
+      "tituloNuevo": "Reglamento General a la Ley Orgánica de Telecomunicaciones (D.E. 864) – texto con reformas hasta el 29-oct-2025 (MINTEL)",
+      "anioNuevo": 2025
+    },
+    {
+      "titulo": "Plan Regulatorio Institucional de ARCOTEL",
+      "url": "https://www.arcotel.gob.ec/plan-regulatorio-institucional/",
+      "categoriaOriginal": "Competencia Económica",
+      "origen": "observatorio-anterior",
+      "tema": "otro",
+      "estado": "vigente",
+      "nota": "Página activa (act. 30-oct-2026): PRI 2026 con tercera actualización (ago-2026) y propuesta de PRI 2027 en consulta pública hasta el 17-nov-2026."
+    },
+    {
+      "titulo": "Política Nacional de Ciberseguridad del Ecuador (MINTEL)",
+      "url": "https://www.telecomunicaciones.gob.ec/wp-content/uploads/2018/01/Politica-Nacional-de-Ciberseguridad-Ecuador.pdf",
+      "categoriaOriginal": "Ciberseguridad",
+      "origen": "observatorio-anterior",
+      "tema": "ciberseguridad",
+      "estado": "enlace_roto",
+      "nota": "La URL (2018) da 404 y no consta política de ese año: rige la del A.M. 006-2021 (horizonte 2023), aún sin reemplazo. La Ley de Fortalecimiento de la Ciberseguridad (may-2026) encarga actualizarla.",
+      "urlNueva": "https://www.telecomunicaciones.gob.ec/wp-content/uploads/2021/06/Acuerdo-No.-006-2021-Politica-de-Ciberseguridad.pdf",
+      "tituloNuevo": "Política Nacional de Ciberseguridad – Acuerdo Ministerial MINTEL 006-2021",
+      "anioNuevo": 2021
+    },
+    {
+      "titulo": "ARCOTEL – campaña sobre derechos de los usuarios de servicios de telecomunicaciones",
+      "url": "https://www.arcotel.gob.ec/la-arcotel-difunde-campana-sobre-derechos-de-los-usuarios/",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "observatorio-anterior",
+      "tema": "usuario",
+      "estado": "vigente",
+      "nota": "Nota de prensa de 2019 sobre los derechos del art. 22 de la LOT, que siguen vigentes. El enlace al formulario de reclamos que incluye ya no funciona (dominio inexistente)."
+    },
+    {
+      "titulo": "ARCOTEL – capacitación sobre derechos y obligaciones de los usuarios y homologación de equipos terminales",
+      "url": "https://www.arcotel.gob.ec/arcotel-capacito-sobre-derechos-y-obligaciones-de-los-usuarios-y-homologacion-de-equipos-terminales-de-telecomunicaciones/",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "observatorio-anterior",
+      "tema": "usuario",
+      "estado": "enlace_roto",
+      "nota": "La noticia existe con otra URL: charlas de ARCOTEL en Nueva Loja (dic-2016) sobre derechos de usuarios y homologación de celulares. Es un evento puntual, solo como antecedente.",
+      "urlNueva": "https://www.arcotel.gob.ec/arcotel-capacito-sobre-derechos-y-obligaciones-de-los-usuarios-y-homologacion-de-celulares-en-nueva-loja-sucumbios/",
+      "tituloNuevo": "ARCOTEL capacitó sobre derechos y obligaciones de los usuarios y homologación de celulares en Nueva Loja, Sucumbíos",
+      "anioNuevo": 2016
+    },
+    {
+      "titulo": "Plan Nacional de Frecuencias – noticias sobre actualización de bandas y servicios",
+      "url": "https://www.arcotel.gob.ec/plan-nacional-de-frecuencias-sera-modificado/",
+      "categoriaOriginal": "Tecnologías emergentes",
+      "origen": "observatorio-anterior",
+      "tema": "espectro",
+      "estado": "actualizado",
+      "nota": "Nota de 2016 sobre una audiencia para modificar el PNF. El plan fue actualizado de forma integral por la Res. 03-02SO-ARCOTEL-2026 (RO 253, 27-mar-2026).",
+      "urlNueva": "https://www.arcotel.gob.ec/wp-content/uploads/2026/11/RES-03-02SO-ARCOTEL-2026.pdf",
+      "tituloNuevo": "Resolución 03-02SO-ARCOTEL-2026: Actualización Integral del Plan Nacional de Frecuencias",
+      "anioNuevo": 2026
+    },
+    {
+      "titulo": "ECU 911 – Sistema de Alerta Temprana (SAT) y sirenas de emergencia",
+      "url": "https://www.ecu911.gob.ec/sat-sistema-de-alerta-temprana-sirenas/",
+      "categoriaOriginal": "Telecomunicaciones de emergencia",
+      "origen": "observatorio-anterior",
+      "tema": "emergencia",
+      "estado": "enlace_roto",
+      "nota": "La URL ya no existe. El SAT sigue operativo: en sep-2026 el ECU 911 informa 209 altoparlantes IP interconectados para emitir alertas sonoras a la población.",
+      "urlNueva": "https://www.ecu911.gob.ec/ecu-911-implementa-un-plan-de-accion-preventivo-para-enfrentar-el-fenomeno-de-el-nino-en-el-pais/",
+      "tituloNuevo": "ECU 911 implementa un plan de acción preventivo para enfrentar el fenómeno de El Niño en el país (incluye el SAT)",
+      "anioNuevo": 2026
+    },
+    {
+      "titulo": "ECU 911 – expansión de la cobertura del SAT a nivel nacional",
+      "url": "https://www.ecu911.gob.ec/ecu-911-trabaja-en-la-expansion-de-la-cobertura-del-sat-a-nivel-nacional/",
+      "categoriaOriginal": "Telecomunicaciones de emergencia",
+      "origen": "observatorio-anterior",
+      "tema": "emergencia",
+      "estado": "enlace_roto",
+      "nota": "La URL ya no existe. Nota oficial equivalente (ene-2018): segunda fase del SAT para todo el perfil costanero, financiada con un préstamo del BID.",
+      "urlNueva": "https://www.ecu911.gob.ec/sistema-de-alerta-temprana-sat-beneficia-a-las-localidades-del-perfil-costanero-del-ecuador/",
+      "tituloNuevo": "Sistema de Alerta Temprana (SAT) beneficia a las localidades del perfil costanero del Ecuador",
+      "anioNuevo": 2018
+    }
+  ]
+}

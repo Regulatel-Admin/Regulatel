@@ -1,0 +1,533 @@
+{
+  "iso": "ve",
+  "pais": "Venezuela",
+  "regulador": {
+    "sigla": "CONATEL",
+    "nombre": "Comisión Nacional de Telecomunicaciones",
+    "url": "https://conatel.gob.ve",
+    "naturaleza": "Instituto autónomo con personalidad jurídica y patrimonio propio, con autonomía técnica, financiera, organizativa y administrativa (LOTEL, art. 35); adscrito al Ministerio del Poder Popular para la Comunicación e Información"
+  },
+  "otrasAutoridades": [
+    {
+      "sigla": "MIPPCI",
+      "nombre": "Ministerio del Poder Popular para la Comunicación e Información",
+      "rol": "Órgano rector y de adscripción de CONATEL: fija las políticas del sector y ejerce el control de tutela (LOTEL, arts. 34–35)",
+      "url": "https://mippci.gob.ve"
+    },
+    {
+      "sigla": "MINCYT",
+      "nombre": "Ministerio del Poder Popular para Ciencia y Tecnología",
+      "rol": "Rector de ciencia y tecnología; presentó el Plan Nacional de Inteligencia Artificial 2025–2031 (oct-2026); SUSCERTE le está adscrita",
+      "url": "https://mincyt.gob.ve"
+    },
+    {
+      "sigla": "SUSCERTE",
+      "nombre": "Superintendencia de Servicios de Certificación Electrónica",
+      "rol": "Órgano competente en seguridad informática del sector público (Ley de Infogobierno, art. 54); coordina VenCERT, el CERT nacional",
+      "url": "https://www.suscerte.gob.ve"
+    },
+    {
+      "sigla": "VEN 911",
+      "nombre": "Dirección General del VEN 911",
+      "rol": "Atiende el número único de emergencias 911 con sus Centros de Comando, Control y Telecomunicaciones; depende del Ministerio de Relaciones Interiores, Justicia y Paz",
+      "url": "https://www.mpprijp.gob.ve"
+    }
+  ],
+  "marcoLegal": {
+    "nombre": "Ley Orgánica de Telecomunicaciones (LOTEL) de 2000, reformada (Gaceta Oficial 39.610 del 7 de febrero de 2011)",
+    "anio": 2011,
+    "url": "https://conatel.gob.ve/wp-content/uploads/2024/08/Ley-Organica-de-Telecomunicaciones-LOTEL.pdf"
+  },
+  "resumenPais": "CONATEL, instituto autónomo adscrito al Ministerio de Comunicación e Información, otorga habilitaciones y espectro, homologa equipos y administra el Fondo de Servicio Universal. El Estado también opera redes (Cantv, Movilnet). En 2025 subastó espectro para 5G y en 2026 autorizó Starlink.",
+  "categorias": {
+    "espectro": {
+      "resumen": "CONATEL otorga el espectro mediante concesiones; el cuadro de atribución vigente es de 2016. En 2025 subastó en la Bolsa de Valores de Caracas bandas para 5G (2,5 y 3,5 GHz). Las concesiones no se ceden, salvo que CONATEL autorice sustituir al titular. La banda de 6 GHz no está abierta al Wi-Fi.",
+      "instrumentos": [
+        {
+          "nombre": "Cuadro Nacional de Atribución de Bandas de Frecuencias – CUNABAF (Providencia 012 de 2016, GO 40.917)",
+          "anio": 2016,
+          "tipo": "plan",
+          "url": "https://conatel.gob.ve/wp-content/uploads/2024/08/Providencia-Administrativa-Numero-012-Cunabaf-2016.pdf"
+        },
+        {
+          "nombre": "Plan Nacional de Telecomunicaciones 2025–2031 (aprobado por la Presidencia en septiembre de 2025)",
+          "anio": 2025,
+          "tipo": "plan",
+          "url": "https://conatel.gob.ve/wp-content/uploads/2025/09/PLAN-NACIONAL-DE-TELECOMUNICACIONES-2025-2031.pdf"
+        },
+        {
+          "nombre": "Ley Orgánica de Telecomunicaciones, título VI, arts. 69–109 (espectro, concesiones y oferta pública)",
+          "anio": 2011,
+          "tipo": "ley",
+          "url": "https://conatel.gob.ve/wp-content/uploads/2024/08/Ley-Organica-de-Telecomunicaciones-LOTEL.pdf"
+        },
+        {
+          "nombre": "Condiciones para la calificación de los equipos de uso libre (reforma de 2025, GO 43.150)",
+          "anio": 2025,
+          "tipo": "resolucion",
+          "url": "https://conatel.gob.ve/wp-content/uploads/2025/12/Gaceta-Equipos-de-Uso-Libre-1.pdf"
+        }
+      ],
+      "novedad": {
+        "fecha": "2025-09",
+        "texto": "Segunda subasta de espectro en la Bolsa de Valores de Caracas: ganaron Cantv y Movilnet; en la primera (enero de 2025) habían ganado Digitel y Movistar."
+      },
+      "indicadores": {
+        "esp_cuadro": {
+          "estado": "si",
+          "nota": "CUNABAF dictado por la Providencia 012 de 2016 (GO 40.917); es la versión que publica CONATEL y no se halló una actualización posterior.",
+          "fuente": "https://conatel.gob.ve/wp-content/uploads/2024/08/Providencia-Administrativa-Numero-012-Cunabaf-2016.pdf",
+          "anio": 2016
+        },
+        "esp_5g": {
+          "estado": "si",
+          "nota": "CONATEL adjudicó por subasta (2025) porciones de 2,5 y 3,5 GHz para 5G, según la Providencia 217 (GO 43.208); en ene-2025 ganaron Digitel y Movistar.",
+          "fuente": "https://conatel.gob.ve/wp-content/uploads/2026/02/GO-_homologacion-de-equipos.pdf",
+          "anio": 2025
+        },
+        "esp_licitacion": {
+          "estado": "si",
+          "nota": "Subastas en la Bolsa de Valores de Caracas: ene-2025 (bloques 4G/5G; ganaron Digitel y Movistar) y sep-2025 (ganaron Cantv y Movilnet).",
+          "fuente": "https://conatel.gob.ve/cantv-y-movilnet-se-impusieron-como-mejores-oferentes-en-subasta-publica-de-los-bloques-de-frecuencia-cc-dd-y-ff/",
+          "anio": 2025
+        },
+        "esp_6ghz": {
+          "estado": "no",
+          "nota": "No está abierta: la reforma de 2025 de los equipos de uso libre (GO 43.150) admite Wi-Fi en 2,4, 5 y 57–66 GHz, pero no en 5925–7125 MHz.",
+          "fuente": "https://conatel.gob.ve/wp-content/uploads/2025/12/Gaceta-Equipos-de-Uso-Libre-1.pdf",
+          "anio": 2025
+        },
+        "esp_secundario": {
+          "estado": "parcial",
+          "nota": "LOTEL art. 73: la concesión no se cede, pero CONATEL puede autorizar la sustitución del titular. No se halló norma de arrendamiento o uso compartido.",
+          "fuente": "https://conatel.gob.ve/wp-content/uploads/2024/08/Ley-Organica-de-Telecomunicaciones-LOTEL.pdf",
+          "anio": 2011
+        }
+      }
+    },
+    "competencia": {
+      "resumen": "Sin régimen de poder de mercado (solo reglas de 2000 para Cantv como operador establecido); el Ejecutivo puede fijar tarifas. Sin acuerdo, CONATEL fija cargos de interconexión orientados a costos. El Fondo de Servicio Universal (1 % de ingresos) financia proyectos. No hay OMV ni neutralidad de red.",
+      "instrumentos": [
+        {
+          "nombre": "Ley Orgánica de Telecomunicaciones (interconexión, arts. 129–132; tarifas, art. 144; Fondo de Servicio Universal, art. 150)",
+          "anio": 2011,
+          "tipo": "ley",
+          "url": "https://conatel.gob.ve/wp-content/uploads/2024/08/Ley-Organica-de-Telecomunicaciones-LOTEL.pdf"
+        },
+        {
+          "nombre": "Reglamento de Interconexión (2000), reformado por el Decreto 3.225 de 2004",
+          "anio": 2004,
+          "tipo": "reglamento",
+          "url": "https://conatel.gob.ve/wp-content/uploads/2024/08/Reglamento-de-Interconexion.pdf"
+        },
+        {
+          "nombre": "Providencia 1.791 de 2011: valores referenciales de los cargos de interconexión de telefonía móvil",
+          "anio": 2011,
+          "tipo": "resolucion",
+          "url": "https://conatel.gob.ve/wp-content/uploads/2024/08/Providencia-Administrativa-1791.pdf"
+        },
+        {
+          "nombre": "Reglamento de la LOTEL sobre el Servicio Universal de Telecomunicaciones (Decreto 4.429, GO 42.059)",
+          "anio": 2021,
+          "tipo": "reglamento",
+          "url": "https://conatel.gob.ve/wp-content/uploads/2024/08/GO-42.059-1.pdf"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-04",
+        "texto": "El Fondo de Servicio Universal financia el cable submarino Caribe-1 (Carúpano–Trinidad y Tobago, 225 km), que ejecuta Cantv."
+      },
+      "indicadores": {
+        "comp_psm": {
+          "estado": "parcial",
+          "nota": "Sin régimen de poder de mercado ni declaratorias; solo el Reglamento de Apertura (2000) impone reglas asimétricas a Cantv como «operador establecido».",
+          "fuente": "https://conatel.gob.ve/wp-content/uploads/2024/08/Reglamento-de-Apertura-de-los-Servicios-de-Telefonia-Basica1.pdf",
+          "anio": 2000
+        },
+        "comp_omv": {
+          "estado": "no",
+          "nota": "No hay figura de OMV: solo Movilnet, Movistar, Digitel e Iridium tienen el atributo de telefonía móvil (lista vigente de CONATEL, oct-2025).",
+          "fuente": "https://conatel.gob.ve/wp-content/uploads/2025/10/PARA-LA-WEB-CONATEL-TELEFONIA-MOVIL-10-10-2025.pdf",
+          "anio": 2025
+        },
+        "comp_interconexion": {
+          "estado": "si",
+          "nota": "Sin acuerdo, CONATEL fija cargos orientados a costos (LOTEL art. 132; Reglamento de Interconexión) y valores de referencia (Prov. 1.791, reajustada en 2021).",
+          "fuente": "https://conatel.gob.ve/wp-content/uploads/2024/08/Reglamento-de-Interconexion.pdf",
+          "anio": 2004
+        },
+        "comp_fondo": {
+          "estado": "si",
+          "nota": "Fondo de Servicio Universal (aporte del 1 % de los ingresos brutos, LOTEL art. 150); en 2026 financia el cable Caribe-1 y la fibra de la Academia Militar.",
+          "fuente": "https://conatel.gob.ve/a-traves-del-fsu-conatel-garantiza-conectividad-de-fibra-optica-en-la-academia-militar-del-ejercito/",
+          "anio": 2011
+        },
+        "comp_neutralidad": {
+          "estado": "no",
+          "nota": "Ni la LOTEL ni sus reglamentos consagran la neutralidad de red; la ley permite al Ejecutivo suspender transmisiones (Disposición Transitoria 10.ª).",
+          "fuente": "https://conatel.gob.ve/wp-content/uploads/2024/08/Ley-Organica-de-Telecomunicaciones-LOTEL.pdf",
+          "anio": 2011
+        }
+      }
+    },
+    "ciberseguridad": {
+      "resumen": "No se halló estrategia nacional y no hay ley marco de ciberseguridad (un proyecto figura en la agenda legislativa de 2026). La Ley de Infogobierno (2013) organiza la seguridad informática del sector público, con SUSCERTE y su CERT nacional, VenCERT. Venezuela no es parte del Convenio de Budapest.",
+      "instrumentos": [
+        {
+          "nombre": "Ley de Infogobierno (GO 40.274): Sistema Nacional de Protección y Seguridad Informática del sector público",
+          "anio": 2013,
+          "tipo": "ley",
+          "url": "https://conatel.gob.ve/wp-content/uploads/2024/08/PDF-Ley-de-Infogobierno.pdf"
+        },
+        {
+          "nombre": "Ley Especial contra los Delitos Informáticos",
+          "anio": 2001,
+          "tipo": "ley",
+          "url": "https://conatel.gob.ve/wp-content/uploads/2024/08/PDF-Ley-Especial-contra-los-Delitos-Informaticos.pdf"
+        },
+        {
+          "nombre": "Reglamento para la Protección de los Derechos de los Usuarios, art. 8 (prevención de delitos informáticos por los operadores)",
+          "anio": 2018,
+          "tipo": "reglamento",
+          "url": "https://conatel.gob.ve/wp-content/uploads/2024/08/GO-41.533-Reglamento-de-Proteccion-de-Usuarios.pdf"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-08",
+        "texto": "CONATEL firmó el dominio .ve con DNSSEC para evitar suplantaciones y capacita a ministerios e instituciones públicas para adoptarlo."
+      },
+      "indicadores": {
+        "ciber_estrategia": {
+          "estado": "sin_dato",
+          "nota": "No se halló una estrategia nacional de ciberseguridad; el Plan Nacional de Telecomunicaciones 2025–2031 solo la menciona como línea general."
+        },
+        "ciber_ley": {
+          "estado": "parcial",
+          "nota": "Sin ley marco (hay un proyecto en la agenda 2026); la Ley de Infogobierno (2013) rige la seguridad informática del sector público. Delitos: Ley de 2001.",
+          "fuente": "https://conatel.gob.ve/wp-content/uploads/2024/08/PDF-Ley-de-Infogobierno.pdf",
+          "anio": 2013
+        },
+        "ciber_csirt": {
+          "estado": "si",
+          "nota": "VenCERT, gerencia de incidentes telemáticos de SUSCERTE, es el CERT nacional para la administración pública y las infraestructuras críticas.",
+          "fuente": "https://www.suscerte.gob.ve/?page_id=2166"
+        },
+        "ciber_reporte": {
+          "estado": "parcial",
+          "nota": "Sin deber de reportar incidentes: el Reglamento 2018 exige informar a CONATEL sus medidas contra delitos informáticos (art. 8) y las fallas en 48 h (art. 57).",
+          "fuente": "https://conatel.gob.ve/wp-content/uploads/2024/08/GO-41.533-Reglamento-de-Proteccion-de-Usuarios.pdf",
+          "anio": 2018
+        },
+        "ciber_budapest": {
+          "estado": "no",
+          "nota": "Venezuela no figura como Parte, firmante ni Estado invitado del Convenio de Budapest (lista del Consejo de Europa, nov-2026).",
+          "fuente": "https://www.coe.int/en/web/cybercrime/parties-observers"
+        }
+      }
+    },
+    "usuario": {
+      "resumen": "El Reglamento de 2018 fija los derechos de los usuarios; si el operador no responde en 5 días hábiles, CONATEL atiende el reclamo. La portabilidad numérica está reconocida, pero no implementada. En 2026 se discute una norma de calidad mínima para el Internet fijo.",
+      "instrumentos": [
+        {
+          "nombre": "Reglamento para la Protección de los Derechos de los Usuarios en la Prestación de los Servicios de Telecomunicaciones (Decreto 3.691, GO 41.533)",
+          "anio": 2018,
+          "tipo": "reglamento",
+          "url": "https://conatel.gob.ve/wp-content/uploads/2024/08/GO-41.533-Reglamento-de-Proteccion-de-Usuarios.pdf"
+        },
+        {
+          "nombre": "Providencia 430 de 2004: parámetros de calidad de telefonía fija, larga distancia y móvil (GO 37.968)",
+          "anio": 2004,
+          "tipo": "resolucion",
+          "url": "https://conatel.gob.ve/wp-content/uploads/2024/08/Providencia-Administrativa-Parametros-de-calidad-de-Servicio-para-los-Servicios-de-Telefonia-Fija-Local-Larga-Distancia-Nacional-Larga-Distancia-Internacional-y-Telefonia-Movil.pdf"
+        },
+        {
+          "nombre": "Proyecto de Providencia sobre parámetros de calidad de los servicios de Internet (consulta y audiencia pública, 2026)",
+          "anio": 2026,
+          "tipo": "otro",
+          "url": "https://conatel.gob.ve/wp-content/uploads/2026/09/PROVIDENCIA-ADMINISTRATIVA-ESTABLECE-PARAMETROS-CALIDAD-DE-SERVCIOS-DE-INERNET.pdf"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-09",
+        "texto": "Proyecto de calidad mínima del Internet fijo: al menos 70 % de la velocidad contratada y latencia de hasta 75 ms; audiencia pública en sep-2026."
+      },
+      "indicadores": {
+        "usu_reglamento": {
+          "estado": "si",
+          "nota": "Reglamento para la Protección de los Derechos de los Usuarios (Decreto 3.691, GO 41.533 de 2018): contratos, facturación, calidad, reclamos y compensaciones.",
+          "fuente": "https://conatel.gob.ve/wp-content/uploads/2024/08/GO-41.533-Reglamento-de-Proteccion-de-Usuarios.pdf",
+          "anio": 2018
+        },
+        "usu_reclamos": {
+          "estado": "si",
+          "nota": "Si el operador no responde en 5 días hábiles, CONATEL tramita la denuncia (Reglamento 2018, arts. 70 y 74); gestionó 2.334 entre marzo y septiembre de 2026.",
+          "fuente": "https://conatel.gob.ve/conatel-proceso-mas-de-34-mil-denuncias-y-reforzo-la-atencion-a-los-usuarios-de-telecomunicaciones/",
+          "anio": 2018
+        },
+        "usu_portabilidad": {
+          "estado": "parcial",
+          "nota": "El Reglamento de 2018 reconoce la portabilidad (art. 85), pero no rige hasta que CONATEL dicte normas técnicas (Disp. Trans. 6.ª), que no se hallaron.",
+          "fuente": "https://conatel.gob.ve/wp-content/uploads/2024/08/GO-41.533-Reglamento-de-Proteccion-de-Usuarios.pdf",
+          "anio": 2018
+        },
+        "usu_calidad": {
+          "estado": "parcial",
+          "nota": "Metas de calidad con informes a CONATEL (telefonía, 2004; TV por suscripción, 2025) y proyecto para Internet (2026); no se halló publicación de resultados.",
+          "fuente": "https://conatel.gob.ve/wp-content/uploads/2024/08/Providencia-Administrativa-Parametros-de-calidad-de-Servicio-para-los-Servicios-de-Telefonia-Fija-Local-Larga-Distancia-Nacional-Larga-Distancia-Internacional-y-Telefonia-Movil.pdf",
+          "anio": 2004
+        },
+        "usu_nomolestar": {
+          "estado": "sin_dato",
+          "nota": "No se halló un registro «No Molestar»; el Reglamento de 2018 (art. 30) prohíbe usar los datos de abonados con fines comerciales sin su autorización escrita."
+        }
+      }
+    },
+    "emergentes": {
+      "resumen": "El 5G avanza de forma gradual: Digitel vende Internet fijo 5G en algunas ciudades; no se confirmó 5G móvil comercial. En octubre de 2026 se autorizó Starlink y se presentó el Plan Nacional de Inteligencia Artificial 2025–2031. No se hallaron sandbox regulatorio ni marco específico para IoT.",
+      "instrumentos": [
+        {
+          "nombre": "Plan Nacional de Telecomunicaciones 2025–2031 (meta de 1.204 radiobases 5G en 142 ciudades)",
+          "anio": 2025,
+          "tipo": "plan",
+          "url": "https://conatel.gob.ve/wp-content/uploads/2025/09/PLAN-NACIONAL-DE-TELECOMUNICACIONES-2025-2031.pdf"
+        },
+        {
+          "nombre": "Plan Nacional de Inteligencia Artificial 2025–2031 (MINCYT)",
+          "anio": 2026,
+          "tipo": "estrategia",
+          "url": "https://mincyt.gob.ve/wp-content/uploads/2026/10/Plan-Nacional-de-Inteligencia-Artificial.pdf"
+        },
+        {
+          "nombre": "Habilitación General HGTS-00639 y 7 concesiones en banda Ku a SpaceX VZ (Starlink)",
+          "anio": 2026,
+          "tipo": "otro",
+          "url": "https://conatel.gob.ve/la-presidenta-delcy-rodriguez-concreta-acuerdo-con-spacex-vz-y-autoriza-la-operacion-formal-de-starlink-en-venezuela/"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-10",
+        "texto": "CONATEL autorizó a SpaceX VZ a ofrecer Internet satelital Starlink en todo el país (habilitación HGTS-00639 y 7 concesiones en banda Ku)."
+      },
+      "indicadores": {
+        "tec_sandbox": {
+          "estado": "sin_dato",
+          "nota": "No se halló un sandbox regulatorio ni un mecanismo formal de pruebas de innovación en el sector."
+        },
+        "tec_5g": {
+          "estado": "parcial",
+          "nota": "Digitel vende Internet fijo 5G (FWA) desde 2025, tras pilotos en Nueva Esparta y Barinas, y lo llevó a Mérida; no se confirmó 5G móvil comercial.",
+          "fuente": "https://conatel.gob.ve/digitel-acelera-su-transformacion-tecnologica-con-el-despliegue-de-5g-fwa-en-merida-y-el-lanzamiento-de-la-e-sim/",
+          "anio": 2025
+        },
+        "tec_iot": {
+          "estado": "sin_dato",
+          "nota": "No se halló un marco IoT/M2M específico; el Plan Nacional de Telecomunicaciones 2025–2031 solo lo cita como objetivo ligado al 5G y al IPv6."
+        },
+        "tec_satelital": {
+          "estado": "si",
+          "nota": "En oct-2026 se otorgó a SpaceX VZ la habilitación HGTS-00639 y 7 concesiones en banda Ku para ofrecer Internet Starlink en todo el país.",
+          "fuente": "https://conatel.gob.ve/la-presidenta-delcy-rodriguez-concreta-acuerdo-con-spacex-vz-y-autoriza-la-operacion-formal-de-starlink-en-venezuela/",
+          "anio": 2026
+        },
+        "tec_ia": {
+          "estado": "si",
+          "nota": "Plan Nacional de IA 2025–2031, presentado por el MINCYT el 27-oct-2026; el proyecto de ley de IA fue aprobado en primera discusión en nov-2024.",
+          "fuente": "https://mincyt.gob.ve/gobierno-bolivariano-presenta-plan-nacional-de-inteligencia-artificial-2025-2031-para-afianzar-la-soberania-tecnologica-del-pais/",
+          "anio": 2026
+        }
+      }
+    },
+    "infraestructura": {
+      "resumen": "El Reglamento de Vías Generales (2022) obliga a quien controle torres, ductos, postes, carreteras o edificios a dar acceso a los operadores; si se niega, CONATEL puede ordenarlo y fijar el precio. El roaming nacional se pacta entre operadores. No se hallaron reglas para agilizar permisos.",
+      "instrumentos": [
+        {
+          "nombre": "Reglamento de Vías Generales de Telecomunicaciones (Decreto 4.652 de 2022, GO Extraordinaria 6.690)",
+          "anio": 2022,
+          "tipo": "reglamento",
+          "url": "https://conatel.gob.ve/wp-content/uploads/2024/08/Gaceta-Oficial-Nr.4.652-Reglamento-de-Vias-Generales-de-Telecomunicaciones.pdf"
+        },
+        {
+          "nombre": "Ley Orgánica de Telecomunicaciones, arts. 125–128 (vías generales de telecomunicación)",
+          "anio": 2011,
+          "tipo": "ley",
+          "url": "https://conatel.gob.ve/wp-content/uploads/2024/08/Ley-Organica-de-Telecomunicaciones-LOTEL.pdf"
+        },
+        {
+          "nombre": "Resolución 408 de 2004: condiciones para ofrecer itinerancia (roaming) (GO 37.907)",
+          "anio": 2004,
+          "tipo": "resolucion",
+          "url": "https://conatel.gob.ve/wp-content/uploads/2024/08/condiciones-bajo-las-cuales-los-operadores-de-los-servicios-moviles-de-telecomunicaciones-podran-ofrecer-itinerancia-roaming-a-sus-abonados.pdf"
+        },
+        {
+          "nombre": "Providencia 875 de 2006: valor referencial de la contraprestación por coubicación (GO 38.585)",
+          "anio": 2006,
+          "tipo": "resolucion",
+          "url": "https://conatel.gob.ve/wp-content/uploads/2024/08/Providencia-Administrativa-contentiva-del-Valor-Referencial-para-la-determinacion-de-la-Contraprestacion-Mensual-por-Coubicacion-en-Espacios-Cerrados.pdf"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-06",
+        "texto": "CONATEL sometió a consulta (jun-2026) y audiencia pública (sep-2026) las reglas para instalar puntos nacionales de intercambio de tráfico de Internet (IXP)."
+      },
+      "indicadores": {
+        "inf_pasiva": {
+          "estado": "si",
+          "nota": "Reglamento de Vías Generales (Decreto 4.652 de 2022): quien controle torres, ductos o postes debe dar acceso; si se niega, CONATEL lo ordena y fija el precio.",
+          "fuente": "https://conatel.gob.ve/wp-content/uploads/2024/08/Gaceta-Oficial-Nr.4.652-Reglamento-de-Vias-Generales-de-Telecomunicaciones.pdf",
+          "anio": 2022
+        },
+        "inf_electrica": {
+          "estado": "si",
+          "nota": "El Reglamento de 2022 incluye carreteras, postes, edificios y vallas de cualquier titular entre las vías de acceso obligatorio para los operadores.",
+          "fuente": "https://conatel.gob.ve/wp-content/uploads/2024/08/Gaceta-Oficial-Nr.4.652-Reglamento-de-Vias-Generales-de-Telecomunicaciones.pdf",
+          "anio": 2022
+        },
+        "inf_permisos": {
+          "estado": "sin_dato",
+          "nota": "No se hallaron reglas nacionales para agilizar permisos; el Reglamento de 2022 solo pide prever infraestructura en obras públicas y planes urbanos."
+        },
+        "inf_roaming": {
+          "estado": "parcial",
+          "nota": "Res. 408 de 2004: el roaming nacional es opcional y sus condiciones se pactan entre operadores con neutralidad y no discriminación; sin precios regulados.",
+          "fuente": "https://conatel.gob.ve/wp-content/uploads/2024/08/condiciones-bajo-las-cuales-los-operadores-de-los-servicios-moviles-de-telecomunicaciones-podran-ofrecer-itinerancia-roaming-a-sus-abonados.pdf",
+          "anio": 2004
+        },
+        "inf_edificios": {
+          "estado": "sin_dato",
+          "nota": "No se halló una norma técnica sobre infraestructura de telecomunicaciones en edificaciones."
+        }
+      }
+    },
+    "emergencia": {
+      "resumen": "El 911 es el número único de emergencias y las llamadas de emergencia son gratuitas por ley. No hay sistema de alertas a celulares: CONATEL evalúa el Cell Broadcast desde 2026. Venezuela es parte del Convenio de Tampere desde 2005.",
+      "instrumentos": [
+        {
+          "nombre": "Ley Orgánica de Telecomunicaciones, art. 12.5 (llamadas de emergencia gratuitas)",
+          "anio": 2011,
+          "tipo": "ley",
+          "url": "https://conatel.gob.ve/wp-content/uploads/2024/08/Ley-Organica-de-Telecomunicaciones-LOTEL.pdf"
+        },
+        {
+          "nombre": "Plan Nacional de Numeración, reformado por la Providencia 096 de 2016 (art. 21: 911, número único de emergencia nacional)",
+          "anio": 2016,
+          "tipo": "plan",
+          "url": "https://conatel.gob.ve/wp-content/uploads/2024/08/providencia_administrativa_096.pdf"
+        },
+        {
+          "nombre": "Reglamento para la Protección de los Derechos de los Usuarios, arts. 56–57 y 64 (interrupciones y prioridad en emergencias)",
+          "anio": 2018,
+          "tipo": "reglamento",
+          "url": "https://conatel.gob.ve/wp-content/uploads/2024/08/GO-41.533-Reglamento-de-Proteccion-de-Usuarios.pdf"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-08",
+        "texto": "CONATEL inició sesiones técnicas para evaluar sistemas de alerta temprana por Cell Broadcast, como paso previo a estudios de factibilidad."
+      },
+      "indicadores": {
+        "eme_alerta": {
+          "estado": "no",
+          "nota": "No hay sistema operativo: en ago-2026 CONATEL inició sesiones técnicas para estudiar la factibilidad de alertas por Cell Broadcast.",
+          "fuente": "https://conatel.gob.ve/conatel-conoce-capacidades-del-sistema-de-alerta-de-everbridge-para-futuros-estudios-de-factibilidad/",
+          "anio": 2026
+        },
+        "eme_numero": {
+          "estado": "si",
+          "nota": "El 911 es el número único de emergencia nacional (Plan Nacional de Numeración, art. 21, Prov. 096 de 2016); lo atiende el VEN 911 del Ministerio de Interior.",
+          "fuente": "https://conatel.gob.ve/wp-content/uploads/2024/08/providencia_administrativa_096.pdf",
+          "anio": 2016
+        },
+        "eme_plan": {
+          "estado": "sin_dato",
+          "nota": "No se halló un plan de continuidad de redes; la LOTEL (art. 15.10) obliga a cumplir planes para estados de excepción y el Reglamento 2018, a notificar fallas."
+        },
+        "eme_prioridad": {
+          "estado": "si",
+          "nota": "Llamadas de emergencia gratuitas desde cualquier red (LOTEL art. 12.5); en catástrofes los operadores priorizan pedidos oficiales (Reglamento 2018, art. 64).",
+          "fuente": "https://conatel.gob.ve/wp-content/uploads/2024/08/Ley-Organica-de-Telecomunicaciones-LOTEL.pdf",
+          "anio": 2011
+        },
+        "eme_tampere": {
+          "estado": "si",
+          "nota": "Firmó el Convenio de Tampere el 3-abr-2003 y lo ratificó el 13-may-2005 (UN Treaty Collection, cap. XXV-4).",
+          "fuente": "https://treaties.un.org/Pages/ViewDetails.aspx?src=TREATY&mtdsg_no=XXV-4&chapter=25&clang=_en",
+          "anio": 2005
+        }
+      }
+    },
+    "homologacion": {
+      "resumen": "La homologación ante CONATEL es obligatoria para importar y vender equipos, se tramita en línea (SIGESTEL) y hay consulta pública de equipos homologados. Se aceptan certificados de la UE, la FCC y otros organismos reconocidos. Los celulares robados se bloquean por IMEI desde 2011.",
+      "instrumentos": [
+        {
+          "nombre": "Providencia 217 de 2025: categorías de equipos sujetos a homologación y certificación (GO 43.208)",
+          "anio": 2025,
+          "tipo": "resolucion",
+          "url": "https://conatel.gob.ve/wp-content/uploads/2026/02/GO-_homologacion-de-equipos.pdf"
+        },
+        {
+          "nombre": "Resolución 253 de 2003: entes extranjeros recomendados para la homologación y certificación",
+          "anio": 2003,
+          "tipo": "resolucion",
+          "url": "https://conatel.gob.ve/wp-content/uploads/2024/08/Resolucion-Lista-Entes-u-Organismos-para-Homologacion-y-Certificacion-de-Equipos.pdf"
+        },
+        {
+          "nombre": "Providencia 1.869 de 2011: registro y bloqueo de terminales móviles robados, hurtados o extraviados",
+          "anio": 2011,
+          "tipo": "resolucion",
+          "url": "https://conatel.gob.ve/wp-content/uploads/2024/08/Providencia-Administrativa-1869.-Bloqueo-de-Equipos-de-Telefonia.pdf"
+        },
+        {
+          "nombre": "Ley Orgánica de Telecomunicaciones, arts. 140–143 (homologación y certificación)",
+          "anio": 2011,
+          "tipo": "ley",
+          "url": "https://conatel.gob.ve/wp-content/uploads/2024/08/Ley-Organica-de-Telecomunicaciones-LOTEL.pdf"
+        }
+      ],
+      "novedad": {
+        "fecha": "2025-09",
+        "texto": "La Providencia 217 actualizó las categorías de equipos que deben homologarse (incluye móviles con IA y equipos de seguridad de red) y derogó la de 2005."
+      },
+      "indicadores": {
+        "hom_obligatoria": {
+          "estado": "si",
+          "nota": "Importar, distribuir o vender equipos exige homologación previa de CONATEL (LOTEL art. 140; Providencia 217 de 2025, que actualizó las categorías).",
+          "fuente": "https://conatel.gob.ve/wp-content/uploads/2026/02/GO-_homologacion-de-equipos.pdf",
+          "anio": 2025
+        },
+        "hom_reconocimiento": {
+          "estado": "si",
+          "nota": "LOTEL art. 140 y Res. 253 de 2003: no se rehomologan equipos aprobados por la UE, la FCC, Industry Canada, Anatel, Cofetel o CNC, o por sus entes designados.",
+          "fuente": "https://conatel.gob.ve/wp-content/uploads/2024/08/Resolucion-Lista-Entes-u-Organismos-para-Homologacion-y-Certificacion-de-Equipos.pdf",
+          "anio": 2003
+        },
+        "hom_imei": {
+          "estado": "si",
+          "nota": "Providencia 1.869 de 2011: registro de IMEI y lista de equipos robados o extraviados, que los operadores móviles intercambian dos veces al día y bloquean.",
+          "fuente": "https://conatel.gob.ve/wp-content/uploads/2024/08/Providencia-Administrativa-1869.-Bloqueo-de-Equipos-de-Telefonia.pdf",
+          "anio": 2011
+        },
+        "hom_enlinea": {
+          "estado": "si",
+          "nota": "Desde nov-2025 la homologación se tramita 100 % en línea en SIGESTEL (solicitud, pago y certificado con QR); más de 1.000 aprobadas de marzo a agosto de 2026.",
+          "fuente": "https://conatel.gob.ve/conatel-moderniza-tramites-nuevo-modulo-100-online-agiliza-la-homologacion-y-certificacion-de-equipos/",
+          "anio": 2025
+        },
+        "hom_lista": {
+          "estado": "si",
+          "nota": "Consulta pública en línea de equipos homologados (marca, modelo, certificado y fecha), con comprobante descargable; también listas anuales en PDF.",
+          "fuente": "https://consultahomologacion.conatel.gob.ve/"
+        }
+      }
+    }
+  },
+  "cambiosDetectados": [
+    "No existía perfil de Venezuela en el Observatorio anterior: se construyó desde cero con 40 indicadores y fuentes oficiales.",
+    "Varios enlaces del catálogo a conatel.gob.ve dan error 404 tras el rediseño del sitio; se citan las nuevas direcciones.",
+    "Homologación: la lista 2023 y la guía del catálogo quedaron superadas por la consulta en línea, el trámite en SIGESTEL y la Providencia 217 de 2025.",
+    "El catálogo no reflejaba las subastas de espectro de 2025 (incluido 5G) ni el Plan Nacional de Telecomunicaciones 2025–2031.",
+    "Novedades de 2026 incorporadas: autorización de Starlink, Plan Nacional de IA 2025–2031 y nuevo director general de CONATEL (Enrique Quintana Sifontes).",
+    "El Fondo de Servicio Universal sigue activo, pero su último informe anual publicado es de 2015."
+  ],
+  "verificadoEn": "2026-11-11",
+  "confianza": "media"
+}

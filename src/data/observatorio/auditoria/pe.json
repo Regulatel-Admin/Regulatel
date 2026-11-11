@@ -1,0 +1,348 @@
+{
+  "iso": "pe",
+  "pais": "Perú",
+  "revisado": "2026-11-11",
+  "documentos": [
+    {
+      "titulo": "Normas y documentos legales",
+      "url": "https://www.gob.pe/institucion/indecopi/normas-legales/tipos/7-ley",
+      "categoriaOriginal": "Competencia eco",
+      "origen": "catalogo",
+      "tema": "competencia",
+      "estado": "vigente",
+      "nota": "Listado de leyes de la sede digital del Indecopi en gob.pe; enlace operativo."
+    },
+    {
+      "titulo": "Informes y publicaciones",
+      "url": "https://www.gob.pe/institucion/indecopi/informes-publicaciones?filter%5Bterms%5D=competencia&filter%5Btype%5D=&sheet=",
+      "categoriaOriginal": "Competencia eco",
+      "origen": "catalogo",
+      "tema": "competencia",
+      "estado": "vigente",
+      "nota": "Listado de publicaciones del Indecopi filtrado por 'competencia'; operativo y con entradas de nov-2026."
+    },
+    {
+      "titulo": "Normativas de usuarios",
+      "url": "https://www.osiptel.gob.pe/portal-del-usuario/lo-que-debes-saber/normativas-de-usuarios/",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "vigente",
+      "nota": "Página activa; ya enlaza las versiones vigentes (Condiciones de Uso 2025, Portabilidad 2024, Calidad de la Atención 2023, Calidad 2024)."
+    },
+    {
+      "titulo": "Norma de las Condiciones de Uso de los Servicios Públicos de Telecomunicaciones",
+      "url": "https://www.osiptel.gob.pe/media/aredjrhr/resol172-2022-cd-norma-condiciones-servicios-telecom.pdf",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "actualizado",
+      "nota": "Nueva Norma aprobada por Res. 132-2025-CD/OSIPTEL, vigente desde el 27-jun-2026 (Res. 035-2026-CD); deroga la Res. 172-2022-CD enlazada.",
+      "urlNueva": "https://www.gob.pe/institucion/osiptel/normas-legales/7552617-132-2025-cd-osiptel",
+      "tituloNuevo": "Norma de las Condiciones de Uso de los Servicios Públicos de Telecomunicaciones (Res. 132-2025-CD/OSIPTEL)",
+      "anioNuevo": 2025
+    },
+    {
+      "titulo": "Reglamento para la Atención de Gestiones y Reclamos de Usuarios de los Servicios Públicos de Telecomunicaciones",
+      "url": "https://www.osiptel.gob.pe/media/t2adonsc/resol99-2022-cd-tuo-reglamento-reclamos.pdf",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "vigente",
+      "nota": "El TUO (Res. 099-2022-CD) sigue vigente, pero fue modificado por Res. 129-2026-CD/OSIPTEL (oct-2026; la mayoría de cambios rige a los 10 meses). El PDF no lo incluye."
+    },
+    {
+      "titulo": "Reglamento de Calidad de la Atención a Usuarios por parte de las Empresas Operadoras de servicios de Telefonía Fija y Servicios Públicos Móviles",
+      "url": "https://www.osiptel.gob.pe/media/incndak0/res127-2013-cd_reglamento-calida-atenci%C3%B3n-usuarios-fija-movil.pdf",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "sustituido",
+      "nota": "Derogado de forma progresiva por la Res. 333-2023-CD/OSIPTEL, que amplía el alcance a internet y TV por cable; sus arts. 10-20 rigen desde ene-2026 (prórroga Res. 061-2025-CD).",
+      "urlNueva": "https://www.gob.pe/institucion/osiptel/normas-legales/4939304-333-2023-cd-osiptel",
+      "tituloNuevo": "Reglamento de Calidad de la Atención a Usuarios de los Servicios Públicos de Telecomunicaciones (Res. 333-2023-CD/OSIPTEL)",
+      "anioNuevo": 2023
+    },
+    {
+      "titulo": "Reglamento de Portabilidad Numérica en el Servicio Público Móvil y el Servicio de Telefonía Fija",
+      "url": "https://www.osiptel.gob.pe/media/msjhy1gx/tuo-portabilidad-10-02-2022.pdf",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "actualizado",
+      "nota": "Nuevo Reglamento (Res. 017-2024-CD/OSIPTEL, modificado por Res. 233-2024-CD) vigente desde el 3-mar-2025; reemplaza el TUO de la Res. 286-2018-CD enlazado.",
+      "urlNueva": "https://www.gob.pe/institucion/osiptel/normas-legales/5092643-017-2024-cd-osiptel",
+      "tituloNuevo": "Reglamento de Portabilidad Numérica en el Servicio Público Móvil y en el Servicio de Telefonía Fija (Res. 017-2024-CD/OSIPTEL)",
+      "anioNuevo": 2024
+    },
+    {
+      "titulo": "Checa tus líneas",
+      "url": "https://checatuslineas.osiptel.gob.pe/",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "vigente",
+      "nota": "Servicio oficial vigente (enlazado en gob.pe/osiptel). El 500 es un bloqueo del firewall (WAF) a IP extranjera/bot: no se pudo abrir desde fuera de Perú."
+    },
+    {
+      "titulo": "Checa tu caso",
+      "url": "https://operacionesweb.osiptel.gob.pe/SISSGUUsuFnl/#/autentica",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "vigente",
+      "nota": "Enlace operativo; OSIPTEL difunde ahora el dominio checatucaso.osiptel.gob.pe (misma aplicación). Conviene actualizar.",
+      "urlNueva": "https://checatucaso.osiptel.gob.pe/",
+      "tituloNuevo": "Checa tu caso (OSIPTEL)"
+    },
+    {
+      "titulo": "Checa tu señal",
+      "url": "https://serviciosweb.osiptel.gob.pe/CoberturaMovil/",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "vigente",
+      "nota": "La URL redirige a checatusenal.osiptel.gob.pe, dominio que usa la ficha oficial en gob.pe; conviene actualizar.",
+      "urlNueva": "https://checatusenal.osiptel.gob.pe/",
+      "tituloNuevo": "Checa tu señal (OSIPTEL)"
+    },
+    {
+      "titulo": "Checa tu plan",
+      "url": "https://www.checatuplan.pe/",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "vigente",
+      "nota": "Comparador oficial de planes de internet móvil y fijo del OSIPTEL; operativo."
+    },
+    {
+      "titulo": "Checa tu equipo móvil",
+      "url": "https://sociedadtelecom.pe/checatuequipomovil/",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "vigente",
+      "nota": "La página de Sociedad Telecom solo redirige a checatuequipomovil.osiptel.gob.pe; conviene usar el enlace directo.",
+      "urlNueva": "https://checatuequipomovil.osiptel.gob.pe/",
+      "tituloNuevo": "Checa tu equipo móvil (OSIPTEL)"
+    },
+    {
+      "titulo": "Checa tu IMEI",
+      "url": "https://www.osiptel.gob.pe/sistemas/sigem.html",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "vigente",
+      "nota": "sigem.html es solo una redirección al nuevo Checa tu IMEI (plataforma RENTESEG), que es el que enlaza gob.pe; usar el enlace directo.",
+      "urlNueva": "https://checatuimei.osiptel.gob.pe/",
+      "tituloNuevo": "Checa tu IMEI (OSIPTEL - RENTESEG)"
+    },
+    {
+      "titulo": "Estudio sobre el nivel de Satisfacción del Usuario de Telecomunicaciones 2022",
+      "url": "https://sociedadtelecom.pe/2023/02/13/estudio-sobre-el-nivel-de-satisfaccion-del-usuario-de-telecomunicaciones-2022/#popup",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "actualizado",
+      "nota": "El enlace funciona, pero ya está publicada la edición 2025 del estudio (30-jun-2026, Sociedad Telecom).",
+      "urlNueva": "https://sociedadtelecom.pe/2026/06/30/estudio-sobre-el-nivel-de-satisfaccion-del-usuario-de-telecomunicaciones-2025/",
+      "tituloNuevo": "Estudio sobre el nivel de satisfacción del usuario de telecomunicaciones 2025",
+      "anioNuevo": 2025
+    },
+    {
+      "titulo": "Guía de medición de la satisfacción",
+      "url": "https://www.osiptel.gob.pe/media/3hqdvbla/informe044-dapu-2021-guia-satisfaccion-usuario.pdf",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "actualizado",
+      "nota": "El enlace es la guía como Anexo 1 del Informe 044-DAPU/2021. En ago-2022 el OSIPTEL publicó la Guía metodológica completa como libro (ed. N.° 1) en gob.pe; no se halló otra posterior.",
+      "urlNueva": "https://www.gob.pe/institucion/osiptel/informes-publicaciones/5179246-guia-metodologica-para-la-medicion-de-la-satisfaccion-de-los-usuarios-de-los-servicios-publicos-de-telecomunicaciones",
+      "tituloNuevo": "Guía metodológica para la medición de la satisfacción de los usuarios de los servicios públicos de telecomunicaciones (OSIPTEL, ed. 1, ago-2022)",
+      "anioNuevo": 2022
+    },
+    {
+      "titulo": "Ranking de reclamos",
+      "url": "https://sociedadtelecom.pe/2022/12/21/ranking-de-desempeno-en-la-atencion-de-reclamos-del-servicio-publico-movil-2022-i-semestre/#popup",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "actualizado",
+      "nota": "El enlace es de 2022-I; la edición más reciente del ranking semestral es la del primer semestre de 2026 (publicada el 10-nov-2026).",
+      "urlNueva": "https://sociedadtelecom.pe/2026/11/10/ranking-de-desempeno-en-la-atencion-de-reclamos-del-servicio-publico-movil-primer-semestre-de-2026/",
+      "tituloNuevo": "Ranking de Desempeño en la Atención de Reclamos del Servicio Público Móvil – primer semestre de 2026",
+      "anioNuevo": 2026
+    },
+    {
+      "titulo": "Consejo de Usuarios",
+      "url": "https://www.osiptel.gob.pe/portal-del-usuario/participacion-ciudadana/consejo-de-usuarios/",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "vigente",
+      "nota": "Página activa; incluye el nuevo Reglamento del Consejo de Usuarios (Res. 060-2025-CD/OSIPTEL) y la convocatoria de 2025."
+    },
+    {
+      "titulo": "Sociedad Telecom",
+      "url": "https://sociedadtelecom.pe/",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "vigente",
+      "nota": "Plataforma de conocimiento del OSIPTEL activa, con publicaciones hasta nov-2026."
+    },
+    {
+      "titulo": "Observatorio OSIPTEL",
+      "url": "https://www.osiptel.gob.pe/portal-del-usuario/observatorio-osiptel/",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "vigente",
+      "nota": "Página operativa pero sin novedades desde mayo-2023; los rankings y estudios recientes se publican en Sociedad Telecom."
+    },
+    {
+      "titulo": "Otros estudios",
+      "url": "https://repositorio.osiptel.gob.pe/",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "vigente",
+      "nota": "Repositorio oficial (enlazado en gob.pe/osiptel). El 500 es un bloqueo del firewall (WAF) a IP extranjera/bot: no se pudo abrir desde fuera de Perú."
+    },
+    {
+      "titulo": "Atención a personas con discapacidad auditiva",
+      "url": "https://www.osiptel.gob.pe/portal-del-usuario/contactenos/atencion-de-personas-con-discapacidad-auditiva/",
+      "categoriaOriginal": "Accesibilidad",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "vigente",
+      "nota": "Página activa: orientación por videollamada con intérprete de lengua de señas."
+    },
+    {
+      "titulo": "Lo que el usuario debe saber (derechos de los usuarios en castellano y lenguas originarias)",
+      "url": "https://www.osiptel.gob.pe/portal-del-usuario/tus-derechos/",
+      "categoriaOriginal": "Accesibilidad",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "vigente",
+      "nota": "Página activa con el decálogo de derechos en castellano y seis lenguas originarias."
+    },
+    {
+      "titulo": "Preguntas y respuestas frecuentes de usuarios",
+      "url": "https://www.osiptel.gob.pe/portal-del-usuario/preguntas-frecuentes/",
+      "categoriaOriginal": "Accesibilidad",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "vigente",
+      "nota": "Página activa y actualizada (lista blanca, RENTESEG, Checa tu caso, entre otros temas)."
+    },
+    {
+      "titulo": "Formulario de consulta y orientación al usuario",
+      "url": "https://www.osiptel.gob.pe/portal-del-usuario/contactenos/formulario-de-consulta-y-orientacion-al-usuario/",
+      "categoriaOriginal": "Accesibilidad",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "vigente",
+      "nota": "La página solo redirige al formulario en teayudamos.osiptel.gob.pe, que es el que enlaza OSIPTEL; usar el enlace directo.",
+      "urlNueva": "https://teayudamos.osiptel.gob.pe/",
+      "tituloNuevo": "Formulario de consulta y orientación al usuario (teayudamos.osiptel.gob.pe)"
+    },
+    {
+      "titulo": "PUNKU (El portal a la información de las telecomunicaciones)",
+      "url": "https://punku.osiptel.gob.pe/",
+      "categoriaOriginal": "Plataformas digitales",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "vigente",
+      "nota": "Portal de información de telecomunicaciones PUNKU operativo (acceso público)."
+    },
+    {
+      "titulo": "Ley N° 28295 - Regula el acceso y uso compartido de la infraestructura de uso público que permita la prestación de los servicios públicos de telecomunicaciones",
+      "url": "https://www.gob.pe/institucion/mtc/normas-legales/9859-28295",
+      "categoriaOriginal": "Compartición de infraestructura",
+      "origen": "catalogo",
+      "tema": "infraestructura",
+      "estado": "vigente",
+      "nota": "Ley vigente; ficha oficial del MTC en gob.pe con el texto de la norma."
+    },
+    {
+      "titulo": "Reglamento de la Ley N° 28295 (DS. 009-2005-MTC)",
+      "url": "https://www.gob.pe/institucion/mtc/normas-legales/4584116-009-2005-mtc",
+      "categoriaOriginal": "Compartición de infraestructura",
+      "origen": "catalogo",
+      "tema": "infraestructura",
+      "estado": "vigente",
+      "nota": "Reglamento vigente; ficha oficial del MTC en gob.pe con la norma y su exposición de motivos."
+    },
+    {
+      "titulo": "Ley de Banda Ancha 29904",
+      "url": "https://www.leyes.congreso.gob.pe/Documentos/Leyes/29904.pdf",
+      "categoriaOriginal": "Compartición de infraestructura",
+      "origen": "catalogo",
+      "tema": "infraestructura",
+      "estado": "vigente",
+      "nota": "Texto publicado de la Ley 29904 (2012) en el archivo del Congreso; la ley sigue vigente."
+    },
+    {
+      "titulo": "Decreto Legislativo N° 1019 - Regula el acceso y uso compartido de la infraestructura de telecomunicaciones de Proveedores Importantes de telecomunicaciones",
+      "url": "https://www2.congreso.gob.pe/sicr/cendocbib/con_uibd.nsf/5C1BD914D14FADB505257465006ECF00/$FILE/01019infraestructura1.pdf",
+      "categoriaOriginal": "Compartición de infraestructura",
+      "origen": "catalogo",
+      "tema": "infraestructura",
+      "estado": "vigente",
+      "nota": "Decreto Legislativo vigente; PDF del texto publicado en el archivo del Congreso."
+    },
+    {
+      "titulo": "Plan de Operaciones de emergencia del Organismo Supervisor de Inversión Privada en Telecomunicaciones",
+      "url": "https://www.osiptel.gob.pe/media/y0pbudqk/plan-operaciones-emergencia-poe-osiptel.pdf",
+      "categoriaOriginal": "Telecomunicaciones de emergencia",
+      "origen": "catalogo",
+      "tema": "emergencia",
+      "estado": "vigente",
+      "nota": "Edición 2021 del POE. El OSIPTEL la sigue publicando como plan vigente: su ficha de gob.pe (Gestión del Riesgo de Desastres, ene-2025) trae el mismo PDF. No hay versión posterior."
+    },
+    {
+      "titulo": "Homologación de Equipos de Telecomunicaciones",
+      "url": "https://www.gob.pe/institucion/mtc/colecciones/334-homologacion-de-equipos-de-telecomunicaciones",
+      "categoriaOriginal": "Homologación de productos y dispositivos",
+      "origen": "catalogo",
+      "tema": "homologacion",
+      "estado": "vigente",
+      "nota": "Compendio del MTC activo: DS 001-2006-MTC, consulta en línea y lista de equipos homologados al 15-09-2026."
+    },
+    {
+      "titulo": "Lista de equipos y aparatos de telecomunicaciones homologados",
+      "url": "https://www.gob.pe/institucion/mtc/informes-publicaciones/337129-lista-de-equipos-de-telecomunicaciones-homologados",
+      "categoriaOriginal": "Homologación de productos y dispositivos",
+      "origen": "catalogo",
+      "tema": "homologacion",
+      "estado": "actualizado",
+      "nota": "La ficha anterior fue retirada (404); el MTC publica la lista actualizada al 15-09-2026 en una nueva ficha de gob.pe.",
+      "urlNueva": "https://www.gob.pe/institucion/mtc/informes-publicaciones/8641755-lista-de-equipos-y-aparatos-de-telecomunicaciones-homologados",
+      "tituloNuevo": "Lista de Equipos y Aparatos de Telecomunicaciones Homologados (al 15-09-2026)",
+      "anioNuevo": 2026
+    },
+    {
+      "titulo": "Reglamento Específico de homologación de equipos y aparatos de telecomunicaciones",
+      "url": "https://www.gob.pe/institucion/mtc/informes-publicaciones/337130-lista-de-equipos-de-medicion-de-rni-certificados",
+      "categoriaOriginal": "Homologación de productos y dispositivos",
+      "origen": "catalogo",
+      "tema": "homologacion",
+      "estado": "enlace_roto",
+      "nota": "404: la URL era la lista de equipos RNI (el catálogo también la enlaza con ese título; ficha nueva: gob.pe/mtc 6471878), no el reglamento: DS 001-2006-MTC, vigente (mod. DS 019 y 038-2019).",
+      "urlNueva": "https://www.gob.pe/institucion/mtc/normas-legales/314023-001-2006-mtc",
+      "tituloNuevo": "Decreto Supremo N° 001-2006-MTC – Reglamento Específico de Homologación de Equipos y Aparatos de Telecomunicaciones"
+    },
+    {
+      "titulo": "Consultar portal institucional del INDOTEL",
+      "url": "https://indotel.gob.do/",
+      "categoriaOriginal": "Contáctanos",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "vigente",
+      "nota": "Responde 200 y coincide con el título: es el contacto genérico de la plantilla REGULATEL (portal alojado por INDOTEL, R. Dominicana), no un documento peruano. Portal del OSIPTEL: gob.pe/osiptel.",
+      "urlNueva": "https://www.gob.pe/osiptel",
+      "tituloNuevo": "Sede digital del OSIPTEL (gob.pe/osiptel)"
+    }
+  ]
+}

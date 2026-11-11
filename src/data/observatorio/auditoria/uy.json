@@ -1,0 +1,67 @@
+{
+  "iso": "uy",
+  "pais": "Uruguay",
+  "revisado": "2026-11-11",
+  "documentos": [
+    {
+      "titulo": "Habilitación administrativa",
+      "url": "http://www.conatel.gob.ve/telecomunicaciones-2/?target=titulos",
+      "categoriaOriginal": "Espectro Radioeléctrico",
+      "origen": "catalogo",
+      "tema": "competencia",
+      "estado": "enlace_roto",
+      "nota": "Página de CONATEL (Venezuela) cargada por error en la ficha de Uruguay; da 404. Equivalente uruguayo vigente: Dec. 115/003; en 2025 el Dec. 31/025 (texto del 137/025) agregó la licencia Clase E.",
+      "urlNueva": "https://www.impo.com.uy/bases/decretos-reglamento/115-2003",
+      "tituloNuevo": "Reglamento de Licencias de Telecomunicaciones (Decreto N° 115/003)",
+      "anioNuevo": 2003
+    },
+    {
+      "titulo": "Cuadro Nacional de Atribución de Bandas de Frecuencias (CUNABAF)",
+      "url": "http://www.conatel.gob.ve/cunabaf-2/",
+      "categoriaOriginal": "Espectro Radioeléctrico",
+      "origen": "catalogo",
+      "tema": "espectro",
+      "estado": "enlace_roto",
+      "nota": "Cuadro de CONATEL (Venezuela), no de Uruguay; da 404. URSEC publica su Cuadro de Atribución (art. 5 del RR UIT, ed. 2016), sin actualizar a CMR-19 ni CMR-23.",
+      "urlNueva": "https://www.gub.uy/unidad-reguladora-servicios-comunicaciones/comunicacion/publicaciones/cuadro-atribucion-frecuencias",
+      "tituloNuevo": "Cuadro de Atribución de Frecuencias (URSEC) – Artículo 5 del Reglamento de Radiocomunicaciones de la UIT",
+      "anioNuevo": 2018
+    },
+    {
+      "titulo": "Providencia Administrativa N° 012. Cuadro Nacional de Atribución de Bandas de Frecuencia (CUNABAF). Año 2016",
+      "url": "http://www.conatel.gob.ve/providencia-administrativa-n-012-cuadro-nacional-de-atribucion-de-bandas-de-frecuencia-cunabaf-ano-2016/",
+      "categoriaOriginal": "Espectro Radioeléctrico",
+      "origen": "catalogo",
+      "tema": "espectro",
+      "estado": "enlace_roto",
+      "nota": "Norma de CONATEL (Venezuela) ajena a Uruguay; da 404. En Uruguay rige el Dec. 114/003: URSEC aprueba el Cuadro Nacional de Atribución de Frecuencias (arts. 4 y 5).",
+      "urlNueva": "https://www.impo.com.uy/bases/decretos-reglamento/114-2003",
+      "tituloNuevo": "Reglamento de Administración y Control del Espectro Radioeléctrico (Decreto N° 114/003)",
+      "anioNuevo": 2003
+    },
+    {
+      "titulo": "Sistema de Formación CONATEL",
+      "url": "http://www.conatel.gob.ve/centro-de-desarrollo-e-informacion-en-telecomunicaciones/?target=cronograma-de-cursos",
+      "categoriaOriginal": "Tecnologías de la Información y la Comunicación (TIC)",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "derogado",
+      "nota": "Cronograma de cursos de CONATEL (Venezuela) cargado por error en la ficha de Uruguay; da 404. El sitio de URSEC no ofrece un equivalente: retirar sin reemplazo.",
+      "urlNueva": null,
+      "tituloNuevo": null,
+      "anioNuevo": null
+    },
+    {
+      "titulo": "Consultar portal institucional del INDOTEL",
+      "url": "https://indotel.gob.do/",
+      "categoriaOriginal": "Contáctanos",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "enlace_roto",
+      "nota": "Responde 200, pero es el portal de INDOTEL (Rep. Dominicana) arrastrado del pie del catálogo REGULATEL, no un documento de Uruguay. Se corrige al portal oficial de URSEC, activo a nov-2026.",
+      "urlNueva": "https://www.gub.uy/unidad-reguladora-servicios-comunicaciones/",
+      "tituloNuevo": "Portal institucional de la URSEC (Uruguay)",
+      "anioNuevo": null
+    }
+  ]
+}

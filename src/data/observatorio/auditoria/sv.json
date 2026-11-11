@@ -1,0 +1,246 @@
+{
+  "iso": "sv",
+  "pais": "El Salvador",
+  "revisado": "2026-11-11",
+  "documentos": [
+    {
+      "titulo": "Solicitud de Concesiones del Espectro Radioeléctrico",
+      "url": "https://www.siget.gob.sv/gerencias/telecomunicaciones/servicios-telecomunicaciones/solicitud-de-concesiones-del-espectro-radioelectrico/",
+      "categoriaOriginal": "Espectro radioeléctrico",
+      "origen": "catalogo",
+      "tema": "espectro",
+      "estado": "vigente",
+      "nota": "403 por bloqueo Cloudflare de siget.gob.sv (también en navegador); captura web de jul-2026 confirma la página. Trámite vigente (ficha 1025 del Portal de Transparencia, act. ago-2026)."
+    },
+    {
+      "titulo": "Licencia para prestar el servicio de TV por suscripción",
+      "url": "https://www.siget.gob.sv/gerencias/telecomunicaciones/informacion-para-operadores/tv-por-suscripcion/",
+      "categoriaOriginal": "Espectro radioeléctrico",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "vigente",
+      "nota": "403 por bloqueo Cloudflare; captura web de abr-2026 confirma la página. El Reglamento de TV por suscripción (2008) sigue vigente según el Portal de Transparencia (oct-2026)."
+    },
+    {
+      "titulo": "Reglamento para la prestación de servicios de difusión de televisión por suscripción por medios alámbricos o inalámbricos",
+      "url": "https://www.transparencia.gob.sv/institutions/siget/documents/otros-documentos-normativos",
+      "categoriaOriginal": "Espectro radioeléctrico",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "enlace_roto",
+      "nota": "Portal de Transparencia migró (404). El Reglamento (D.E. 75, D.O. 20-jun-2008) figura vigente (act. oct-2026) en transparencia.gob.sv/documentos/36-4; se enlaza su PDF directo.",
+      "urlNueva": "https://www.transparencia.gob.sv/descarga_archivo.php?id=NTI5MTQx",
+      "tituloNuevo": "Reglamento para la prestación de servicios de difusión de televisión por suscripción (D.E. 75/2008), PDF del Portal de Transparencia"
+    },
+    {
+      "titulo": "Concesiones, licencias o autorizaciones para obtención de una porción del Espectro Radioeléctrico de El Salvador",
+      "url": "https://www.transparencia.gob.sv/institutions/siget/services/1025",
+      "categoriaOriginal": "Espectro radioeléctrico",
+      "origen": "catalogo",
+      "tema": "espectro",
+      "estado": "enlace_roto",
+      "nota": "Portal de Transparencia migró (404). El servicio sigue vigente (ficha 1025, actualizada 10-ago-2026) en el listado de Servicios de SIGET.",
+      "urlNueva": "https://www.transparencia.gob.sv/servicios/36-22",
+      "tituloNuevo": "Servicios de SIGET (Portal de Transparencia): Concesiones, licencias o autorizaciones del espectro radioeléctrico"
+    },
+    {
+      "titulo": "Cuadro Nacional de Atribución de Frecuencias (CNAF)",
+      "url": "https://www.transparencia.gob.sv/institutions/siget/documents/314524/download",
+      "categoriaOriginal": "Espectro radioeléctrico",
+      "origen": "catalogo",
+      "tema": "espectro",
+      "estado": "actualizado",
+      "nota": "404: apuntaba al CNAF de feb-2017 (anexo SIPV 115-2019). Versión más reciente verificada: actualización T-0408-2023 en siget.gob.sv (bloquea bots; activa en may-2026).",
+      "urlNueva": "https://www.siget.gob.sv/actualizacion-de-cuadro-nacional-de-atribucion-de-frecuencias-t-0408-2023/",
+      "tituloNuevo": "Actualización del Cuadro Nacional de Atribución de Frecuencias (Acuerdo T-0408-2023)",
+      "anioNuevo": 2023
+    },
+    {
+      "titulo": "Actualización del Cuadro Nacional de Atribución de Frecuencias 2023",
+      "url": "https://www.siget.gob.sv/actualizacion-de-cuadro-nacional-de-atribucion-de-frecuencias-t-0408-2023/",
+      "categoriaOriginal": "Espectro radioeléctrico",
+      "origen": "catalogo",
+      "tema": "espectro",
+      "estado": "vigente",
+      "nota": "403 Cloudflare; captura de may-2026 confirma la página. No se halló un CNAF posterior en el Portal de Transparencia ni en la Memoria 2023-2024; sin búsqueda web para descartarlo."
+    },
+    {
+      "titulo": "Solicitud de Frecuencias para Bandas Libres",
+      "url": "https://www.siget.gob.sv/wp-content/uploads/2021/02/GT-THaGER-F04_Solicitud-de-Frecuencias-para-Bandas-Libres.xlsx",
+      "categoriaOriginal": "Espectro radioeléctrico",
+      "origen": "catalogo",
+      "tema": "espectro",
+      "estado": "no_verificable",
+      "nota": "Formulario 2021 en siget.gob.sv (403); última captura válida abr-2023. Fichas de Transparencia (ago-2026) aún piden formulario de solicitud de frecuencias para banda libre; versión no confirmada."
+    },
+    {
+      "titulo": "Boletín estadístico",
+      "url": "https://www.siget.gob.sv/gerencias/telecomunicaciones/estadisticas/boletin-estadistico/",
+      "categoriaOriginal": "Espectro radioeléctrico",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "vigente",
+      "nota": "403 por bloqueo Cloudflare; última captura web válida de feb-2025. El D.L. 619 (2026) mantiene la obligación de publicar estadísticas del sector cada semestre."
+    },
+    {
+      "titulo": "Indicadores",
+      "url": "https://www.siget.gob.sv/gerencias/telecomunicaciones/estadisticas/indicadores/",
+      "categoriaOriginal": "Espectro radioeléctrico",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "vigente",
+      "nota": "403 por bloqueo Cloudflare; captura web de oct-2026 confirma la página activa."
+    },
+    {
+      "titulo": "Ley de Competencia",
+      "url": "https://www.siget.gob.sv/wp-content/uploads/2021/02/ley-de-competencia.pdf",
+      "categoriaOriginal": "Competencia Económica",
+      "origen": "catalogo",
+      "tema": "competencia",
+      "estado": "actualizado",
+      "nota": "Copia en siget.gob.sv (feb-2021, 403) es previa a la reforma D.L. 207 de nov-2021. La Superintendencia de Competencia publica el texto vigente con reformas 2021.",
+      "urlNueva": "https://www.sc.gob.sv/wp-content/uploads/2025/08/LeyCompetencia_2021.pdf",
+      "tituloNuevo": "Ley de Competencia con reformas 2021 (Superintendencia de Competencia)",
+      "anioNuevo": 2021
+    },
+    {
+      "titulo": "Consejos para el uso de roaming",
+      "url": "https://www.siget.gob.sv/gerencias/telecomunicaciones/informacion-para-los-usuarios/educacion-al-consumidor/consejos-para-el-uso-del-roaming/",
+      "categoriaOriginal": "Tecnologías de la Información y la Comunicación (TIC)",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "vigente",
+      "nota": "403 por bloqueo Cloudflare; captura web de ene-2026 confirma la página activa."
+    },
+    {
+      "titulo": "Consejos para el Uso de la Navegación Móvil",
+      "url": "https://www.siget.gob.sv/gerencias/telecomunicaciones/informacion-para-los-usuarios/educacion-al-consumidor/consejos-para-el-uso-de-la-navegacion-movil/",
+      "categoriaOriginal": "Tecnologías de la Información y la Comunicación (TIC)",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "vigente",
+      "nota": "403 por bloqueo Cloudflare; captura web de oct-2025 confirma la página activa."
+    },
+    {
+      "titulo": "Reclamos",
+      "url": "https://www.siget.gob.sv/gerencias/telecomunicaciones/informacion-para-los-usuarios/reclamos/",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "vigente",
+      "nota": "403 por bloqueo Cloudflare; captura web de ago-2025 confirma la página. El CAU de SIGET sigue atendiendo reclamos de telecomunicaciones (ficha 6930, act. ago-2026)."
+    },
+    {
+      "titulo": "Tarifas de telefonía",
+      "url": "https://www.siget.gob.sv/gerencias/telecomunicaciones/informacion-para-los-usuarios/tarifas-de-telefonia/",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "vigente",
+      "nota": "403 por bloqueo Cloudflare; captura web de may-2025 confirma la página activa."
+    },
+    {
+      "titulo": "Recepción de Denuncias, Quejas y Sugerencias que presenten los Usuarios del Servicio de Electricidad y Telecomunicaciones",
+      "url": "https://www.siget.gob.sv/servicios/recepcion-de-denuncias-quejas-y-sugerencias-que-presenten-los-usuarios-del-servicio-de-electricidad-y-telecomunicaciones/",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "vigente",
+      "nota": "403 Cloudflare; activa en may-2026 y citada por el Portal de Transparencia (ago-2026). Desde jul-2026 SIGET solo regula telecom; lo eléctrico pasa a la DGEHM (D.L. 620)."
+    },
+    {
+      "titulo": "Información, Orientación, Asistencia y Asesoría a los usuarios de los sectores de Electricidad y Telecomunicaciones",
+      "url": "https://www.siget.gob.sv/servicios/informacion-orientacion-asistencia-y-asesoria-a-los-usuarios-de-los-sectores-de-electricidad-y-telecomunicaciones/",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "vigente",
+      "nota": "403 Cloudflare; captura de may-2026 activa. Por D.L. 619 y 620 (D.O. 8-jul-2026) SIGET solo atiende telecom; lo eléctrico pasa a la DGEHM (transición de hasta 6 meses)."
+    },
+    {
+      "titulo": "Consulta Robo de celulares",
+      "url": "https://www.siget.gob.sv/servicios/consulta-robo-de-celulares/",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "catalogo",
+      "tema": "homologacion",
+      "estado": "vigente",
+      "nota": "403 por bloqueo Cloudflare; captura web de jun-2026 confirma la página activa."
+    },
+    {
+      "titulo": "Portabilidad",
+      "url": "https://www.siget.gob.sv/gerencias/telecomunicaciones/portabilidad/",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "vigente",
+      "nota": "403 por bloqueo Cloudflare; captura web de sep-2026 confirma la página. El Reglamento de Portabilidad Numérica sigue vigente según el Portal de Transparencia."
+    },
+    {
+      "titulo": "Tu Velocidad",
+      "url": "https://www.siget.gob.sv/tuvelocidad/",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "vigente",
+      "nota": "403 por bloqueo Cloudflare; captura web de jul-2026 confirma la plataforma activa."
+    },
+    {
+      "titulo": "Mapas de cobertura de telefonía celular",
+      "url": "https://www.siget.gob.sv/gerencias/telecomunicaciones/informacion-para-los-usuarios/cobertura-de-telefonia-celular/",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "vigente",
+      "nota": "403 por bloqueo Cloudflare; captura web de oct-2026 confirma la página (con redirección 301)."
+    },
+    {
+      "titulo": "Micrositio \"Radiaciones electromagnéticas no ionizantes\"",
+      "url": "https://www.siget.gob.sv/rni/",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "catalogo",
+      "tema": "infraestructura",
+      "estado": "no_verificable",
+      "nota": "403 por bloqueo Cloudflare; en archivo web la URL redirige (301) desde 2022 a un destino no confirmado. No fue posible verificar el micrositio."
+    },
+    {
+      "titulo": "Plan de numeración",
+      "url": "https://www.siget.gob.sv/gerencias/telecomunicaciones/informacion-para-operadores/telefonia/plan-de-numeracion/",
+      "categoriaOriginal": "Telecomunicaciones de emergencia",
+      "origen": "catalogo",
+      "tema": "emergencia",
+      "estado": "vigente",
+      "nota": "403 por bloqueo Cloudflare; captura web de ago-2026 confirma la página activa."
+    },
+    {
+      "titulo": "Consulta el plan de numeración",
+      "url": "https://www.siget.gob.sv/servicios/consulta-el-plan-de-numeracion/",
+      "categoriaOriginal": "Telecomunicaciones de emergencia",
+      "origen": "catalogo",
+      "tema": "emergencia",
+      "estado": "vigente",
+      "nota": "403 por bloqueo Cloudflare; captura web de may-2026 activa. Servicio de numeración vigente (ficha 6929 del Portal de Transparencia, act. ago-2026)."
+    },
+    {
+      "titulo": "Solicitud de verificación y/o análisis de los dispositivos de baja potencia (DBP)",
+      "url": "https://www.transparencia.gob.sv/institutions/siget/services/9905",
+      "categoriaOriginal": "Homologación de productos y dispositivos",
+      "origen": "catalogo",
+      "tema": "homologacion",
+      "estado": "enlace_roto",
+      "nota": "Portal de Transparencia migró (404). Servicio vigente (ficha 9905, act. 10-ago-2026): verificación voluntaria por correo; no hay homologación obligatoria.",
+      "urlNueva": "https://www.transparencia.gob.sv/servicios/36-22",
+      "tituloNuevo": "Servicios de SIGET (Portal de Transparencia): Solicitud de verificación y/o análisis de dispositivos de baja potencia (DBP)"
+    },
+    {
+      "titulo": "Consultar portal institucional del INDOTEL",
+      "url": "https://indotel.gob.do/",
+      "categoriaOriginal": "Contáctanos",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "vigente",
+      "nota": "Enlace operativo, pero es el portal de INDOTEL (R. Dominicana), no de SIGET: error del catálogo de El Salvador. Se sugiere el portal de SIGET (bloquea bots).",
+      "urlNueva": "https://www.siget.gob.sv/",
+      "tituloNuevo": "Portal institucional de la SIGET (Superintendencia General de Telecomunicaciones)"
+    }
+  ]
+}

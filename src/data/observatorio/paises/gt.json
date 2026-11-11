@@ -1,0 +1,437 @@
+{
+  "iso": "gt",
+  "pais": "Guatemala",
+  "regulador": {
+    "sigla": "SIT",
+    "nombre": "Superintendencia de Telecomunicaciones",
+    "url": "https://sit.gob.gt",
+    "naturaleza": "Órgano eminentemente técnico del Ministerio de Comunicaciones, Infraestructura y Vivienda, con independencia funcional (LGT, art. 5)"
+  },
+  "otrasAutoridades": [
+    {
+      "sigla": "CIV",
+      "nombre": "Ministerio de Comunicaciones, Infraestructura y Vivienda",
+      "rol": "Ministerio rector del sector; la SIT es su órgano técnico.",
+      "url": "https://www.civ.gob.gt"
+    },
+    {
+      "sigla": "SiCom",
+      "nombre": "Superintendencia de Competencia",
+      "rol": "Autoridad de competencia económica de todos los sectores, creada por la Ley de Competencia (Decreto 32-2024)."
+    },
+    {
+      "sigla": "MINGOB",
+      "nombre": "Ministerio de Gobernación",
+      "rol": "Albergará la Dirección Nacional de Ciberseguridad prevista en la Ley Marco de Ciberseguridad aprobada por el Congreso en 2026.",
+      "url": "https://mingob.gob.gt"
+    },
+    {
+      "sigla": "CONRED",
+      "nombre": "Coordinadora Nacional para la Reducción de Desastres",
+      "rol": "Gestión de riesgo y respuesta a desastres; línea de emergencia 119.",
+      "url": "https://conred.gob.gt"
+    }
+  ],
+  "marcoLegal": {
+    "nombre": "Ley General de Telecomunicaciones, Decreto 94-96 y sus reformas",
+    "anio": 1996,
+    "url": "https://www.congreso.gob.gt/assets/uploads/info_legislativo/decretos/1996/gtdcx94-1996.pdf"
+  },
+  "resumenPais": "Modelo de mercado muy liberal: la SIT, órgano técnico del CIV, subasta el espectro como títulos de usufructo negociables y no exige homologar equipos. Hay 5G desde 2022, pero la portabilidad numérica (ley de 2025) y la ley marco de ciberseguridad (2026) aún no se aplican.",
+  "categorias": {
+    "espectro": {
+      "resumen": "La SIT asigna el espectro por subasta pública como títulos de usufructo que pueden venderse o arrendarse. En 2023 subastó 700 MHz (subasta cuestionada en 2026) y 2,5 GHz; el 5G opera en 3,5 GHz y la banda de 6 GHz completa está abierta al Wi-Fi.",
+      "instrumentos": [
+        {
+          "nombre": "Ley General de Telecomunicaciones (Decreto 94-96): títulos de usufructo de frecuencias",
+          "anio": 1996,
+          "tipo": "ley",
+          "url": "https://www.congreso.gob.gt/assets/uploads/info_legislativo/decretos/1996/gtdcx94-1996.pdf"
+        },
+        {
+          "nombre": "Tabla Nacional de Atribución de Frecuencias (TNAF)",
+          "tipo": "plan",
+          "url": "https://sit.gob.gt/tabla-nacional-de-atribucion-de-frecuencias.html"
+        },
+        {
+          "nombre": "Subastas públicas de 2023: banda de 2,5/2,6 GHz y banda de 700 MHz (SIT-SPF02-2023)",
+          "anio": 2023,
+          "tipo": "otro",
+          "url": "https://prensa.gob.gt/comunicado/llevan-cabo-subasta-publica-de-frecuencia-sit-spf02-2023"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-09",
+        "texto": "Diputados pidieron declarar lesiva la subasta de 700 MHz de 2023 (la SIT no halló su estudio de valoración); en sep-2026 Presidencia aún la revisaba."
+      },
+      "indicadores": {
+        "esp_cuadro": {
+          "estado": "si",
+          "nota": "TNAF elaborada por la SIT conforme a la LGT, con cuadro, gráfica y notas; según la SIT, se actualiza cada ~4 años tras cada CMR.",
+          "fuente": "https://prensa.gob.gt/comunicado/para-que-sirve-la-tabla-nacional-de-atribuciones-de-frecuencias-te-lo-explicamos-facil"
+        },
+        "esp_5g": {
+          "estado": "si",
+          "nota": "Claro y Tigo ofrecen 5G en 3,5 GHz desde 2022; en 2023 sumaron por subasta espectro en 700 MHz y 2,5 GHz.",
+          "fuente": "https://dplnews.com/tigo-y-claro-ganan-espectro-en-subasta-2-5-ghz-de-guatemala/",
+          "anio": 2022
+        },
+        "esp_licitacion": {
+          "estado": "si",
+          "nota": "Subastas de la SIT en 2023: 2,5/2,6 GHz (120 MHz) y 700 MHz (60 MHz, Q1.006 millones), ganadas por Claro y Tigo; la de 700 MHz fue cuestionada en 2026.",
+          "fuente": "https://prensa.gob.gt/comunicado/llevan-cabo-subasta-publica-de-frecuencia-sit-spf02-2023",
+          "anio": 2023
+        },
+        "esp_6ghz": {
+          "estado": "si",
+          "nota": "1200 MHz (5925–7125 MHz) habilitados para Wi-Fi de uso libre, según el listado de regulaciones de la Wi-Fi Alliance.",
+          "fuente": "https://www.wi-fi.org/regulations-enabling-6-ghz-wi-fi"
+        },
+        "esp_secundario": {
+          "estado": "si",
+          "nota": "LGT arts. 55–56: los títulos de usufructo de frecuencias pueden arrendarse o venderse, total o parcialmente, con inscripción en el Registro.",
+          "fuente": "https://www.congreso.gob.gt/assets/uploads/info_legislativo/decretos/1996/gtdcx94-1996.pdf",
+          "anio": 1996
+        }
+      }
+    },
+    "competencia": {
+      "resumen": "La LGT obliga a dar acceso a recursos esenciales, como la interconexión, a precios negociados; si no hay acuerdo, resuelve la SIT. No se halló régimen de operador dominante. FONDETEL se disolvió en 2024 y el 75 % de lo recaudado en subastas financia el Plan Nacional de Conectividad Digital.",
+      "instrumentos": [
+        {
+          "nombre": "Ley General de Telecomunicaciones (Decreto 94-96): acceso a recursos esenciales",
+          "anio": 1996,
+          "tipo": "ley",
+          "url": "https://www.congreso.gob.gt/assets/uploads/info_legislativo/decretos/1996/gtdcx94-1996.pdf"
+        },
+        {
+          "nombre": "Ley de Competencia (Decreto 32-2024, reformada por el Decreto 8-2025)",
+          "anio": 2024,
+          "tipo": "ley",
+          "url": "https://lexlatin.com/entrevistas/decreto-32-2024-guatemala-ley-competencia"
+        },
+        {
+          "nombre": "Ley para la disolución y liquidación de FONDETEL (Decreto 12-2024)",
+          "anio": 2024,
+          "tipo": "ley",
+          "url": "https://gt.vlex.com/vid/decreto-no-12-2024-1037109454"
+        },
+        {
+          "nombre": "Plan Nacional de Conectividad Digital, financiado con el 75 % de lo recaudado en subastas (Decreto 3-2023)",
+          "anio": 2023,
+          "tipo": "plan",
+          "url": "https://prensa.gob.gt/comunicado/la-superintendencia-de-telecomunicaciones-lleva-internet-mas-de-150-centros-educativos"
+        }
+      ],
+      "novedad": {
+        "fecha": "2024-12",
+        "texto": "Ley de Competencia (Decreto 32-2024): creó la Superintendencia de Competencia; sus normas contra prácticas anticompetitivas se prevén para fines de 2026."
+      },
+      "indicadores": {
+        "comp_psm": {
+          "estado": "sin_dato",
+          "nota": "La LGT impone obligaciones de acceso iguales a todos los operadores; no se halló régimen de PSM. La Ley de Competencia (2024) es general."
+        },
+        "comp_omv": {
+          "estado": "sin_dato",
+          "nota": "No se identificó norma específica sobre OMV ni OMV en operación."
+        },
+        "comp_interconexion": {
+          "estado": "parcial",
+          "nota": "LGT arts. 26–40: acceso obligatorio a recursos esenciales a precios negociados; sin acuerdo, resuelve la SIT con dictamen pericial. Sin cargos de referencia.",
+          "fuente": "https://www.congreso.gob.gt/assets/uploads/info_legislativo/decretos/1996/gtdcx94-1996.pdf",
+          "anio": 1996
+        },
+        "comp_fondo": {
+          "estado": "parcial",
+          "nota": "FONDETEL se disolvió (Decreto 12-2024). Por el Decreto 3-2023, el 75 % de lo recaudado en subastas financia el Plan Nacional de Conectividad Digital de la SIT.",
+          "fuente": "https://prensa.gob.gt/comunicado/llevan-cabo-subasta-publica-de-frecuencia-sit-spf02-2023",
+          "anio": 2023
+        },
+        "comp_neutralidad": {
+          "estado": "sin_dato",
+          "nota": "No se identificó norma sobre neutralidad de red."
+        }
+      }
+    },
+    "ciberseguridad": {
+      "resumen": "En 2026 el Congreso aprobó la Ley Marco de Ciberseguridad (Consejo y Dirección Nacional, plazos de respuesta ante incidentes), que aún no rige. Con apoyo de la UIT se diseña un CIRT nacional. Guatemala está invitada al Convenio de Budapest, pero no es Parte.",
+      "instrumentos": [
+        {
+          "nombre": "Ley Marco de Ciberseguridad (aprobada por el Congreso; aún sin vigencia)",
+          "anio": 2026,
+          "tipo": "ley",
+          "url": "https://dplnews.com/congreso-guatemala-aprueba-ley-ciberseguridad/"
+        },
+        {
+          "nombre": "Evaluación Nacional CIRT de Guatemala, versión 1.0 (UIT), base para crear el CIRT nacional",
+          "anio": 2025,
+          "tipo": "otro",
+          "url": "https://prensa.gob.gt/comunicado/guatemala-fortalece-su-estrategia-nacional-de-ciberseguridad-con-apoyo-de-la-uit"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-11",
+        "texto": "El Congreso aprobó la Ley Marco de Ciberseguridad: crea un Consejo y una Dirección Nacional (en el MINGOB) y fija plazos de respuesta ante incidentes."
+      },
+      "indicadores": {
+        "ciber_estrategia": {
+          "estado": "parcial",
+          "nota": "Existe una estrategia de 2018 (MINGOB) de vigencia no confirmada; en 2025 el Gobierno avanzó con la UIT en la construcción de una estrategia nacional.",
+          "fuente": "https://prensa.gob.gt/comunicado/guatemala-fortalece-su-estrategia-nacional-de-ciberseguridad-con-apoyo-de-la-uit",
+          "anio": 2025
+        },
+        "ciber_ley": {
+          "estado": "parcial",
+          "nota": "Ley Marco de Ciberseguridad aprobada por el Congreso (nov-2026); regirá 30 días después de su publicación. Los delitos informáticos siguen en el Código Penal.",
+          "fuente": "https://dplnews.com/congreso-guatemala-aprueba-ley-ciberseguridad/",
+          "anio": 2026
+        },
+        "ciber_csirt": {
+          "estado": "parcial",
+          "nota": "La UIT entregó en oct-2025 la Evaluación Nacional CIRT para crear el CIRT nacional, aún no operativo; FIRST solo registra equipos privados.",
+          "fuente": "https://prensa.gob.gt/comunicado/guatemala-fortalece-su-estrategia-nacional-de-ciberseguridad-con-apoyo-de-la-uit",
+          "anio": 2025
+        },
+        "ciber_reporte": {
+          "estado": "sin_dato",
+          "nota": "La Ley Marco aprobada en 2026 (aún sin vigencia) fija plazos de respuesta ante incidentes (30 min, 6 h, 72 h); no se confirmó si obliga a los operadores."
+        },
+        "ciber_budapest": {
+          "estado": "parcial",
+          "nota": "Invitada a adherirse, pero aún no es Parte (lista oficial del Consejo de Europa, consulta del 11-nov-2026).",
+          "fuente": "https://www.coe.int/en/web/cybercrime/parties-observers"
+        }
+      }
+    },
+    "usuario": {
+      "resumen": "La Ley de Portabilidad Numérica (Decreto 14-2025) rige desde noviembre de 2025, pero sin reglamento aún no se puede cambiar de compañía conservando el número. La SIT puede mediar si el servicio no se ajusta al contrato; no se identificó un reglamento de derechos del usuario.",
+      "instrumentos": [
+        {
+          "nombre": "Ley de Portabilidad Numérica en Servicios de Telefonía (Decreto 14-2025)",
+          "anio": 2025,
+          "tipo": "ley",
+          "url": "https://sit.gob.gt/files/LEY-DE-PORTABILIDAD-NUM-RICA---DECRETO-14-2025.pdf"
+        },
+        {
+          "nombre": "Reglamento Orgánico Interno de la SIT (Resolución SIT-553-2015)",
+          "anio": 2015,
+          "tipo": "reglamento",
+          "url": "https://sit.gob.gt/files/Reglamento-Organico-Interno-SIT.pdf"
+        }
+      ],
+      "novedad": {
+        "fecha": "2025-11",
+        "texto": "Se publicó la Ley de Portabilidad Numérica (Decreto 14-2025); a octubre de 2026 su reglamento seguía pendiente."
+      },
+      "indicadores": {
+        "usu_reglamento": {
+          "estado": "sin_dato",
+          "nota": "No se identificó un reglamento de derechos de usuarios de telecom; rige la Ley de Protección al Consumidor y Usuario (Decreto 6-2003)."
+        },
+        "usu_reclamos": {
+          "estado": "parcial",
+          "nota": "Res. SIT-553-2015 (art. 5 f) encarga a la SIT mediar para que los servicios se ajusten a los contratos con usuarios; no se halló un canal propio de reclamos.",
+          "fuente": "https://sit.gob.gt/files/Reglamento-Organico-Interno-SIT.pdf",
+          "anio": 2015
+        },
+        "usu_portabilidad": {
+          "estado": "parcial",
+          "nota": "Ley de Portabilidad (Decreto 14-2025) vigente desde el 28-nov-2025, pero sin reglamento aprobado: a oct-2026 aún no se podía portar el número.",
+          "fuente": "https://lahora.gt/lh-economia/jveliz/2026/10/06/portabilidad-numerica-en-guatemala-acumula-250-dias-de-retraso-sin-reglamento-aprobado-now/",
+          "anio": 2025
+        },
+        "usu_calidad": {
+          "estado": "sin_dato",
+          "nota": "La SIT publica un Boletín Estadístico de Telefonía (líneas, tráfico y usuarios), pero no se hallaron mediciones públicas de calidad del servicio."
+        },
+        "usu_nomolestar": {
+          "estado": "sin_dato"
+        }
+      }
+    },
+    "emergentes": {
+      "resumen": "Guatemala tiene 5G comercial desde 2022 y habilitó Starlink (órbita baja) en 2023. Senacyt elabora una estrategia de IA para el Organismo Ejecutivo; no se identificaron un sandbox regulatorio formal ni reglas específicas para IoT.",
+      "instrumentos": [
+        {
+          "nombre": "Reglamento para la Explotación de Sistemas Satelitales (Acuerdo Gubernativo 574-98)",
+          "anio": 1998,
+          "tipo": "reglamento",
+          "url": "https://sit.gob.gt/sistemas-satelitales.html"
+        },
+        {
+          "nombre": "Ingreso de Starlink (internet satelital de órbita baja) con aval del CIV y la SIT",
+          "anio": 2023,
+          "tipo": "otro",
+          "url": "https://prensa.gob.gt/comunicado/internet-de-starlink-en-guatemala"
+        },
+        {
+          "nombre": "Estrategia de Inteligencia Artificial del Organismo Ejecutivo (en elaboración, Senacyt)",
+          "anio": 2026,
+          "tipo": "estrategia",
+          "url": "https://prensa.gob.gt/comunicado/sit-se-suma-los-esfuerzos-para-impulsar-la-inteligencia-artificial-en-guatemala"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-11",
+        "texto": "Senacyt presentó avances de la Estrategia de IA del Organismo Ejecutivo, con cinco ejes: gobernanza, infraestructura, datos y ética, talento y seguridad."
+      },
+      "indicadores": {
+        "tec_sandbox": {
+          "estado": "sin_dato",
+          "nota": "En abr-2026 la SIT y la UIT trabajaron hojas de ruta para sandboxes regulatorios en un taller; no se halló un sandbox formal."
+        },
+        "tec_5g": {
+          "estado": "si",
+          "nota": "5G comercial desde 2022 (Claro y Tigo). GSMA (2026): cerca del 40 % de la población cubierta y más de 2.100 radiobases.",
+          "fuente": "https://dplnews.com/guatemala-reglas-claras-transformacion-digital-gsma/",
+          "anio": 2022
+        },
+        "tec_iot": {
+          "estado": "sin_dato"
+        },
+        "tec_satelital": {
+          "estado": "si",
+          "nota": "Starlink (órbita baja) llegó en 2023 con aval del CIV y la SIT; el servicio comercial empezó en julio de 2023.",
+          "fuente": "https://prensa.gob.gt/comunicado/internet-de-starlink-en-guatemala",
+          "anio": 2023
+        },
+        "tec_ia": {
+          "estado": "parcial",
+          "nota": "Senacyt elabora la Estrategia de IA del Organismo Ejecutivo (avances presentados en nov-2026); aún no está adoptada.",
+          "fuente": "https://prensa.gob.gt/comunicado/sit-se-suma-los-esfuerzos-para-impulsar-la-inteligencia-artificial-en-guatemala",
+          "anio": 2026
+        }
+      }
+    },
+    "infraestructura": {
+      "resumen": "El Decreto 12-2014 creó un permiso de la SIT para antenas y fibra (15 días, con silencio positivo), pero la SIT indica que las torres las autoriza cada municipalidad. No se hallaron reglas de compartición obligatoria, roaming nacional ni edificios.",
+      "instrumentos": [
+        {
+          "nombre": "Ley de Control de las Telecomunicaciones Móviles en Centros de Privación de Libertad y Fortalecimiento de la Infraestructura para Transmisión de Datos (Decreto 12-2014)",
+          "anio": 2014,
+          "tipo": "ley",
+          "url": "https://www.congreso.gob.gt/assets/uploads/info_legislativo/decretos/2014/12-2014.pdf"
+        }
+      ],
+      "novedad": null,
+      "indicadores": {
+        "inf_pasiva": {
+          "estado": "sin_dato",
+          "nota": "No se hallaron reglas de compartición obligatoria; el Decreto 12-2014 (art. 8 e) solo faculta a usar infraestructura de terceros por acuerdo."
+        },
+        "inf_electrica": {
+          "estado": "sin_dato",
+          "nota": "El Decreto 12-2014 (art. 10) remite a la Ley General de Electricidad solo para constituir servidumbres."
+        },
+        "inf_permisos": {
+          "estado": "sin_dato",
+          "nota": "El Decreto 12-2014 creó un permiso único de la SIT en 15 días con silencio positivo, pero la SIT indica que autorizar torres compete a las municipalidades."
+        },
+        "inf_roaming": {
+          "estado": "sin_dato"
+        },
+        "inf_edificios": {
+          "estado": "sin_dato"
+        }
+      }
+    },
+    "emergencia": {
+      "resumen": "No hay un número único de emergencias: cada institución tiene el suyo (119 CONRED, 110 PNC, 122/123 Bomberos), todos gratuitos. Guatemala no es parte del Convenio de Tampere y no se confirmaron alertas a celulares ni planes de continuidad de redes.",
+      "instrumentos": [
+        {
+          "nombre": "Plan Nacional de Numeración (códigos 11X y 12X de asistencia pública, libres de cobro)",
+          "tipo": "plan",
+          "url": "https://sit.gob.gt/plan-nacional-de-numeracion.html"
+        },
+        {
+          "nombre": "Números de emergencia del Sistema CONRED",
+          "tipo": "otro",
+          "url": "https://conred.gob.gt"
+        }
+      ],
+      "novedad": null,
+      "indicadores": {
+        "eme_alerta": {
+          "estado": "sin_dato",
+          "nota": "No se confirmó un sistema de alertas públicas a celulares."
+        },
+        "eme_numero": {
+          "estado": "no",
+          "nota": "No hay número único: CONRED 119, PNC 110/120, Bomberos 122/123, Cruz Roja 125, entre otros.",
+          "fuente": "https://conred.gob.gt"
+        },
+        "eme_plan": {
+          "estado": "sin_dato"
+        },
+        "eme_prioridad": {
+          "estado": "si",
+          "nota": "El Plan Nacional de Numeración reserva 10 códigos 11X/12X de asistencia pública (110, 119, 120, 122, 123, 125…), libres de cobro.",
+          "fuente": "https://prensa.gob.gt/comunicado/telefonos-de-emergencia-en-guatemala"
+        },
+        "eme_tampere": {
+          "estado": "no",
+          "nota": "Guatemala no figura entre firmantes ni Partes del Convenio de Tampere (UN Treaty Collection, estado al 11-11-2026).",
+          "fuente": "https://treaties.un.org/Pages/ViewDetails.aspx?src=TREATY&mtdsg_no=XXV-4&chapter=25&clang=_en"
+        }
+      }
+    },
+    "homologacion": {
+      "resumen": "La ley no exige homologar equipos: la SIT solo emite, a pedido, una nota voluntaria de dispensación basada en certificados FCC, ETSI o UE. Los celulares robados se bloquean en todas las redes mediante la Base de Datos Negativa de IMEI (Decreto 8-2013).",
+      "instrumentos": [
+        {
+          "nombre": "Procedimiento voluntario de Nota de Dispensación de Homologación (Resolución SIT-DSI-155-2019)",
+          "anio": 2019,
+          "tipo": "resolucion",
+          "url": "https://sit.gob.gt/dispensacion-de-homologacion.html"
+        },
+        {
+          "nombre": "Ley de Equipos Terminales Móviles (Decreto 8-2013)",
+          "anio": 2013,
+          "tipo": "ley",
+          "url": "https://www.congreso.gob.gt/assets/uploads/info_legislativo/decretos/2013/08-2013.pdf"
+        }
+      ],
+      "novedad": {
+        "fecha": "2025-10",
+        "texto": "La SIT impulsa el registro en línea SERCO-SIT, obligatorio para quienes importan o venden celulares y tarjetas SIM (Decreto 8-2013)."
+      },
+      "indicadores": {
+        "hom_obligatoria": {
+          "estado": "no",
+          "nota": "La LGT no regula homologación, certificación ni etiquetado de equipos; la SIT solo emite una nota voluntaria de dispensación.",
+          "fuente": "https://sit.gob.gt/dispensacion-de-homologacion.html"
+        },
+        "hom_reconocimiento": {
+          "estado": "si",
+          "nota": "La nota voluntaria de dispensación (Res. SIT-DSI-155-2019) se apoya en certificados de FCC, ETSI, IEEE o UE.",
+          "fuente": "https://sit.gob.gt/dispensacion-de-homologacion.html",
+          "anio": 2019
+        },
+        "hom_imei": {
+          "estado": "si",
+          "nota": "Decreto 8-2013: la Base de Datos Negativa de la SIT bloquea en todas las redes los IMEI reportados; 694.276 equipos registrados en 2021–2025.",
+          "fuente": "https://prensa.gob.gt/comunicado/contra-el-robo-de-celulares-mas-de-690-mil-equipos-han-sido-bloqueados-desde-2021",
+          "anio": 2013
+        },
+        "hom_enlinea": {
+          "estado": "no",
+          "nota": "Al no existir homologación obligatoria, no hay trámite de homologación en línea; la SIT solo emite una nota voluntaria de dispensación.",
+          "fuente": "https://sit.gob.gt/dispensacion-de-homologacion.html"
+        },
+        "hom_lista": {
+          "estado": "no",
+          "nota": "Al no existir homologación obligatoria, no hay lista de equipos homologados.",
+          "fuente": "https://sit.gob.gt/dispensacion-de-homologacion.html"
+        }
+      }
+    }
+  },
+  "cambiosDetectados": [
+    "No había perfil de Guatemala en el Observatorio anterior: este es el primero.",
+    "Los enlaces de la SIT en el catálogo usan rutas de su sitio anterior; la SIT renovó su web en 2026 y conviene actualizarlos.",
+    "El catálogo no refleja cambios 2024–2026: disolución de FONDETEL, Ley de Portabilidad (2025) y Ley Marco de Ciberseguridad (2026)."
+  ],
+  "verificadoEn": "2026-11-11",
+  "confianza": "media"
+}

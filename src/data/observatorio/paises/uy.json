@@ -1,0 +1,492 @@
+{
+  "iso": "uy",
+  "pais": "Uruguay",
+  "regulador": {
+    "sigla": "URSEC",
+    "nombre": "Unidad Reguladora de Servicios de Comunicaciones",
+    "url": "https://www.gub.uy/unidad-reguladora-servicios-comunicaciones/",
+    "naturaleza": "Servicio descentralizado con directorio de tres miembros (Ley 19.889 de 2020); se vincula al Poder Ejecutivo a través del MIEM. Regula telecomunicaciones y servicios postales."
+  },
+  "otrasAutoridades": [
+    {
+      "sigla": "MIEM-DINATEL",
+      "nombre": "Ministerio de Industria, Energía y Minería – Dirección Nacional de Telecomunicaciones y Servicios de Comunicación Audiovisual",
+      "rol": "Ministerio rector: fija la política nacional de telecomunicaciones y de espectro.",
+      "url": "https://www.gub.uy/ministerio-industria-energia-mineria/telecomunicaciones-comunicacion-audiovisual"
+    },
+    {
+      "sigla": "AGESIC",
+      "nombre": "Agencia para el Desarrollo del Gobierno de Gestión Electrónica y la Sociedad de la Información y del Conocimiento",
+      "rol": "Autoridad de ciberseguridad y de las estrategias nacionales de IA y datos; gestiona los entornos controlados de prueba (sandbox).",
+      "url": "https://www.gub.uy/agencia-gobierno-electronico-sociedad-informacion-conocimiento/"
+    },
+    {
+      "sigla": "CERTuy",
+      "nombre": "Centro Nacional de Respuesta a Incidentes de Seguridad Informática",
+      "rol": "CSIRT nacional (en AGESIC); recibe los reportes obligatorios de incidentes.",
+      "url": "https://www.gub.uy/centro-nacional-respuesta-incidentes-seguridad-informatica/"
+    },
+    {
+      "sigla": "MI",
+      "nombre": "Ministerio del Interior – Centro de Comando Unificado 911",
+      "rol": "Opera el Servicio de Emergencia 911.",
+      "url": "https://www.gub.uy/ministerio-interior/tramites-y-servicios/servicios/emergencia-9-1-1"
+    },
+    {
+      "sigla": "SINAE",
+      "nombre": "Sistema Nacional de Emergencias",
+      "rol": "Coordina la gestión de riesgos y la difusión de alertas a la población.",
+      "url": "https://www.gub.uy/sistema-nacional-emergencias/"
+    }
+  ],
+  "marcoLegal": {
+    "nombre": "Ley N° 17.296 (arts. 70–94), con las modificaciones de la Ley N° 19.889 de 2020: crea la URSEC y fija sus cometidos",
+    "anio": 2001,
+    "url": "https://www.impo.com.uy/bases/leyes/17296-2001"
+  },
+  "resumenPais": "La URSEC, servicio descentralizado desde 2020, regula telecomunicaciones y correos; el MIEM fija la política. El marco se apoya en la Ley 17.296 y en reglamentos de 2001-2003. Antel, estatal, tiene la exclusividad de la telefonía fija y la mitad de las líneas móviles; compite con Claro y Movistar.",
+  "categorias": {
+    "espectro": {
+      "resumen": "URSEC administra el espectro según el Decreto 114/003. En mayo de 2023 subastó la banda de 3,5 GHz para 5G: Claro y Movistar obtuvieron 100 MHz cada uno y Antel un bloque reservado. El cuadro de atribución publicado (2018) reproduce el de la UIT.",
+      "instrumentos": [
+        {
+          "nombre": "Decreto 114/003 – Reglamento de Administración y Control del Espectro Radioeléctrico",
+          "anio": 2003,
+          "tipo": "decreto",
+          "url": "https://www.impo.com.uy/bases/decretos/114-2003"
+        },
+        {
+          "nombre": "Decreto 425/022 – Asignación por procedimiento competitivo de la banda de 3,5 GHz (IMT)",
+          "anio": 2022,
+          "tipo": "decreto",
+          "url": "https://www.impo.com.uy/bases/decretos/425-2022"
+        },
+        {
+          "nombre": "Cuadro de Atribución de Frecuencias (Art. 5 del Reglamento de Radiocomunicaciones de la UIT)",
+          "anio": 2018,
+          "tipo": "plan",
+          "url": "https://www.gub.uy/unidad-reguladora-servicios-comunicaciones/comunicacion/publicaciones/cuadro-atribucion-frecuencias"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-09",
+        "texto": "El Decreto 217/026 fijó el apagón de la TV analógica en VHF para el 25-9-2026; vencen esas asignaciones de frecuencias (salvo Bella Unión)."
+      },
+      "indicadores": {
+        "esp_cuadro": {
+          "estado": "parcial",
+          "nota": "URSEC publica como cuadro el Art. 5 del Reglamento de Radiocomunicaciones UIT (edición CMR-15, subido en 2018); no se halló versión nacional posterior.",
+          "fuente": "https://www.gub.uy/unidad-reguladora-servicios-comunicaciones/comunicacion/publicaciones/cuadro-atribucion-frecuencias",
+          "anio": 2018
+        },
+        "esp_5g": {
+          "estado": "si",
+          "nota": "Banda de 3,5 GHz: Claro 3300–3400, Antel 3600–3700 y Movistar 3700–3800 MHz hasta 2048; Antel además 27,5–28,35 GHz (precario).",
+          "fuente": "https://www.gub.uy/unidad-reguladora-servicios-comunicaciones/datos-y-estadisticas/datos/asignacion-frecuencia-para-imt",
+          "anio": 2023
+        },
+        "esp_licitacion": {
+          "estado": "si",
+          "nota": "Subasta de 3,5 GHz del 9-5-2023 (Decreto 425/022): Claro (US$ 28,1 M) y Movistar (US$ 28,05 M) ganaron 100 MHz cada uno; Antel tuvo un bloque reservado.",
+          "fuente": "https://www.gub.uy/unidad-reguladora-servicios-comunicaciones/comunicacion/convocatorias/procedimiento-competitivo-para-asignacion-banda-35-ghz",
+          "anio": 2023
+        },
+        "esp_6ghz": {
+          "estado": "sin_dato",
+          "nota": "No se halló norma que habilite 5925–7125 MHz; la Res. URSEC 275/021 solo exime equipos Wi-Fi de 2,4 y 5,8 GHz."
+        },
+        "esp_secundario": {
+          "estado": "si",
+          "nota": "Decreto 114/003 (art. 25): las autorizaciones de espectro pueden transferirse, arrendarse o cederse con aprobación previa del Poder Ejecutivo o URSEC.",
+          "fuente": "https://www.gub.uy/unidad-reguladora-servicios-comunicaciones/sites/unidad-reguladora-servicios-comunicaciones/files/2021-11/Decreto%20114-2003.pdf",
+          "anio": 2003
+        }
+      }
+    },
+    "competencia": {
+      "resumen": "Antel, empresa estatal, tiene la exclusividad de la telefonía fija y la mitad de las líneas móviles; compite con Claro y Movistar. URSEC fija cargos de interconexión si no hay acuerdo y aplica la ley de competencia. Desde 2024 los cableoperadores pueden pedir licencia para dar internet.",
+      "instrumentos": [
+        {
+          "nombre": "Decreto 442/001 – Reglamento de Interconexión (modificado por el Decreto 393/002)",
+          "anio": 2001,
+          "tipo": "decreto",
+          "url": "https://www.impo.com.uy/bases/decretos/442-2001"
+        },
+        {
+          "nombre": "Ley 18.159 de Promoción y Defensa de la Competencia",
+          "anio": 2007,
+          "tipo": "ley",
+          "url": "https://www.impo.com.uy/bases/leyes/18159-2007"
+        },
+        {
+          "nombre": "Ley 20.383 de Servicios de Difusión de Contenido Audiovisual (art. 49: internet por cable)",
+          "anio": 2024,
+          "tipo": "ley",
+          "url": "https://www.impo.com.uy/bases/leyes/20383-2024"
+        }
+      ],
+      "novedad": {
+        "fecha": "2024-10",
+        "texto": "La Ley 20.383 (art. 49) habilitó a los cableoperadores a pedir licencia para dar banda ancha e internet; en 2026 URSEC habilitó a varios de ellos."
+      },
+      "indicadores": {
+        "comp_psm": {
+          "estado": "sin_dato",
+          "nota": "No se halló régimen ex ante de poder significativo de mercado; rige la Ley 18.159 de defensa de la competencia, que URSEC aplica en el sector."
+        },
+        "comp_omv": {
+          "estado": "sin_dato",
+          "nota": "Solo Antel (50%), Movistar (27%) y Claro (23%) tienen líneas móviles (dic-2025); no se halló marco para OMV, solo un registro de revendedores."
+        },
+        "comp_interconexion": {
+          "estado": "si",
+          "nota": "Decreto 442/001: sin acuerdo, URSEC fija cargos orientados a costos (CILP); p. ej., la Res. 157/022 fijó la terminación en las redes de Antel.",
+          "fuente": "https://www.gub.uy/unidad-reguladora-servicios-comunicaciones/institucional/normativa/resolucion-n-157022-fijar-precio-terminacion-red-fija-antel-uniotel-sa",
+          "anio": 2001
+        },
+        "comp_fondo": {
+          "estado": "sin_dato",
+          "nota": "No se halló un fondo de servicio universal de telecomunicaciones; el único fondo sectorial es el del Servicio Postal Universal."
+        },
+        "comp_neutralidad": {
+          "estado": "sin_dato",
+          "nota": "No se halló ley ni reglamento de neutralidad de red."
+        }
+      }
+    },
+    "ciberseguridad": {
+      "resumen": "AGESIC conduce la política con la Estrategia Nacional de Ciberseguridad 2024-2030 y el CERTuy. La Ley 20.212 y el Decreto 66/025 obligan a entidades críticas, incluidas las de telecomunicaciones, a reportar incidentes en 24 horas. Uruguay está invitado al Convenio de Budapest, aún sin adherir.",
+      "instrumentos": [
+        {
+          "nombre": "Ley 20.212 (arts. 78–84) – Obligaciones de ciberseguridad y Registro Nacional de Incidentes",
+          "anio": 2023,
+          "tipo": "ley",
+          "url": "https://www.impo.com.uy/bases/leyes/20212-2023"
+        },
+        {
+          "nombre": "Decreto 66/025 – Reglamento de ciberseguridad y reporte de incidentes al CERTuy",
+          "anio": 2025,
+          "tipo": "decreto",
+          "url": "https://www.impo.com.uy/bases/decretos/66-2025"
+        },
+        {
+          "nombre": "Estrategia Nacional de Ciberseguridad 2024–2030",
+          "anio": 2024,
+          "tipo": "estrategia",
+          "url": "https://www.gub.uy/agencia-gobierno-electronico-sociedad-informacion-conocimiento/comunicacion/publicaciones/estrategia-nacional-ciberseguridad-2024-2030-0"
+        },
+        {
+          "nombre": "Ley 20.327 de Prevención y Represión de la Ciberdelincuencia",
+          "anio": 2024,
+          "tipo": "ley",
+          "url": "https://www.impo.com.uy/bases/leyes/20327-2024"
+        }
+      ],
+      "novedad": {
+        "fecha": "2025-02",
+        "texto": "Decreto 66/025: entidades críticas, incluidas las de telecomunicaciones, deben reportar incidentes al CERTuy en 24 h y adoptar el Marco de Ciberseguridad."
+      },
+      "indicadores": {
+        "ciber_estrategia": {
+          "estado": "si",
+          "nota": "Estrategia Nacional de Ciberseguridad 2024–2030, aprobada en dic-2024; su plan de acción 2026–2030 se valida a fines de 2026.",
+          "fuente": "https://www.gub.uy/agencia-gobierno-electronico-sociedad-informacion-conocimiento/comunicacion/publicaciones/estrategia-nacional-ciberseguridad-2024-2030-0",
+          "anio": 2024
+        },
+        "ciber_ley": {
+          "estado": "parcial",
+          "nota": "Sin ley marco autónoma: la Ley 20.212 (2023, arts. 78–84) fija obligaciones a entidades críticas. La Ley 20.327 (2024) tipifica ciberdelitos.",
+          "fuente": "https://www.impo.com.uy/bases/leyes/20212-2023",
+          "anio": 2023
+        },
+        "ciber_csirt": {
+          "estado": "si",
+          "nota": "CERTuy, en AGESIC, creado por la Ley 18.362 (2008); coordina la respuesta a incidentes y recibe los reportes obligatorios.",
+          "fuente": "https://www.gub.uy/centro-nacional-respuesta-incidentes-seguridad-informatica/",
+          "anio": 2008
+        },
+        "ciber_reporte": {
+          "estado": "si",
+          "nota": "Decreto 66/025: entidades críticas, con las telecomunicaciones incluidas, deben comunicar incidentes al CERTuy dentro de 24 horas.",
+          "fuente": "https://www.impo.com.uy/bases/decretos/66-2025",
+          "anio": 2025
+        },
+        "ciber_budapest": {
+          "estado": "parcial",
+          "nota": "Invitado a adherir por el Consejo de Europa; a julio de 2026 figura entre los Estados invitados, no como Parte.",
+          "fuente": "https://rm.coe.int/cyber-buda-benefits-1-julio-2026-es/48802c5c23"
+        }
+      }
+    },
+    "usuario": {
+      "resumen": "URSEC atiende reclamos de usuarios con audiencias entre las partes, controla el Registro Nacional No Llame (536.637 números a octubre de 2026) y supervisa la portabilidad móvil, vigente desde 2022. No hay un reglamento sectorial de derechos: rige la ley general de consumo.",
+      "instrumentos": [
+        {
+          "nombre": "Ley 17.250 de Relaciones de Consumo",
+          "anio": 2000,
+          "tipo": "ley",
+          "url": "https://www.impo.com.uy/bases/leyes/17250-2000"
+        },
+        {
+          "nombre": "Decreto 26/021 – Reglamento y cronograma de la Portabilidad Numérica",
+          "anio": 2021,
+          "tipo": "decreto",
+          "url": "https://www.impo.com.uy/bases/decretos/26-2021"
+        },
+        {
+          "nombre": "Decreto 132/022 – Registro Nacional No Llame",
+          "anio": 2022,
+          "tipo": "decreto",
+          "url": "https://www.impo.com.uy/bases/decretos/132-2022"
+        },
+        {
+          "nombre": "Decreto 115/003 – Reglamento de Licencias de Telecomunicaciones (art. 15: deberes ante usuarios)",
+          "anio": 2003,
+          "tipo": "decreto",
+          "url": "https://www.impo.com.uy/bases/decretos/115-2003"
+        }
+      ],
+      "novedad": null,
+      "indicadores": {
+        "usu_reglamento": {
+          "estado": "parcial",
+          "nota": "Sin reglamento sectorial: el Decreto 115/003 (art. 15) fija deberes de información, facturación y atención; además rige la Ley 17.250 de consumo.",
+          "fuente": "https://www.gub.uy/unidad-reguladora-servicios-comunicaciones/sites/unidad-reguladora-servicios-comunicaciones/files/documentos/publicaciones/COMPENDIO%20NORMATIVO.pdf",
+          "anio": 2003
+        },
+        "usu_reclamos": {
+          "estado": "si",
+          "nota": "Reclamo en línea ante URSEC: la empresa responde en 10 días hábiles y, si no hay acuerdo, se celebra una audiencia con intermediación de URSEC.",
+          "fuente": "https://www.gub.uy/unidad-reguladora-servicios-comunicaciones/institucional/preguntas-frecuentes/hago-quiero-acceder-audiencia-empresa-reclamada-ursec"
+        },
+        "usu_portabilidad": {
+          "estado": "si",
+          "nota": "Portabilidad móvil vigente desde enero de 2022 (Ley 19.889 y Decreto 26/021); URSEC publica informes periódicos.",
+          "fuente": "https://www.gub.uy/unidad-reguladora-servicios-comunicaciones/datos-y-estadisticas/estadisticas/informe-sobre-portabilidad-numerica-uruguay",
+          "anio": 2022
+        },
+        "usu_calidad": {
+          "estado": "sin_dato",
+          "nota": "URSEC consultó un Reglamento de Calidad de Servicio en 2020 (Res. 144/020); no se halló su aprobación ni mediciones publicadas."
+        },
+        "usu_nomolestar": {
+          "estado": "si",
+          "nota": "Registro Nacional No Llame (Ley 19.996, art. 181, y Decreto 132/022) a cargo de URSEC; 536.637 números inscritos a oct-2026.",
+          "fuente": "https://www.gub.uy/unidad-reguladora-servicios-comunicaciones/comunicacion/noticias/536-mil-usuarios-se-dieron-alta-registro-nacional-llame",
+          "anio": 2022
+        }
+      }
+    },
+    "emergentes": {
+      "resumen": "Antel, Movistar y Claro operan 5G (1.054 radiobases a fines de 2025). URSEC autorizó Starlink en 2024 y también figuran Kuiper y OneWeb. Hay Estrategia Nacional de IA 2024-2030 y, desde diciembre de 2025, un régimen de sandbox para proyectos de datos e IA.",
+      "instrumentos": [
+        {
+          "nombre": "Estrategia Nacional de Inteligencia Artificial 2024–2030",
+          "anio": 2024,
+          "tipo": "estrategia",
+          "url": "https://www.gub.uy/agencia-gobierno-electronico-sociedad-informacion-conocimiento/comunicacion/publicaciones/estrategia-nacional-inteligencia-artificial-2024-2030"
+        },
+        {
+          "nombre": "Decreto 276/025 – Entornos controlados de prueba (sandbox) y espacios de datos",
+          "anio": 2025,
+          "tipo": "decreto",
+          "url": "https://www.impo.com.uy/bases/decretos/276-2025"
+        },
+        {
+          "nombre": "Resolución URSEC 84/024 – Licencia y autorización de la red satelital de Starlink",
+          "anio": 2024,
+          "tipo": "resolucion",
+          "url": "https://www.gub.uy/unidad-reguladora-servicios-comunicaciones/institucional/normativa/resolucion-n-84024-otorgar-starlink-uruguay-srl-licencia-telecomunicaciones"
+        }
+      ],
+      "novedad": {
+        "fecha": "2025-12",
+        "texto": "El Decreto 276/025 creó los entornos controlados de prueba (sandbox) para proyectos de datos e IA; su comité técnico se instaló en enero de 2026."
+      },
+      "indicadores": {
+        "tec_sandbox": {
+          "estado": "parcial",
+          "nota": "Decreto 276/025 creó entornos controlados de prueba para datos e IA, con comité técnico instalado en 2026; no es específico de telecomunicaciones.",
+          "fuente": "https://www.gub.uy/agencia-gobierno-electronico-sociedad-informacion-conocimiento/comunicacion/publicaciones/son-entornos-controlados-prueba",
+          "anio": 2025
+        },
+        "tec_5g": {
+          "estado": "si",
+          "nota": "Antel, Movistar y Claro operan 5G: 1.054 radiobases a dic-2025 (Antel 799, Movistar 173, Claro 82), según URSEC.",
+          "fuente": "https://www.gub.uy/unidad-reguladora-servicios-comunicaciones/sites/unidad-reguladora-servicios-comunicaciones/files/2026-07/informe_telecom_14_7_2_0.pdf"
+        },
+        "tec_iot": {
+          "estado": "sin_dato",
+          "nota": "URSEC reporta líneas M2M en sus informes de mercado, pero no se halló un marco o plan específico para IoT."
+        },
+        "tec_satelital": {
+          "estado": "si",
+          "nota": "La Res. URSEC 84/024 autorizó a Starlink; Kuiper y OneWeb también figuran en la nómina de redes no geoestacionarias (jul-2026).",
+          "fuente": "https://www.gub.uy/unidad-reguladora-servicios-comunicaciones/institucional/normativa/resolucion-n-84024-otorgar-starlink-uruguay-srl-licencia-telecomunicaciones",
+          "anio": 2024
+        },
+        "tec_ia": {
+          "estado": "si",
+          "nota": "Estrategia Nacional de IA 2024–2030, aprobada en nov-2024; en 2025 Uruguay firmó el Convenio Marco del Consejo de Europa sobre IA.",
+          "fuente": "https://www.gub.uy/agencia-gobierno-electronico-sociedad-informacion-conocimiento/comunicacion/publicaciones/estrategia-nacional-inteligencia-artificial-2024-2030",
+          "anio": 2024
+        }
+      }
+    },
+    "infraestructura": {
+      "resumen": "Reglas mínimas: el reglamento de licencias exige condiciones no discriminatorias cuando los operadores comparten postes, torres o ductos, y un decreto-ley de 1975 da servidumbre gratuita a las instalaciones de telecomunicaciones. No se hallaron normas de roaming nacional, edificios o permisos.",
+      "instrumentos": [
+        {
+          "nombre": "Decreto 115/003 – Reglamento de Licencias de Telecomunicaciones (art. 5: uso compartido no discriminatorio)",
+          "anio": 2003,
+          "tipo": "decreto",
+          "url": "https://www.impo.com.uy/bases/decretos/115-2003"
+        },
+        {
+          "nombre": "Decreto-Ley 14.442 – Servidumbres para el servicio de telecomunicaciones",
+          "anio": 1975,
+          "tipo": "ley",
+          "url": "https://www.impo.com.uy/bases/decretos-ley/14442-1975"
+        }
+      ],
+      "novedad": null,
+      "indicadores": {
+        "inf_pasiva": {
+          "estado": "parcial",
+          "nota": "Decreto 115/003 (art. 5): el uso compartido de postes, torres, ductos o terrenos entre operadores debe pactarse sin discriminación; no es obligatorio.",
+          "fuente": "https://www.gub.uy/unidad-reguladora-servicios-comunicaciones/sites/unidad-reguladora-servicios-comunicaciones/files/documentos/publicaciones/COMPENDIO%20NORMATIVO.pdf",
+          "anio": 2003
+        },
+        "inf_electrica": {
+          "estado": "sin_dato",
+          "nota": "No se halló regulación del uso de redes eléctricas, viales o de agua para desplegar telecomunicaciones."
+        },
+        "inf_permisos": {
+          "estado": "sin_dato",
+          "nota": "Solo rige la servidumbre gratuita del Decreto-Ley 14.442 (1975); no se hallaron reglas nacionales para agilizar permisos de despliegue."
+        },
+        "inf_roaming": {
+          "estado": "sin_dato",
+          "nota": "No se halló regulación de roaming nacional; Uruguay sí ratificó el acuerdo Mercosur que elimina cargos de roaming internacional (Ley 19.897)."
+        },
+        "inf_edificios": {
+          "estado": "sin_dato",
+          "nota": "No se halló norma nacional sobre infraestructura de telecomunicaciones en edificios."
+        }
+      }
+    },
+    "emergencia": {
+      "resumen": "El 911 del Ministerio del Interior es el número nacional de emergencias y URSEC sanciona las llamadas falsas (Ley 19.889). Uruguay ratificó el Convenio de Tampere en 2012. No se halló un sistema de alertas a celulares ni un plan de continuidad de redes.",
+      "instrumentos": [
+        {
+          "nombre": "Ley 19.889 (art. 103) – Sanciones por llamadas indebidas al Servicio de Emergencia 911",
+          "anio": 2020,
+          "tipo": "ley",
+          "url": "https://www.impo.com.uy/bases/leyes/19889-2020"
+        },
+        {
+          "nombre": "Decreto 271/021 – Sanciones de URSEC por llamadas maliciosas o falsas al 911",
+          "anio": 2021,
+          "tipo": "decreto",
+          "url": "https://www.impo.com.uy/bases/decretos/271-2021"
+        },
+        {
+          "nombre": "Ley 18.621 – Sistema Nacional de Emergencias",
+          "anio": 2009,
+          "tipo": "ley",
+          "url": "https://www.impo.com.uy/bases/leyes/18621-2009"
+        }
+      ],
+      "novedad": null,
+      "indicadores": {
+        "eme_alerta": {
+          "estado": "sin_dato",
+          "nota": "No se halló un sistema de alertas a celulares; el Sinae informa que difunde las alertas por su web y redes sociales."
+        },
+        "eme_numero": {
+          "estado": "si",
+          "nota": "Servicio de Emergencia 911 del Ministerio del Interior (Centro de Comando Unificado); la Ley 19.889 (art. 103) sanciona su uso indebido.",
+          "fuente": "https://www.gub.uy/ministerio-interior/tramites-y-servicios/servicios/emergencia-9-1-1"
+        },
+        "eme_plan": {
+          "estado": "sin_dato",
+          "nota": "No se halló plan o reglamento de continuidad de redes; el Decreto 115/003 solo obliga a informar a URSEC las fallas mayores."
+        },
+        "eme_prioridad": {
+          "estado": "sin_dato",
+          "nota": "El Decreto 442/001 garantiza el acceso a servicios de emergencia desde todas las redes; no se halló norma de gratuidad o prioridad."
+        },
+        "eme_tampere": {
+          "estado": "si",
+          "nota": "Firmó el 13-5-2003 y ratificó el 19-4-2012 (UN Treaty Collection, cap. XXV-4).",
+          "fuente": "https://treaties.un.org/Pages/ViewDetails.aspx?src=TREATY&mtdsg_no=XXV-4&chapter=25&clang=_en",
+          "anio": 2012
+        }
+      }
+    },
+    "homologacion": {
+      "resumen": "Todo transmisor radioeléctrico debe homologarse ante URSEC antes de venderse u operar. El trámite es en línea por la VUCE y la lista de equipos homologados es pública. El reglamento permite aceptar homologaciones extranjeras y ensayos de laboratorios acreditados.",
+      "instrumentos": [
+        {
+          "nombre": "Decreto 114/003 (arts. 33–34) – Homologación de equipos transmisores",
+          "anio": 2003,
+          "tipo": "decreto",
+          "url": "https://www.gub.uy/unidad-reguladora-servicios-comunicaciones/sites/unidad-reguladora-servicios-comunicaciones/files/2021-11/Decreto%20114-2003.pdf"
+        },
+        {
+          "nombre": "Decreto 115/003 (arts. 20–22) – Homologación de equipos de telecomunicaciones",
+          "anio": 2003,
+          "tipo": "decreto",
+          "url": "https://www.impo.com.uy/bases/decretos/115-2003"
+        },
+        {
+          "nombre": "Resolución URSEC 297/021 – Ingreso sin intervención previa de dispositivos Wi-Fi y Bluetooth",
+          "anio": 2021,
+          "tipo": "resolucion",
+          "url": "https://www.gub.uy/unidad-reguladora-servicios-comunicaciones/institucional/normativa/resolucion-n-297021-ampliacion-resolucion-ursec-n-275021"
+        }
+      ],
+      "novedad": null,
+      "indicadores": {
+        "hom_obligatoria": {
+          "estado": "si",
+          "nota": "Decreto 114/003 (art. 33): todo transmisor radioeléctrico debe estar homologado por URSEC antes de comercializarse u operar en Uruguay.",
+          "fuente": "https://www.gub.uy/unidad-reguladora-servicios-comunicaciones/sites/unidad-reguladora-servicios-comunicaciones/files/2021-11/Decreto%20114-2003.pdf",
+          "anio": 2003
+        },
+        "hom_reconocimiento": {
+          "estado": "parcial",
+          "nota": "Decreto 114/003 (arts. 33–34): URSEC puede avalar homologaciones extranjeras y ensayos de laboratorios acreditados bajo ARM; es facultativo.",
+          "fuente": "https://www.gub.uy/unidad-reguladora-servicios-comunicaciones/sites/unidad-reguladora-servicios-comunicaciones/files/2021-11/Decreto%20114-2003.pdf",
+          "anio": 2003
+        },
+        "hom_imei": {
+          "estado": "sin_dato",
+          "nota": "No se halló norma de bloqueo por IMEI; la Ley 19.149 (2013) solo obliga a registrar a los titulares de líneas móviles."
+        },
+        "hom_enlinea": {
+          "estado": "si",
+          "nota": "El certificado de homologación se solicita y paga en línea en la VUCE; URSEC tiene un plazo máximo de 120 días.",
+          "fuente": "https://www.gub.uy/tramites/certificado-homologacion-equipamiento-radioelectrico"
+        },
+        "hom_lista": {
+          "estado": "si",
+          "nota": "Consulta pública en la VUCE de dispositivos homologados y en proceso de homologación, enlazada desde el sitio de URSEC.",
+          "fuente": "https://vuce.gub.uy/consulta-de-productos-homologados-ursec/"
+        }
+      }
+    }
+  },
+  "cambiosDetectados": [
+    "La ficha anterior contenía 'datos de ejemplo' sin fuentes; se reemplazó por 40 indicadores revisados en fuentes oficiales (15 quedan sin dato).",
+    "Competencia: el texto solo citaba la portabilidad; se agregan la interconexión regulada por URSEC y la apertura de internet a cableoperadores (Ley 20.383).",
+    "Portabilidad: se precisa que rige desde enero de 2022 (Ley 19.889 y Decreto 26/021).",
+    "Ciberseguridad: el texto genérico se sustituyó por la Ley 20.212, el Decreto 66/025 (reporte en 24 h), la Estrategia 2024-2030 y el CERTuy.",
+    "Emergentes: 5G ya no está 'en desarrollo': hay redes comerciales tras la subasta de 3,5 GHz de 2023, y Starlink está autorizado desde 2024.",
+    "Infraestructura: no se halló respaldo para que URSEC 'promueva' la compartición; solo rige un principio de no discriminación (Decreto 115/003).",
+    "Emergencias: las 'frecuencias dedicadas' no se verificaron; se documentan el 911 y la ratificación del Convenio de Tampere (2012).",
+    "Además, el catálogo de regulatel.org asigna a URSEC documentos de CONATEL (Venezuela) y un enlace al INDOTEL: no corresponden a Uruguay."
+  ],
+  "verificadoEn": "2026-11-11",
+  "confianza": "media"
+}

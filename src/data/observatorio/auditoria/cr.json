@@ -1,0 +1,402 @@
+{
+  "iso": "cr",
+  "pais": "Costa Rica",
+  "revisado": "2026-11-11",
+  "documentos": [
+    {
+      "titulo": "Propuesta de Cronograma de Asignación de Espectro (CAE)",
+      "url": "https://www.sutel.go.cr/pagina/frecuencias-servicios-moviles?page=0",
+      "categoriaOriginal": "Espectro radioeléctrico",
+      "origen": "catalogo",
+      "tema": "espectro",
+      "estado": "vigente",
+      "nota": "Página vigente y al día: incluye la propuesta de actualización del CAE para IMT (10758-SUTEL-DGC-2025, 20/11/2025) y el oficio 00926-SUTEL-DGC-2026 (feb-2026) para un nuevo concurso."
+    },
+    {
+      "titulo": "Reforma al Plan Nacional de Atribución de Frecuencias (PNAF)",
+      "url": "http://www.pgrweb.go.cr/scij/Busqueda/Normativa/Normas/nrm_texto_completo.aspx?param1=NRTC&nValor1=1&nValor2=94214&nValor3=125381&strTipM=TC",
+      "categoriaOriginal": "Espectro radioeléctrico",
+      "origen": "catalogo",
+      "tema": "espectro",
+      "estado": "sustituido",
+      "nota": "El Decreto 42924 (2021) reformaba el PNAF 35257-MINAET, derogado por el nuevo PNAF 44010-MICITT (2023), luego reformado por 44789 (2024) y 45769-MICITT (Gaceta 29/04/2026).",
+      "urlNueva": "https://www.sutel.go.cr/sites/default/files/normativas/pnaf-44010-micitt-y-sus-reformas_29-04-2026.pdf",
+      "tituloNuevo": "Plan Nacional de Atribución de Frecuencias (PNAF), Decreto 44010-MICITT y sus reformas (texto actualizado al 29-04-2026)",
+      "anioNuevo": 2026
+    },
+    {
+      "titulo": "Consultar banda libre",
+      "url": "https://homologacion.sutel.go.cr/zf_ConsultaPublica/Index/bandalibre",
+      "categoriaOriginal": "Espectro radioeléctrico",
+      "origen": "catalogo",
+      "tema": "espectro",
+      "estado": "vigente",
+      "nota": "Consulta pública de equipos de banda libre homologados en el portal de homologación de SUTEL; responde y está operativa."
+    },
+    {
+      "titulo": "Recomendaciones de recuperación y asignación de espectro radioeléctrico",
+      "url": "https://sutel.go.cr/pagina/concurso-espectro-5g",
+      "categoriaOriginal": "Espectro radioeléctrico",
+      "origen": "catalogo",
+      "tema": "espectro",
+      "estado": "vigente",
+      "nota": "Expediente del concurso 5G 2024LY-000001-SUTEL al día: adjudicación (Alcance 51, 24/04/2025) y readjudicación de 700 MHz a Coopelesca (Alcance 137, oct-2025)."
+    },
+    {
+      "titulo": "Ley General de Telecomunicaciones (Ley 8642)",
+      "url": "https://www.sutel.go.cr/sites/default/files/normativas/ley_general_de_telecomunicaciones.pdf",
+      "categoriaOriginal": "Competencia económica",
+      "origen": "catalogo",
+      "tema": "competencia",
+      "estado": "actualizado",
+      "nota": "El PDF de SUTEL solo integra reformas hasta 2012: omite Ley 9597 (2018), Ley 9736 (2019, arts. 52-58 de competencia) y Ley 10415 (2023). Texto vigente en SINALEVI.",
+      "urlNueva": "https://sinalevi.go.cr/ResultadosNormativa/Informacion?param1=63431&param2=&param3=1&param4=",
+      "tituloNuevo": "Ley General de Telecomunicaciones N° 8642, texto vigente consolidado (SINALEVI, última reforma Ley 10415 de 2023)",
+      "anioNuevo": 2023
+    },
+    {
+      "titulo": "Ley de Fortalecimiento de las Autoridades de Competencia (Ley 9736)",
+      "url": "https://www.sutel.go.cr/normativas-competencia",
+      "categoriaOriginal": "Competencia económica",
+      "origen": "catalogo",
+      "tema": "competencia",
+      "estado": "vigente",
+      "nota": "Página vigente: publica la Ley 9736, su reglamento y el Reglamento del Régimen Sectorial de Competencia en Telecomunicaciones (Alcance 93, 23-05-2023)."
+    },
+    {
+      "titulo": "Ley de Promoción de la Competencia y Defensa Efectiva del Consumidor (Ley 7472)",
+      "url": "https://www.pgrweb.go.cr/scij/Busqueda/Normativa/Normas/nrm_texto_completo.aspx?nValor1=1&nValor2=26481",
+      "categoriaOriginal": "Competencia económica",
+      "origen": "catalogo",
+      "tema": "competencia",
+      "estado": "vigente",
+      "nota": "El enlace PGR redirige a SINALEVI con el texto vigente de la Ley 7472 (versión 23, última reforma por Ley 10889 de 23/03/2026)."
+    },
+    {
+      "titulo": "Estudios de mercado en materia de competencia económica",
+      "url": "https://www.sutel.go.cr/estudios-mercado",
+      "categoriaOriginal": "Competencia económica",
+      "origen": "catalogo",
+      "tema": "competencia",
+      "estado": "vigente",
+      "nota": "Página vigente con los estudios de mercado de SUTEL descargables (referencias 2025-2026)."
+    },
+    {
+      "titulo": "Guías de competencia",
+      "url": "https://www.sutel.go.cr/guias-competencia",
+      "categoriaOriginal": "Competencia económica",
+      "origen": "catalogo",
+      "tema": "competencia",
+      "estado": "vigente",
+      "nota": "Página vigente y operativa con las guías de competencia publicadas por SUTEL."
+    },
+    {
+      "titulo": "Reglamento sobre el régimen de protección al usuario final (RPUF)",
+      "url": "https://www.imprentanacional.go.cr/pub/2022/09/22/ALCA200_22_09_2022.pdf",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "vigente",
+      "nota": "RPUF 2022 (Alcance 200, Gaceta 180, 22/09/2022) rige desde 23/09/2023 y no tiene reformas según SINALEVI; SUTEL lo publica como vigente."
+    },
+    {
+      "titulo": "Reglamento de Prestación y Calidad de Servicios",
+      "url": "https://www.sutel.go.cr/sites/default/files/normativas/reglamento_prestacion_y_calidad_de_servicios.pdf",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "vigente",
+      "nota": "RPCS (Alcance 36, Gaceta 35, 17/02/2017) sigue vigente y sin reformas según SINALEVI; SUTEL lo mantiene en su normativa."
+    },
+    {
+      "titulo": "Plataforma Validación de Celulares",
+      "url": "https://pvc.sutel.go.cr/",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "enlace_roto",
+      "nota": "pvc.sutel.go.cr no responde desde fuera de CR (timeout y conexión rechazada desde varias redes, 11/11/2026; posible bloqueo geográfico). La página oficial de la PVC sigue activa y enlaza al sistema.",
+      "urlNueva": "https://www.sutel.go.cr/pagina/plataforma-de-validacion-de-celulares-pvc",
+      "tituloNuevo": "Plataforma de Validación de Celulares (PVC), página oficial de SUTEL"
+    },
+    {
+      "titulo": "Consulta Contratos de Adhesión",
+      "url": "https://www.sutel.go.cr/contratos-adhesion",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "vigente",
+      "nota": "Página vigente de consulta de los contratos de adhesión homologados por SUTEL."
+    },
+    {
+      "titulo": "Evaluación nacional calidad de redes móviles",
+      "url": "https://sutel.go.cr/pagina/redes-moviles-celulares",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "vigente",
+      "nota": "Página vigente con los informes de calidad de redes móviles, incluidos Mediciones 2025 e Informe de Redes 5G del I semestre 2026."
+    },
+    {
+      "titulo": "Encuestas percepción calidad servicios",
+      "url": "https://sutel.go.cr/pagina/percepcion-de-los-usuarios",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "vigente",
+      "nota": "Página vigente con las encuestas de percepción de calidad; incluye el Informe de Percepción 2026."
+    },
+    {
+      "titulo": "Mapa con resultados de la evaluación de la calidad de servicios fijos y móviles",
+      "url": "https://calidad.sutel.go.cr/",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "vigente",
+      "nota": "El visor de calidad de SUTEL (MeduxMaps) responde; es una aplicación web interactiva."
+    },
+    {
+      "titulo": "Evaluación nacional calidad del servicio de acceso a Internet fijo",
+      "url": "https://sutel.go.cr/pagina/redes-fijas-internet-fijo",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "vigente",
+      "nota": "Página vigente con la Evaluación Nacional del servicio de Internet Fijo, hasta la edición 2025."
+    },
+    {
+      "titulo": "Guía para presentar reclamaciones",
+      "url": "https://sutel.go.cr/pagina/guia-para-interponer-reclamos",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "vigente",
+      "nota": "Página vigente con la guía de SUTEL para interponer reclamos."
+    },
+    {
+      "titulo": "Programas del Fondo Nacional de Telecomunicaciones (Fonatel)",
+      "url": "https://www.sutel.go.cr/pagina/que-es-fonatel",
+      "categoriaOriginal": "Accesibilidad",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "vigente",
+      "nota": "Página institucional vigente sobre FONATEL y sus programas."
+    },
+    {
+      "titulo": "Avance de los programas del Fonatel",
+      "url": "https://www.sutel.go.cr/pagina/avance-de-los-proyectos-de-fonatel",
+      "categoriaOriginal": "Accesibilidad",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "vigente",
+      "nota": "Página vigente con el avance de FONATEL (información al 30 de junio de 2026, compromisos 2026-2030)."
+    },
+    {
+      "titulo": "Principio de Neutralidad Tecnológica de la Ley General de Telecomunicaciones",
+      "url": "http://www.pgrweb.go.cr/SCIJ/Busqueda/Normativa/Normas/nrm_texto_completo.aspx?nValor1=1&nValor2=26314",
+      "categoriaOriginal": "Tecnologías emergentes",
+      "origen": "catalogo",
+      "tema": "emergentes",
+      "estado": "enlace_roto",
+      "nota": "El enlace abre la Ley 7593 (ARESEP), válida para 'Obligaciones de SUTEL' (art. 60), no la LGT: la neutralidad tecnológica está en el art. 3 h) de la Ley 8642.",
+      "urlNueva": "https://sinalevi.go.cr/ResultadosNormativa/Informacion?param1=63431&param2=&param3=1&param4=",
+      "tituloNuevo": "Ley General de Telecomunicaciones N° 8642, art. 3 h) Neutralidad tecnológica (texto vigente, SINALEVI)",
+      "anioNuevo": 2023
+    },
+    {
+      "titulo": "Reglamento sobre el uso compartido de infraestructura para el soporte de redes públicas de telecomunicaciones",
+      "url": "http://www.pgrweb.go.cr/scij/Busqueda/Normativa/Normas/nrm_texto_completo.aspx?param1=NRTC&nValor1=1&nValor2=85283&nValor3=110234&strTipM=TC",
+      "categoriaOriginal": "Compartición de infraestructura",
+      "origen": "catalogo",
+      "tema": "infraestructura",
+      "estado": "vigente",
+      "nota": "Reglamento ARESEP de 2017 (Alcance 270, Gaceta 214) sigue vigente y sin reformas según SINALEVI; SUTEL lo mantiene en su normativa."
+    },
+    {
+      "titulo": "Solicitud de la oferta de uso compartido de infraestructura por referencia (OUC) (RCS-313-2020)",
+      "url": "https://www.sutel.go.cr/sites/default/files/03770-sutel-dgm-2025.-oficio-solicitud-ouc.pdf",
+      "categoriaOriginal": "Compartición de infraestructura",
+      "origen": "catalogo",
+      "tema": "infraestructura",
+      "estado": "vigente",
+      "nota": "Oficio 03770-SUTEL-DGM-2025 (06/05/2025) sobre la solicitud de OUC según RCS-313-2020 y la metodología RCS-025-2025; vigente."
+    },
+    {
+      "titulo": "Registro Nacional de Telecomunicaciones",
+      "url": "https://consultarntplus.sutel.go.cr/",
+      "categoriaOriginal": "Compartición de infraestructura",
+      "origen": "catalogo",
+      "tema": "infraestructura",
+      "estado": "vigente",
+      "nota": "La consulta pública del Registro Nacional de Telecomunicaciones (RNT) está operativa."
+    },
+    {
+      "titulo": "Metodología para el cálculo de los precios por uso compartido de infraestructura de postería",
+      "url": "https://www.sutel.go.cr/sites/default/files/rcs-025-2025.pdf)",
+      "categoriaOriginal": "Compartición de infraestructura",
+      "origen": "catalogo",
+      "tema": "infraestructura",
+      "estado": "enlace_roto",
+      "nota": "La URL termina en ')' y da 404; sin ese carácter el PDF existe. RCS-025-2025 (Alcance 25, Gaceta 37, 25/02/2025) es la metodología vigente.",
+      "urlNueva": "https://www.sutel.go.cr/sites/default/files/rcs-025-2025.pdf",
+      "tituloNuevo": "RCS-025-2025 Metodología para el cálculo de los cargos por uso compartido de infraestructura de postería",
+      "anioNuevo": 2025
+    },
+    {
+      "titulo": "Ofertas de Uso Compartido de Infraestructura",
+      "url": "https://www.sutel.go.cr/sites/default/files/rcs-005-2026---resolucion-de-aprobacion-ouc-coopelesca.pdf , https://www.sutel.go.cr/sites/default/files/rcs-293-2025---resolucion-ouc-jasec.pdf",
+      "categoriaOriginal": "Compartición de infraestructura",
+      "origen": "catalogo",
+      "tema": "infraestructura",
+      "estado": "enlace_roto",
+      "nota": "El campo une dos URL con una coma y da 404. Por separado ambas funcionan: RCS-005-2026 (OUC de Coopelesca) y RCS-293-2025 (OUC de JASEC).",
+      "urlNueva": "https://www.sutel.go.cr/sites/default/files/rcs-005-2026---resolucion-de-aprobacion-ouc-coopelesca.pdf",
+      "tituloNuevo": "RCS-005-2026 Aprobación de la OUC de Coopelesca (ver también RCS-293-2025, OUC de JASEC)",
+      "anioNuevo": 2026
+    },
+    {
+      "titulo": "Sistema de Información Geográfica sobre Infraestructura Pasiva de telecomunicaciones",
+      "url": "https://sig.sutel.go.cr/connect/analyst/mobile/#/main",
+      "categoriaOriginal": "Compartición de infraestructura",
+      "origen": "catalogo",
+      "tema": "infraestructura",
+      "estado": "no_verificable",
+      "nota": "sig.sutel.go.cr no responde (timeout y conexión rechazada desde varias redes, 11/11/2026), aunque SUTEL aún lo enlaza en su menú como 'Ubicación de infraestructura'. Verificar desde Costa Rica."
+    },
+    {
+      "titulo": "Reglamento a la Ley N°10216  “Reglamento a la Ley para incentivar y promover la construcción de infraestructura de telecomunicaciones en Costa Rica, sobre los procedimientos y especificaciones técnicas de la infraestructura de telecomunicaciones",
+      "url": "https://pgrweb.go.cr/scij/Busqueda/Normativa/Normas/nrm_texto_completo.aspx?param1=NRTC&nValor1=1&nValor2=101300&nValor3=139345&strTipM=TC.)",
+      "categoriaOriginal": "Compartición de infraestructura",
+      "origen": "catalogo",
+      "tema": "infraestructura",
+      "estado": "vigente",
+      "nota": "Decreto 44335-MICITT (Alcance 13, Gaceta 14, 25/01/2024) vigente y sin reformas; muchas municipalidades se adhirieron en 2024-2026."
+    },
+    {
+      "titulo": "Artículo 122 Reglamento a la Ley General de Telecomunicaciones",
+      "url": "https://www.sutel.go.cr/sites/default/files/normativas/reglamento_a_la_ley_general_de_telecomunicaciones_decreto_ejecutivo_34765-minaet_y_sus_reformas.pdf",
+      "categoriaOriginal": "Telecomunicaciones de emergencia",
+      "origen": "catalogo",
+      "tema": "emergencia",
+      "estado": "actualizado",
+      "nota": "El PDF de SUTEL es una compilación anterior a 2017 con el art. 122 viejo. El Decreto 41913 (2019) lo reemplazó por 'Sistema de alerta de emergencias'; hay reformas hasta 2026.",
+      "urlNueva": "https://sinalevi.go.cr/ResultadosNormativa/Informacion?param1=64029&param2=&param3=1&param4=",
+      "tituloNuevo": "Reglamento a la Ley General de Telecomunicaciones (Decreto 34765-MINAET), art. 122 'Sistema de alerta de emergencias', texto vigente (SINALEVI, versión 13 del 19/03/2026)",
+      "anioNuevo": 2026
+    },
+    {
+      "titulo": "Artículo 62 Reglamento de Acceso e Interconexión de Redes de telecomunicaciones",
+      "url": "https://www.sutel.go.cr/sites/default/files/normativas/reglamento_de_acceso_e_interconexion_de_redes_de_telecomunicaciones_0.pdf",
+      "categoriaOriginal": "Telecomunicaciones de emergencia",
+      "origen": "catalogo",
+      "tema": "emergencia",
+      "estado": "vigente",
+      "nota": "PDF del RAI vigente (RE-0080-JD-2023, Alcance 129, 06/07/2023), que derogó el de 2008. Su art. 62 es hoy fuerza mayor; las comunicaciones de emergencia (antiguo art. 62) pasaron al art. 42 inc. 11."
+    },
+    {
+      "titulo": "Plan Nacional de Numeración",
+      "url": "https://www.sutel.go.cr/sites/default/files/normativas/plan_nacional_de_numeracion_0.pdf",
+      "categoriaOriginal": "Telecomunicaciones de emergencia",
+      "origen": "catalogo",
+      "tema": "emergencia",
+      "estado": "vigente",
+      "nota": "El PDF es la reforma integral del PNN (Decreto 40943-MICITT, Alcance 63, Gaceta 55, 23/03/2018), sin reformas posteriores según SINALEVI."
+    },
+    {
+      "titulo": "Modificación del procedimiento de homologación de terminales de telecomunicaciones móviles (RCS-358-2018)",
+      "url": "https://www.sutel.go.cr/sites/default/files/rcs-358-2018-_procedimiento_de_homologacion_de_terminales_moviles_gaceta_0.pdf",
+      "categoriaOriginal": "Homologación de productos y dispositivos",
+      "origen": "catalogo",
+      "tema": "homologacion",
+      "estado": "actualizado",
+      "nota": "RCS-216-2024 (14/11/2024) modificó parcialmente el procedimiento de RCS-358-2018 (incluye 5G y eSIM) y revocó RCS-141-2022 y RCS-242-2023.",
+      "urlNueva": "https://www.sutel.go.cr/sites/default/files/rcs-216-2024-actualizacion-del-procedimiento-de-homologacion-de-terminales.pdf",
+      "tituloNuevo": "RCS-216-2024 Actualización del procedimiento de homologación de terminales de telecomunicaciones móviles (RCS-358-2018)",
+      "anioNuevo": 2024
+    },
+    {
+      "titulo": "Procedimiento para solicitar ante la SUTEL la homologación de dispositivos que operen en las bandas de uso libre (RCS-154-2018)",
+      "url": "https://www.sutel.go.cr/sites/default/files/rcs-154-2018_procedimiento_de_homologacion_de_equipos_de_banda_libre_1_0.pdf",
+      "categoriaOriginal": "Homologación de productos y dispositivos",
+      "origen": "catalogo",
+      "tema": "homologacion",
+      "estado": "sustituido",
+      "nota": "RCS-245-2023 (Alcance 211, Gaceta 199, 27/10/2023) derogó totalmente RCS-154-2018 y fijó el nuevo procedimiento de banda libre; RCS-138-2026 añade el de 6 GHz con potencia estándar (AFC).",
+      "urlNueva": "https://www.sutel.go.cr/sites/default/files/RCS-245-2023-Resolucio%CC%81n%20de%20banda%20libre%20-%20ALCANCE%20N%C2%B0211%20a%20la%20GACETA%20N%C2%B0199%202.pdf",
+      "tituloNuevo": "RCS-245-2023 Procedimiento de solicitud de homologación de dispositivos que operan en las bandas de uso libre",
+      "anioNuevo": 2023
+    },
+    {
+      "titulo": "Actualización procedimiento y requisitos acreditación peritos equipos terminales móviles (RCS-286-2018)",
+      "url": "https://www.sutel.go.cr/sites/default/files/actualizacion_rcs-286-2018_procedimiento_para_la_acreditacion_de_peritos_2023.pdf",
+      "categoriaOriginal": "Homologación de productos y dispositivos",
+      "origen": "catalogo",
+      "tema": "homologacion",
+      "estado": "vigente",
+      "nota": "SUTEL mantiene la actualización 2023 de RCS-286-2018 como procedimiento vigente de acreditación de peritos (RCS-137-2026 regula aparte los peritos AFC)."
+    },
+    {
+      "titulo": "Homologación de equipos",
+      "url": "https://homologacion.sutel.go.cr/zf_ConsultaPublica/Index/indexprincipal",
+      "categoriaOriginal": "Homologación de productos y dispositivos",
+      "origen": "catalogo",
+      "tema": "homologacion",
+      "estado": "vigente",
+      "nota": "El portal de homologación de SUTEL está operativo (consultas de terminales móviles y de banda libre)."
+    },
+    {
+      "titulo": "Estadísticas del Sector Telecomunicaciones ",
+      "url": "https://www.sutel.go.cr/informes-indicadores",
+      "categoriaOriginal": "Bases de datos, estadísticas y datos del sector",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "vigente",
+      "nota": "Página vigente; incluye el Informe de Estadísticas del Sector de Telecomunicaciones 2025 (también en inglés)."
+    },
+    {
+      "titulo": "Módulo sobre Acceso y Uso de TIC en la Encuesta Nacional de Hogares ",
+      "url": "https://www.sutel.go.cr/pagina/encuesta-nacional-hogares-modulo-tic",
+      "categoriaOriginal": "Bases de datos, estadísticas y datos del sector",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "vigente",
+      "nota": "Página vigente con tablero Power BI del módulo TIC de la ENAHO 2019 y 2023 (INEC)."
+    },
+    {
+      "titulo": "Indicadores de Género",
+      "url": "https://www.sutel.go.cr/pagina/indicadores-genero-telecomunicaciones",
+      "categoriaOriginal": "Bases de datos, estadísticas y datos del sector",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "vigente",
+      "nota": "Página vigente con tablero Power BI de indicadores de género en telecomunicaciones."
+    },
+    {
+      "titulo": "Indicadores Internacionales",
+      "url": "https://sutel.go.cr/pagina/indicadores-internacionales-regulatel?_gl=1*1juz029*_ga*MTMyNzUxMTM2Mi4xNzUxNjYyOTI0*_ga_98Y5ZWJ3H2*czE3NzU3NDQ4MzUkbzkxJGcxJHQxNzc1NzQ3NzQ0JGo1MCRsMCRoMA..",
+      "categoriaOriginal": "Bases de datos, estadísticas y datos del sector",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "vigente",
+      "nota": "Página vigente con tablero Power BI de indicadores de Regulatel. La URL arrastra parámetros de seguimiento _gl que pueden eliminarse."
+    },
+    {
+      "titulo": "Informes de Mercados Cantonal",
+      "url": "https://sutel.go.cr/pagina/informes-de-mercados-reporte-cantonal",
+      "categoriaOriginal": "Bases de datos, estadísticas y datos del sector",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "vigente",
+      "nota": "Página vigente; el informe más reciente es el Reporte Cantonal de Telecomunicaciones 2024."
+    },
+    {
+      "titulo": "Informes Evolución Internet Fijo",
+      "url": "https://www.sutel.go.cr/pagina/evolucion-internet-fijo?_gl=1*wlyamy*_ga*MTMyNzUxMTM2Mi4xNzUxNjYyOTI0*_ga_98Y5ZWJ3H2*czE3NzU3NDQ4MzUkbzkxJGcxJHQxNzc1NzQ4MTA5JGo0NCRsMCRoMA..",
+      "categoriaOriginal": "Bases de datos, estadísticas y datos del sector",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "vigente",
+      "nota": "Página vigente, pero su informe específico es 'Evolución de Internet Fijo 2011-2022' (más infografía por distrito 2023). La URL arrastra parámetros _gl."
+    }
+  ]
+}

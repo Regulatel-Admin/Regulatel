@@ -1,0 +1,517 @@
+{
+  "iso": "sv",
+  "pais": "El Salvador",
+  "regulador": {
+    "sigla": "SIGET",
+    "nombre": "Superintendencia General de Telecomunicaciones",
+    "url": "https://www.siget.gob.sv",
+    "naturaleza": "Institución autónoma de servicio público, sin fines de lucro, con autonomía administrativa y financiera; desde el 16-jul-2026 regula solo telecomunicaciones (D.L. 619)"
+  },
+  "otrasAutoridades": [
+    {
+      "sigla": "MINEC",
+      "nombre": "Ministerio de Economía",
+      "rol": "Ramo de Gobierno al que se vincula la SIGET; promovió las reformas de 2026 que separaron electricidad y telecomunicaciones (D.L. 619 y 620)",
+      "url": "https://www.economia.gob.sv"
+    },
+    {
+      "sigla": "DGEHM",
+      "nombre": "Dirección General de Energía, Hidrocarburos y Minas",
+      "rol": "Desde el 16-jul-2026 ejerce la regulación eléctrica que antes tenía la SIGET (D.L. 620)",
+      "url": "https://www.dgehm.gob.sv"
+    },
+    {
+      "sigla": "SC",
+      "nombre": "Superintendencia de Competencia",
+      "rol": "Autoridad de competencia; autoriza las concentraciones económicas, también en telecomunicaciones",
+      "url": "https://www.sc.gob.sv"
+    },
+    {
+      "sigla": "DC",
+      "nombre": "Defensoría del Consumidor",
+      "rol": "Instancia alternativa a la SIGET para reclamos de usuarios de telecomunicaciones (Ley de Telecomunicaciones, art. 98)",
+      "url": "https://www.defensoria.gob.sv"
+    },
+    {
+      "sigla": "ACE",
+      "nombre": "Agencia de Ciberseguridad del Estado",
+      "rol": "Autoridad de ciberseguridad y de protección de datos personales (leyes de 2024); recibe reportes de incidentes 24/7",
+      "url": "https://www.ace.gob.sv"
+    },
+    {
+      "sigla": "ANIA",
+      "nombre": "Agencia Nacional de Inteligencia Artificial",
+      "rol": "Autoridad rectora en inteligencia artificial (Ley de Fomento a Inteligencia Artificial y Tecnologías, 2025)",
+      "url": "https://ania.gob.sv"
+    },
+    {
+      "sigla": "SI",
+      "nombre": "Secretaría de Innovación de la Presidencia",
+      "rol": "Coordina la Agenda Digital Nacional 2020–2030",
+      "url": "https://innovacion.gob.sv"
+    }
+  ],
+  "marcoLegal": {
+    "nombre": "Ley de Telecomunicaciones (Decreto Legislativo N.° 142)",
+    "anio": 1997,
+    "url": "https://www.transparencia.gob.sv/descarga_archivo.php?id=NjAxNTMx"
+  },
+  "resumenPais": "Mercado abierto con espectro transferible y topes a tarifas básicas y cargos de interconexión fijados por la SIGET, que desde julio de 2026 regula solo telecomunicaciones (la electricidad pasó a la DGEHM). Leyes de 2024 y 2025 crearon agencias de ciberseguridad (ACE) e inteligencia artificial (ANIA).",
+  "categorias": {
+    "espectro": {
+      "resumen": "La SIGET administra el Cuadro Nacional de Atribución de Frecuencias (actualizado en 2023) y la ley permite transferir, arrendar y fragmentar frecuencias. La banda de 6 GHz es de uso libre desde 2023. La licitación 5G seguía pendiente en 2026; Claro tiene una concesión temporal en 3,5 GHz.",
+      "instrumentos": [
+        {
+          "nombre": "Cuadro Nacional de Atribución de Frecuencias (CNAF), actualización T-0408-2023",
+          "anio": 2023,
+          "tipo": "plan",
+          "url": "https://www.siget.gob.sv/actualizacion-de-cuadro-nacional-de-atribucion-de-frecuencias-t-0408-2023/"
+        },
+        {
+          "nombre": "Ley de Telecomunicaciones, reforma D.L. 372 (gestión del espectro y mercado secundario, arts. 9-A a 9-C y 15)",
+          "anio": 2016,
+          "tipo": "ley",
+          "url": "https://www.transparencia.gob.sv/descarga_archivo.php?id=NjAxNTMx"
+        },
+        {
+          "nombre": "Resolución de la SIGET que abre la banda de 6 GHz (5925–7125 MHz) al uso libre (D.O. 10-jul-2023)",
+          "anio": 2023,
+          "tipo": "resolucion",
+          "url": "https://trade.gov/market-intelligence/el-salvador-ict-6ghz-spectrum"
+        },
+        {
+          "nombre": "Reglamento de la Ley de Telecomunicaciones (Decreto Ejecutivo N.° 84)",
+          "anio": 2011,
+          "tipo": "reglamento",
+          "url": "https://www.transparencia.gob.sv/descarga_archivo.php?id=NTkzMjI2"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-10",
+        "texto": "La Asamblea extendió al internet móvil por satélite la exoneración del precio base y la tasa anual del espectro, que antes solo cubría el satelital fijo."
+      },
+      "indicadores": {
+        "esp_cuadro": {
+          "estado": "si",
+          "nota": "CNAF administrado por la SIGET (art. 9-C de la ley); su última actualización conocida es la T-0408-2023.",
+          "fuente": "https://www.siget.gob.sv/actualizacion-de-cuadro-nacional-de-atribucion-de-frecuencias-t-0408-2023/",
+          "anio": 2023
+        },
+        "esp_5g": {
+          "estado": "parcial",
+          "nota": "Solo asignación temporal: Claro (CTE Telecom Personal) recibió una concesión temporal en 3,5 GHz (ene-2026); la licitación 5G seguía pendiente en jul-2026.",
+          "fuente": "https://www.transparencia.gob.sv/descarga_archivo.php?id=NjU1MzE2",
+          "anio": 2026
+        },
+        "esp_licitacion": {
+          "estado": "si",
+          "nota": "Subasta de 30 MHz en la banda AWS, convocada en dic-2022 y concluida en jul-2023: adjudicada a Telefónica (Movistar), único postor.",
+          "fuente": "https://dplnews.com/telefonica-gana-licitacion-aws-para-4g-en-el-salvador/",
+          "anio": 2023
+        },
+        "esp_6ghz": {
+          "estado": "si",
+          "nota": "1200 MHz (5925–7125 MHz) abiertos al uso libre por la SIGET (D.O. 10-jul-2023) para equipos Wi-Fi en interiores.",
+          "fuente": "https://trade.gov/market-intelligence/el-salvador-ict-6ghz-spectrum",
+          "anio": 2023
+        },
+        "esp_secundario": {
+          "estado": "si",
+          "nota": "Ley de Telecomunicaciones arts. 9-A y 15 (reforma 2016): frecuencias transferibles, arrendables y fragmentables con autorización de la SIGET.",
+          "fuente": "https://www.transparencia.gob.sv/descarga_archivo.php?id=NjAxNTMx",
+          "anio": 2016
+        }
+      }
+    },
+    "competencia": {
+      "resumen": "La SIGET fija cargos máximos de interconexión basados en costos y la ley garantiza la neutralidad de red desde 2019. No se halló una declaratoria de operador dominante. En septiembre de 2026 Digicel acordó vender su negocio a GIT, operador de Movistar; la operación requiere autorizaciones.",
+      "instrumentos": [
+        {
+          "nombre": "Ley de Telecomunicaciones, reforma D.L. 295 (tarifas y cargos máximos de interconexión, art. 8)",
+          "anio": 2010,
+          "tipo": "ley",
+          "url": "https://www.transparencia.gob.sv/descarga_archivo.php?id=NjAxNTMx"
+        },
+        {
+          "nombre": "Reglamento de la Ley de Telecomunicaciones (metodología de costos de interconexión)",
+          "anio": 2011,
+          "tipo": "reglamento",
+          "url": "https://www.transparencia.gob.sv/descarga_archivo.php?id=NTkzMjI2"
+        },
+        {
+          "nombre": "Ley de Competencia (D.L. 528), texto con reformas de 2021",
+          "anio": 2004,
+          "tipo": "ley",
+          "url": "https://www.sc.gob.sv/wp-content/uploads/2025/08/LeyCompetencia_2021.pdf"
+        },
+        {
+          "nombre": "Reformas a la Ley de Creación de la SIGET (D.L. 619, D.O. 8-jul-2026): regulador solo de telecomunicaciones",
+          "anio": 2026,
+          "tipo": "decreto",
+          "url": "https://www.transparencia.gob.sv/descarga_archivo.php?id=NjYyMDEy"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-09",
+        "texto": "Digicel acordó vender su negocio en El Salvador a GIT, operador de Movistar; el cierre, sujeto a autorizaciones regulatorias, se prevé en 2027."
+      },
+      "indicadores": {
+        "comp_psm": {
+          "estado": "parcial",
+          "nota": "La ley define al 'proveedor importante' (reforma de 2005) y le exige no discriminar en redes fijas; no se halló una declaratoria de poder de mercado.",
+          "fuente": "https://www.transparencia.gob.sv/descarga_archivo.php?id=NjAxNTMx",
+          "anio": 2005
+        },
+        "comp_omv": {
+          "estado": "sin_dato",
+          "nota": "La SIGET inscribe revendedores de servicios, pero no se halló un marco específico para OMV ni OMV en operación."
+        },
+        "comp_interconexion": {
+          "estado": "si",
+          "nota": "La SIGET fija cargos máximos de interconexión con base en costos (art. 8, reforma 2010); ofertas y contratos se inscriben y son públicos.",
+          "fuente": "https://www.transparencia.gob.sv/descarga_archivo.php?id=NjAxNTMx",
+          "anio": 2010
+        },
+        "comp_fondo": {
+          "estado": "sin_dato",
+          "nota": "Existe el FINET (1998, electricidad y telefonía), pero no se hallaron programas TIC recientes; desde jul-2026 su ley la aplica la DGEHM (D.L. 620)."
+        },
+        "comp_neutralidad": {
+          "estado": "si",
+          "nota": "Ley de Telecomunicaciones art. 30-C (D.L. 281 de 2019): los ISP no pueden bloquear, discriminar ni restringir contenidos legales.",
+          "fuente": "https://www.transparencia.gob.sv/descarga_archivo.php?id=NjAxNTMx",
+          "anio": 2019
+        }
+      }
+    },
+    "ciberseguridad": {
+      "resumen": "La Ley de Ciberseguridad de 2024 creó la Agencia de Ciberseguridad del Estado (ACE), que coordina la respuesta a incidentes y supervisa también la protección de datos personales. No se halló publicada la política nacional que la ley le encarga. El país no es parte del Convenio de Budapest.",
+      "instrumentos": [
+        {
+          "nombre": "Ley de Ciberseguridad y Seguridad de la Información (D.L. 143)",
+          "anio": 2024,
+          "tipo": "ley",
+          "url": "https://www.ace.gob.sv/page/documentos/decretos/decreto_143_ciberseguridad.pdf"
+        },
+        {
+          "nombre": "Ley para la Protección de Datos Personales (D.L. 144, reformada por D.L. 659 de 2026)",
+          "anio": 2024,
+          "tipo": "ley",
+          "url": "https://www.ace.gob.sv/page/documentos/decretos/decreto_144_proteccion_datos.pdf"
+        },
+        {
+          "nombre": "Agenda Digital Nacional 2020–2030 (eje de ciberseguridad)",
+          "anio": 2020,
+          "tipo": "plan",
+          "url": "https://innovacion.gob.sv/downloads/Agenda%20Digital.pdf"
+        }
+      ],
+      "novedad": {
+        "fecha": "2024-11",
+        "texto": "Las leyes de Ciberseguridad (D.L. 143) y de Protección de Datos (D.L. 144) crearon la ACE y obligan a notificar brechas de datos en 72 horas."
+      },
+      "indicadores": {
+        "ciber_estrategia": {
+          "estado": "parcial",
+          "nota": "No se halló una estrategia publicada: la Agenda Digital 2020–2030 prevé elaborarla y la Ley de 2024 encarga a la ACE la política nacional.",
+          "fuente": "https://www.ace.gob.sv/page/documentos/decretos/decreto_143_ciberseguridad.pdf",
+          "anio": 2024
+        },
+        "ciber_ley": {
+          "estado": "si",
+          "nota": "Ley de Ciberseguridad y Seguridad de la Información (D.L. 143, D.O. 15-nov-2024): crea la ACE; rige al Estado e infraestructura crítica.",
+          "fuente": "https://www.ace.gob.sv/page/documentos/decretos/decreto_143_ciberseguridad.pdf",
+          "anio": 2024
+        },
+        "ciber_csirt": {
+          "estado": "si",
+          "nota": "La ACE cumple funciones de CSIRT nacional: recibe reportes de incidentes 24/7, coordina la respuesta y publica alertas (p. ej., oct-2026).",
+          "fuente": "https://www.ace.gob.sv/",
+          "anio": 2024
+        },
+        "ciber_reporte": {
+          "estado": "parcial",
+          "nota": "Los operadores deben notificar brechas de datos a la ACE en 72 h (D.L. 144); el deber de reportar ciberincidentes rige al Estado e infraestructura crítica.",
+          "fuente": "https://www.ace.gob.sv/page/documentos/decretos/decreto_144_proteccion_datos.pdf",
+          "anio": 2024
+        },
+        "ciber_budapest": {
+          "estado": "no",
+          "nota": "No figura como Parte, firmante ni Estado invitado a adherirse en la lista oficial del Consejo de Europa (consulta del 11-nov-2026).",
+          "fuente": "https://www.coe.int/en/web/conventions/full-list?module=signatures-by-treaty&treatynum=185"
+        }
+      }
+    },
+    "usuario": {
+      "resumen": "Los derechos del usuario están en la propia Ley de Telecomunicaciones: reclamos ante el operador, la SIGET o la Defensoría del Consumidor, portabilidad gratuita y compensación por cortes. Un reglamento de calidad obliga a medir y publicar indicadores.",
+      "instrumentos": [
+        {
+          "nombre": "Ley de Telecomunicaciones: derechos de los usuarios y reclamos (arts. 29 a 30-C, 98 y 98-A; reforma D.L. 281)",
+          "anio": 2019,
+          "tipo": "ley",
+          "url": "https://www.transparencia.gob.sv/descarga_archivo.php?id=NjAxNTMx"
+        },
+        {
+          "nombre": "Reglamento de Calidad del Servicio Público de Telefonía y Transmisión de Datos",
+          "anio": 2018,
+          "tipo": "reglamento",
+          "url": "https://www.transparencia.gob.sv/descarga_archivo.php?id=MjYwNDYz"
+        },
+        {
+          "nombre": "Reglamento de Portabilidad Numérica",
+          "anio": 2014,
+          "tipo": "reglamento",
+          "url": "https://www.transparencia.gob.sv/descarga_archivo.php?id=ODY4MjQ="
+        },
+        {
+          "nombre": "Plan de Numeración Nacional (D.O. 29-sep-2025)",
+          "anio": 2025,
+          "tipo": "plan",
+          "url": "https://www.siget.gob.sv/gerencias/telecomunicaciones/informacion-para-operadores/telefonia/plan-de-numeracion/"
+        }
+      ],
+      "novedad": {
+        "fecha": "2025-09",
+        "texto": "Nuevo Plan de Numeración (D.O. 29-sep-2025): desde el 29-oct-2025 se asignan móviles con inicial 5 y hay reglas de inactividad y reasignación de números."
+      },
+      "indicadores": {
+        "usu_reglamento": {
+          "estado": "si",
+          "nota": "Sin reglamento aparte: la Ley de Telecomunicaciones (art. 29 y ss., reforma 2019) fija los derechos: información, reclamos, portabilidad, saldo sin vencimiento.",
+          "fuente": "https://www.transparencia.gob.sv/descarga_archivo.php?id=NjAxNTMx",
+          "anio": 2019
+        },
+        "usu_reclamos": {
+          "estado": "si",
+          "nota": "El usuario puede reclamar ante el operador, la SIGET o la Defensoría (art. 98); el Centro de Atención al Usuario de la SIGET publica sus cifras.",
+          "fuente": "https://www.transparencia.gob.sv/descarga_archivo.php?id=NjQzNDg3",
+          "anio": 2025
+        },
+        "usu_portabilidad": {
+          "estado": "si",
+          "nota": "Portabilidad fija y móvil sin costo: derecho en la ley (art. 29 j) y Reglamento de Portabilidad Numérica (D.O. 2014).",
+          "fuente": "https://www.transparencia.gob.sv/descarga_archivo.php?id=ODY4MjQ=",
+          "anio": 2014
+        },
+        "usu_calidad": {
+          "estado": "si",
+          "nota": "Reglamento de Calidad (2018) fija indicadores y obliga a la SIGET a publicar un informe semestral; ofrece el medidor 'Tu Velocidad'.",
+          "fuente": "https://www.transparencia.gob.sv/descarga_archivo.php?id=MjYwNDYz",
+          "anio": 2018
+        },
+        "usu_nomolestar": {
+          "estado": "sin_dato"
+        }
+      }
+    },
+    "emergentes": {
+      "resumen": "Tigo lanzó la primera red 5G del país a fines de 2025 y a octubre de 2026 llega a cerca del 25% de la población. La Ley de Fomento a la IA (2025) creó la ANIA, que publicó la Estrategia Nacional de IA 2026. Starlink opera en el país y conecta escuelas.",
+      "instrumentos": [
+        {
+          "nombre": "Ley de Fomento a Inteligencia Artificial y Tecnologías (D.L. 234)",
+          "anio": 2025,
+          "tipo": "ley",
+          "url": "https://ania.gob.sv/wp-content/themes/ania/assets/docs/ley-fomento-ia.pdf"
+        },
+        {
+          "nombre": "Estrategia Nacional de Inteligencia Artificial 2026 (ANIA)",
+          "anio": 2026,
+          "tipo": "estrategia",
+          "url": "https://ania.gob.sv/wp-content/themes/ania/assets/docs/estrategia-nacional-ia-2026.pdf"
+        },
+        {
+          "nombre": "Reglamento para la aplicación de la Ley de Fomento a Inteligencia Artificial y Tecnologías (incluye sandbox supervisado por la ANIA)",
+          "tipo": "reglamento",
+          "url": "https://ania.gob.sv/wp-content/themes/ania/assets/docs/reglamento-ley-ia.pdf"
+        },
+        {
+          "nombre": "Reglamento de la Ley de Telecomunicaciones, art. 116 (sistemas satelitales inscritos ante la SIGET)",
+          "anio": 2011,
+          "tipo": "reglamento",
+          "url": "https://www.transparencia.gob.sv/descarga_archivo.php?id=NTkzMjI2"
+        }
+      ],
+      "novedad": {
+        "fecha": "2025-03",
+        "texto": "Entró en vigor la Ley de Fomento a la IA y Tecnologías (D.L. 234), que creó la ANIA; en 2026 la ANIA publicó la Estrategia Nacional de IA."
+      },
+      "indicadores": {
+        "tec_sandbox": {
+          "estado": "parcial",
+          "nota": "Sin sandbox de la SIGET; en IA, la ley de 2025 protege las pruebas en sandbox y su Reglamento prevé un sandbox supervisado por la ANIA.",
+          "fuente": "https://ania.gob.sv/wp-content/themes/ania/assets/docs/reglamento-ley-ia.pdf",
+          "anio": 2025
+        },
+        "tec_5g": {
+          "estado": "si",
+          "nota": "Tigo lanzó la primera red 5G del país a fines de 2025; a oct-2026 llega a unos 1,5 millones de personas (cerca del 25% de la población).",
+          "fuente": "https://www.revistaeyn.com/empresasymanagement/tigo-alcanza-98-de-cobertura-45g-y-extiende-su-red-5g-al-25-de-el-salvador-GH32423072",
+          "anio": 2025
+        },
+        "tec_iot": {
+          "estado": "sin_dato"
+        },
+        "tec_satelital": {
+          "estado": "si",
+          "nota": "Starlink opera en el país; según la SIGET conecta unas 1.400 escuelas (2026). Los sistemas satelitales se inscriben ante la SIGET.",
+          "fuente": "https://diario.elmundo.sv/politica/dictaminan-exoneracion-a-internet-movil-por-satelite-para-cubrir-zonas-rurales-o-remotas",
+          "anio": 2026
+        },
+        "tec_ia": {
+          "estado": "si",
+          "nota": "Ley de Fomento a la IA y Tecnologías (D.L. 234, D.O. 3-mar-2025) creó la ANIA, que publicó la Estrategia Nacional de IA 2026.",
+          "fuente": "https://ania.gob.sv/",
+          "anio": 2025
+        }
+      }
+    },
+    "infraestructura": {
+      "resumen": "La ley obliga a las redes fijas a dar acceso a ductos, postes y derechos de vía solo cuando se requieren para la interconexión, y a los cables submarinos en condiciones no discriminatorias. La SIGET adjudicó en 2025 el primer cable submarino del país, hacia Panamá.",
+      "instrumentos": [
+        {
+          "nombre": "Ley de Telecomunicaciones, art. 19-A: acceso a recursos asociados de redes fijas y a cables submarinos (reforma D.L. 911)",
+          "anio": 2005,
+          "tipo": "ley",
+          "url": "https://www.transparencia.gob.sv/descarga_archivo.php?id=NjAxNTMx"
+        },
+        {
+          "nombre": "Proyecto de cable submarino El Salvador–Panamá adjudicado a Liberty Networks (financiamiento CAF)",
+          "anio": 2025,
+          "tipo": "otro",
+          "url": "https://www.revistaeyn.com/tecnologia-cultura-digital/el-salvador-otorga-licitacion-de-su-primer-cable-submarino-por-us-145-millones-LP28630946"
+        }
+      ],
+      "novedad": {
+        "fecha": "2025-12",
+        "texto": "La SIGET adjudicó a Liberty Networks el primer cable submarino del país (El Salvador–Panamá, préstamo CAF de US$145 millones); prevé operar en 2028."
+      },
+      "indicadores": {
+        "inf_pasiva": {
+          "estado": "parcial",
+          "nota": "Art. 19-A (2005): las redes fijas deben dar acceso a ductos, postes y derechos de vía solo para interconexión; no se halló un régimen de compartición de torres.",
+          "fuente": "https://www.transparencia.gob.sv/descarga_archivo.php?id=NjAxNTMx",
+          "anio": 2005
+        },
+        "inf_electrica": {
+          "estado": "sin_dato"
+        },
+        "inf_permisos": {
+          "estado": "sin_dato",
+          "nota": "No se halló una norma nacional que agilice los permisos de despliegue de redes."
+        },
+        "inf_roaming": {
+          "estado": "sin_dato"
+        },
+        "inf_edificios": {
+          "estado": "sin_dato"
+        }
+      }
+    },
+    "emergencia": {
+      "resumen": "El 911 es el número nacional de emergencias, incluido en el Plan de Numeración de 2025, y el país es parte del Convenio de Tampere desde 2002. Ante desastres, el Reglamento de Calidad solo exige restablecer y reportar las caídas de red; no se hallaron normas de alertas a celulares.",
+      "instrumentos": [
+        {
+          "nombre": "Plan de Numeración Nacional (números de emergencia 911, 121, 122 y 123)",
+          "anio": 2025,
+          "tipo": "plan",
+          "url": "https://www.siget.gob.sv/gerencias/telecomunicaciones/informacion-para-operadores/telefonia/plan-de-numeracion/"
+        },
+        {
+          "nombre": "Reglamento de Calidad del Servicio Público de Telefonía y Transmisión de Datos, arts. 41 a 43 (interrupciones por fuerza mayor)",
+          "anio": 2018,
+          "tipo": "reglamento",
+          "url": "https://www.transparencia.gob.sv/descarga_archivo.php?id=MjYwNDYz"
+        },
+        {
+          "nombre": "Convenio de Tampere sobre telecomunicaciones para desastres (ratificado)",
+          "anio": 2002,
+          "tipo": "otro",
+          "url": "https://treaties.un.org/Pages/ViewDetails.aspx?src=TREATY&mtdsg_no=XXV-4&chapter=25&clang=_en"
+        }
+      ],
+      "novedad": null,
+      "indicadores": {
+        "eme_alerta": {
+          "estado": "sin_dato"
+        },
+        "eme_numero": {
+          "estado": "si",
+          "nota": "911 es el número nacional de emergencias en el Plan de Numeración (D.O. 29-sep-2025); además, 121, 122 y 123 para denuncias y apoyo policial.",
+          "fuente": "https://www.eldiariodehoy.com/noticias/nacionales/numeros-telefonicos-ya-podran-emitirse-con-inicial-5/39899/2025/",
+          "anio": 2025
+        },
+        "eme_plan": {
+          "estado": "parcial",
+          "nota": "El Reglamento de Calidad (2018) obliga a restablecer la red y reportar a la SIGET las caídas por fuerza mayor; no se halló un plan de contingencia.",
+          "fuente": "https://www.transparencia.gob.sv/descarga_archivo.php?id=MjYwNDYz",
+          "anio": 2018
+        },
+        "eme_prioridad": {
+          "estado": "sin_dato"
+        },
+        "eme_tampere": {
+          "estado": "si",
+          "nota": "Firmó el 9-ago-2000 y ratificó el 18-abr-2002 (UN Treaty Collection, cap. XXV-4).",
+          "fuente": "https://treaties.un.org/Pages/ViewDetails.aspx?src=TREATY&mtdsg_no=XXV-4&chapter=25&clang=_en",
+          "anio": 2002
+        }
+      }
+    },
+    "homologacion": {
+      "resumen": "El Salvador no exige homologación de equipos: la SIGET ofrece una verificación voluntaria de dispositivos de baja potencia con base en normas FCC, ETSI o ANATEL. La ley obliga a los operadores a registrar y bloquear los celulares con reporte de robo.",
+      "instrumentos": [
+        {
+          "nombre": "Servicio de la SIGET de verificación voluntaria de dispositivos de baja potencia (DBP)",
+          "anio": 2021,
+          "tipo": "otro",
+          "url": "https://www.transparencia.gob.sv/servicios/36-22"
+        },
+        {
+          "nombre": "Ley de Telecomunicaciones, arts. 30-A y 30-B: registro y bloqueo de terminales robados (reforma D.L. 548)",
+          "anio": 2022,
+          "tipo": "ley",
+          "url": "https://www.transparencia.gob.sv/descarga_archivo.php?id=NjAxNTMx"
+        }
+      ],
+      "novedad": null,
+      "indicadores": {
+        "hom_obligatoria": {
+          "estado": "no",
+          "nota": "La SIGET indica que no realiza homologación: solo ofrece una verificación voluntaria de dispositivos de baja potencia (DBP) y no exige documentos en aduana.",
+          "fuente": "https://www.transparencia.gob.sv/servicios/36-22"
+        },
+        "hom_reconocimiento": {
+          "estado": "si",
+          "nota": "La verificación DBP se basa en documentación de cumplimiento de normas extranjeras (FCC, ETSI, ANATEL, etc.).",
+          "fuente": "https://www.transparencia.gob.sv/servicios/36-22"
+        },
+        "hom_imei": {
+          "estado": "si",
+          "nota": "Arts. 30-A y 30-B (reforma 2022): los operadores deben registrar y bloquear terminales con reporte de robo; la SIGET ofrece consulta de equipos robados.",
+          "fuente": "https://www.transparencia.gob.sv/descarga_archivo.php?id=NjAxNTMx",
+          "anio": 2022
+        },
+        "hom_enlinea": {
+          "estado": "parcial",
+          "nota": "No hay trámite de homologación; la verificación voluntaria DBP se solicita por correo electrónico a la SIGET.",
+          "fuente": "https://www.transparencia.gob.sv/servicios/36-22"
+        },
+        "hom_lista": {
+          "estado": "no",
+          "nota": "Al no haber homologación no existe lista de equipos homologados; el análisis DBP se envía solo al solicitante.",
+          "fuente": "https://www.transparencia.gob.sv/servicios/36-22"
+        }
+      }
+    }
+  },
+  "cambiosDetectados": [
+    "No existía perfil de El Salvador en el Observatorio anterior: se construyó desde cero.",
+    "El regulador cambió de nombre: desde el 16-jul-2026 es la Superintendencia General de Telecomunicaciones (D.L. 619); la regulación eléctrica pasó a la DGEHM (D.L. 620).",
+    "El catálogo de regulatel.org aún usa el nombre anterior de la SIGET.",
+    "Los enlaces del catálogo a transparencia.gob.sv con formato antiguo (institutions/siget/...) dan error 404; se citan los enlaces vigentes del portal.",
+    "La copia de la Ley de Competencia del catálogo (siget.gob.sv, 2021) es anterior a la reforma de nov-2021; se cita el texto vigente de la Superintendencia de Competencia.",
+    "En el catálogo, el apartado 'Contáctanos' remite al portal de INDOTEL en lugar del de la SIGET."
+  ],
+  "verificadoEn": "2026-11-11",
+  "confianza": "media"
+}

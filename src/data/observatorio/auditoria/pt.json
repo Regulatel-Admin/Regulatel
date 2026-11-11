@@ -1,0 +1,339 @@
+{
+  "iso": "pt",
+  "pais": "Portugal",
+  "revisado": "2026-11-11",
+  "documentos": [
+    {
+      "titulo": "Cuadro Nacional de Atribución de Frecuencias",
+      "url": "https://www.anacom.pt/render.jsp?categoryId=302495",
+      "categoriaOriginal": "Espectro radioeléctrico",
+      "origen": "catalogo",
+      "tema": "espectro",
+      "estado": "vigente",
+      "nota": "Página activa (act. 16-dic-2019; versión gráfica de 2018). El QNAF al día está en el eQNAF (act. 26-oct-2026). anacom.pt da 403 desde algunas redes extranjeras."
+    },
+    {
+      "titulo": "Gestión del espectro",
+      "url": "https://www.anacom.pt/render.jsp?categoryId=1645",
+      "categoriaOriginal": "Espectro radioeléctrico",
+      "origen": "catalogo",
+      "tema": "espectro",
+      "estado": "vigente",
+      "nota": "Página activa (act. 10-oct-2024): gestión del espectro, QNAF, licencias, tasas y coordinación internacional. anacom.pt da 403 desde algunas redes extranjeras."
+    },
+    {
+      "titulo": "Exención de Licencia de Red",
+      "url": "https://www.anacom.pt/streaming/IsencaoLicencaRede_RevJan2020.pdf?contentId=1186095&field=ATTACHED_FILE",
+      "categoriaOriginal": "Espectro radioeléctrico",
+      "origen": "catalogo",
+      "tema": "espectro",
+      "estado": "actualizado",
+      "nota": "El PDF es la rev. de ene-2020; la página eQNAF (act. 26-oct-2026) enlaza la rev. del 28-abr-2026, con el mismo contentId. anacom.pt da 403 desde algunas redes extranjeras.",
+      "urlNueva": "https://www.anacom.pt/streaming/Isencaodelicencaderede_Rev28ABR2026.pdf?contentId=1186095&field=ATTACHED_FILE",
+      "tituloNuevo": "Isenção de licença de rede (rev. 28-abr-2026)",
+      "anioNuevo": 2026
+    },
+    {
+      "titulo": "Exención de Licencia de estación",
+      "url": "https://www.anacom.pt/streaming/IsencaoLicencaDeEstacao_Rev3jan2023.pdf?contentId=1188499&field=ATTACHED_FILE",
+      "categoriaOriginal": "Espectro radioeléctrico",
+      "origen": "catalogo",
+      "tema": "espectro",
+      "estado": "actualizado",
+      "nota": "El PDF es la rev. del 3-ene-2023; la página eQNAF (act. 26-oct-2026) enlaza la rev. del 18-ago-2026, con el mismo contentId. anacom.pt da 403 desde algunas redes extranjeras.",
+      "urlNueva": "https://www.anacom.pt/streaming/Isencaodelicencadeestacao_18AGO2026.pdf?contentId=1188499&field=ATTACHED_FILE",
+      "tituloNuevo": "Isenção de licença de estação (rev. 18-ago-2026)",
+      "anioNuevo": 2026
+    },
+    {
+      "titulo": "eQNAF - Portal de Frecuencias",
+      "url": "https://www.anacom.pt/render.jsp?categoryId=348130",
+      "categoriaOriginal": "Espectro radioeléctrico",
+      "origen": "catalogo",
+      "tema": "espectro",
+      "estado": "vigente",
+      "nota": "Portal activo (act. 26-oct-2026): búsqueda del QNAF y PDF vigentes de exención de licencia de red (abr-2026) y de estación (ago-2026). anacom.pt da 403 desde algunas redes extranjeras."
+    },
+    {
+      "titulo": "Servicios de radiocomunicaciones",
+      "url": "https://www.anacom.pt/render.jsp?categoryId=302575",
+      "categoriaOriginal": "Espectro radioeléctrico",
+      "origen": "catalogo",
+      "tema": "espectro",
+      "estado": "vigente",
+      "nota": "Página activa (act. 10-mar-2017) que agrupa los servicios de radio que regula ANACOM (radiodifusión, amateur, CB, móvil, satélite). anacom.pt da 403 desde algunas redes extranjeras."
+    },
+    {
+      "titulo": "Servicios de radiocomunicaciones por satélite",
+      "url": "https://www.anacom.pt/render.jsp?categoryId=236262",
+      "categoriaOriginal": "Espectro radioeléctrico",
+      "origen": "catalogo",
+      "tema": "espectro",
+      "estado": "vigente",
+      "nota": "Página activa (act. 30-sep-2019) sobre el licenciamiento de estaciones de radiocomunicaciones por satélite. anacom.pt da 403 desde algunas redes extranjeras."
+    },
+    {
+      "titulo": "Planificación Estratégica Nacional del espectro radioeléctrico",
+      "url": "https://www.anacom.pt/render.jsp?categoryId=389147",
+      "categoriaOriginal": "Espectro radioeléctrico",
+      "origen": "catalogo",
+      "tema": "espectro",
+      "estado": "vigente",
+      "nota": "Página activa (act. 22-dic-2022): el plan publicado vigente es el PEE 2022; el de 2016 queda como archivo. anacom.pt da 403 desde algunas redes extranjeras."
+    },
+    {
+      "titulo": "Utilización de espectro de radiofrecuencias para una realización de ensayos técnicos",
+      "url": "https://www.anacom.pt/render.jsp?categoryId=414343",
+      "categoriaOriginal": "Espectro radioeléctrico",
+      "origen": "catalogo",
+      "tema": "espectro",
+      "estado": "vigente",
+      "nota": "Página activa (act. 12-abr-2024): requisitos para autorizar ensayos técnicos sin licencia (art. 5.3 del DL 151-A/2000). anacom.pt da 403 desde algunas redes extranjeras."
+    },
+    {
+      "titulo": "Licencia radioeléctrica temporal",
+      "url": "https://anacom.pt/render.jsp?categoryId=84150",
+      "categoriaOriginal": "Espectro radioeléctrico",
+      "origen": "catalogo",
+      "tema": "espectro",
+      "estado": "vigente",
+      "nota": "Página activa (act. 30-sep-2019) sobre licencias para eventos temporales; aún cita la Lei 5/2004, sustituida por la nueva LCE (Lei 16/2022). anacom.pt da 403 desde algunas redes extranjeras."
+    },
+    {
+      "titulo": "Mercado de comunicaciones electrónicas/postales",
+      "url": "https://www.anacom.pt/render.jsp?categoryId=361095",
+      "categoriaOriginal": "Competencia Económica",
+      "origen": "catalogo",
+      "tema": "competencia",
+      "estado": "vigente",
+      "nota": "Página activa: portada de la sección Mercado (comunicaciones electrónicas y servicios postales). anacom.pt da 403 desde algunas redes extranjeras."
+    },
+    {
+      "titulo": "Informes",
+      "url": "https://www.anacom.pt/render.jsp?categoryId=392355",
+      "categoriaOriginal": "Competencia Económica",
+      "origen": "catalogo",
+      "tema": "competencia",
+      "estado": "vigente",
+      "nota": "Página activa: informes anuales de regulación y supervisión; el más reciente es el de 2025 (publicado el 8-jun-2026). anacom.pt da 403 desde algunas redes extranjeras."
+    },
+    {
+      "titulo": "Estudios e informes",
+      "url": "https://www.anacom.pt/render.jsp?categoryId=382629",
+      "categoriaOriginal": "Competencia Económica",
+      "origen": "catalogo",
+      "tema": "competencia",
+      "estado": "vigente",
+      "nota": "Listado activo y al día: la última publicación es del 6-nov-2026 (estudio sobre cables submarinos y centros de datos). anacom.pt da 403 desde algunas redes extranjeras."
+    },
+    {
+      "titulo": "Servicios digitales",
+      "url": "https://www.anacom.pt/render.jsp?categoryId=431114",
+      "categoriaOriginal": "Competencia Económica",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "vigente",
+      "nota": "Página activa (28-may-2024): ANACOM es autoridad competente y Coordinador de Servicios Digitales (Reglamento UE 2022/2065). anacom.pt da 403 desde algunas redes extranjeras."
+    },
+    {
+      "titulo": "Programas e instrumentos financieros de UE",
+      "url": "https://www.anacom.pt/render.jsp?categoryId=423263",
+      "categoriaOriginal": "Tecnologías de la Información y la Comunicación (TIC)",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "vigente",
+      "nota": "Página activa (act. 7-abr-2026): CEF Digital, Programa Europa Digital y Horizonte Europa. anacom.pt da 403 desde algunas redes extranjeras."
+    },
+    {
+      "titulo": "Seguridad de los sistemas y redes de información",
+      "url": "https://www.anacom.pt/render.jsp?categoryId=332424",
+      "categoriaOriginal": "Ciberseguridad y Resiliencia de la infraestructura de red",
+      "origen": "catalogo",
+      "tema": "ciberseguridad",
+      "estado": "vigente",
+      "nota": "Página activa: lista al día de normativa de la UE sobre seguridad de redes y sistemas de información (último acto: 30-jun-2026). anacom.pt da 403 desde algunas redes extranjeras."
+    },
+    {
+      "titulo": "Podcast ANACOM sobre ciberseguridad",
+      "url": "https://www.anacom.pt/render.jsp?contentId=1723892",
+      "categoriaOriginal": "Ciberseguridad y Resiliencia de la infraestructura de red",
+      "origen": "catalogo",
+      "tema": "ciberseguridad",
+      "estado": "vigente",
+      "nota": "Página activa (podcast n.º 17, 20-jun-2022). anacom.pt da 403 desde algunas redes extranjeras. El mismo episodio está en el canal oficial de ANACOM en YouTube.",
+      "urlNueva": "https://www.youtube.com/watch?v=x1XdPRZRA7g",
+      "tituloNuevo": "#17 Podcast ANACOM sobre cibersegurança - recomendações que lhe podem poupar muitas preocupações",
+      "anioNuevo": 2022
+    },
+    {
+      "titulo": "Legislación",
+      "url": "https://www.anacom.pt/render.jsp?categoryId=345750",
+      "categoriaOriginal": "Ciberseguridad y Resiliencia de la infraestructura de red",
+      "origen": "catalogo",
+      "tema": "ciberseguridad",
+      "estado": "vigente",
+      "nota": "Página activa (\"Cibersegurança\") y al día: incluye el DL 125/2025, que transpone NIS2, y el Reglamento n.º 756/2026 que lo ejecuta. anacom.pt da 403 desde algunas redes extranjeras."
+    },
+    {
+      "titulo": "Seguridad y privacidad en línea: buenas prácticas para el día a día.",
+      "url": "https://www.anacom.pt/render.jsp?contentId=1829743",
+      "categoriaOriginal": "Ciberseguridad y Resiliencia de la infraestructura de red",
+      "origen": "catalogo",
+      "tema": "ciberseguridad",
+      "estado": "vigente",
+      "nota": "Página activa (25-mar-2026, Dicas ANACOM ep. 30). anacom.pt da 403 desde algunas redes extranjeras. La misma nota y video están en el Portal do Consumidor.",
+      "urlNueva": "https://www.anacom-consumidor.pt/-/seguranca-e-privacidade-online",
+      "tituloNuevo": "Segurança e privacidade online (Dicas ANACOM, ep. 30) – Portal do Consumidor",
+      "anioNuevo": 2026
+    },
+    {
+      "titulo": "Seguridad en línea: todo comienza con la contraseña.",
+      "url": "https://www.anacom.pt/render.jsp?contentId=1828113",
+      "categoriaOriginal": "Ciberseguridad y Resiliencia de la infraestructura de red",
+      "origen": "catalogo",
+      "tema": "ciberseguridad",
+      "estado": "vigente",
+      "nota": "Página activa (2-mar-2026, Dicas ANACOM ep. 21). anacom.pt da 403 desde algunas redes extranjeras. La misma nota y video están en el Portal do Consumidor.",
+      "urlNueva": "https://www.anacom-consumidor.pt/-/seguranca-online-tudo-comeca-pela-palavra-passe",
+      "tituloNuevo": "Segurança online: tudo começa pela palavra-passe (Dicas ANACOM, ep. 21) – Portal do Consumidor",
+      "anioNuevo": 2026
+    },
+    {
+      "titulo": "Portal del consumidor",
+      "url": "https://www.anacom-consumidor.pt/",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "vigente",
+      "nota": "Portal activo y al día (destacados del 10-nov-2026). El TypeError del verificador se debe a una cabecera HTTP malformada; abre bien en navegador y con curl."
+    },
+    {
+      "titulo": "Guías para el consumidor",
+      "url": "https://www.anacom-consumidor.pt/guias-do-consumidor",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "vigente",
+      "nota": "Página activa con 8 guías; la más reciente (dic-2025) es para usuarios con discapacidad. El TypeError del verificador fue un fallo técnico."
+    },
+    {
+      "titulo": "Consejos de un minuto que marcan la diferencia",
+      "url": "https://www.youtube.com/@anacom-autoridadenacionald9239/videos",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "vigente",
+      "nota": "Canal oficial activo. El título corresponde a la serie Dicas.ANACOM (videos de ~1 min): 82 episodios; lista actualizada el 24-jul-2026. Conviene enlazar la lista.",
+      "urlNueva": "https://www.youtube.com/playlist?list=PL_cxIvPAHV6JSbxUDv4Roh38pHtMNZlcL",
+      "tituloNuevo": "Dicas.ANACOM – lista de reproducción oficial en YouTube",
+      "anioNuevo": 2026
+    },
+    {
+      "titulo": "Accesibilidad",
+      "url": "https://www.anacom.pt/render.jsp?categoryId=434443",
+      "categoriaOriginal": "Accesibilidad",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "vigente",
+      "nota": "Página activa: preguntas frecuentes de ANACOM sobre usuarios con discapacidad (Reglamento n.º 237/2024). anacom.pt da 403 desde algunas redes extranjeras."
+    },
+    {
+      "titulo": "Ayudas técnicas",
+      "url": "https://www.anacom.pt/render.jsp?categoryId=338801",
+      "categoriaOriginal": "Accesibilidad",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "vigente",
+      "nota": "Página activa, pero es la ayuda de navegación del sitio web de ANACOM (formatos, herramientas), no normativa de accesibilidad. anacom.pt da 403 desde algunas redes extranjeras."
+    },
+    {
+      "titulo": "Avisos legales",
+      "url": "https://www.anacom.pt/render.jsp?categoryId=373295",
+      "categoriaOriginal": "Accesibilidad",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "vigente",
+      "nota": "Página activa: avisos legales del sitio de ANACOM (responsabilidad, derechos de autor, privacidad, cookies); no es normativa. anacom.pt da 403 desde algunas redes extranjeras."
+    },
+    {
+      "titulo": "Decisiones sobre la Internet Abierta",
+      "url": "https://www.anacom.pt/render.jsp?categoryId=378142&tab=&year=Todos&a=391820&b=&c=",
+      "categoriaOriginal": "Asuntos relacionados con Internet",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "vigente",
+      "nota": "Listado activo: 20 decisiones sobre Internet abierta; la última (23-jun-2026) aprobó el informe may-2025/abr-2026. anacom.pt da 403 desde algunas redes extranjeras."
+    },
+    {
+      "titulo": "Informe realizado por ANACOM sobre la Internet abierta",
+      "url": "https://www.anacom.pt/render.jsp?contentId=1812413",
+      "categoriaOriginal": "Asuntos relacionados con Internet",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "actualizado",
+      "nota": "El enlace (activo) es el informe may-2024/abr-2025. El 30-jun-2026 ANACOM publicó el de may-2025/abr-2026 (aprobado el 23-jun-2026). anacom.pt da 403 desde algunas redes extranjeras.",
+      "urlNueva": "https://www.anacom.pt/render.jsp?contentId=1850888",
+      "tituloNuevo": "Relatório relativo à Internet aberta (maio de 2025 a abril de 2026)",
+      "anioNuevo": 2026
+    },
+    {
+      "titulo": "Infraestructura",
+      "url": "https://www.anacom.pt/render.jsp?categoryId=381257",
+      "categoriaOriginal": "Compartición de infraestructura",
+      "origen": "catalogo",
+      "tema": "infraestructura",
+      "estado": "vigente",
+      "nota": "Página activa (act. 3-feb-2021): acceso a infraestructuras aptas, ITED/ITUR y sistema de información SIIA. anacom.pt da 403 desde algunas redes extranjeras."
+    },
+    {
+      "titulo": "Comunicaciones de emergencia",
+      "url": "https://www.anacom.pt/render.jsp?categoryId=365577",
+      "categoriaOriginal": "Telecomunicaciones de emergencia",
+      "origen": "catalogo",
+      "tema": "emergencia",
+      "estado": "vigente",
+      "nota": "Página activa (act. 31-mar-2015): funciones de ANACOM en planificación de emergencias y acceso al 112. anacom.pt da 403 desde algunas redes extranjeras."
+    },
+    {
+      "titulo": "Comunicaciones de emergencia y seguridad",
+      "url": "https://www.anacom.pt/render.jsp?categoryId=331608",
+      "categoriaOriginal": "Telecomunicaciones de emergencia",
+      "origen": "catalogo",
+      "tema": "emergencia",
+      "estado": "vigente",
+      "nota": "Página activa: normativa al día (112, SIRESP, alertas por difusión celular, ciberseguridad; la última es el Reglamento 756/2026). anacom.pt da 403 desde algunas redes extranjeras."
+    },
+    {
+      "titulo": "Normalización",
+      "url": "https://www.anacom.pt/render.jsp?categoryId=165904",
+      "categoriaOriginal": "Poner a disposición productos en el mercado",
+      "origen": "catalogo",
+      "tema": "homologacion",
+      "estado": "vigente",
+      "nota": "Página activa, pero es la subpágina \"Regulação\" (act. 2008), que cita la LCE de 2004 (ya sustituida). La página principal de Normalização está al día. anacom.pt da 403 en algunas redes.",
+      "urlNueva": "https://www.anacom.pt/render.jsp?categoryId=165902",
+      "tituloNuevo": "Normalização – página principal del área (ANACOM, act. 04-oct-2024)",
+      "anioNuevo": 2024
+    },
+    {
+      "titulo": "Régimen RED y CEM",
+      "url": "https://www.anacom.pt/render.jsp?categoryId=392414",
+      "categoriaOriginal": "Poner a disposición productos en el mercado",
+      "origen": "catalogo",
+      "tema": "homologacion",
+      "estado": "vigente",
+      "nota": "Página activa: régimen RED (DL 57/2017; Directiva 2014/53/UE, modificada por la 2022/2380 del cargador común) y régimen CEM. anacom.pt da 403 desde algunas redes extranjeras."
+    },
+    {
+      "titulo": "Consultar portal institucional del INDOTEL",
+      "url": "https://indotel.gob.do/",
+      "categoriaOriginal": "Contáctanos",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "vigente",
+      "nota": "Enlace activo, pero es el portal de INDOTEL (R. Dominicana), no de Portugal: viene del pie del catálogo REGULATEL. Para contacto, usar la página de ANACOM.",
+      "urlNueva": "https://www.anacom-consumidor.pt/fale-connosco",
+      "tituloNuevo": "Fale Connosco – contactos de ANACOM (Portal do Consumidor)"
+    }
+  ]
+}

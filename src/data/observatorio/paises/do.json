@@ -1,0 +1,573 @@
+{
+  "iso": "do",
+  "pais": "República Dominicana",
+  "regulador": {
+    "sigla": "INDOTEL",
+    "nombre": "Instituto Dominicano de las Telecomunicaciones",
+    "url": "https://indotel.gob.do",
+    "naturaleza": "Entidad estatal descentralizada con autonomía funcional, jurisdiccional y financiera (Ley 153-98, art. 76), dirigida por un Consejo Directivo."
+  },
+  "otrasAutoridades": [
+    {
+      "sigla": "CNCS",
+      "nombre": "Centro Nacional de Ciberseguridad",
+      "rol": "Apoya al Consejo de Seguridad y Defensa Nacional y supervisa la Estrategia Nacional de Ciberseguridad 2030; el CSIRT-RD pasó a la DNI (Decreto 612-24).",
+      "url": "https://cncs.gob.do"
+    },
+    {
+      "sigla": "OGTIC",
+      "nombre": "Oficina Gubernamental de Tecnologías de la Información y Comunicación",
+      "rol": "Gobierno digital; coordinó el Código de Ética de la IA para los servicios públicos (Decreto 787-26) y da apoyo técnico a su aplicación.",
+      "url": "https://ogtic.gob.do"
+    },
+    {
+      "sigla": "9-1-1",
+      "nombre": "Sistema Nacional de Atención a Emergencias y Seguridad 9-1-1",
+      "rol": "Número único de emergencias; implementa y administra la plataforma del Sistema Nacional de Alertas (ALERTA-RD).",
+      "url": "https://911.gob.do"
+    },
+    {
+      "sigla": "COE",
+      "nombre": "Centro de Operaciones de Emergencias",
+      "rol": "Emite las alertas de emergencias y desastres; coordina con INDOTEL el Mecanismo Nacional de Telecomunicaciones de Emergencia (MNTE).",
+      "url": "https://coe.gob.do"
+    },
+    {
+      "sigla": "ProCompetencia",
+      "nombre": "Comisión Nacional de Defensa de la Competencia",
+      "rol": "Autoridad general de competencia; coopera con INDOTEL mediante acuerdo interinstitucional (2018).",
+      "url": "https://procompetencia.gob.do"
+    }
+  ],
+  "marcoLegal": {
+    "nombre": "Ley General de Telecomunicaciones núm. 153-98",
+    "anio": 1998,
+    "url": "https://indotel.gob.do/wp-content/uploads/2022/10/ley-no-153-98.pdf"
+  },
+  "resumenPais": "INDOTEL, ente descentralizado creado por la Ley 153-98, regula un mercado móvil de tres operadores (Claro, Altice y Viva). En 2026 se aprobó un nuevo plan de frecuencias, Viettel obtuvo espectro y concesión para ser el cuarto operador e INDOTEL abrió a diálogo un anteproyecto de nueva ley de telecomunicaciones.",
+  "categorias": {
+    "espectro": {
+      "resumen": "El plan de frecuencias (PNAF) vigente se aprobó por Decreto 99-26 (feb-2026). INDOTEL asignó 3,5 GHz para 5G en 2021 y en 2026 licitó 700 MHz, 2,3 y 3,6 GHz. Toda la banda de 6 GHz es de uso libre con licencia genérica y las licencias pueden cederse o arrendarse.",
+      "instrumentos": [
+        {
+          "nombre": "Plan Nacional de Atribución de Frecuencias (PNAF), aprobado por Decreto 99-26",
+          "anio": 2026,
+          "tipo": "plan",
+          "url": "https://indotel.gob.do/wp-content/uploads/2023/06/PNAF-Decreto-99-25.pdf"
+        },
+        {
+          "nombre": "Reglamento General de Uso del Espectro Radioeléctrico (Res. 034-2020, mod. 083-2020 y 092-2021)",
+          "anio": 2020,
+          "tipo": "reglamento",
+          "url": "https://indotel.gob.do/wp-content/uploads/2020/05/resolucion-no-034-2020-reglamento-uso-espectro-modificado-mediante-la-resolucion-131-2021-version-final-del-reglamento.pdf"
+        },
+        {
+          "nombre": "Res. 082-2022: condiciones de uso de la banda 5925–7125 MHz (6 GHz)",
+          "anio": 2022,
+          "tipo": "resolucion",
+          "url": "https://indotel.gob.do/wp-content/uploads/2023/04/res_082_2022.pdf"
+        },
+        {
+          "nombre": "Res. 073-2026: adjudicación de la licitación LPI-001-2026 (700 MHz, 2,3 y 3,6 GHz)",
+          "anio": 2026,
+          "tipo": "resolucion",
+          "url": "https://indotel.gob.do/wp-content/uploads/2026/08/Res._073-2026_de_adjudicacion_INDOTEL-LPI-001-2026_-_Copy_signed.pdf"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-08",
+        "texto": "Res. 073-2026 adjudicó 700 MHz, 2,3 y 3,6 GHz: Viettel (240 MHz) entra como cuarto operador y Claro suma 20 MHz; la banda AWS quedó desierta."
+      },
+      "indicadores": {
+        "esp_cuadro": {
+          "estado": "si",
+          "nota": "PNAF aprobado por Decreto 99-26 (13-feb-2026), que derogó el Decreto 266-23; INDOTEL lo propuso por Res. 032-2025 y 068-2025.",
+          "fuente": "https://indotel.gob.do/wp-content/uploads/2026/03/Decreto-99-26.pdf",
+          "anio": 2026
+        },
+        "esp_5g": {
+          "estado": "si",
+          "nota": "Res. 115-2021: Claro y Altice obtuvieron 70 MHz cada una en 3,3–3,5 GHz (100 MHz contiguos c/u); en 2026, Viettel 100 MHz en 3,6 GHz (Res. 090-2026).",
+          "fuente": "https://indotel.gob.do/wp-content/uploads/2022/10/resolucion_115_adjudicacion_de_la_licitacion_publica_internacional_indotel_lpi-001-2021.pdf",
+          "anio": 2021
+        },
+        "esp_licitacion": {
+          "estado": "si",
+          "nota": "LPI-001-2026 adjudicada por Res. 073-2026 (ago-2026): Viettel 240 MHz y Claro 20 MHz; AWS desierta. Antes, LPI-001-2021 (5G).",
+          "fuente": "https://indotel.gob.do/wp-content/uploads/2026/08/Res._073-2026_de_adjudicacion_INDOTEL-LPI-001-2026_-_Copy_signed.pdf",
+          "anio": 2026
+        },
+        "esp_6ghz": {
+          "estado": "si",
+          "nota": "1200 MHz (5925–7125 MHz) con licencia genérica: equipos de baja potencia en interiores y de muy baja potencia en exteriores (Res. 082-2022).",
+          "fuente": "https://indotel.gob.do/wp-content/uploads/2023/04/res_082_2022.pdf",
+          "anio": 2022
+        },
+        "esp_secundario": {
+          "estado": "si",
+          "nota": "Ley 153-98 (art. 28): concesiones y licencias pueden cederse o arrendarse con autorización previa de INDOTEL; también se otorgan licencias de uso compartido.",
+          "fuente": "https://indotel.gob.do/wp-content/uploads/2022/10/ley-no-153-98.pdf",
+          "anio": 1998
+        }
+      }
+    },
+    "competencia": {
+      "resumen": "INDOTEL dictamina los cargos de interconexión, administra el Fondo de Desarrollo (FDT) y exige neutralidad de red. Definió en 2021 los mercados para regulación ex ante, pero no consta una declaratoria final de operadores dominantes. En 2026 dio concesión a Viettel como cuarto operador móvil.",
+      "instrumentos": [
+        {
+          "nombre": "Res. 098-2021: mercados relevantes sujetos a regulación ex ante",
+          "anio": 2021,
+          "tipo": "resolucion",
+          "url": "https://indotel.gob.do/wp-content/uploads/2022/10/res_098-2021__mercados_relevantes_sujetos_de_regulacion_ex_ante_version_final.pdf"
+        },
+        {
+          "nombre": "Reglamento General de Interconexión (Res. 038-11, mod. 078-19)",
+          "anio": 2011,
+          "tipo": "reglamento",
+          "url": "https://indotel.gob.do/wp-content/uploads/2022/10/2011-59-reglamento-general-de-interconexion-cd-res-038-11-modif-078-19.pdf"
+        },
+        {
+          "nombre": "Reglamento del Fondo de Desarrollo de las Telecomunicaciones (Res. 128-2023)",
+          "anio": 2023,
+          "tipo": "reglamento",
+          "url": "https://indotel.gob.do/wp-content/uploads/2020/08/REGLAMENTO-DEL-FDT-Res.-128-2023.pdf"
+        },
+        {
+          "nombre": "Reglamento para la Reventa de Servicios Públicos de Telecomunicaciones (Res. 116-2024)",
+          "anio": 2024,
+          "tipo": "reglamento",
+          "url": "https://indotel.gob.do/wp-content/uploads/2024/10/Reglamento-de-Reventa-Res.-Num.-116-2024.pdf"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-10",
+        "texto": "Res. 090-2026 otorgó a Viettel Dominicana la concesión y 240 MHz (700 MHz, 2,3 y 3,6 GHz) para entrar como cuarto operador móvil."
+      },
+      "indicadores": {
+        "comp_psm": {
+          "estado": "parcial",
+          "nota": "Res. 098-2021 fijó mercados para regulación ex ante; la declaratoria de operadores dominantes (Res. 114-2021) se sometió a consulta y no consta decisión final.",
+          "fuente": "https://indotel.gob.do/wp-content/uploads/2022/10/resolucion_114-2021_consulta_publica_posiciones_de_dominio_mercados_relevantes_-_revisado.pdf",
+          "anio": 2021
+        },
+        "comp_omv": {
+          "estado": "parcial",
+          "nota": "El Reglamento de Reventa (Res. 116-2024) permite revender en nombre propio servicios contratados a concesionarios; no hay régimen específico de OMV.",
+          "fuente": "https://indotel.gob.do/wp-content/uploads/2024/10/Reglamento-de-Reventa-Res.-Num.-116-2024.pdf",
+          "anio": 2024
+        },
+        "comp_interconexion": {
+          "estado": "si",
+          "nota": "Reglamento General de Interconexión (Res. 038-11): INDOTEL dictamina y acoge los cargos pactados (Res. 027-2024) y los fija si no hay acuerdo.",
+          "fuente": "https://indotel.gob.do/wp-content/uploads/2024/03/res._027_2024_dictamen_adendas_interconexion_suscritas_en_febrero_2024_1__signed.pdf",
+          "anio": 2024
+        },
+        "comp_fondo": {
+          "estado": "si",
+          "nota": "FDT, financiado con parte de la contribución del 2 % sobre la facturación del sector (CDT, Ley 153-98); reglamento Res. 128-2023 y Plan Bianual 2025-2026.",
+          "fuente": "https://indotel.gob.do/wp-content/uploads/2020/08/REGLAMENTO-DEL-FDT-Res.-128-2023.pdf",
+          "anio": 2023
+        },
+        "comp_neutralidad": {
+          "estado": "si",
+          "nota": "El Reglamento del Servicio de Acceso a Internet (Res. 033-2020, mod. hasta 148-2024) prohíbe bloquear, ralentizar o discriminar contenidos y aplicaciones.",
+          "fuente": "https://indotel.gob.do/wp-content/uploads/2020/05/Reglamento-general-del-servicio-de-acceso-a-internet-VF-Res-033-2020-MOD.-res-148-2024-2.pdf",
+          "anio": 2020
+        }
+      }
+    },
+    "ciberseguridad": {
+      "resumen": "Rige la Estrategia Nacional de Ciberseguridad 2030 (Decreto 313-22). Desde el Decreto 612-24 (2024), el CSIRT-RD depende de la Dirección Nacional de Inteligencia. INDOTEL obliga a los proveedores de Internet a reportar incidentes; la ley marco sigue en el Congreso.",
+      "instrumentos": [
+        {
+          "nombre": "Estrategia Nacional de Ciberseguridad 2030 (Decreto 313-22)",
+          "anio": 2022,
+          "tipo": "estrategia",
+          "url": "https://presidencia.gob.do//sites/default/files/decree/2022-08/313-22.pdf"
+        },
+        {
+          "nombre": "Decreto 612-24: reorganiza las competencias del Estado en ciberseguridad",
+          "anio": 2024,
+          "tipo": "decreto",
+          "url": "https://cncs.gob.do/wp-content/uploads/2024/12/Decreto-612-24.pdf"
+        },
+        {
+          "nombre": "Reglamento de Ciberseguridad para la Prestación del Servicio de Acceso a Internet (Res. 126-2021)",
+          "anio": 2021,
+          "tipo": "reglamento",
+          "url": "https://indotel.gob.do/wp-content/uploads/2022/10/resolucion-no-126-2021-reglamento-de-ciberseguridad-para-la-prestacion-del-servicio-de-acceso-a-internet-entra-en-vigencia-el-2-de-agosto-del-2022.pdf"
+        },
+        {
+          "nombre": "Ley 53-07 sobre Crímenes y Delitos de Alta Tecnología",
+          "anio": 2007,
+          "tipo": "ley",
+          "url": "https://indotel.gob.do/wp-content/uploads/2022/10/ley-no-53-07.pdf"
+        }
+      ],
+      "novedad": {
+        "fecha": "2024-10",
+        "texto": "Decreto 612-24 adscribió el CSIRT-RD y la respuesta técnica a incidentes a la Dirección Nacional de Inteligencia y creó el Instituto Criptográfico Nacional."
+      },
+      "indicadores": {
+        "ciber_estrategia": {
+          "estado": "si",
+          "nota": "Estrategia Nacional de Ciberseguridad 2030 (Decreto 313-22), vigente hasta el 31-dic-2030; el Decreto 612-24 ajustó su seguimiento y gobernanza.",
+          "fuente": "https://presidencia.gob.do//sites/default/files/decree/2022-08/313-22.pdf",
+          "anio": 2022
+        },
+        "ciber_ley": {
+          "estado": "parcial",
+          "nota": "Sin ley marco: el proyecto de ley de gestión de la ciberseguridad, aprobado en 1.ª lectura en Diputados (jul-2026), volvió a comisión. Delitos: Ley 53-07.",
+          "fuente": "https://camaradediputados.gob.do/download/1937/2026-plo-maestro-de-sesiones/28857/debates-de-la-sesion-50-extraordinaria-del-viernes-24-de-julio-de-2026.pdf",
+          "anio": 2026
+        },
+        "ciber_csirt": {
+          "estado": "si",
+          "nota": "CSIRT-RD (creado en 2018) atiende incidentes del Estado y de infraestructura crítica; el Decreto 612-24 lo adscribió a la Dirección Nacional de Inteligencia.",
+          "fuente": "https://cncs.gob.do/csirt-rd/",
+          "anio": 2018
+        },
+        "ciber_reporte": {
+          "estado": "si",
+          "nota": "Res. 126-2021 (art. 35), vigente desde ago-2022: proveedores de Internet e infraestructura activa deben reportar incidentes a INDOTEL en 2 a 4 horas.",
+          "fuente": "https://indotel.gob.do/wp-content/uploads/2022/10/resolucion-no-126-2021-reglamento-de-ciberseguridad-para-la-prestacion-del-servicio-de-acceso-a-internet-entra-en-vigencia-el-2-de-agosto-del-2022.pdf",
+          "anio": 2021
+        },
+        "ciber_budapest": {
+          "estado": "si",
+          "nota": "Parte por adhesión desde 2013; el Congreso aprobó el Convenio mediante la Resolución 158-12.",
+          "fuente": "https://www.coe.int/en/web/conventions/full-list?module=signatures-by-treaty&treatynum=185",
+          "anio": 2013
+        }
+      }
+    },
+    "usuario": {
+      "resumen": "Los derechos de los usuarios están en la Res. 062-17. INDOTEL recibe reclamos en línea y resuelve controversias en segunda instancia (Res. 091-2020), y la portabilidad funciona desde 2009. La última medición de calidad publicada es de 2022.",
+      "instrumentos": [
+        {
+          "nombre": "Reglamento sobre los Derechos y Obligaciones de los Usuarios y Prestadoras (Res. 062-17)",
+          "anio": 2017,
+          "tipo": "reglamento",
+          "url": "https://indotel.gob.do/wp-content/uploads/2017/10/res-062-17-reglamento-de-los-derechos-y-obligaciones.pdf"
+        },
+        {
+          "nombre": "Reglamento para la Solución de Controversias entre Usuarios y Prestadoras (Res. 091-2020)",
+          "anio": 2020,
+          "tipo": "reglamento",
+          "url": "https://indotel.gob.do/wp-content/uploads/2022/10/reglamento-para-la-solucion-de-controversias-entre-los-usuarios-y-las-prestadoras-de-servicios-publicos-de-telecomunicaciones-resolucion-num-091-2020.pdf"
+        },
+        {
+          "nombre": "Reglamento General de Portabilidad Numérica (Res. 015-15, mod. 078-19)",
+          "anio": 2015,
+          "tipo": "reglamento",
+          "url": "https://indotel.gob.do/wp-content/uploads/2022/10/resolucion-no-015-15-portabilidad-modif-078-19.pdf"
+        },
+        {
+          "nombre": "Norma de calidad del servicio de telefonía y acceso a Internet (Res. 016-15, mod. 102-2020 y 054-2023)",
+          "anio": 2015,
+          "tipo": "norma",
+          "url": "https://indotel.gob.do/wp-content/uploads/2015/07/REGLAMENTO-DE-CALIDAD-RES.-016-15-102-2020-054-2023-1.pdf"
+        }
+      ],
+      "novedad": {
+        "fecha": "2024-12",
+        "texto": "Res. 148-2024 redefinió la banda ancha fija: mínimo 30 Mbps de bajada y 10 Mbps de subida (antes 4 y 1 Mbps)."
+      },
+      "indicadores": {
+        "usu_reglamento": {
+          "estado": "si",
+          "nota": "Reglamento sobre Derechos y Obligaciones de los Usuarios y Prestadoras (Res. 062-17, modificado por las Res. 102-2020 y 036-2022).",
+          "fuente": "https://indotel.gob.do/wp-content/uploads/2017/10/res-062-17-reglamento-de-los-derechos-y-obligaciones.pdf",
+          "anio": 2017
+        },
+        "usu_reclamos": {
+          "estado": "si",
+          "nota": "La Dirección de Protección al Usuario recibe reclamos en línea y concilia; en segunda instancia deciden los Cuerpos Colegiados (Res. 091-2020).",
+          "fuente": "https://indotel.gob.do/dau/",
+          "anio": 2020
+        },
+        "usu_portabilidad": {
+          "estado": "si",
+          "nota": "Portabilidad numérica fija y móvil vigente desde el 30-sep-2009; reglamento actual: Res. 015-15 (mod. 078-19).",
+          "fuente": "https://indotel.gob.do/wp-content/uploads/2022/10/resolucion-no-015-15-portabilidad-modif-078-19.pdf",
+          "anio": 2009
+        },
+        "usu_calidad": {
+          "estado": "parcial",
+          "nota": "La norma de calidad (Res. 016-15, mod. 054-2023) fija indicadores; la última medición de campo publicada por INDOTEL es del 3.er trimestre de 2022.",
+          "fuente": "https://indotel.gob.do/transparencia/documentos/informes-de-calidad/",
+          "anio": 2015
+        },
+        "usu_nomolestar": {
+          "estado": "parcial",
+          "nota": "No se identificó un registro 'No Molestar'; la Ley 310-14 exige consentimiento para mensajes comerciales electrónicos (incluye SMS), no para llamadas.",
+          "fuente": "https://indotel.gob.do/wp-content/uploads/2022/10/ley-310-14-2.pdf",
+          "anio": 2014
+        }
+      }
+    },
+    "emergentes": {
+      "resumen": "Hay sandbox regulatorio desde 2023 y 5G comercial desde 2021. Starlink tiene concesión de internet satelital desde 2022; en 2026 INDOTEL licenció a Amazon Kuiper, habilitó SMS satelital directo al celular y fijó reglas para IoT en 915–928 MHz. La ENIA (2023) guía la política de IA.",
+      "instrumentos": [
+        {
+          "nombre": "Norma del Sandbox Regulatorio (Res. 004-2023)",
+          "anio": 2023,
+          "tipo": "norma",
+          "url": "https://indotel.gob.do/wp-content/uploads/2023/03/Res.-Num.-004_2023_dicta_la_norma_que_establece_el_sandbox_regulatorio-.pdf"
+        },
+        {
+          "nombre": "Res. 061-2026: licencia satelital a Amazon Kuiper Dominican Republic (Amazon LEO)",
+          "anio": 2026,
+          "tipo": "resolucion",
+          "url": "https://indotel.gob.do/wp-content/uploads/2026/07/Res._061-2026_-_Amazon_signed.pdf"
+        },
+        {
+          "nombre": "Res. 074-2026: parámetros de la banda 915–928 MHz para IoT y dispositivos de baja potencia",
+          "anio": 2026,
+          "tipo": "resolucion",
+          "url": "https://indotel.gob.do/wp-content/uploads/2026/09/Res._074-2026_banda_915-928MHz_-__signed.pdf"
+        },
+        {
+          "nombre": "Decreto 787-26: Código de Ética de la IA para los servicios públicos (desarrolla la ENIA)",
+          "anio": 2026,
+          "tipo": "decreto",
+          "url": "https://ogtic.gob.do/wp-content/uploads/2026/11/Decreto-No-787-26-que-aprueba-Codigo-de-Etica-de-la-IA_compressed.pdf"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-07",
+        "texto": "Res. 061-2026 licenció a Amazon Kuiper (Amazon LEO); en abril, la Res. 024-2026 autorizó a Starlink a enviar SMS y alertas directo al celular."
+      },
+      "indicadores": {
+        "tec_sandbox": {
+          "estado": "si",
+          "nota": "Norma del Sandbox Regulatorio (Res. 004-2023) para telecomunicaciones y certificación digital; la primera convocatoria cerró en sep-2024.",
+          "fuente": "https://indotel.gob.do/sandbox-regulatorio/",
+          "anio": 2023
+        },
+        "tec_5g": {
+          "estado": "si",
+          "nota": "5G comercial desde dic-2021 (Claro, Distrito Nacional) en la banda de 3,5 GHz licitada en 2021.",
+          "fuente": "https://indotel.gob.do/indotel-cumple-5g-una-realidad-en-republica-dominicana/",
+          "anio": 2021
+        },
+        "tec_iot": {
+          "estado": "si",
+          "nota": "Res. 074-2026: banda 915–928 MHz con licencia genérica para IoT, telemetría y medición inteligente (hasta 1 W PIRE).",
+          "fuente": "https://indotel.gob.do/wp-content/uploads/2026/09/Res._074-2026_banda_915-928MHz_-__signed.pdf",
+          "anio": 2026
+        },
+        "tec_satelital": {
+          "estado": "si",
+          "nota": "Res. 072-2022: concesión a Starlink para internet por satélites no geoestacionarios; en 2026 se licenció a Amazon Kuiper (Res. 061-2026).",
+          "fuente": "https://indotel.gob.do/wp-content/uploads/2022/10/res_072_2022.pdf",
+          "anio": 2022
+        },
+        "tec_ia": {
+          "estado": "si",
+          "nota": "Estrategia Nacional de IA (ENIA, Decreto 498-23, oct-2023); el Decreto 787-26 (nov-2026) aprobó el Código de Ética de IA para los servicios públicos.",
+          "fuente": "https://ogtic.gob.do/wp-content/uploads/2026/11/Decreto-No-787-26-que-aprueba-Codigo-de-Etica-de-la-IA_compressed.pdf",
+          "anio": 2023
+        }
+      }
+    },
+    "infraestructura": {
+      "resumen": "Compartir torres, ductos y postes es obligatorio si es técnicamente factible, también con infraestructura eléctrica, vial o de agua (Res. 089-17). El roaming nacional rige desde 2024, hay reglas para edificios (Res. 151-04) y un modelo de ordenanza municipal para agilizar permisos.",
+      "instrumentos": [
+        {
+          "nombre": "Reglamento General de Compartición de Infraestructuras Pasivas y Facilidades Conexas (Res. 089-17, mod. 005-19)",
+          "anio": 2017,
+          "tipo": "reglamento",
+          "url": "https://indotel.gob.do/wp-content/uploads/2022/10/reglamento-de-comparticion-modificado-por-resolucion-005-19.pdf"
+        },
+        {
+          "nombre": "Reglamento del Servicio de Roaming Automático Nacional (Res. 070-2023)",
+          "anio": 2023,
+          "tipo": "reglamento",
+          "url": "https://indotel.gob.do/wp-content/uploads/2023/07/RES.-070-2023-Reglamento-del-servicio-de-roaming-automatico-nacional.pdf"
+        },
+        {
+          "nombre": "Res. 145-2024: modelo de ordenanza municipal para instalar infraestructura de telecomunicaciones",
+          "anio": 2024,
+          "tipo": "resolucion",
+          "url": "https://indotel.gob.do/wp-content/uploads/2024/12/res._145_2024_recomendaciones_manual_de_buenas_pr_cticas_y_estandarizaci_n_de_la_instalaci_n_de_infraestructura_de_telecomunicaciones_en_los_bienes_de_dominio_p_blico_1__signed-1.pdf"
+        },
+        {
+          "nombre": "Reglamento sobre Infraestructuras Comunes de Telecomunicaciones en Inmuebles de Copropiedad (Res. 151-04)",
+          "anio": 2004,
+          "tipo": "reglamento",
+          "url": "https://indotel.gob.do/wp-content/uploads/2022/10/resolucion-no-151-04.pdf"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-04",
+        "texto": "Res. 036-2026 aprobó una guía de buenas prácticas para que los municipios ordenen el cableado aéreo y subterráneo de telecomunicaciones."
+      },
+      "indicadores": {
+        "inf_pasiva": {
+          "estado": "si",
+          "nota": "Reglamento de Compartición de Infraestructuras Pasivas (Res. 089-17, mod. 005-19): compartir es obligatorio si es técnicamente factible, a precio razonable.",
+          "fuente": "https://indotel.gob.do/wp-content/uploads/2022/10/reglamento-de-comparticion-modificado-por-resolucion-005-19.pdf",
+          "anio": 2017
+        },
+        "inf_electrica": {
+          "estado": "si",
+          "nota": "El mismo reglamento obliga a titulares de otros sectores (electricidad, agua, gas, vías, puertos) a dar acceso no discriminatorio a su infraestructura.",
+          "fuente": "https://indotel.gob.do/wp-content/uploads/2022/10/reglamento-de-comparticion-modificado-por-resolucion-005-19.pdf",
+          "anio": 2017
+        },
+        "inf_permisos": {
+          "estado": "si",
+          "nota": "Res. 145-2024 recomienda a los municipios un modelo de ordenanza (evaluación en 30 días, ventanilla única); la Res. 036-2026 añade una guía de cableado.",
+          "fuente": "https://indotel.gob.do/wp-content/uploads/2024/12/res._145_2024_recomendaciones_manual_de_buenas_pr_cticas_y_estandarizaci_n_de_la_instalaci_n_de_infraestructura_de_telecomunicaciones_en_los_bienes_de_dominio_p_blico_1__signed-1.pdf",
+          "anio": 2024
+        },
+        "inf_roaming": {
+          "estado": "si",
+          "nota": "Reglamento de Roaming Automático Nacional (Res. 070-2023), vigente desde el 2-feb-2024; cada operador móvil debe publicar una oferta básica (OBARA).",
+          "fuente": "https://indotel.gob.do/wp-content/uploads/2023/07/RES.-070-2023-Reglamento-del-servicio-de-roaming-automatico-nacional.pdf",
+          "anio": 2023
+        },
+        "inf_edificios": {
+          "estado": "si",
+          "nota": "Reglamento de Infraestructuras Comunes de Telecomunicaciones en inmuebles de copropiedad (Res. 151-04); su reforma está en consulta pública (Res. 077-2026).",
+          "fuente": "https://indotel.gob.do/wp-content/uploads/2022/10/resolucion-no-151-04.pdf",
+          "anio": 2004
+        }
+      }
+    },
+    "emergencia": {
+      "resumen": "El 9-1-1 es el número único y gratuito de emergencias (Ley 184-17). El Sistema Nacional de Alertas por Cell Broadcast (Res. 110-2024) sigue en implementación; en una prueba de sep-2026 llegó a más de la mitad de la población. Los proveedores de Internet deben tener planes de continuidad.",
+      "instrumentos": [
+        {
+          "nombre": "Norma que regula el Sistema de Información de Alertas (Res. 110-2024)",
+          "anio": 2024,
+          "tipo": "norma",
+          "url": "https://indotel.gob.do/wp-content/uploads/2024/10/NORMATIVA-SISTEMA-INFORMACION-ALERTAS-APROBADA-RES.-110-2024-1.pdf"
+        },
+        {
+          "nombre": "Ley 184-17 del Sistema Nacional de Atención a Emergencias y Seguridad 9-1-1",
+          "anio": 2017,
+          "tipo": "ley",
+          "url": "https://indotel.gob.do/wp-content/uploads/2022/10/ley-no-184-17-sobre-el-sistema-911.pdf"
+        },
+        {
+          "nombre": "Acuerdo INDOTEL–COE: Mecanismo Nacional de Telecomunicaciones de Emergencia (MNTE)",
+          "anio": 2020,
+          "tipo": "otro",
+          "url": "https://indotel.gob.do/wp-content/uploads/2022/10/acuerdo-entre-indotel-coe-mnte-1.pdf"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-09",
+        "texto": "En el simulacro nacional de terremoto, la alerta de prueba por Cell Broadcast llegó a más de la mitad de la población; el sistema sigue en implementación."
+      },
+      "indicadores": {
+        "eme_alerta": {
+          "estado": "parcial",
+          "nota": "Cell Broadcast (Res. 110-2024) en implementación a cargo del 9-1-1; en el simulacro de sep-2026 la alerta de prueba llegó a más de la mitad de la población.",
+          "fuente": "https://911.gob.do/director-del-sistema-911-destaca-interoperabilidad-y-tecnologia-como-pilares-para-la-atencion-de-emergencias/",
+          "anio": 2024
+        },
+        "eme_numero": {
+          "estado": "si",
+          "nota": "Sistema Nacional de Atención a Emergencias y Seguridad 9-1-1 (Ley 184-17, que sustituyó a la Ley 140-13).",
+          "fuente": "https://911.gob.do",
+          "anio": 2017
+        },
+        "eme_plan": {
+          "estado": "si",
+          "nota": "Res. 126-2021 (art. 32) exige a los proveedores de Internet planes de continuidad ante desastres; el MNTE (INDOTEL-COE, 2020) coordina la respuesta.",
+          "fuente": "https://indotel.gob.do/wp-content/uploads/2022/10/resolucion-no-126-2021-reglamento-de-ciberseguridad-para-la-prestacion-del-servicio-de-acceso-a-internet-entra-en-vigencia-el-2-de-agosto-del-2022.pdf",
+          "anio": 2021
+        },
+        "eme_prioridad": {
+          "estado": "si",
+          "nota": "Ley 184-17: acceso gratuito al 9-1-1 (art. 7); las prestadoras deben entregar todas las llamadas, sin cobrar interconexión, y priorizar sus averías (art. 58).",
+          "fuente": "https://indotel.gob.do/wp-content/uploads/2022/10/ley-no-184-17-sobre-el-sistema-911.pdf",
+          "anio": 2017
+        },
+        "eme_tampere": {
+          "estado": "no",
+          "nota": "República Dominicana no figura como signataria ni como parte en la lista oficial de la ONU (capítulo XXV-4).",
+          "fuente": "https://treaties.un.org/Pages/ViewDetails.aspx?src=TREATY&mtdsg_no=XXV-4&chapter=25&clang=_en"
+        }
+      }
+    },
+    "homologacion": {
+      "resumen": "La Ley 153-98 exige homologar todo equipo que se conecte a redes públicas o use espectro, y reconoce homologaciones de países de la Zona 1 de numeración (como EE. UU.). Los celulares robados se bloquean por IMEI desde 2022. La solicitud se presenta por correo electrónico o en persona.",
+      "instrumentos": [
+        {
+          "nombre": "Ley 153-98, capítulo IX: homologación de equipos y aparatos (arts. 61–63)",
+          "anio": 1998,
+          "tipo": "ley",
+          "url": "https://indotel.gob.do/wp-content/uploads/2022/10/ley-no-153-98.pdf"
+        },
+        {
+          "nombre": "Norma de control de móviles robados o extraviados – Sistema de Series Negadas (Res. 041-2020, mod. 063-2020)",
+          "anio": 2020,
+          "tipo": "norma",
+          "url": "https://indotel.gob.do/wp-content/uploads/2022/10/norma-que-establece-el-mecanismo-de-control-para-detectar-prevenir-y-sancionar-la-activacion-de-telefonos-moviles-que-son-objeto-de-sustraccion-o-extravio.pdf"
+        },
+        {
+          "nombre": "Res. 031-2025: actualización de tasas (incluye homologación y carta de no objeción)",
+          "anio": 2025,
+          "tipo": "resolucion",
+          "url": "https://indotel.gob.do/wp-content/uploads/2025/04/Res._031-2025_Actualizacion_de_tasas_signed.pdf"
+        },
+        {
+          "nombre": "Trámite: solicitud de certificado de homologación de equipos y aparatos",
+          "tipo": "otro",
+          "url": "https://indotel.gob.do/todos-los-servicios/solicitud-de-expedicion-de-certificado-de-homologacion-de-equipos-y-aparatos/"
+        }
+      ],
+      "novedad": {
+        "fecha": "2025-04",
+        "texto": "Res. 031-2025 actualizó tasas: homologación RD$13,000 (o US$225) por modelo y carta de no objeción para importar vía la VUCE."
+      },
+      "indicadores": {
+        "hom_obligatoria": {
+          "estado": "si",
+          "nota": "Ley 153-98 (arts. 61 y 63): todo equipo que se conecte a redes públicas, use espectro o se comercialice requiere certificado de homologación.",
+          "fuente": "https://indotel.gob.do/wp-content/uploads/2022/10/ley-no-153-98.pdf",
+          "anio": 1998
+        },
+        "hom_reconocimiento": {
+          "estado": "si",
+          "nota": "Ley 153-98 (art. 62) acepta homologaciones de la Zona 1 de numeración (p. ej. EE. UU.); en equipos de radio, ensayos de laboratorios extranjeros autorizados.",
+          "fuente": "https://indotel.gob.do/wp-content/uploads/2022/10/ley-no-153-98.pdf",
+          "anio": 1998
+        },
+        "hom_imei": {
+          "estado": "si",
+          "nota": "Sistema de Series Negadas (Res. 041-2020), vigente desde mar-2022: bloquea IMEI robados, perdidos o alterados; consulta del IMEI en gsma.indotel.gob.do.",
+          "fuente": "https://indotel.gob.do/nueva-normativa-para-equipos-moviles-robados-perdidos-y-alterados-entrara-en-vigencia-el-9-de-marzo/",
+          "anio": 2020
+        },
+        "hom_enlinea": {
+          "estado": "parcial",
+          "nota": "La solicitud se envía por correo electrónico con formulario; no figura una plataforma de trámite en línea. Tasa: RD$13,000 por modelo (Res. 031-2025).",
+          "fuente": "https://indotel.gob.do/todos-los-servicios/solicitud-de-expedicion-de-certificado-de-homologacion-de-equipos-y-aparatos/"
+        },
+        "hom_lista": {
+          "estado": "sin_dato",
+          "nota": "No se halló una lista pública de equipos homologados en el portal de INDOTEL ni en datos.gob.do."
+        }
+      }
+    }
+  },
+  "cambiosDetectados": [
+    "El perfil anterior (mar-2026) era descriptivo y solo parcialmente verificado; no tenía indicadores. Se construyeron los 40 con fuentes oficiales.",
+    "Los enlaces del perfil anterior (indotel.gob.do/leyes-y-reglamentos/… y la página de estrategia del CNCS) dan error 404; se reemplazaron por los PDF oficiales.",
+    "PNAF: ya no rige el Decreto 266-23; el vigente es el Decreto 99-26 (13-feb-2026).",
+    "Faltaba la licitación LPI-001-2026 (Res. 073-2026) y la entrada de Viettel como cuarto operador móvil (Res. 090-2026).",
+    "Ciberseguridad: CNCS es el Centro (no la 'Comisión') Nacional de Ciberseguridad y, desde el Decreto 612-24, el CSIRT-RD depende de la DNI.",
+    "Usuarios: el reglamento de controversias vigente es la Res. 091-2020 (no la 124-05) y los derechos están en la Res. 062-17.",
+    "FDT: el reglamento vigente es la Res. 128-2023, que derogó la Res. 024-10 (el perfil anterior citaba '023-10').",
+    "Homologación: no se pudo verificar el 'registro de equipos homologados' citado; se añadieron el reconocimiento de la Zona 1 y el bloqueo de IMEI.",
+    "Se añadieron instrumentos omitidos: sandbox (2023), 6 GHz (2022), compartición (Res. 089-17), licencias satelitales (2022 y 2026), reglas IoT (2026) y Código de Ética de IA (2026).",
+    "Alertas: el sistema de la Res. 110-2024 ya no es solo norma: se probó en 2025 y en el simulacro de sep-2026, pero sigue en implementación."
+  ],
+  "verificadoEn": "2026-11-11",
+  "confianza": "alta"
+}

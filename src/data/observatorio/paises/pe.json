@@ -1,0 +1,567 @@
+{
+  "iso": "pe",
+  "pais": "Perú",
+  "regulador": {
+    "sigla": "OSIPTEL",
+    "nombre": "Organismo Supervisor de Inversión Privada en Telecomunicaciones",
+    "url": "https://www.gob.pe/osiptel",
+    "naturaleza": "Organismo regulador adscrito a la Presidencia del Consejo de Ministros, con autonomía administrativa, funcional, técnica, económica y financiera (Ley 27332); creado por el Decreto Legislativo 702 (1991)"
+  },
+  "otrasAutoridades": [
+    {
+      "sigla": "MTC",
+      "nombre": "Ministerio de Transportes y Comunicaciones",
+      "rol": "Ministerio rector: concesiones, espectro (PNAF y subastas) y homologación de equipos; implementa el SISMATE y la Central 911",
+      "url": "https://www.gob.pe/mtc"
+    },
+    {
+      "sigla": "PRONATEL",
+      "nombre": "Programa Nacional de Telecomunicaciones",
+      "rol": "Programa del MTC que administra el FITEL (fondo de acceso universal) e implementa la Central 911",
+      "url": "https://www.gob.pe/pronatel"
+    },
+    {
+      "sigla": "PCM-SGTD",
+      "nombre": "Secretaría de Gobierno y Transformación Digital de la Presidencia del Consejo de Ministros",
+      "rol": "Rectoría de seguridad digital (Centro Nacional de Seguridad Digital) e inteligencia artificial",
+      "url": "https://www.gob.pe/transformaciondigital"
+    },
+    {
+      "sigla": "INDECOPI",
+      "nombre": "Instituto Nacional de Defensa de la Competencia y de la Protección de la Propiedad Intelectual",
+      "rol": "Protección al consumidor: sanciona llamadas y SMS comerciales sin consentimiento",
+      "url": "https://www.gob.pe/indecopi"
+    }
+  ],
+  "marcoLegal": {
+    "nombre": "Texto Único Ordenado de la Ley de Telecomunicaciones (Decreto Supremo 013-93-TCC)",
+    "anio": 1993,
+    "url": "https://portal.mtc.gob.pe/comunicaciones/regulacion_internacional/regulacion/documentos/servicios_publicos/TUO_Ley_de_Telecomunicaciones.pdf"
+  },
+  "resumenPais": "Perú separa funciones: el MTC otorga concesiones, gestiona el espectro y homologa equipos; OSIPTEL regula el mercado y protege al usuario. En 2025-2026 el MTC asignó 3,5 GHz para 5G por subasta y OSIPTEL renovó las reglas de usuarios y creó un sandbox; aún no hay ley marco ni estrategia de ciberseguridad aprobadas.",
+  "categorias": {
+    "espectro": {
+      "resumen": "El MTC gestiona el espectro con el Plan Nacional de Atribución de Frecuencias (2023). En 2025 asignó la banda de 3,5 GHz para 5G con una subasta basada en compromisos de inversión y cobertura; permite arrendar y compartir espectro y abrió toda la banda de 6 GHz al wifi en interiores.",
+      "instrumentos": [
+        {
+          "nombre": "Plan Nacional de Atribución de Frecuencias (RM 0597-2023-MTC/01.03)",
+          "anio": 2023,
+          "tipo": "plan",
+          "url": "https://www.gob.pe/institucion/mtc/normas-legales/4243339-0597-2023-mtc-01-03"
+        },
+        {
+          "nombre": "Resultados de la subasta de 3,5 GHz para 5G (RVM 0094-2025-MTC/03)",
+          "anio": 2025,
+          "tipo": "resolucion",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/8689260/7192127-resolucion-viceministerial-n-0094-2025-mtc_03.pdf"
+        },
+        {
+          "nombre": "Norma de compartición de infraestructura activa con espectro (DS 005-2024-MTC)",
+          "anio": 2024,
+          "tipo": "decreto",
+          "url": "https://www.gob.pe/institucion/mtc/informes-publicaciones/5433376-registro-de-comparticion-de-infraestructura-activa"
+        },
+        {
+          "nombre": "Norma de arrendamiento de bandas de espectro (DS 015-2019-MTC)",
+          "anio": 2019,
+          "tipo": "decreto",
+          "url": "https://portal.mtc.gob.pe/comunicaciones/regulacion_internacional/regulacion/documentos/servicios_publicos/DS_015-2019-MTC.pdf"
+        }
+      ],
+      "novedad": {
+        "fecha": "2025-12",
+        "texto": "El MTC firmó los contratos de 3,5 GHz para 5G con Bitel, Claro, Entel e Integratel: inversión mínima de US$ 502,9 millones en 4 años."
+      },
+      "indicadores": {
+        "esp_cuadro": {
+          "estado": "si",
+          "nota": "PNAF aprobado por RM 0597-2023-MTC/01.03 (reemplazó al de 2005); rectificado por RM 223-2025-MTC/01.03.",
+          "fuente": "https://www.gob.pe/institucion/mtc/normas-legales/4243339-0597-2023-mtc-01-03",
+          "anio": 2023
+        },
+        "esp_5g": {
+          "estado": "si",
+          "nota": "Bloques de 100 MHz en 3,5 GHz para Entel, Bitel (Viettel), Claro e Integratel (RVM 0094-2025-MTC/03); contratos firmados el 17-dic-2025.",
+          "fuente": "https://cdn.www.gob.pe/uploads/document/file/8689260/7192127-resolucion-viceministerial-n-0094-2025-mtc_03.pdf",
+          "anio": 2025
+        },
+        "esp_licitacion": {
+          "estado": "si",
+          "nota": "Subasta del 12-sep-2025 (mecanismo especial del DL 1627) basada en compromisos de inversión y cobertura: 4 bloques asignados; 3700–3800 MHz sin asignar.",
+          "fuente": "https://cdn.www.gob.pe/uploads/document/file/8689260/7192127-resolucion-viceministerial-n-0094-2025-mtc_03.pdf",
+          "anio": 2025
+        },
+        "esp_6ghz": {
+          "estado": "si",
+          "nota": "1200 MHz (5925–7125 MHz) sin licencia en interiores, con PIRE máx. de 1 W (RM 373-2021-MTC/01); condiciones vigentes según la RM 051-2024-MTC.",
+          "fuente": "https://cdn.www.gob.pe/uploads/document/file/1861732/Resoluci%C3%B3n%20Ministerial%20nro%20373-2021-MTC/01.pdf",
+          "anio": 2021
+        },
+        "esp_secundario": {
+          "estado": "si",
+          "nota": "Se permite arrendar bandas (DS 015-2019-MTC) y compartir infraestructura activa con espectro, con aprobación del MTC (DS 005-2024-MTC).",
+          "fuente": "https://www.gob.pe/institucion/mtc/informes-publicaciones/5433376-registro-de-comparticion-de-infraestructura-activa",
+          "anio": 2024
+        }
+      }
+    },
+    "competencia": {
+      "resumen": "OSIPTEL fija cargos de interconexión, regula el acceso a la infraestructura de los «proveedores importantes» y supervisa la neutralidad de red. El mercado móvil tiene cuatro redes (Claro, Movistar-Integratel, Entel y Bitel) y 12 concesiones de operadores móviles virtuales.",
+      "instrumentos": [
+        {
+          "nombre": "Ley de acceso a la infraestructura de los proveedores importantes (Decreto Legislativo 1019)",
+          "anio": 2008,
+          "tipo": "decreto",
+          "url": "https://portal.mtc.gob.pe/comunicaciones/regulacion_internacional/regulacion/documentos/servicios_publicos/D.S.%20N%C2%B0%201019.PDF"
+        },
+        {
+          "nombre": "Ley 29904 de Promoción de la Banda Ancha (neutralidad de red y acceso a infraestructura)",
+          "anio": 2012,
+          "tipo": "ley",
+          "url": "https://www.leyes.congreso.gob.pe/Documentos/Leyes/29904.pdf"
+        },
+        {
+          "nombre": "Cargo tope por terminación de llamadas en redes móviles (Res. 058-2026-CD/OSIPTEL)",
+          "anio": 2026,
+          "tipo": "resolucion",
+          "url": "https://www.gob.pe/institucion/osiptel/normas-legales/8125129-058-2026-cd-osiptel"
+        },
+        {
+          "nombre": "Refuerzo del cobro de multas de OSIPTEL (Decreto Legislativo 1718)",
+          "anio": 2026,
+          "tipo": "decreto",
+          "url": "https://www.elperuano.pe/noticia/288744-ejecutivo-fortalece-capacidad-sancionadora-del-osiptel-para-evitar-dilacion-de-pago-de-multas"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-02",
+        "texto": "DL 1718: demandar una multa de OSIPTEL ya no suspende su cobro sin carta fianza; las multas impagas superaban S/ 985 millones en 2025."
+      },
+      "indicadores": {
+        "comp_psm": {
+          "estado": "si",
+          "nota": "DL 1019 (2008) obliga a los «proveedores importantes» (control de instalaciones esenciales o posición de mercado) a compartir infraestructura.",
+          "fuente": "https://portal.mtc.gob.pe/comunicaciones/regulacion_internacional/regulacion/documentos/servicios_publicos/D.S.%20N%C2%B0%201019.PDF",
+          "anio": 2008
+        },
+        "comp_omv": {
+          "estado": "si",
+          "nota": "Ley 30083 (2013) habilita los OMV; el directorio del MTC (oct-2026) lista 12 concesiones de OMV, como Guinea Mobile o Flash.",
+          "fuente": "https://www.gob.pe/institucion/mtc/informes-publicaciones/322450-directorio-de-concesionarios-publicos",
+          "anio": 2013
+        },
+        "comp_interconexion": {
+          "estado": "si",
+          "nota": "OSIPTEL fija cargos tope de interconexión; en may-2026 fijó el de terminación en redes móviles en US$ 0,00082 por minuto (Res. 058-2026-CD/OSIPTEL).",
+          "fuente": "https://www.gob.pe/institucion/osiptel/normas-legales/8125129-058-2026-cd-osiptel",
+          "anio": 2026
+        },
+        "comp_fondo": {
+          "estado": "si",
+          "nota": "Los operadores aportan el 1 % de sus ingresos brutos al FITEL; PRONATEL (MTC) administra el fondo y ejecuta proyectos de conectividad rural.",
+          "fuente": "https://cdn.www.gob.pe/uploads/document/file/4546025/AporteFitel1.pdf",
+          "anio": 1993
+        },
+        "comp_neutralidad": {
+          "estado": "si",
+          "nota": "Ley 29904 (2012) y Reglamento de Neutralidad de Red de OSIPTEL (2016); en ago-2026 OSIPTEL abrió una consulta temprana para modificarlo.",
+          "fuente": "https://www.gob.pe/72013-neutralidad-de-red",
+          "anio": 2016
+        }
+      }
+    },
+    "ciberseguridad": {
+      "resumen": "La PCM dirige la seguridad digital mediante el Centro Nacional de Seguridad Digital (DU 007-2020), al que los proveedores de internet deben notificar sus incidentes (los críticos, en 48 horas). Perú es parte del Convenio de Budapest; su estrategia 2026-2028 sigue en propuesta.",
+      "instrumentos": [
+        {
+          "nombre": "Marco de Confianza Digital (Decreto de Urgencia 007-2020)",
+          "anio": 2020,
+          "tipo": "decreto",
+          "url": "https://www.gob.pe/institucion/pcm/normas-legales/395322-007-2020"
+        },
+        {
+          "nombre": "Reglamento del Marco de Confianza Digital (DS 126-2025-PCM)",
+          "anio": 2025,
+          "tipo": "reglamento",
+          "url": "https://www.gob.pe/institucion/pcm/normas-legales/7370829-126-2025-pcm"
+        },
+        {
+          "nombre": "Política Nacional de Transformación Digital al 2030",
+          "anio": 2023,
+          "tipo": "estrategia",
+          "url": "https://www.gob.pe/44545-politica-nacional-de-transformacion-digital"
+        },
+        {
+          "nombre": "Ley 32451 contra la activación ilegal de líneas móviles y chips (modifica la Ley 30096)",
+          "anio": 2025,
+          "tipo": "ley",
+          "url": "https://comunicaciones.congreso.gob.pe/noticias/ley-n-32451-castiga-activacion-ilegal-de-lineas-moviles-y-chips-falsos/"
+        }
+      ],
+      "novedad": {
+        "fecha": "2025-11",
+        "texto": "El DS 126-2025-PCM reglamentó el Marco de Confianza Digital: los incidentes críticos deben notificarse al CNSD en un máximo de 48 horas."
+      },
+      "indicadores": {
+        "ciber_estrategia": {
+          "estado": "parcial",
+          "nota": "La Estrategia Nacional de Ciberseguridad 2026-2028 solo se publicó como propuesta (ago-2025); la Política de Transformación Digital 2030 abarca la seguridad.",
+          "fuente": "https://www.gob.pe/institucion/pcm/informes-publicaciones/7046161-propuesta-de-la-estrategia-nacional-de-ciberseguridad-del-peru-2026-2028-esnacib",
+          "anio": 2025
+        },
+        "ciber_ley": {
+          "estado": "parcial",
+          "nota": "Sin ley marco del Congreso: rige el DU 007-2020 (rango de ley), reglamentado en 2025. Hay Ley de Ciberdefensa (30999) y de delitos informáticos (30096).",
+          "fuente": "https://www.gob.pe/institucion/pcm/normas-legales/395322-007-2020",
+          "anio": 2020
+        },
+        "ciber_csirt": {
+          "estado": "si",
+          "nota": "Centro Nacional de Seguridad Digital de la PCM (DU 007-2020); emite alertas frecuentes, p. ej. la n.º 222-2026 del 10-nov-2026.",
+          "fuente": "https://www.gob.pe/institucion/pcm/informes-publicaciones/8813758-alerta-integrada-de-seguridad-digital-n-222-2026-cnsd",
+          "anio": 2020
+        },
+        "ciber_reporte": {
+          "estado": "si",
+          "nota": "El DU 007-2020 (art. 9) obliga a proveedores de internet y de servicios críticos a notificar incidentes al CNSD; el DS 126-2025-PCM fija 48 h para los críticos.",
+          "fuente": "https://www.gob.pe/institucion/pcm/normas-legales/7370829-126-2025-pcm",
+          "anio": 2020
+        },
+        "ciber_budapest": {
+          "estado": "si",
+          "nota": "Adhesión depositada el 26-ago-2019; en vigor para Perú desde el 1-dic-2019.",
+          "fuente": "https://www.coe.int/en/web/conventions/full-list?module=signatures-by-treaty&treatynum=185",
+          "anio": 2019
+        }
+      }
+    },
+    "usuario": {
+      "resumen": "OSIPTEL fija los derechos de los usuarios, resuelve en segunda instancia los reclamos (TRASU) y publica mediciones de calidad. Desde junio de 2026 rige una nueva Norma de Condiciones de Uso, y la ley prohíbe llamadas y SMS comerciales sin consentimiento previo.",
+      "instrumentos": [
+        {
+          "nombre": "Norma de las Condiciones de Uso (Res. 132-2025-CD/OSIPTEL)",
+          "anio": 2025,
+          "tipo": "norma",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10406564/7552617-i-norma-de-las-condiciones-de-uso%282%29.pdf?v=1792531883"
+        },
+        {
+          "nombre": "TUO del Reglamento de Gestiones y Reclamos (Res. 099-2022-CD/OSIPTEL)",
+          "anio": 2022,
+          "tipo": "reglamento",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10406777/3737345-iii-texto-unico-ordenado-del-reglamento-para-la-atencion-de-gestiones-y-reclamos-de-usuarios.pdf?v=1785944798"
+        },
+        {
+          "nombre": "Reglamento de Portabilidad Numérica (Res. 017-2024-CD/OSIPTEL)",
+          "anio": 2024,
+          "tipo": "reglamento",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10406615/1464700-ii-reglamento-de-portabilidad-numerica.pdf?v=1785944157"
+        },
+        {
+          "nombre": "Reglamento General de Calidad (Res. 214-2024-CD/OSIPTEL)",
+          "anio": 2024,
+          "tipo": "reglamento",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10406805/1464175-iv-reglamento-general-de-calidad-de-los-servicios-publicos-de-telecomunicaciones.pdf?v=1785944998"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-06",
+        "texto": "Desde el 27-jun-2026 rige la nueva Norma de Condiciones de Uso de OSIPTEL (Res. 132-2025-CD), que reemplazó a la de 2022."
+      },
+      "indicadores": {
+        "usu_reglamento": {
+          "estado": "si",
+          "nota": "Nueva Norma de Condiciones de Uso (Res. 132-2025-CD/OSIPTEL), vigente desde el 27-jun-2026; derogó la norma de 2022.",
+          "fuente": "https://cdn.www.gob.pe/uploads/document/file/10406564/7552617-i-norma-de-las-condiciones-de-uso%282%29.pdf?v=1792531883",
+          "anio": 2025
+        },
+        "usu_reclamos": {
+          "estado": "si",
+          "nota": "El Tribunal de Reclamos (TRASU) de OSIPTEL resuelve apelaciones en segunda instancia (TUO del Reglamento de Reclamos, Res. 099-2022-CD).",
+          "fuente": "https://cdn.www.gob.pe/uploads/document/file/10406777/3737345-iii-texto-unico-ordenado-del-reglamento-para-la-atencion-de-gestiones-y-reclamos-de-usuarios.pdf?v=1785944798",
+          "anio": 2022
+        },
+        "usu_portabilidad": {
+          "estado": "si",
+          "nota": "Reglamento de Portabilidad (Res. 017-2024-CD/OSIPTEL): gratuita y en menos de 24 h; 547 874 líneas móviles portadas en set-2026.",
+          "fuente": "https://www.gob.pe/institucion/osiptel/noticias/1454727-mas-de-547-mil-lineas-cambiaron-de-operador-asi-se-movio-el-mercado-movil-en-setiembre",
+          "anio": 2024
+        },
+        "usu_calidad": {
+          "estado": "si",
+          "nota": "Reglamento General de Calidad (Res. 214-2024-CD/OSIPTEL); OSIPTEL publica un índice mensual de calidad 4G por operador y región.",
+          "fuente": "https://www.gob.pe/institucion/osiptel/noticias/1443286-osiptel-desempeno-del-servicio-de-internet-movil-4g-mejoro-en-agosto-y-alcanzo-el-79-84-a-nivel-nacional",
+          "anio": 2024
+        },
+        "usu_nomolestar": {
+          "estado": "si",
+          "nota": "Equivalente: la Ley 32323 (may-2025) prohíbe llamadas y SMS comerciales sin consentimiento previo y expreso (infracción muy grave); Indecopi sanciona.",
+          "fuente": "https://www.gob.pe/institucion/indecopi/normas-legales/3462038-ley-29571",
+          "anio": 2025
+        }
+      }
+    },
+    "emergentes": {
+      "resumen": "Perú tiene una ley de IA (2023), reglamentada en 2025, y una Estrategia Nacional de IA 2026-2030. OSIPTEL creó en 2026 un sandbox regulatorio, el 5G se amplía con la nueva banda de 3,5 GHz y Starlink tiene concesión del MTC; no se hallaron reglas específicas para IoT.",
+      "instrumentos": [
+        {
+          "nombre": "Reglamento de la Ley 31814 de inteligencia artificial (DS 115-2025-PCM)",
+          "anio": 2025,
+          "tipo": "reglamento",
+          "url": "https://www.gob.pe/institucion/pcm/normas-legales/7133522-115-2025-pcm"
+        },
+        {
+          "nombre": "Estrategia Nacional de Inteligencia Artificial 2026-2030 (RM 152-2026-PCM)",
+          "anio": 2026,
+          "tipo": "estrategia",
+          "url": "https://www.gob.pe/institucion/pcm/normas-legales/8081563-152-2026-pcm"
+        },
+        {
+          "nombre": "Sandbox Regulatorio de OSIPTEL (Res. 126-2026-CD/OSIPTEL)",
+          "anio": 2026,
+          "tipo": "resolucion",
+          "url": "https://busquedas.elperuano.pe/dispositivo/NL/2559300-1"
+        },
+        {
+          "nombre": "Directiva del Oficial de Inteligencia Artificial en el Estado (Directiva 002-2026-PCM/SGTD)",
+          "anio": 2026,
+          "tipo": "norma",
+          "url": "https://www.gob.pe/institucion/pcm/normas-legales/8743135-002-2026-pcm-sgtd"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-10",
+        "texto": "OSIPTEL aprobó su Sandbox Regulatorio: las operadoras podrán probar proyectos innovadores con flexibilización temporal de normas."
+      },
+      "indicadores": {
+        "tec_sandbox": {
+          "estado": "si",
+          "nota": "Sandbox Regulatorio de OSIPTEL (Res. 126-2026-CD, publicada el 1-oct-2026): proyectos de prueba con flexibilización temporal de sus normas.",
+          "fuente": "https://busquedas.elperuano.pe/dispositivo/NL/2559300-1",
+          "anio": 2026
+        },
+        "tec_5g": {
+          "estado": "si",
+          "nota": "Claro y Entel lanzaron planes 5G en 2021; con la nueva banda de 3,5 GHz, Claro activó su red 5G el 18-dic-2025 en unos 100 distritos.",
+          "fuente": "https://dplnews.com/claro-activa-su-red-5g-en-peru-esta-en-100-distritos/",
+          "anio": 2025
+        },
+        "tec_iot": {
+          "estado": "sin_dato",
+          "nota": "No se halló un marco, plan o regla específica para IoT/M2M."
+        },
+        "tec_satelital": {
+          "estado": "si",
+          "nota": "Starlink Perú S.R.L. tiene concesión del MTC (RM 0362-2022-MTC/01.03, contrato de jul-2022) y figura en el directorio de concesionarios (oct-2026).",
+          "fuente": "https://www.gob.pe/institucion/mtc/informes-publicaciones/322450-directorio-de-concesionarios-publicos",
+          "anio": 2022
+        },
+        "tec_ia": {
+          "estado": "si",
+          "nota": "Ley 31814 (2023) y su reglamento (DS 115-2025-PCM), que clasifica usos por riesgo; en abr-2026 se aprobó la Estrategia Nacional de IA 2026-2030.",
+          "fuente": "https://www.gob.pe/institucion/pcm/normas-legales/8081563-152-2026-pcm",
+          "anio": 2026
+        }
+      }
+    },
+    "infraestructura": {
+      "resumen": "La compartición de postes, ductos y torres está regulada (Ley 28295 y DL 1019) y OSIPTEL fija precios máximos por usar redes eléctricas. Los permisos de despliegue tienen un régimen especial sin fecha de vencimiento, hay roaming nacional regulado y normas de telecomunicaciones en edificios.",
+      "instrumentos": [
+        {
+          "nombre": "Ley 28295 de acceso y uso compartido de infraestructura de uso público",
+          "anio": 2004,
+          "tipo": "ley",
+          "url": "https://www.gob.pe/institucion/mtc/normas-legales/9859-28295"
+        },
+        {
+          "nombre": "Ley 31809 para el fomento de un Perú conectado",
+          "anio": 2023,
+          "tipo": "ley",
+          "url": "https://busquedas.elperuano.pe/normaslegales/ley-para-el-fomento-de-un-peru-conectado-ley-n-31809-2191769-2/"
+        },
+        {
+          "nombre": "Norma del servicio de Roaming Nacional (DS 002-2023-MTC)",
+          "anio": 2023,
+          "tipo": "decreto",
+          "url": "https://busquedas.elperuano.pe/dispositivo/NL/2158597-1"
+        },
+        {
+          "nombre": "Norma EM.020 Instalaciones de Telecomunicaciones del Reglamento Nacional de Edificaciones (RM 400-2018-VIVIENDA)",
+          "anio": 2018,
+          "tipo": "norma",
+          "url": "https://www.gob.pe/institucion/vivienda/informes-publicaciones/2309793-reglamento-nacional-de-edificaciones-rne"
+        }
+      ],
+      "novedad": {
+        "fecha": "2024-02",
+        "texto": "El DS 005-2024-MTC permite a los operadores móviles compartir infraestructura activa con espectro para llevar 4G o más a zonas sin cobertura."
+      },
+      "indicadores": {
+        "inf_pasiva": {
+          "estado": "si",
+          "nota": "Ley 28295 (2004) regula el uso compartido de postes, ductos y torres; el DL 1019 (2008) obliga a compartir a los proveedores importantes.",
+          "fuente": "https://www.gob.pe/institucion/mtc/normas-legales/9859-28295",
+          "anio": 2004
+        },
+        "inf_electrica": {
+          "estado": "si",
+          "nota": "Ley 29904 (2012) da acceso a la infraestructura eléctrica para redes de telecomunicaciones; OSIPTEL actualizó los precios máximos en abr-2026.",
+          "fuente": "https://www.gob.pe/institucion/osiptel/informes-publicaciones/6257184-listado-de-precios-maximos",
+          "anio": 2012
+        },
+        "inf_permisos": {
+          "estado": "si",
+          "nota": "Ley 29022 (mod. por Ley 30228): aprobación automática de permisos; la Ley 31809 (2023) dio vigencia indefinida al régimen y ordenó una ventanilla única digital.",
+          "fuente": "https://busquedas.elperuano.pe/normaslegales/ley-para-el-fomento-de-un-peru-conectado-ley-n-31809-2191769-2/",
+          "anio": 2023
+        },
+        "inf_roaming": {
+          "estado": "si",
+          "nota": "Norma de Roaming Nacional (DS 002-2023-MTC): OSIPTEL puede dictar mandatos en centros poblados de hasta 1000 habitantes sin red propia.",
+          "fuente": "https://busquedas.elperuano.pe/dispositivo/NL/2158597-1",
+          "anio": 2023
+        },
+        "inf_edificios": {
+          "estado": "si",
+          "nota": "Norma EM.020 «Instalaciones de Telecomunicaciones» del Reglamento Nacional de Edificaciones (RM 400-2018-VIVIENDA).",
+          "fuente": "https://www.gob.pe/institucion/vivienda/informes-publicaciones/2309793-reglamento-nacional-de-edificaciones-rne",
+          "anio": 2018
+        }
+      }
+    },
+    "emergencia": {
+      "resumen": "Las alertas a celulares se envían por el SISMATE (Cell Broadcast) y los operadores deben tener planes de contingencia y cursar gratis las llamadas de emergencia. El número único 911 (DL 1590) está en fase de pruebas en Lima; su central operaría plenamente en 2027.",
+      "instrumentos": [
+        {
+          "nombre": "Marco Normativo General del Sistema de Comunicaciones en Emergencias (DS 051-2010-MTC)",
+          "anio": 2010,
+          "tipo": "decreto",
+          "url": "https://portal.mtc.gob.pe/comunicaciones/regulacion_internacional/regulacion/documentos/servicios_publicos/DECRETO%20SUPREMO%20N%20051%202010%20MTC.PDF"
+        },
+        {
+          "nombre": "Ley 30472 del Sistema de Mensajería de Alerta Temprana de Emergencias (SISMATE)",
+          "anio": 2016,
+          "tipo": "ley",
+          "url": "https://portal.mtc.gob.pe/comunicaciones/sismate/index.html"
+        },
+        {
+          "nombre": "Central Única de Emergencias 911 (Decreto Legislativo 1590)",
+          "anio": 2023,
+          "tipo": "decreto",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/5535939/4924985-d-leg-1590.pdf"
+        },
+        {
+          "nombre": "Medidas extraordinarias ante El Niño 2026-2027 (Res. 133-2026-CD/OSIPTEL)",
+          "anio": 2026,
+          "tipo": "resolucion",
+          "url": "https://www.gob.pe/institucion/osiptel/noticias/1458798-fenomeno-el-nino-osiptel-dicta-medidas-para-mantener-la-comunicacion-y-facilitar-el-acceso-a-servicios-moviles-en-zonas-de-emergencia"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-10",
+        "texto": "Por El Niño 2026-2027, OSIPTEL ordenó no suspender líneas prepago y pasar a prepago las pospago impagas en zonas en emergencia."
+      },
+      "indicadores": {
+        "eme_alerta": {
+          "estado": "si",
+          "nota": "SISMATE (Ley 30472) envía alertas del INDECI a celulares por zona vía Cell Broadcast; se activó, p. ej., en el simulacro de tsunami de Lima (feb-2026).",
+          "fuente": "https://www.gob.pe/institucion/indeci/noticias/1352920-indeci-participo-en-simulacro-regional-ante-tsunami-y-superviso-activacion-del-sismate-en-lima-metropolitana",
+          "anio": 2016
+        },
+        "eme_numero": {
+          "estado": "parcial",
+          "nota": "DL 1590 (2023) creó la Central 911: desde may-2026 atiende llamadas reales en prueba en 5 distritos de Lima; operaría plenamente en 2027. Rigen 105, 116 y 106.",
+          "fuente": "https://www.gob.pe/institucion/mtc/noticias/1395664-emergencias-911-atiende-con-exito-sus-primeras-llamadas-reales-durante-fase-de-pruebas",
+          "anio": 2023
+        },
+        "eme_plan": {
+          "estado": "si",
+          "nota": "DS 051-2010-MTC exige a operadores fijos, móviles y portadores un Plan de Contingencia (restablecimiento y respaldo eléctrico) y simulacros.",
+          "fuente": "https://portal.mtc.gob.pe/comunicaciones/regulacion_internacional/regulacion/documentos/servicios_publicos/DECRETO%20SUPREMO%20N%20051%202010%20MTC.PDF",
+          "anio": 2010
+        },
+        "eme_prioridad": {
+          "estado": "si",
+          "nota": "DS 051-2010-MTC: llamadas gratis a 105, 115, 116, 118 y 119, llamadas y SMS gratis en zonas afectadas (mín. 48 h) y red RECSE para autoridades.",
+          "fuente": "https://portal.mtc.gob.pe/comunicaciones/regulacion_internacional/regulacion/documentos/servicios_publicos/DECRETO%20SUPREMO%20N%20051%202010%20MTC.PDF",
+          "anio": 2010
+        },
+        "eme_tampere": {
+          "estado": "si",
+          "nota": "Firmó el 14-ene-1999 y ratificó el 27-oct-2003.",
+          "fuente": "https://treaties.un.org/Pages/ViewDetails.aspx?src=TREATY&mtdsg_no=XXV-4&chapter=25&clang=_en",
+          "anio": 2003
+        }
+      }
+    },
+    "homologacion": {
+      "resumen": "El MTC exige homologar los equipos que se conectan a la red o emiten señales, con trámite en línea por la VUCE y aceptación de certificados de EE. UU., Canadá y acuerdos de reconocimiento mutuo. OSIPTEL ordena bloquear los celulares que no están en la lista blanca del RENTESEG.",
+      "instrumentos": [
+        {
+          "nombre": "Reglamento Específico de Homologación de Equipos y Aparatos de Telecomunicaciones (DS 001-2006-MTC; mod. por DS 019-2019-MTC y DS 038-2019-MTC)",
+          "anio": 2006,
+          "tipo": "reglamento",
+          "url": "https://www.gob.pe/institucion/mtc/normas-legales/314023-001-2006-mtc"
+        },
+        {
+          "nombre": "Registro Nacional de Equipos Terminales Móviles para la Seguridad – RENTESEG (DL 1338)",
+          "anio": 2017,
+          "tipo": "otro",
+          "url": "https://www.gob.pe/institucion/osiptel/pages/77887-portal-del-renteseg"
+        },
+        {
+          "nombre": "Lista de equipos y aparatos de telecomunicaciones homologados (MTC)",
+          "tipo": "otro",
+          "url": "https://www.gob.pe/institucion/mtc/informes-publicaciones/8641755-lista-de-equipos-y-aparatos-de-telecomunicaciones-homologados"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-09",
+        "texto": "OSIPTEL ordenó bloquear 300 000 celulares fuera de la lista blanca del RENTESEG; suman 5,3 millones bloqueados desde abril de 2025."
+      },
+      "indicadores": {
+        "hom_obligatoria": {
+          "estado": "si",
+          "nota": "Reglamento Específico de Homologación (DS 001-2006-MTC, modificado por DS 019-2019-MTC): obligatoria para equipos conectados a la red o que emiten.",
+          "fuente": "https://www.gob.pe/institucion/mtc/normas-legales/314023-001-2006-mtc",
+          "anio": 2006
+        },
+        "hom_reconocimiento": {
+          "estado": "si",
+          "nota": "Reconoce certificados de EE. UU. y Canadá (RM 521-2008-MTC/03) y, si hay acuerdo de reconocimiento mutuo, basta copia del certificado (DS 019-2019-MTC).",
+          "fuente": "https://www.gob.pe/institucion/mtc/informes-publicaciones/606175-equipos-y-aparatos-de-comunicaciones-provenientes-de-canada-y-usa",
+          "anio": 2008
+        },
+        "hom_imei": {
+          "estado": "si",
+          "nota": "RENTESEG (DL 1338, 2017), con listas blanca y negra a cargo de OSIPTEL; desde abr-2025 se ordenó bloquear unos 5,3 millones de celulares.",
+          "fuente": "https://www.gob.pe/institucion/osiptel/noticias/1444225-osiptel-300-000-celulares-seran-bloqueados-en-setiembre-revisa-las-fechas-programadas",
+          "anio": 2017
+        },
+        "hom_enlinea": {
+          "estado": "si",
+          "nota": "La homologación se tramita en línea por la Ventanilla Única de Comercio Exterior (VUCE), según el DS 019-2019-MTC.",
+          "fuente": "https://www.gob.pe/institucion/mtc/informes-publicaciones/337128-manual-vuce-homologacion",
+          "anio": 2019
+        },
+        "hom_lista": {
+          "estado": "si",
+          "nota": "El MTC publica en gob.pe la lista de equipos y aparatos de telecomunicaciones homologados (actualizada al 15-sep-2026).",
+          "fuente": "https://www.gob.pe/institucion/mtc/informes-publicaciones/8641755-lista-de-equipos-y-aparatos-de-telecomunicaciones-homologados"
+        }
+      }
+    }
+  },
+  "cambiosDetectados": [
+    "OSIPTEL no fue creado por la Ley 26285, como decía la ficha: lo creó el Decreto Legislativo 702 (1991).",
+    "La ficha describía el 5G como un marco aún en preparación: el MTC subastó 3,5 GHz en set-2025 y firmó contratos con cuatro operadores en dic-2025.",
+    "La Norma de Condiciones de Uso citada (2022) fue reemplazada por la Res. 132-2025-CD/OSIPTEL, vigente desde el 27-jun-2026.",
+    "Portabilidad y calidad se rigen por reglamentos nuevos de OSIPTEL: Res. 017-2024-CD y Res. 214-2024-CD.",
+    "La homologación no la administra OSIPTEL sino el MTC (DS 001-2006-MTC, por VUCE); OSIPTEL gestiona el RENTESEG (IMEI).",
+    "Las alertas a celulares no las difunde OSIPTEL por SMS: se emiten por el SISMATE del MTC (Cell Broadcast, Ley 30472).",
+    "La ficha omitía el DU 007-2020, el Centro Nacional de Seguridad Digital y la adhesión al Convenio de Budapest (2019).",
+    "Se agregaron novedades 2023-2026 ausentes: Central 911 (DL 1590), ley y estrategia de IA, reglamento del DU 007-2020, sandbox de OSIPTEL, DL 1718 y roaming nacional.",
+    "La ficha anterior era «real-parcial» (textos generales sin indicadores); ahora cada indicador tiene fuente, mayormente oficial."
+  ],
+  "verificadoEn": "2026-11-11",
+  "confianza": "alta"
+}

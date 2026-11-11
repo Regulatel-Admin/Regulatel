@@ -1,0 +1,498 @@
+{
+  "iso": "ni",
+  "pais": "Nicaragua",
+  "regulador": {
+    "sigla": "TELCOR",
+    "nombre": "Instituto Nicaragüense de Telecomunicaciones y Correos",
+    "url": "https://www.telcor.gob.ni",
+    "naturaleza": "Autoridad reguladora descentralizada bajo la rectoría sectorial de la Presidencia de la República, que nombra y remueve a su director o directora general, con rango de ministro (Ley 1156 de 2023)"
+  },
+  "otrasAutoridades": [
+    {
+      "sigla": "ENATREL",
+      "nombre": "Empresa Nacional de Transmisión Eléctrica",
+      "rol": "Empresa eléctrica estatal que administra la Red Estatal de Fibra Óptica (136 municipios) y presta servicios de banda ancha y datos (Ley 583)",
+      "url": "https://www.enatrel.gob.ni/telecomunicaciones/"
+    },
+    {
+      "sigla": "SINAPRED",
+      "nombre": "Sistema Nacional para la Prevención, Mitigación y Atención de Desastres",
+      "rol": "Coordina la atención de desastres; los operadores deben darle acceso telefónico gratuito como servicio de emergencia (Normativa 007-2025)",
+      "url": "https://www.sinapred.gob.ni/"
+    }
+  ],
+  "marcoLegal": {
+    "nombre": "Ley 1223, Ley General de Telecomunicaciones Convergentes (vigente desde noviembre de 2025)",
+    "anio": 2024,
+    "url": "https://www.lagaceta.gob.ni/la-gaceta-no-204-mie-rcoles-06-de-noviembre-de-2024/"
+  },
+  "resumenPais": "TELCOR, ente descentralizado bajo la rectoría de la Presidencia, regula el sector y el espectro. La Ley 1223 de Telecomunicaciones Convergentes, vigente desde nov-2025, reemplazó la Ley 200 y trajo nuevas normas de usuarios, homologación y portabilidad. La Constitución reconoce el acceso a Internet como derecho.",
+  "categorias": {
+    "espectro": {
+      "resumen": "TELCOR planifica y asigna el espectro. Su Cuadro Nacional de Atribución de Frecuencias (2021, CMR-19) prevé el Wi-Fi solo en 2,4 y 5 GHz. En 2022 reservó 3,3–3,7 GHz para 5G y suspendió asignaciones en esa banda; no consta que se haya asignado. Las licencias pueden cederse con su aprobación.",
+      "instrumentos": [
+        {
+          "nombre": "Cuadro Nacional de Atribución de Frecuencias (Acuerdo Administrativo 002-2021)",
+          "anio": 2021,
+          "tipo": "plan",
+          "url": "https://www.lagaceta.gob.ni/la-gaceta-n-134-mi%C3%A9rcoles-21-julio-de-2021/"
+        },
+        {
+          "nombre": "Acuerdo Administrativo 002-2022 (reserva de 3300–3700 MHz para 5G)",
+          "anio": 2022,
+          "tipo": "resolucion",
+          "url": "https://www.lagaceta.gob.ni/la-gaceta-n%C2%BA-221-jueves-24-de-noviembre-de-2022/"
+        },
+        {
+          "nombre": "Normativa de Títulos Habilitantes (Acuerdo Administrativo 002-2025)",
+          "anio": 2025,
+          "tipo": "reglamento",
+          "url": "https://www.lagaceta.gob.ni/la-gaceta-no-215-martes-18-de-noviembre-de-2025/"
+        },
+        {
+          "nombre": "Normativa de Cánones y Tarifas por Trámites Administrativos y Regulatorios de Telecomunicaciones (Acuerdo Administrativo 006-2025)",
+          "anio": 2025,
+          "tipo": "reglamento",
+          "url": "https://www.lagaceta.gob.ni/la-gaceta-no-215-martes-18-de-noviembre-de-2025/"
+        }
+      ],
+      "novedad": {
+        "fecha": "2025-11",
+        "texto": "La Normativa de Títulos Habilitantes (Acuerdo 002-2025) reguló las licencias de espectro, las autorizaciones satelitales y la cesión de licencias."
+      },
+      "indicadores": {
+        "esp_cuadro": {
+          "estado": "si",
+          "nota": "CNAF actualizado por TELCOR con el Acuerdo 002-2021, alineado con la CMR-19; la Ley 1223 lo mantiene como instrumento de gestión del espectro.",
+          "fuente": "https://www.lagaceta.gob.ni/la-gaceta-n-134-mi%C3%A9rcoles-21-julio-de-2021/",
+          "anio": 2021
+        },
+        "esp_5g": {
+          "estado": "no",
+          "nota": "TELCOR reservó 3300–3700 MHz para 5G y suspendió su asignación (Acuerdo 002-2022); las tarifas IMT para 2026 solo incluyen 700, 800, 900, 1900 MHz y AWS.",
+          "fuente": "https://www.lagaceta.gob.ni/la-gaceta-n%C2%BA-221-jueves-24-de-noviembre-de-2022/",
+          "anio": 2022
+        },
+        "esp_licitacion": {
+          "estado": "sin_dato",
+          "nota": "La Ley 1223 (art. 19) prevé concursos públicos si la demanda supera la oferta; no se halló ningún concurso IMT concluido desde 2020."
+        },
+        "esp_6ghz": {
+          "estado": "no",
+          "nota": "CNAF 2021: Wi-Fi/RLAN solo en 2,4 y 5 GHz (NCG40); 5925–7125 MHz, para enlaces fijos (NCG46). Las bandas compartidas tarifadas en 2025 tampoco incluyen 6 GHz.",
+          "fuente": "https://www.lagaceta.gob.ni/la-gaceta-n-134-mi%C3%A9rcoles-21-julio-de-2021/",
+          "anio": 2021
+        },
+        "esp_secundario": {
+          "estado": "si",
+          "nota": "Ley 1223 (art. 23) y Normativa 002-2025 (arts. 25–28): las licencias de uso de espectro pueden cederse o transferirse con aprobación de TELCOR.",
+          "fuente": "https://www.lagaceta.gob.ni/la-gaceta-no-215-martes-18-de-noviembre-de-2025/",
+          "anio": 2025
+        }
+      }
+    },
+    "competencia": {
+      "resumen": "La Ley 1223 da a TELCOR la competencia del sector: interconexión y compartición obligatorias, fusiones con su aval y posible declaratoria de peso significativo de mercado (ninguna conocida). Reconoce a los operadores virtuales y crea el FODETEC. En oct-2026 se derogó la ley general de competencia.",
+      "instrumentos": [
+        {
+          "nombre": "Ley 1223, Ley General de Telecomunicaciones Convergentes (Títulos VII, XIV y XVI: interconexión, FODETEC y competencia)",
+          "anio": 2024,
+          "tipo": "ley",
+          "url": "https://www.lagaceta.gob.ni/la-gaceta-no-204-mie-rcoles-06-de-noviembre-de-2024/"
+        },
+        {
+          "nombre": "Ley 1156 de reforma a la Ley Orgánica de TELCOR",
+          "anio": 2023,
+          "tipo": "ley",
+          "url": "https://www.lagaceta.gob.ni/la-gaceta-no-117-viernes-30-de-junio-de-2023/"
+        },
+        {
+          "nombre": "Ley 1287 de Derogación de la Procuraduría Nacional para la Defensa de la Libre Competencia (suprime PROCOMPETENCIA y deroga la Ley 601)",
+          "anio": 2026,
+          "tipo": "ley",
+          "url": "https://www.lagaceta.gob.ni/la-gaceta-no-200-viernes-30-de-octubre-de-2026/"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-10",
+        "texto": "La Ley 1287 suprimió PROCOMPETENCIA y derogó la Ley 601 de Promoción de la Competencia; en telecomunicaciones rigen las reglas de competencia de la Ley 1223."
+      },
+      "indicadores": {
+        "comp_psm": {
+          "estado": "parcial",
+          "nota": "Ley 1223 (arts. 122–125): TELCOR puede declarar operadores con peso significativo de mercado e imponerles obligaciones; no se halló ninguna declaratoria.",
+          "fuente": "https://www.lagaceta.gob.ni/la-gaceta-no-204-mie-rcoles-06-de-noviembre-de-2024/",
+          "anio": 2024
+        },
+        "comp_omv": {
+          "estado": "si",
+          "nota": "Ley 1223 (art. 5) habilita al operador virtual con licencia de TELCOR; la normativa de portabilidad de 2026 incluye a los OMV. No se identificaron OMV activos.",
+          "fuente": "https://www.lagaceta.gob.ni/la-gaceta-no-204-mie-rcoles-06-de-noviembre-de-2024/",
+          "anio": 2024
+        },
+        "comp_interconexion": {
+          "estado": "si",
+          "nota": "Ley 1223 (arts. 75–84): interconexión obligatoria; TELCOR aprueba y registra los contratos y puede fijar precios con costos eficientes.",
+          "fuente": "https://www.lagaceta.gob.ni/la-gaceta-no-204-mie-rcoles-06-de-noviembre-de-2024/",
+          "anio": 2024
+        },
+        "comp_fondo": {
+          "estado": "parcial",
+          "nota": "La Ley 1223 creó el FODETEC (sucesor del FITEL de 2006), administrado por TELCOR para cerrar la brecha digital; no se halló su normativa de funcionamiento.",
+          "fuente": "https://www.lagaceta.gob.ni/la-gaceta-no-204-mie-rcoles-06-de-noviembre-de-2024/",
+          "anio": 2024
+        },
+        "comp_neutralidad": {
+          "estado": "parcial",
+          "nota": "Ley 1223: obliga a permitir contenidos y aplicaciones y sanciona bloquearlos sin aval de TELCOR (arts. 101 y 142); no regula la priorización de tráfico.",
+          "fuente": "https://www.lagaceta.gob.ni/la-gaceta-no-204-mie-rcoles-06-de-noviembre-de-2024/",
+          "anio": 2024
+        }
+      }
+    },
+    "ciberseguridad": {
+      "resumen": "No hay ley marco de ciberseguridad ni CSIRT nacional conocido, y la Estrategia Nacional 2020–2025 venció sin reemplazo. Rige la Ley 1042 de Ciberdelitos (2020, reformada en 2024) y, desde 2021, los operadores conservan 12 meses los datos de tráfico. No es parte del Convenio de Budapest.",
+      "instrumentos": [
+        {
+          "nombre": "Ley 1042, Ley Especial de Ciberdelitos",
+          "anio": 2020,
+          "tipo": "ley",
+          "url": "https://www.lagaceta.gob.ni/la-gaceta-n-201-viernes-30-octubre-de-2020/"
+        },
+        {
+          "nombre": "Ley 1219 de reformas y adiciones a la Ley Especial de Ciberdelitos",
+          "anio": 2024,
+          "tipo": "ley",
+          "url": "https://www.lagaceta.gob.ni/la-gaceta-no-170-jueves-12-de-septiembre-de-2024/"
+        },
+        {
+          "nombre": "Normativa para la Preservación de Datos e Información (Acuerdo Administrativo 001-2021)",
+          "anio": 2021,
+          "tipo": "reglamento",
+          "url": "https://www.lagaceta.gob.ni/la-gaceta-n-20-viernes-29-de-enero-de-2021/"
+        }
+      ],
+      "novedad": {
+        "fecha": "2024-09",
+        "texto": "La Ley 1219 reformó la Ley de Ciberdelitos: endurece penas, añade la responsabilidad de las empresas y la aplica a hechos cometidos fuera del país."
+      },
+      "indicadores": {
+        "ciber_estrategia": {
+          "estado": "no",
+          "nota": "La Estrategia Nacional de Ciberseguridad 2020–2025 (Decreto 24-2020) venció y no se publicó una nueva en 2024–2026 (base legislativa de la Asamblea).",
+          "fuente": "https://www.lagaceta.gob.ni/la-gaceta-n-178-martes-29-septiembre-de-2020/",
+          "anio": 2020
+        },
+        "ciber_ley": {
+          "estado": "no",
+          "nota": "Sin ley marco: solo rige la Ley 1042 de Ciberdelitos (2020), reformada por la Ley 1219 de 2024.",
+          "fuente": "https://www.lagaceta.gob.ni/la-gaceta-no-170-jueves-12-de-septiembre-de-2024/",
+          "anio": 2024
+        },
+        "ciber_csirt": {
+          "estado": "sin_dato",
+          "nota": "La Estrategia 2020–2025 previó crear un equipo de respuesta a incidentes; no se halló evidencia de que opere."
+        },
+        "ciber_reporte": {
+          "estado": "sin_dato",
+          "nota": "La Ley 1223 solo exige informar a TELCOR de inmediato las interrupciones no programadas; no se halló un deber específico sobre ciberincidentes."
+        },
+        "ciber_budapest": {
+          "estado": "no",
+          "nota": "Nicaragua no es Parte ni firmante ni Estado invitado a adherirse al Convenio de Budapest (lista oficial del Consejo de Europa).",
+          "fuente": "https://www.coe.int/en/web/conventions/full-list?module=signatures-by-treaty&treatynum=185"
+        }
+      }
+    },
+    "usuario": {
+      "resumen": "Desde noviembre de 2025 rigen nuevas normas de TELCOR sobre derechos de los usuarios y reclamos: si el operador no resuelve, se acude a TELCOR en línea o en persona. La portabilidad móvil debe lanzarse el 5 de octubre de 2027. No hay registro «No Molestar», pero la publicidad exige consentimiento.",
+      "instrumentos": [
+        {
+          "nombre": "Normativa para la Protección de los Derechos de los Usuarios y Prestación de Servicios de Telecomunicaciones (Acuerdo Administrativo 007-2025)",
+          "anio": 2025,
+          "tipo": "reglamento",
+          "url": "https://www.lagaceta.gob.ni/la-gaceta-no-215-martes-18-de-noviembre-de-2025/"
+        },
+        {
+          "nombre": "Normativa para la Atención de Reclamos de los Usuarios de Servicios de Telecomunicaciones (Acuerdo Administrativo 003-2025)",
+          "anio": 2025,
+          "tipo": "reglamento",
+          "url": "https://www.lagaceta.gob.ni/la-gaceta-no-215-martes-18-de-noviembre-de-2025/"
+        },
+        {
+          "nombre": "Normativa de Portabilidad Numérica para el Servicio Móvil y su Hoja de Ruta (Acuerdos Administrativos 002-2026 y 001-2026)",
+          "anio": 2026,
+          "tipo": "reglamento",
+          "url": "https://www.lagaceta.gob.ni/la-gaceta-no-177-del-29-de-septiembre-de-2026/"
+        },
+        {
+          "nombre": "Constitución Política (texto íntegro de 2025), art. 103: el acceso a Internet es un derecho",
+          "anio": 2025,
+          "tipo": "otro",
+          "url": "https://www.lagaceta.gob.ni/la-gaceta-no-32-martes-18-de-febrero-de-2025-edicion-especial/"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-09",
+        "texto": "TELCOR aprobó la normativa y la hoja de ruta de la portabilidad numérica móvil, que debe lanzarse el 5 de octubre de 2027."
+      },
+      "indicadores": {
+        "usu_reglamento": {
+          "estado": "si",
+          "nota": "Normativa 007-2025 de TELCOR, vigente desde el 18-nov-2025: derechos, contratos, facturación, compensaciones y equipos terminales.",
+          "fuente": "https://www.lagaceta.gob.ni/la-gaceta-no-215-martes-18-de-noviembre-de-2025/",
+          "anio": 2025
+        },
+        "usu_reclamos": {
+          "estado": "si",
+          "nota": "Normativa 003-2025: si el operador no responde en 10 días hábiles o el usuario no queda conforme, reclama ante TELCOR, en línea o en sus oficinas.",
+          "fuente": "https://www.lagaceta.gob.ni/la-gaceta-no-215-martes-18-de-noviembre-de-2025/",
+          "anio": 2025
+        },
+        "usu_portabilidad": {
+          "estado": "parcial",
+          "nota": "En implementación: la Normativa 002-2026 y la Hoja de Ruta 001-2026 fijan el lanzamiento de la portabilidad móvil para el 5-oct-2027.",
+          "fuente": "https://www.lagaceta.gob.ni/la-gaceta-no-177-del-29-de-septiembre-de-2026/",
+          "anio": 2026
+        },
+        "usu_calidad": {
+          "estado": "sin_dato",
+          "nota": "La Ley 1223 (art. 98) faculta a TELCOR a medir la calidad, pero no se halló publicada la normativa de indicadores prevista ni mediciones públicas."
+        },
+        "usu_nomolestar": {
+          "estado": "parcial",
+          "nota": "Sin registro centralizado: la Normativa 007-2025 (art. 21) prohíbe enviar publicidad sin consentimiento previo y exige que el usuario pueda bloquearla.",
+          "fuente": "https://www.lagaceta.gob.ni/la-gaceta-no-215-martes-18-de-noviembre-de-2025/",
+          "anio": 2025
+        }
+      }
+    },
+    "emergentes": {
+      "resumen": "No hay 5G comercial: la banda de 3,5 GHz está reservada desde 2022 sin asignar y Claro ofrece como máximo 4.5G LTE. La Ley 1223 permite un sandbox de TELCOR, aún sin normativa. Desde 2021 se permiten dispositivos IoT de baja potencia. No se halló una estrategia nacional de inteligencia artificial.",
+      "instrumentos": [
+        {
+          "nombre": "Ley 1223, Título XVII: Regulación Experimental (Sandbox)",
+          "anio": 2024,
+          "tipo": "ley",
+          "url": "https://www.lagaceta.gob.ni/la-gaceta-no-204-mie-rcoles-06-de-noviembre-de-2024/"
+        },
+        {
+          "nombre": "Acuerdo Administrativo 005-2021 (dispositivos de corto alcance y LPWAN para IoT y M2M)",
+          "anio": 2021,
+          "tipo": "resolucion",
+          "url": "https://www.lagaceta.gob.ni/la-gaceta-n-233-viernes-17-diciembre-de-2021/"
+        },
+        {
+          "nombre": "Decreto Presidencial 11-2026 (ratifica el acuerdo de la Organización Mundial para la Cooperación en Inteligencia Artificial)",
+          "anio": 2026,
+          "tipo": "decreto",
+          "url": "https://www.lagaceta.gob.ni/la-gaceta-no-194-jueves-22-de-octubre-de-2026/"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-10",
+        "texto": "Nicaragua ratificó el acuerdo que crea la Organización Mundial para la Cooperación en Inteligencia Artificial (Decreto 11-2026)."
+      },
+      "indicadores": {
+        "tec_sandbox": {
+          "estado": "parcial",
+          "nota": "La Ley 1223 (arts. 132–138) crea la regulación experimental (sandbox) de TELCOR; no se halló su normativa específica ni proyectos aprobados.",
+          "fuente": "https://www.lagaceta.gob.ni/la-gaceta-no-204-mie-rcoles-06-de-noviembre-de-2024/",
+          "anio": 2024
+        },
+        "tec_5g": {
+          "estado": "no",
+          "nota": "Sin red 5G comercial: el 3,5 GHz sigue reservado sin asignar (Acuerdo 002-2022) y Claro ofrece como máximo 4.5G LTE (consulta de nov-2026).",
+          "fuente": "https://www.claro.com.ni/personas/beneficios/4.5g-lte/"
+        },
+        "tec_iot": {
+          "estado": "si",
+          "nota": "Acuerdo 005-2021: habilita dispositivos de corto alcance y LPWAN para IoT y M2M en 915–928 MHz, con homologación; la Normativa 006-2025 prevé números M2M/IoT.",
+          "fuente": "https://www.lagaceta.gob.ni/la-gaceta-n-233-viernes-17-diciembre-de-2021/",
+          "anio": 2021
+        },
+        "tec_satelital": {
+          "estado": "sin_dato",
+          "nota": "La Ley 1223 (art. 56) exige autorización para aterrizar señales satelitales; no se halló autorización a constelaciones LEO como Starlink."
+        },
+        "tec_ia": {
+          "estado": "sin_dato",
+          "nota": "No se halló una estrategia nacional de IA; en oct-2026 se ratificó el acuerdo de la Organización Mundial para la Cooperación en IA."
+        }
+      }
+    },
+    "infraestructura": {
+      "resumen": "La Ley 843 de 2013 creó en TELCOR una ventanilla única para permisos de torres, con respuesta en 45 días; la coubicación es voluntaria. La Ley 1223 obliga a compartir instalaciones esenciales y a dar roaming nacional a precios regulados. ENATREL explota la fibra estatal tendida en la red eléctrica.",
+      "instrumentos": [
+        {
+          "nombre": "Ley 843, que regula la ubicación, construcción e instalación de estructuras de soporte para equipos de telecomunicaciones que hacen uso del espectro radioeléctrico",
+          "anio": 2013,
+          "tipo": "ley",
+          "url": "https://www.lagaceta.gob.ni/la-gaceta-n-130-viernes-12-julio-de-2013/"
+        },
+        {
+          "nombre": "Ley 1223 (Título VII: acceso y uso compartido de instalaciones; Título XII: despliegue de redes)",
+          "anio": 2024,
+          "tipo": "ley",
+          "url": "https://www.lagaceta.gob.ni/la-gaceta-no-204-mie-rcoles-06-de-noviembre-de-2024/"
+        }
+      ],
+      "novedad": {
+        "fecha": "2025-11",
+        "texto": "La Ley 1223, vigente desde nov-2025, prohíbe a las autoridades poner barreras al despliegue de redes y obliga a dar roaming nacional regulado."
+      },
+      "indicadores": {
+        "inf_pasiva": {
+          "estado": "parcial",
+          "nota": "Ley 1223 (arts. 73–89) obliga a compartir instalaciones esenciales, pero no se halló la norma que las define; la coubicación en torres es voluntaria (Ley 843).",
+          "fuente": "https://www.lagaceta.gob.ni/la-gaceta-no-204-mie-rcoles-06-de-noviembre-de-2024/",
+          "anio": 2024
+        },
+        "inf_electrica": {
+          "estado": "parcial",
+          "nota": "La Ley 583 permite a ENATREL explotar la fibra instalada en la red eléctrica de transmisión; no se hallaron reglas de acceso a postes eléctricos.",
+          "fuente": "https://www.enatrel.gob.ni/telecomunicaciones/"
+        },
+        "inf_permisos": {
+          "estado": "si",
+          "nota": "Ley 843 (2013): ventanilla única de TELCOR para permisos de torres, con respuesta en 45 días; la Ley 1223 (art. 107) prohíbe barreras al despliegue.",
+          "fuente": "https://www.lagaceta.gob.ni/la-gaceta-n-130-viernes-12-julio-de-2013/",
+          "anio": 2013
+        },
+        "inf_roaming": {
+          "estado": "si",
+          "nota": "Ley 1223 (art. 101): los operadores deben brindar itinerancia nacional con precios regulados por TELCOR según costos eficientes.",
+          "fuente": "https://www.lagaceta.gob.ni/la-gaceta-no-204-mie-rcoles-06-de-noviembre-de-2024/",
+          "anio": 2024
+        },
+        "inf_edificios": {
+          "estado": "sin_dato",
+          "nota": "No se halló norma de infraestructura de telecomunicaciones en edificios; la norma técnica de vivienda (NTON 12 012-20) remite a la Ley 843."
+        }
+      }
+    },
+    "emergencia": {
+      "resumen": "No hay número único: Policía, bomberos, ambulancias y SINAPRED usan códigos cortos, gratuitos y con prioridad. Los operadores deben poner sus redes al servicio del Gobierno en emergencias. No se halló un sistema de alertas a celulares. Nicaragua ratificó el Convenio de Tampere en 1999.",
+      "instrumentos": [
+        {
+          "nombre": "Plan Nacional de Recursos Públicos de Numeración (Acuerdo Administrativo 003-2009)",
+          "anio": 2009,
+          "tipo": "plan",
+          "url": "https://www.lagaceta.gob.ni/la-gaceta-n-136-miercoles-22-julio-de-2009/"
+        },
+        {
+          "nombre": "Reglamento de planes de encaminamiento, disponibilidad y seguridad del tráfico (Acuerdo Administrativo 001-2004)",
+          "anio": 2004,
+          "tipo": "reglamento",
+          "url": "https://www.lagaceta.gob.ni/la-gaceta-n-20-jueves-29-enero-de-2004/"
+        },
+        {
+          "nombre": "Ley 1223 (art. 101: acceso gratuito a emergencias y redes al servicio del Gobierno)",
+          "anio": 2024,
+          "tipo": "ley",
+          "url": "https://www.lagaceta.gob.ni/la-gaceta-no-204-mie-rcoles-06-de-noviembre-de-2024/"
+        }
+      ],
+      "novedad": {
+        "fecha": "2025-11",
+        "texto": "La Normativa 007-2025 obliga a dar acceso gratuito a los números de emergencia, incluido el SINAPRED; incumplirlo es infracción muy grave."
+      },
+      "indicadores": {
+        "eme_alerta": {
+          "estado": "sin_dato",
+          "nota": "No se halló un sistema de alertas a celulares; la Ley 1223 obliga a radio y TV a unirse a cadenas nacionales en emergencias."
+        },
+        "eme_numero": {
+          "estado": "no",
+          "nota": "Sin número único: Policía, bomberos, ambulancias, Cruz Blanca y SINAPRED tienen códigos cortos 1XY propios y gratuitos (Normativa 007-2025; Plan de Numeración).",
+          "fuente": "https://www.lagaceta.gob.ni/la-gaceta-no-215-martes-18-de-noviembre-de-2025/",
+          "anio": 2025
+        },
+        "eme_plan": {
+          "estado": "parcial",
+          "nota": "El Acuerdo 001-2004 exige redundancia y energía de respaldo; la Ley 1223 obliga a ceder redes al Gobierno en emergencias. No se halló un plan ante desastres.",
+          "fuente": "https://www.lagaceta.gob.ni/la-gaceta-n-20-jueves-29-enero-de-2004/",
+          "anio": 2004
+        },
+        "eme_prioridad": {
+          "estado": "si",
+          "nota": "Las llamadas a emergencias son gratuitas y tienen alta prioridad en todas las redes (Plan de Numeración, Acuerdo 003-2009; Ley 1223, art. 101).",
+          "fuente": "https://www.lagaceta.gob.ni/la-gaceta-n-136-miercoles-22-julio-de-2009/",
+          "anio": 2009
+        },
+        "eme_tampere": {
+          "estado": "si",
+          "nota": "Firmó el Convenio de Tampere el 18-jun-1998 y lo ratificó el 18-nov-1999 (UN Treaty Collection, cap. XXV-4).",
+          "fuente": "https://treaties.un.org/Pages/ViewDetails.aspx?src=TREATY&mtdsg_no=XXV-4&chapter=25&clang=_en",
+          "anio": 1999
+        }
+      }
+    },
+    "homologacion": {
+      "resumen": "Los equipos de telecomunicaciones deben homologarse ante TELCOR antes de importarse, venderse o usarse, salvo excepciones (Normativa 004-2025). Se aceptan certificados y ensayos extranjeros y el registro de homologados es público. Los operadores bloquean los celulares robados y comparten sus IMEI.",
+      "instrumentos": [
+        {
+          "nombre": "Normativa para la Homologación de Equipos de Telecomunicaciones (Acuerdo Administrativo 004-2025)",
+          "anio": 2025,
+          "tipo": "reglamento",
+          "url": "https://www.lagaceta.gob.ni/la-gaceta-no-215-martes-18-de-noviembre-de-2025/"
+        },
+        {
+          "nombre": "Normativa para la Emisión de Constancia de No Objeción a la Internación de Equipos de Telecomunicaciones Restringidos (Acuerdo Administrativo 005-2025)",
+          "anio": 2025,
+          "tipo": "reglamento",
+          "url": "https://www.lagaceta.gob.ni/la-gaceta-no-215-martes-18-de-noviembre-de-2025/"
+        },
+        {
+          "nombre": "Normativa 007-2025, arts. 62–63 (bloqueo de equipos robados o extraviados)",
+          "anio": 2025,
+          "tipo": "reglamento",
+          "url": "https://www.lagaceta.gob.ni/la-gaceta-no-215-martes-18-de-noviembre-de-2025/"
+        }
+      ],
+      "novedad": {
+        "fecha": "2025-11",
+        "texto": "Nueva Normativa de Homologación (Acuerdo 004-2025): certificado por modelo con vigencia indefinida y registro público en el portal de TELCOR."
+      },
+      "indicadores": {
+        "hom_obligatoria": {
+          "estado": "si",
+          "nota": "Ley 1223 (art. 60) y Normativa 004-2025: homologación previa obligatoria para fabricar, importar, vender o usar equipos de telecomunicaciones.",
+          "fuente": "https://www.lagaceta.gob.ni/la-gaceta-no-215-martes-18-de-noviembre-de-2025/",
+          "anio": 2025
+        },
+        "hom_reconocimiento": {
+          "estado": "si",
+          "nota": "Normativa 004-2025 (art. 10): acepta certificados de organismos o reguladores extranjeros acreditados, o declaración notarial con informes de laboratorio.",
+          "fuente": "https://www.lagaceta.gob.ni/la-gaceta-no-215-martes-18-de-noviembre-de-2025/",
+          "anio": 2025
+        },
+        "hom_imei": {
+          "estado": "si",
+          "nota": "Normativa 007-2025 (arts. 62–63): los operadores bloquean de inmediato los equipos robados o extraviados y comparten a diario sus listas de IMEI.",
+          "fuente": "https://www.lagaceta.gob.ni/la-gaceta-no-215-martes-18-de-noviembre-de-2025/",
+          "anio": 2025
+        },
+        "hom_enlinea": {
+          "estado": "sin_dato",
+          "nota": "La Normativa 004-2025 no prevé un trámite en línea: se presenta un formulario y TELCOR pide correcciones por correo electrónico."
+        },
+        "hom_lista": {
+          "estado": "si",
+          "nota": "Normativa 004-2025 (art. 13): TELCOR mantiene un registro de equipos homologados consultable en su portal web.",
+          "fuente": "https://www.lagaceta.gob.ni/la-gaceta-no-215-martes-18-de-noviembre-de-2025/",
+          "anio": 2025
+        }
+      }
+    }
+  },
+  "cambiosDetectados": [
+    "No había perfil de Nicaragua en el Observatorio anterior: se elaboró desde cero con La Gaceta y la base legislativa de la Asamblea Nacional.",
+    "La Ley 200 de 1995 ya no es el marco legal: la derogó la Ley 1223 de Telecomunicaciones Convergentes, vigente desde noviembre de 2025.",
+    "El FITEL dejó de existir como tal: la Ley 1223 lo sustituyó por el FODETEC.",
+    "El reglamento de reclamos de 2005 fue derogado por la Normativa 003-2025; la Normativa 004-2025 renovó la homologación.",
+    "El catálogo de REGULATEL solo enlaza el portal de TELCOR, inaccesible desde el exterior (error 403), y una página general sin ficha de Nicaragua."
+  ],
+  "verificadoEn": "2026-11-11",
+  "confianza": "media"
+}

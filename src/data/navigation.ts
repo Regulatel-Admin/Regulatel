@@ -144,9 +144,19 @@ export const navigationItems: NavigationItem[] = [
         title: "HERRAMIENTAS",
         links: [
           {
+            label: "Observatorio Regulatorio",
+            href: "/observatorio-regulatorio",
+            description: "Compare dos países miembros lado a lado",
+          },
+          {
+            label: "Observatorio · Panel 2",
+            href: "/observatorio-regulatorio/panel-2",
+            description: "Diseño editorial alternativo (en revisión)",
+          },
+          {
             label: "Mejores prácticas regulatorias",
             href: "/micrositio-buenas-practicas",
-            description: "Observatorio de regulación comparada regional",
+            description: "Documentos y recursos por país",
           },
           {
             label: "Banco de información",

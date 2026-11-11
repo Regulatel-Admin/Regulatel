@@ -1,0 +1,124 @@
+{
+  "iso": "hn",
+  "pais": "Honduras",
+  "revisado": "2026-11-11",
+  "documentos": [
+    {
+      "titulo": "Atribución de Frecuencias",
+      "url": "https://files.conatel.gob.hn/d6e6aac7-8dc6-4852-a010-8d20e44566aa.pdf",
+      "categoriaOriginal": "Espectro radioeléctrico",
+      "origen": "catalogo",
+      "tema": "espectro",
+      "estado": "actualizado",
+      "nota": "El PDF es el PNAF NR003/21 (CMR-19), dejado sin valor por el PNAF NR004/24 (CMR-23, Gaceta 21-dic-2024). NR003/26 (Gaceta 2-sep-2026) modificó varias notas HND.",
+      "urlNueva": "https://files.conatel.gob.hn/607180a7-cf83-4f84-a955-de8ea3689b75.pdf",
+      "tituloNuevo": "Resolución NR004/24 – Plan Nacional de Atribución de Frecuencias (PNAF)",
+      "anioNuevo": 2024
+    },
+    {
+      "titulo": "Bandas de frecuencias del espectro radioeléctrico de uso libre",
+      "url": "https://files.conatel.gob.hn/503fe13b-1ada-4500-8b2a-c35bc8abc769.pdf",
+      "categoriaOriginal": "Espectro radioeléctrico",
+      "origen": "catalogo",
+      "tema": "espectro",
+      "estado": "actualizado",
+      "nota": "El PDF es NR013/21 (reglamento WAS/RLAN y corto alcance, bandas de uso libre), derogada por NR005/24 (Gaceta 14-dic-2024). NR003/26 amplió la banda de 6 GHz a 5925-7125 MHz.",
+      "urlNueva": "https://files.conatel.gob.hn/d4397690-9632-4ec4-b581-99921ce8bff4.pdf",
+      "tituloNuevo": "Resolución NR005/24 – Reglamento de los Sistemas WAS/RLAN y Dispositivos de Radiocomunicación de Corto Alcance",
+      "anioNuevo": 2024
+    },
+    {
+      "titulo": "Reglamento de Competencia",
+      "url": "https://files.conatel.gob.hn/2479fbe6-e991-4258-b759-8b7e0a6139cc.pdf",
+      "categoriaOriginal": "Competencia Económica",
+      "origen": "catalogo",
+      "tema": "competencia",
+      "estado": "vigente",
+      "nota": "NR017/15, Reglamento de Competencia en el mercado de telecomunicaciones (Gaceta 31-dic-2015). Sin derogación ni reforma en el listado oficial de normativas de CONATEL a nov-2026."
+    },
+    {
+      "titulo": "NR005-22: Reglamento de ejecución del Programa El Internet de Todos Conexión al Mundo",
+      "url": "https://files.conatel.gob.hn/6fc84468-5ee6-4954-a2d9-65573f95f4f5.pdf",
+      "categoriaOriginal": "Tecnologías de la Información y la Comunicación (TIC)",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "vigente",
+      "nota": "NR005/22 (Gaceta 7-dic-2022) sigue en el listado oficial de normativas de CONATEL sin derogación ni reforma posterior. El enlace funciona."
+    },
+    {
+      "titulo": "NR008-22:Prestación de Servicios de Telecomunicaciones Con Conectividad de Banda Ancha",
+      "url": "https://www.conatel.gob.hn/dohttps://files.conatel.gob.hn/23ea9702-c1d7-4d28-9881-52d05ada53cb.pdfc/Regulacion/resoluciones/2022/NR008-22.pdf",
+      "categoriaOriginal": "Tecnologías de la Información y la Comunicación (TIC)",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "enlace_roto",
+      "nota": "URL mal formada (dos direcciones pegadas), da 404. NR008/22 (Gaceta 17-dic-2022) sigue vigente; el PDF oficial está en files.conatel.gob.hn y se comprobó que abre.",
+      "urlNueva": "https://files.conatel.gob.hn/23ea9702-c1d7-4d28-9881-52d05ada53cb.pdf",
+      "tituloNuevo": "Resolución NR008/22 – Prestación de Servicios de Telecomunicaciones con Conectividad de Banda Ancha",
+      "anioNuevo": 2022
+    },
+    {
+      "titulo": "Reglamento de Protección al Usuario y sus reformas",
+      "url": "https://files.conatel.gob.hn/1390cc9c-cc84-4149-b202-a2dfb16c3f52.pdf",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "actualizado",
+      "nota": "El PDF solo trae el texto original NR014/17 (Gaceta 14-feb-2018). Fue reformado por NR004/21 y por NR001/26 (Gaceta 28-feb-2026, aplica el Decreto 75-2024), que cambia 14 artículos.",
+      "urlNueva": "https://files.conatel.gob.hn/eb9a2f2d-297b-4db3-a385-e827e180e79b.pdf",
+      "tituloNuevo": "Resolución NR001/26 – Modificación del Reglamento Específico de Protección al Usuario y/o Suscriptor de Servicios Públicos de Telecomunicaciones y TIC",
+      "anioNuevo": 2026
+    },
+    {
+      "titulo": "Reglamento de tarifas",
+      "url": "https://files.conatel.gob.hn/78030ce1-3a05-4233-a421-1bba8382ecd5.pdf",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "actualizado",
+      "nota": "Título erróneo: el PDF es NR004/21, reforma de 2021 al Reglamento de Protección al Usuario (no de tarifas). NR001/26 (2026) reemplazó sus arts. 15, 17, 18, 36, 37, 49 y 61.",
+      "urlNueva": "https://files.conatel.gob.hn/eb9a2f2d-297b-4db3-a385-e827e180e79b.pdf",
+      "tituloNuevo": "Resolución NR001/26 – Modificación del Reglamento Específico de Protección al Usuario y/o Suscriptor de Servicios Públicos de Telecomunicaciones y TIC",
+      "anioNuevo": 2026
+    },
+    {
+      "titulo": "Reglamento de Tarifas y Costos de Servicios de Telecomunicaciones",
+      "url": "https://files.conatel.gob.hn/960c7f10-c1e1-4b1a-8299-a855f2a7e6ee.pdf",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "vigente",
+      "nota": "NR003/22 (Gaceta 6-dic-2022), que reemplazó al reglamento NR028/99. Sin reformas posteriores en el listado oficial de normativas de CONATEL a nov-2026; el enlace funciona."
+    },
+    {
+      "titulo": "Resolución Normativa NR004/2022",
+      "url": "https://files.conatel.gob.hn/038d2378-714e-40d1-9440-4fdc793560c6.pdf",
+      "categoriaOriginal": "Asuntos relacionados con Internet",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "vigente",
+      "nota": "NR004/22: Reglamento del Servicio de Internet o Acceso a Redes Informáticas, con reglas de neutralidad de red (Gaceta 6-dic-2022). Sin reformas posteriores halladas."
+    },
+    {
+      "titulo": "Reglamento de Acceso y Uso Compartido de Redes",
+      "url": "https://files.conatel.gob.hn/51468c3a-d116-4399-84c1-e180b9b45932.pdf",
+      "categoriaOriginal": "Compartición de infraestructura",
+      "origen": "catalogo",
+      "tema": "infraestructura",
+      "estado": "vigente",
+      "nota": "NR006/22 (Gaceta 17-dic-2022), que derogó la NR016/14. Sin reformas posteriores en el listado oficial de normativas de CONATEL a nov-2026."
+    },
+    {
+      "titulo": "Hasta este año 2023, se esta trabajando en la Versión Preliminar de Anteproyecto de Resolución Normativa del Reglamento de Homologación de equipos",
+      "url": "http://sitae.conatel.gob.hn/SHMG/ListadoGeneral.aspx",
+      "categoriaOriginal": "Homologación de productos y dispositivos",
+      "origen": "catalogo",
+      "tema": "homologacion",
+      "estado": "actualizado",
+      "nota": "Ya no es anteproyecto: se aprobó el reglamento NR006/23 (Gaceta 17-ene-2024). El enlace SITAE funciona y es el listado de equipos homologados (al día al 6-nov-2026).",
+      "urlNueva": "https://files.conatel.gob.hn/e302223e-6973-4aa2-af53-6234c5ccd1a7.pdf",
+      "tituloNuevo": "Resolución NR006/23 – Reglamento de Homologación de Equipos y Aparatos de Telecomunicaciones",
+      "anioNuevo": 2024
+    }
+  ]
+}

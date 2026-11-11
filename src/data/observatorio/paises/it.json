@@ -1,0 +1,578 @@
+{
+  "iso": "it",
+  "pais": "Italia",
+  "regulador": {
+    "sigla": "AGCOM",
+    "nombre": "Autorità per le Garanzie nelle Comunicazioni",
+    "url": "https://www.agcom.it",
+    "naturaleza": "Autoridad administrativa independiente y convergente (Ley 249/1997): regula telecomunicaciones, medios audiovisuales, prensa, correo y plataformas digitales; rinde cuentas al Parlamento."
+  },
+  "otrasAutoridades": [
+    {
+      "sigla": "MIMIT",
+      "nombre": "Ministero delle Imprese e del Made in Italy",
+      "rol": "Ministerio rector (ex MISE): planifica el espectro (PNRF), otorga derechos de uso según reglas de AGCOM y vigila el mercado de equipos.",
+      "url": "https://www.mimit.gov.it"
+    },
+    {
+      "sigla": "ACN",
+      "nombre": "Agenzia per la Cybersicurezza Nazionale",
+      "rol": "Autoridad nacional de ciberseguridad y NIS2; aloja el CSIRT Italia y supervisa los sistemas de IA (Ley 132/2025).",
+      "url": "https://www.acn.gov.it"
+    },
+    {
+      "sigla": "AgID",
+      "nombre": "Agenzia per l'Italia Digitale",
+      "rol": "Autoridad de IA para innovación y notificación de organismos de evaluación (Ley 132/2025).",
+      "url": "https://www.agid.gov.it"
+    },
+    {
+      "sigla": "DPC",
+      "nombre": "Dipartimento della Protezione Civile",
+      "rol": "Opera IT-alert, el sistema público de alertas a celulares.",
+      "url": "https://www.protezionecivile.gov.it"
+    },
+    {
+      "sigla": "AGCM",
+      "nombre": "Autorità Garante della Concorrenza e del Mercato",
+      "rol": "Autoridad de competencia y de protección del consumidor; recibe dictámenes de AGCOM sobre prácticas comerciales desleales en el sector.",
+      "url": "https://www.agcm.it"
+    },
+    {
+      "sigla": "FUB",
+      "nombre": "Fondazione Ugo Bordoni",
+      "rol": "Gestiona el Registro Público de Oposiciones y realiza las mediciones de calidad (MisuraInternet) para AGCOM.",
+      "url": "https://www.fub.it"
+    },
+    {
+      "sigla": "DTD",
+      "nombre": "Dipartimento per la Trasformazione Digitale",
+      "rol": "Política digital y de banda ultraancha; gestiona el mecanismo de pruebas «Sperimentazione Italia».",
+      "url": "https://innovazione.gov.it"
+    }
+  ],
+  "marcoLegal": {
+    "nombre": "Codice delle comunicazioni elettroniche (D.Lgs. 259/2003, reescrito por el D.Lgs. 207/2021 que transpone el Código Europeo de Comunicaciones Electrónicas)",
+    "anio": 2021,
+    "url": "https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2003-08-01;259"
+  },
+  "resumenPais": "Italia regula con una autoridad independiente y convergente, AGCOM (telecom, medios, correo y plataformas), y un ministerio, el MIMIT, que planifica el espectro, dentro del marco de la UE. Hoy el foco está en la red mayorista FiberCop, la renovación del espectro que vence en 2029 y la lucha contra el spoofing.",
+  "categorias": {
+    "espectro": {
+      "resumen": "El MIMIT planifica el espectro y lo asigna con reglas de AGCOM. Italia subastó en 2018 las tres bandas 5G (derechos hasta 2037) y en 2026 AGCOM propone renovar sin subasta el espectro móvil que vence en 2029, con metas de cobertura. La banda baja de 6 GHz está libre para Wi-Fi.",
+      "instrumentos": [
+        {
+          "nombre": "Piano Nazionale di Ripartizione delle Frequenze (PNRF), decreto ministerial del 31-ago-2022",
+          "anio": 2022,
+          "tipo": "plan"
+        },
+        {
+          "nombre": "Delibera 231/18/CONS: reglas de la subasta 5G (700 MHz, 3,6–3,8 GHz y 26,5–27,5 GHz)",
+          "anio": 2018,
+          "tipo": "resolucion",
+          "url": "https://www.agcom.it/provvedimenti/delibera-231-18-cons"
+        },
+        {
+          "nombre": "Delibera 232/25/CONS: reglas de subasta de la banda 24,25–26,5 GHz",
+          "anio": 2025,
+          "tipo": "resolucion",
+          "url": "https://www.agcom.it/provvedimenti/delibera-232-25-cons"
+        },
+        {
+          "nombre": "Delibera 199/26/CONS: consulta sobre la renovación del espectro móvil que vence en 2029",
+          "anio": 2026,
+          "tipo": "otro",
+          "url": "https://www.agcom.it/provvedimenti/delibera-199-26-cons"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-07",
+        "texto": "AGCOM consulta renovar hasta 2037, sin subasta, el espectro móvil que vence en 2029 (800 MHz a 3,6 GHz), a cambio de metas de cobertura y acceso."
+      },
+      "indicadores": {
+        "esp_cuadro": {
+          "estado": "si",
+          "nota": "Plan Nacional de Atribución de Frecuencias (PNRF) aprobado por decreto ministerial del 31-ago-2022; el MIMIT lo está actualizando (2026).",
+          "fuente": "https://www.agcom.it/sites/default/files/media/allegato/2026/Allegato%20A%20alla%20delibera%20n.%20109-26-CONS.pdf",
+          "anio": 2022
+        },
+        "esp_5g": {
+          "estado": "si",
+          "nota": "Subasta 5G de 2018: 700 MHz, 3,6–3,8 GHz y 26,5–27,5 GHz para TIM, Vodafone, Wind Tre, Iliad y Fastweb; derechos hasta 2037.",
+          "fuente": "https://www.agcom.it/provvedimenti/delibera-231-18-cons",
+          "anio": 2018
+        },
+        "esp_licitacion": {
+          "estado": "parcial",
+          "nota": "Sin subastas IMT desde la 5G de 2018. Las reglas para subastar 24,25–26,5 GHz se aprobaron en 2025 (Del. 232/25/CONS); a jul-2026 el MIMIT no había convocado.",
+          "fuente": "https://www.agcom.it/sites/default/files/documenti/relazione_annuale/Relazione%20annuale%202026_2.pdf",
+          "anio": 2025
+        },
+        "esp_6ghz": {
+          "estado": "si",
+          "nota": "Banda baja (~500 MHz): 5945–6425 MHz (480 MHz) de uso libre para Wi-Fi por la Decisión UE 2021/1067; la parte alta (6425–7125 MHz) no se abrió a Wi-Fi.",
+          "fuente": "https://eur-lex.europa.eu/eli/dec_impl/2021/1067/oj",
+          "anio": 2021
+        },
+        "esp_secundario": {
+          "estado": "si",
+          "nota": "Art. 64 del Código: los derechos de uso pueden transferirse o arrendarse con autorización del MIMIT, previa revisión de AGCOM; compartir equivale a arrendar.",
+          "fuente": "https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2003-08-01;259~art64"
+        }
+      }
+    },
+    "competencia": {
+      "resumen": "Compiten cuatro redes móviles (Fastweb+Vodafone, TIM, Wind Tre e Iliad) y varios OMV. Tras escindirse de TIM en 2024, FiberCop es la red fija mayorista con poder significativo, ahora con reglas más ligeras. Rigen las normas de la UE sobre neutralidad de red y tarifas de terminación.",
+      "instrumentos": [
+        {
+          "nombre": "Delibera 58/26/CONS: análisis de los mercados de acceso a la red fija (FiberCop)",
+          "anio": 2026,
+          "tipo": "resolucion",
+          "url": "https://www.agcom.it/provvedimenti/delibera-58-26-cons"
+        },
+        {
+          "nombre": "Reglamento (UE) 2015/2120 sobre acceso a una Internet abierta",
+          "anio": 2015,
+          "tipo": "reglamento",
+          "url": "https://eur-lex.europa.eu/eli/reg/2015/2120/oj"
+        },
+        {
+          "nombre": "Reglamento Delegado (UE) 2021/654: tarifas únicas de terminación de llamadas en la UE",
+          "anio": 2021,
+          "tipo": "reglamento",
+          "url": "https://eur-lex.europa.eu/eli/reg_del/2021/654/oj"
+        },
+        {
+          "nombre": "Delibera 315/25/CONS: revisión de la disciplina del servicio universal",
+          "anio": 2025,
+          "tipo": "otro",
+          "url": "https://www.agcom.it/provvedimenti/delibera-315-25-cons"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-03",
+        "texto": "Delibera 58/26/CONS: FiberCop pasa a operador solo mayorista con obligaciones más ligeras; en oct-2026 AGCOM no aprobó sus nuevos precios y pidió otra oferta."
+      },
+      "indicadores": {
+        "comp_psm": {
+          "estado": "si",
+          "nota": "Delibera 58/26/CONS: FiberCop (red fija escindida de TIM en 2024) tiene poder significativo en acceso mayorista, con obligaciones de acceso y precios justos.",
+          "fuente": "https://www.agcom.it/provvedimenti/delibera-58-26-cons",
+          "anio": 2026
+        },
+        "comp_omv": {
+          "estado": "si",
+          "nota": "Operan con autorización general; PostePay, CoopVoce y Lyca Mobile suman cerca del 7% de las SIM (mar-2026, AGCOM).",
+          "fuente": "https://www.agcom.it/comunicazione/comunicati-stampa/osservatorio-sulle-comunicazioni-n-2-2026",
+          "anio": 2026
+        },
+        "comp_interconexion": {
+          "estado": "si",
+          "nota": "Terminación fija y móvil regulada ex ante con eurotarifas máximas (Reglamento Delegado UE 2021/654); AGCOM fija reglas de interconexión IP.",
+          "fuente": "https://www.agcom.it/competenze/comunicazioni-elettroniche/servizi-interconnessione",
+          "anio": 2021
+        },
+        "comp_fondo": {
+          "estado": "parcial",
+          "nota": "Solo hay un mecanismo para repartir entre operadores el costo neto del servicio universal si AGCOM lo juzga injusto (art. 98-ter); no financia despliegue.",
+          "fuente": "https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2003-08-01;259~art98ter",
+          "anio": 2021
+        },
+        "comp_neutralidad": {
+          "estado": "si",
+          "nota": "Rige el Reglamento UE 2015/2120; AGCOM supervisa, informa cada año y puede multar de 120.000 a 2,5 millones de euros (Ley 167/2017).",
+          "fuente": "https://www.agcom.it/competenze/consumatori/la-neutralita-della-rete",
+          "anio": 2015
+        }
+      }
+    },
+    "ciberseguridad": {
+      "resumen": "La Agencia Nacional de Ciberseguridad (ACN, 2021) es la autoridad y aloja el CSIRT Italia. Con el D.Lgs. 138/2024 (NIS2), los operadores de telecom deben reportar incidentes desde 2026. La estrategia 2022–2026 vence este año e Italia es Parte del Convenio de Budapest.",
+      "instrumentos": [
+        {
+          "nombre": "D.Lgs. 138/2024: transposición de la Directiva NIS2",
+          "anio": 2024,
+          "tipo": "decreto",
+          "url": "https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2024-09-04;138"
+        },
+        {
+          "nombre": "D.L. 82/2021 (Ley 109/2021): arquitectura nacional de ciberseguridad y creación de la ACN",
+          "anio": 2021,
+          "tipo": "decreto",
+          "url": "https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legge:2021-06-14;82"
+        },
+        {
+          "nombre": "Estrategia Nacional de Ciberseguridad 2022–2026 y su plan de implementación",
+          "anio": 2022,
+          "tipo": "estrategia",
+          "url": "https://www.acn.gov.it/portale/strategia-nazionale-di-cybersicurezza"
+        },
+        {
+          "nombre": "Ley 48/2008: ratificación del Convenio de Budapest sobre ciberdelincuencia",
+          "anio": 2008,
+          "tipo": "ley",
+          "url": "https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:2008-03-18;48"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-01",
+        "texto": "Desde enero de 2026 las entidades NIS2, incluidos los operadores de telecom, deben notificar incidentes significativos al CSIRT Italia."
+      },
+      "indicadores": {
+        "ciber_estrategia": {
+          "estado": "si",
+          "nota": "Estrategia Nacional de Ciberseguridad 2022–2026, con plan de 82 medidas; vence a fines de 2026 y la ACN aún no publica la siguiente.",
+          "fuente": "https://www.acn.gov.it/portale/strategia-nazionale-di-cybersicurezza",
+          "anio": 2022
+        },
+        "ciber_ley": {
+          "estado": "si",
+          "nota": "D.L. 82/2021 (Ley 109/2021): arquitectura nacional y creación de la ACN; D.Lgs. 138/2024 (NIS2). Ley 90/2024: refuerzo de ciberseguridad y delitos informáticos.",
+          "fuente": "https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legge:2021-06-14;82",
+          "anio": 2021
+        },
+        "ciber_csirt": {
+          "estado": "si",
+          "nota": "CSIRT Italia, dentro de la ACN (D.L. 82/2021): monitorea amenazas, emite alertas, apoya la respuesta y recibe las notificaciones NIS2.",
+          "fuente": "https://www.acn.gov.it/portale/csirt-italia/chi-siamo",
+          "anio": 2021
+        },
+        "ciber_reporte": {
+          "estado": "si",
+          "nota": "D.Lgs. 138/2024, art. 25: los operadores de redes y servicios de telecom notifican incidentes significativos al CSIRT Italia en 24 h y 72 h.",
+          "fuente": "https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2024-09-04;138~art25",
+          "anio": 2024
+        },
+        "ciber_budapest": {
+          "estado": "si",
+          "nota": "Italia es Parte: ratificó el Convenio en 2008 mediante la Ley 48/2008.",
+          "fuente": "https://www.coe.int/en/web/conventions/full-list?module=signatures-by-treaty&treatynum=185",
+          "anio": 2008
+        }
+      }
+    },
+    "usuario": {
+      "resumen": "AGCOM fija las reglas de contratos y transparencia, mide la calidad (MisuraInternet) y resuelve reclamos gratis en línea (ConciliaWeb). Hay portabilidad móvil, un registro contra llamadas comerciales y, desde 2025, bloqueo de llamadas con número falsificado.",
+      "instrumentos": [
+        {
+          "nombre": "Delibera 307/23/CONS: reglamento de protección de usuarios en contratos de comunicaciones electrónicas",
+          "anio": 2023,
+          "tipo": "reglamento",
+          "url": "https://www.agcom.it/provvedimenti/delibera-307-23-cons"
+        },
+        {
+          "nombre": "Delibera 203/18/CONS: reglamento de solución de controversias usuario–operador (ConciliaWeb)",
+          "anio": 2018,
+          "tipo": "reglamento",
+          "url": "https://www.agcom.it/provvedimenti/delibera-203-18-cons"
+        },
+        {
+          "nombre": "Delibera 147/11/CIR: reglamento de portabilidad móvil (actualizado en 2026)",
+          "anio": 2011,
+          "tipo": "reglamento",
+          "url": "https://www.agcom.it/provvedimenti/delibera-147-11-cir"
+        },
+        {
+          "nombre": "Delibera 106/25/CONS: transparencia de ofertas y bloqueo de números falsificados",
+          "anio": 2025,
+          "tipo": "reglamento",
+          "url": "https://www.agcom.it/provvedimenti/delibera-106-25-cons"
+        }
+      ],
+      "novedad": {
+        "fecha": "2025-11",
+        "texto": "El filtro antispoofing (Delibera 106/25/CONS), extendido a números móviles en nov-2025, bloqueó unos 191 millones de llamadas falsas en ene–ago 2026."
+      },
+      "indicadores": {
+        "usu_reglamento": {
+          "estado": "si",
+          "nota": "Reglamento de protección de usuarios en contratos (Delibera 307/23/CONS), adaptado al Código de 2021: transparencia, cambios de condiciones y baja.",
+          "fuente": "https://www.agcom.it/provvedimenti/delibera-307-23-cons",
+          "anio": 2023
+        },
+        "usu_reclamos": {
+          "estado": "si",
+          "nota": "Conciliación gratuita en línea (ConciliaWeb) ante los Corecom y decisión de AGCOM en segunda fase; más de 60.000 casos de telecom en 2025.",
+          "fuente": "https://www.agcom.it/provvedimenti/delibera-203-18-cons",
+          "anio": 2018
+        },
+        "usu_portabilidad": {
+          "estado": "si",
+          "nota": "Portabilidad móvil regulada por la Delibera 147/11/CIR; actualizada en 2026 (Delibera 26/26/CIR) con controles al uso de la base de datos.",
+          "fuente": "https://www.agcom.it/provvedimenti/delibera-147-11-cir",
+          "anio": 2011
+        },
+        "usu_calidad": {
+          "estado": "si",
+          "nota": "MisuraInternet mide la conexión fija con valor legal; AGCOM publicó en feb-2026 la campaña móvil 2025 en 45 ciudades y 5 operadores.",
+          "fuente": "https://www.agcom.it/comunicazione/comunicati-stampa/comunicato-stampa-78",
+          "anio": 2026
+        },
+        "usu_nomolestar": {
+          "estado": "si",
+          "nota": "Registro Público de Oposiciones (RPO): gratuito, cubre todos los números fijos y móviles desde 2022; lo gestiona la Fundación Ugo Bordoni.",
+          "fuente": "https://www.registrodelleopposizioni.it/",
+          "anio": 2022
+        }
+      }
+    },
+    "emergentes": {
+      "resumen": "Hay 5G comercial desde 2019 y una ley nacional de IA desde 2025 (Ley 132/2025). Para probar innovaciones existe el sandbox transversal «Sperimentazione Italia». Las redes locales industriales e IoT esperan reglas para la banda 3,8–4,2 GHz.",
+      "instrumentos": [
+        {
+          "nombre": "Ley 132/2025 de inteligencia artificial",
+          "anio": 2025,
+          "tipo": "ley",
+          "url": "https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:2025-09-23;132"
+        },
+        {
+          "nombre": "Sperimentazione Italia (art. 36 del D.L. 76/2020)",
+          "anio": 2020,
+          "tipo": "decreto",
+          "url": "https://innovazione.gov.it/progetti/sperimentazione-italia/"
+        },
+        {
+          "nombre": "Delibera 109/26/CONS: consulta sobre uso compartido de 3,8–4,2 GHz para redes locales",
+          "anio": 2026,
+          "tipo": "otro",
+          "url": "https://www.agcom.it/provvedimenti/delibera-109-26-cons"
+        },
+        {
+          "nombre": "Ley 89/2025 de economía del espacio",
+          "anio": 2025,
+          "tipo": "ley",
+          "url": "https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:2025-06-13;89"
+        }
+      ],
+      "novedad": {
+        "fecha": "2025-10",
+        "texto": "Entró en vigor la Ley 132/2025 de inteligencia artificial: AgID y ACN son las autoridades nacionales y gestionarán sandboxes de IA."
+      },
+      "indicadores": {
+        "tec_sandbox": {
+          "estado": "si",
+          "nota": "«Sperimentazione Italia» (art. 36 D.L. 76/2020): DTD y MIMIT autorizan probar tecnologías innovadoras con excepciones temporales; es transversal, no de AGCOM.",
+          "fuente": "https://innovazione.gov.it/progetti/sperimentazione-italia/",
+          "anio": 2020
+        },
+        "tec_5g": {
+          "estado": "si",
+          "nota": "Redes 5G comerciales desde el verano de 2019 en las grandes ciudades; AGCOM sitúa a Italia entre los líderes de la UE en cobertura 5G.",
+          "fuente": "https://www.agcom.it/sites/default/files/media/allegato/2026/Allegato%20A%20delibera%20199-26-CONS.pdf",
+          "anio": 2019
+        },
+        "tec_iot": {
+          "estado": "parcial",
+          "nota": "Sin marco IoT propio: AGCOM registra 31,4 millones de SIM M2M (2025) y prevé reglas para redes locales en 3,8–4,2 GHz (consulta 2026).",
+          "fuente": "https://www.agcom.it/sites/default/files/documenti/relazione_annuale/Relazione%20annuale%202026_2.pdf",
+          "anio": 2026
+        },
+        "tec_satelital": {
+          "estado": "sin_dato",
+          "nota": "No se halló un acto oficial público que autorice servicios LEO; bajo la Ley 89/2025 (Espacio) se creó una mesa técnica MIMIT–AGCOM–ACN–Defensa sobre satélites."
+        },
+        "tec_ia": {
+          "estado": "si",
+          "nota": "Ley 132/2025 (vigente desde oct-2025): AgID promueve y notifica, ACN supervisa y sanciona; ambas gestionarán sandboxes de IA.",
+          "fuente": "https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:2025-09-23;132",
+          "anio": 2025
+        }
+      }
+    },
+    "infraestructura": {
+      "resumen": "El acceso a ductos, postes y torres es obligatorio, también en redes de energía, agua y transporte (D.Lgs. 33/2016 y Reglamento UE Gigabit). Las antenas tienen silencio positivo a 60 días y los edificios nuevos deben venir preparados para fibra. El roaming nacional solo se exige en casos puntuales.",
+      "instrumentos": [
+        {
+          "nombre": "D.Lgs. 33/2016: acceso a infraestructura física (Directiva 2014/61/UE)",
+          "anio": 2016,
+          "tipo": "decreto",
+          "url": "https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2016-02-15;33"
+        },
+        {
+          "nombre": "Reglamento (UE) 2024/1309 de Infraestructura Gigabit",
+          "anio": 2024,
+          "tipo": "reglamento",
+          "url": "https://eur-lex.europa.eu/eli/reg/2024/1309/oj"
+        },
+        {
+          "nombre": "Código de Comunicaciones Electrónicas, art. 44: permisos para instalar antenas",
+          "tipo": "decreto",
+          "url": "https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2003-08-01;259~art44",
+          "anio": 2021
+        },
+        {
+          "nombre": "DPR 380/2001, art. 135-bis: infraestructura digital en edificios",
+          "anio": 2014,
+          "tipo": "decreto",
+          "url": "https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.presidente.repubblica:2001-06-06;380~art135bis"
+        }
+      ],
+      "novedad": {
+        "fecha": "2025-11",
+        "texto": "Desde el 12-nov-2025 aplica el Reglamento UE de Infraestructura Gigabit (2024/1309), que amplía el acceso a infraestructura y agiliza permisos."
+      },
+      "indicadores": {
+        "inf_pasiva": {
+          "estado": "si",
+          "nota": "D.Lgs. 33/2016: obligación de dar acceso a ductos, postes y torres en condiciones justas; AGCOM resuelve disputas en 60 días. Rige el Reglamento UE 2024/1309.",
+          "fuente": "https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2016-02-15;33~art3",
+          "anio": 2016
+        },
+        "inf_electrica": {
+          "estado": "si",
+          "nota": "El acceso obligatorio alcanza a redes de electricidad, gas, agua, calefacción y transporte (ferrocarriles, rutas, puertos y aeropuertos).",
+          "fuente": "https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2016-02-15;33~art2",
+          "anio": 2016
+        },
+        "inf_permisos": {
+          "estado": "si",
+          "nota": "Art. 44 del Código: solicitud única para antenas, silencio positivo a los 60 días y aviso simple (SCIA) para equipos de hasta 20 W.",
+          "fuente": "https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2003-08-01;259~art44"
+        },
+        "inf_roaming": {
+          "estado": "parcial",
+          "nota": "Sin régimen general: la Delibera 231/18/CONS exige roaming en rutas de transporte cubiertas con 700 MHz y lo otorgó temporalmente al nuevo entrante.",
+          "fuente": "https://www.agcom.it/provvedimenti/delibera-231-18-cons",
+          "anio": 2018
+        },
+        "inf_edificios": {
+          "estado": "si",
+          "nota": "Art. 135-bis del DPR 380/2001: edificios nuevos (permisos desde jul-2015) deben tener infraestructura de fibra; etiqueta obligatoria desde 2022.",
+          "fuente": "https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.presidente.repubblica:2001-06-06;380~art135bis",
+          "anio": 2014
+        }
+      }
+    },
+    "emergencia": {
+      "resumen": "El 112 es gratuito y envía la ubicación del llamante; IT-alert avisa por Cell Broadcast desde 2024. El Código obliga a mantener los servicios ante averías graves o fuerza mayor. Italia firmó pero no ratificó el Convenio de Tampere.",
+      "instrumentos": [
+        {
+          "nombre": "Código, art. 98-vicies bis: comunicaciones de emergencia y número 112",
+          "anio": 2021,
+          "tipo": "decreto",
+          "url": "https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2003-08-01;259~art98viciesbis"
+        },
+        {
+          "nombre": "Código, art. 98-vicies ter: sistema de alerta pública IT-alert",
+          "anio": 2021,
+          "tipo": "decreto",
+          "url": "https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2003-08-01;259~art98viciester"
+        },
+        {
+          "nombre": "Código, art. 98-vicies: disponibilidad de los servicios ante averías graves",
+          "anio": 2021,
+          "tipo": "decreto",
+          "url": "https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2003-08-01;259~art98vicies"
+        },
+        {
+          "nombre": "Directiva del 7-feb-2023 sobre alertas de protección civil e IT-alert",
+          "anio": 2023,
+          "tipo": "otro",
+          "url": "https://www.it-alert.it/it/normativa/"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-02",
+        "texto": "Una directiva del 12-feb-2026 prorrogó hasta el 31-dic-2026 las pruebas de IT-alert para maremotos y el volcán Stromboli."
+      },
+      "indicadores": {
+        "eme_alerta": {
+          "estado": "si",
+          "nota": "IT-alert envía avisos por Cell Broadcast; operativo desde el 13-feb-2024 para riesgo nuclear, industrial, de presas y volcánico.",
+          "fuente": "https://www.it-alert.it/it/quando-si-usa/",
+          "anio": 2024
+        },
+        "eme_numero": {
+          "estado": "si",
+          "nota": "112, número único europeo de emergencias, con centrales únicas de respuesta (CUR) regionales coordinadas por el Ministerio del Interior.",
+          "fuente": "https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2003-08-01;259~art98viciessemel"
+        },
+        "eme_plan": {
+          "estado": "si",
+          "nota": "Art. 98-vicies del Código: el MIMIT fija medidas para mantener voz e Internet ante averías graves o fuerza mayor; NIS2 exige planes de continuidad.",
+          "fuente": "https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2003-08-01;259~art98vicies",
+          "anio": 2021
+        },
+        "eme_prioridad": {
+          "estado": "si",
+          "nota": "Llamadas al 112 y a números de emergencia gratuitas; la localización del llamante también es gratuita y se envía sin demora (art. 98-vicies bis).",
+          "fuente": "https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2003-08-01;259~art98viciesbis",
+          "anio": 2021
+        },
+        "eme_tampere": {
+          "estado": "parcial",
+          "nota": "Italia firmó el Convenio de Tampere el 18-jun-1998, pero no lo ha ratificado (UN Treaty Collection, estado al 11-nov-2026).",
+          "fuente": "https://treaties.un.org/Pages/ViewDetails.aspx?src=TREATY&mtdsg_no=XXV-4&chapter=25&clang=_en",
+          "anio": 1998
+        }
+      }
+    },
+    "homologacion": {
+      "resumen": "Rige el régimen europeo (Directiva RED): no hay homologación estatal; el fabricante evalúa la conformidad y coloca el marcado CE antes de vender. Por eso no hay trámite en línea ni lista nacional de equipos; el control es posterior, por vigilancia del mercado.",
+      "instrumentos": [
+        {
+          "nombre": "D.Lgs. 128/2016: transposición de la Directiva RED de equipos radioeléctricos",
+          "anio": 2016,
+          "tipo": "decreto",
+          "url": "https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2016-06-22;128"
+        },
+        {
+          "nombre": "Directiva 2014/53/UE (RED) sobre equipos radioeléctricos",
+          "anio": 2014,
+          "tipo": "otro",
+          "url": "https://eur-lex.europa.eu/eli/dir/2014/53/oj"
+        },
+        {
+          "nombre": "Reglamento Delegado (UE) 2022/30: ciberseguridad de equipos de radio conectados",
+          "anio": 2022,
+          "tipo": "reglamento",
+          "url": "https://eur-lex.europa.eu/eli/reg_del/2022/30/oj"
+        }
+      ],
+      "novedad": {
+        "fecha": "2025-08",
+        "texto": "Desde el 1-ago-2025 los equipos de radio conectados a Internet deben cumplir requisitos de ciberseguridad de la UE (Reglamento Delegado 2022/30)."
+      },
+      "indicadores": {
+        "hom_obligatoria": {
+          "estado": "si",
+          "nota": "Solo se venden equipos de radio conformes (D.Lgs. 128/2016, Directiva RED): evaluación de conformidad y marcado CE previos, sin homologación estatal.",
+          "fuente": "https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2016-06-22;128~art6",
+          "anio": 2016
+        },
+        "hom_reconocimiento": {
+          "estado": "si",
+          "nota": "Mercado único: equipos con marcado CE evaluados en cualquier país de la UE se usan sin ensayos nacionales; el Ministerio solo puede sumar requisitos acotados.",
+          "fuente": "https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2016-06-22;128~art7",
+          "anio": 2016
+        },
+        "hom_imei": {
+          "estado": "sin_dato",
+          "nota": "No se halló una norma nacional de bloqueo de celulares robados por IMEI."
+        },
+        "hom_enlinea": {
+          "estado": "no",
+          "nota": "No existe trámite estatal de homologación: el fabricante evalúa la conformidad y emite la declaración UE (art. 17 del D.Lgs. 128/2016).",
+          "fuente": "https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2016-06-22;128~art17",
+          "anio": 2016
+        },
+        "hom_lista": {
+          "estado": "no",
+          "nota": "No hay lista nacional de equipos aprobados porque no hay homologación estatal; el control es posterior (vigilancia del mercado).",
+          "fuente": "https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2016-06-22;128~art17",
+          "anio": 2016
+        }
+      }
+    }
+  },
+  "cambiosDetectados": [
+    "No existía perfil de Italia en el Observatorio anterior: se construyó desde cero con fuentes oficiales (AGCOM, Normattiva, ACN, IT-alert, ONU).",
+    "El catálogo de regulatel.org para Italia tenía 53 de 55 enlaces con problemas (rotos o desactualizados) tras el rediseño del sitio de AGCOM; aquí se citan las URL vigentes.",
+    "El catálogo presentaba como «CNAF» un anexo de 2015 del plan de TV digital; el cuadro de atribución vigente es el PNRF (decreto del 31-ago-2022), hoy en actualización.",
+    "El catálogo menciona al Ministerio de Desarrollo Económico (MISE); desde 2022 se llama Ministerio de Empresas y del Made in Italy (MIMIT).",
+    "Los documentos del catálogo sobre Telecom Italia quedaron desfasados: desde jul-2024 la red fija es de FiberCop, designada en 2026 operador solo mayorista con PSM.",
+    "El catálogo destaca documentos antiguos (GSM, UMTS, WiMAX, consulta LSA de 2016); lo vigente es la subasta 5G de 2018, las reglas de 24,25–26,5 GHz (2025) y la consulta de renovación de 2026."
+  ],
+  "verificadoEn": "2026-11-11",
+  "confianza": "alta"
+}

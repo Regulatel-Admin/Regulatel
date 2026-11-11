@@ -1,0 +1,537 @@
+{
+  "iso": "pa",
+  "pais": "Panamá",
+  "regulador": {
+    "sigla": "ASEP",
+    "nombre": "Autoridad Nacional de los Servicios Públicos",
+    "url": "https://www.asep.gob.pa",
+    "naturaleza": "Organismo autónomo del Estado y regulador multisectorial: telecomunicaciones, radio y TV, electricidad, agua y gas natural (Decreto Ley 10 de 2006)"
+  },
+  "otrasAutoridades": [
+    {
+      "sigla": "AIG",
+      "nombre": "Autoridad Nacional para la Innovación Gubernamental",
+      "rol": "Gobierno digital y ciberseguridad del Estado (CSIRT Panamá y SOC gubernamental); administra el régimen de servicio y acceso universal (Ley 59 de 2008)",
+      "url": "https://aig.gob.pa"
+    },
+    {
+      "sigla": "ACODECO",
+      "nombre": "Autoridad de Protección al Consumidor y Defensa de la Competencia",
+      "rol": "Autoridad de competencia; verifica y autoriza las concentraciones del mercado móvil (Ley 36 de 2018)",
+      "url": "https://www.acodeco.gob.pa"
+    },
+    {
+      "sigla": "MINSEG",
+      "nombre": "Ministerio de Seguridad Pública",
+      "rol": "Dirige el Sistema Nacional de Emergencias 9-1-1 (Ley 120 de 2019)",
+      "url": "https://www.minseg.gob.pa"
+    },
+    {
+      "sigla": "SENACYT",
+      "nombre": "Secretaría Nacional de Ciencia, Tecnología e Innovación",
+      "rol": "Coordina la Estrategia Nacional de Inteligencia Artificial, aprobada por el Consejo de Gabinete en 2026",
+      "url": "https://www.senacyt.gob.pa"
+    }
+  ],
+  "marcoLegal": {
+    "nombre": "Ley 31 de 8 de febrero de 1996, que regula las telecomunicaciones (reglamentada por el Decreto Ejecutivo 73 de 1997)",
+    "anio": 1996,
+    "url": "https://asep.gob.pa/wp-content/uploads/transparencia/articulo_9/9_2-politicas_institucionales/marco_legal/telecomunicaciones/leyes_sectoriales/ley_31.pdf"
+  },
+  "resumenPais": "La ASEP, regulador autónomo y multisectorial, aplica la Ley 31 de 1996. Desde la salida de Digicel (2024) el mercado móvil es un duopolio (+Móvil y Tigo): el 5G avanza con espectro de 3,5 GHz asignado a Tigo en 2026, pero la licitación para un tercer operador no tuvo postulantes.",
+  "categorias": {
+    "espectro": {
+      "resumen": "La ASEP planifica el espectro con el PNAF (versión junio 2025), que sumó 490 MHz para servicios móviles. En 2026 asignó a Tigo 40 MHz en 3,5 GHz, pero la licitación para un tercer operador quedó sin postulantes. En septiembre de 2026 propuso abrir 500 MHz de la banda de 6 GHz al Wi-Fi.",
+      "instrumentos": [
+        {
+          "nombre": "Plan Nacional de Atribución de Frecuencias (PNAF), versión junio 2025",
+          "anio": 2025,
+          "tipo": "plan",
+          "url": "https://asep.gob.pa/wp-content/uploads/telecomunicaciones/pnaf/pnaf-jun2025.pdf"
+        },
+        {
+          "nombre": "Resolución AN No. 20335-Telco de 2025: designa las bandas de 2,5 GHz y 3,3–3,6 GHz para IMT y reserva bloques de 3,5 GHz",
+          "anio": 2025,
+          "tipo": "resolucion",
+          "url": "https://asep.gob.pa/an-no-20335-telco-de-2025-05-05/"
+        },
+        {
+          "nombre": "Resolución AN No. 21934-Telco de 2026: asigna a Tigo 40 MHz en la banda de 3,5 GHz",
+          "anio": 2026,
+          "tipo": "resolucion",
+          "url": "https://asep.gob.pa/an-no-21934-telco-de-2026-08-05/"
+        },
+        {
+          "nombre": "Consulta Pública No. 012-26: propuesta de modificación del PNAF (6 GHz de uso libre y servicio satelital directo al celular)",
+          "anio": 2026,
+          "tipo": "otro",
+          "url": "https://asep.gob.pa/wp-content/uploads/telecomunicaciones/consultas_publicas/2026/cp_012-26/documento.pdf"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-08",
+        "texto": "La ASEP asignó a Tigo 40 MHz en 3,5 GHz (Res. AN 21934-Telco) y la licitación para un tercer operador móvil no recibió solicitudes."
+      },
+      "indicadores": {
+        "esp_cuadro": {
+          "estado": "si",
+          "nota": "PNAF vigente, versión junio 2025; la Res. AN 20335-Telco (mayo 2025) sumó 490 MHz para IMT en 2,5 GHz y 3,3–3,6 GHz.",
+          "fuente": "https://asep.gob.pa/wp-content/uploads/telecomunicaciones/pnaf/pnaf-jun2025.pdf",
+          "anio": 2025
+        },
+        "esp_5g": {
+          "estado": "si",
+          "nota": "Res. AN 21934-Telco (ago-2026) asignó a Tigo 40 MHz en 3300–3340 MHz (n78); +Móvil usa su banda AWS para 5G y tiene reservados 3400–3500 MHz.",
+          "fuente": "https://asep.gob.pa/an-no-21934-telco-de-2026-08-05/",
+          "anio": 2026
+        },
+        "esp_licitacion": {
+          "estado": "parcial",
+          "nota": "La Licitación 01-2026-Telco (concesión PCS con 40 MHz en 3,5 GHz) no recibió solicitudes de precalificación (11-ago-2026); la de 2023 se cerró sin adjudicar.",
+          "fuente": "https://terceroperador.asep.gob.pa/wp-content/uploads/Acta-de-solicitudes-de-precalificacion.pdf",
+          "anio": 2026
+        },
+        "esp_6ghz": {
+          "estado": "parcial",
+          "nota": "Aún no está abierta: la Consulta Pública 012-26 (sep-2026) propone habilitar para uso libre 500 MHz (5925–6425 MHz), no los 1200 MHz.",
+          "fuente": "https://asep.gob.pa/wp-content/uploads/telecomunicaciones/consultas_publicas/2026/cp_012-26/documento.pdf",
+          "anio": 2026
+        },
+        "esp_secundario": {
+          "estado": "si",
+          "nota": "El PNAF (Res. AN 19022-Telco, 2024) permite a los operadores móviles compartir espectro por acuerdos bilaterales registrados, en zonas rurales o desatendidas.",
+          "fuente": "https://asep.gob.pa/wp-content/uploads/telecomunicaciones/pnaf/pnaf-jun2025.pdf",
+          "anio": 2024
+        }
+      }
+    },
+    "competencia": {
+      "resumen": "Tras el cierre de Digicel (2024) quedan dos operadores móviles (+Móvil y Tigo). La ASEP declara operadores dominantes por servicio, fija cargos de interconexión de referencia (rebajados en 2025) y permite la reventa; la ACODECO revisa las fusiones móviles (Ley 36 de 2018).",
+      "instrumentos": [
+        {
+          "nombre": "Decreto Ejecutivo 73 de 1997, reglamento de la Ley 31 (interconexión, reventa, posición dominante)",
+          "anio": 1997,
+          "tipo": "decreto",
+          "url": "https://asep.gob.pa/wp-content/uploads/transparencia/articulo_9/9_2-politicas_institucionales/marco_legal/telecomunicaciones/leyes_sectoriales/ejecutivo_73.pdf"
+        },
+        {
+          "nombre": "Resolución AN No. 13329-Telco de 2019, modificada por la AN No. 17173-Telco de 2021: concesionarios con posición dominante",
+          "anio": 2021,
+          "tipo": "resolucion",
+          "url": "https://asep.gob.pa/wp-content/uploads/telecomunicaciones/resoluciones/anno_17173_telco.pdf"
+        },
+        {
+          "nombre": "Resolución AN No. 20935-Telco de 2025: cargos de interconexión de referencia entre redes móviles",
+          "anio": 2025,
+          "tipo": "resolucion",
+          "url": "https://asep.gob.pa/wp-content/uploads/telecomunicaciones/resoluciones/anno_20935_telco.pdf"
+        },
+        {
+          "nombre": "Ley 59 de 11 de agosto de 2008, de servicio y acceso universal (Red Nacional Internet)",
+          "anio": 2008,
+          "tipo": "ley",
+          "url": "https://aig.gob.pa/rnipanama/"
+        }
+      ],
+      "novedad": {
+        "fecha": "2025-10",
+        "texto": "La ASEP bajó el cargo de referencia de terminación móvil de US$0,06 a B/. 0,02178 por minuto y el de SMS a B/. 0,0066 (Res. AN 20935-Telco)."
+      },
+      "indicadores": {
+        "comp_psm": {
+          "estado": "si",
+          "nota": "Res. AN 13329-Telco (2019), modificada en 2021: C&W es dominante en telefonía móvil y transporte; los dominantes deben dar acceso a postes, ductos y torres.",
+          "fuente": "https://asep.gob.pa/wp-content/uploads/telecomunicaciones/resoluciones/anno_17173_telco.pdf",
+          "anio": 2021
+        },
+        "comp_omv": {
+          "estado": "parcial",
+          "nota": "Sin régimen OMV específico; el DE 73 de 1997 (arts. 62–63) permite revender servicios con concesión de reventa (No. 500) y contrato con el operador.",
+          "fuente": "https://asep.gob.pa/wp-content/uploads/transparencia/articulo_9/9_2-politicas_institucionales/marco_legal/telecomunicaciones/leyes_sectoriales/ejecutivo_73.pdf",
+          "anio": 1997
+        },
+        "comp_interconexion": {
+          "estado": "si",
+          "nota": "Interconexión obligatoria (Ley 31 y DE 73); la Res. AN 20935-Telco (2025) fijó cargos de referencia móviles: B/. 0,02178 por minuto y B/. 0,0066 por SMS.",
+          "fuente": "https://asep.gob.pa/wp-content/uploads/telecomunicaciones/resoluciones/anno_20935_telco.pdf",
+          "anio": 2025
+        },
+        "comp_fondo": {
+          "estado": "si",
+          "nota": "Ley 59 de 2008: régimen de servicio y acceso universal, administrado por la AIG, que financia la Red Nacional Internet (Wi-Fi gratuito).",
+          "fuente": "https://aig.gob.pa/rnipanama/",
+          "anio": 2008
+        },
+        "comp_neutralidad": {
+          "estado": "parcial",
+          "nota": "La Res. AN 11370-Telco (2017, art. 3.9) prohíbe a los proveedores de Internet bloquear o discriminar contenidos legales, pero no rige para el acceso móvil.",
+          "fuente": "https://asep.gob.pa/wp-content/uploads/telecomunicaciones/anexos/anexo_a_11370_telco.pdf",
+          "anio": 2017
+        }
+      }
+    },
+    "ciberseguridad": {
+      "resumen": "La AIG dirige la ciberseguridad del Estado con el CSIRT Panamá y un SOC gubernamental (2025). La estrategia nacional 2021–2024 no se ha renovado y no hay ley marco: la Ley 478 de 2025 reforzó la persecución de la ciberdelincuencia. Panamá es parte del Convenio de Budapest.",
+      "instrumentos": [
+        {
+          "nombre": "Estrategia Nacional de Ciberseguridad 2021–2024 (Resolución No. 17 de 2021 del Consejo Nacional para la Innovación Gubernamental)",
+          "anio": 2021,
+          "tipo": "estrategia",
+          "url": "https://www.gacetaoficial.gob.pa/storage/gacetas/2021/12/29434_A/88864.pdf"
+        },
+        {
+          "nombre": "Decreto Ejecutivo 709 de 2011, que crea el CSIRT Panamá",
+          "anio": 2011,
+          "tipo": "decreto",
+          "url": "https://cert.pa/wp-content/uploads/2015/09/Decreto-Ejecutivo-no-709.pdf"
+        },
+        {
+          "nombre": "Resolución AIG No. 07 de 2026: controles mínimos de ciberseguridad para entidades públicas",
+          "anio": 2026,
+          "tipo": "resolucion",
+          "url": "https://aig.gob.pa/descargas/2019/06/gaceta-oficial-30524-b-resolucion7-del-11-de-mayo-2026.pdf"
+        },
+        {
+          "nombre": "Ley 478 de 4 de agosto de 2025, que modifica el Código Penal, el Código Procesal y la Ley 11 de 2015 contra la ciberdelincuencia",
+          "anio": 2025,
+          "tipo": "ley",
+          "url": "https://www.gacetaoficial.gob.pa/storage/gacetas/2025/08/30337/GacetaNo_30337_20250805.pdf"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-05",
+        "texto": "La AIG fijó controles mínimos de ciberseguridad obligatorios para entidades públicas (Res. 07/2026), tras la creación del SOC gubernamental (DE 53 de 2025)."
+      },
+      "indicadores": {
+        "ciber_estrategia": {
+          "estado": "parcial",
+          "nota": "La Estrategia Nacional de Ciberseguridad se aprobó para 2021–2024 (Res. 17 de 2021); el CSIRT aún la cita como vigente y no se halló una nueva.",
+          "fuente": "https://www.gacetaoficial.gob.pa/storage/gacetas/2021/12/29434_A/88864.pdf",
+          "anio": 2021
+        },
+        "ciber_ley": {
+          "estado": "no",
+          "nota": "No hay ley marco: la Ley 478 de 2025, que el CSIRT cita como su marco más reciente, reforma los códigos Penal y Procesal contra la ciberdelincuencia.",
+          "fuente": "https://cert.pa/?page_id=353"
+        },
+        "ciber_csirt": {
+          "estado": "si",
+          "nota": "CSIRT Panamá (DE 709 de 2011) opera en la Dirección Nacional de Ciberseguridad de la AIG; en 2025 se creó un SOC gubernamental.",
+          "fuente": "https://aig.gob.pa/direcciones/direccion-nacional-de-ciberseguridad/",
+          "anio": 2011
+        },
+        "ciber_reporte": {
+          "estado": "sin_dato",
+          "nota": "No se halló obligación de reportar incidentes cibernéticos; los proveedores de Internet sí deben informar a la ASEP las caídas masivas (Res. AN 11370-Telco)."
+        },
+        "ciber_budapest": {
+          "estado": "si",
+          "nota": "Panamá es Estado parte del Convenio de Budapest sobre ciberdelincuencia (adhesión en 2014).",
+          "fuente": "https://www.coe.int/en/web/conventions/full-list?module=signatures-by-treaty&treatynum=185",
+          "anio": 2014
+        }
+      }
+    },
+    "usuario": {
+      "resumen": "Un reglamento de derechos (1997) y un procedimiento único de reclamos (2012) protegen a los usuarios; la ASEP atiende reclamos en línea y por línea gratuita. La portabilidad suma más de 6,1 millones de números y la calidad del Internet fijo se mide y publica cada año.",
+      "instrumentos": [
+        {
+          "nombre": "Resolución JD-101 de 1997: Reglamento sobre los derechos y deberes de los usuarios",
+          "anio": 1997,
+          "tipo": "reglamento",
+          "url": "https://asep.gob.pa/wp-content/uploads/atencion_usuario/legislacion/jd_101.pdf"
+        },
+        {
+          "nombre": "Resolución AN No. 5161-AU de 2012: procedimiento único de reclamos",
+          "anio": 2012,
+          "tipo": "resolucion",
+          "url": "https://asep.gob.pa/wp-content/uploads/atencion_usuario/legislacion/anno_5161_au.pdf"
+        },
+        {
+          "nombre": "Resolución AN No. 3064-Telco de 2009: Reglamento de Portabilidad Numérica",
+          "anio": 2009,
+          "tipo": "reglamento",
+          "url": "https://asep.gob.pa/wp-content/uploads/portabilidad/normativas/anno_3064_telco.pdf"
+        },
+        {
+          "nombre": "Resolución AN No. 11370-Telco de 2017: normas y metas de calidad del servicio de Internet (No. 211)",
+          "anio": 2017,
+          "tipo": "resolucion",
+          "url": "https://www.asep.gob.pa/?p=119473"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-09",
+        "texto": "La ASEP sometió a consulta un texto único para Internet con nuevos indicadores (latencia, jitter, pérdida de paquetes) y créditos por cortes (CP 011-26)."
+      },
+      "indicadores": {
+        "usu_reglamento": {
+          "estado": "si",
+          "nota": "Res. JD-101 de 1997: reglamento de derechos y deberes de los usuarios de servicios públicos, incluidas las telecomunicaciones (reformado en 1997 y 2000).",
+          "fuente": "https://asep.gob.pa/wp-content/uploads/atencion_usuario/legislacion/jd_101.pdf",
+          "anio": 1997
+        },
+        "usu_reclamos": {
+          "estado": "si",
+          "nota": "La Dirección Nacional de Atención al Usuario de la ASEP resuelve reclamos (Res. AN 5161-AU de 2012), con trámite digital y línea gratuita 800-3333.",
+          "fuente": "https://asep.gob.pa/dnau/13282-2/",
+          "anio": 2012
+        },
+        "usu_portabilidad": {
+          "estado": "si",
+          "nota": "Portabilidad móvil desde el 29-nov-2011 (reglamento de 2009); 5,99 millones de números móviles portados al 31-oct-2026.",
+          "fuente": "https://asep.gob.pa/?page_id=168912",
+          "anio": 2011
+        },
+        "usu_calidad": {
+          "estado": "si",
+          "nota": "Los ISP fijos miden con sondas y publican indicadores; la ASEP fija cada año su cumplimiento por operador y provincia (p. ej. Res. AN 21501-Telco, año 2025).",
+          "fuente": "https://asep.gob.pa/wp-content/uploads/telecomunicaciones/resoluciones/anno_21501_telco.pdf",
+          "anio": 2017
+        },
+        "usu_nomolestar": {
+          "estado": "sin_dato"
+        }
+      }
+    },
+    "emergentes": {
+      "resumen": "+Móvil lanzó 5G comercial en 2024 y Tigo recibió espectro de 3,5 GHz en 2026. Starlink tiene concesión satelital de órbita baja y en 2026 se autorizó el servicio satelital directo al celular. El Gabinete aprobó en 2026 la Estrategia Nacional de IA (2026–2036).",
+      "instrumentos": [
+        {
+          "nombre": "Estrategia Nacional de Inteligencia Artificial 2026–2036 (Resolución de Gabinete No. 89-26)",
+          "anio": 2026,
+          "tipo": "estrategia",
+          "url": "https://iapanama.gob.pa/assets/docs/ES-2-Estrategia-Nacional-de-IA.pdf"
+        },
+        {
+          "nombre": "Resolución AN No. 19022-Telco de 2024: reforma del PNAF para satélites no geoestacionarios, redes no terrestres y compartición de espectro",
+          "anio": 2024,
+          "tipo": "resolucion",
+          "url": "https://asep.gob.pa/an-no-19022-telco-de-2024-02-22/"
+        },
+        {
+          "nombre": "Resolución AN No. 22088-Telco de 2026: autoriza a Cable & Wireless el servicio directo al celular (D2C) con Starlink",
+          "anio": 2026,
+          "tipo": "resolucion",
+          "url": "https://asep.gob.pa/an-no-22088-telco-de-2026-09-11/"
+        },
+        {
+          "nombre": "Resolución AN No. 22018-Telco de 2026: suspende nuevas solicitudes de servicio directo al celular en bandas del servicio móvil por satélite",
+          "anio": 2026,
+          "tipo": "resolucion",
+          "url": "https://asep.gob.pa/an-no-22018-telco-de-2026-08-25/"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-09",
+        "texto": "La Res. AN 22088-Telco autorizó a Cable & Wireless ofrecer servicio satelital directo al celular (D2C) con la red de Starlink."
+      },
+      "indicadores": {
+        "tec_sandbox": {
+          "estado": "parcial",
+          "nota": "No hay sandbox TIC; la Estrategia Nacional de IA aprobada en 2026 prevé crear espacios controlados de pruebas sectoriales para la IA.",
+          "fuente": "https://iapanama.gob.pa/assets/docs/ES-2-Estrategia-Nacional-de-IA.pdf",
+          "anio": 2026
+        },
+        "tec_5g": {
+          "estado": "si",
+          "nota": "+Móvil opera 5G NSA comercial desde oct-2024 en Ciudad de Panamá y zonas densas (banda AWS); Tigo recibió 40 MHz en 3,5 GHz en ago-2026.",
+          "fuente": "https://www.telesemana.com/blog/2024/10/14/movil-activo-la-primera-fase-de-su-red-5g-nsa-en-panama/",
+          "anio": 2024
+        },
+        "tec_iot": {
+          "estado": "sin_dato",
+          "nota": "No se hallaron reglas o un plan específicos para IoT/M2M."
+        },
+        "tec_satelital": {
+          "estado": "si",
+          "nota": "Starlink tiene concesión de satélites de baja órbita (No. 217) desde 2022; en sep-2026 la ASEP autorizó a C&W (+Móvil) el servicio D2C con Starlink.",
+          "fuente": "https://asep.gob.pa/an-no-17945-telco-de-2022-10-19/",
+          "anio": 2022
+        },
+        "tec_ia": {
+          "estado": "si",
+          "nota": "Estrategia Nacional de IA 2026–2036, aprobada por el Consejo de Gabinete (Res. 89-26, ago-2026); la coordina la SENACYT y tiene seis pilares.",
+          "fuente": "https://www.senacyt.gob.pa/gabinete-aprueba-la-estrategia-nacional-de-inteligencia-artificial/",
+          "anio": 2026
+        }
+      }
+    },
+    "infraestructura": {
+      "resumen": "Compartir postes, ductos y torres es obligatorio desde 1998 y se extendió a los postes eléctricos. El reglamento de torres (2009) exige uso compartido y visto bueno de la ASEP, y desde 2026 hay nuevas reglas para usar los ductos de los proyectos de soterramiento (Ley 15 de 2012).",
+      "instrumentos": [
+        {
+          "nombre": "Decreto Ejecutivo 138 de 1998: uso compartido de instalaciones (postes, ductos, torres)",
+          "anio": 1998,
+          "tipo": "decreto",
+          "url": "https://asep.gob.pa/wp-content/uploads/transparencia/articulo_9/9_2-politicas_institucionales/marco_legal/telecomunicaciones/leyes_sectoriales/ejecutivo_138.pdf"
+        },
+        {
+          "nombre": "Resolución AN No. 2848-Telco de 2009: reglamento de instalación y uso compartido de torres",
+          "anio": 2009,
+          "tipo": "resolucion",
+          "url": "https://asep.gob.pa/wp-content/uploads/torres_antenas/documentos/Anexo_A_2848_telco.pdf"
+        },
+        {
+          "nombre": "Resolución AN No. 3381-Telco de 2010: ordenamiento de cables en postes",
+          "anio": 2010,
+          "tipo": "resolucion",
+          "url": "https://asep.gob.pa/wp-content/uploads/telecomunicaciones/resoluciones/anno_3381_telco.pdf"
+        },
+        {
+          "nombre": "Resolución AN No. 21861-Telco de 2026: acceso a obras civiles de soterramiento (Ley 15 de 2012)",
+          "anio": 2026,
+          "tipo": "resolucion",
+          "url": "https://asep.gob.pa/an-no-21861-telco-de-2026-07-14/"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-07",
+        "texto": "La Res. AN 21861-Telco fijó reglas transitorias, una plataforma digital y el canon para usar los ductos de los proyectos de soterramiento."
+      },
+      "indicadores": {
+        "inf_pasiva": {
+          "estado": "si",
+          "nota": "El DE 138 de 1998 obliga a dar acceso a postes, ductos y torres a precios razonables; la Res. AN 2848-Telco (2009) impone el uso compartido de torres.",
+          "fuente": "https://asep.gob.pa/wp-content/uploads/torres_antenas/documentos/Anexo_A_2848_telco.pdf",
+          "anio": 2009
+        },
+        "inf_electrica": {
+          "estado": "si",
+          "nota": "El DE 23 de 1998 extendió al sector eléctrico el acceso obligatorio del DE 138; la Res. AN 3381-Telco (2010) ordena los cables en postes eléctricos.",
+          "fuente": "https://asep.gob.pa/wp-content/uploads/telecomunicaciones/resoluciones/anno_3381_telco.pdf",
+          "anio": 2010
+        },
+        "inf_permisos": {
+          "estado": "parcial",
+          "nota": "El reglamento de torres (2009) fija un visto bueno de la ASEP en 10 días, previo al permiso municipal; no se hallaron silencio positivo ni ventanilla única.",
+          "fuente": "https://asep.gob.pa/wp-content/uploads/torres_antenas/documentos/Anexo_A_2848_telco.pdf",
+          "anio": 2009
+        },
+        "inf_roaming": {
+          "estado": "sin_dato",
+          "nota": "No se halló regulación de roaming nacional; el PNAF solo remite a las cláusulas de roaming de los contratos de concesión."
+        },
+        "inf_edificios": {
+          "estado": "sin_dato"
+        }
+      }
+    },
+    "emergencia": {
+      "resumen": "El Sistema Nacional de Emergencias 9-1-1 (Ley 120 de 2019) usa un número único y gratuito, incluso sin saldo, y obliga a las telefónicas a difundir avisos masivos. Los operadores de servicios básicos deben tener un plan de emergencia aprobado por la ASEP.",
+      "instrumentos": [
+        {
+          "nombre": "Ley 120 de 19 de diciembre de 2019, que crea el Sistema Nacional de Emergencias 9-1-1",
+          "anio": 2019,
+          "tipo": "ley",
+          "url": "https://sume911.pa/wp-content/uploads/2025/01/GO28926-A-LEY120-19122019-SNE911.pdf"
+        },
+        {
+          "nombre": "Ley 44 de 2007, que crea el SUME 911 (emergencias prehospitalarias), modificada por la Ley 120 de 2019",
+          "anio": 2007,
+          "tipo": "ley",
+          "url": "https://sume911.pa/wp-content/uploads/2025/01/GO25911-LEY44-31102007-SUME911.pdf"
+        },
+        {
+          "nombre": "Decreto Ejecutivo 73 de 1997, arts. 18 y 254 (plan de emergencia y llamadas de urgencia gratuitas)",
+          "anio": 1997,
+          "tipo": "decreto",
+          "url": "https://asep.gob.pa/wp-content/uploads/transparencia/articulo_9/9_2-politicas_institucionales/marco_legal/telecomunicaciones/leyes_sectoriales/ejecutivo_73.pdf"
+        }
+      ],
+      "novedad": null,
+      "indicadores": {
+        "eme_alerta": {
+          "estado": "parcial",
+          "nota": "La Ley 120 de 2019 obliga a las telefónicas a difundir avisos masivos del 9-1-1; no se halló evidencia de un sistema Cell Broadcast operativo.",
+          "fuente": "https://sume911.pa/wp-content/uploads/2025/01/GO28926-A-LEY120-19122019-SNE911.pdf",
+          "anio": 2019
+        },
+        "eme_numero": {
+          "estado": "si",
+          "nota": "Número único 9-1-1 en todo el país (Ley 120 de 2019, Sistema Nacional de Emergencias); el SUME 911 atiende las urgencias prehospitalarias.",
+          "fuente": "https://sume911.pa/wp-content/uploads/2025/01/GO28926-A-LEY120-19122019-SNE911.pdf",
+          "anio": 2019
+        },
+        "eme_plan": {
+          "estado": "si",
+          "nota": "El DE 73 de 1997 (art. 18) exige a los concesionarios de servicios básicos un Plan de Emergencia ante desastres, aprobado por la ASEP.",
+          "fuente": "https://asep.gob.pa/wp-content/uploads/transparencia/articulo_9/9_2-politicas_institucionales/marco_legal/telecomunicaciones/leyes_sectoriales/ejecutivo_73.pdf",
+          "anio": 1997
+        },
+        "eme_prioridad": {
+          "estado": "si",
+          "nota": "Llamadas al 9-1-1 gratuitas desde fijos y móviles, aun sin saldo (Ley 120 de 2019, art. 5); el DE 73 exige acceso gratuito a números de urgencia.",
+          "fuente": "https://sume911.pa/wp-content/uploads/2025/01/GO28926-A-LEY120-19122019-SNE911.pdf",
+          "anio": 2019
+        },
+        "eme_tampere": {
+          "estado": "si",
+          "nota": "Panamá firmó el Convenio de Tampere el 20-sep-2001 y lo ratificó el 5-mar-2003 (UN Treaty Collection, cap. XXV-4).",
+          "fuente": "https://treaties.un.org/Pages/ViewDetails.aspx?src=TREATY&mtdsg_no=XXV-4&chapter=25&clang=_en",
+          "anio": 2003
+        }
+      }
+    },
+    "homologacion": {
+      "resumen": "Los equipos inalámbricos deben homologarse ante la ASEP antes de venderse o usarse (procedimiento de 2014). Se aceptan informes de laboratorios extranjeros, la solicitud se inicia en línea y hay un buscador público de equipos homologados.",
+      "instrumentos": [
+        {
+          "nombre": "Resolución AN No. 8105-Telco de 2014: Procedimiento de Homologación de Dispositivos Inalámbricos",
+          "anio": 2014,
+          "tipo": "resolucion",
+          "url": "https://asep.gob.pa/wp-content/uploads/telecomunicaciones/homologacion/anexo_a_8105_telco.pdf"
+        },
+        {
+          "nombre": "Listado público de dispositivos homologados (plataforma SATEL de la ASEP)",
+          "tipo": "otro",
+          "url": "https://satel.asep.gob.pa/Pages/Control/BuscadorEquipos/BuscadorEquipos.aspx"
+        }
+      ],
+      "novedad": null,
+      "indicadores": {
+        "hom_obligatoria": {
+          "estado": "si",
+          "nota": "Res. AN 8105-Telco de 2014: todo equipo inalámbrico debe homologarse ante la ASEP antes de venderse o usarse, salvo excepciones.",
+          "fuente": "https://asep.gob.pa/direcciones/telecomunicaciones/guia-y-preguntas-frecuentes/preguntas-frecuentes-sobre-homologacion/",
+          "anio": 2014
+        },
+        "hom_reconocimiento": {
+          "estado": "si",
+          "nota": "Acepta informes de laboratorios independientes, también extranjeros, sin exigir laboratorio local ni ISO; recomienda informes según normas FCC.",
+          "fuente": "https://asep.gob.pa/direcciones/telecomunicaciones/guia-y-preguntas-frecuentes/preguntas-frecuentes-sobre-homologacion/",
+          "anio": 2014
+        },
+        "hom_imei": {
+          "estado": "si",
+          "nota": "La ASEP mantiene una base de equipos robados o extraviados (BATRE), alimentada por los operadores con el IMEI; esos equipos no pueden portarse.",
+          "fuente": "https://asep.gob.pa/?page_id=14447",
+          "anio": 2009
+        },
+        "hom_enlinea": {
+          "estado": "parcial",
+          "nota": "La solicitud se inicia en línea en la plataforma SATEL, pero la carta, el comprobante y el pago se entregan en físico en la ASEP.",
+          "fuente": "https://asep.gob.pa/direcciones/telecomunicaciones/guia-y-preguntas-frecuentes/preguntas-frecuentes-sobre-homologacion/"
+        },
+        "hom_lista": {
+          "estado": "si",
+          "nota": "Buscador público de equipos homologados en la plataforma SATEL de la ASEP.",
+          "fuente": "https://satel.asep.gob.pa/Pages/Control/BuscadorEquipos/BuscadorEquipos.aspx"
+        }
+      }
+    }
+  },
+  "cambiosDetectados": [
+    "Espectro: la Licitación 01-2023-Telco se cerró sin adjudicar y Digicel cerró en abril de 2024; la nueva Licitación 01-2026-Telco (3,5 GHz) no tuvo postulantes.",
+    "5G: ya no es solo «preparación»; +Móvil opera 5G NSA comercial desde octubre de 2024 y Tigo recibió 40 MHz en 3,5 GHz en agosto de 2026.",
+    "Competencia: se añaden la declaratoria de operadores dominantes (Res. AN 13329-Telco de 2019, modificada en 2021) y la rebaja de cargos de interconexión de referencia (Res. AN 20935-Telco de 2025).",
+    "Portabilidad: la cifra de unos 5 millones estaba desactualizada; al 31-oct-2026 suman 6,13 millones de números portados (5,99 millones móviles).",
+    "Usuario: faltaban el reglamento general de derechos (Res. JD-101 de 1997), el procedimiento único de reclamos (Res. AN 5161-AU de 2012) y la publicación anual del cumplimiento de metas de calidad de Internet.",
+    "Emergencias: la «ley reciente» del 911 es la Ley 120 de 2019; se precisó que garantiza llamadas gratuitas aun sin saldo y obliga a difundir avisos masivos.",
+    "Infraestructura: se añaden el acceso a postes eléctricos (DE 23 de 1998, Res. AN 3381-Telco) y a ductos de soterramiento (Ley 15 de 2012, Res. AN 21861-Telco).",
+    "Novedades no recogidas: concesión de órbita baja de Starlink y servicio D2C (2026), Estrategia Nacional de IA aprobada en 2026 y propuesta de abrir 500 MHz de la banda de 6 GHz.",
+    "Ciberseguridad: la estrategia 2021–2024 se presentaba como vigente pero no se ha renovado; no hay ley marco (la Ley 478 de 2025 es de ciberdelincuencia). Se añaden el SOC gubernamental y la Res. AIG 07/2026."
+  ],
+  "verificadoEn": "2026-11-11",
+  "confianza": "media"
+}

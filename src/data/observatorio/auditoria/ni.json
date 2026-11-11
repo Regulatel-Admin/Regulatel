@@ -1,0 +1,34 @@
+{
+  "iso": "ni",
+  "pais": "Nicaragua",
+  "revisado": "2026-11-11",
+  "documentos": [
+    {
+      "titulo": "Portal REGULATEL - Mejores prácticas regulatorias",
+      "url": "https://regulatel.indotel.gob.do/pagina/mejores-practicas-regulatorias",
+      "categoriaOriginal": "Mejores prácticas regulatorias",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "vigente",
+      "nota": "Responde 200: micrositio general de buenas prácticas de REGULATEL alojado por INDOTEL. Nicaragua/TELCOR no figura entre sus 20 fichas; el perfil de TELCOR está en regulatel.org/telcor."
+    },
+    {
+      "titulo": "TELCOR - Instituto Nicaragüense de Telecomunicaciones y Correos",
+      "url": "https://www.telcor.gob.ni/",
+      "categoriaOriginal": "Mejores prácticas regulatorias",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "vigente",
+      "nota": "Sitio oficial del regulador: la Ley 1223 (vigente desde nov-2025), art. 2, mantiene a TELCOR como Autoridad Reguladora. Da 403 por bloqueo de su WAF; una captura web de oct-2026 lo confirma activo."
+    },
+    {
+      "titulo": "Preguntas frecuentes - TELCOR",
+      "url": "https://www.telcor.gob.ni/pregunta-frecuentes/",
+      "categoriaOriginal": "Mejores prácticas regulatorias",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "no_verificable",
+      "nota": "Todo telcor.gob.ni da 403 (WAF); última captura web válida: feb-2026. No se puede ver si refleja la Ley 1223 (derogó la Ley 200 en nov-2025) ni las normas de usuarios (2025) y de portabilidad (2026)."
+    }
+  ]
+}

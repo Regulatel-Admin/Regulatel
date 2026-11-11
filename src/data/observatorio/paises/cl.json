@@ -1,0 +1,552 @@
+{
+  "iso": "cl",
+  "pais": "Chile",
+  "regulador": {
+    "sigla": "SUBTEL",
+    "nombre": "Subsecretaría de Telecomunicaciones",
+    "url": "https://www.subtel.gob.cl",
+    "naturaleza": "Subsecretaría del Ministerio de Transportes y Telecomunicaciones (gobierno central, sin autonomía); aplica y fiscaliza la Ley General de Telecomunicaciones."
+  },
+  "otrasAutoridades": [
+    {
+      "sigla": "MTT",
+      "nombre": "Ministerio de Transportes y Telecomunicaciones",
+      "rol": "Ministerio rector: firma decretos de concesiones, tarifas y reglamentos.",
+      "url": "https://www.mtt.gob.cl"
+    },
+    {
+      "sigla": "ANCI",
+      "nombre": "Agencia Nacional de Ciberseguridad",
+      "rol": "Autoridad de ciberseguridad (Ley 21.663), operativa desde 2025; aloja el CSIRT Nacional.",
+      "url": "https://anci.gob.cl"
+    },
+    {
+      "sigla": "TDLC",
+      "nombre": "Tribunal de Defensa de la Libre Competencia",
+      "rol": "Califica si un servicio requiere fijación de tarifas y revisa los topes de espectro.",
+      "url": "https://www.tdlc.cl"
+    },
+    {
+      "sigla": "SERNAC",
+      "nombre": "Servicio Nacional del Consumidor",
+      "rol": "Protección del consumidor; administra la plataforma 'No Molestar'.",
+      "url": "https://www.sernac.cl"
+    },
+    {
+      "sigla": "SENAPRED",
+      "nombre": "Servicio Nacional de Prevención y Respuesta ante Desastres",
+      "rol": "Emite las alertas del Sistema de Alerta de Emergencia (SAE) a celulares.",
+      "url": "https://senapred.cl"
+    },
+    {
+      "sigla": "MinCiencia",
+      "nombre": "Ministerio de Ciencia, Tecnología, Conocimiento e Innovación",
+      "rol": "Responsable de la Política Nacional de Inteligencia Artificial.",
+      "url": "https://www.minciencia.gob.cl"
+    }
+  ],
+  "marcoLegal": {
+    "nombre": "Ley General de Telecomunicaciones N° 18.168",
+    "anio": 1982,
+    "url": "https://www.bcn.cl/leychile/navegar?idNorma=29591"
+  },
+  "resumenPais": "Chile regula desde el Ejecutivo: Subtel es parte del Ministerio de Transportes y Telecomunicaciones y no es un ente autónomo. El modelo combina concursos de espectro con metas de cobertura, obligaciones mayoristas fijadas por ley y, desde 2024, el acceso a Internet como servicio público.",
+  "categorias": {
+    "espectro": {
+      "resumen": "Subtel asigna espectro por concurso público con metas de cobertura. Entregó bandas 5G en 2021 y 2024, deja 500 MHz de la banda de 6 GHz para Wi-Fi y en 2025 abrió las bandas móviles al servicio satelital directo al celular.",
+      "instrumentos": [
+        {
+          "nombre": "Plan General de Uso del Espectro Radioeléctrico (DS 127/2006; última modificación: Decreto 49/2025)",
+          "anio": 2006,
+          "tipo": "plan",
+          "url": "https://www.bcn.cl/leychile/navegar?idNorma=249068"
+        },
+        {
+          "nombre": "Concursos públicos 5G: 700 MHz, AWS, 3,5 GHz y 26 GHz",
+          "anio": 2021,
+          "tipo": "otro",
+          "url": "https://www.subtel.gob.cl/concursos5g/"
+        },
+        {
+          "nombre": "Res. Ex. 1265/2024 (MTT): adjudica a Claro 50 MHz en la banda 3,40–3,60 GHz",
+          "anio": 2024,
+          "tipo": "resolucion",
+          "url": "https://www.subtel.gob.cl/wp-content/uploads/2024/06/ResEx_N1265.pdf"
+        },
+        {
+          "nombre": "Res. Ex. 1.985/2017: norma técnica de equipos de alcance reducido (incluye 6 GHz)",
+          "anio": 2017,
+          "tipo": "norma",
+          "url": "https://www.bcn.cl/leychile/navegar?idNorma=1109333"
+        }
+      ],
+      "novedad": {
+        "fecha": "2025-10",
+        "texto": "El Decreto 49/2025 modificó el Plan General de Uso del Espectro para permitir el servicio satelital directo al celular en bandas móviles de 700 MHz a 2,6 GHz."
+      },
+      "indicadores": {
+        "esp_cuadro": {
+          "estado": "si",
+          "nota": "Plan General de Uso del Espectro (DS 127/2006) con el cuadro de atribución de bandas; última modificación por el Decreto 49, publicado en octubre de 2025.",
+          "fuente": "https://www.bcn.cl/leychile/navegar?idNorma=249068",
+          "anio": 2006
+        },
+        "esp_5g": {
+          "estado": "si",
+          "nota": "3,5 GHz: Movistar, Entel y WOM (2021) y Claro (2024); 26 GHz: Claro, Entel y WOM; 700 MHz y AWS: WOM (2021).",
+          "fuente": "https://www.subtel.gob.cl/concursos5g/",
+          "anio": 2021
+        },
+        "esp_licitacion": {
+          "estado": "si",
+          "nota": "Concurso 5G adjudicado en feb-2021 (700 MHz, AWS, 3,5 y 26 GHz) y concurso de 50 MHz en 3,5 GHz adjudicado a Claro en 2024 (Res. Ex. 1265).",
+          "fuente": "https://www.subtel.gob.cl/concursobanda3500_2023/",
+          "anio": 2024
+        },
+        "esp_6ghz": {
+          "estado": "si",
+          "nota": "500 MHz (5925–6425 MHz) para Wi-Fi de baja potencia, sobre todo en interiores. Se abrieron 1200 MHz (5925–7125) en 2020 y se redujeron en 2022.",
+          "fuente": "https://www.bcn.cl/leychile/navegar?idNorma=1109333",
+          "anio": 2022
+        },
+        "esp_secundario": {
+          "estado": "si",
+          "nota": "El art. 21 de la Ley General de Telecomunicaciones permite transferir, ceder o arrendar concesiones con su espectro, con autorización previa de Subtel.",
+          "fuente": "https://www.bcn.cl/leychile/navegar?idNorma=29591"
+        }
+      }
+    },
+    "competencia": {
+      "resumen": "Compiten cuatro grandes operadores móviles (Entel, Movistar, ClaroVTR y WOM). No hay declaración de dominancia: las tarifas son libres salvo calificación del TDLC. La ley impone ofertas mayoristas para OMV y roaming, regula la interconexión y protege la neutralidad de red.",
+      "instrumentos": [
+        {
+          "nombre": "Ley General de Telecomunicaciones N° 18.168 (interconexión y tarifas, arts. 25 y 29)",
+          "anio": 1982,
+          "tipo": "ley",
+          "url": "https://www.bcn.cl/leychile/navegar?idNorma=29591"
+        },
+        {
+          "nombre": "Ley 21.245 de Roaming Automático Nacional (ofertas mayoristas para OMV y roaming)",
+          "anio": 2020,
+          "tipo": "ley",
+          "url": "https://www.bcn.cl/leychile/navegar?idNorma=1147448"
+        },
+        {
+          "nombre": "Ley 20.453 de neutralidad de red",
+          "anio": 2010,
+          "tipo": "ley",
+          "url": "https://www.bcn.cl/leychile/navegar?idNorma=1016570"
+        },
+        {
+          "nombre": "Ley 20.522, que reformuló el Fondo de Desarrollo de las Telecomunicaciones (art. 28 A LGT)",
+          "anio": 2011,
+          "tipo": "ley",
+          "url": "https://www.bcn.cl/leychile/navegar?idNorma=1027475"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-10",
+        "texto": "Subtel presentó los ejes del Plan Nacional Digital 2026–2036 que exige la Ley 21.678 (Internet como servicio público); el documento final está en elaboración."
+      },
+      "indicadores": {
+        "comp_psm": {
+          "estado": "parcial",
+          "nota": "No hay declaratoria de dominancia: las tarifas son libres salvo que el TDLC califique un mercado como no competitivo (art. 29 LGT; excluye la telefonía móvil).",
+          "fuente": "https://www.bcn.cl/leychile/navegar?idNorma=29591"
+        },
+        "comp_omv": {
+          "estado": "si",
+          "nota": "Ley 21.245 (2020): todo concesionario con espectro debe publicar ofertas mayoristas para OMV, aprobadas por Subtel; operan OMV como Virgin.",
+          "fuente": "https://www.bcn.cl/leychile/navegar?idNorma=1147448",
+          "anio": 2020
+        },
+        "comp_interconexion": {
+          "estado": "si",
+          "nota": "Interconexión obligatoria (art. 25 LGT); los cargos de acceso los fijan MTT y Economía cada 5 años por decreto, según costos de una empresa eficiente.",
+          "fuente": "https://www.bcn.cl/leychile/navegar?idNorma=29591"
+        },
+        "comp_fondo": {
+          "estado": "si",
+          "nota": "Fondo de Desarrollo de las Telecomunicaciones (art. 28 A LGT) subsidia cobertura por concurso; en 2026 concursa la Última Milla de Los Lagos.",
+          "fuente": "https://www.subtel.gob.cl/inicio-concesionario/llamados-a-concurso/concursos-fdt/concursos-vigentes/",
+          "anio": 2026
+        },
+        "comp_neutralidad": {
+          "estado": "si",
+          "nota": "Ley 20.453 (2010), art. 24 H LGT: los proveedores de Internet no pueden bloquear ni discriminar arbitrariamente contenidos lícitos.",
+          "fuente": "https://www.bcn.cl/leychile/navegar?idNorma=1016570",
+          "anio": 2010
+        }
+      }
+    },
+    "ciberseguridad": {
+      "resumen": "La Ley Marco de Ciberseguridad (2024) creó la ANCI y el CSIRT Nacional; las telecomunicaciones son servicio esencial y deben reportar incidentes en 3 horas. Rige la Política Nacional 2023–2028 y Chile es parte del Convenio de Budapest desde 2017.",
+      "instrumentos": [
+        {
+          "nombre": "Ley 21.663, Ley Marco de Ciberseguridad",
+          "anio": 2024,
+          "tipo": "ley",
+          "url": "https://www.bcn.cl/leychile/navegar?idNorma=1202434"
+        },
+        {
+          "nombre": "Política Nacional de Ciberseguridad 2023–2028 (DS 164/2023)",
+          "anio": 2023,
+          "tipo": "estrategia",
+          "url": "https://www.bcn.cl/leychile/navegar?idNorma=1198702"
+        },
+        {
+          "nombre": "Ley 21.459 de delitos informáticos (adecuación al Convenio de Budapest)",
+          "anio": 2022,
+          "tipo": "ley",
+          "url": "https://www.bcn.cl/leychile/navegar?idNorma=1177743"
+        }
+      ],
+      "novedad": {
+        "fecha": "2025-03",
+        "texto": "Entró en vigor el deber de reportar incidentes al CSIRT Nacional (alerta temprana en 3 horas) para servicios esenciales, incluidas las telecomunicaciones."
+      },
+      "indicadores": {
+        "ciber_estrategia": {
+          "estado": "si",
+          "nota": "Política Nacional de Ciberseguridad 2023–2028, aprobada por el DS 164 (publicado en dic-2023); reemplazó a la política 2017–2022.",
+          "fuente": "https://www.bcn.cl/leychile/navegar?idNorma=1198702",
+          "anio": 2023
+        },
+        "ciber_ley": {
+          "estado": "si",
+          "nota": "Ley 21.663 (2024), Ley Marco de Ciberseguridad: crea la ANCI y el CSIRT Nacional. Los delitos informáticos están en la Ley 21.459 (2022).",
+          "fuente": "https://www.bcn.cl/leychile/navegar?idNorma=1202434",
+          "anio": 2024
+        },
+        "ciber_csirt": {
+          "estado": "si",
+          "nota": "CSIRT Nacional, creado dentro de la ANCI (art. 24, Ley 21.663) y operativo desde 2025: coordina la respuesta a incidentes y recibe los reportes.",
+          "fuente": "https://www.csirt.gob.cl/",
+          "anio": 2025
+        },
+        "ciber_reporte": {
+          "estado": "si",
+          "nota": "Ley 21.663 (art. 9): servicios esenciales, incluidas las telecom, alertan al CSIRT en 3 h; el DS 147/2024 exige informar ciberincidentes a Subtel.",
+          "fuente": "https://www.bcn.cl/leychile/navegar?idNorma=1202434",
+          "anio": 2024
+        },
+        "ciber_budapest": {
+          "estado": "si",
+          "nota": "Adhesión depositada el 20-abr-2017; vigente para Chile desde el 1-ago-2017 (Decreto 83/2017). La Ley 21.459 (2022) adecuó los delitos informáticos.",
+          "fuente": "https://www.coe.int/en/web/conventions/full-list?module=signatures-by-treaty&treatynum=185",
+          "anio": 2017
+        }
+      }
+    },
+    "usuario": {
+      "resumen": "Los derechos de los usuarios están en el Reglamento de Servicios de Telecomunicaciones (2014). Subtel resuelve reclamos en segunda instancia, la portabilidad funciona desde 2012 y la ley garantiza velocidades mínimas de Internet medidas por un organismo independiente.",
+      "instrumentos": [
+        {
+          "nombre": "Reglamento de Servicios de Telecomunicaciones (DS 18/2014)",
+          "anio": 2014,
+          "tipo": "reglamento",
+          "url": "https://www.bcn.cl/leychile/navegar?idNorma=1059429"
+        },
+        {
+          "nombre": "Ley 20.471, que crea el organismo implementador de la portabilidad numérica",
+          "anio": 2010,
+          "tipo": "ley",
+          "url": "https://www.bcn.cl/leychile/navegar?idNorma=1020620"
+        },
+        {
+          "nombre": "Ley 21.046 de velocidad mínima garantizada de acceso a Internet",
+          "anio": 2017,
+          "tipo": "ley",
+          "url": "https://www.bcn.cl/leychile/navegar?idNorma=1111298"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-06",
+        "texto": "Subtel limitó el prefijo 600 a llamadas solicitadas, prohibió usarlo para publicidad y creó el prefijo 702 para organismos públicos (desde 2027)."
+      },
+      "indicadores": {
+        "usu_reglamento": {
+          "estado": "si",
+          "nota": "Reglamento de Servicios de Telecomunicaciones (DS 18/2014, MTT y Economía): contratos, cobros, reclamos y emergencias; última modificación en 2023.",
+          "fuente": "https://www.bcn.cl/leychile/navegar?idNorma=1059429",
+          "anio": 2014
+        },
+        "usu_reclamos": {
+          "estado": "si",
+          "nota": "Subtel resuelve reclamos en segunda instancia (art. 28 bis LGT): si la empresa no responde o no satisface, se insiste ante Subtel, también en línea.",
+          "fuente": "https://www.subtel.gob.cl/atencion-ciudadana/departamento-de-gestion-de-reclamos-dgr/"
+        },
+        "usu_portabilidad": {
+          "estado": "si",
+          "nota": "Ley 20.471 (2010): portabilidad fija y móvil, en uso desde 2012; más de 753 mil números cambiaron de compañía en el 2.º trimestre de 2026.",
+          "fuente": "https://www.subtel.gob.cl/informe-de-portabilidad-de-subtel-mas-de-753-mil-numeros-moviles-y-fijos-cambiaron-de-compania-durante-el-segundo-trimestre-de-2026/",
+          "anio": 2012
+        },
+        "usu_calidad": {
+          "estado": "si",
+          "nota": "Ley 21.046 (2017): un organismo técnico independiente mide la calidad del acceso a Internet y Subtel debe publicar informes comparativos.",
+          "fuente": "https://www.subtel.gob.cl/velocidad-minima-garantizada/",
+          "anio": 2017
+        },
+        "usu_nomolestar": {
+          "estado": "si",
+          "nota": "SERNAC opera la plataforma 'No Molestar' para frenar publicidad (art. 28 B, Ley 19.496); desde ago-2025 las llamadas masivas no solicitadas usan el prefijo 809.",
+          "fuente": "https://dplnews.com/chile-sernac-oficia-a-subtel-por-eventual-mal-uso-de-prefijos-por-parte-de-companias-de-telecomunicaciones/"
+        }
+      }
+    },
+    "emergentes": {
+      "resumen": "5G comercial desde diciembre de 2021, con 10,8 millones de conexiones a junio de 2026. Starlink opera desde 2021 y desde 2025 hay conexión satelital directa al celular. La Política de IA está vigente y la ley de IA sigue en trámite; no hay sandbox formal.",
+      "instrumentos": [
+        {
+          "nombre": "Actualización de la Política Nacional de Inteligencia Artificial (Decreto 12/2024)",
+          "anio": 2024,
+          "tipo": "estrategia",
+          "url": "https://www.bcn.cl/leychile/navegar?idNorma=1210664"
+        },
+        {
+          "nombre": "Decreto 49/2025: modifica el Plan General de Uso del Espectro para el servicio satelital directo al celular",
+          "anio": 2025,
+          "tipo": "decreto",
+          "url": "https://www.diariooficial.interior.gob.cl/publicaciones/2025/10/30/44288/01/2719462.pdf"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-10",
+        "texto": "Subtel amplió a 60 MHz (2300–2360 MHz) la banda para redes privadas industriales 5G, orientadas a automatización, IoT e IA; Codelco es el primer usuario."
+      },
+      "indicadores": {
+        "tec_sandbox": {
+          "estado": "parcial",
+          "nota": "Sin sandbox regulatorio formal; Subtel otorga espectro experimental (Campus 5G) y en oct-2026 firmó con OnLab un convenio de entornos de prueba 5G/6G.",
+          "fuente": "https://www.subtel.gob.cl/subtel-y-onlab-suscriben-acuerdo-para-impulsar-el-5g-y-6g-en-los-sectores-productivos-con-el-apoyo-de-corfo/",
+          "anio": 2026
+        },
+        "tec_5g": {
+          "estado": "si",
+          "nota": "Red 5G activada en dic-2021 (Entel, Movistar y WOM; ClaroVTR se sumó después); 10,8 millones de conexiones 5G a junio de 2026 (Subtel).",
+          "fuente": "https://www.subtel.gob.cl/estadisticas-1o-semestre-subtel-el-5g-avanza-a-paso-firme-para-alcanzar-al-4g-y-brecha-se-reduce-a-solo-627-mil-conexiones/",
+          "anio": 2021
+        },
+        "tec_iot": {
+          "estado": "parcial",
+          "nota": "Sin marco IoT/M2M específico; en oct-2026 Subtel amplió a 60 MHz (2300–2360 MHz) el espectro para redes privadas industriales (IoT, automatización).",
+          "fuente": "https://www.subtel.gob.cl/subtel-anuncia-pionera-ampliacion-de-espectro-para-el-desarrollo-de-redes-privadas-5g-y-futuras-generaciones-moviles/",
+          "anio": 2026
+        },
+        "tec_satelital": {
+          "estado": "si",
+          "nota": "Subtel autorizó a Starlink en 2021 (137 mil conexiones a ene-2026); desde sept-2025 Entel y Starlink ofrecen SMS satelital directo al celular.",
+          "fuente": "https://www.subtel.gob.cl/chile-supera-las-10-millones-de-conexiones-5g-y-cuenta-con-el-internet-fijo-mas-barato-de-america-latina/",
+          "anio": 2021
+        },
+        "tec_ia": {
+          "estado": "si",
+          "nota": "Política Nacional de IA (2021), actualizada por el Decreto 12 publicado en ene-2025; el proyecto de ley de IA (Boletín 16821-19) sigue en trámite.",
+          "fuente": "https://www.bcn.cl/leychile/navegar?idNorma=1210664",
+          "anio": 2024
+        }
+      }
+    },
+    "infraestructura": {
+      "resumen": "La ley obliga a compartir torres (colocalización) y a ofrecer roaming nacional en zonas aisladas y emergencias, exige edificios abiertos a varios operadores y, desde 2024, da servidumbre legal sobre infraestructura de concesiones y bienes fiscales, con silencio positivo.",
+      "instrumentos": [
+        {
+          "nombre": "Ley 20.599 (Ley de Torres): instalación de antenas y colocalización",
+          "anio": 2012,
+          "tipo": "ley",
+          "url": "https://www.bcn.cl/leychile/navegar?idNorma=1040859"
+        },
+        {
+          "nombre": "Ley 21.678: acceso a Internet como servicio público (servidumbres y silencio positivo)",
+          "anio": 2024,
+          "tipo": "ley",
+          "url": "https://www.bcn.cl/leychile/navegar?idNorma=1204651"
+        },
+        {
+          "nombre": "Ley 21.245 de Roaming Automático Nacional",
+          "anio": 2020,
+          "tipo": "ley",
+          "url": "https://www.bcn.cl/leychile/navegar?idNorma=1147448"
+        },
+        {
+          "nombre": "Ley 20.808: libre elección de operador en edificios y loteos",
+          "anio": 2015,
+          "tipo": "ley",
+          "url": "https://www.bcn.cl/leychile/navegar?idNorma=1074272"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-05",
+        "texto": "La Res. Ex. 930/2026 aprobó los primeros planes anuales de retiro y ordenamiento de cables en desuso (Ley 21.172 y DS 176/2023): 66 mil puntos en 3 años."
+      },
+      "indicadores": {
+        "inf_pasiva": {
+          "estado": "si",
+          "nota": "Ley 20.599 (2012): antes de instalar antenas hay que pedir colocalización en torres existentes; Subtel resuelve las negativas (art. 19 bis LGT).",
+          "fuente": "https://www.bcn.cl/leychile/navegar?idNorma=1040859",
+          "anio": 2012
+        },
+        "inf_electrica": {
+          "estado": "si",
+          "nota": "Ley 21.678 (2024): servidumbre legal sobre infraestructura de concesiones (eléctricas, viales) y bienes fiscales; el DS 176/2023 ordena el cableado aéreo.",
+          "fuente": "https://www.bcn.cl/leychile/navegar?idNorma=1204651",
+          "anio": 2024
+        },
+        "inf_permisos": {
+          "estado": "si",
+          "nota": "Ley 21.678 (2024): plazo de 120 días con silencio positivo para servidumbres; la Ley 20.599 regula permisos de torres; en 2026 Subtel anunció un 'fast track'.",
+          "fuente": "https://www.bcn.cl/leychile/navegar?idNorma=1204651",
+          "anio": 2024
+        },
+        "inf_roaming": {
+          "estado": "si",
+          "nota": "Ley 21.245 (2020): roaming automático nacional obligatorio en zonas aisladas, de baja densidad o con un solo operador, y en emergencias.",
+          "fuente": "https://www.bcn.cl/leychile/navegar?idNorma=1147448",
+          "anio": 2020
+        },
+        "inf_edificios": {
+          "estado": "si",
+          "nota": "Ley 20.808 (2015), art. 7 ter LGT, y su reglamento DS 167/2018: edificios y loteos deben permitir que varios operadores presten servicio.",
+          "fuente": "https://www.bcn.cl/leychile/navegar?idNorma=1074272",
+          "anio": 2015
+        }
+      }
+    },
+    "emergencia": {
+      "resumen": "El Sistema de Alerta de Emergencia (SAE) envía alertas a los celulares por zona. El DS 147/2024, publicado en 2026, refuerza la infraestructura crítica, el respaldo energético y el reporte de fallas. No hay número único de emergencias y Chile no ha ratificado Tampere.",
+      "instrumentos": [
+        {
+          "nombre": "Ley 20.478 sobre recuperación y continuidad de las telecomunicaciones en emergencias",
+          "anio": 2010,
+          "tipo": "ley",
+          "url": "https://www.bcn.cl/leychile/navegar?idNorma=1020622"
+        },
+        {
+          "nombre": "DS 147/2024: reglamento de mensajería de alerta, infraestructura crítica y fallas significativas",
+          "anio": 2024,
+          "tipo": "reglamento",
+          "url": "https://www.bcn.cl/leychile/navegar?idNorma=1220067"
+        },
+        {
+          "nombre": "Ley 21.364 que crea el Sinapred y el Senapred",
+          "anio": 2021,
+          "tipo": "ley",
+          "url": "https://www.bcn.cl/leychile/navegar?idNorma=1163423"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-01",
+        "texto": "Se publicó el DS 147/2024, que reemplaza al DS 60/2012: crea un nivel 3 de infraestructura crítica, fija respaldo energético mínimo e incluye ciberincidentes."
+      },
+      "indicadores": {
+        "eme_alerta": {
+          "estado": "si",
+          "nota": "El Sistema de Alerta de Emergencia (SAE) difunde alertas de SENAPRED a celulares por zona; los equipos deben ser compatibles (sello SAE).",
+          "fuente": "https://www.subtel.gob.cl/sae/"
+        },
+        "eme_numero": {
+          "estado": "parcial",
+          "nota": "No hay número único: SAMU 131, Bomberos 132 y Carabineros 133. El proyecto Sinaproc (Boletín 17879-25, 2025) permitiría crear el 112; sigue en el Senado.",
+          "fuente": "https://tramitacion.senado.cl/appsenado/templates/tramitacion/index.php?boletin_ini=17879-25",
+          "anio": 2025
+        },
+        "eme_plan": {
+          "estado": "si",
+          "nota": "DS 147/2024 (publicado en ene-2026): los operadores presentan cada año planes de contingencia para su infraestructura crítica y reportan fallas.",
+          "fuente": "https://www.bcn.cl/leychile/navegar?idNorma=1220067",
+          "anio": 2024
+        },
+        "eme_prioridad": {
+          "estado": "si",
+          "nota": "Llamadas a emergencias gratuitas (DS 18/2014, art. 21); alertas SAE gratuitas (art. 7 bis LGT) y con trato prioritario (DS 147/2024).",
+          "fuente": "https://www.bcn.cl/leychile/navegar?idNorma=1220067",
+          "anio": 2024
+        },
+        "eme_tampere": {
+          "estado": "parcial",
+          "nota": "Chile firmó el Convenio de Tampere el 18-jun-1998, pero no lo ha ratificado (UN Treaty Collection).",
+          "fuente": "https://treaties.un.org/Pages/ViewDetails.aspx?src=TREATY&mtdsg_no=XXV-4&chapter=25&clang=_en",
+          "anio": 1998
+        }
+      }
+    },
+    "homologacion": {
+      "resumen": "Los celulares deben homologarse (Multibanda/SAE) y su IMEI quedar registrado para operar. Desde 2026 los equipos de corto alcance usan autodeclaración con código QR; el sistema central contra celulares robados e IMEI adulterados está en marcha blanca hasta junio de 2027.",
+      "instrumentos": [
+        {
+          "nombre": "Res. Ex. 1.463/2016: norma técnica de terminales móviles (Multibanda/SAE)",
+          "anio": 2016,
+          "tipo": "norma",
+          "url": "https://www.bcn.cl/leychile/navegar?idNorma=1091663"
+        },
+        {
+          "nombre": "Res. Ex. 1.985/2017, modificada por Res. Ex. 737/2025: equipos de corto alcance con código QR",
+          "anio": 2025,
+          "tipo": "norma",
+          "url": "https://www.bcn.cl/leychile/navegar?idNorma=1109333"
+        },
+        {
+          "nombre": "Ley 21.729: registro de usuarios y sistema de bloqueo de equipos robados",
+          "anio": 2025,
+          "tipo": "ley",
+          "url": "https://www.bcn.cl/leychile/navegar?idNorma=1211063"
+        },
+        {
+          "nombre": "Res. Ex. 207/2026 (modificada por Res. Ex. 2.120/2026): sistema de bloqueo efectivo de dispositivos robados, hurtados o extraviados",
+          "anio": 2026,
+          "tipo": "resolucion",
+          "url": "https://www.diariooficial.interior.gob.cl/publicaciones/2026/02/03/44366/01/2762048.pdf"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-11",
+        "texto": "La Res. Ex. 2.120/2026 postergó al 30-jun-2027, con marcha blanca, la exigibilidad del sistema central de bloqueo de celulares robados (Res. 207/2026)."
+      },
+      "indicadores": {
+        "hom_obligatoria": {
+          "estado": "si",
+          "nota": "Celulares: homologación Multibanda/SAE obligatoria para vender y activar (Res. 1.463/2016); corto alcance: test report y código QR desde feb-2026.",
+          "fuente": "https://www.bcn.cl/leychile/navegar?idNorma=1091663",
+          "anio": 2016
+        },
+        "hom_reconocimiento": {
+          "estado": "si",
+          "nota": "Acepta informes de ensayo de laboratorios con acreditación internacional (Res. 1.985, art. 6) y, con reciprocidad, certificados extranjeros (Res. 1.463).",
+          "fuente": "https://www.bcn.cl/leychile/navegar?idNorma=1109333",
+          "anio": 2026
+        },
+        "hom_imei": {
+          "estado": "si",
+          "nota": "Bloqueo de celulares robados por IMEI desde 2011 (DS 157); el sistema central contra IMEI adulterados (Ley 21.729) será exigible en junio de 2027.",
+          "fuente": "https://www.diariooficial.interior.gob.cl/publicaciones/2026/11/11/44596/01/2899511.pdf",
+          "anio": 2026
+        },
+        "hom_enlinea": {
+          "estado": "si",
+          "nota": "Solicitudes de certificación a Subtel por su Oficina de Partes Virtual (hoy solo equipos médicos de corto alcance); celulares: ante certificadoras inscritas.",
+          "fuente": "https://www.subtel.gob.cl/wp-content/uploads/2023/05/Protocolo_de_Certificacion_de_Equipos_de_Alcance_Reducido_2026.docx",
+          "anio": 2026
+        },
+        "hom_lista": {
+          "estado": "parcial",
+          "nota": "No hay listado público de modelos homologados; la norma obliga a los operadores a ofrecer en su web la consulta del estado de cada equipo por IMEI.",
+          "fuente": "https://www.multibanda.cl/consulta-tu-imei/",
+          "anio": 2016
+        }
+      }
+    }
+  },
+  "cambiosDetectados": [
+    "Citaba la Política Nacional de Ciberseguridad 2017–2022, ya vencida; rige la 2023–2028 (DS 164/2023).",
+    "Decía que Chile usa 'números únicos de emergencia': siguen separados 131, 132 y 133; el 112 es solo un proyecto de ley en el Senado (Boletín 17879-25).",
+    "Mencionaba 'sandbox regulatorios': no existe un sandbox formal, solo espectro experimental (Campus 5G) y un convenio de pruebas 5G/6G (2026).",
+    "Las ofertas mayoristas para OMV y roaming no son solo para quienes tienen más espectro: la Ley 21.245 (2020) obliga a todo concesionario con espectro.",
+    "No indicaba que el uso libre de 6 GHz se redujo en 2022 de 1200 a 500 MHz (5925–6425 MHz).",
+    "Afirmaba que la lista de equipos homologados se publica en canales oficiales: no hay un listado central; solo consulta por IMEI.",
+    "El reglamento de alertas e infraestructura crítica (DS 60/2012) fue reemplazado por el DS 147/2024, publicado en enero de 2026.",
+    "Faltaban reformas 2024–2026: Ley 21.678 (Internet servicio público), Decreto 49/2025 (satélite directo al celular), Ley 21.729 y Res. 207/2026 (equipos robados), Res. 737/2025 (QR) y concurso 3,5 GHz de 2024."
+  ],
+  "verificadoEn": "2026-11-11",
+  "confianza": "alta"
+}

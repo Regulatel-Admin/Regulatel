@@ -1,0 +1,264 @@
+{
+  "iso": "mx",
+  "pais": "México",
+  "revisado": "2026-11-11",
+  "documentos": [
+    {
+      "titulo": "Programa Anual de Uso y Aprovechamiento de Bandas de Frecuencias 2026 (PABF)",
+      "url": "https://portal.crt.gob.mx/programa-anual-de-uso-y-aprovechamiento-de-bandas-de-frecuencias-2026",
+      "categoriaOriginal": "Espectro radioeléctrico",
+      "origen": "catalogo",
+      "tema": "espectro",
+      "estado": "vigente",
+      "nota": "Emitido en DOF 06-01-2026 y modificado en DOF 13-04-2026. Sigue vigente: el PABF 2027 debe emitirse a más tardar el 31-12-2026 (art. 37 LMTR)."
+    },
+    {
+      "titulo": "Plan Nacional de Licitaciones 2026",
+      "url": "https://portal.crt.gob.mx/planes-y-programas",
+      "categoriaOriginal": "Espectro radioeléctrico",
+      "origen": "catalogo",
+      "tema": "espectro",
+      "estado": "enlace_roto",
+      "nota": "Nombre oficial: Plan de Licitaciones de Espectro Radioeléctrico 2026 (publicado el 12-01-2026). La página genérica dio 404 en navegador; el PDF directo lo cita el DOF 07-10-2026.",
+      "urlNueva": "https://portal.crt.gob.mx/docs-bin/planes-y-programas/2026/plan-de-licitaciones.pdf",
+      "tituloNuevo": "Plan de Licitaciones de Espectro Radioeléctrico 2026",
+      "anioNuevo": 2026
+    },
+    {
+      "titulo": "Mecanismo para habilitar el uso temporal del espectro para el servicio de acceso inalámbrico móvil, en el marco de la Copa Mundial FIFA 2026",
+      "url": "https://portal.crt.gob.mx/SesionDelPlenoPublica/DescargarArchivo?nombreArchivo=7577e1e716f747e992e17d64d5f84307_P_CRT_EXT_15042026_034.pdf&tipo=acuerdo",
+      "categoriaOriginal": "Espectro radioeléctrico",
+      "origen": "catalogo",
+      "tema": "espectro",
+      "estado": "derogado",
+      "nota": "Acuerdo P/CRT/EXT/15042026/034: medida temporal del Mundial (600 MHz, 1.9, 2.5 y 3.3-3.6 GHz); cobertura exigible 11-jun a 19-jul-2026 (DOF 11-05-2026). Expiró sin derogación expresa ni reemplazo."
+    },
+    {
+      "titulo": "Ventanilla electrónica",
+      "url": "https://ventanilla.ift.org.mx/VentanillaElectronica/index.php/Login",
+      "categoriaOriginal": "Gestión de Trámites",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "enlace_roto",
+      "nota": "El subdominio del IFT ya no resuelve. La Ventanilla Electrónica opera ahora en ventanilla.crt.gob.mx (verificada).",
+      "urlNueva": "https://ventanilla.crt.gob.mx/VentanillaElectronica/index.php/Login",
+      "tituloNuevo": "Ventanilla Electrónica de la CRT"
+    },
+    {
+      "titulo": "Uso de las TIC y actividades por Internet en México: Impacto de las características sociodemográficas de la Población (versión 2019)",
+      "url": "https://www.ift.org.mx/sites/default/files/contenidogeneral/estadisticas/usodeinternetenmexico.pdf",
+      "categoriaOriginal": "Tecnologías de la Información y la Comunicación (TIC)",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "actualizado",
+      "nota": "Misma serie: notas técnicas 2022, 2023 y 2024 en el archivo histórico del IFT (la de 2022 cita la versión 2019 como antecedente). La más reciente localizada es la de 2024; no se halló edición 2025.",
+      "urlNueva": "https://www.ift.org.mx/sites/default/files/contenidogeneral/estadisticas/notatecnicacalculadora2024.pdf",
+      "tituloNuevo": "Nota técnica: Estimación de probabilidades de uso de las TIC y actividades por Internet en México 2024",
+      "anioNuevo": 2024
+    },
+    {
+      "titulo": "Análisis del impacto de las TIC en el desarrollo social de México 2020-2021",
+      "url": "https://www.ift.org.mx/sites/default/files/contenidogeneral/estadisticas/analisisdelimpactodelastic_1.pdf",
+      "categoriaOriginal": "Tecnologías de la Información y la Comunicación (TIC)",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "vigente",
+      "nota": "Estudio del IFT disponible en su archivo histórico (sitio de consulta de la CRT). No hay edición posterior; existe una segunda parte del análisis."
+    },
+    {
+      "titulo": "IMEI",
+      "url": "https://portal.crt.gob.mx/imei",
+      "categoriaOriginal": "Protección del Usuario",
+      "origen": "catalogo",
+      "tema": "homologacion",
+      "estado": "vigente",
+      "nota": "Página de la CRT operativa (HTTP 200). No se detectaron publicaciones de la CRT sobre IMEI en el DOF entre oct-2025 y nov-2026."
+    },
+    {
+      "titulo": "Lineamientos para la Identificación de Líneas Telefónicas Móviles",
+      "url": "https://dof.gob.mx/nota_detalle_popup.php?codigo=5775677",
+      "categoriaOriginal": "Protección del Usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "actualizado",
+      "nota": "Originales en DOF 09-12-2025; modificados en DOF 30-06-2026 con suspensión escalonada de líneas no vinculadas según último dígito (15-ago a 31-dic-2026).",
+      "urlNueva": "https://dof.gob.mx/nota_detalle.php?codigo=5792297&fecha=30/06/2026",
+      "tituloNuevo": "Modificación a los Lineamientos para la identificación de líneas telefónicas móviles (DOF 30-06-2026)",
+      "anioNuevo": 2026
+    },
+    {
+      "titulo": "Lineamientos para la Protección de los Derechos de las Audiencias",
+      "url": "https://dof.gob.mx/nota_detalle.php?codigo=5797461&fecha=28/08/2026",
+      "categoriaOriginal": "Protección del Usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "vigente",
+      "nota": "Lineamientos Generales publicados en DOF 28-08-2026, vigentes desde el 27-09-2026; abrogaron los del 05-02-2025."
+    },
+    {
+      "titulo": "Sistema de Consulta y Preanálisis de Coberturas de Radiodifusión en línea",
+      "url": "https://mapasradiodifusion.crt.gob.mx/CPCREL-web/consultaCoberturas/infografiaProd.xhtml?dswid=-737",
+      "categoriaOriginal": "Radiodifusión",
+      "origen": "catalogo",
+      "tema": "espectro",
+      "estado": "vigente",
+      "nota": "Sistema CPCREL v3.1 operativo; el PABF 2026 remite a esta herramienta para el análisis de coberturas de radiodifusión."
+    },
+    {
+      "titulo": "Micrositio de Despliegue de Infraestructura",
+      "url": "https://despliegueinfra.ift.org.mx/",
+      "categoriaOriginal": "Compartición de Infraestructura",
+      "origen": "catalogo",
+      "tema": "infraestructura",
+      "estado": "derogado",
+      "nota": "Micrositio del IFT dado de baja: el dominio no resuelve en DNS (el archivo histórico del IFT aún lo enlaza) y no se halló equivalente en crt.gob.mx ni sustituto oficial de la CRT."
+    },
+    {
+      "titulo": "Modelos de costos",
+      "url": "https://portal.crt.gob.mx/modelos-de-costos",
+      "categoriaOriginal": "Compartición de Infraestructura",
+      "origen": "catalogo",
+      "tema": "competencia",
+      "estado": "vigente",
+      "nota": "Página de la CRT operativa. Novedad: nueva metodología de costos de interconexión y tarifas 2027-2029 publicadas en DOF 30-06-2026."
+    },
+    {
+      "titulo": "Ofertas de referencia",
+      "url": "https://portal.crt.gob.mx/ofertas-de-referencia",
+      "categoriaOriginal": "Compartición de Infraestructura",
+      "origen": "catalogo",
+      "tema": "competencia",
+      "estado": "vigente",
+      "nota": "Página de la CRT operativa (HTTP 200)."
+    },
+    {
+      "titulo": "Grupo ejecutivo de los lineamientos de colaboración en materia de seguridad y justicia",
+      "url": "https://portal.crt.gob.mx/grupos-y-comites/grupo-ejecutivo-de-los-lineamientos-de-colaboracion-en-materia-de-seguridad-y-justicia",
+      "categoriaOriginal": "Colaboración con la Justicia",
+      "origen": "catalogo",
+      "tema": "ciberseguridad",
+      "estado": "vigente",
+      "nota": "Página operativa. Los Lineamientos de Colaboración en Seguridad y Justicia siguen aplicándose: la CRT los invoca en sus reformas de 2026."
+    },
+    {
+      "titulo": "Lista de Equipos homologados",
+      "url": "https://ehomologados.ift.org.mx/",
+      "categoriaOriginal": "Homologación de productos y dispositivos",
+      "origen": "catalogo",
+      "tema": "homologacion",
+      "estado": "vigente",
+      "nota": "El enlace del IFT redirige (301) a la página de equipos homologados de la CRT; conviene actualizarlo a la URL nueva.",
+      "urlNueva": "https://portal.crt.gob.mx/equipos-homologados",
+      "tituloNuevo": "Equipos homologados (CRT)"
+    },
+    {
+      "titulo": "Consultas públicas",
+      "url": "https://portal.crt.gob.mx/consultapublica",
+      "categoriaOriginal": "Participación ciudadana y Transparencia",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "vigente",
+      "nota": "Portal de consultas públicas de la CRT operativo (HTTP 200)."
+    },
+    {
+      "titulo": "Lineamientos para realizar consultas públicas de la Comisión Reguladora de Telecomunicaciones",
+      "url": "https://www.dof.gob.mx/nota_detalle.php?codigo=5771100&fecha=28/10/2025#gsc.tab=0",
+      "categoriaOriginal": "Participación ciudadana y Transparencia",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "enlace_roto",
+      "nota": "Siguen vigentes (con nota aclaratoria del 18-11-2025). La URL con www falla por certificado TLS inválido; sin www funciona.",
+      "urlNueva": "https://dof.gob.mx/nota_detalle.php?codigo=5771100&fecha=28/10/2025",
+      "tituloNuevo": "Lineamientos para realizar consultas públicas de la CRT (DOF 28-10-2025)",
+      "anioNuevo": 2025
+    },
+    {
+      "titulo": "Guías de cumplimiento",
+      "url": "https://portal.crt.gob.mx/guias-de-cumplimiento",
+      "categoriaOriginal": "Participación ciudadana y Transparencia",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "vigente",
+      "nota": "Página de la CRT operativa (HTTP 200)."
+    },
+    {
+      "titulo": "Registro Público de Concesiones (RPC)",
+      "url": "https://rpc.ift.org.mx/vrpc/",
+      "categoriaOriginal": "Bases de datos, estadísticas y datos del sector",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "vigente",
+      "nota": "Redirige (301) a rpc.crt.gob.mx. Con la LMTR, el RPC forma parte del Registro Público de Telecomunicaciones (arts. 169, 170 y 174).",
+      "urlNueva": "https://rpc.crt.gob.mx/vrpc/",
+      "tituloNuevo": "Registro Público de Concesiones (CRT)"
+    },
+    {
+      "titulo": "Banco de Información de Telecomunicaciones (BIT)",
+      "url": "https://bit.ift.org.mx/BitWebApp/HerramientasIFT.xhtml",
+      "categoriaOriginal": "Bases de datos, estadísticas y datos del sector",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "enlace_roto",
+      "nota": "El subdominio del IFT ya no resuelve. El BIT opera en bit.crt.gob.mx (datos al 4T-2025); la sección Herramientas del enlace original está en /BitWebApp/HerramientasCRT.xhtml.",
+      "urlNueva": "https://bit.crt.gob.mx/BitWebApp/",
+      "tituloNuevo": "Banco de Información de Telecomunicaciones (BIT) de la CRT"
+    },
+    {
+      "titulo": "Informes de Indicadores Clave de Desempeño",
+      "url": "https://portal.crt.gob.mx/informes-de-indicadores-clave-de-desempeno",
+      "categoriaOriginal": "Bases de datos, estadísticas y datos del sector",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "vigente",
+      "nota": "Página de la CRT operativa (HTTP 200)."
+    },
+    {
+      "titulo": "Mapa de conectividad en México",
+      "url": "https://mapascobertura.crt.gob.mx/",
+      "categoriaOriginal": "Bases de datos, estadísticas y datos del sector",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "vigente",
+      "nota": "Aplicación de la CRT operativa (HTTP 200)."
+    },
+    {
+      "titulo": "Lineamientos que establecen el Protocolo de Alerta Común",
+      "url": "https://dof.gob.mx/nota_detalle.php?codigo=5783210&fecha=25/03/2026",
+      "categoriaOriginal": "Telecomunicaciones de Emergencia",
+      "origen": "catalogo",
+      "tema": "emergencia",
+      "estado": "actualizado",
+      "nota": "La liga apunta a la reforma del 25-03-2026; hubo otra en DOF 28-08-2026 (canales y tonos de alerta, incluso por sismo), vigente desde el 29-08-2026.",
+      "urlNueva": "https://dof.gob.mx/nota_detalle.php?codigo=5797462&fecha=28/08/2026",
+      "tituloNuevo": "Modificación a los Lineamientos que establecen el Protocolo de Alerta Común (DOF 28-08-2026)",
+      "anioNuevo": 2026
+    },
+    {
+      "titulo": "Especificaciones Técnicas sobre el Servicio de Radiodifusión Celular para los Equipos Terminales Móviles que puedan hacer uso del espectro radioeléctrico o ser conectados a redes de telecomunicaciones, para la notificación por Riesgo o situaciones de Emergencia",
+      "url": "https://dof.gob.mx/nota_detalle.php?codigo=5797463&fecha=28/08/2026",
+      "categoriaOriginal": "Telecomunicaciones de Emergencia",
+      "origen": "catalogo",
+      "tema": "emergencia",
+      "estado": "vigente",
+      "nota": "Es la modificación de la DT IFT-011-2022 Parte 3 (DOF 28-08-2026), en vigor desde el 27-10-2026."
+    },
+    {
+      "titulo": "Plataforma Dinámica de Licitaciones de Espectro",
+      "url": "https://pdle.crt.gob.mx/user/",
+      "categoriaOriginal": "Plataformas Digitales",
+      "origen": "catalogo",
+      "tema": "espectro",
+      "estado": "vigente",
+      "nota": "Plataforma operativa. Sus lineamientos de uso se publicaron en DOF 05-10-2026 y se usa en la Licitación CRT-RRI-01-2026."
+    },
+    {
+      "titulo": "Sistema Electrónico de Solicitudes de Inclusión al Programa Anual de Uso y Aprovechamiento de Bandas de Frecuencias",
+      "url": "https://pabf.crt.gob.mx/",
+      "categoriaOriginal": "Plataformas Digitales",
+      "origen": "catalogo",
+      "tema": "espectro",
+      "estado": "vigente",
+      "nota": "Sistema operativo; el PABF 2026 (punto Sexto) lo habilita para presentar solicitudes de inclusión todo el año."
+    }
+  ]
+}

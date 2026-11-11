@@ -1,0 +1,838 @@
+{
+  "iso": "co",
+  "pais": "Colombia",
+  "revisado": "2026-11-11",
+  "documentos": [
+    {
+      "titulo": "Revisión de los esquemas de remuneración móvil",
+      "url": "https://www.crcom.gov.co/es/proyectos-regulatorios/2000-38-3-2",
+      "categoriaOriginal": "Promoción y análisis de la Competencia económica",
+      "origen": "catalogo",
+      "tema": "competencia",
+      "estado": "actualizado",
+      "nota": "Cargos móviles, RAN y OMV de la Res. 7007/2022 fueron reemplazados: Res. 7753/2025 (SKA de voz y SMS con compensación de desbalances) y Res. 8183/2026 (nuevos topes desde abr-2026).",
+      "urlNueva": "https://www.crcom.gov.co/es/proyectos-regulatorios/2000-41-7-9",
+      "tituloNuevo": "Esquemas de Remuneración Mayorista de Redes Móviles (Res. CRC 8183 de 2026)",
+      "anioNuevo": 2026
+    },
+    {
+      "titulo": "Revisión del Esquema de Remuneración del Servicio de Voz Fija a Nivel Minorista y Mayorista",
+      "url": "https://www.crcom.gov.co/es/proyectos-regulatorios/2000-71-1",
+      "categoriaOriginal": "Promoción y análisis de la Competencia económica",
+      "origen": "catalogo",
+      "tema": "competencia",
+      "estado": "actualizado",
+      "nota": "Cargos de terminación fija de la Res. 5826/2019 actualizados por la Res. 7713/2025; la Res. 8144/2026 fijó SKA nacional fijo-fijo desde jul-2026. La marcación de 10 dígitos sigue vigente.",
+      "urlNueva": "https://www.crcom.gov.co/es/proyectos-regulatorios/2000-41-7-8",
+      "tituloNuevo": "Revisión integral de la remuneración en redes fijas (Res. CRC 8144 de 2026)",
+      "anioNuevo": 2026
+    },
+    {
+      "titulo": "Ajustes a las Resoluciones CRC 5107 y 5108 de 2017",
+      "url": "https://www.crcom.gov.co/es/proyectos-regulatorios/2000-74-18-2-1",
+      "categoriaOriginal": "Promoción y análisis de la Competencia económica",
+      "origen": "catalogo",
+      "tema": "competencia",
+      "estado": "actualizado",
+      "nota": "Los arts. 4.7.4.1 (RAN) y 4.16.2.1 (OMV) ajustados por la Res. 5827/2019 fueron modificados por la Res. 7007/2022 y reescritos por la Res. 8183/2026.",
+      "urlNueva": "https://www.crcom.gov.co/es/proyectos-regulatorios/2000-41-7-9",
+      "tituloNuevo": "Esquemas de Remuneración Mayorista de Redes Móviles (Res. CRC 8183 de 2026)",
+      "anioNuevo": 2026
+    },
+    {
+      "titulo": "Revisión del valor regulado de facturación y recaudo y gestión operativa de reclamos",
+      "url": "https://www.crcom.gov.co/es/proyectos-regulatorios/2000-71-22",
+      "categoriaOriginal": "Promoción y análisis de la Competencia económica",
+      "origen": "catalogo",
+      "tema": "competencia",
+      "estado": "actualizado",
+      "nota": "Desde 2024 el tope de la instalación esencial de facturación, distribución y recaudo se actualiza con el Índice de Actualización Tarifaria (Res. CRC 7265/2023).",
+      "urlNueva": "https://www.crcom.gov.co/es/proyectos-regulatorios/2000-38-3-13",
+      "tituloNuevo": "Revisión de las metodologías de actualización tarifaria (Res. CRC 7265 de 2023)",
+      "anioNuevo": 2023
+    },
+    {
+      "titulo": "Ajustes a la obligación de separación contable por parte de los PRST y OTVS",
+      "url": "https://www.crcom.gov.co/es/proyectos-regulatorios/8000-71-29a",
+      "categoriaOriginal": "Promoción y análisis de la Competencia económica",
+      "origen": "catalogo",
+      "tema": "competencia",
+      "estado": "actualizado",
+      "nota": "El Modelo de Separación Contable (Título IX de la Res. 5050/2016) fue suspendido por la Res. CRC 5337/2018 y luego modificado y simplificado por la Res. 5589/2019 (Anexos 9.1 a 9.3).",
+      "urlNueva": "https://www.crcom.gov.co/es/proyectos-regulatorios/8000-71-29b",
+      "tituloNuevo": "Modificaciones al Modelo de Separación Contable (Res. CRC 5589 de 2019)",
+      "anioNuevo": 2019
+    },
+    {
+      "titulo": "Revisión de los mercados de servicios móviles",
+      "url": "https://www.crcom.gov.co/es/proyectos-regulatorios/2000-74-18",
+      "categoriaOriginal": "Promoción y análisis de la Competencia económica",
+      "origen": "catalogo",
+      "tema": "competencia",
+      "estado": "actualizado",
+      "nota": "Mercados móviles revisados por la Res. 7424/2024 y la Res. 8286/2026 («Servicios Móviles» sigue sujeto a regulación ex ante); cargos y remuneración OMV hoy en la Res. 8183/2026.",
+      "urlNueva": "https://www.crcom.gov.co/es/proyectos-regulatorios/2000-41-7-16",
+      "tituloNuevo": "Análisis de las condiciones de competencia en el mercado relevante «Servicios móviles» (Res. CRC 8286 de 2026)",
+      "anioNuevo": 2026
+    },
+    {
+      "titulo": "Mercados relevantes audiovisuales en un entorno convergente",
+      "url": "https://www.crcom.gov.co/es/proyectos-regulatorios/2000-3-06",
+      "categoriaOriginal": "Promoción y análisis de la Competencia económica",
+      "origen": "catalogo",
+      "tema": "competencia",
+      "estado": "actualizado",
+      "nota": "Mercados de televisión redefinidos por las Res. 6990/2022 y 7422/2024; la Fase II (Res. 8075/2025) analizó la competencia y añadió mercados de TV a la lista de regulación ex ante (Anexo 3.2).",
+      "urlNueva": "https://www.crcom.gov.co/es/proyectos-regulatorios/2000-38-3-9-1",
+      "tituloNuevo": "Análisis de los mercados de televisión – Fase II: análisis de competencia (Res. CRC 8075 de 2025)",
+      "anioNuevo": 2025
+    },
+    {
+      "titulo": "Análisis del mercado de terminación de llamadas fijo-móvil",
+      "url": "https://www.crcom.gov.co/es/proyectos-regulatorios/5000-1-10",
+      "categoriaOriginal": "Promoción y análisis de la Competencia económica",
+      "origen": "catalogo",
+      "tema": "competencia",
+      "estado": "derogado",
+      "nota": "La Res. CRC 7811/2025 eliminó el mercado minorista de terminación fijo-móvil (Anexos 3.1 y 3.2) y derogó el art. 4.4.1.1: ya ningún operador móvil es titular de esas llamadas."
+    },
+    {
+      "titulo": "Estudio \"Simplificación normativa para promover la competencia y la inversión\"",
+      "url": "https://www.crcom.gov.co/es/proyectos-regulatorios/12000-3-5",
+      "categoriaOriginal": "Promoción y análisis de la Competencia económica",
+      "origen": "catalogo",
+      "tema": "competencia",
+      "estado": "actualizado",
+      "nota": "Estudio de 2014-2015. La CRC hizo luego nuevos ejercicios de simplificación: Res. 5586/2019 y Simplificación 2024 (Res. 7810 y 7811/2025, con 190 medidas simplificadas).",
+      "urlNueva": "https://www.crcom.gov.co/es/proyectos-regulatorios/2000-38-3-22",
+      "tituloNuevo": "Simplificación del marco regulatorio 2024 (Res. CRC 7810 y 7811 de 2025)",
+      "anioNuevo": 2025
+    },
+    {
+      "titulo": "Diagnóstico sobre la conectividad digital y los mercados de comunicaciones en Colombia OECD",
+      "url": "https://www.crcom.gov.co/es/noticias/comunicado-prensa/ocde-presenta-diagnostico-conectividad-digital-mercados-comunicaciones-colombia",
+      "categoriaOriginal": "Promoción y análisis de la Competencia económica",
+      "origen": "catalogo",
+      "tema": "competencia",
+      "estado": "vigente",
+      "nota": "Comunicado de mar-2026 sobre el informe de la OCDE; el informe completo está publicado en la Biblioteca Virtual de la CRC (jun-2026)."
+    },
+    {
+      "titulo": "Esquemas de Remuneración Mayorista de Redes Móviles",
+      "url": "https://www.crcom.gov.co/es/proyectos-regulatorios/2000-41-7-9",
+      "categoriaOriginal": "Promoción y análisis de la Competencia económica",
+      "origen": "catalogo",
+      "tema": "competencia",
+      "estado": "vigente",
+      "nota": "Proyecto finalizado con la Res. CRC 8183/2026 (24-mar-2026, D.O. del 25-mar): nuevos topes de terminación, RAN y OMV, vigentes desde el 1-abr-2026."
+    },
+    {
+      "titulo": "Revisión de los esquemas de remuneración de redes fijas",
+      "url": "https://www.crcom.gov.co/es/proyectos-regulatorios/2000-38-3-20",
+      "categoriaOriginal": "Promoción y análisis de la Competencia económica",
+      "origen": "catalogo",
+      "tema": "competencia",
+      "estado": "actualizado",
+      "nota": "La Res. 8144/2026 extendió el esquema SKA a toda la interconexión directa fijo-fijo (desde 1-jul-2026); los cargos de la Res. 7713/2025 quedan como mecanismo supletorio.",
+      "urlNueva": "https://www.crcom.gov.co/es/proyectos-regulatorios/2000-41-7-8",
+      "tituloNuevo": "Revisión integral de la remuneración en redes fijas (Res. CRC 8144 de 2026)",
+      "anioNuevo": 2026
+    },
+    {
+      "titulo": "Revisión de los mercados minoristas de servicios móviles",
+      "url": "https://www.crcom.gov.co/es/proyectos-regulatorios/2000-38-2-3",
+      "categoriaOriginal": "Promoción y análisis de la Competencia económica",
+      "origen": "catalogo",
+      "tema": "competencia",
+      "estado": "actualizado",
+      "nota": "La Res. CRC 8286/2026 actualizó la evaluación de «Servicios Móviles» tras la integración TIGO-Movistar (sigue sujeto a regulación ex ante) y reexpidió el Anexo 3.2 que fijó la Res. 7424/2024.",
+      "urlNueva": "https://www.crcom.gov.co/es/proyectos-regulatorios/2000-41-7-16",
+      "tituloNuevo": "Análisis de las condiciones de competencia en el mercado relevante «Servicios móviles» (Res. CRC 8286 de 2026)",
+      "anioNuevo": 2026
+    },
+    {
+      "titulo": "Revisión de Medidas Aplicables a Servicios Móviles - Fase 2",
+      "url": "https://www.crcom.gov.co/es/proyectos-regulatorios?nombre_proyecto=&estado_proyecto=2&tipo_proyecto=All&servicio_proyecto=All&page=1#:~:text=Revisión%20de%20Medidas%20Aplicables%20a%20Servicios%20Móviles%20%2D%20Fase%202",
+      "categoriaOriginal": "Promoción y análisis de la Competencia económica",
+      "origen": "catalogo",
+      "tema": "competencia",
+      "estado": "enlace_roto",
+      "nota": "El enlace abre un listado dinámico (página 1 de proyectos finalizados) donde el proyecto ya no aparece. Su ficha propia es 2000-38-3-17-1 (Res. CRC 7684/2025).",
+      "urlNueva": "https://www.crcom.gov.co/es/proyectos-regulatorios/2000-38-3-17-1",
+      "tituloNuevo": "Revisión de Medidas Aplicables a Servicios Móviles - Fase 2 (Res. CRC 7684 de 2025)",
+      "anioNuevo": 2025
+    },
+    {
+      "titulo": "Revisión de los criterios de eficiencia del sector de las TIC y la medición de indicadores de la Sociedad de la Información",
+      "url": "https://www.crcom.gov.co/es/proyectos-regulatorios/2000-38-3-11",
+      "categoriaOriginal": "Tecnologías de la Información y la Comunicación (TIC)",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "actualizado",
+      "nota": "La Res. CRC 7811/2025 reescribió el Título X y derogó el Anexo 10.1 (lista de indicadores de la Res. 7009/2022): ahora la CRC publica cada año la batería de indicadores.",
+      "urlNueva": "https://www.crcom.gov.co/es/proyectos-regulatorios/2000-38-3-22",
+      "tituloNuevo": "Simplificación del marco regulatorio 2024 – nuevo Título X (Res. CRC 7811 de 2025)",
+      "anioNuevo": 2025
+    },
+    {
+      "titulo": "Revisión de las condiciones de calidad de servicios de telecomunicaciones",
+      "url": "https://www.crcom.gov.co/es/proyectos-regulatorios/2000-38-3-1",
+      "categoriaOriginal": "Tecnologías de la Información y la Comunicación (TIC)",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "vigente",
+      "nota": "Régimen de calidad vigente (Res. 6890/2022), modificado por las Res. 7363/2024, 7777/2025 y 7811/2025. En consulta: «Modernización del Régimen de Calidad de los Servicios Móviles»."
+    },
+    {
+      "titulo": "Precisiones al RITEL año 2022",
+      "url": "https://www.crcom.gov.co/es/proyectos-regulatorios/2000-59-8a",
+      "categoriaOriginal": "Tecnologías de la Información y la Comunicación (TIC)",
+      "origen": "catalogo",
+      "tema": "infraestructura",
+      "estado": "actualizado",
+      "nota": "El RITEL (Título VIII de la Res. 5050/2016) fue actualizado por la Res. CRC 7930/2025: canalizaciones, gabinetes, certificación y site survey.",
+      "urlNueva": "https://www.crcom.gov.co/es/proyectos-regulatorios/2000-41-7-2",
+      "tituloNuevo": "Actualización del Reglamento Técnico para Redes Internas de Telecomunicaciones – RITEL (Res. CRC 7930 de 2025)",
+      "anioNuevo": 2025
+    },
+    {
+      "titulo": "Revisión de Régimen de Acceso, Uso e Interconexión",
+      "url": "https://www.crcom.gov.co/es/proyectos-regulatorios/2000-59-4",
+      "categoriaOriginal": "Tecnologías de la Información y la Comunicación (TIC)",
+      "origen": "catalogo",
+      "tema": "competencia",
+      "estado": "vigente",
+      "nota": "Las reglas de la Res. 6522/2022 (Título IV) siguen vigentes, con ajustes de la Res. 7811/2025; la remuneración cambió con las Res. 7753/2025, 8144/2026 y 8183/2026."
+    },
+    {
+      "titulo": "Revisión del Régimen de Reporte de Información Periódica",
+      "url": "https://www.crcom.gov.co/es/proyectos-regulatorios/2000-71-15",
+      "categoriaOriginal": "Tecnologías de la Información y la Comunicación (TIC)",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "vigente",
+      "nota": "Régimen de reportes vigente con cambios: Res. 7811/2025 (formato unificado para ISP pequeños) y Res. 8303/2026 (formato T.3.7). La Fase II de su revisión integral está en consulta."
+    },
+    {
+      "titulo": "Reglamento de redes internas de telecomunicaciones",
+      "url": "https://www.crcom.gov.co/es/proyectos-regulatorios/2000-59-8",
+      "categoriaOriginal": "Tecnologías de la Información y la Comunicación (TIC)",
+      "origen": "catalogo",
+      "tema": "infraestructura",
+      "estado": "actualizado",
+      "nota": "Proyecto de 2018-2020 (Res. 5405/2018 y 5993/2020). El RITEL vigente incorpora la Res. 6771/2022 y la actualización de la Res. CRC 7930/2025.",
+      "urlNueva": "https://www.crcom.gov.co/es/proyectos-regulatorios/2000-41-7-2",
+      "tituloNuevo": "Actualización del Reglamento Técnico para Redes Internas de Telecomunicaciones – RITEL (Res. CRC 7930 de 2025)",
+      "anioNuevo": 2025
+    },
+    {
+      "titulo": "Sandbox Regulatorio para la innovación en servicios de telecomunicaciones",
+      "url": "https://www.crcom.gov.co/es/proyectos-regulatorios/2000-59-3",
+      "categoriaOriginal": "Tecnologías de la Información y la Comunicación (TIC)",
+      "origen": "catalogo",
+      "tema": "emergentes",
+      "estado": "actualizado",
+      "nota": "El Título XII fue modificado por la Res. 7243/2023 y luego por la Res. 7811/2025, que creó el Sandbox Regulatorio Convergente. En curso (2026): propuesta de nuevo marco de innovación regulatoria.",
+      "urlNueva": "https://www.crcom.gov.co/es/proyectos-regulatorios/2000-38-3-22",
+      "tituloNuevo": "Simplificación del marco regulatorio 2024 – Sandbox Regulatorio Convergente (Res. CRC 7811 de 2025)",
+      "anioNuevo": 2025
+    },
+    {
+      "titulo": "Análisis para la implementación de la portabilidad numérica en el servicio de telefonía fija",
+      "url": "https://www.crcom.gov.co/es/proyectos-regulatorios/5000-1-07",
+      "categoriaOriginal": "Tecnologías de la Información y la Comunicación (TIC)",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "vigente",
+      "nota": "Estudio concluido en 2017: la portabilidad numérica fija no resultó viable económicamente. No se identificó una medida posterior que la implemente."
+    },
+    {
+      "titulo": "Condiciones para la provisión de la instalación esencial de Roaming Automático Nacional",
+      "url": "https://www.crcom.gov.co/es/proyectos-regulatorios/8000-76-28",
+      "categoriaOriginal": "Tecnologías de la Información y la Comunicación (TIC)",
+      "origen": "catalogo",
+      "tema": "infraestructura",
+      "estado": "actualizado",
+      "nota": "Condiciones y topes del RAN revisados por la Res. 6298/2021 (460 municipios), la Res. 7007/2022 y la Res. 8183/2026, vigente desde abr-2026.",
+      "urlNueva": "https://www.crcom.gov.co/es/proyectos-regulatorios/2000-41-7-9",
+      "tituloNuevo": "Esquemas de Remuneración Mayorista de Redes Móviles (Res. CRC 8183 de 2026)",
+      "anioNuevo": 2026
+    },
+    {
+      "titulo": "Revisión integral del Régimen de Calidad TIC",
+      "url": "https://www.crcom.gov.co/es/proyectos-regulatorios/8000-2-21a",
+      "categoriaOriginal": "Tecnologías de la Información y la Comunicación (TIC)",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "actualizado",
+      "nota": "La Res. CRC 6890/2022 subrogó los capítulos 1 y 2 del Título V: el régimen de calidad de 2016 (Res. 5078, 5165 y 5321) fue reemplazado por uno nuevo.",
+      "urlNueva": "https://www.crcom.gov.co/es/proyectos-regulatorios/2000-38-3-1",
+      "tituloNuevo": "Revisión de las condiciones de calidad de servicios de telecomunicaciones (Res. CRC 6890 de 2022)",
+      "anioNuevo": 2022
+    },
+    {
+      "titulo": "Observatorio de Inversión en Telecomunicaciones de la Comisión de Regulación de Comunicaciones",
+      "url": "https://www.crcom.gov.co/es/proyectos-regulatorios/2000-38-2-1",
+      "categoriaOriginal": "Tecnologías de la Información y la Comunicación (TIC)",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "vigente",
+      "nota": "Herramienta lanzada en 2021; datos y tablero disponibles en Postdata (postdata.gov.co/story/observatorio-de-inversion-en-telecomunicaciones)."
+    },
+    {
+      "titulo": "Estado de la Neutralidad de Red en Colombia 2021",
+      "url": "https://www.crcom.gov.co/es/biblioteca-virtual/estado-neutralidad-red-en-colombia-2021",
+      "categoriaOriginal": "Tecnologías de la Información y la Comunicación (TIC)",
+      "origen": "catalogo",
+      "tema": "competencia",
+      "estado": "vigente",
+      "nota": "Último estudio (mar-2022). La Corte Constitucional (Sent. C-206/2025) declaró inexequible la expresión del art. 56 de la Ley 1450/2011 sobre ofertas segmentadas; la CRC prevé revisar la regulación."
+    },
+    {
+      "titulo": "Estudio sobre Redes móviles en Colombia: análisis y hoja de ruta regulatoria",
+      "url": "https://www.crcom.gov.co/es/biblioteca-virtual/estudio-sobre-redes-moviles-en-colombia-analisis-y-hoja-ruta-regulatoria",
+      "categoriaOriginal": "Tecnologías de la Información y la Comunicación (TIC)",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "vigente",
+      "nota": "Estudio de nov-2019 (hoja de ruta 4G). Para 5G, la CRC publicó en mar-2025 el «Estudio de tendencias en el desarrollo de redes móviles 5G»."
+    },
+    {
+      "titulo": "Código de buenas prácticas para el despliegue de infraestructura de telecomunicaciones - versión 2020",
+      "url": "https://www.crcom.gov.co/es/biblioteca-virtual/codigo-buenas-practicas-para-despliegue-infraestructura-telecomunicaciones",
+      "categoriaOriginal": "Tecnologías de la Información y la Comunicación (TIC)",
+      "origen": "catalogo",
+      "tema": "infraestructura",
+      "estado": "actualizado",
+      "nota": "La CRC publicó en dic-2025 la versión 2025 del Código de buenas prácticas para el despliegue de infraestructura de telecomunicaciones.",
+      "urlNueva": "https://www.crcom.gov.co/es/biblioteca-virtual/codigo-buenas-practicas-para-despliegue-infraestructura-telecomunicaciones-0",
+      "tituloNuevo": "Código de buenas prácticas para el despliegue de infraestructura de telecomunicaciones - versión 2025",
+      "anioNuevo": 2025
+    },
+    {
+      "titulo": "Plataforma de datos abiertos Postdata",
+      "url": "https://www.postdata.gov.co",
+      "categoriaOriginal": "Tecnologías de la Información y la Comunicación (TIC)",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "vigente",
+      "nota": "Plataforma de datos abiertos de la CRC, activa y actualizada (Data Flash de oct-2026)."
+    },
+    {
+      "titulo": "DaTIC",
+      "url": "https://datic.postdata.gov.co",
+      "categoriaOriginal": "Tecnologías de la Información y la Comunicación (TIC)",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "vigente",
+      "nota": "Aplicación de consulta de datos TIC enlazada desde Postdata; el servicio responde (requiere JavaScript para mostrarse)."
+    },
+    {
+      "titulo": "Comparador de tarifas",
+      "url": "https://comparador.crcom.gov.co",
+      "categoriaOriginal": "Tecnologías de la Información y la Comunicación (TIC)",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "vigente",
+      "nota": "Comparador de planes de Internet, telefonía y TV por suscripción de la CRC, en operación."
+    },
+    {
+      "titulo": "Gestión de Riesgos de Seguridad Digital",
+      "url": "https://www.crcom.gov.co/es/proyectos-regulatorios/9000-71-13",
+      "categoriaOriginal": "Fraude y Ciberseguridad",
+      "origen": "catalogo",
+      "tema": "ciberseguridad",
+      "estado": "vigente",
+      "nota": "Las obligaciones de gestión de riesgos e incidentes de seguridad (art. 5.1.2.3 de la Res. 5050/2016) siguen vigentes; la Res. 6890/2022 reexpidió ese capítulo."
+    },
+    {
+      "titulo": "Revisión del marco regulatorio para la gestión de riesgos de seguridad digital",
+      "url": "https://www.crcom.gov.co/es/biblioteca-virtual/revision-marco-regulatorio-para-gestion-riesgos-seguridad-digital",
+      "categoriaOriginal": "Fraude y Ciberseguridad",
+      "origen": "catalogo",
+      "tema": "ciberseguridad",
+      "estado": "vigente",
+      "nota": "Análisis de 2017 que dio origen a la regulación de 2018. Más recientes: «Análisis prospectivo en materia de ciberseguridad» (2025) y «Ciberseguridad en la era de la IA» (2026)."
+    },
+    {
+      "titulo": "Identificación de medidas para mitigar el fraude cibernético por medio de servicios móviles",
+      "url": "https://www.crcom.gov.co/es/proyectos-regulatorios/2000-41-7-10",
+      "categoriaOriginal": "Fraude y Ciberseguridad",
+      "origen": "catalogo",
+      "tema": "ciberseguridad",
+      "estado": "enlace_roto",
+      "nota": "La URL 2000-41-7-10 hoy muestra otro proyecto («Revisión de Temáticas Específicas el RPU - Fase I», Res. 8171/2026). El de fraude es 2000-41-7-1 (Res. CRC 8308/2026).",
+      "urlNueva": "https://www.crcom.gov.co/es/proyectos-regulatorios/2000-41-7-1",
+      "tituloNuevo": "Identificación de medidas para mitigar el fraude cibernético por medio de servicios móviles (Res. CRC 8308 de 2026)",
+      "anioNuevo": 2026
+    },
+    {
+      "titulo": "Análisis prospectivo en materia de ciberseguridad ",
+      "url": "https://www.crcom.gov.co/system/files/Biblioteca%20Virtual/Análisis%20prospectivo%20en%20materia%20de%20ciberseguridad/analisis-prospectivo-ciberseguridad-261225.pdf",
+      "categoriaOriginal": "Fraude y Ciberseguridad",
+      "origen": "catalogo",
+      "tema": "ciberseguridad",
+      "estado": "vigente",
+      "nota": "Estudio publicado en dic-2025; el PDF está disponible."
+    },
+    {
+      "titulo": "Propuesta de modificación de la Decisión Andina 638 de 2006, que trata sobre los “Lineamientos para la Protección al Usuario de Telecomunicaciones de la Comunidad Andina”",
+      "url": "https://www.crcom.gov.co/es/proyectos-regulatorios/200-56-1b",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "vigente",
+      "nota": "Ficha del proyecto (propuesta de decisión de may-2021; comentarios en 2021) para actualizar la Decisión 638. No se identificó en la CRC una nueva Decisión andina que la reemplace."
+    },
+    {
+      "titulo": "Digitalización del Régimen de Protección a Usuarios",
+      "url": "https://www.crcom.gov.co/es/proyectos-regulatorios/2000-71-18",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "vigente",
+      "nota": "Medidas de digitalización vigentes. Los modelos de contrato de 2021 fueron reemplazados en el Anexo 2.3 por el contrato único convergente y nuevas condiciones prepago (Res. 7811/2025)."
+    },
+    {
+      "titulo": "Actualización del Régimen de Protección de los Usuarios de los Servicios de Comunicaciones",
+      "url": "https://www.crcom.gov.co/es/proyectos-regulatorios/2000-59-1",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "vigente",
+      "nota": "Ajuste de 2020 tras la Ley 1978/2019. El RPU se modificó después (Res. 6242/2021, 7811/2025 y 8171/2026)."
+    },
+    {
+      "titulo": "Medidas de control para equipos terminales móviles",
+      "url": "https://www.crcom.gov.co/es/proyectos-regulatorios/12000-3-9b",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "catalogo",
+      "tema": "homologacion",
+      "estado": "vigente",
+      "nota": "Régimen de control de equipos hurtados vigente con cambios: la Res. 7811/2025 eliminó el bloqueo de IMEI por no homologación."
+    },
+    {
+      "titulo": "Revisión integral del Régimen de Protección de los Derechos de los usuarios de servicios de comunicaciones",
+      "url": "https://www.crcom.gov.co/es/proyectos-regulatorios/11000-2-7",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "vigente",
+      "nota": "Sigue siendo la base del RPU (Título II de la Res. 5050/2016), con reformas recientes: Res. 7811/2025 (contrato convergente) y Res. 8171/2026 (terminación por chatbot, facturas)."
+    },
+    {
+      "titulo": "Revisión de los regímenes de Portabilidad Numérica Móvil y Compensación Automática por llamadas caídas",
+      "url": "https://www.crcom.gov.co/es/proyectos-regulatorios/2000-71-13",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "actualizado",
+      "nota": "El proceso de portabilidad fue reformado por la Res. CRC 7151/2023 (sin exigir estar al día, aviso antifraude en el NIP) y ajustado por las Res. 7285/2024, 7811/2025 y 8171/2026.",
+      "urlNueva": "https://www.crcom.gov.co/es/proyectos-regulatorios/2000-38-3-8",
+      "tituloNuevo": "Registro de Números Excluidos y fraude en la Portabilidad Numérica Móvil (Res. CRC 7151 de 2023)",
+      "anioNuevo": 2023
+    },
+    {
+      "titulo": "Estudio de Evaluación de los Sistemas de Acceso a la Televisión Abierta para población con discapacidad auditiva",
+      "url": "https://www.crcom.gov.co/es/biblioteca-virtual/estudio-evaluacion-sistemas-acceso-television-abierta-para-poblacion-con",
+      "categoriaOriginal": "Accesibilidad",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "vigente",
+      "nota": "Estudio de dic-2022. Sus hallazgos dieron lugar a la Res. CRC 7276/2023 (closed caption y Lengua de Señas en noticieros)."
+    },
+    {
+      "titulo": "El rol de los servicios OTT en el sector de las comunicaciones en Colombia 2021",
+      "url": "https://www.crcom.gov.co/es/biblioteca-virtual/rol-servicios-ott-en-sector-las-comunicaciones-en-colombia-2021-informe",
+      "categoriaOriginal": "Plataformas digitales",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "actualizado",
+      "nota": "Estudio anual. La edición más reciente es la 2025, publicada en Postdata en mar-2026.",
+      "urlNueva": "https://www.postdata.gov.co/story/el-rol-de-los-servicios-ott-en-el-sector-de-las-comunicaciones-en-colombia-2025",
+      "tituloNuevo": "El rol de los servicios OTT en el sector de las comunicaciones en Colombia - 2025",
+      "anioNuevo": 2025
+    },
+    {
+      "titulo": "Aproximación a los mercados de dos lados en el entorno digital",
+      "url": "https://www.crcom.gov.co/es/biblioteca-virtual/aproximacion-mercados-dos-lados-en-entorno-digital-0",
+      "categoriaOriginal": "Plataformas digitales",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "vigente",
+      "nota": "Documento de análisis de mar-2019, disponible. La Res. 7811/2025 incorporó criterios de mercados de dos lados en el Título III."
+    },
+    {
+      "titulo": "El comercio electrónico en Colombia. Análisis y perspectiva regulatoria",
+      "url": "https://www.crcom.gov.co/es/biblioteca-virtual/comercio-electronico-en-colombia-analisis-y-perspectiva-regulatoria",
+      "categoriaOriginal": "Plataformas digitales",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "vigente",
+      "nota": "Estudio de mar-2017, disponible. Documento histórico sin edición más reciente."
+    },
+    {
+      "titulo": "Dinámicas competitivas de la Economía Digital. Hoja de ruta regulatoria par abordar los retos y oportunidades de la economía digital en Colombia",
+      "url": "https://www.crcom.gov.co/es/biblioteca-virtual/dinamicas-competitivas-economia-digital-hoja-ruta-regulatoria-par-abordar-retos",
+      "categoriaOriginal": "Plataformas digitales",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "vigente",
+      "nota": "Informe de consultoría (Arthur D. Little) de mar-2017, disponible. Documento histórico."
+    },
+    {
+      "titulo": "El rol de los servicios OTT en el sector de las comunicaciones en Colombia – 2023",
+      "url": "https://www.postdata.gov.co/story/el-rol-de-los-servicios-ott-en-el-sector-de-las-comunicaciones-en-colombia-2023",
+      "categoriaOriginal": "Plataformas digitales",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "actualizado",
+      "nota": "Estudio anual. La edición más reciente es la 2025, publicada en Postdata en mar-2026.",
+      "urlNueva": "https://www.postdata.gov.co/story/el-rol-de-los-servicios-ott-en-el-sector-de-las-comunicaciones-en-colombia-2025",
+      "tituloNuevo": "El rol de los servicios OTT en el sector de las comunicaciones en Colombia - 2025",
+      "anioNuevo": 2025
+    },
+    {
+      "titulo": "El rol de los servicios OTT en el sector de las comunicaciones en Colombia - 2024",
+      "url": "https://www.postdata.gov.co/story/el-rol-de-los-servicios-ott-en-el-sector-de-las-comunicaciones-en-colombia-2024",
+      "categoriaOriginal": "Plataformas digitales",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "actualizado",
+      "nota": "La edición 2024 (sep-2025) sigue disponible, pero ya existe la edición 2025, publicada en mar-2026.",
+      "urlNueva": "https://www.postdata.gov.co/story/el-rol-de-los-servicios-ott-en-el-sector-de-las-comunicaciones-en-colombia-2025",
+      "tituloNuevo": "El rol de los servicios OTT en el sector de las comunicaciones en Colombia - 2025",
+      "anioNuevo": 2025
+    },
+    {
+      "titulo": "El rol de los servicios OTT en el sector de las comunicaciones en Colombia - 2025",
+      "url": "https://www.postdata.gov.co/story/el-rol-de-los-servicios-ott-en-el-sector-de-las-comunicaciones-en-colombia-2025",
+      "categoriaOriginal": "Plataformas digitales",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "vigente",
+      "nota": "Edición más reciente del estudio anual (publicada el 30-mar-2026)."
+    },
+    {
+      "titulo": "Revisión del marco regulatorio para la provisión de Contenidos y Aplicaciones (PCA) y condiciones normativas para la adopción del Internet de las Cosas (IoT)",
+      "url": "https://www.crcom.gov.co/es/proyectos-regulatorios/8000-2-26",
+      "categoriaOriginal": "Tecnologías emergentes",
+      "origen": "catalogo",
+      "tema": "emergentes",
+      "estado": "vigente",
+      "nota": "Estudio de consultoría de 2016, disponible. Documento histórico sin actualización posterior."
+    },
+    {
+      "titulo": "Monitoreo de tendencias tecnológicas y de consumidores- 2020",
+      "url": "https://www.crcom.gov.co/es/biblioteca-virtual/monitoreo-tendencias-tecnologicas-y-consumidores-2020",
+      "categoriaOriginal": "Tecnologías emergentes",
+      "origen": "catalogo",
+      "tema": "emergentes",
+      "estado": "actualizado",
+      "nota": "Serie continua desde 2020; la edición más reciente es la de dic-2025.",
+      "urlNueva": "https://www.crcom.gov.co/es/biblioteca-virtual/monitoreo-tendencias-2025",
+      "tituloNuevo": "Monitoreo de Tendencias 2025",
+      "anioNuevo": 2025
+    },
+    {
+      "titulo": "Estudio sobre las condiciones regulatorias para favorecer la adopción de la tecnología 5G en Colombia",
+      "url": "https://www.crcom.gov.co/es/biblioteca-virtual/estudio-sobre-las-condiciones-regulatorias-para-favorecer-adopcion-tecnologia-5g",
+      "categoriaOriginal": "Tecnologías emergentes",
+      "origen": "catalogo",
+      "tema": "emergentes",
+      "estado": "vigente",
+      "nota": "Estudio de feb-2020, disponible. Más reciente: «Estudio de tendencias en el desarrollo de redes móviles 5G» (mar-2025)."
+    },
+    {
+      "titulo": "Estudio sobre el uso e impacto de la Inteligencia Artificial (IA) en los sectores de telecomunicaciones, postal y audiovisual",
+      "url": "https://www.crcom.gov.co/es/noticias/estudios/crc-presenta-radiografia-uso-inteligencia-artificial-en-sectores-comunicaciones",
+      "categoriaOriginal": "Tecnologías emergentes",
+      "origen": "catalogo",
+      "tema": "emergentes",
+      "estado": "vigente",
+      "nota": "Comunicado de dic-2025; el estudio y sus anexos están en la Biblioteca Virtual de la CRC."
+    },
+    {
+      "titulo": "Monitoreo de Tendencias – Edición 2025",
+      "url": "https://www.crcom.gov.co/es/noticias/comunicado-prensa/crc-publica-monitoreo-tendencias-2025",
+      "categoriaOriginal": "Tecnologías emergentes",
+      "origen": "catalogo",
+      "tema": "emergentes",
+      "estado": "vigente",
+      "nota": "Edición más reciente del Monitoreo de Tendencias (dic-2025)."
+    },
+    {
+      "titulo": "Tendencias de Redes Móviles de Nueva Generación y propone estrategias para avanzar en la adopción de 5G en Colombia",
+      "url": "https://www.crcom.gov.co/es/noticias/comunicado-prensa/tendencias-redes-moviles-nueva-generacion-adopcion-5G-Colombia",
+      "categoriaOriginal": "Tecnologías emergentes",
+      "origen": "catalogo",
+      "tema": "emergentes",
+      "estado": "vigente",
+      "nota": "Comunicado de mar-2025 sobre el estudio de tendencias en redes móviles 5G, disponible en la Biblioteca Virtual."
+    },
+    {
+      "titulo": "Monitoreo de Tendencias 2024",
+      "url": "https://www.crcom.gov.co/es/noticias/estudios/crc-publica-monitoreo-tendencias-2024",
+      "categoriaOriginal": "Tecnologías emergentes",
+      "origen": "catalogo",
+      "tema": "emergentes",
+      "estado": "actualizado",
+      "nota": "Existe una edición más reciente: Monitoreo de Tendencias 2025 (dic-2025).",
+      "urlNueva": "https://www.crcom.gov.co/es/biblioteca-virtual/monitoreo-tendencias-2025",
+      "tituloNuevo": "Monitoreo de Tendencias 2025",
+      "anioNuevo": 2025
+    },
+    {
+      "titulo": "Estudio sobre tendencias internacionales en regulación y análisis de servicios Over-the-top (OTT)",
+      "url": "https://www.crcom.gov.co/es/noticias/estudios/crc-publica-estudio-sobre-tendencias-internacionales-en-regulacion-y-analisis",
+      "categoriaOriginal": "Tecnologías emergentes",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "vigente",
+      "nota": "Estudio de dic-2023, disponible."
+    },
+    {
+      "titulo": "Tercer informe de Gobernanza de Internet en Colombia",
+      "url": "https://www.crcom.gov.co/es/biblioteca-virtual/tercer-informe-gobernanza-internet-en-colombia",
+      "categoriaOriginal": "Asuntos relacionados con Internet",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "vigente",
+      "nota": "Último informe de la serie (2015-2017); no hay ediciones posteriores en la Biblioteca Virtual de la CRC."
+    },
+    {
+      "titulo": "Análisis del servicio de acceso a Internet en la isla de San Andrés",
+      "url": "https://www.crcom.gov.co/es/proyectos-regulatorios/2000-38-2-2",
+      "categoriaOriginal": "Asuntos relacionados con Internet",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "vigente",
+      "nota": "Estudio finalizado en 2021, disponible."
+    },
+    {
+      "titulo": "Promoción de la conectividad a internet fijo en zonas de difícil acceso",
+      "url": "https://www.crcom.gov.co/es/proyectos-regulatorios/2000-38-3-7",
+      "categoriaOriginal": "Asuntos relacionados con Internet",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "vigente",
+      "nota": "Las medidas diferenciales para ISP con menos de 30.000 accesos siguen vigentes; la Res. 7811/2025 les creó un formato de reporte unificado."
+    },
+    {
+      "titulo": "Revisión de las metodologías de medición en campos de parámetros de calidad del servicio",
+      "url": "https://www.crcom.gov.co/es/proyectos-regulatorios/2000-38-4-1",
+      "categoriaOriginal": "Asuntos relacionados con Internet",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "actualizado",
+      "nota": "La Res. CRC 6890/2022 derogó el Anexo 5.3 de mediciones en campo (modificado por la Res. 6064/2020) y adoptó una nueva metodología, incluida la medición por crowdsourcing.",
+      "urlNueva": "https://www.crcom.gov.co/es/proyectos-regulatorios/2000-38-3-1",
+      "tituloNuevo": "Revisión de las condiciones de calidad de servicios de telecomunicaciones (Res. CRC 6890 de 2022)",
+      "anioNuevo": 2022
+    },
+    {
+      "titulo": "Definición y condiciones regulatorias para banda ancha",
+      "url": "https://www.crcom.gov.co/es/proyectos-regulatorios/8000-2-21b",
+      "categoriaOriginal": "Asuntos relacionados con Internet",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "actualizado",
+      "nota": "La Res. CRC 8307/2026 elevó la banda ancha de 25/5 a 300/150 Mbps desde oct-2026 (gradual en municipios rezagados); ultra banda ancha: 1 Gbps/500 Mbps.",
+      "urlNueva": "https://www.crcom.gov.co/es/proyectos-regulatorios/2000-41-7-14",
+      "tituloNuevo": "Revisión de la definición de banda ancha (Res. CRC 8307 de 2026)",
+      "anioNuevo": 2026
+    },
+    {
+      "titulo": "Condiciones de Intercambio eficiente de tráfico de Internet en Colombia",
+      "url": "https://www.crcom.gov.co/es/proyectos-regulatorios/8000-2-19",
+      "categoriaOriginal": "Asuntos relacionados con Internet",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "vigente",
+      "nota": "Análisis de 2016, disponible. La CRC retomó el tema de los IXP en el estudio «Esquemas técnicos que promueven la conectividad» (dic-2023)."
+    },
+    {
+      "titulo": "Estudio: Esquemas técnicos que promueven la conectividad",
+      "url": "https://www.crcom.gov.co/es/noticias/estudios/crc-publica-estudio-en-identifico-elementos-infraestructura-impulsan",
+      "categoriaOriginal": "Asuntos relacionados con Internet",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "vigente",
+      "nota": "Estudio de dic-2023, disponible."
+    },
+    {
+      "titulo": "Estado de la neutralidad de red en Colombia",
+      "url": "https://www.crcom.gov.co/es/noticias/estudios/como-esta-neutralidad-red-en-colombia",
+      "categoriaOriginal": "Asuntos relacionados con Internet",
+      "origen": "catalogo",
+      "tema": "competencia",
+      "estado": "vigente",
+      "nota": "Comunicado de mar-2022. La Corte Constitucional (Sent. C-206/2025) declaró inexequible la expresión del art. 56 de la Ley 1450/2011 sobre ofertas segmentadas; la CRC prevé revisar la regulación."
+    },
+    {
+      "titulo": "Condiciones de compartición de infraestructura pasiva de otros sectores",
+      "url": "https://www.crcom.gov.co/es/proyectos-regulatorios/2000-71-19a",
+      "categoriaOriginal": "Compartición de infraestructura",
+      "origen": "catalogo",
+      "tema": "infraestructura",
+      "estado": "actualizado",
+      "nota": "La Res. CRC 7120/2023 (Fase II) derogó el Cap. 11 del Título IV (infraestructura eléctrica, Res. 5890/2020) y unificó condiciones y topes; la Res. 7242/2023 fija su actualización.",
+      "urlNueva": "https://www.crcom.gov.co/es/proyectos-regulatorios/2000-71-19b",
+      "tituloNuevo": "Compartición de infraestructura pasiva Fase II (Res. CRC 7120 de 2023)",
+      "anioNuevo": 2023
+    },
+    {
+      "titulo": "Compartición de infraestructura para TV radiodifundida y revisión de condiciones de acceso y uso de elementos pasivos de redes TIC",
+      "url": "https://www.crcom.gov.co/es/proyectos-regulatorios/8000-2-22a",
+      "categoriaOriginal": "Compartición de infraestructura",
+      "origen": "catalogo",
+      "tema": "infraestructura",
+      "estado": "actualizado",
+      "nota": "Topes de postes y ductos (Res. 5283/2017, Caps. 10 y 11 del Título IV) reemplazados por la Res. CRC 7120/2023 (techo: Res. 7242/2023). El Cap. 13 (TV radiodifundida, Res. 4841/2015) sigue vigente.",
+      "urlNueva": "https://www.crcom.gov.co/es/proyectos-regulatorios/2000-71-19b",
+      "tituloNuevo": "Compartición de infraestructura pasiva Fase II (Res. CRC 7120 de 2023)",
+      "anioNuevo": 2023
+    },
+    {
+      "titulo": "Estudio \"Utilización de infraestructura y redes de otros servicios en la prestación de servicios de Telecomunicaciones\"",
+      "url": "https://www.crcom.gov.co/es/proyectos-regulatorios/5000-2-5",
+      "categoriaOriginal": "Compartición de infraestructura",
+      "origen": "catalogo",
+      "tema": "infraestructura",
+      "estado": "vigente",
+      "nota": "Estudio CREG-CRC de 2012, histórico. Las reglas vigentes sobre uso de infraestructura de otros sectores están en la Res. CRC 7120/2023."
+    },
+    {
+      "titulo": "Compartición de infraestructura eléctrica para la prestación de redes o servicios de telecomunicaciones – Guía técnica para la implementación de la resolución 5890 de 2021",
+      "url": "https://www.crcom.gov.co/es/biblioteca-virtual/comparticion-infraestructura-electrica-para-prestacion-redes-o-servicios",
+      "categoriaOriginal": "Compartición de infraestructura",
+      "origen": "catalogo",
+      "tema": "infraestructura",
+      "estado": "sustituido",
+      "nota": "Guía de 2020 no actualizada: el Cap. 11 del Título IV (Res. 5890 de 2020, no de 2021) fue derogado por la Res. CRC 7120/2023, que unificó condiciones y topes.",
+      "urlNueva": "https://www.crcom.gov.co/es/proyectos-regulatorios/2000-71-19b",
+      "tituloNuevo": "Compartición de infraestructura pasiva Fase II (Res. CRC 7120 de 2023)",
+      "anioNuevo": 2023
+    },
+    {
+      "titulo": "Condiciones de compartición de infraestructura pasiva de otros sectores- Fase II ",
+      "url": "https://www.crcom.gov.co/es/proyectos-regulatorios/2000-71-19b",
+      "categoriaOriginal": "Compartición de infraestructura",
+      "origen": "catalogo",
+      "tema": "infraestructura",
+      "estado": "vigente",
+      "nota": "Res. CRC 7120/2023 vigente (Cap. 10 del Título IV), con la actualización tarifaria de la Res. 7242/2023 y ajustes menores de la Res. 7811/2025."
+    },
+    {
+      "titulo": "Techo al Incremento de los Topes Tarifarios de Compartición de Infraestructura",
+      "url": "https://www.crcom.gov.co/es/proyectos-regulatorios/2000-38-3-15",
+      "categoriaOriginal": "Compartición de infraestructura",
+      "origen": "catalogo",
+      "tema": "infraestructura",
+      "estado": "vigente",
+      "nota": "Res. CRC 7242/2023 vigente: fija el esquema que limita el incremento de los topes de compartición (art. 148 de la Ley 2294/2023)."
+    },
+    {
+      "titulo": "Estudio de tendencias en el despliegue y compartición de infraestructura en Colombia",
+      "url": "https://www.crcom.gov.co/system/files/Biblioteca%20Virtual/Estudio%20de%20tendencias%20en%20el%20despliegue%20y%20compartición%20de%20infraestructura/Estudio-Tendencias-Despliegue-Comparticion-Infraestructura.pdf",
+      "categoriaOriginal": "Compartición de infraestructura",
+      "origen": "catalogo",
+      "tema": "infraestructura",
+      "estado": "vigente",
+      "nota": "Estudio publicado en mar-2025; el PDF está disponible."
+    },
+    {
+      "titulo": "Micrositio Despliegue de Infraestructura",
+      "url": "https://www.crcom.gov.co/es/micrositios/despliegue-infraestructura",
+      "categoriaOriginal": "Compartición de infraestructura",
+      "origen": "catalogo",
+      "tema": "infraestructura",
+      "estado": "vigente",
+      "nota": "Micrositio activo (normativa, buenas prácticas, acreditación e índice de favorabilidad)."
+    },
+    {
+      "titulo": "Medidas para la localización de menores",
+      "url": "https://www.crcom.gov.co/es/proyectos-regulatorios/2000-59-5",
+      "categoriaOriginal": "Telecomunicaciones de emergencia",
+      "origen": "catalogo",
+      "tema": "emergencia",
+      "estado": "actualizado",
+      "nota": "La Res. CRC 8030/2025 actualizó la Alerta Nacional (Título XIV) para incorporar la «Alerta Rosa» (Ley 2326/2023): ahora cubre también a jóvenes y mujeres desaparecidas.",
+      "urlNueva": "https://www.crcom.gov.co/es/proyectos-regulatorios/2000-41-7-6",
+      "tituloNuevo": "Actualización de la Alerta Nacional ante la desaparición de niños, niñas y adolescentes (Res. CRC 8030 de 2025)",
+      "anioNuevo": 2025
+    },
+    {
+      "titulo": "Sistema Nacional de Telecomunicaciones en Emergencia",
+      "url": "https://www.crcom.gov.co/es/proyectos-regulatorios/12000-74-12",
+      "categoriaOriginal": "Telecomunicaciones de emergencia",
+      "origen": "catalogo",
+      "tema": "emergencia",
+      "estado": "vigente",
+      "nota": "Obligaciones del SNTE (Res. 4972/2016) compiladas en la Res. 5050/2016; la Res. 6890/2022 derogó solo su art. 1.6. En 2026 hubo medidas transitorias por el sismo (Res. 8332/2026)."
+    },
+    {
+      "titulo": "Diagnóstico sobre servicios de líneas de ayuda y líneas de ayuda para menores en Colombia",
+      "url": "https://www.crcom.gov.co/es/proyectos-regulatorios/4000-74-25",
+      "categoriaOriginal": "Telecomunicaciones de emergencia",
+      "origen": "catalogo",
+      "tema": "emergencia",
+      "estado": "vigente",
+      "nota": "Sin cambios identificados en la atribución de los números 141 (niños, niñas y adolescentes) y 106 (apoyo psicosocial)."
+    },
+    {
+      "titulo": "Modificación a la Resolución CRC 4813 de 2015",
+      "url": "https://www.crcom.gov.co/es/proyectos-regulatorios/12000-3-9a",
+      "categoriaOriginal": "Homologación de productos y dispositivos",
+      "origen": "catalogo",
+      "tema": "homologacion",
+      "estado": "vigente",
+      "nota": "La verificación centralizada de IMEI sigue vigente con cambios: la Res. 7811/2025 eliminó el bloqueo por no homologación."
+    },
+    {
+      "titulo": "Identificación y depuración de equipos terminales móviles",
+      "url": "https://www.crcom.gov.co/es/proyectos-regulatorios/12000-3-11",
+      "categoriaOriginal": "Homologación de productos y dispositivos",
+      "origen": "catalogo",
+      "tema": "homologacion",
+      "estado": "vigente",
+      "nota": "Reglas sobre IMEI inválidos vigentes con cambios: la Res. 7811/2025 simplificó el registro de IMEI y eliminó el bloqueo por no homologación."
+    },
+    {
+      "titulo": "Revisión del Régimen de Homologación de equipos terminales",
+      "url": "https://www.crcom.gov.co/es/proyectos-regulatorios/2000-71-16",
+      "categoriaOriginal": "Homologación de productos y dispositivos",
+      "origen": "catalogo",
+      "tema": "homologacion",
+      "estado": "vigente",
+      "nota": "La Res. 6129/2020 (Título VII) sigue siendo el régimen de homologación. Desde la Res. 7811/2025 los equipos no homologados ya no se bloquean."
+    },
+    {
+      "titulo": "Revisión de indicadores de disponibilidad de elementos de red de acceso y planes de mejora",
+      "url": "https://www.crcom.gov.co/es/proyectos-regulatorios/2000-38-3-21",
+      "categoriaOriginal": "Calidad de los Servicios de Telecomunicaciones",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "vigente",
+      "nota": "Res. CRC 7777/2025 vigente. La CRC tiene en consulta (nov-2026) la «Modernización del Régimen de Calidad de los Servicios Móviles»."
+    },
+    {
+      "titulo": "Simplificación del marco regulatorio 2024",
+      "url": "https://www.crcom.gov.co/es/proyectos-regulatorios/2000-38-3-22",
+      "categoriaOriginal": "Mejora Regulatoria",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "vigente",
+      "nota": "Res. CRC 7810 y 7811 de 2025: 190 medidas simplificadas y reducción del 12,77 % de las normas de la Res. 5050/2016."
+    },
+    {
+      "titulo": "Política de Mejora Regulatoria 2022",
+      "url": "https://www.crcom.gov.co/sites/default/files/webcrc/noticias/documents/documento-politica-mejora-regulatoria-crc.pdf",
+      "categoriaOriginal": "Mejora Regulatoria",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "vigente",
+      "nota": "Política de ago-2022, aún vigente. Según el borrador de Agenda 2027-2028, la CRC la actualizará tras un estudio con CITEL (resultados en el 2.º trimestre de 2027)."
+    }
+  ]
+}

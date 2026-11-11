@@ -1,0 +1,496 @@
+{
+  "iso": "bo",
+  "pais": "Bolivia",
+  "regulador": {
+    "sigla": "ATT",
+    "nombre": "Autoridad de Regulación y Fiscalización de Telecomunicaciones y Transportes",
+    "url": "https://www.att.gob.bo",
+    "naturaleza": "Entidad pública descentralizada bajo tuición del Ministerio de Obras Públicas, Servicios y Vivienda; regula telecomunicaciones, TIC, servicio postal y transportes"
+  },
+  "otrasAutoridades": [
+    {
+      "sigla": "MOPSV",
+      "nombre": "Ministerio de Obras Públicas, Servicios y Vivienda – Viceministerio de Telecomunicaciones y Tecnologías de Información y Comunicación",
+      "rol": "Ministerio rector: fija las políticas TIC, aprueba el Plan Nacional de Frecuencias y los planes de asignación, y resuelve recursos jerárquicos contra la ATT",
+      "url": "https://www.oopp.gob.bo"
+    },
+    {
+      "sigla": "AGETIC",
+      "nombre": "Agencia de Gobierno Electrónico y Tecnologías de Información y Comunicación",
+      "rol": "Gobierno digital y CSIRT estatal (CGII); bajo tuición del Ministerio de la Presidencia",
+      "url": "https://www.agetic.gob.bo"
+    }
+  ],
+  "marcoLegal": {
+    "nombre": "Ley N.º 164 General de Telecomunicaciones, Tecnologías de Información y Comunicación",
+    "anio": 2011,
+    "url": "https://www.att.gob.bo/sites/default/files/archivos_listados_pdf/2025-09-17/Ley%20N%C2%B0%20164%20-%20Ley%20General%20de%20Telecomunicaciones%20y%20TICs_0.pdf"
+  },
+  "resumenPais": "La ATT regula telecomunicaciones, servicio postal y transportes bajo tuición del Ministerio de Obras Públicas; la Ley 164 (2011) es el marco. La estatal Entel lidera el mercado y ofrece 5G desde 2025. El gobierno que asumió a fines de 2025 autorizó el internet satelital de órbita baja y reprogramó la licitación AWS.",
+  "categorias": {
+    "espectro": {
+      "resumen": "El Ministerio de Obras Públicas aprueba el Plan Nacional de Frecuencias y la ATT asigna el espectro: la estatal Entel puede recibirlo de forma directa y los privados, por licitación. Entel ya usa 3,5 GHz para 5G; la licitación AWS prevista para 2026 fue reprogramada y no tiene resultado conocido.",
+      "instrumentos": [
+        {
+          "nombre": "Plan Nacional de Frecuencias (RM 294/2012, con modificaciones hasta la RM 203/2025)",
+          "anio": 2012,
+          "tipo": "plan",
+          "url": "https://www.att.gob.bo/sites/default/files/archivos_listados_pdf/2023-05-17/Plan%20Nacional%20de%20Frecuencias%20-%2008%20-%2011%20-%202012.pdf"
+        },
+        {
+          "nombre": "Reglamento General a la Ley 164 (Decreto Supremo 1391)",
+          "anio": 2012,
+          "tipo": "decreto",
+          "url": "https://www.att.gob.bo/sites/default/files/archivos_listados_pdf/2021-07-20/Decreto%20Supremo%201391%20Reglamento%20General%20a%20la%20Ley%20164%20de%20Telecomunicaciones%20y%20Tecnologias%20de%20Inforacion%20y%20Comunicacion..pdf"
+        },
+        {
+          "nombre": "Reglamento para el Otorgamiento de Licencias en Telecomunicaciones (RM 323/2012, modificado por la RM 105/2026)",
+          "anio": 2012,
+          "tipo": "reglamento",
+          "url": "https://www.oopp.gob.bo/wp-content/uploads/2021/07/2012-RM323-MOPSV-Reglamento-de-Otorgacion.pdf"
+        },
+        {
+          "nombre": "Cronograma de licitaciones de la banda AWS 1,7/2,1 GHz (RAR ATT-DJ-RAR-TL LP 23/2026)",
+          "anio": 2026,
+          "tipo": "resolucion",
+          "url": "https://www.att.gob.bo/sites/default/files/comunicados/2026-01/ATT-DJ-RAR-TL%20LP%2023%202026.pdf"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-01",
+        "texto": "La ATT fijó el cronograma para licitar dos bloques AWS (1,7/2,1 GHz) y asignar otro de forma directa a Entel (RAR 23 y 24/2026); luego lo modificó."
+      },
+      "indicadores": {
+        "esp_cuadro": {
+          "estado": "si",
+          "nota": "Plan Nacional de Frecuencias (RM 294/2012 del MOPSV), modificado entre otras por las RM 152/2020 (IoT), 174/2022 (3,3–3,6 GHz) y 203/2025.",
+          "fuente": "https://www.att.gob.bo/sites/default/files/archivos_listados_pdf/2023-05-17/Plan%20Nacional%20de%20Frecuencias%20-%2008%20-%2011%20-%202012.pdf",
+          "anio": 2012
+        },
+        "esp_5g": {
+          "estado": "si",
+          "nota": "La RAR 203/2025 abrió la asignación directa a Entel (estatal) de dos sub-bandas en 3,3–3,6 GHz para 5G; Entel ya opera 5G en esa banda (n78).",
+          "fuente": "https://www.att.gob.bo/sites/default/files/archivos_portada/2025-03/Resoluci%C3%B3n%20Administrativa%20Regulatoria%20ATT-DJ-RAR-TL%20LP%20203%202025.pdf",
+          "anio": 2025
+        },
+        "esp_licitacion": {
+          "estado": "parcial",
+          "nota": "La RAR 23/2026 fijó la licitación de dos bloques AWS de 2×5 MHz (ATT-LCT-SPU 2025/001 y 002); luego se reprogramó y no se halló adjudicación.",
+          "fuente": "https://www.att.gob.bo/sites/default/files/comunicados/2026-01/ATT-DJ-RAR-TL%20LP%2023%202026.pdf",
+          "anio": 2026
+        },
+        "esp_6ghz": {
+          "estado": "sin_dato",
+          "nota": "No se halló norma que abra 5925–7125 MHz al uso libre; el PNF de 2012 atribuye la banda a los servicios fijo por satélite, fijo y móvil."
+        },
+        "esp_secundario": {
+          "estado": "parcial",
+          "nota": "La Ley 164 (art. 40) sanciona ceder o arrendar licencias salvo casos reglamentados; el DS 1391 (art. 79) admite cesiones con autorización previa.",
+          "fuente": "https://www.att.gob.bo/sites/default/files/archivos_listados_pdf/2025-09-17/Ley%20N%C2%B0%20164%20-%20Ley%20General%20de%20Telecomunicaciones%20y%20TICs_0.pdf",
+          "anio": 2011
+        }
+      }
+    },
+    "competencia": {
+      "resumen": "La Ley 164 y su reglamento (DS 1391) prevén la declaratoria de operador dominante, la interconexión con cargos tope fijados por la ATT y la neutralidad de red. La estatal Entel lidera el mercado móvil y el programa PRONTIS financia la conectividad rural.",
+      "instrumentos": [
+        {
+          "nombre": "Reglamento General a la Ley 164 (Decreto Supremo 1391)",
+          "anio": 2012,
+          "tipo": "decreto",
+          "url": "https://www.att.gob.bo/sites/default/files/archivos_listados_pdf/2021-07-20/Decreto%20Supremo%201391%20Reglamento%20General%20a%20la%20Ley%20164%20de%20Telecomunicaciones%20y%20Tecnologias%20de%20Inforacion%20y%20Comunicacion..pdf"
+        },
+        {
+          "nombre": "Reglamento de Interconexión y de Acceso y Uso Compartido de Infraestructura (RM 062/2013)",
+          "anio": 2013,
+          "tipo": "reglamento",
+          "url": "https://www.att.gob.bo/sites/default/files/archivos_listados_pdf/2025-09-18/22.%20REGLAMENTO%20DE%20INTERCONEXION%20Y%20DE%20ACCESO%20Y%20USO%20COMPARTIDO%20DE%20INFRAESTRUCTURA.pdf"
+        },
+        {
+          "nombre": "Reglamento del Régimen de Regulación Tarifaria de los Servicios Públicos de Telecomunicaciones y TIC (RM 088/2013)",
+          "anio": 2013,
+          "tipo": "reglamento",
+          "url": "https://www.oopp.gob.bo/wp-content/uploads/2021/07/2013-RM088-MOPSV-Reglamento-Regulacion-Tarifaria.pdf"
+        }
+      ],
+      "novedad": null,
+      "indicadores": {
+        "comp_psm": {
+          "estado": "si",
+          "nota": "DS 1391 (arts. 122–124): la ATT declara dominante al proveedor con más del 40% de los ingresos del mercado relevante y le aplica tope de precios.",
+          "fuente": "https://www.att.gob.bo/sites/default/files/archivos_listados_pdf/2021-07-20/Decreto%20Supremo%201391%20Reglamento%20General%20a%20la%20Ley%20164%20de%20Telecomunicaciones%20y%20Tecnologias%20de%20Inforacion%20y%20Comunicacion..pdf",
+          "anio": 2012
+        },
+        "comp_omv": {
+          "estado": "sin_dato",
+          "nota": "No se halló régimen de OMV ni OMV en operación; la Ley 164 (art. 6) solo define en general el servicio de reventa."
+        },
+        "comp_interconexion": {
+          "estado": "si",
+          "nota": "DS 1391 (arts. 131–145): interconexión obligatoria, oferta básica aprobada por la ATT y cargos tope calculados por costo incremental.",
+          "fuente": "https://www.att.gob.bo/sites/default/files/archivos_listados_pdf/2021-07-20/Decreto%20Supremo%201391%20Reglamento%20General%20a%20la%20Ley%20164%20de%20Telecomunicaciones%20y%20Tecnologias%20de%20Inforacion%20y%20Comunicacion..pdf",
+          "anio": 2012
+        },
+        "comp_fondo": {
+          "estado": "si",
+          "nota": "PRONTIS (Ley 164, arts. 65–66) se financia con aportes del 1% al 2% de los ingresos brutos; en 2026 sigue instalando radiobases rurales.",
+          "fuente": "https://dplnews.com/bolivia-prontis-entrega-radiobase-maravillas-para-ganaderos-y-jovenes-del-beni/",
+          "anio": 2011
+        },
+        "comp_neutralidad": {
+          "estado": "si",
+          "nota": "DS 1391 (art. 92.IV) prohíbe a los proveedores de internet bloquear, discriminar o restringir contenidos, aplicaciones o servicios legales.",
+          "fuente": "https://www.att.gob.bo/sites/default/files/archivos_listados_pdf/2021-07-20/Decreto%20Supremo%201391%20Reglamento%20General%20a%20la%20Ley%20164%20de%20Telecomunicaciones%20y%20Tecnologias%20de%20Inforacion%20y%20Comunicacion..pdf",
+          "anio": 2012
+        }
+      }
+    },
+    "ciberseguridad": {
+      "resumen": "No se hallaron una ley ni una estrategia nacional de ciberseguridad vigentes. El CSIRT de la AGETIC (CGII) atiende incidentes, sobre todo del sector público, y en 2026 el Gobierno impulsa una agenda nacional con CSIRT nacional y sectoriales. Bolivia no es parte del Convenio de Budapest.",
+      "instrumentos": [
+        {
+          "nombre": "Reglamento para el Desarrollo de las TIC (Decreto Supremo 1793): firma digital y seguridad informática",
+          "anio": 2013,
+          "tipo": "decreto",
+          "url": "https://www.att.gob.bo/sites/default/files/archivos_listados_pdf/2025-09-18/1.%20APRUEBA%20EL%20REGLAMENTO%20PARA%20EL%20DESARROLLO%20DE%20TECNOLOGIAS%20DE%20INFORMACION%20Y%20COMUNICACION%20%28TIC%29.pdf"
+        },
+        {
+          "nombre": "Centro de Gestión de Incidentes Informáticos (CGII) de la AGETIC, creado por el DS 2514",
+          "anio": 2015,
+          "tipo": "otro",
+          "url": "https://www.cgii.gob.bo/about"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-08",
+        "texto": "En el foro Bolivia Cibersegura 2026, el MOPSV y la AGETIC anunciaron que impulsan una agenda nacional de ciberseguridad y CSIRT nacional y sectoriales."
+      },
+      "indicadores": {
+        "ciber_estrategia": {
+          "estado": "sin_dato",
+          "nota": "No se halló estrategia nacional vigente; en ago-2026 el MOPSV y la AGETIC anunciaron que impulsan una agenda nacional y un CSIRT nacional."
+        },
+        "ciber_ley": {
+          "estado": "sin_dato",
+          "nota": "No se halló ley marco; los delitos informáticos están tipificados en el Código Penal (arts. 363 bis y 363 ter)."
+        },
+        "ciber_csirt": {
+          "estado": "si",
+          "nota": "El CGII de la AGETIC (DS 2514 de 2015) actúa como equipo nacional de respuesta a incidentes, 24/7, centrado en el sector público.",
+          "fuente": "https://www.cgii.gob.bo/about",
+          "anio": 2015
+        },
+        "ciber_reporte": {
+          "estado": "sin_dato",
+          "nota": "Se exige informar a la ATT las interrupciones del servicio (DS 1391, art. 170), pero no se halló un deber específico sobre ciberincidentes."
+        },
+        "ciber_budapest": {
+          "estado": "no",
+          "nota": "Bolivia no figura como parte ni como firmante del Convenio de Budapest en la lista oficial del Consejo de Europa.",
+          "fuente": "https://www.coe.int/en/web/conventions/full-list?module=signatures-by-treaty&treatynum=185"
+        }
+      }
+    },
+    "usuario": {
+      "resumen": "La Ley 164 y el DS 1391 fijan los derechos de los usuarios. La ATT atiende reclamos en segunda instancia (Mi Reclamo, línea gratuita y WhatsApp), supervisa la portabilidad móvil vigente desde 2018 y publica mediciones de calidad de internet por operador.",
+      "instrumentos": [
+        {
+          "nombre": "Ley 164, art. 54 (derechos de las usuarias y usuarios)",
+          "anio": 2011,
+          "tipo": "ley",
+          "url": "https://www.att.gob.bo/sites/default/files/archivos_listados_pdf/2025-09-17/Ley%20N%C2%B0%20164%20-%20Ley%20General%20de%20Telecomunicaciones%20y%20TICs_0.pdf"
+        },
+        {
+          "nombre": "Reglamento General a la Ley 164 (DS 1391), Título X: derechos y obligaciones de usuarios",
+          "anio": 2012,
+          "tipo": "decreto",
+          "url": "https://www.att.gob.bo/sites/default/files/archivos_listados_pdf/2021-07-20/Decreto%20Supremo%201391%20Reglamento%20General%20a%20la%20Ley%20164%20de%20Telecomunicaciones%20y%20Tecnologias%20de%20Inforacion%20y%20Comunicacion..pdf"
+        },
+        {
+          "nombre": "Decreto Supremo 2498: implementación de la portabilidad numérica",
+          "anio": 2015,
+          "tipo": "decreto",
+          "url": "https://www.att.gob.bo/sites/default/files/archivos_listados_pdf/2025-09-18/15.%20IMPLEMENTACION%20DE%20LA%20PORTABILIDAD%20NUMERICA%20EN%20BOLIVIA.pdf"
+        },
+        {
+          "nombre": "Reglamento de Calidad del Servicio de Acceso a Internet (RAR ATT-DJ-RAR-TL LP 700/2025)",
+          "anio": 2025,
+          "tipo": "resolucion",
+          "url": "https://www.att.gob.bo/sites/default/files/archivos_listados_pdf/2025-10-17/ATT-DJ-RAR-TL%20LP%20700%202025.pdf"
+        }
+      ],
+      "novedad": {
+        "fecha": "2025-10",
+        "texto": "La ATT aprobó el Reglamento de Calidad del Servicio de Acceso a Internet (RAR 700/2025); en 2026 publicó mediciones 4G por operador."
+      },
+      "indicadores": {
+        "usu_reglamento": {
+          "estado": "si",
+          "nota": "La Ley 164 (art. 54) y el DS 1391 (Título X, 2012) fijan los derechos de los usuarios y las obligaciones de los operadores.",
+          "fuente": "https://www.att.gob.bo/sites/default/files/archivos_listados_pdf/2021-07-20/Decreto%20Supremo%201391%20Reglamento%20General%20a%20la%20Ley%20164%20de%20Telecomunicaciones%20y%20Tecnologias%20de%20Inforacion%20y%20Comunicacion..pdf",
+          "anio": 2012
+        },
+        "usu_reclamos": {
+          "estado": "si",
+          "nota": "Si el operador no responde satisfactoriamente, la ATT recibe el reclamo vía Mi Reclamo, la línea gratuita 800-10-6000 o WhatsApp.",
+          "fuente": "https://www.att.gob.bo/en/reclamaciones"
+        },
+        "usu_portabilidad": {
+          "estado": "si",
+          "nota": "Portabilidad numérica móvil en operación desde el 1-oct-2018 (DS 2498 de 2015 y DS 3404) entre Entel, Tigo y Viva.",
+          "fuente": "https://portabilidad.att.gob.bo/",
+          "anio": 2018
+        },
+        "usu_calidad": {
+          "estado": "si",
+          "nota": "La ATT publica mediciones trimestrales de calidad de internet por operador (p. ej., 4G de Entel y Tigo, 2026); Reglamento de Calidad: RAR 700/2025.",
+          "fuente": "https://sis.att.gob.bo/",
+          "anio": 2025
+        },
+        "usu_nomolestar": {
+          "estado": "sin_dato",
+          "nota": "No se halló registro No Molestar; el DS 1793 (art. 57) exige opción de baja en mensajes publicitarios y el DS 1391 (art. 176) limita el uso comercial de datos."
+        }
+      }
+    },
+    "emergentes": {
+      "resumen": "Entel ofrece 5G comercial desde 2025. El DS 5509 autorizó el internet satelital de órbita baja: Starlink opera desde febrero de 2026, primero con licencia experimental, y en julio se creó una licencia satelital única. Hay una banda libre para IoT; no se halló estrategia de IA.",
+      "instrumentos": [
+        {
+          "nombre": "Reglamento de licencias experimentales para redes satelitales de órbita baja (RAR ATT-DJ-RAR-TL LP 87/2026, en el marco del DS 5509)",
+          "anio": 2026,
+          "tipo": "resolucion",
+          "url": "https://www.att.gob.bo/sites/default/files/comunicados/2026-01/I-LP-734%202026%20ATT-DJ-RAR-TL%20LP%2087%202026%20PDF.pdf"
+        },
+        {
+          "nombre": "Decreto Supremo 5666: licencia única para la provisión de servicios satelitales (modifica el art. 53 del DS 1391)",
+          "anio": 2026,
+          "tipo": "decreto",
+          "url": "http://www.gacetaoficialdebolivia.gob.bo/normas/verGratis_gob/281297"
+        },
+        {
+          "nombre": "Resolución Ministerial 105/2026 (MOPSV): adecua el Reglamento de Licencias a la licencia de servicios satelitales",
+          "anio": 2026,
+          "tipo": "resolucion",
+          "url": "https://www.att.gob.bo/sites/default/files/comunicados/2026-07/RESOLUCION%20MINISTERIAL%20N%C2%B0%20105%20APRUEBA%20REGLAMENTO%20DE%20LICENCIAS.pdf"
+        },
+        {
+          "nombre": "Modificación al Plan Nacional de Frecuencias: banda de uso libre para IoT (RM 152/2020)",
+          "anio": 2020,
+          "tipo": "resolucion",
+          "url": "https://www.oopp.gob.bo/wp-content/uploads/2021/07/2020-RM152-MOPSV-Modificacion-PNF-IoT.pdf"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-07",
+        "texto": "El DS 5666 y la RM 105/2026 crearon una licencia única para servicios satelitales que incluye el uso de frecuencias; Starlink opera desde febrero."
+      },
+      "indicadores": {
+        "tec_sandbox": {
+          "estado": "parcial",
+          "nota": "No hay sandbox general; la RAR 87/2026 creó licencias experimentales para probar redes satelitales LEO con usuarios reales.",
+          "fuente": "https://www.att.gob.bo/sites/default/files/comunicados/2026-01/I-LP-734%202026%20ATT-DJ-RAR-TL%20LP%2087%202026%20PDF.pdf",
+          "anio": 2026
+        },
+        "tec_5g": {
+          "estado": "si",
+          "nota": "Entel vende paquetes 5G desde 2025; a nov-2025 tenía 101 radiobases 5G en las nueve capitales departamentales (banda n78).",
+          "fuente": "https://dplnews.com/entel-supera-100-radiobases-5g-bolivia/",
+          "anio": 2025
+        },
+        "tec_iot": {
+          "estado": "si",
+          "nota": "La RM 152/2020 incorporó al PNF la nota BOL 34: 915–928 MHz de uso libre para IoT de banda angosta, con registro ante la ATT.",
+          "fuente": "https://www.oopp.gob.bo/wp-content/uploads/2021/07/2020-RM152-MOPSV-Modificacion-PNF-IoT.pdf",
+          "anio": 2020
+        },
+        "tec_satelital": {
+          "estado": "si",
+          "nota": "El DS 5509 (dic-2025) autorizó servicios LEO; Starlink opera desde feb-2026 con licencia de la ATT (experimental) y el DS 5666 creó la licencia satelital única.",
+          "fuente": "https://dplnews.com/bolivia-att-destaca-starlink-tv-digital-y-presencia-internacional-como-mayores-logros-en-primeros-6-meses/",
+          "anio": 2026
+        },
+        "tec_ia": {
+          "estado": "sin_dato",
+          "nota": "No se halló estrategia, política ni ley nacional de inteligencia artificial."
+        }
+      }
+    },
+    "infraestructura": {
+      "resumen": "La Ley 164 obliga a compartir torres, ductos y postes, y a incluir fibra o ductos en obras eléctricas, de hidrocarburos y transporte. Si un municipio no responde en 45 días hábiles, la torre se tiene por autorizada; el roaming es obligatorio en zonas rurales.",
+      "instrumentos": [
+        {
+          "nombre": "Ley 164, arts. 20 a 24 (antenas, uso compartido, servidumbres, fibra en obras) y art. 49 (roaming rural)",
+          "anio": 2011,
+          "tipo": "ley",
+          "url": "https://www.att.gob.bo/sites/default/files/archivos_listados_pdf/2025-09-17/Ley%20N%C2%B0%20164%20-%20Ley%20General%20de%20Telecomunicaciones%20y%20TICs_0.pdf"
+        },
+        {
+          "nombre": "Reglamento de Interconexión y de Acceso y Uso Compartido de Infraestructura (RM 062/2013)",
+          "anio": 2013,
+          "tipo": "reglamento",
+          "url": "https://www.att.gob.bo/sites/default/files/archivos_listados_pdf/2025-09-18/22.%20REGLAMENTO%20DE%20INTERCONEXION%20Y%20DE%20ACCESO%20Y%20USO%20COMPARTIDO%20DE%20INFRAESTRUCTURA.pdf"
+        },
+        {
+          "nombre": "Reglamento de Despliegue de Cableado de Redes Públicas y Privadas en Postes (RM 162/2019)",
+          "anio": 2019,
+          "tipo": "reglamento",
+          "url": "https://www.att.gob.bo/sites/default/files/archivos_listados_pdf/2025-09-18/24.%20REGLAMENTO%20DE%20DESPLIEGUE%20DE%20CABLEADO%20DE%20REDES%20PUBLICAS%20Y%20PRIVADAS%20EN%20POSTES.pdf"
+        },
+        {
+          "nombre": "Reglamento General a la Ley 164 (DS 1391), Título VI y arts. 150 a 152",
+          "anio": 2012,
+          "tipo": "decreto",
+          "url": "https://www.att.gob.bo/sites/default/files/archivos_listados_pdf/2021-07-20/Decreto%20Supremo%201391%20Reglamento%20General%20a%20la%20Ley%20164%20de%20Telecomunicaciones%20y%20Tecnologias%20de%20Inforacion%20y%20Comunicacion..pdf"
+        }
+      ],
+      "novedad": null,
+      "indicadores": {
+        "inf_pasiva": {
+          "estado": "si",
+          "nota": "La Ley 164 (arts. 21–22), el DS 1391 y la RM 062/2013 obligan a compartir infraestructura (torres, ductos, postes); sin acuerdo, decide la ATT.",
+          "fuente": "https://www.att.gob.bo/sites/default/files/archivos_listados_pdf/2025-09-18/22.%20REGLAMENTO%20DE%20INTERCONEXION%20Y%20DE%20ACCESO%20Y%20USO%20COMPARTIDO%20DE%20INFRAESTRUCTURA.pdf",
+          "anio": 2013
+        },
+        "inf_electrica": {
+          "estado": "si",
+          "nota": "La Ley 164 (art. 24) exige fibra o ductos en obras eléctricas, de hidrocarburos y transporte; la RM 162/2019 regula el cableado en postes eléctricos.",
+          "fuente": "https://www.att.gob.bo/sites/default/files/archivos_listados_pdf/2025-09-18/24.%20REGLAMENTO%20DE%20DESPLIEGUE%20DE%20CABLEADO%20DE%20REDES%20PUBLICAS%20Y%20PRIVADAS%20EN%20POSTES.pdf",
+          "anio": 2019
+        },
+        "inf_permisos": {
+          "estado": "si",
+          "nota": "Ley 164 (art. 20): si el municipio no resuelve en 45 días hábiles la solicitud de torre o soporte de antena, se tiene por autorizada.",
+          "fuente": "https://www.att.gob.bo/sites/default/files/archivos_listados_pdf/2025-09-17/Ley%20N%C2%B0%20164%20-%20Ley%20General%20de%20Telecomunicaciones%20y%20TICs_0.pdf",
+          "anio": 2011
+        },
+        "inf_roaming": {
+          "estado": "si",
+          "nota": "Ley 164 (art. 49) y DS 1391 (arts. 150–152): roaming obligatorio en áreas rurales, al menos para voz, con tarifas reguladas.",
+          "fuente": "https://www.att.gob.bo/sites/default/files/archivos_listados_pdf/2025-09-17/Ley%20N%C2%B0%20164%20-%20Ley%20General%20de%20Telecomunicaciones%20y%20TICs_0.pdf",
+          "anio": 2011
+        },
+        "inf_edificios": {
+          "estado": "sin_dato",
+          "nota": "No se halló norma sobre infraestructura de telecomunicaciones en edificaciones."
+        }
+      }
+    },
+    "emergencia": {
+      "resumen": "En desastres, los operadores deben poner gratis sus redes a disposición de las autoridades; las comunicaciones de emergencia son gratuitas y prioritarias. El plan de numeración reserva el 911, pero no se confirmó que opere como número único ni un sistema de alertas a celulares.",
+      "instrumentos": [
+        {
+          "nombre": "Ley 164, art. 111 (casos de emergencia y seguridad del Estado)",
+          "anio": 2011,
+          "tipo": "ley",
+          "url": "https://www.att.gob.bo/sites/default/files/archivos_listados_pdf/2025-09-17/Ley%20N%C2%B0%20164%20-%20Ley%20General%20de%20Telecomunicaciones%20y%20TICs_0.pdf"
+        },
+        {
+          "nombre": "Reglamento General a la Ley 164 (DS 1391), Título XIII: emergencias y seguridad nacional",
+          "anio": 2012,
+          "tipo": "decreto",
+          "url": "https://www.att.gob.bo/sites/default/files/archivos_listados_pdf/2021-07-20/Decreto%20Supremo%201391%20Reglamento%20General%20a%20la%20Ley%20164%20de%20Telecomunicaciones%20y%20Tecnologias%20de%20Inforacion%20y%20Comunicacion..pdf"
+        },
+        {
+          "nombre": "Plan Técnico Fundamental de Numeración (RM 339/2021): códigos de emergencia y 911",
+          "anio": 2021,
+          "tipo": "plan",
+          "url": "https://www.att.gob.bo/sites/default/files/archivos_listados_pdf/2025-09-18/29.%20APROBAR%20EL%20PLAN%20T%C3%89CNICO%20FUNDAMENTAL%20DE%20NUMERACI%C3%93N.pdf"
+        }
+      ],
+      "novedad": null,
+      "indicadores": {
+        "eme_alerta": {
+          "estado": "sin_dato",
+          "nota": "No se halló un sistema oficial de alertas a celulares por Cell Broadcast o SMS masivo."
+        },
+        "eme_numero": {
+          "estado": "parcial",
+          "nota": "Sin número único confirmado: el Plan de Numeración (RM 339/2021) asigna el 911 y la franja 110–129 a emergencias ciudadanas (p. ej., bomberos 119).",
+          "fuente": "https://www.att.gob.bo/sites/default/files/archivos_listados_pdf/2025-09-18/29.%20APROBAR%20EL%20PLAN%20T%C3%89CNICO%20FUNDAMENTAL%20DE%20NUMERACI%C3%93N.pdf",
+          "anio": 2021
+        },
+        "eme_plan": {
+          "estado": "si",
+          "nota": "DS 1391 (art. 199): la ATT elabora el Plan de Emergencia del sector y lo aplica en emergencias declaradas; los operadores deben cooperar.",
+          "fuente": "https://www.att.gob.bo/sites/default/files/archivos_listados_pdf/2021-07-20/Decreto%20Supremo%201391%20Reglamento%20General%20a%20la%20Ley%20164%20de%20Telecomunicaciones%20y%20Tecnologias%20de%20Inforacion%20y%20Comunicacion..pdf",
+          "anio": 2012
+        },
+        "eme_prioridad": {
+          "estado": "si",
+          "nota": "Ley 164 (arts. 54 y 111) y DS 1391 (arts. 168 y 200): llamadas de emergencia gratuitas y prioridad absoluta en zonas de emergencia.",
+          "fuente": "https://www.att.gob.bo/sites/default/files/archivos_listados_pdf/2025-09-17/Ley%20N%C2%B0%20164%20-%20Ley%20General%20de%20Telecomunicaciones%20y%20TICs_0.pdf",
+          "anio": 2011
+        },
+        "eme_tampere": {
+          "estado": "no",
+          "nota": "Bolivia no figura como signataria ni parte del Convenio de Tampere en la UN Treaty Collection (cap. XXV-4, consulta de nov-2026).",
+          "fuente": "https://treaties.un.org/Pages/ViewDetails.aspx?src=TREATY&mtdsg_no=XXV-4&chapter=25&clang=_en"
+        }
+      }
+    },
+    "homologacion": {
+      "resumen": "La homologación de equipos ante la ATT es obligatoria y se basa en certificados de organismos internacionales reconocidos (instructivo de 2024). La ATT publica un listado consultable de equipos homologados y un servicio para verificar celulares reportados como robados.",
+      "instrumentos": [
+        {
+          "nombre": "Reglamento General a la Ley 164 (DS 1391), arts. 13 a 16: registro, homologación e internación de equipos",
+          "anio": 2012,
+          "tipo": "decreto",
+          "url": "https://www.att.gob.bo/sites/default/files/archivos_listados_pdf/2021-07-20/Decreto%20Supremo%201391%20Reglamento%20General%20a%20la%20Ley%20164%20de%20Telecomunicaciones%20y%20Tecnologias%20de%20Inforacion%20y%20Comunicacion..pdf"
+        },
+        {
+          "nombre": "Instructivo para el Registro y Homologación de Equipos de Telecomunicaciones y TIC (RAR ATT-DJ-RAR-TL LP 539/2024)",
+          "anio": 2024,
+          "tipo": "resolucion",
+          "url": "https://plataformas.att.gob.bo/files/homologaciones/ATT-DJ-RAR-TL_LP_539_2024.pdf"
+        }
+      ],
+      "novedad": {
+        "fecha": "2024-11",
+        "texto": "La ATT aprobó un nuevo Instructivo de Registro y Homologación (RAR 539/2024) basado en certificados de organismos internacionales reconocidos."
+      },
+      "indicadores": {
+        "hom_obligatoria": {
+          "estado": "si",
+          "nota": "Ley 164 (art. 14) y DS 1391 (arts. 14–16): la ATT homologa los equipos y autoriza su importación; los homologados quedan autorizados para uso y venta.",
+          "fuente": "https://www.att.gob.bo/sites/default/files/archivos_listados_pdf/2021-07-20/Decreto%20Supremo%201391%20Reglamento%20General%20a%20la%20Ley%20164%20de%20Telecomunicaciones%20y%20Tecnologias%20de%20Inforacion%20y%20Comunicacion..pdf",
+          "anio": 2012
+        },
+        "hom_reconocimiento": {
+          "estado": "si",
+          "nota": "La RAR 539/2024 exige un certificado de conformidad de un organismo internacional reconocido por la ATT, además de reportes de laboratorio.",
+          "fuente": "https://plataformas.att.gob.bo/files/homologaciones/ATT-DJ-RAR-TL_LP_539_2024.pdf",
+          "anio": 2024
+        },
+        "hom_imei": {
+          "estado": "si",
+          "nota": "El servicio Verifica tu IMEI de la ATT indica si un celular fue reportado como robado, hurtado o extraviado; el operador bloquea el equipo.",
+          "fuente": "https://plataformas.att.gob.bo/index.php/verificacion"
+        },
+        "hom_enlinea": {
+          "estado": "parcial",
+          "nota": "La RAR 539/2024 prevé presentar las solicitudes por correo electrónico; la plataforma Homologaciones Digital está en mantenimiento.",
+          "fuente": "https://plataformas.att.gob.bo/index.php/homoregistro/",
+          "anio": 2024
+        },
+        "hom_lista": {
+          "estado": "si",
+          "nota": "La ATT publica un listado consultable (más de 8.600 registros, actualizado a nov-2026) con marca, modelo, resolución y vigencia.",
+          "fuente": "https://www.att.gob.bo/homologados"
+        }
+      }
+    }
+  },
+  "cambiosDetectados": [
+    "La ficha anterior era parcial y sin indicadores; ahora los 40 indicadores se revisaron con fuentes oficiales y, como apoyo, prensa especializada.",
+    "No reflejaba el DS 5675 (ago-2026): 12 ministerios; la ATT sigue bajo tuición del MOPSV, que ahora tiene un Viceministerio de Telecomunicaciones y TIC.",
+    "Citaba un 'Reglamento de las Telecomunicaciones (RT)' con enlace sin norma; las reglas de emergencia vigentes están en la Ley 164 (art. 111) y el DS 1391.",
+    "Ubicaba la portabilidad en Competencia y sin fecha; funciona desde el 1-oct-2018 (DS 2498 de 2015 y DS 3404) y se trasladó a Usuario.",
+    "El enlace de Lexivox a la RAR 539/2024 (homologación) no existe; se reemplazó por la fuente oficial de la ATT.",
+    "Faltaban los cambios 2025–2026: 5G de Entel en 3,5 GHz, licitación AWS, DS 5509 y licencias LEO, licencia satelital única (DS 5666) y Reglamento de Calidad de Internet.",
+    "Ciberseguridad se limitaba a la firma digital; se añadieron el CSIRT de la AGETIC (CGII) y que no se hallaron estrategia ni ley vigentes.",
+    "Emergentes aludía a normas IoT/5G genéricas; se citan la RM 152/2020 (banda IoT), la RAR 203/2025 (5G de Entel) y la RAR 87/2026 (LEO)."
+  ],
+  "verificadoEn": "2026-11-11",
+  "confianza": "media"
+}

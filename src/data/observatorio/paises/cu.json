@@ -1,0 +1,511 @@
+{
+  "iso": "cu",
+  "pais": "Cuba",
+  "regulador": {
+    "sigla": "MINCOM",
+    "nombre": "Ministerio de Comunicaciones",
+    "url": "https://www.mincom.gob.cu",
+    "naturaleza": "Ministerio de la Administración Central del Estado, sin autonomía: dirige y regula telecomunicaciones/TIC, espectro, ciberseguridad e IA (Ley 186/2026) y es el órgano regulador de la concesión de ETECSA"
+  },
+  "otrasAutoridades": [
+    {
+      "sigla": "UPTCER",
+      "nombre": "Unidad Presupuestada Técnica de Control del Espectro Radioeléctrico",
+      "rol": "Entidad adscrita al MINCOM que tramita permisos de espectro, licencias de estaciones y autorizaciones técnicas de importación de equipos (Res. 20/2025, 1/2026 y 2/2026)"
+    },
+    {
+      "sigla": "CuCERT",
+      "nombre": "Equipo de Respuesta a Incidentes Computacionales de Cuba (Oficina de Seguridad para las Redes Informáticas del MINCOM)",
+      "rol": "CSIRT nacional: recibe la notificación obligatoria de incidentes de ciberseguridad (Res. 105/2021)"
+    }
+  ],
+  "marcoLegal": {
+    "nombre": "Decreto-Ley 35/2021 De las Telecomunicaciones, las Tecnologías de la Información y la Comunicación y el Uso del Espectro Radioeléctrico",
+    "anio": 2021,
+    "url": "https://www.gacetaoficial.gob.cu/sites/default/files/goc-2021-o92.pdf"
+  },
+  "resumenPais": "Cuba no tiene regulador independiente: el Ministerio de Comunicaciones (MINCOM) fija la política, regula y gestiona el espectro. ETECSA presta en exclusiva telefonía fija, móvil y datos hasta 2036 (Decreto 124/2025). La Ley 186/2026 asigna además al MINCOM la transformación digital, la IA y la ciberseguridad.",
+  "categorias": {
+    "espectro": {
+      "resumen": "El MINCOM planifica y asigna el espectro por resolución, sin subastas. ETECSA usa 850, 900, 1800 y 2100 MHz para 2G, 3G y 4G; no hay espectro asignado para 5G. La banda de 6 GHz se destina a radioenlaces fijos y el Wi-Fi opera en 2,4 y 5 GHz.",
+      "instrumentos": [
+        {
+          "nombre": "Cuadro Nacional de Atribución de Bandas de Frecuencias (Resolución 70/2021 del MINCOM)",
+          "anio": 2021,
+          "tipo": "plan"
+        },
+        {
+          "nombre": "Decreto 43/2021, Reglamento sobre el uso del espectro radioeléctrico",
+          "anio": 2021,
+          "tipo": "decreto",
+          "url": "https://www.gacetaoficial.gob.cu/sites/default/files/goc-2021-o92.pdf"
+        },
+        {
+          "nombre": "Resolución 20/2025, Reglamento para el otorgamiento de la autorización del uso del espectro radioeléctrico, su modificación, renovación, cancelación y valoración económica",
+          "anio": 2025,
+          "tipo": "resolucion",
+          "url": "https://www.gacetaoficial.gob.cu/sites/default/files/goc-2025-ex79.pdf"
+        },
+        {
+          "nombre": "Resolución 13/2025, bandas y canalizaciones para sistemas de relevadores radioeléctricos (radioenlaces), incluidas 5925–7110 MHz",
+          "anio": 2025,
+          "tipo": "resolucion",
+          "url": "https://www.gacetaoficial.gob.cu/sites/default/files/goc-2025-ex62.pdf"
+        }
+      ],
+      "novedad": {
+        "fecha": "2025-12",
+        "texto": "La Res. 20/2025 renovó el régimen de permisos de espectro: cobro en USD a quien opera en esa moneda y una valoración que ya prevé 5G en 700 MHz, 3,5 y 28 GHz."
+      },
+      "indicadores": {
+        "esp_cuadro": {
+          "estado": "si",
+          "nota": "Cuadro Nacional de Atribución de Bandas de Frecuencias (Res. 70/2021 del MINCOM); el Decreto 43/2021 (arts. 9–11) obliga a asignar conforme a él.",
+          "fuente": "https://www.gacetaoficial.gob.cu/sites/default/files/goc-2021-o92.pdf",
+          "anio": 2021
+        },
+        "esp_5g": {
+          "estado": "no",
+          "nota": "Sin espectro 5G: el anexo de la concesión de ETECSA (Decreto 124/2025) solo le otorga 850, 900, 1800 y 2100 MHz, para 2G, 3G y 4G.",
+          "fuente": "https://www.gacetaoficial.gob.cu/sites/default/files/goc-2025-o49.pdf",
+          "anio": 2025
+        },
+        "esp_licitacion": {
+          "estado": "no",
+          "nota": "Sin subastas: el espectro móvil se asigna directamente a ETECSA por concesión y resolución ministerial, con exclusividad hasta 2036 (Decreto 124/2025).",
+          "fuente": "https://www.gacetaoficial.gob.cu/sites/default/files/goc-2025-o49.pdf",
+          "anio": 2025
+        },
+        "esp_6ghz": {
+          "estado": "no",
+          "nota": "Cerrada al Wi-Fi: la Res. 98/2019 solo habilita 2,4 y 5 GHz y la Res. 13/2025 canaliza 5925–7110 MHz para radioenlaces fijos.",
+          "fuente": "https://www.gacetaoficial.gob.cu/sites/default/files/goc-2025-ex62.pdf",
+          "anio": 2025
+        },
+        "esp_secundario": {
+          "estado": "parcial",
+          "nota": "Sin mercado secundario: la Res. 20/2025 (art. 7) prohíbe ceder, transferir o arrendar frecuencias; solo prevé asignaciones de uso compartido (art. 10 b).",
+          "fuente": "https://www.gacetaoficial.gob.cu/sites/default/files/goc-2025-ex79.pdf",
+          "anio": 2025
+        }
+      }
+    },
+    "competencia": {
+      "resumen": "ETECSA es el único operador de telefonía fija, móvil y datos, con exclusividad hasta 2036 (Decreto 124/2025). El MINCOM aprueba sus tarifas máximas de móvil e internet y fija los cargos de interconexión si no hay acuerdo. No hay OMV ni fondo de servicio universal.",
+      "instrumentos": [
+        {
+          "nombre": "Decreto 124/2025, concesión administrativa a ETECSA para servicios públicos de telecomunicaciones",
+          "anio": 2025,
+          "tipo": "decreto",
+          "url": "https://www.gacetaoficial.gob.cu/sites/default/files/goc-2025-o49.pdf"
+        },
+        {
+          "nombre": "Decreto 42/2021, Reglamento General de Telecomunicaciones y las TIC",
+          "anio": 2021,
+          "tipo": "decreto",
+          "url": "https://www.gacetaoficial.gob.cu/sites/default/files/goc-2021-o92.pdf"
+        },
+        {
+          "nombre": "Resolución 108/2021, Reglamento de Interconexión, Acceso e Instalaciones Esenciales de Redes de Telecomunicaciones",
+          "anio": 2021,
+          "tipo": "resolucion",
+          "url": "https://www.gacetaoficial.gob.cu/sites/default/files/goc-2021-o92.pdf"
+        },
+        {
+          "nombre": "Decreto 160/2026, De las actividades no autorizadas o condicionadas para empresas privadas, mipymes, cooperativas no agropecuarias y trabajadores por cuenta propia",
+          "anio": 2026,
+          "tipo": "decreto",
+          "url": "https://www.gacetaoficial.gob.cu/sites/default/files/goc-2026-o62.pdf"
+        }
+      ],
+      "novedad": {
+        "fecha": "2025-05",
+        "texto": "El Decreto 124/2025 renovó la concesión de ETECSA hasta 2036, con exclusividad en telefonía fija, servicio móvil y transmisión de datos."
+      },
+      "indicadores": {
+        "comp_psm": {
+          "estado": "parcial",
+          "nota": "Sin declaratoria de dominancia: ETECSA es monopolio legal con tarifas máximas del MINCOM; el Decreto 42/2021 (art. 7) le veda abusar de su posición.",
+          "fuente": "https://www.gacetaoficial.gob.cu/sites/default/files/goc-2021-o92.pdf",
+          "anio": 2021
+        },
+        "comp_omv": {
+          "estado": "no",
+          "nota": "No hay OMV: ETECSA tiene la exclusividad del servicio móvil hasta 2036 y el Decreto 160/2026 veda a los privados prestar servicios de telecomunicaciones.",
+          "fuente": "https://www.gacetaoficial.gob.cu/sites/default/files/goc-2025-o49.pdf",
+          "anio": 2025
+        },
+        "comp_interconexion": {
+          "estado": "si",
+          "nota": "Res. 108/2021: cargos orientados a costos y negociados; si no hay acuerdo, los fija la Dirección de Regulaciones del MINCOM (art. 48).",
+          "fuente": "https://www.gacetaoficial.gob.cu/sites/default/files/goc-2021-o92.pdf",
+          "anio": 2021
+        },
+        "comp_fondo": {
+          "estado": "no",
+          "nota": "No hay fondo: el servicio universal lo prestan los operadores, sin subsidios y con metas en sus planes de desarrollo (DL 35/2021, arts. 85–87).",
+          "fuente": "https://www.gacetaoficial.gob.cu/sites/default/files/goc-2021-o92.pdf",
+          "anio": 2021
+        },
+        "comp_neutralidad": {
+          "estado": "sin_dato",
+          "nota": "No se halló norma de neutralidad de red; el «principio de neutralidad» del Decreto 42/2021 se refiere a la competencia entre operadores."
+        }
+      }
+    },
+    "ciberseguridad": {
+      "resumen": "El MINCOM dirige la ciberseguridad. Rigen el DL 370/2018 y el Decreto 360/2019; la Res. 105/2021 obliga a notificar incidentes al CuCERT. No hay ley específica ni adhesión al Convenio de Budapest; en 2025 Cuba firmó la Convención de la ONU contra la Ciberdelincuencia.",
+      "instrumentos": [
+        {
+          "nombre": "Decreto-Ley 370/2018, Sobre la informatización de la sociedad en Cuba (Título IV: seguridad de las TIC)",
+          "anio": 2018,
+          "tipo": "ley",
+          "url": "https://www.gacetaoficial.gob.cu/sites/default/files/goc-2019-o45.pdf"
+        },
+        {
+          "nombre": "Decreto 360/2019, Sobre la seguridad de las TIC y la defensa del ciberespacio nacional",
+          "anio": 2019,
+          "tipo": "decreto",
+          "url": "https://www.gacetaoficial.gob.cu/sites/default/files/goc-2019-o45.pdf"
+        },
+        {
+          "nombre": "Resolución 105/2021, Reglamento sobre el Modelo de Actuación Nacional para la Respuesta a Incidentes de Ciberseguridad",
+          "anio": 2021,
+          "tipo": "resolucion",
+          "url": "https://www.gacetaoficial.gob.cu/sites/default/files/goc-2021-o92.pdf"
+        },
+        {
+          "nombre": "Ley 149/2022, De protección de datos personales",
+          "anio": 2022,
+          "tipo": "ley",
+          "url": "https://www.gacetaoficial.gob.cu/sites/default/files/goc-2022-o90_0.pdf"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-11",
+        "texto": "La Ley 186/2026 ratifica al MINCOM como rector de la ciberseguridad y de la protección de las infraestructuras críticas de las TIC."
+      },
+      "indicadores": {
+        "ciber_estrategia": {
+          "estado": "parcial",
+          "nota": "El DL 370/2018 (art. 47) prevé un Programa de Fortalecimiento de la Ciberseguridad y el Decreto 360/2019 alude a una estrategia; no se hallaron publicados.",
+          "fuente": "https://www.gacetaoficial.gob.cu/sites/default/files/goc-2019-o45.pdf",
+          "anio": 2018
+        },
+        "ciber_ley": {
+          "estado": "parcial",
+          "nota": "Sin ley específica: el DL 370/2018, con rango de ley, dedica su Título IV a la seguridad de las TIC y el Decreto 360/2019 regula la ciberseguridad.",
+          "fuente": "https://www.gacetaoficial.gob.cu/sites/default/files/goc-2019-o45.pdf",
+          "anio": 2019
+        },
+        "ciber_csirt": {
+          "estado": "si",
+          "nota": "CuCERT, de la Oficina de Seguridad para las Redes Informáticas del MINCOM, es el equipo nacional de respuesta a incidentes (Res. 105/2021).",
+          "fuente": "https://www.gacetaoficial.gob.cu/sites/default/files/goc-2021-o92.pdf",
+          "anio": 2021
+        },
+        "ciber_reporte": {
+          "estado": "si",
+          "nota": "Res. 105/2021 (arts. 2 y 22): toda persona jurídica, incluidos los operadores, debe informar sus incidentes de ciberseguridad al CuCERT.",
+          "fuente": "https://www.gacetaoficial.gob.cu/sites/default/files/goc-2021-o92.pdf",
+          "anio": 2021
+        },
+        "ciber_budapest": {
+          "estado": "no",
+          "nota": "Cuba no figura en la lista del Consejo de Europa (ni parte, ni firmante, ni invitada); en oct-2025 firmó la Convención de la ONU contra la Ciberdelincuencia.",
+          "fuente": "https://www.coe.int/en/web/conventions/full-list?module=signatures-by-treaty&treatynum=185"
+        }
+      }
+    },
+    "usuario": {
+      "resumen": "Los derechos de los usuarios están en el Decreto-Ley 35/2021 y en la concesión de ETECSA. ETECSA atiende quejas por el 118 y el MINCOM puede resolverlas. Con un solo operador móvil no hay portabilidad; el MINCOM fija metas de calidad, sin mediciones públicas conocidas.",
+      "instrumentos": [
+        {
+          "nombre": "Decreto-Ley 35/2021, Título II (derechos y deberes de los usuarios)",
+          "anio": 2021,
+          "tipo": "ley",
+          "url": "https://www.gacetaoficial.gob.cu/sites/default/files/goc-2021-o92.pdf"
+        },
+        {
+          "nombre": "Decreto 124/2025, Capítulo IV (relaciones de ETECSA con los usuarios)",
+          "anio": 2025,
+          "tipo": "decreto",
+          "url": "https://www.gacetaoficial.gob.cu/sites/default/files/goc-2025-o49.pdf"
+        },
+        {
+          "nombre": "Resolución 176/2019 (principios generales para los contratos del servicio telefónico básico de ETECSA a personas naturales)",
+          "anio": 2019,
+          "tipo": "resolucion",
+          "url": "https://www.gacetaoficial.gob.cu/sites/default/files/goc-2019-ex26.pdf"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-07",
+        "texto": "La Res. 18/2026 unificó en el 118 la atención a clientes de ETECSA y sumó el rango móvil 61 al Plan Nacional de Numeración."
+      },
+      "indicadores": {
+        "usu_reglamento": {
+          "estado": "si",
+          "nota": "El DL 35/2021 (arts. 14–16) fija los derechos de los usuarios; la concesión de ETECSA regula quejas, facturación e interrupciones.",
+          "fuente": "https://www.gacetaoficial.gob.cu/sites/default/files/goc-2021-o92.pdf",
+          "anio": 2021
+        },
+        "usu_reclamos": {
+          "estado": "si",
+          "nota": "El DL 35/2021 (art. 6 h) encarga al MINCOM atender y resolver las quejas de usuarios contra los operadores; antes se reclama a ETECSA (línea 118).",
+          "fuente": "https://www.gacetaoficial.gob.cu/sites/default/files/goc-2021-o92.pdf",
+          "anio": 2021
+        },
+        "usu_portabilidad": {
+          "estado": "no",
+          "nota": "No aplica: ETECSA es el único operador móvil, con exclusividad hasta 2036 (Decreto 124/2025).",
+          "fuente": "https://www.gacetaoficial.gob.cu/sites/default/files/goc-2025-o49.pdf",
+          "anio": 2025
+        },
+        "usu_calidad": {
+          "estado": "parcial",
+          "nota": "El MINCOM aprueba metas e indicadores de calidad de ETECSA, que le informa cada año (Decreto 124/2025, arts. 11 h y 31); no se hallaron mediciones públicas.",
+          "fuente": "https://www.gacetaoficial.gob.cu/sites/default/files/goc-2025-o49.pdf",
+          "anio": 2025
+        },
+        "usu_nomolestar": {
+          "estado": "parcial",
+          "nota": "Sin registro: el Decreto 360/2019 prohíbe mensajes masivos sin consentimiento previo (art. 49) y obliga a los operadores a bloquearlos (art. 51).",
+          "fuente": "https://www.gacetaoficial.gob.cu/sites/default/files/goc-2019-o45.pdf",
+          "anio": 2019
+        }
+      }
+    },
+    "emergentes": {
+      "resumen": "No hay 5G comercial ni internet satelital de órbita baja autorizado: la Res. 1/2026 excluye los terminales LEO sin acuerdo con el Gobierno. El MINCOM dirige la estrategia de IA (Ley 186/2026). No se hallaron sandbox ni reglas específicas de IoT.",
+      "instrumentos": [
+        {
+          "nombre": "Ley 186/2026, De organización de la Administración Central del Estado (arts. 87–88: transformación digital e IA)",
+          "anio": 2026,
+          "tipo": "ley",
+          "url": "https://www.gacetaoficial.gob.cu/sites/default/files/goc-2026-o90.pdf"
+        },
+        {
+          "nombre": "Resolución 1/2026 (importación sin carácter comercial de equipos; terminales de satélites no geoestacionarios)",
+          "anio": 2026,
+          "tipo": "resolucion",
+          "url": "https://www.gacetaoficial.gob.cu/sites/default/files/goc-2026-ex66.pdf"
+        },
+        {
+          "nombre": "Resolución 107/2021, Reglamento para el uso de los servicios de radiocomunicaciones por satélites",
+          "anio": 2021,
+          "tipo": "resolucion",
+          "url": "https://www.gacetaoficial.gob.cu/sites/default/files/goc-2021-o92.pdf"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-11",
+        "texto": "La Ley 182/2025 (publicada el 9-nov-2026, vigente en 2027) prevé un Comité de Ética para la IA cuyos miembros designa el ministro de Comunicaciones."
+      },
+      "indicadores": {
+        "tec_sandbox": {
+          "estado": "sin_dato",
+          "nota": "No se halló un sandbox regulatorio ni un mecanismo formal de pruebas de innovación para el sector TIC."
+        },
+        "tec_5g": {
+          "estado": "no",
+          "nota": "No hay 5G comercial: ETECSA ofrece datos móviles solo en 3G y 4G/LTE, y su concesión (Decreto 124/2025) asigna bandas para 2G, 3G y 4G.",
+          "fuente": "https://www.etecsa.cu/es/preguntas-mas-frecuentes"
+        },
+        "tec_iot": {
+          "estado": "sin_dato",
+          "nota": "No se halló un marco, plan ni reglas específicas para IoT/M2M."
+        },
+        "tec_satelital": {
+          "estado": "no",
+          "nota": "Res. 1/2026: no se autorizan terminales de satélites no geoestacionarios sin acuerdo de su proveedor con el Gobierno; no consta ningún acuerdo.",
+          "fuente": "https://www.gacetaoficial.gob.cu/sites/default/files/goc-2026-ex66.pdf",
+          "anio": 2026
+        },
+        "tec_ia": {
+          "estado": "si",
+          "nota": "La Ley 186/2026 (art. 88 b) encarga al MINCOM dirigir y controlar la estrategia para el desarrollo y uso de la IA y la transformación digital.",
+          "fuente": "https://www.gacetaoficial.gob.cu/sites/default/files/goc-2026-o90.pdf",
+          "anio": 2026
+        }
+      }
+    },
+    "infraestructura": {
+      "resumen": "La ley obliga a compartir ductos, torres y postes y a dar coubicación sin discriminación (DL 35/2021), y regula el arriendo de instalaciones esenciales (Res. 108/2021). No hay roaming nacional porque existe un solo operador móvil.",
+      "instrumentos": [
+        {
+          "nombre": "Decreto-Ley 35/2021, arts. 55–56 (recursos de uso conjunto y coubicación)",
+          "anio": 2021,
+          "tipo": "ley",
+          "url": "https://www.gacetaoficial.gob.cu/sites/default/files/goc-2021-o92.pdf"
+        },
+        {
+          "nombre": "Resolución 108/2021, Capítulo IX (instalaciones esenciales de telecomunicaciones)",
+          "anio": 2021,
+          "tipo": "resolucion",
+          "url": "https://www.gacetaoficial.gob.cu/sites/default/files/goc-2021-o92.pdf"
+        },
+        {
+          "nombre": "Resolución 74/2018, Reglamento sobre los proveedores de infraestructuras de telecomunicaciones",
+          "anio": 2018,
+          "tipo": "resolucion",
+          "url": "https://www.gacetaoficial.gob.cu/sites/default/files/goc-2018-o33.pdf"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-07",
+        "texto": "El Decreto 160/2026 veda a privados, mipymes, cooperativas y cuentapropistas proveer infraestructura y servicios de telecomunicaciones, reservados al Estado."
+      },
+      "indicadores": {
+        "inf_pasiva": {
+          "estado": "si",
+          "nota": "Obligación de compartir ductos, torres y postes y de dar coubicación no discriminatoria (DL 35/2021, arts. 55–56); la Res. 74/2018 regula a proveedores.",
+          "fuente": "https://www.gacetaoficial.gob.cu/sites/default/files/goc-2021-o92.pdf",
+          "anio": 2021
+        },
+        "inf_electrica": {
+          "estado": "sin_dato",
+          "nota": "No se halló una norma específica sobre el uso de redes eléctricas, viales o de agua para desplegar telecomunicaciones."
+        },
+        "inf_permisos": {
+          "estado": "sin_dato",
+          "nota": "No se hallaron reglas nacionales para agilizar permisos de despliegue (silencio positivo, ventanilla única o similares)."
+        },
+        "inf_roaming": {
+          "estado": "no",
+          "nota": "No aplica: hay un solo operador móvil (ETECSA), con exclusividad hasta 2036 (Decreto 124/2025).",
+          "fuente": "https://www.gacetaoficial.gob.cu/sites/default/files/goc-2025-o49.pdf",
+          "anio": 2025
+        },
+        "inf_edificios": {
+          "estado": "sin_dato",
+          "nota": "No se halló una norma de infraestructura común de telecomunicaciones en edificaciones."
+        }
+      }
+    },
+    "emergencia": {
+      "resumen": "No hay número único: emergencia médica 104, bomberos 105 y policía 106 (Res. 18/2024). Las llamadas de emergencia son gratuitas y prioritarias por ley, y ETECSA debe tener un plan de reducción de desastres aprobado por el MINCOM.",
+      "instrumentos": [
+        {
+          "nombre": "Resolución 18/2024, Plan Nacional de Numeración (modificado por la Res. 18/2026)",
+          "anio": 2024,
+          "tipo": "plan",
+          "url": "https://www.gacetaoficial.gob.cu/sites/default/files/goc-2024-o87.pdf"
+        },
+        {
+          "nombre": "Decreto 42/2021, arts. 72–73 (redes y servicios en situaciones excepcionales)",
+          "anio": 2021,
+          "tipo": "decreto",
+          "url": "https://www.gacetaoficial.gob.cu/sites/default/files/goc-2021-o92.pdf"
+        },
+        {
+          "nombre": "Decreto 124/2025, art. 11 (gratuidad, prioridad y plan de reducción de desastres de ETECSA)",
+          "anio": 2025,
+          "tipo": "decreto",
+          "url": "https://www.gacetaoficial.gob.cu/sites/default/files/goc-2025-o49.pdf"
+        }
+      ],
+      "novedad": {
+        "fecha": "2025-05",
+        "texto": "La nueva concesión de ETECSA (Decreto 124/2025) le exige un plan de reducción de desastres aprobado por el MINCOM y priorizar los servicios de emergencia."
+      },
+      "indicadores": {
+        "eme_alerta": {
+          "estado": "sin_dato",
+          "nota": "No se halló un sistema oficial de alertas públicas a celulares (Cell Broadcast o SMS masivo)."
+        },
+        "eme_numero": {
+          "estado": "no",
+          "nota": "No hay número único: el Plan Nacional de Numeración (Res. 18/2024) asigna 104 a emergencia médica, 105 a bomberos, 106 a policía y 107 a urgencia marítima.",
+          "fuente": "https://www.gacetaoficial.gob.cu/sites/default/files/goc-2024-o87.pdf",
+          "anio": 2024
+        },
+        "eme_plan": {
+          "estado": "si",
+          "nota": "ETECSA debe tener un plan de reducción de desastres aprobado por el MINCOM (Decreto 124/2025, art. 11 s); el Decreto 42/2021 regula situaciones excepcionales.",
+          "fuente": "https://www.gacetaoficial.gob.cu/sites/default/files/goc-2025-o49.pdf",
+          "anio": 2025
+        },
+        "eme_prioridad": {
+          "estado": "si",
+          "nota": "Acceso gratuito y prioritario a emergencias (DL 35/2021, arts. 14 c y 47); ETECSA prioriza reparar servicios de ambulancias, policía, bomberos y Defensa Civil.",
+          "fuente": "https://www.gacetaoficial.gob.cu/sites/default/files/goc-2021-o92.pdf",
+          "anio": 2021
+        },
+        "eme_tampere": {
+          "estado": "no",
+          "nota": "Cuba no figura entre los firmantes ni los Estados parte del Convenio de Tampere (UN Treaty Collection, cap. XXV-4, consulta del 11-nov-2026).",
+          "fuente": "https://treaties.un.org/Pages/ViewDetails.aspx?src=TREATY&mtdsg_no=XXV-4&chapter=25&clang=_en"
+        }
+      }
+    },
+    "homologacion": {
+      "resumen": "Los equipos que se conectan a redes públicas o usan espectro requieren certificado de homologación o de aceptación del MINCOM. Desde julio de 2026 rige un nuevo reglamento (Res. 2/2026) que admite certificados extranjeros; ETECSA bloquea las líneas usadas en equipos de la lista negra.",
+      "instrumentos": [
+        {
+          "nombre": "Resolución 2/2026, Reglamento sobre la autorización técnica, el certificado de homologación o de aceptación de equipos, dispositivos y aparatos de telecomunicaciones y TIC",
+          "anio": 2026,
+          "tipo": "reglamento",
+          "url": "https://www.gacetaoficial.gob.cu/sites/default/files/goc-2026-ex66.pdf"
+        },
+        {
+          "nombre": "Resolución 1/2026 (equipos que pueden importarse sin carácter comercial sin autorización técnica)",
+          "anio": 2026,
+          "tipo": "resolucion",
+          "url": "https://www.gacetaoficial.gob.cu/sites/default/files/goc-2026-ex66.pdf"
+        },
+        {
+          "nombre": "Decreto-Ley 35/2021, arts. 78–83 (importación, comercialización y homologación de equipos)",
+          "anio": 2021,
+          "tipo": "ley",
+          "url": "https://www.gacetaoficial.gob.cu/sites/default/files/goc-2021-o92.pdf"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-07",
+        "texto": "Rige la Res. 2/2026, nuevo reglamento de homologación que sustituyó a la Res. 132/2019 y permite aceptar certificados de laboratorios extranjeros."
+      },
+      "indicadores": {
+        "hom_obligatoria": {
+          "estado": "si",
+          "nota": "Res. 2/2026 (arts. 19–21): los equipos que se conectan a redes públicas o usan espectro requieren certificado de homologación o de aceptación del MINCOM.",
+          "fuente": "https://www.gacetaoficial.gob.cu/sites/default/files/goc-2026-ex66.pdf",
+          "anio": 2026
+        },
+        "hom_reconocimiento": {
+          "estado": "si",
+          "nota": "Res. 2/2026 (art. 42): el MINCOM puede aceptar certificados de laboratorios extranjeros reconocidos, de autoridades de otros países y marcados internacionales.",
+          "fuente": "https://www.gacetaoficial.gob.cu/sites/default/files/goc-2026-ex66.pdf",
+          "anio": 2026
+        },
+        "hom_imei": {
+          "estado": "si",
+          "nota": "ETECSA bloquea las líneas usadas en equipos reportados en lista negra o con IMEI no válido, en cumplimiento de una resolución del MINCOM.",
+          "fuente": "https://www.etecsa.cu/es/node/1879"
+        },
+        "hom_enlinea": {
+          "estado": "parcial",
+          "nota": "Res. 2/2026 (art. 30): se solicita ante la UPTCER, con datos por aplicación en red o formulario web; no consta un trámite íntegramente en línea.",
+          "fuente": "https://www.gacetaoficial.gob.cu/sites/default/files/goc-2026-ex66.pdf",
+          "anio": 2026
+        },
+        "hom_lista": {
+          "estado": "si",
+          "nota": "Res. 2/2026 (disp. final 3.ª): el MINCOM publica en su web los equipos homologados, con código y vencimiento; el sitio limita el acceso desde el exterior.",
+          "fuente": "https://www.gacetaoficial.gob.cu/sites/default/files/goc-2026-ex66.pdf",
+          "anio": 2026
+        }
+      }
+    }
+  },
+  "cambiosDetectados": [
+    "No existía perfil previo de Cuba en el Observatorio: se elaboró desde cero con normas de la Gaceta Oficial.",
+    "Catálogo regulatel.org: el Reglamento de Homologación (Res. 132/2019) fue derogado; desde julio de 2026 rige la Res. 2/2026.",
+    "Catálogo: el Plan Nacional de Numeración (Res. 144/2019) y la Res. 139/2020 fueron sustituidos por la Res. 18/2024, modificada en 2026.",
+    "Catálogo: faltaban la concesión de ETECSA con exclusividad hasta 2036 (Decreto 124/2025) y el nuevo régimen de permisos de espectro (Res. 20/2025).",
+    "Reforma institucional: la Ley 186/2026 (vigente desde el 9-nov-2026) reorganiza los ministerios; el MINCOM se mantiene, con la IA en su mandato legal.",
+    "Los enlaces del catálogo a mincom.gob.cu no abren desde el exterior (acceso restringido por IP); se citan fuentes de la Gaceta Oficial. El Cuadro Nacional de Frecuencias (Res. 70/2021) no está en la Gaceta y queda sin enlace."
+  ],
+  "verificadoEn": "2026-11-11",
+  "confianza": "media"
+}

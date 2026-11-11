@@ -1,0 +1,541 @@
+{
+  "iso": "br",
+  "pais": "Brasil",
+  "regulador": {
+    "sigla": "ANATEL",
+    "nombre": "Agência Nacional de Telecomunicações",
+    "url": "https://www.gov.br/anatel",
+    "naturaleza": "Agencia reguladora federal (autarquía de régimen especial) vinculada al Ministerio de Comunicaciones, con autonomía y consejo directivo con mandatos fijos"
+  },
+  "otrasAutoridades": [
+    {
+      "sigla": "MCom",
+      "nombre": "Ministério das Comunicações",
+      "rol": "Ministerio rector: fija las políticas públicas de telecomunicaciones",
+      "url": "https://www.gov.br/mcom"
+    },
+    {
+      "sigla": "GSI/PR",
+      "nombre": "Gabinete de Segurança Institucional da Presidência da República",
+      "rol": "Coordina la Política y la Estrategia Nacional de Ciberseguridad (Comité Nacional de Ciberseguridad) y el CTIR Gov",
+      "url": "https://www.gov.br/gsi"
+    },
+    {
+      "sigla": "CGI.br / NIC.br",
+      "nombre": "Comitê Gestor da Internet no Brasil / Núcleo de Informação e Coordenação do Ponto BR",
+      "rol": "Gobernanza de Internet; NIC.br mantiene el CERT.br, CSIRT nacional de último recurso",
+      "url": "https://cgi.br/"
+    },
+    {
+      "sigla": "CADE",
+      "nombre": "Conselho Administrativo de Defesa Econômica",
+      "rol": "Autoridad de competencia; revisa fusiones y conductas en telecomunicaciones",
+      "url": "https://www.gov.br/cade"
+    },
+    {
+      "sigla": "MIDR",
+      "nombre": "Ministério da Integração e do Desenvolvimento Regional",
+      "rol": "Defensa Civil Nacional: coordina con Anatel las alertas a celulares (cell broadcast y SMS 40199)",
+      "url": "https://www.gov.br/mdr"
+    }
+  ],
+  "marcoLegal": {
+    "nombre": "Lei Geral de Telecomunicações (Ley n.º 9.472/1997)",
+    "anio": 1997,
+    "url": "https://www.planalto.gov.br/ccivil_03/leis/l9472.htm"
+  },
+  "resumenPais": "Anatel, agencia autónoma creada por la Ley General de Telecomunicaciones de 1997, regula el sector. En 2025–2026 unificó las reglas de servicios (RGST), revisó el PGMC, renovó el plan de frecuencias y el reglamento de espectro, subastó 700 MHz y aprobó roaming obligatorio en municipios pequeños y carreteras.",
+  "categorias": {
+    "espectro": {
+      "resumen": "Anatel planifica y asigna el espectro con un plan de frecuencias renovado en 2026 y subastas con metas de cobertura (5G en 2021, 700 MHz en 2026). El nuevo reglamento de uso del espectro (nov-2026) habilita el mercado secundario. El Wi-Fi en 6 GHz se limitará a 500 MHz desde marzo de 2027.",
+      "instrumentos": [
+        {
+          "nombre": "Plano de Atribuição, Destinação e Distribuição de Faixas de Frequências (PDFF 2025-2026), Res. 789/2026",
+          "anio": 2026,
+          "tipo": "plan",
+          "url": "https://www.gov.br/anatel/pt-br/regulado/radiofrequencia/atribuicao-destinacao-e-distribuicao-de-faixas"
+        },
+        {
+          "nombre": "Regulamento de Uso do Espectro de Radiofrequências (RUE), Res. 793/2026",
+          "anio": 2026,
+          "tipo": "reglamento",
+          "url": "https://www.gov.br/anatel/pt-br/assuntos/noticias/anatel-aprova-novo-regulamento-de-uso-do-espectro-e-fortalece-uso-eficiente-das-radiofrequencias"
+        },
+        {
+          "nombre": "Edital de Licitación n.º 1/2026 (banda de 700 MHz)",
+          "anio": 2026,
+          "tipo": "otro",
+          "url": "https://www.gov.br/anatel/pt-br/regulado/outorga/leilao-700-mhz-2026"
+        },
+        {
+          "nombre": "Ato 10.400/2026 (Wi-Fi limitado a 5925–6425 MHz desde marzo de 2027)",
+          "anio": 2026,
+          "tipo": "norma",
+          "url": "https://teletime.com.br/13/08/2026/anatel-wi-fi-banda-inferior-6-ghz/"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-11",
+        "texto": "Res. 793/2026: nuevo Reglamento de Uso del Espectro; permite transferir autorizaciones entre prestadoras (mercado secundario) y deroga la Res. 671/2016."
+      },
+      "indicadores": {
+        "esp_cuadro": {
+          "estado": "si",
+          "nota": "PDFF 2025-2026 aprobado por la Res. 789/2026 (DOU 13-jul-2026); atribuye en forma secundaria bandas móviles a la conexión satélite–celular (D2D).",
+          "fuente": "https://teletime.com.br/13/07/2026/pdff-e-pdff-militar-sao-publicados-pela-anatel/",
+          "anio": 2026
+        },
+        "esp_5g": {
+          "estado": "si",
+          "nota": "Subasta 5G (Edital 1/2021): 3,5 GHz, 26 GHz, 2,3 GHz y 700 MHz asignados a Claro, Vivo, TIM y entrantes regionales como Brisanet.",
+          "fuente": "https://www.gov.br/mcom/pt-br/acesso-a-informacao/agenda-de-arr-1/RelatrioARRn2SETEL.pdf",
+          "anio": 2021
+        },
+        "esp_licitacion": {
+          "estado": "si",
+          "nota": "Subasta 5G concluida en nov-2021; el 4-may-2026 se subastó 700 MHz (Amazônia Serviços Digitais, Brisanet, Unifique e IEZ!) con metas en carreteras.",
+          "fuente": "https://agenciagov.ebc.com.br/noticias/202605/leilao-da-anatel-garante-r-2-bilhoes-em-investimentos-para-levar-sinal-de-celular-e-internet-a-rodovias-e-cidades-do-interior",
+          "anio": 2026
+        },
+        "esp_6ghz": {
+          "estado": "si",
+          "nota": "1200 MHz (5925–7125) abiertos al Wi-Fi desde 2021; el Ato 10.400/2026 los reduce a 500 MHz (5925–6425) desde 1-mar-2027; la parte alta irá a móviles.",
+          "fuente": "https://teletime.com.br/13/08/2026/anatel-wi-fi-banda-inferior-6-ghz/",
+          "anio": 2026
+        },
+        "esp_secundario": {
+          "estado": "si",
+          "nota": "Res. 793/2026 (RUE): transferencia de autorizaciones de espectro entre prestadoras con anuencia de Anatel, explotación industrial y uso secundario regulados.",
+          "fuente": "https://www.gov.br/anatel/pt-br/assuntos/noticias/anatel-aprova-novo-regulamento-de-uso-do-espectro-e-fortalece-uso-eficiente-das-radiofrequencias",
+          "anio": 2026
+        }
+      }
+    },
+    "competencia": {
+      "resumen": "El PGMC revisado en 2025 (ajustado en nov-2026) impone obligaciones mayoristas a los grupos con poder de mercado significativo en roaming, interconexión y ductos; los OMV no tienen regulación asimétrica. El FUST financia la conectividad y la neutralidad de red rige por el Marco Civil (2014).",
+      "instrumentos": [
+        {
+          "nombre": "Plano Geral de Metas de Competição (PGMC), Res. 783/2025",
+          "anio": 2025,
+          "tipo": "resolucion",
+          "url": "https://sistemas.anatel.gov.br/anexar-api/publico/anexos/download/ac786352f822a34f72b1bcdebabed7c6"
+        },
+        {
+          "nombre": "Regulamento Geral dos Serviços de Telecomunicações (RGST), Res. 777/2025",
+          "anio": 2025,
+          "tipo": "reglamento",
+          "url": "https://dplnews.com/anatel-revoga-42-resolucoes-e-redefine-regras-para-servicos-de-telecom-com-foco-em-ia-e-redes-virtuais/"
+        },
+        {
+          "nombre": "Ley 9.998/2000 del FUST (reformada por la Ley 14.109/2020)",
+          "anio": 2000,
+          "tipo": "ley",
+          "url": "https://www.planalto.gov.br/ccivil_03/leis/l9998.htm"
+        },
+        {
+          "nombre": "Marco Civil da Internet, Ley 12.965/2014",
+          "anio": 2014,
+          "tipo": "ley",
+          "url": "https://www.planalto.gov.br/ccivil_03/_ato2011-2014/2014/lei/l12965.htm"
+        }
+      ],
+      "novedad": {
+        "fecha": "2025-09",
+        "texto": "Res. 783/2025 cerró la revisión del PGMC: mantiene obligaciones en roaming, interconexión y ductos, y deja fuera OMV y líneas dedicadas (EILD)."
+      },
+      "indicadores": {
+        "comp_psm": {
+          "estado": "si",
+          "nota": "PGMC (Res. 783/2025) identifica grupos con poder de mercado significativo y les impone ofertas mayoristas en roaming, interconexión y ductos.",
+          "fuente": "https://sistemas.anatel.gov.br/anexar-api/publico/anexos/download/ac786352f822a34f72b1bcdebabed7c6",
+          "anio": 2025
+        },
+        "comp_omv": {
+          "estado": "si",
+          "nota": "Los OMV operan con autorización de Anatel (red virtual del SMP); sumaban 8,4 millones de accesos en el 3T2025, según Anatel.",
+          "fuente": "https://sistemas.anatel.gov.br/anexar-api/publico/anexos/download/ac786352f822a34f72b1bcdebabed7c6",
+          "anio": 2025
+        },
+        "comp_interconexion": {
+          "estado": "si",
+          "nota": "PGMC (Res. 783/2025): en interconexión fija y móvil, los grupos con PMS deben publicar ofertas de referencia (ORPA), que se negocian en el SNOA.",
+          "fuente": "https://sistemas.anatel.gov.br/anexar-api/publico/anexos/download/ac786352f822a34f72b1bcdebabed7c6",
+          "anio": 2025
+        },
+        "comp_fondo": {
+          "estado": "si",
+          "nota": "FUST (Ley 9.998/2000, reformada por la Ley 14.109/2020) financia la expansión de la banda ancha, también con créditos reembolsables.",
+          "fuente": "https://www.planalto.gov.br/ccivil_03/leis/l9998.htm",
+          "anio": 2020
+        },
+        "comp_neutralidad": {
+          "estado": "si",
+          "nota": "Marco Civil da Internet (Ley 12.965/2014, art. 9) y Decreto 8.771/2016 obligan a tratar por igual los paquetes de datos.",
+          "fuente": "https://www.planalto.gov.br/ccivil_03/_ato2011-2014/2014/lei/l12965.htm",
+          "anio": 2014
+        }
+      }
+    },
+    "ciberseguridad": {
+      "resumen": "Rigen la Política Nacional de Ciberseguridad (2023) y la Estrategia E-Ciber (2025). Anatel exige a las operadoras políticas de seguridad y reportar incidentes (R-Ciber). No hay ley marco: el PL 4.752/2025 sigue en el Senado. Brasil es parte del Convenio de Budapest desde 2023.",
+      "instrumentos": [
+        {
+          "nombre": "Estrategia Nacional de Ciberseguridad (E-Ciber), Decreto 12.573/2025",
+          "anio": 2025,
+          "tipo": "estrategia",
+          "url": "https://www2.camara.leg.br/legin/fed/decret/2025/decreto-12573-4-agosto-2025-797813-publicacaooriginal-176048-pe.html"
+        },
+        {
+          "nombre": "Política Nacional de Ciberseguridad (PNCiber), Decreto 11.856/2023",
+          "anio": 2023,
+          "tipo": "decreto",
+          "url": "https://www.planalto.gov.br/ccivil_03/_ato2023-2026/2023/decreto/D11856.htm"
+        },
+        {
+          "nombre": "Regulamento de Segurança Cibernética Aplicada ao Setor de Telecomunicações (R-Ciber), Res. 740/2020, reformado por la Res. 767/2024",
+          "anio": 2020,
+          "tipo": "reglamento",
+          "url": "https://www.gov.br/anatel/pt-br/assuntos/seguranca-cibernetica"
+        }
+      ],
+      "novedad": {
+        "fecha": "2025-08",
+        "texto": "Decreto 12.573/2025 creó la nueva Estrategia Nacional de Ciberseguridad (E-Ciber) y derogó la de 2020 (Decreto 10.222)."
+      },
+      "indicadores": {
+        "ciber_estrategia": {
+          "estado": "si",
+          "nota": "E-Ciber (Decreto 12.573/2025), con cuatro ejes, desarrolla la Política Nacional de Ciberseguridad (Decreto 11.856/2023); no tiene fecha de vencimiento.",
+          "fuente": "https://www2.camara.leg.br/legin/fed/decret/2025/decreto-12573-4-agosto-2025-797813-publicacaooriginal-176048-pe.html",
+          "anio": 2025
+        },
+        "ciber_ley": {
+          "estado": "parcial",
+          "nota": "Sin ley marco: el PL 4.752/2025 (Marco Legal da Cibersegurança) pasó la CCJ del Senado (dic-2025) y sigue en la CCT. Delitos informáticos: Ley 12.737/2012.",
+          "fuente": "https://www.congressonacional.leg.br/materias/materias-bicamerais/-/ver/pl-4752-2025",
+          "anio": 2025
+        },
+        "ciber_csirt": {
+          "estado": "si",
+          "nota": "CERT.br (NIC.br) actúa desde 1997 como CSIRT nacional de último recurso; el CTIR Gov (GSI) coordina incidentes del gobierno federal.",
+          "fuente": "https://www.cert.br/sobre/",
+          "anio": 1997
+        },
+        "ciber_reporte": {
+          "estado": "si",
+          "nota": "R-Ciber (Res. 740/2020, reformada por Res. 767/2024) obliga a avisar a Anatel de incidentes relevantes y de los que deban informarse a la ANPD.",
+          "fuente": "https://www.demarest.com.br/anatel-altera-o-regulamento-de-seguranca-cibernetica-e-sinaliza-futura-regulacao-direta-de-data-centers-e-cloud-computing/",
+          "anio": 2024
+        },
+        "ciber_budapest": {
+          "estado": "si",
+          "nota": "Adhesión depositada el 30-nov-2022; en vigor para Brasil desde el 1-mar-2023 (promulgada por el Decreto 11.491/2023).",
+          "fuente": "https://www.coe.int/en/web/conventions/full-list?module=signatures-by-treaty&treatynum=185",
+          "anio": 2023
+        }
+      }
+    },
+    "usuario": {
+      "resumen": "Desde septiembre de 2025 rige un nuevo reglamento de derechos del consumidor (RGC). Anatel recibe reclamos y mide la calidad (RQUAL); los usuarios pueden portar su número (100 millones de portaciones desde 2008) y bloquear el telemarketing con Não Me Perturbe.",
+      "instrumentos": [
+        {
+          "nombre": "Regulamento Geral de Direitos do Consumidor de Serviços de Telecomunicações (RGC), Res. 765/2023",
+          "anio": 2023,
+          "tipo": "reglamento",
+          "url": "https://www.gov.br/anatel/pt-br/consumidor/conheca-seus-direitos"
+        },
+        {
+          "nombre": "Canal de reclamos de Anatel (portal “Quer reclamar?”, app Anatel Consumidor y 1331)",
+          "tipo": "otro",
+          "url": "https://www.gov.br/anatel/pt-br/consumidor/quer-reclamar"
+        },
+        {
+          "nombre": "Plataforma Não Me Perturbe (bloqueo de telemarketing)",
+          "anio": 2019,
+          "tipo": "otro",
+          "url": "https://www.naomeperturbe.com.br/"
+        }
+      ],
+      "novedad": {
+        "fecha": "2025-09",
+        "texto": "Entró en vigor el nuevo RGC (Res. 765/2023), que reemplazó al de 2014: registro obligatorio de ofertas y aviso de 30 días antes de cerrar planes."
+      },
+      "indicadores": {
+        "usu_reglamento": {
+          "estado": "si",
+          "nota": "RGC (Res. 765/2023) vigente desde el 1-sep-2025; reemplazó a la Res. 632/2014.",
+          "fuente": "https://convergenciadigital.com.br/telecom/enfraquecido-entra-em-vigor-novo-regulamento-da-anatel-de-defesa-dos-consumidores/",
+          "anio": 2025
+        },
+        "usu_reclamos": {
+          "estado": "si",
+          "nota": "Anatel recibe reclamos por su portal, la app Anatel Consumidor y el teléfono 1331, después de acudir a la operadora.",
+          "fuente": "https://www.gov.br/anatel/pt-br/consumidor/quer-reclamar"
+        },
+        "usu_portabilidad": {
+          "estado": "si",
+          "nota": "Portabilidad fija y móvil desde 2008, gestionada por ABR Telecom; 100 millones de números portados a jul-2025 (75 millones móviles).",
+          "fuente": "https://teletime.com.br/22/07/2025/portabilidade-numerica-atinge-marca-de-100-milhoes-de-trocas-no-pais/",
+          "anio": 2008
+        },
+        "usu_calidad": {
+          "estado": "si",
+          "nota": "RQUAL (Res. 717/2019) mide la calidad y otorga sellos por prestadora y municipio; Anatel publica encuestas de satisfacción. El RQUAL está en revisión.",
+          "fuente": "https://www.gov.br/anatel/pt-br/dados/qualidade/qualidade-dos-servicos",
+          "anio": 2019
+        },
+        "usu_nomolestar": {
+          "estado": "si",
+          "nota": "Plataforma Não Me Perturbe (2019) permite bloquear llamadas de telemarketing de operadoras de telecom y de bancos de crédito consignado.",
+          "fuente": "https://www.naomeperturbe.com.br/",
+          "anio": 2019
+        }
+      }
+    },
+    "emergentes": {
+      "resumen": "El 5G comercial llegó en 2022 a todas las capitales y el Edital 5G obliga a llevarlo a todos los municipios. Anatel prueba la conexión satélite–celular en un sandbox (desde 2024) y autoriza constelaciones de órbita baja como Starlink. Rige la Estrategia de IA (2021); la ley de IA sigue en la Cámara.",
+      "instrumentos": [
+        {
+          "nombre": "Edital de Licitación 5G n.º 1/2021 (700 MHz, 2,3 GHz, 3,5 GHz y 26 GHz)",
+          "anio": 2021,
+          "tipo": "otro",
+          "url": "https://www.gov.br/mcom/pt-br/acesso-a-informacao/agenda-de-arr-1/RelatrioARRn2SETEL.pdf"
+        },
+        {
+          "nombre": "Plano Nacional de Internet das Coisas, Decreto 9.854/2019",
+          "anio": 2019,
+          "tipo": "plan",
+          "url": "https://www.planalto.gov.br/ccivil_03/_ato2019-2022/2019/decreto/D9854.htm"
+        },
+        {
+          "nombre": "Estrategia Brasileña de Inteligencia Artificial (EBIA)",
+          "anio": 2021,
+          "tipo": "estrategia",
+          "url": "https://www.gov.br/mcti/pt-br/acompanhe-o-mcti/transformacaodigital/arquivosinteligenciaartificial/ia_estrategia_portaria_mcti_4-979_2021_anexo1.pdf"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-07",
+        "texto": "El PDFF 2025-2026 (Res. 789/2026) atribuye en forma secundaria bandas móviles a la conexión satélite–celular (D2D), en alianza con operadoras terrestres."
+      },
+      "indicadores": {
+        "tec_sandbox": {
+          "estado": "si",
+          "nota": "Anatel usa desde 2024 un sandbox regulatorio para conexión satélite–celular (D2D); en 2026 encargó diseñar otro para Wi-Fi y móviles en 6 GHz.",
+          "fuente": "https://teletime.com.br/02/07/2026/brasil-servico-movel-satelite/",
+          "anio": 2024
+        },
+        "tec_5g": {
+          "estado": "si",
+          "nota": "5G comercial desde el 6-jul-2022 (Brasília); todas las capitales con cobertura desde oct-2022. El Edital 5G obliga a llevarlo a todos los municipios.",
+          "fuente": "https://www.gov.br/mcom/pt-br/acesso-a-informacao/agenda-de-arr-1/RelatrioARRn2SETEL.pdf",
+          "anio": 2022
+        },
+        "tec_iot": {
+          "estado": "si",
+          "nota": "Plan Nacional de IoT (Decreto 9.854/2019); el PGMC 2025 incluye la conectividad M2M/IoT en el mercado regulado de roaming nacional.",
+          "fuente": "https://sistemas.anatel.gov.br/anexar-api/publico/anexos/download/ac786352f822a34f72b1bcdebabed7c6",
+          "anio": 2019
+        },
+        "tec_satelital": {
+          "estado": "si",
+          "nota": "Anatel autoriza a Starlink (desde 2022) a operar hasta 11.908 satélites de órbita baja en Brasil; en nov-2026 abrió consulta sobre nuevas bandas pedidas.",
+          "fuente": "https://teletime.com.br/04/11/2026/starlink-anatel-novas-faixas/",
+          "anio": 2022
+        },
+        "tec_ia": {
+          "estado": "si",
+          "nota": "La Estrategia Brasileña de IA (EBIA, 2021) sigue activa; la ley de IA (PL 2.338/2023) pasó el Senado y sigue en una comisión especial de la Cámara.",
+          "fuente": "https://oecd.ai/en/dashboards/policy-initiatives/brazilian-ai-strategy-2027",
+          "anio": 2021
+        }
+      }
+    },
+    "infraestructura": {
+      "resumen": "La Ley General de Antenas (2015) fija reglas nacionales, con aprobación tácita de permisos y compartición obligatoria de capacidad excedente. Anatel regula la compartición de torres y ductos y, con ANEEL, de postes. En 2027 será exigible el roaming obligatorio en municipios pequeños y carreteras.",
+      "instrumentos": [
+        {
+          "nombre": "Lei Geral de Antenas, Ley 13.116/2015 (reformada por la Ley 14.424/2022)",
+          "anio": 2015,
+          "tipo": "ley",
+          "url": "https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2015/lei/l13116.htm"
+        },
+        {
+          "nombre": "Regulamento de Compartilhamento de Infraestrutura de Suporte, Res. 683/2017 (manual operacional de Anatel)",
+          "anio": 2017,
+          "tipo": "reglamento",
+          "url": "https://sei.anatel.gov.br/sei/modulos/pesquisa/md_pesq_documento_consulta_externa.php?eEP-wqk1skrd8hSlk5Z3rN4EVg9uLJqrLYJw_9INcO5pd7dnORvfFQEeUSwhLN0vZREs-3AqCmF3tK6CIIBd_Di7fcTDBSVofLa8sECA7Jd61GwfokB7mlnOl_tUlGtS"
+        },
+        {
+          "nombre": "Res. 794/2026 (atención obligatoria a usuarios visitantes: roaming)",
+          "anio": 2026,
+          "tipo": "resolucion",
+          "url": "https://teletime.com.br/04/11/2026/anatel-roaming-rodovias/"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-11",
+        "texto": "Res. 794/2026 obliga a dar roaming a clientes de otras operadoras en municipios de menos de 30.000 habitantes y en carreteras; exigible en 2027."
+      },
+      "indicadores": {
+        "inf_pasiva": {
+          "estado": "si",
+          "nota": "Res. 683/2017 regula la compartición de torres, postes y ductos (obligatoria la capacidad excedente); el PGMC fija ofertas reguladas de ductos.",
+          "fuente": "https://sei.anatel.gov.br/sei/modulos/pesquisa/md_pesq_documento_consulta_externa.php?eEP-wqk1skrd8hSlk5Z3rN4EVg9uLJqrLYJw_9INcO5pd7dnORvfFQEeUSwhLN0vZREs-3AqCmF3tK6CIIBd_Di7fcTDBSVofLa8sECA7Jd61GwfokB7mlnOl_tUlGtS",
+          "anio": 2017
+        },
+        "inf_electrica": {
+          "estado": "si",
+          "nota": "Ley 13.116/2015 da paso gratuito por vías y fajas de dominio; los postes eléctricos siguen normas conjuntas ANEEL–Anatel, en revisión (PL 3220/2019).",
+          "fuente": "https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2015/lei/l13116.htm",
+          "anio": 2015
+        },
+        "inf_permisos": {
+          "estado": "si",
+          "nota": "Ley 13.116/2015 fija reglas nacionales para antenas; desde 2022 (Ley 14.424) el permiso se considera otorgado si no hay respuesta en 60 días.",
+          "fuente": "https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2015/lei/l13116.htm",
+          "anio": 2022
+        },
+        "inf_roaming": {
+          "estado": "si",
+          "nota": "PGMC regula el roaming mayorista (incluye IoT); Res. 794/2026 lo exige en municipios de <30.000 hab. y carreteras con redes de compromisos o fondos federales.",
+          "fuente": "https://teletime.com.br/04/11/2026/anatel-roaming-rodovias/",
+          "anio": 2026
+        },
+        "inf_edificios": {
+          "estado": "sin_dato"
+        }
+      }
+    },
+    "emergencia": {
+      "resumen": "No hay número único: 190, 192 y 193 son gratuitos en todo el país. Desde oct-2025 la Defensa Civil avisa por cell broadcast a los celulares compatibles de la zona de riesgo, y la Res. 739/2020 regula las telecomunicaciones en desastres. Brasil firmó el Convenio de Tampere, pero no lo ha ratificado.",
+      "instrumentos": [
+        {
+          "nombre": "Defesa Civil Alerta (alertas por cell broadcast)",
+          "anio": 2024,
+          "tipo": "otro",
+          "url": "https://www.gov.br/mdr/pt-br/assuntos/protecao-e-defesa-civil/defesa-civil-alerta"
+        },
+        {
+          "nombre": "Regulamento sobre o Uso de Serviços de Telecomunicações em Desastres, Situações de Emergência e Estado de Calamidade Pública, Res. 739/2020",
+          "anio": 2020,
+          "tipo": "reglamento",
+          "url": "https://www.gov.br/anatel/pt-br/dados/utilidade-publica/alertas-de-desastres"
+        },
+        {
+          "nombre": "Códigos de servicios de utilidad pública y de emergencia (numeración de Anatel)",
+          "tipo": "norma",
+          "url": "https://www.gov.br/anatel/pt-br/regulado/numeracao/codigos-nacionais/servicos-de-utilidade-publica-e-de-emergencia"
+        }
+      ],
+      "novedad": {
+        "fecha": "2025-10",
+        "texto": "Defesa Civil Alerta (cell broadcast) quedó disponible en todo Brasil el 1-oct-2025, tras implantarse por regiones desde dic-2024."
+      },
+      "indicadores": {
+        "eme_alerta": {
+          "estado": "si",
+          "nota": "Defesa Civil Alerta (cell broadcast) avisa sin registro previo a los celulares de la zona de riesgo; opera en todo Brasil desde oct-2025 y complementa el SMS.",
+          "fuente": "https://www.gov.br/anatel/pt-br/dados/utilidade-publica/alertas-de-desastres",
+          "anio": 2025
+        },
+        "eme_numero": {
+          "estado": "parcial",
+          "nota": "Sin número único integrado: 190 (policía), 192 (SAMU) y 193 (bomberos) son nacionales y gratuitos; desde celulares, 112 y 911 llegan a la policía.",
+          "fuente": "https://www.gov.br/anatel/pt-br/regulado/numeracao/codigos-nacionais/servicos-de-utilidade-publica-e-de-emergencia"
+        },
+        "eme_plan": {
+          "estado": "si",
+          "nota": "Res. 739/2020 regula el uso de los servicios de telecomunicaciones en desastres, emergencias y calamidad pública, incluido el envío de alertas.",
+          "fuente": "https://www.gov.br/anatel/pt-br/dados/utilidade-publica/alertas-de-desastres",
+          "anio": 2020
+        },
+        "eme_prioridad": {
+          "estado": "si",
+          "nota": "Las llamadas a 190, 192, 193 y demás códigos de emergencia son gratuitas desde cualquier teléfono fijo o móvil.",
+          "fuente": "https://www.gov.br/anatel/pt-br/regulado/numeracao/codigos-nacionais/servicos-de-utilidade-publica-e-de-emergencia"
+        },
+        "eme_tampere": {
+          "estado": "parcial",
+          "nota": "Brasil firmó el Convenio de Tampere el 12-mar-1999, pero no lo ha ratificado.",
+          "fuente": "https://treaties.un.org/Pages/ViewDetails.aspx?src=TREATY&mtdsg_no=XXV-4&chapter=25&clang=_en",
+          "anio": 1999
+        }
+      }
+    },
+    "homologacion": {
+      "resumen": "Todo equipo de telecomunicaciones debe certificarse y homologarse en Anatel antes de venderse o conectarse; desde sep-2026 el trámite se hace en línea en la plataforma Certifica. Por IMEI se verifica si un celular tiene impedimento. Desde marzo de 2027 el Wi-Fi en 6 GHz se limita a la banda baja.",
+      "instrumentos": [
+        {
+          "nombre": "Regulamento de Avaliação da Conformidade e de Homologação de Produtos para Telecomunicações, Res. 715/2019",
+          "anio": 2019,
+          "tipo": "reglamento",
+          "url": "https://www.gov.br/anatel/pt-br/regulado/certificacao-de-produtos/regulamentacao"
+        },
+        {
+          "nombre": "Plataforma Certifica (sistema de certificación y homologación de Anatel)",
+          "anio": 2026,
+          "tipo": "otro",
+          "url": "https://www.gov.br/anatel/pt-br/assuntos/noticias/procedimentos-de-certificacao-e-homologacao-passam-a-ser-realizados-no-sistema-certifica"
+        },
+        {
+          "nombre": "Ato 10.400/2026 (requisitos técnicos de equipos Wi-Fi en 6 GHz)",
+          "anio": 2026,
+          "tipo": "norma",
+          "url": "https://teletime.com.br/13/08/2026/anatel-wi-fi-banda-inferior-6-ghz/"
+        },
+        {
+          "nombre": "Programa Celular Seguro (Ministerio de Justicia y Seguridad Pública)",
+          "anio": 2023,
+          "tipo": "otro",
+          "url": "https://celularseguro.mj.gov.br/"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-08",
+        "texto": "Ato 10.400/2026: desde el 1-mar-2027 los equipos Wi-Fi solo podrán certificarse para 5925–6425 MHz; la parte alta de 6 GHz se destina a la telefonía móvil."
+      },
+      "indicadores": {
+        "hom_obligatoria": {
+          "estado": "si",
+          "nota": "Res. 715/2019: los productos para telecomunicaciones deben certificarse y homologarse en Anatel antes de venderse o conectarse a las redes.",
+          "fuente": "https://www.gov.br/anatel/pt-br/regulado/certificacao-de-produtos/regulamentacao",
+          "anio": 2019
+        },
+        "hom_reconocimiento": {
+          "estado": "sin_dato"
+        },
+        "hom_imei": {
+          "estado": "si",
+          "nota": "Anatel permite consultar por IMEI si un celular tiene impedimento (p. ej., por robo); el programa Celular Seguro (2023) facilita pedir su bloqueo.",
+          "fuente": "https://www.gov.br/anatel/pt-br/assuntos/celular-legal/consulte-sua-situacao"
+        },
+        "hom_enlinea": {
+          "estado": "si",
+          "nota": "Desde el 8-sep-2026 la certificación y homologación se tramitan en línea en la plataforma Certifica de Anatel, que reemplazó al sistema SCH.",
+          "fuente": "https://www.gov.br/anatel/pt-br/assuntos/noticias/procedimentos-de-certificacao-e-homologacao-passam-a-ser-realizados-no-sistema-certifica",
+          "anio": 2026
+        },
+        "hom_lista": {
+          "estado": "si",
+          "nota": "Anatel publica los productos homologados en datos abiertos (dados.gov.br); la consulta en línea (Certifica/SCH) exige iniciar sesión con cuenta gov.br.",
+          "fuente": "https://www.gov.br/anatel/pt-br/dados/dados-abertos"
+        }
+      }
+    }
+  },
+  "cambiosDetectados": [
+    "Usuario: se citaba el RGC de 2014 (Res. 632); desde el 1-sep-2025 rige el nuevo RGC (Res. 765/2023).",
+    "Espectro: el Reglamento de Uso del Espectro de 2016 (Res. 671) fue derogado por la Res. 793/2026, que habilita el mercado secundario.",
+    "Plan de frecuencias: la edición 2023 (Res. 759/2023) ya no rige; el PDFF vigente es el 2025-2026 (Res. 789/2026).",
+    "Competencia: el PGMC vigente es la Res. 783/2025; ya no impone obligaciones en enlaces de transporte (EILD), como decía el texto anterior.",
+    "Ciberseguridad: el texto anterior solo citaba Marco Civil y LGPD; se añadieron PNCiber (2023), E-Ciber (2025), el R-Ciber de Anatel y la adhesión a Budapest.",
+    "Se incorporaron hechos de 2026: subasta de 700 MHz, Wi-Fi en 6 GHz limitado a 500 MHz desde 2027 y roaming obligatorio (Res. 794/2026).",
+    "Emergencias: se añadieron el cell broadcast nacional (oct-2025), la norma de desastres vigente (Res. 739/2020) y que Brasil no ratificó el Convenio de Tampere.",
+    "Homologación: el sistema SCH/Mosaico fue reemplazado por la plataforma Certifica (sep-2026); la consulta en línea de homologados exige cuenta gov.br (la lista está en datos abiertos).",
+    "Sin reforma institucional: Anatel sigue como regulador; en 2026 aprobó un nuevo Regimento Interno (Res. 791/2026).",
+    "Catálogo regulatel.org: fechas erróneas (Res. 680 de '2027', Res. 671 de '2026') y enlace de contacto que apunta a INDOTEL."
+  ],
+  "verificadoEn": "2026-11-11",
+  "confianza": "alta"
+}

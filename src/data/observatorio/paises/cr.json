@@ -1,0 +1,543 @@
+{
+  "iso": "cr",
+  "pais": "Costa Rica",
+  "regulador": {
+    "sigla": "SUTEL",
+    "nombre": "Superintendencia de Telecomunicaciones",
+    "url": "https://www.sutel.go.cr",
+    "naturaleza": "Órgano de desconcentración máxima adscrito a la Aresep, con personalidad jurídica instrumental (Ley 7593, reformada por la Ley 8660 de 2008)"
+  },
+  "otrasAutoridades": [
+    {
+      "sigla": "MICITT",
+      "nombre": "Ministerio de Ciencia, Innovación, Tecnología y Telecomunicaciones",
+      "rol": "Rector del sector: dicta el Plan Nacional de Atribución de Frecuencias y la política; el Poder Ejecutivo otorga las concesiones de espectro. Aloja el CSIRT-CR.",
+      "url": "https://www.micitt.go.cr"
+    },
+    {
+      "sigla": "ARESEP",
+      "nombre": "Autoridad Reguladora de los Servicios Públicos",
+      "rol": "SUTEL está adscrita a ella; su Junta Directiva aprueba los reglamentos técnicos (usuarios, interconexión, uso compartido de infraestructura).",
+      "url": "https://aresep.go.cr"
+    },
+    {
+      "sigla": "CSIRT-CR",
+      "nombre": "Centro de Respuesta a Incidentes de Seguridad Informática",
+      "rol": "CSIRT nacional del MICITT; junto con el SOC-CR integra la Dirección de Ciberseguridad (Decreto 45061-MICITT, 2025).",
+      "url": "https://www.micitt.go.cr/gobierno-digital/ciberseguridad"
+    },
+    {
+      "sigla": "9-1-1",
+      "nombre": "Sistema de Emergencias 9-1-1",
+      "rol": "Número único nacional de emergencias, adscrito al ICE (Ley 7566 de 1995).",
+      "url": "https://www.911.go.cr"
+    }
+  ],
+  "marcoLegal": {
+    "nombre": "Ley General de Telecomunicaciones N.° 8642",
+    "anio": 2008,
+    "url": "https://sinalevi.go.cr/ResultadosNormativa/Informacion?param1=63431&param2=&param3=1&param4="
+  },
+  "resumenPais": "Mercado abierto a la competencia desde 2008 (Ley 8642): SUTEL, adscrita a la Aresep, regula el sector y administra Fonatel, y el MICITT es el rector; el Poder Ejecutivo otorga el espectro. En 2025 se asignó espectro 5G a Claro, Liberty y cuatro operadores regionales; el ICE estatal aún no comercializa 5G.",
+  "categorias": {
+    "espectro": {
+      "resumen": "El MICITT dicta el Plan Nacional de Atribución de Frecuencias (reformado en 2026) y el Poder Ejecutivo otorga las concesiones tras concursos de SUTEL. La subasta 5G de 2025 asignó 700 MHz, 2,3 GHz, 3,5 GHz y ondas milimétricas (26/28 GHz). Toda la banda de 6 GHz es de uso libre.",
+      "instrumentos": [
+        {
+          "nombre": "Plan Nacional de Atribución de Frecuencias (Decreto 44010-MICITT y sus reformas)",
+          "anio": 2023,
+          "tipo": "plan",
+          "url": "https://www.sutel.go.cr/sites/default/files/normativas/pnaf-44010-micitt-y-sus-reformas_29-04-2026.pdf"
+        },
+        {
+          "nombre": "Decreto 45769-MICITT: reforma del PNAF (600 MHz para IMT, satélite directo al celular, HIBS y uso libre)",
+          "anio": 2026,
+          "tipo": "decreto",
+          "url": "https://www.micitt.go.cr/sites/default/files/marco_juridico_legal/Decreto%20n.%C2%B0%2045769-MICITT%20MODIFICACI%C3%93N%20PARCIAL%20A%20LOS%20ART%C3%8DCULOS%204%2C%2014%2C%2015%20Y%2016%20DEL%20DECRETO.pdf"
+        },
+        {
+          "nombre": "Licitación Mayor 2024LY-000001-SUTEL de espectro IMT/5G",
+          "anio": 2025,
+          "tipo": "otro",
+          "url": "https://sutel.go.cr/pagina/concurso-espectro-5g"
+        },
+        {
+          "nombre": "RCS-138-2026: homologación de equipos de 6 GHz de potencia estándar controlados por AFC",
+          "anio": 2026,
+          "tipo": "resolucion",
+          "url": "https://www.sutel.go.cr/sites/default/files/rcs-138-2026---alcance-82-gaceta-118-del-26-de-junio-2026---dispositivos-potencia-estandar.pdf"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-04",
+        "texto": "Decreto 45769-MICITT actualizó el PNAF: banda de 600 MHz para IMT, conectividad satelital directa al celular (D2D) y plataformas HIBS."
+      },
+      "indicadores": {
+        "esp_cuadro": {
+          "estado": "si",
+          "nota": "PNAF vigente: Decreto 44010-MICITT (2023), reformado en abril de 2026 por el Decreto 45769-MICITT; SUTEL publica la versión consolidada.",
+          "fuente": "https://www.sutel.go.cr/sites/default/files/normativas/pnaf-44010-micitt-y-sus-reformas_29-04-2026.pdf",
+          "anio": 2023
+        },
+        "esp_5g": {
+          "estado": "si",
+          "nota": "Contratos firmados el 13/06/2025 y refrendados por la Contraloría el 29/07/2025: 700 MHz, 2,3 y 3,5 GHz y 26/28 GHz para Claro, Liberty y 4 regionales.",
+          "fuente": "https://sutel.go.cr/pagina/concurso-espectro-5g",
+          "anio": 2025
+        },
+        "esp_licitacion": {
+          "estado": "si",
+          "nota": "Licitación 2024LY-000001-SUTEL: subasta nacional y regional en enero de 2025; el Poder Ejecutivo adjudicó en marzo de 2025 (Gaceta, abril).",
+          "fuente": "https://sutel.go.cr/sites/default/files/concurso5G/Adjudicacio%CC%81n%20licitacio%CC%81n%205G%20-%20ALCANCE%20N%C2%B0%2051%20A%20LA%20GACETA%2073%20de%20la%20fecha%2024%2004%202025%20-%20I.pdf",
+          "anio": 2025
+        },
+        "esp_6ghz": {
+          "estado": "si",
+          "nota": "1200 MHz (5925–7125 MHz) de uso libre desde 2021 (Decreto 42924-MICITT); en 2026 SUTEL reguló los equipos de potencia estándar con AFC (RCS-138-2026).",
+          "fuente": "https://www.micitt.go.cr/sites/default/files/marco_juridico_legal/Decreto%20n.%C2%B0%2045769-MICITT%20MODIFICACI%C3%93N%20PARCIAL%20A%20LOS%20ART%C3%8DCULOS%204%2C%2014%2C%2015%20Y%2016%20DEL%20DECRETO.pdf",
+          "anio": 2021
+        },
+        "esp_secundario": {
+          "estado": "si",
+          "nota": "Ley 8642 (art. 20): las concesiones de espectro pueden cederse con autorización del Poder Ejecutivo, previa recomendación de SUTEL.",
+          "fuente": "https://sinalevi.go.cr/ResultadosNormativa/Informacion?param1=63431&param2=&param3=1&param4=",
+          "anio": 2008
+        }
+      }
+    },
+    "competencia": {
+      "resumen": "SUTEL es la autoridad de competencia del sector (Ley 8642 y Ley 9736): declara operadores importantes, regula el acceso y la interconexión y autoriza operadores móviles virtuales. Fonatel financia conectividad para zonas y hogares vulnerables. No se halló regla expresa de neutralidad de red.",
+      "instrumentos": [
+        {
+          "nombre": "Ley General de Telecomunicaciones N.° 8642",
+          "anio": 2008,
+          "tipo": "ley",
+          "url": "https://sinalevi.go.cr/ResultadosNormativa/Informacion?param1=63431&param2=&param3=1&param4="
+        },
+        {
+          "nombre": "Ley 9736 de Fortalecimiento de las Autoridades de Competencia",
+          "anio": 2019,
+          "tipo": "ley",
+          "url": "https://www.sutel.go.cr/sites/default/files/normativas/ley_9736_ley_de_fortalecimiento_de_las_autoridades_de_competencia.pdf"
+        },
+        {
+          "nombre": "Reglamento de Acceso e Interconexión de Redes de Telecomunicaciones (RE-0080-JD-2023)",
+          "anio": 2023,
+          "tipo": "reglamento",
+          "url": "https://www.sutel.go.cr/sites/default/files/normativas/reglamento_de_acceso_e_interconexion_de_redes_de_telecomunicaciones_0.pdf"
+        },
+        {
+          "nombre": "RCS-175-2020: mercado de terminación móvil y declaratoria de operadores importantes",
+          "anio": 2020,
+          "tipo": "resolucion",
+          "url": "https://www.sutel.go.cr/sites/default/files/rcs-175-2020_revision_mercado_terminacion_movil.pdf"
+        }
+      ],
+      "novedad": {
+        "fecha": "2025-06",
+        "texto": "Se firmaron las concesiones 5G con seis empresas: Claro, Liberty y, con alcance regional, Ring Centrales y tres cooperativas eléctricas."
+      },
+      "indicadores": {
+        "comp_psm": {
+          "estado": "si",
+          "nota": "SUTEL declara operadores importantes por mercado y les impone obligaciones; p. ej., RCS-175-2020 (terminación móvil: ICE, Claro y Telefónica, hoy Liberty).",
+          "fuente": "https://www.sutel.go.cr/sites/default/files/rcs-175-2020_revision_mercado_terminacion_movil.pdf",
+          "anio": 2020
+        },
+        "comp_omv": {
+          "estado": "si",
+          "nota": "Ley 8642 (art. 23 b) permite prestar servicios sobre redes de terceros; SUTEL autoriza OMV desde 2010 y los primeros entraron al mercado en 2011 (RCS-040-2018).",
+          "fuente": "https://www.sutel.go.cr/sites/default/files/rcs-040-2018_revision_mercado_mayorista_acceso_y_originacion_movil.pdf",
+          "anio": 2011
+        },
+        "comp_interconexion": {
+          "estado": "si",
+          "nota": "Reglamento de Acceso e Interconexión (Aresep, 2023): cargos orientados a costos; SUTEL los fija si no hay acuerdo y revisa ofertas de referencia.",
+          "fuente": "https://www.sutel.go.cr/sites/default/files/normativas/reglamento_de_acceso_e_interconexion_de_redes_de_telecomunicaciones_0.pdf",
+          "anio": 2023
+        },
+        "comp_fondo": {
+          "estado": "si",
+          "nota": "Fonatel (Ley 8642, art. 34), administrado por SUTEL: 5 programas en ejecución (Hogares Conectados, Red Educativa, etc.) con compromisos hasta 2030.",
+          "fuente": "https://www.sutel.go.cr/pagina/avance-de-los-proyectos-de-fonatel",
+          "anio": 2008
+        },
+        "comp_neutralidad": {
+          "estado": "sin_dato",
+          "nota": "No se halló regla expresa en la Ley 8642, el RPUF (2022) ni el reglamento de calidad; solo derechos generales de trato no discriminatorio."
+        }
+      }
+    },
+    "ciberseguridad": {
+      "resumen": "El MICITT conduce la política (Estrategia Nacional 2023-2027) y opera el CSIRT-CR, cuyo marco se actualizó en 2025. No existe ley marco de ciberseguridad. Costa Rica es parte del Convenio de Budapest desde 2018 y en 2026 ratificó su Segundo Protocolo.",
+      "instrumentos": [
+        {
+          "nombre": "Estrategia Nacional de Ciberseguridad 2023-2027",
+          "anio": 2023,
+          "tipo": "estrategia",
+          "url": "https://www.micitt.go.cr/sites/default/files/2023-11/NCS%20Costa%20Rica%20-%2010Nov2023%20SPA.pdf"
+        },
+        {
+          "nombre": "Decreto 45061-MICITT: gobernanza en ciberseguridad y resiliencia de las instituciones gubernamentales",
+          "anio": 2025,
+          "tipo": "decreto",
+          "url": "https://www.micitt.go.cr/sites/default/files/marco_juridico_legal/17.%20Decreto%20n.%C2%B045061-MICITT%20_Reglamento%20para%20la%20Gobernanza%20en%20Ciberseguridad%20y%20la%20Resiliencia%20Cibern%C3%A9tica%20de%20las%20Instituciones%20Gubernamentales%20y%20derogatoria%20del%20Decreto%20Ejecutivo%20n.%C2%B0%2037052-MICIT%20del%209%20.PDF"
+        },
+        {
+          "nombre": "RCS-151-2026: medidas contra ciberataques por SMS (smishing) y llamadas (vishing)",
+          "anio": 2026,
+          "tipo": "resolucion",
+          "url": "https://www.sutel.go.cr/sites/default/files/rcs-151-2026---resolucion-final-medidas-regulatorias-contra-smishing-y-vishing-vf.pdf"
+        },
+        {
+          "nombre": "Convenio de Budapest sobre ciberdelincuencia (adhesión)",
+          "anio": 2017,
+          "tipo": "otro",
+          "url": "https://www.coe.int/en/web/conventions/full-list?module=signatures-by-treaty&treatynum=185"
+        }
+      ],
+      "novedad": {
+        "fecha": "2025-06",
+        "texto": "El Decreto 45061-MICITT reglamentó la gobernanza en ciberseguridad (CSIRT-CR y SOC-CR) y obliga al Gobierno Central a reportar incidentes en 24 horas."
+      },
+      "indicadores": {
+        "ciber_estrategia": {
+          "estado": "si",
+          "nota": "Estrategia Nacional de Ciberseguridad 2023-2027 (MICITT), vigente; pilares: gobernanza, marco jurídico, infraestructura crítica, capacidades y cooperación.",
+          "fuente": "https://www.micitt.go.cr/sites/default/files/2023-11/NCS%20Costa%20Rica%20-%2010Nov2023%20SPA.pdf",
+          "anio": 2023
+        },
+        "ciber_ley": {
+          "estado": "no",
+          "nota": "Sin ley marco: el proyecto 23.292 fue archivado y rige el Decreto 45061-MICITT (2025). Los delitos informáticos están en el Código Penal (Ley 9048 de 2012).",
+          "fuente": "https://delfino.cr/asamblea/proyecto/23292"
+        },
+        "ciber_csirt": {
+          "estado": "si",
+          "nota": "CSIRT-CR del MICITT (creado en 2012), con atención 24/7; el Decreto 45061-MICITT (2025) lo ubica con el SOC-CR en la Dirección de Ciberseguridad.",
+          "fuente": "https://www.micitt.go.cr/gobierno-digital/ciberseguridad",
+          "anio": 2012
+        },
+        "ciber_reporte": {
+          "estado": "parcial",
+          "nota": "Ley 8642 (art. 42): el operador debe informar a SUTEL y a los usuarios los riesgos de seguridad de la red, sin plazos; RCS-151-2026 añade reportes de fraude.",
+          "fuente": "https://sinalevi.go.cr/ResultadosNormativa/Informacion?param1=63431&param2=&param3=1&param4=",
+          "anio": 2008
+        },
+        "ciber_budapest": {
+          "estado": "si",
+          "nota": "Adhesión depositada el 22/09/2017, en vigor desde el 01/01/2018; ratificó el Segundo Protocolo Adicional el 15/04/2026.",
+          "fuente": "https://www.coe.int/en/web/conventions/full-list?module=signatures-by-treaty&treatynum=185",
+          "anio": 2017
+        }
+      }
+    },
+    "usuario": {
+      "resumen": "El RPUF de 2022 fija los derechos de los usuarios. SUTEL resuelve reclamos en segunda instancia, publica mediciones de calidad y supervisa la portabilidad móvil (desde 2013). En 2026 obligó a los operadores a bloquear SMS y llamadas fraudulentas.",
+      "instrumentos": [
+        {
+          "nombre": "Reglamento sobre el Régimen de Protección al Usuario Final (RPUF, RE-0062-JD-2022)",
+          "anio": 2022,
+          "tipo": "reglamento",
+          "url": "https://www.sutel.go.cr/sites/default/files/normativas/Reglamento%20sobre%20el%20re%CC%81gimen%20de%20proteccio%CC%81n%20al%20usuario%20final%20Alcance%20N200%20a%20la%20Gaceta%20N%20180%20del%2022%20de%20setiembre%20del%202022.pdf"
+        },
+        {
+          "nombre": "Reglamento de Prestación y Calidad de los Servicios",
+          "anio": 2017,
+          "tipo": "reglamento",
+          "url": "https://www.sutel.go.cr/sites/default/files/normativas/reglamento_prestacion_y_calidad_de_servicios.pdf"
+        },
+        {
+          "nombre": "RCS-206-2026: selección de la Entidad de Referencia de Portabilidad Numérica Móvil",
+          "anio": 2026,
+          "tipo": "resolucion",
+          "url": "https://www.sutel.go.cr/sites/default/files/rcs-206-2026---resolucion-seleccion-erpn.pdf"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-06",
+        "texto": "RCS-151-2026 obliga a los operadores a filtrar SMS y llamadas fraudulentas (smishing y vishing) por fases, hasta autenticar llamadas con SHAKEN en 18 meses."
+      },
+      "indicadores": {
+        "usu_reglamento": {
+          "estado": "si",
+          "nota": "Reglamento sobre el Régimen de Protección al Usuario Final (RPUF), resolución Aresep RE-0062-JD-2022, publicado en septiembre de 2022 y vigente desde 2023.",
+          "fuente": "https://www.sutel.go.cr/sites/default/files/normativas/Reglamento%20sobre%20el%20re%CC%81gimen%20de%20proteccio%CC%81n%20al%20usuario%20final%20Alcance%20N200%20a%20la%20Gaceta%20N%20180%20del%2022%20de%20setiembre%20del%202022.pdf",
+          "anio": 2022
+        },
+        "usu_reclamos": {
+          "estado": "si",
+          "nota": "Ley 8642 (art. 48): si el operador no resuelve en 10 días o lo rechaza, SUTEL tramita el reclamo sin formalidades; seguimiento en reclamos.sutel.go.cr.",
+          "fuente": "https://sutel.go.cr/pagina/guia-para-interponer-reclamos",
+          "anio": 2008
+        },
+        "usu_portabilidad": {
+          "estado": "si",
+          "nota": "Portabilidad móvil desde el 1/12/2013, con más de 4,4 millones de cambios; en 2026 SUTEL eligió nueva entidad de referencia (RCS-206-2026).",
+          "fuente": "https://sutel.go.cr/pagina/contratacion-entidad-referencia-portabilidad-numerica",
+          "anio": 2013
+        },
+        "usu_calidad": {
+          "estado": "si",
+          "nota": "SUTEL publica evaluaciones nacionales de redes móviles y fijas y un mapa de calidad; en 2026 publicó la primera medición de redes 5G.",
+          "fuente": "https://www.sutel.go.cr/noticias/comunicados-de-prensa/sutel-evalua-la-calidad-de-la-red-5g",
+          "anio": 2026
+        },
+        "usu_nomolestar": {
+          "estado": "parcial",
+          "nota": "Ley 8642 (art. 44) exige consentimiento previo para ventas directas; el RPUF (arts. 103-104) prevé un registro web de SUTEL, que no se halló activo.",
+          "fuente": "https://www.sutel.go.cr/sites/default/files/normativas/Reglamento%20sobre%20el%20re%CC%81gimen%20de%20proteccio%CC%81n%20al%20usuario%20final%20Alcance%20N200%20a%20la%20Gaceta%20N%20180%20del%2022%20de%20setiembre%20del%202022.pdf",
+          "anio": 2022
+        }
+      }
+    },
+    "emergentes": {
+      "resumen": "Claro y Liberty ofrecen 5G comercial; el ICE aún no. Starlink está habilitado para dar internet satelital de órbita baja y rige la Estrategia Nacional de IA 2024-2027. No se hallaron sandbox regulatorio ni reglas específicas para IoT.",
+      "instrumentos": [
+        {
+          "nombre": "Estrategia Nacional de Inteligencia Artificial 2024-2027",
+          "anio": 2024,
+          "tipo": "estrategia",
+          "url": "https://micitt.go.cr/sites/default/files/2024-10/Estrategia%20Nacional%20de%20Inteligencia%20Artificial%20de%20Costa%20Rica%20ESP.pdf"
+        },
+        {
+          "nombre": "Contrato de adhesión de Starlink Costa Rica homologado por SUTEL (acuerdo 035-075-2023)",
+          "anio": 2023,
+          "tipo": "otro",
+          "url": "https://www.sutel.go.cr/pagina/contrato-de-adhesion-para-la-prestacion-del-servicio-de-acceso-internet-satelital"
+        },
+        {
+          "nombre": "Primera evaluación nacional de calidad de redes 5G (SUTEL)",
+          "anio": 2026,
+          "tipo": "otro",
+          "url": "https://www.sutel.go.cr/noticias/comunicados-de-prensa/sutel-evalua-la-calidad-de-la-red-5g"
+        }
+      ],
+      "novedad": {
+        "fecha": "2024-10",
+        "texto": "El MICITT lanzó la Estrategia Nacional de Inteligencia Artificial 2024-2027; su plan de acción se publicó en agosto de 2025."
+      },
+      "indicadores": {
+        "tec_sandbox": {
+          "estado": "sin_dato",
+          "nota": "No se halló sandbox regulatorio TIC; solo existen permisos de uso experimental de frecuencias."
+        },
+        "tec_5g": {
+          "estado": "si",
+          "nota": "Claro y Liberty comercializan 5G (ya había lanzamientos en 2024, según RCS-216-2024); el ICE aún no lo ofrece (SUTEL, septiembre de 2026).",
+          "fuente": "https://www.sutel.go.cr/noticias/comunicados-de-prensa/sutel-evalua-la-calidad-de-la-red-5g",
+          "anio": 2024
+        },
+        "tec_iot": {
+          "estado": "sin_dato",
+          "nota": "No se halló plan ni reglas específicas para IoT/M2M en la normativa de SUTEL o del MICITT."
+        },
+        "tec_satelital": {
+          "estado": "si",
+          "nota": "SUTEL homologó en diciembre de 2023 el contrato de adhesión de Starlink Costa Rica (acuerdo 035-075-2023) para internet por satélites de órbita baja.",
+          "fuente": "https://www.sutel.go.cr/pagina/contrato-de-adhesion-para-la-prestacion-del-servicio-de-acceso-internet-satelital",
+          "anio": 2023
+        },
+        "tec_ia": {
+          "estado": "si",
+          "nota": "Estrategia Nacional de Inteligencia Artificial 2024-2027 (MICITT, octubre de 2024), con plan de acción publicado en agosto de 2025.",
+          "fuente": "https://micitt.go.cr/sites/default/files/2024-10/Estrategia%20Nacional%20de%20Inteligencia%20Artificial%20de%20Costa%20Rica%20ESP.pdf",
+          "anio": 2024
+        }
+      }
+    },
+    "infraestructura": {
+      "resumen": "Un reglamento de 2017 regula el uso compartido de torres, postes y ductos, incluidos los de empresas eléctricas, con ofertas aprobadas por SUTEL. La Ley 10216 (2022) agiliza los permisos con plazos y silencio positivo. La itinerancia nacional se pacta entre operadores.",
+      "instrumentos": [
+        {
+          "nombre": "Reglamento sobre el uso compartido de infraestructura para el soporte de redes públicas de telecomunicaciones (RJD-222-2017)",
+          "anio": 2017,
+          "tipo": "reglamento",
+          "url": "https://www.sutel.go.cr/sites/default/files/normativas/reglamento_de_uso_compartido_de_infraestructura_para_redes_publicas_de_telecomunicaciones_0.pdf"
+        },
+        {
+          "nombre": "Ley 10216 para incentivar y promover la construcción de infraestructura de telecomunicaciones",
+          "anio": 2022,
+          "tipo": "ley",
+          "url": "https://www.micitt.go.cr/sites/default/files/marco_juridico_legal/01.%20Ley%20n.%C2%B0%2010216%20Ley%20para%20incentivar%20y%20promover%20la%20construcci%C3%B3n%20de%20infraestructura%20de%20telecomunicaciones%20en%20Costa%20Rica.%20%281%29.pdf"
+        },
+        {
+          "nombre": "Decreto 44335-MICITT: reglamento de la Ley 10216 (procedimientos y especificaciones técnicas)",
+          "anio": 2024,
+          "tipo": "decreto",
+          "url": "https://sinalevi.go.cr/ResultadosNormativa/Informacion?param1=101300&param2=139345&param3=1&param4="
+        },
+        {
+          "nombre": "RCS-255-2026: lineamientos para declarar infraestructura esencial para los servicios de telecomunicaciones",
+          "anio": 2026,
+          "tipo": "resolucion",
+          "url": "https://www.sutel.go.cr/sites/default/files/rcs-255-2026---resolucion-atencion-de-posiciones-consulta-publica-y-publicacion-de-lineamientos.pdf"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-10",
+        "texto": "SUTEL fijó lineamientos para declarar infraestructura esencial e imponer su uso compartido (RCS-255-2026), tras aprobar la oferta de postes del ICE."
+      },
+      "indicadores": {
+        "inf_pasiva": {
+          "estado": "si",
+          "nota": "Reglamento de uso compartido de infraestructura (Aresep, RJD-222-2017): acceso a torres, postes y ductos; SUTEL aprueba ofertas (OUC) y resuelve conflictos.",
+          "fuente": "https://www.sutel.go.cr/sites/default/files/normativas/reglamento_de_uso_compartido_de_infraestructura_para_redes_publicas_de_telecomunicaciones_0.pdf",
+          "anio": 2017
+        },
+        "inf_electrica": {
+          "estado": "si",
+          "nota": "Reglamento de 2017 (art. 17): SUTEL puede imponer el uso compartido de infraestructura ajena; aprobó ofertas de postes de JASEC (2025), Coopelesca e ICE (2026).",
+          "fuente": "https://www.sutel.go.cr/sites/default/files/rcs-180-2026---resolucion-del-consejo-ouc-ice.pdf",
+          "anio": 2026
+        },
+        "inf_permisos": {
+          "estado": "si",
+          "nota": "Ley 10216 (2022) y Decreto 44335-MICITT (2024): las municipalidades resuelven en máximo 30 días hábiles; si no, aplica silencio positivo.",
+          "fuente": "https://www.micitt.go.cr/sites/default/files/marco_juridico_legal/01.%20Ley%20n.%C2%B0%2010216%20Ley%20para%20incentivar%20y%20promover%20la%20construcci%C3%B3n%20de%20infraestructura%20de%20telecomunicaciones%20en%20Costa%20Rica.%20%281%29.pdf",
+          "anio": 2022
+        },
+        "inf_roaming": {
+          "estado": "parcial",
+          "nota": "Se pacta entre operadores; el RAI (2023) la incluye en el acceso y SUTEL fija condiciones si no hay acuerdo (Ley 8642, art. 60). Sin obligación ex ante.",
+          "fuente": "https://www.sutel.go.cr/sites/default/files/normativas/reglamento_de_acceso_e_interconexion_de_redes_de_telecomunicaciones_0.pdf",
+          "anio": 2023
+        },
+        "inf_edificios": {
+          "estado": "parcial",
+          "nota": "SUTEL aprobó en 2023 buenas prácticas, sin alcance normativo, para infraestructura común en inmuebles empresariales; no se halló norma obligatoria tipo ICT.",
+          "fuente": "https://www.sutel.go.cr/pagina/buenas-practicas-despliegue-redes-telecomunicaciones-inmuebles-empresariales-y-comerciales",
+          "anio": 2023
+        }
+      }
+    },
+    "emergencia": {
+      "resumen": "El 9-1-1 es el número único nacional y la ley garantiza acceso gratuito a los servicios de emergencia. No se confirmó un sistema de alertas públicas a celulares. Costa Rica firmó el Convenio de Tampere en 2003, pero no lo ha ratificado.",
+      "instrumentos": [
+        {
+          "nombre": "Ley 7566 de Creación del Sistema de Emergencias 9-1-1",
+          "anio": 1995,
+          "tipo": "ley",
+          "url": "https://www.911.go.cr/ley-de-creacion-del-9-1-1/"
+        },
+        {
+          "nombre": "Ley General de Telecomunicaciones N.° 8642 (arts. 5 y 45)",
+          "anio": 2008,
+          "tipo": "ley",
+          "url": "https://sinalevi.go.cr/ResultadosNormativa/Informacion?param1=63431&param2=&param3=1&param4="
+        },
+        {
+          "nombre": "RCS-251-2012: obligación de suministrar datos de localización al Sistema 9-1-1",
+          "anio": 2012,
+          "tipo": "resolucion",
+          "url": "https://www.sutel.go.cr/sites/default/files/obligaciones._911._2012._sutel-rcs-251-2012_obligacion_de_suministrar_datos_de_localizacion_al_sistema_de_emergencias_9-1-1.pdf"
+        }
+      ],
+      "novedad": null,
+      "indicadores": {
+        "eme_alerta": {
+          "estado": "sin_dato",
+          "nota": "El reglamento de la Ley 8642 (art. 122, reformado en 2019) solo prevé alertas por televisión; no se confirmó un sistema de alertas a celulares."
+        },
+        "eme_numero": {
+          "estado": "si",
+          "nota": "Sistema de Emergencias 9-1-1 (Ley 7566 de 1995), adscrito al ICE y con cobertura en todo el país.",
+          "fuente": "https://www.911.go.cr",
+          "anio": 1995
+        },
+        "eme_plan": {
+          "estado": "parcial",
+          "nota": "Ley 8642 (art. 5) faculta al Ejecutivo a imponer medidas a operadores en emergencias; el reglamento de calidad exige reportar averías. Sin plan específico.",
+          "fuente": "https://sinalevi.go.cr/ResultadosNormativa/Informacion?param1=63431&param2=&param3=1&param4=",
+          "anio": 2008
+        },
+        "eme_prioridad": {
+          "estado": "si",
+          "nota": "Ley 8642 (art. 45) garantiza acceso gratuito a servicios de emergencia; los operadores deben enviar al 9-1-1 la ubicación de las llamadas (RCS-251-2012).",
+          "fuente": "https://sinalevi.go.cr/ResultadosNormativa/Informacion?param1=63431&param2=&param3=1&param4=",
+          "anio": 2008
+        },
+        "eme_tampere": {
+          "estado": "parcial",
+          "nota": "Firmó el Convenio de Tampere el 20/06/2003, pero no lo ha ratificado según la UN Treaty Collection.",
+          "fuente": "https://treaties.un.org/Pages/ViewDetails.aspx?src=TREATY&mtdsg_no=XXV-4&chapter=25&clang=_en",
+          "anio": 2003
+        }
+      }
+    },
+    "homologacion": {
+      "resumen": "SUTEL homologa de forma obligatoria los terminales móviles y los equipos de banda libre; las solicitudes de banda libre son en línea y la lista de equipos es pública. Acepta certificados extranjeros solo para banda libre. Una plataforma bloquea celulares robados o adulterados.",
+      "instrumentos": [
+        {
+          "nombre": "RCS-216-2024: actualización del procedimiento de homologación de terminales móviles (RCS-358-2018)",
+          "anio": 2024,
+          "tipo": "resolucion",
+          "url": "https://www.sutel.go.cr/sites/default/files/RCS-216-2024%20-%20ALCANCE%20189%20GACETA%20220%20del%2022%20de%20NOV%202024.pdf"
+        },
+        {
+          "nombre": "RCS-245-2023: procedimiento de homologación de dispositivos de bandas de uso libre",
+          "anio": 2023,
+          "tipo": "resolucion",
+          "url": "https://www.sutel.go.cr/sites/default/files/RCS-245-2023-Resolucio%CC%81n%20de%20banda%20libre%5B18%5D.pdf"
+        },
+        {
+          "nombre": "Reglamento sobre el Régimen de Protección al Usuario Final (arts. 76-81: homologación e IMEI)",
+          "anio": 2022,
+          "tipo": "reglamento",
+          "url": "https://www.sutel.go.cr/sites/default/files/normativas/Reglamento%20sobre%20el%20re%CC%81gimen%20de%20proteccio%CC%81n%20al%20usuario%20final%20Alcance%20N200%20a%20la%20Gaceta%20N%20180%20del%2022%20de%20setiembre%20del%202022.pdf"
+        },
+        {
+          "nombre": "RCS-234-2020: implementación del Sistema de Gestión de Terminales Móviles",
+          "anio": 2020,
+          "tipo": "resolucion",
+          "url": "https://www.sutel.go.cr/sites/default/files/rcs-234-2020_disposiciones_y_aspectos_operativos_sistema_terminales_moviles.pdf"
+        }
+      ],
+      "novedad": {
+        "fecha": "2024-11",
+        "texto": "RCS-216-2024 actualizó el protocolo de homologación de terminales móviles e incorporó pruebas de 5G, VoLTE y eSIM."
+      },
+      "indicadores": {
+        "hom_obligatoria": {
+          "estado": "si",
+          "nota": "RPUF (arts. 76-77): deben homologarse ante SUTEL los terminales que venden los operadores y todo equipo de banda libre; procedimiento RCS-358-2018 (act. 2024).",
+          "fuente": "https://www.sutel.go.cr/sites/default/files/RCS-216-2024%20-%20ALCANCE%20189%20GACETA%20220%20del%2022%20de%20NOV%202024.pdf",
+          "anio": 2024
+        },
+        "hom_reconocimiento": {
+          "estado": "parcial",
+          "nota": "Para banda libre acepta certificaciones FCC, CE o ANATEL (RCS-245-2023); los terminales móviles requieren pruebas de peritos acreditados por SUTEL.",
+          "fuente": "https://www.sutel.go.cr/sites/default/files/RCS-245-2023-Resolucio%CC%81n%20de%20banda%20libre%5B18%5D.pdf",
+          "anio": 2023
+        },
+        "hom_imei": {
+          "estado": "si",
+          "nota": "El RPUF obliga a bloquear IMEI robados (lista negativa); la Plataforma de Validación de Celulares, en pleno uso desde 2023, impide conectarlos.",
+          "fuente": "https://www.sutel.go.cr/sites/default/files/informe-estadisticas-telecomunicaciones-2025.pdf",
+          "anio": 2023
+        },
+        "hom_enlinea": {
+          "estado": "si",
+          "nota": "Las solicitudes de homologación de banda libre se tramitan en la plataforma web homologacion.sutel.go.cr desde 2014 (RCS-245-2023).",
+          "fuente": "https://www.sutel.go.cr/sites/default/files/RCS-245-2023-Resolucio%CC%81n%20de%20banda%20libre%5B18%5D.pdf",
+          "anio": 2014
+        },
+        "hom_lista": {
+          "estado": "si",
+          "nota": "Consulta pública de equipos homologados en homologacion.sutel.go.cr y del estado del IMEI en pvc.sutel.go.cr.",
+          "fuente": "https://homologacion.sutel.go.cr/zf_ConsultaPublica/Index/indexprincipal"
+        }
+      }
+    }
+  },
+  "cambiosDetectados": [
+    "No existía perfil de Costa Rica en el Observatorio anterior: se construyó completo con fuentes oficiales al 11/11/2026.",
+    "Catálogo: la reforma al PNAF citada (Decreto 42924-MICITT, 2021) quedó sustituida por el PNAF 44010-MICITT (2023), reformado en abril de 2026.",
+    "Catálogo: la RCS-154-2018 (homologación de banda libre) fue derogada por la RCS-245-2023.",
+    "Catálogo: la RCS-358-2018 sigue vigente, pero la RCS-216-2024 actualizó su protocolo y revocó las RCS-141-2022 y RCS-242-2023.",
+    "Catálogo: el PDF de la Ley 8642 en el sitio de SUTEL no integra reformas posteriores a 2012; se enlaza el texto vigente de SINALEVI.",
+    "El decreto que creó el CSIRT-CR (37052-MICIT, 2012) fue derogado en 2025 por el Decreto 45061-MICITT."
+  ],
+  "verificadoEn": "2026-11-11",
+  "confianza": "alta"
+}

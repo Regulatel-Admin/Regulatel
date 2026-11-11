@@ -1,0 +1,562 @@
+{
+  "iso": "ar",
+  "pais": "Argentina",
+  "regulador": {
+    "sigla": "ENACOM",
+    "nombre": "Ente Nacional de Comunicaciones",
+    "url": "https://www.enacom.gob.ar",
+    "naturaleza": "Ente autárquico y descentralizado (DNU 267/2015) en el ámbito de la Jefatura de Gabinete de Ministros; intervenido por el Poder Ejecutivo desde 2024 (Decreto 89/2024), con prórroga hasta el 4 de enero de 2027 (Decreto 938/2025). Interventor desde octubre de 2026: Andrés Michelazzo (Decreto 1149/2026)."
+  },
+  "otrasAutoridades": [
+    {
+      "sigla": "SICyT",
+      "nombre": "Secretaría de Innovación, Ciencia y Tecnología (Jefatura de Gabinete de Ministros)",
+      "rol": "Política TIC y reglamentos sectoriales, p. ej. servicios satelitales (Res. 58/2025); de ella dependen la Subsecretaría de TIC y el Centro Nacional de Ciberseguridad.",
+      "url": "https://www.argentina.gob.ar/jefatura/innovacion-ciencia-y-tecnologia"
+    },
+    {
+      "sigla": "CNC",
+      "nombre": "Centro Nacional de Ciberseguridad",
+      "rol": "Autoridad nacional de ciberseguridad creada por el DNU 941/2025 (vigente desde enero de 2026); dirige el CERT.ar.",
+      "url": "https://www.argentina.gob.ar/ciberseguridad"
+    },
+    {
+      "sigla": "ANC",
+      "nombre": "Autoridad Nacional de la Competencia",
+      "rol": "Control de fusiones y conductas anticompetitivas (Ley 27.442); en junio de 2026 condicionó la compra de Telefónica por Telecom.",
+      "url": "https://www.argentina.gob.ar/autoridaddecompetencia"
+    },
+    {
+      "sigla": "AAIP",
+      "nombre": "Agencia de Acceso a la Información Pública",
+      "rol": "Protección de datos personales y Registro Nacional No Llame.",
+      "url": "https://www.argentina.gob.ar/aaip"
+    }
+  ],
+  "marcoLegal": {
+    "nombre": "Ley 27.078 «Argentina Digital» de Tecnologías de la Información y las Comunicaciones",
+    "anio": 2014,
+    "url": "https://www.argentina.gob.ar/normativa/nacional/ley-27078-239771/actualizacion"
+  },
+  "resumenPais": "Argentina regula las TIC con la Ley Argentina Digital (2014), que aplica ENACOM, intervenido por el Ejecutivo desde 2024. El enfoque es desregulador: precios libres desde 2024 y homologación con agencias de certificación desde dic-2026. El 5G se subastó en 2023 y en 2026 se creó el Centro Nacional de Ciberseguridad.",
+  "categorias": {
+    "espectro": {
+      "resumen": "ENACOM planifica el espectro con un cuadro nacional actualizado a 2025. En 2023 subastó la banda de 3,5 GHz para 5G, abrió toda la banda de 6 GHz al Wi-Fi en interiores y permite ceder o arrendar frecuencias con su aprobación y compartirlas con aviso previo.",
+      "instrumentos": [
+        {
+          "nombre": "Cuadro de Atribución de Bandas de Frecuencias de la República Argentina (CABFRA), edición octubre 2025",
+          "anio": 2025,
+          "tipo": "plan",
+          "url": "https://www.enacom.gob.ar/cuadro-de-atribucion-de-bandas-de-frecuencias-de-la-republica-argentina-cabfra-_p1588"
+        },
+        {
+          "nombre": "Reglamento General de Administración, Gestión y Control del Espectro Radioeléctrico (Res. ENACOM 682/2023)",
+          "anio": 2023,
+          "tipo": "reglamento",
+          "url": "https://www.argentina.gob.ar/normativa/nacional/norma-383682/texto"
+        },
+        {
+          "nombre": "Resolución ENACOM 1473/2023 – adjudicación de la subasta 5G (3,3–3,6 GHz)",
+          "anio": 2023,
+          "tipo": "resolucion",
+          "url": "https://www.argentina.gob.ar/normativa/nacional/norma-392063"
+        },
+        {
+          "nombre": "Resolución ENACOM 756/2023 – banda de 6 GHz (5925–7125 MHz) de uso compartido",
+          "anio": 2023,
+          "tipo": "resolucion",
+          "url": "https://www.argentina.gob.ar/normativa/nacional/norma-384198/texto"
+        }
+      ],
+      "novedad": {
+        "fecha": "2025-08",
+        "texto": "ENACOM bajó el tope de espectro 5G de 200 a 150 MHz por operador (Res. 611/2025) y destinó 2300–2400 MHz a redes privadas para la industria (Res. 1111/2025)."
+      },
+      "indicadores": {
+        "esp_cuadro": {
+          "estado": "si",
+          "nota": "CABFRA publicado por ENACOM, edición de octubre de 2025, basada en el Reglamento de Radiocomunicaciones de la UIT (ed. 2020, Región 2).",
+          "fuente": "https://www.enacom.gob.ar/cuadro-de-atribucion-de-bandas-de-frecuencias-de-la-republica-argentina-cabfra-_p1588",
+          "anio": 2025
+        },
+        "esp_5g": {
+          "estado": "si",
+          "nota": "3,3–3,6 GHz asignada en 2023 al servicio 5G (STeFI): Claro y Personal 100 MHz cada uno, Movistar 50 MHz; 50 MHz quedaron vacantes.",
+          "fuente": "https://www.argentina.gob.ar/normativa/nacional/norma-392063",
+          "anio": 2023
+        },
+        "esp_licitacion": {
+          "estado": "si",
+          "nota": "Subasta del 24-oct-2023 en 3,3–3,6 GHz, adjudicada por la Res. ENACOM 1473/2023; recaudó unos US$ 875 millones.",
+          "fuente": "https://www.argentina.gob.ar/normativa/nacional/norma-392063",
+          "anio": 2023
+        },
+        "esp_6ghz": {
+          "estado": "si",
+          "nota": "1200 MHz (5925–7125 MHz) de uso libre, sin autorización individual y solo en interiores (Res. ENACOM 756/2023).",
+          "fuente": "https://www.argentina.gob.ar/normativa/nacional/norma-384198/texto",
+          "anio": 2023
+        },
+        "esp_secundario": {
+          "estado": "si",
+          "nota": "Res. ENACOM 682/2023: cesión y arrendamiento de espectro con aprobación previa; compartición de bandas entre licenciatarios con aviso previo.",
+          "fuente": "https://www.argentina.gob.ar/normativa/nacional/norma-383682/texto",
+          "anio": 2023
+        }
+      }
+    },
+    "competencia": {
+      "resumen": "La Ley Argentina Digital garantiza la neutralidad de red y la interconexión (reglamento y cargos de referencia de 2018) y regula los operadores móviles virtuales. Prevé obligaciones para operadores con poder significativo, sin declaratoria identificada. El Fondo del Servicio Universal sigue activo.",
+      "instrumentos": [
+        {
+          "nombre": "Ley 27.078 Argentina Digital",
+          "anio": 2014,
+          "tipo": "ley",
+          "url": "https://www.argentina.gob.ar/normativa/nacional/ley-27078-239771/actualizacion"
+        },
+        {
+          "nombre": "Reglamento General de Interconexión y Acceso (Res. MM 286/2018)",
+          "anio": 2018,
+          "tipo": "reglamento",
+          "url": "https://www.enacom.gob.ar/multimedia/normativas/2018/res286MM.pdf"
+        },
+        {
+          "nombre": "Reglamento de Operadores Móviles Virtuales (Res. MC 38/2016)",
+          "anio": 2016,
+          "tipo": "reglamento",
+          "url": "https://www.argentina.gob.ar/normativa/nacional/norma-261069"
+        },
+        {
+          "nombre": "Reglamento General del Servicio Universal (Res. ENACOM 1182/2025)",
+          "anio": 2025,
+          "tipo": "reglamento",
+          "url": "https://www.enacom.gob.ar/public/enacom/serviciouniversal/archivos/anexo_7468602_1.pdf"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-06",
+        "texto": "La ANC condicionó la compra de Telefónica por Telecom: deberá ceder 6 millones de clientes móviles y el espectro necesario a un nuevo operador."
+      },
+      "indicadores": {
+        "comp_psm": {
+          "estado": "parcial",
+          "nota": "La Ley 27.078 (art. 46) y el RGIA (2018) prevén obligaciones asimétricas para operadores con poder significativo; no se identificó declaratoria vigente.",
+          "fuente": "https://www.enacom.gob.ar/multimedia/normativas/2018/res286MM.pdf",
+          "anio": 2018
+        },
+        "comp_omv": {
+          "estado": "si",
+          "nota": "Reglamento de OMV (Res. MC 38/2016): los operadores de red deben presentar ofertas de referencia para operadores móviles virtuales.",
+          "fuente": "https://www.enacom.gob.ar/interconexion_p135",
+          "anio": 2016
+        },
+        "comp_interconexion": {
+          "estado": "si",
+          "nota": "RGIA (Res. MM 286/2018) y cargos fijados por ENACOM, p. ej. terminación en redes móviles a US$ 0,0108 por minuto (Res. 4952/2018).",
+          "fuente": "https://www.enacom.gob.ar/interconexion_p135",
+          "anio": 2018
+        },
+        "comp_fondo": {
+          "estado": "si",
+          "nota": "Fondo del Servicio Universal (aporte del 1% de los ingresos, Ley 27.078) con nuevo reglamento (Res. ENACOM 1182/2025); el fideicomiso se disolvió en 2025.",
+          "fuente": "https://www.enacom.gob.ar/su",
+          "anio": 2025
+        },
+        "comp_neutralidad": {
+          "estado": "si",
+          "nota": "Ley 27.078 (arts. 56–57): prohíbe bloquear, degradar o cobrar según contenidos o aplicaciones, salvo orden judicial o pedido del usuario.",
+          "fuente": "https://www.argentina.gob.ar/normativa/nacional/ley-27078-239771/actualizacion",
+          "anio": 2014
+        }
+      }
+    },
+    "ciberseguridad": {
+      "resumen": "Desde 2026 el Centro Nacional de Ciberseguridad (DNU 941/2025) es la autoridad del área y dirige el CERT.ar. Rige la Segunda Estrategia Nacional (2023) y el país es parte del Convenio de Budapest desde 2018. No hay ley marco de ciberseguridad.",
+      "instrumentos": [
+        {
+          "nombre": "Decreto 941/2025 (DNU) – crea el Centro Nacional de Ciberseguridad",
+          "anio": 2025,
+          "tipo": "decreto",
+          "url": "https://www.argentina.gob.ar/normativa/nacional/norma-422011/texto"
+        },
+        {
+          "nombre": "Segunda Estrategia Nacional de Ciberseguridad (Res. SIP 44/2023)",
+          "anio": 2023,
+          "tipo": "estrategia",
+          "url": "https://www.argentina.gob.ar/normativa/nacional/resoluci%C3%B3n-44-2023-389245/texto"
+        },
+        {
+          "nombre": "Ley 27.411 – aprobación del Convenio sobre Ciberdelito (Budapest)",
+          "anio": 2017,
+          "tipo": "ley",
+          "url": "https://www.argentina.gob.ar/normativa/nacional/ley-27411-304798"
+        },
+        {
+          "nombre": "Disposición CNC 7/2026 – requisitos de seguridad de la cadena de suministro para equipos de infraestructuras críticas de telecomunicaciones",
+          "anio": 2026,
+          "tipo": "norma",
+          "url": "https://www.argentina.gob.ar/normativa/nacional/norma-432073/texto"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-11",
+        "texto": "El CNC fijó requisitos de seguridad de la cadena de suministro para equipos de redes críticas de telecom, obligatorios para el sector público (Disp. 7/2026)."
+      },
+      "indicadores": {
+        "ciber_estrategia": {
+          "estado": "si",
+          "nota": "Segunda Estrategia Nacional de Ciberseguridad (Res. SIP 44/2023); en 2026 el Comité de Ciberseguridad avanza en su implementación.",
+          "fuente": "https://www.argentina.gob.ar/noticias/el-comite-de-ciberseguridad-avanzo-en-una-agenda-de-trabajo-para-implementar-la-segunda",
+          "anio": 2023
+        },
+        "ciber_ley": {
+          "estado": "no",
+          "nota": "No hay ley marco: el CNC se creó por el DNU 941/2025 y rige la Ley 26.388 de delitos informáticos (2008).",
+          "fuente": "https://www.argentina.gob.ar/ciberseguridad/normativa-ciberseguridad"
+        },
+        "ciber_csirt": {
+          "estado": "si",
+          "nota": "CERT.ar, equipo nacional de respuesta a incidentes creado en 2021 (Disposición 1/2021), hoy dirigido por el Centro Nacional de Ciberseguridad.",
+          "fuente": "https://www.argentina.gob.ar/ciberseguridad/certar",
+          "anio": 2021
+        },
+        "ciber_reporte": {
+          "estado": "sin_dato",
+          "nota": "Solo se hallaron guías de notificación de incidentes para el sector público (Disp. 3/2023); no se halló una obligación para operadores de telecom."
+        },
+        "ciber_budapest": {
+          "estado": "si",
+          "nota": "Estado Parte: adhesión aprobada por la Ley 27.411 (2017); el Convenio rige para Argentina desde el 1-oct-2018.",
+          "fuente": "https://www.argentina.gob.ar/normativa/nacional/ley-27411-304798",
+          "anio": 2018
+        }
+      }
+    },
+    "usuario": {
+      "resumen": "El Reglamento de Clientes TIC (2017) fija los derechos y el circuito de reclamos: primero ante la empresa y luego ante ENACOM, en línea o en Buenos Aires. Hay portabilidad numérica móvil y fija y registro «No Llame». Desde 2024 las empresas fijan sus precios.",
+      "instrumentos": [
+        {
+          "nombre": "Reglamento de Clientes de los Servicios TIC (Res. MM 733/2017)",
+          "anio": 2017,
+          "tipo": "reglamento",
+          "url": "https://www.argentina.gob.ar/normativa/nacional/resoluci%C3%B3n-733-2017-305484/actualizacion"
+        },
+        {
+          "nombre": "Régimen de Portabilidad Numérica (Res. MM 203/2018)",
+          "anio": 2018,
+          "tipo": "reglamento",
+          "url": "https://www.enacom.gob.ar/multimedia/normativas/2018/res203MM.pdf"
+        },
+        {
+          "nombre": "Reglamento de Calidad de los Servicios TIC (Res. MM 580/2018)",
+          "anio": 2018,
+          "tipo": "reglamento",
+          "url": "https://www.enacom.gob.ar/multimedia/normativas/2018/res580MM.pdf"
+        },
+        {
+          "nombre": "Registro Nacional No Llame (Ley 26.951)",
+          "anio": 2014,
+          "tipo": "ley",
+          "url": "https://nollame.aaip.gob.ar/"
+        }
+      ],
+      "novedad": {
+        "fecha": "2024-04",
+        "texto": "El Decreto 302/2024 derogó la regulación de precios de 2020 (DNU 690/2020): las empresas fijan sus precios, que deben ser justos y razonables."
+      },
+      "indicadores": {
+        "usu_reglamento": {
+          "estado": "si",
+          "nota": "Reglamento de Clientes de los Servicios TIC (Res. MM 733/2017): información, contratos, facturación, reclamos y compensaciones.",
+          "fuente": "https://www.argentina.gob.ar/normativa/nacional/resoluci%C3%B3n-733-2017-305484/actualizacion",
+          "anio": 2017
+        },
+        "usu_reclamos": {
+          "estado": "si",
+          "nota": "Si la empresa no responde o no satisface, se reclama ante ENACOM en línea (TAD) o en CABA; las delegaciones provinciales cerraron en 2024.",
+          "fuente": "https://www.enacom.gob.ar/problemas-con-el-servicio-reclamos-por-telefonia-movil_p89",
+          "anio": 2017
+        },
+        "usu_portabilidad": {
+          "estado": "si",
+          "nota": "Portabilidad móvil (Res. MM 203/2018): se pide a la nueva empresa y no puede demorar más de 1 día hábil; desde 2022 también en telefonía fija.",
+          "fuente": "https://www.enacom.gob.ar/portabilidad-numerica_p160",
+          "anio": 2018
+        },
+        "usu_calidad": {
+          "estado": "parcial",
+          "nota": "La Res. MM 580/2018 obliga a ENACOM a publicar indicadores de calidad móvil por área y empresa; no se halló una publicación actual de ENACOM.",
+          "fuente": "https://www.enacom.gob.ar/multimedia/normativas/2018/res580MM.pdf",
+          "anio": 2018
+        },
+        "usu_nomolestar": {
+          "estado": "si",
+          "nota": "Registro Nacional No Llame (Ley 26.951), de la AAIP: se inscriben líneas fijas o móviles contra llamadas y mensajes publicitarios; denuncias en línea.",
+          "fuente": "https://nollame.aaip.gob.ar/",
+          "anio": 2014
+        }
+      }
+    },
+    "emergentes": {
+      "resumen": "El 5G comercial llegó a 3.206 sitios (junio de 2026) y la internet satelital, con Starlink, se acerca a 800 mil accesos. Desde 2025 rigen un nuevo reglamento satelital y una banda para redes privadas de la industria. No se halló sandbox regulatorio ni estrategia nacional de IA vigente.",
+      "instrumentos": [
+        {
+          "nombre": "Reglamento General del Servicio de Telecomunicaciones Fiables e Inteligentes – STeFI, servicio 5G (Res. ENACOM 2385/2022)",
+          "anio": 2022,
+          "tipo": "reglamento",
+          "url": "https://www.enacom.gob.ar/multimedia/normativas/2022/res2385.pdf"
+        },
+        {
+          "nombre": "Resolución ENACOM 611/2025 – tope de 150 MHz por licenciatario para el servicio 5G (STeFI)",
+          "anio": 2025,
+          "tipo": "resolucion",
+          "url": "https://www.argentina.gob.ar/normativa/nacional/norma-412027/texto"
+        },
+        {
+          "nombre": "Resolución ENACOM 1111/2025 – Sistemas Privados Inalámbricos de Banda Ancha (2300–2400 MHz)",
+          "anio": 2025,
+          "tipo": "resolucion",
+          "url": "https://www.argentina.gob.ar/normativa/nacional/norma-416785/texto"
+        },
+        {
+          "nombre": "Reglamento General de Gestión y Servicios Satelitales (Res. SICyT 58/2025)",
+          "anio": 2025,
+          "tipo": "reglamento",
+          "url": "https://www.argentina.gob.ar/normativa/nacional/norma-411419"
+        }
+      ],
+      "novedad": {
+        "fecha": "2025-04",
+        "texto": "La SICyT aprobó el Reglamento General de Gestión y Servicios Satelitales (Res. 58/2025); en 2026 ENACOM habilitó a Starlink en nuevas bandas (Res. 372/2026)."
+      },
+      "indicadores": {
+        "tec_sandbox": {
+          "estado": "sin_dato",
+          "nota": "No se halló sandbox regulatorio TIC; solo hay asignaciones temporarias o experimentales de espectro para ensayos (Res. ENACOM 682/2023)."
+        },
+        "tec_5g": {
+          "estado": "si",
+          "nota": "ENACOM informa 3.206 sitios 5G operativos en el II trimestre de 2026 (+165% interanual), con mayor presencia en Centro, Cuyo y NOA.",
+          "fuente": "https://www.enacom.gob.ar/institucional/internet-satelital--fibra-optica-y-5g--la-conectividad-en-argentina-acelera-su-transformacion_n4876"
+        },
+        "tec_iot": {
+          "estado": "parcial",
+          "nota": "Sin marco IoT propio; el reglamento 5G (STeFI, 2022) y las redes privadas SPIBA (Res. 1111/2025) prevén comunicaciones masivas de tipo máquina.",
+          "fuente": "https://www.argentina.gob.ar/normativa/nacional/norma-416785/texto",
+          "anio": 2025
+        },
+        "tec_satelital": {
+          "estado": "si",
+          "nota": "ENACOM autorizó en feb-2024 a OneWeb, Starlink y Amazon Kuiper; la internet satelital se acerca a 800 mil accesos (II trim. 2026).",
+          "fuente": "https://www.enacom.gob.ar/institucional/enacom-autoriza-la-llegada-de-empresas-de-internet-satelital_n4662",
+          "anio": 2024
+        },
+        "tec_ia": {
+          "estado": "sin_dato",
+          "nota": "Hay iniciativas puntuales de IA en el sector público, pero no se halló una estrategia nacional ni una ley de IA vigente."
+        }
+      }
+    },
+    "infraestructura": {
+      "resumen": "Los prestadores TIC deben dar acceso a su infraestructura pasiva (torres, postes, ductos) a otros prestadores (2020) y hay una norma para la infraestructura TIC en edificios (2021). Los permisos de despliegue son municipales: la Nación pide plazos razonables y promueve un código de buenas prácticas.",
+      "instrumentos": [
+        {
+          "nombre": "Reglamento de Compartición de Infraestructura Pasiva (Res. SIP 105/2020)",
+          "anio": 2020,
+          "tipo": "reglamento",
+          "url": "https://www.argentina.gob.ar/normativa/nacional/norma-345264/texto"
+        },
+        {
+          "nombre": "Decreto 798/2016 – Plan Nacional para el Desarrollo de Condiciones de Competitividad y Calidad de los Servicios de Comunicaciones Móviles",
+          "anio": 2016,
+          "tipo": "decreto",
+          "url": "https://www.argentina.gob.ar/normativa/nacional/norma-262738/actualizacion"
+        },
+        {
+          "nombre": "Reglamento para Infraestructura de Servicios TIC en Inmuebles, Edición 5 (Res. SIP 292/2021)",
+          "anio": 2021,
+          "tipo": "reglamento",
+          "url": "https://www.argentina.gob.ar/normativa/nacional/norma-352945/texto"
+        },
+        {
+          "nombre": "Programa Red Mayorista Neutral (Res. ENACOM 951/2025)",
+          "anio": 2025,
+          "tipo": "resolucion",
+          "url": "https://www.argentina.gob.ar/normativa/nacional/norma-414936"
+        }
+      ],
+      "novedad": {
+        "fecha": "2025-07",
+        "texto": "La Res. ENACOM 951/2025 creó el programa Red Mayorista Neutral con $60.000 millones del Fondo del Servicio Universal."
+      },
+      "indicadores": {
+        "inf_pasiva": {
+          "estado": "si",
+          "nota": "RCIP (Res. SIP 105/2020): los licenciatarios TIC deben dar acceso a su infraestructura pasiva en condiciones no discriminatorias; ENACOM dirime conflictos.",
+          "fuente": "https://www.enacom.gob.ar/rcip_p5671",
+          "anio": 2020
+        },
+        "inf_electrica": {
+          "estado": "parcial",
+          "nota": "El RCIP rige convenios con concesionarios de servicios públicos, sin obligarlos; las cooperativas con TV paga deben abrir postes y ductos (Ley 27.078, art. 95).",
+          "fuente": "https://www.enacom.gob.ar/rcip_p5671",
+          "anio": 2020
+        },
+        "inf_permisos": {
+          "estado": "parcial",
+          "nota": "El Decreto 798/2016 pide plazos razonables para permisos locales e invita a los municipios a adherir al Código de Buenas Prácticas de despliegue.",
+          "fuente": "https://www.argentina.gob.ar/normativa/nacional/norma-262738/actualizacion",
+          "anio": 2016
+        },
+        "inf_roaming": {
+          "estado": "parcial",
+          "nota": "El RGIA (2018) prevé roaming nacional a cargo de móviles con poder significativo, sin declaratoria; la ANC lo impuso a Telecom en 2026.",
+          "fuente": "https://www.enacom.gob.ar/multimedia/normativas/2018/res286MM.pdf",
+          "anio": 2018
+        },
+        "inf_edificios": {
+          "estado": "si",
+          "nota": "Reglamento para Infraestructura de Servicios TIC en Inmuebles, Edición 5 (Res. SIP 292/2021), que reemplazó la norma de 2001.",
+          "fuente": "https://www.argentina.gob.ar/normativa/nacional/norma-352945/texto",
+          "anio": 2021
+        }
+      }
+    },
+    "emergencia": {
+      "resumen": "Ante desastres, los operadores móviles deben tener respaldo, restablecer el servicio en 24 horas, dar acceso gratuito a emergencias y prioridad a los organismos de socorro (2018). Las alertas a celulares por Cell Broadcast (AlertAR) están en licitación. Argentina es parte del Convenio de Tampere.",
+      "instrumentos": [
+        {
+          "nombre": "Reglamento Nacional de Contingencia (Res. SGM 51/2018)",
+          "anio": 2018,
+          "tipo": "reglamento",
+          "url": "https://www.argentina.gob.ar/normativa/nacional/resoluci%C3%B3n-51-2018-316087/texto"
+        },
+        {
+          "nombre": "Resolución ENACOM 960/2025 – Cell Broadcast como estándar nacional de alertas tempranas",
+          "anio": 2025,
+          "tipo": "resolucion",
+          "url": "https://www.argentina.gob.ar/normativa/nacional/norma-415252"
+        },
+        {
+          "nombre": "Resolución ENACOM 1387/2025 – proyecto «Sistema de Alerta Temprana – AlertAR»",
+          "anio": 2025,
+          "tipo": "resolucion",
+          "url": "https://www.argentina.gob.ar/normativa/nacional/norma-420414"
+        },
+        {
+          "nombre": "Programa de Asistencia a Prestadores de Servicios TIC ante Emergencias y Catástrofes (Res. ENACOM 323/2025)",
+          "anio": 2025,
+          "tipo": "resolucion",
+          "url": "https://www.enacom.gob.ar/programa-de-emergencias_p6614"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-07",
+        "texto": "ENACOM autorizó la licitación pública para implementar AlertAR, las alertas a celulares por Cell Broadcast acordadas con Claro, Movistar y Personal."
+      },
+      "indicadores": {
+        "eme_alerta": {
+          "estado": "parcial",
+          "nota": "Cell Broadcast es el estándar nacional (Res. 960/2025) y AlertAR fue aprobado (Res. 1387/2025); en jul-2026 se autorizó su licitación. Aún no opera.",
+          "fuente": "https://www.enacom.gob.ar/institucional/avanza-la-implementacion-del-sistema-nacional-de-alerta-temprana-alertar_n4846",
+          "anio": 2025
+        },
+        "eme_numero": {
+          "estado": "parcial",
+          "nota": "El 911 es el código de emergencias desde 2005, pero cada provincia lo habilita y siguen vigentes el 100, 101 y 107; no hay un servicio único nacional.",
+          "fuente": "https://www.enacom.gob.ar/911_p140",
+          "anio": 2005
+        },
+        "eme_plan": {
+          "estado": "si",
+          "nota": "Reglamento Nacional de Contingencia (Res. SGM 51/2018): respaldo de energía, redundancia, sistemas móviles y restablecer el servicio en 24 horas.",
+          "fuente": "https://www.argentina.gob.ar/normativa/nacional/resoluci%C3%B3n-51-2018-316087/texto",
+          "anio": 2018
+        },
+        "eme_prioridad": {
+          "estado": "si",
+          "nota": "Res. SGM 51/2018: en emergencias, acceso gratuito a los servicios de emergencia sin importar el saldo y prioridad para terminales de organismos de socorro.",
+          "fuente": "https://www.argentina.gob.ar/normativa/nacional/resoluci%C3%B3n-51-2018-316087/texto",
+          "anio": 2018
+        },
+        "eme_tampere": {
+          "estado": "si",
+          "nota": "Estado Parte: firmó el 11-may-1999 y ratificó el 5-jul-2007 (UN Treaty Collection, cap. XXV-4).",
+          "fuente": "https://treaties.un.org/Pages/ViewDetails.aspx?src=TREATY&mtdsg_no=XXV-4&chapter=25&clang=_en",
+          "anio": 2007
+        }
+      }
+    },
+    "homologacion": {
+      "resumen": "Los equipos de telecomunicaciones que se venden deben estar homologados e inscriptos en el RAMATEL; el trámite es en línea (plataforma Hertz) y la lista de equipos es pública. Desde el 1-dic-2026 regirá un régimen con agencias de certificación. Los celulares denunciados se bloquean por IMEI.",
+      "instrumentos": [
+        {
+          "nombre": "Resolución ENACOM 57/2026 – nuevo Reglamento del RAMATEL, agencias de certificación y laboratorios de ensayo",
+          "anio": 2026,
+          "tipo": "resolucion",
+          "url": "https://www.enacom.gob.ar/multimedia/normativas/2026/res57.pdf"
+        },
+        {
+          "nombre": "Resolución ENACOM 843/2026 – vigencia del nuevo RAMATEL desde el 1 de diciembre de 2026",
+          "anio": 2026,
+          "tipo": "resolucion",
+          "url": "https://www.enacom.gob.ar/multimedia/normativas/2026/res843.pdf"
+        },
+        {
+          "nombre": "Resolución ENACOM 2459/2016 – bloqueo de terminales robados, hurtados o extraviados e IMEI irregulares",
+          "anio": 2016,
+          "tipo": "resolucion",
+          "url": "https://www.argentina.gob.ar/normativa/nacional/norma-261599"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-08",
+        "texto": "La Res. 843/2026 postergó al 1 de diciembre de 2026 el nuevo régimen RAMATEL (Res. 57/2026), basado en agencias de certificación acreditadas."
+      },
+      "indicadores": {
+        "hom_obligatoria": {
+          "estado": "si",
+          "nota": "Ley 27.078 (art. 16): los equipos que se venden deben homologarse e inscribirse en el RAMATEL (Res. SC 729/80; desde dic-2026, Res. 57/2026).",
+          "fuente": "https://www.enacom.gob.ar/homologacion-de-equipos_p347",
+          "anio": 2014
+        },
+        "hom_reconocimiento": {
+          "estado": "parcial",
+          "nota": "Desde el 1-dic-2026 (Res. 57/2026) se aceptarán ensayos de laboratorios acreditados por miembros de la Global Accreditation Cooperation (clase B).",
+          "fuente": "https://www.enacom.gob.ar/multimedia/normativas/2026/res57.pdf",
+          "anio": 2026
+        },
+        "hom_imei": {
+          "estado": "si",
+          "nota": "Res. ENACOM 2459/2016: bloqueo en todas las redes de celulares denunciados (*910) o con IMEI irregular; desde 2026 también se bloquea la línea.",
+          "fuente": "https://www.enacom.gob.ar/denuncia-al-910_p4034",
+          "anio": 2016
+        },
+        "hom_enlinea": {
+          "estado": "si",
+          "nota": "La solicitud de homologación se inicia y tramita en línea en la plataforma Hertz de ENACOM (formularios, documentación y notificación).",
+          "fuente": "https://www.enacom.gob.ar/tramites/homologacion-equipos_t127"
+        },
+        "hom_lista": {
+          "estado": "si",
+          "nota": "ENACOM publica el listado descargable de equipos inscriptos en el RAMATEL, con la fecha de vencimiento de cada homologación.",
+          "fuente": "https://enacom.gob.ar/equipos-inscriptos_p348"
+        }
+      }
+    }
+  },
+  "cambiosDetectados": [
+    "No se mencionaba que ENACOM está intervenido desde 2024: prórroga hasta el 4-ene-2027 (Decreto 938/2025) y nuevo interventor desde oct-2026 (Decreto 1149/2026).",
+    "Ciberseguridad: solo citaba un conversatorio de 2023; se suman la Estrategia 2023, el CERT.ar, el Centro Nacional de Ciberseguridad (DNU 941/2025) y Budapest.",
+    "5G: el texto hablaba de «muestras»; hubo subasta en octubre de 2023 y hoy hay 3.206 sitios 5G operativos.",
+    "STeFI no es un marco general de tecnologías emergentes: es el servicio 5G (tope de espectro de 150 MHz desde 2025).",
+    "Emergencias: la suspensión de cortes por falta de pago era una medida COVID de 2020 (DNU 311/2020), ya no vigente; el programa de asistencia hoy se rige por la Res. ENACOM 323/2025.",
+    "Se incorpora el sistema de alertas a celulares AlertAR por Cell Broadcast (Res. 960 y 1387 de 2025), en licitación desde julio de 2026.",
+    "Servicio universal: el Fondo Fiduciario se disolvió (Decreto 6/2025); rige el Fondo del Servicio Universal con reglamento de 2025.",
+    "Homologación: se actualiza al nuevo régimen RAMATEL con agencias de certificación (Res. 57/2026), que regirá desde el 1-dic-2026.",
+    "Faltaban el fin del control de precios (Decreto 302/2024) y el cierre de las delegaciones provinciales de ENACOM (2024).",
+    "Competencia: se incorpora la compra de Telefónica por Telecom, condicionada por la ANC en junio de 2026."
+  ],
+  "verificadoEn": "2026-11-11",
+  "confianza": "alta"
+}

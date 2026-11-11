@@ -1,0 +1,156 @@
+{
+  "iso": "pa",
+  "pais": "Panamá",
+  "revisado": "2026-11-11",
+  "documentos": [
+    {
+      "titulo": "Licitación Pública No. 01-2023-TELCO",
+      "url": "https://www.asep.gob.pa/?page_id=208040",
+      "categoriaOriginal": "Espectro Radioeléctrico",
+      "origen": "catalogo",
+      "tema": "espectro",
+      "estado": "actualizado",
+      "nota": "Concluida sin adjudicar (Res. AN 19091-Telco, abr-2024) tras la salida de Digicel. ASEP convocó la Licitación 01-2026-Telco (PCS 106); el 11-ago-2026 no recibió solicitudes de precalificación.",
+      "urlNueva": "https://asep.gob.pa/an-no-21675-telco-de-2026-05-26/",
+      "tituloNuevo": "Licitación Pública No. 01-2026-Telco: Resolución AN No. 21675-Telco de 26 de mayo de 2026 (condiciones de precalificación para la concesión PCS No. 106)",
+      "anioNuevo": 2026
+    },
+    {
+      "titulo": "Plan Nacional de Atribución de Frecuencias (PNAF)",
+      "url": "https://www.asep.gob.pa/?page_id=13116",
+      "categoriaOriginal": "Espectro Radioeléctrico",
+      "origen": "catalogo",
+      "tema": "espectro",
+      "estado": "vigente",
+      "nota": "Vigente: la página muestra el PNAF consolidado a junio 2025 (Res. AN 20335 y 20510-Telco). La Consulta Pública 012-26 (sep-2026) propone nuevas modificaciones, aún no adoptadas."
+    },
+    {
+      "titulo": "Autoridad Nacional para la Innovación Gubernamental",
+      "url": "https://aig.gob.pa/",
+      "categoriaOriginal": "Tecnologías de la Información y la Comunicación (TIC)",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "vigente",
+      "nota": "Portal oficial de la AIG activo y al día (anuncios de nov-2026). Es la entidad rectora de gobierno digital y aloja al CSIRT Panamá; no es una norma."
+    },
+    {
+      "titulo": "CSIRT PANAMA (Computer Security Incident Response Team)",
+      "url": "https://aig.gob.pa/csirt/",
+      "categoriaOriginal": "Ciberseguridad",
+      "origen": "catalogo",
+      "tema": "ciberseguridad",
+      "estado": "vigente",
+      "nota": "Página del CSIRT Panamá en el sitio de la AIG, activa: describe funciones, reporte de incidentes (formulario CERT-016) y remite al sitio propio cert.pa."
+    },
+    {
+      "titulo": "CSIRT PANAMA",
+      "url": "https://cert.pa/?csrt=17783075804647610887",
+      "categoriaOriginal": "Ciberseguridad",
+      "origen": "catalogo",
+      "tema": "ciberseguridad",
+      "estado": "vigente",
+      "nota": "Sitio del CSIRT Panamá activo y rediseñado (alertas de nov-2026). El parámetro csrt es un token del cortafuegos: conviene usar la URL limpia.",
+      "urlNueva": "https://cert.pa/",
+      "tituloNuevo": "CSIRT Panamá – Centro de Respuesta a Incidentes de Ciberseguridad de Panamá"
+    },
+    {
+      "titulo": "CSIRT - Documentos de Interés",
+      "url": "https://cert.pa/?page_id=353&csrt=7872000596297402390",
+      "categoriaOriginal": "Ciberseguridad",
+      "origen": "catalogo",
+      "tema": "ciberseguridad",
+      "estado": "vigente",
+      "nota": "Página activa; su biblioteca incluye la Ley 478 de 4-ago-2025 (medidas contra la ciberdelincuencia) y la Estrategia Nacional de Ciberseguridad 2021. Usar URL sin token csrt.",
+      "urlNueva": "https://cert.pa/?page_id=353",
+      "tituloNuevo": "CSIRT Panamá – Documentos de Interés"
+    },
+    {
+      "titulo": "CSIRT - Cursos",
+      "url": "https://cert.pa/?page_id=486&csrt=7872000596297402390",
+      "categoriaOriginal": "Ciberseguridad",
+      "origen": "catalogo",
+      "tema": "ciberseguridad",
+      "estado": "enlace_roto",
+      "nota": "La página 'Cursos' ya no es pública (no figura entre las páginas del sitio; el cortafuegos responde 'Request Rejected' con HTTP 200). La capacitación figura ahora en Servicios.",
+      "urlNueva": "https://cert.pa/?page_id=5594",
+      "tituloNuevo": "CSIRT Panamá – Servicios (Capacitación y Concienciación)",
+      "anioNuevo": 2026
+    },
+    {
+      "titulo": "Legislación",
+      "url": "https://www.asep.gob.pa/?page_id=13282",
+      "categoriaOriginal": "Protección del Usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "vigente",
+      "nota": "Página DNAU activa: rigen el Reglamento JD-101/1997 y el procedimiento de reclamos AN 5161-AU/2012. La Res. AN 1491-ADM suspendió plazos de reclamos del 9 al 31-oct-2026 por el sismo."
+    },
+    {
+      "titulo": "Resolución AN No. 11370-Telco de 26 de junio de 2017, Normas para la Prestación del Servicio Internet para Uso Público (No. 211), adoptadas a través de la Resolución AN No. 10130-Telco de 5 de julio de 2016, y expide el Reglamento para el control y fiscalización del cumplimiento de las metas de calidad del Servicio Internet para Uso Público (No. 211), vista la Consulta Pública No.001-17",
+      "url": "https://www.asep.gob.pa/?p=119473",
+      "categoriaOriginal": "Asuntos relacionados con Internet",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "vigente",
+      "nota": "Vigente (anexos corregidos por AN 11459-Telco/2017); ASEP sigue fijando con ella el cumplimiento de metas de calidad (p. ej. año 2025). Consulta Pública 011-26 (sep-2026) propone un texto único."
+    },
+    {
+      "titulo": "Decreto Ejecutivo No.138 de 15 de junio de 1998, por el cual se dictan normas para la utilización de instalaciones dedicadas a la prestación de servicios públicos de telecomunicaciones, radio y televisión",
+      "url": "https://www.asep.gob.pa/wp-content/uploads/transparencia/articulo_9/9_2-politicas_institucionales/marco_legal/telecomunicaciones/leyes_sectoriales/ejecutivo_138.pdf",
+      "categoriaOriginal": "Compartición de infraestructura",
+      "origen": "catalogo",
+      "tema": "infraestructura",
+      "estado": "vigente",
+      "nota": "ASEP lo mantiene entre los reglamentos vigentes del sector telecomunicaciones; PDF accesible. No se halló derogación ni norma sustituta."
+    },
+    {
+      "titulo": "Resolución AN No. 2848-Telco Por la cual se adopta la reglamentación que regirá la instalación, operación y uso compartido de torres y/o estructuras que soportan antenas de telecomunicaciones",
+      "url": "https://www.asep.gob.pa/?p=122844",
+      "categoriaOriginal": "Compartición de infraestructura",
+      "origen": "catalogo",
+      "tema": "infraestructura",
+      "estado": "vigente",
+      "nota": "ASEP la publica como 'Normativa Vigente' de torres y antenas y en feb-2026 reiteró que es de estricto cumplimiento. No hay reglamento sustituto."
+    },
+    {
+      "titulo": "Resolución AN No. 8105-Telco de 26 de noviembre de 2014, “Procedimiento de Homologación de Dispositivos Inalámbricos de Telecomunicaciones”, sometida a Consulta Pública, del 24 de abril al 7 de mayo de 2014",
+      "url": "https://www.asep.gob.pa/?p=119565",
+      "categoriaOriginal": "Homologación de productos y dispositivos",
+      "origen": "catalogo",
+      "tema": "homologacion",
+      "estado": "vigente",
+      "nota": "Vigente: ASEP la enlaza como procedimiento de homologación (página actualizada oct-2026). La Consulta 004-21 para modificarla no derivó en una nueva resolución publicada."
+    },
+    {
+      "titulo": "Listado de Dispositivos Inalámbricos de Telecomunicaciones Homologados",
+      "url": "https://www.asep.gob.pa/?page_id=13182",
+      "categoriaOriginal": "Homologación de productos y dispositivos",
+      "origen": "catalogo",
+      "tema": "homologacion",
+      "estado": "vigente",
+      "nota": "Enlace activo a la página de Homologación de ASEP; el listado está en el buscador SATEL (7.251 equipos a nov-2026). Se sugiere enlazarlo directamente.",
+      "urlNueva": "https://satel.asep.gob.pa/Pages/Control/BuscadorEquipos/BuscadorEquipos.aspx",
+      "tituloNuevo": "SATEL – Buscador de Equipos Homologados (ASEP)"
+    },
+    {
+      "titulo": "Procedimiento para la Homologación de Dispositivos Inalámbricos de Telecomunicaciones",
+      "url": "https://www.asep.gob.pa/wp-content/uploads/telecomunicaciones/homologacion/anexo_a_8105_telco.pdf",
+      "categoriaOriginal": "Homologación de productos y dispositivos",
+      "origen": "catalogo",
+      "tema": "homologacion",
+      "estado": "vigente",
+      "nota": "PDF activo del Anexo A de la Res. AN 8105-Telco/2014; es el documento que ASEP sigue enlazando como procedimiento de homologación vigente."
+    },
+    {
+      "titulo": "Consultar portal institucional del INDOTEL",
+      "url": "https://indotel.gob.do/",
+      "categoriaOriginal": "Contáctanos",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "vigente",
+      "nota": "Enlace activo, pero es el portal de INDOTEL (Rep. Dominicana), no un documento de Panamá; parece arrastrado del pie del catálogo. Para contacto, usar ASEP.",
+      "urlNueva": "https://asep.gob.pa/contacto/",
+      "tituloNuevo": "Contacto – Autoridad Nacional de los Servicios Públicos (ASEP)"
+    }
+  ]
+}

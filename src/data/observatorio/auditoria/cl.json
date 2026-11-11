@@ -1,0 +1,28 @@
+{
+  "iso": "cl",
+  "pais": "Chile",
+  "revisado": "2026-11-11",
+  "documentos": [
+    {
+      "titulo": "Ficha SUBTEL en REGULATEL",
+      "url": "https://regulatel.indotel.gob.do/pagina/detalle?id=176",
+      "categoriaOriginal": "Mejores prácticas regulatorias",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "enlace_roto",
+      "nota": "Responde 200, pero id=176 muestra una ficha de Argentina. Chile no figura en el panel de Mejores Prácticas del portal INDOTEL. El perfil vigente de SUBTEL está en regulatel.org.",
+      "urlNueva": "https://www.regulatel.org/subtel",
+      "tituloNuevo": "SUBTEL – Subsecretaría de Telecomunicaciones (perfil de miembro en REGULATEL)",
+      "anioNuevo": 2026
+    },
+    {
+      "titulo": "Subsecretaría de Telecomunicaciones (SUBTEL)",
+      "url": "https://www.subtel.gob.cl/",
+      "categoriaOriginal": "Mejores prácticas regulatorias",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "vigente",
+      "nota": "Sitio oficial activo, con noticias al 9-nov-2026. SUBTEL sigue siendo un organismo del MTT; subsecretaria: Romina Garrido Iglesias. No se detectó cambio de regulador."
+    }
+  ]
+}

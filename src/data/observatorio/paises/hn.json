@@ -1,0 +1,484 @@
+{
+  "iso": "hn",
+  "pais": "Honduras",
+  "regulador": {
+    "sigla": "CONATEL",
+    "nombre": "Comisión Nacional de Telecomunicaciones",
+    "url": "https://www.conatel.gob.hn",
+    "naturaleza": "Ente desconcentrado de la Presidencia de la República con independencia administrativa, técnica, presupuestaria y financiera (Ley Marco, art. 12, reforma de 2014); lo dirige un pleno de comisionados."
+  },
+  "otrasAutoridades": [
+    {
+      "sigla": "DIGER",
+      "nombre": "Dirección de Gestión por Resultados",
+      "rol": "Ente de la Presidencia que rige la política digital del sector público, incluida la ciberseguridad (PCM-004-2026); coordina con CONATEL las acciones de ciberseguridad.",
+      "url": "https://www.diger.gob.hn"
+    },
+    {
+      "sigla": "CDPC",
+      "nombre": "Comisión para la Defensa y Promoción de la Competencia",
+      "rol": "Autoridad general de competencia; CONATEL puede pedirle opinión en sus análisis de mercado.",
+      "url": "https://cdpc.hn"
+    },
+    {
+      "sigla": "COPECO",
+      "nombre": "Secretaría de Estado en los Despachos de Gestión de Riesgos y Contingencias Nacionales",
+      "rol": "Coordina el Sistema Nacional de Gestión de Riesgos y emite alertas ante desastres.",
+      "url": "https://copeco.gob.hn"
+    },
+    {
+      "sigla": "SNE 911",
+      "nombre": "Sistema Nacional de Emergencias 911",
+      "rol": "Atiende el número único nacional de emergencias 911 (Decreto Legislativo 58-2015)."
+    }
+  ],
+  "marcoLegal": {
+    "nombre": "Ley Marco del Sector de Telecomunicaciones (Decreto 185-95, reformada por los Decretos 118-97, 112-2011 y 325-2013)",
+    "anio": 1995,
+    "url": "https://www.conatel.gob.hn/informacion?categoria=marco_regulatorio"
+  },
+  "resumenPais": "CONATEL, ente desconcentrado con independencia técnica y financiera, regula el sector bajo la Ley Marco de 1995. Tigo y Claro concentran el mercado móvil. En 2026 abrió toda la banda de 6 GHz, reforzó los derechos de los usuarios y licita espectro para preparar el 5G, que aún no opera.",
+  "categorias": {
+    "espectro": {
+      "resumen": "CONATEL planifica el espectro con el PNAF de 2024, actualizado en 2026: la banda de 6 GHz quedó abierta completa (1200 MHz) al Wi-Fi y 3,3–3,8 GHz se destinó a IMT. Aún no hay espectro 5G asignado: un concurso de AWS fracasó en 2026 por falta de competidores y ahora se licitan 700 MHz y AWS.",
+      "instrumentos": [
+        {
+          "nombre": "Plan Nacional de Atribución de Frecuencias (Resolución NR004/24)",
+          "anio": 2024,
+          "tipo": "plan",
+          "url": "https://files.conatel.gob.hn/607180a7-cf83-4f84-a955-de8ea3689b75.pdf"
+        },
+        {
+          "nombre": "Resolución NR003/26: reforma al PNAF (6 GHz, IMT 3,3–3,8 GHz, sistemas satelitales)",
+          "anio": 2026,
+          "tipo": "resolucion",
+          "url": "https://files.conatel.gob.hn/4933f6dc-681e-4fa6-92f2-a57f725872a6.pdf"
+        },
+        {
+          "nombre": "Reglamento de Sistemas WAS/RLAN y Dispositivos de Corto Alcance (NR005/24)",
+          "anio": 2024,
+          "tipo": "reglamento",
+          "url": "https://files.conatel.gob.hn/d4397690-9632-4ec4-b581-99921ce8bff4.pdf"
+        },
+        {
+          "nombre": "Bases del Concurso Público Multibanda CNT-CP002/2026 (700 MHz y AWS)",
+          "anio": 2026,
+          "tipo": "otro",
+          "url": "https://www.conatel.gob.hn/avisos/23"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-09",
+        "texto": "NR003/26 abrió toda la banda de 6 GHz (1200 MHz) al Wi-Fi y reservó 3,3–3,8 GHz para IMT; en oct-2026 se convocó el concurso de 700 MHz y AWS."
+      },
+      "indicadores": {
+        "esp_cuadro": {
+          "estado": "si",
+          "nota": "PNAF aprobado por NR004/24 (Gaceta 21-dic-2024), que derogó el plan de 2021 (NR003/21); actualizado por NR003/26 en sep-2026.",
+          "fuente": "https://files.conatel.gob.hn/607180a7-cf83-4f84-a955-de8ea3689b75.pdf",
+          "anio": 2024
+        },
+        "esp_5g": {
+          "estado": "no",
+          "nota": "Sin espectro 5G asignado: 3,3–3,8 GHz y 26 GHz quedan reservados para concurso (NR003/26); 700 MHz se licita en el concurso CNT-CP002/2026.",
+          "fuente": "https://files.conatel.gob.hn/4933f6dc-681e-4fa6-92f2-a57f725872a6.pdf",
+          "anio": 2026
+        },
+        "esp_licitacion": {
+          "estado": "parcial",
+          "nota": "Concurso CNT-CP002/2026 (700 MHz y AWS) convocado en oct-2026 y aún en curso; el CNT-CP001/2026 (AWS) fue declarado fracasado en ago-2026.",
+          "fuente": "https://www.conatel.gob.hn/avisos/22",
+          "anio": 2026
+        },
+        "esp_6ghz": {
+          "estado": "si",
+          "nota": "NR003/26 (Gaceta 2-sep-2026) amplió el uso libre WAS/RLAN a 5925–7125 MHz: 1200 MHz. Antes solo 500 MHz (5925–6425, NR005/24).",
+          "fuente": "https://files.conatel.gob.hn/4933f6dc-681e-4fa6-92f2-a57f725872a6.pdf",
+          "anio": 2026
+        },
+        "esp_secundario": {
+          "estado": "si",
+          "nota": "Reglamento General (art. 94): concesiones y licencias de espectro pueden transferirse con autorización previa de CONATEL; no se halló arrendamiento.",
+          "fuente": "https://cms.conatel.gob.hn/assets/6487967b-69d6-4f5c-82c1-4bdd0f1cd087",
+          "anio": 2002
+        }
+      }
+    },
+    "competencia": {
+      "resumen": "Se puede declarar a operadores con peso significativo e imponerles obligaciones, pero no se hallaron declaratorias. La interconexión es obligatoria y CONATEL aprueba ofertas o la ordena. El reglamento de Internet de 2022 fija la neutralidad de red. No se hallaron proyectos recientes del fondo FITT.",
+      "instrumentos": [
+        {
+          "nombre": "Reglamento de Competencia en el Mercado de las Telecomunicaciones (NR017/15)",
+          "anio": 2015,
+          "tipo": "reglamento",
+          "url": "https://files.conatel.gob.hn/2479fbe6-e991-4258-b759-8b7e0a6139cc.pdf"
+        },
+        {
+          "nombre": "Reglamento General de la Ley Marco del Sector de Telecomunicaciones (Acuerdo 141-2002)",
+          "anio": 2002,
+          "tipo": "reglamento",
+          "url": "https://cms.conatel.gob.hn/assets/6487967b-69d6-4f5c-82c1-4bdd0f1cd087"
+        },
+        {
+          "nombre": "Reglamento del Servicio de Internet o Acceso a Redes Informáticas (NR004/22)",
+          "anio": 2022,
+          "tipo": "reglamento",
+          "url": "https://files.conatel.gob.hn/038d2378-714e-40d1-9440-4fdc793560c6.pdf"
+        },
+        {
+          "nombre": "Reglamento del Fondo de Inversiones en Telecomunicaciones y TIC, FITT (NR007/14)",
+          "anio": 2014,
+          "tipo": "reglamento",
+          "url": "https://files.conatel.gob.hn/ef6d645a-01c4-4c6b-b3bd-858d0a39c2fb.pdf"
+        }
+      ],
+      "novedad": null,
+      "indicadores": {
+        "comp_psm": {
+          "estado": "parcial",
+          "nota": "NR017/15 y NR006/22 permiten declarar operadores con peso significativo de mercado (PSM) e imponerles obligaciones; no se halló declaratoria vigente.",
+          "fuente": "https://files.conatel.gob.hn/2479fbe6-e991-4258-b759-8b7e0a6139cc.pdf",
+          "anio": 2015
+        },
+        "comp_omv": {
+          "estado": "parcial",
+          "nota": "NR006/22 define el OMV y permite imponer acceso a redes móviles tras declarar dominancia; falta la norma específica y no se hallaron OMV operando.",
+          "fuente": "https://files.conatel.gob.hn/51468c3a-d116-4399-84c1-e180b9b45932.pdf",
+          "anio": 2022
+        },
+        "comp_interconexion": {
+          "estado": "si",
+          "nota": "Interconexión obligatoria por acuerdo, oferta básica aprobada por CONATEL u orden del regulador (Reglamento General, art. 186A; Reglamento NR008/03).",
+          "fuente": "https://cms.conatel.gob.hn/assets/6487967b-69d6-4f5c-82c1-4bdd0f1cd087",
+          "anio": 2003
+        },
+        "comp_fondo": {
+          "estado": "parcial",
+          "nota": "FITT creado en 2014 (aporte del 1 % de ingresos) y reglamentado (NR007/14); no se hallaron proyectos recientes. Rige también 'Internet de Todos' (NR005/22).",
+          "fuente": "https://files.conatel.gob.hn/ef6d645a-01c4-4c6b-b3bd-858d0a39c2fb.pdf",
+          "anio": 2014
+        },
+        "comp_neutralidad": {
+          "estado": "si",
+          "nota": "Reglamento del Servicio de Internet NR004/22, art. 31: acceso con neutralidad y sin discriminación ni restricción de contenidos y aplicaciones legales.",
+          "fuente": "https://files.conatel.gob.hn/038d2378-714e-40d1-9440-4fdc793560c6.pdf",
+          "anio": 2022
+        }
+      }
+    },
+    "ciberseguridad": {
+      "resumen": "No se identificaron una ley marco ni una estrategia nacional de ciberseguridad aprobadas. La DIGER rige la política digital pública, incluida la ciberseguridad, y en 2026 CONATEL informó avances hacia el primer CSIRT nacional. Honduras no es parte del Convenio de Budapest ni figura como invitado.",
+      "instrumentos": [
+        {
+          "nombre": "Reglamento del Servicio de Internet NR004/22 (campañas de seguridad digital y filtros anti-spam a cargo de los proveedores)",
+          "anio": 2022,
+          "tipo": "reglamento",
+          "url": "https://files.conatel.gob.hn/038d2378-714e-40d1-9440-4fdc793560c6.pdf"
+        },
+        {
+          "nombre": "Decreto Ejecutivo PCM-004-2026 (competencias de la DIGER en materia digital, incluida la ciberseguridad del sector público)",
+          "anio": 2026,
+          "tipo": "decreto",
+          "url": "https://www.diger.gob.hn/marco-legal"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-08",
+        "texto": "CONATEL informó avances para crear el primer CSIRT nacional, en coordinación con la DIGER, durante un taller con la Embajada de EE. UU."
+      },
+      "indicadores": {
+        "ciber_estrategia": {
+          "estado": "sin_dato",
+          "nota": "No se halló estrategia aprobada; el PCM-004-2026 encarga a la DIGER las políticas digitales públicas, incluida la ciberseguridad."
+        },
+        "ciber_ley": {
+          "estado": "sin_dato",
+          "nota": "No se identificó una ley marco de ciberseguridad aprobada a nov-2026."
+        },
+        "ciber_csirt": {
+          "estado": "parcial",
+          "nota": "En creación: en ago-2026 CONATEL informó 'avances' para el primer CSIRT nacional, en coordinación con la DIGER; aún no opera.",
+          "fuente": "https://www.conatel.gob.hn/noticias/redes-seguras-ultima-generacion",
+          "anio": 2026
+        },
+        "ciber_reporte": {
+          "estado": "sin_dato",
+          "nota": "NR004/22 solo exige informar a CONATEL caídas masivas de Internet (art. 23); no se halló obligación de reportar incidentes de ciberseguridad."
+        },
+        "ciber_budapest": {
+          "estado": "no",
+          "nota": "No figura en la lista oficial del Consejo de Europa: ni parte, ni firmante, ni invitado a adherirse (consulta del 11-nov-2026).",
+          "fuente": "https://www.coe.int/en/web/cybercrime/parties-observers"
+        }
+      }
+    },
+    "usuario": {
+      "resumen": "El Reglamento de Protección al Usuario, reformado en febrero de 2026, limita la permanencia a 6 meses, prohíbe cobrar la reconexión y exige compensar las caídas del servicio. CONATEL atiende reclamos en segunda instancia (línea 185). Hay portabilidad móvil desde 2014.",
+      "instrumentos": [
+        {
+          "nombre": "Resolución NR001/26: reforma al Reglamento de Protección al Usuario (aplica el Decreto 75-2024)",
+          "anio": 2026,
+          "tipo": "resolucion",
+          "url": "https://files.conatel.gob.hn/eb9a2f2d-297b-4db3-a385-e827e180e79b.pdf"
+        },
+        {
+          "nombre": "Reglamento Específico de Protección al Usuario y/o Suscriptor de Servicios Públicos de Telecomunicaciones y TIC (NR014/17)",
+          "anio": 2018,
+          "tipo": "reglamento",
+          "url": "https://files.conatel.gob.hn/1390cc9c-cc84-4149-b202-a2dfb16c3f52.pdf"
+        },
+        {
+          "nombre": "Reforma al Reglamento de Portabilidad Numérica para Telefonía Móvil (NR010/17)",
+          "anio": 2018,
+          "tipo": "reglamento",
+          "url": "https://files.conatel.gob.hn/8722e15c-8f05-40ef-a4ea-368321ef840e.pdf"
+        },
+        {
+          "nombre": "Reglamento de verificación de metas de calidad de la telefonía móvil (NR009/22)",
+          "anio": 2022,
+          "tipo": "reglamento",
+          "url": "https://files.conatel.gob.hn/8d47f470-89c4-4a30-8558-9149766755c9.pdf"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-02",
+        "texto": "NR001/26 limitó la permanencia a 6 meses, prohibió cobros por reconexión y exige compensación automática por caídas del servicio."
+      },
+      "indicadores": {
+        "usu_reglamento": {
+          "estado": "si",
+          "nota": "Reglamento de Protección al Usuario (NR014/17), reformado por NR004/21 y NR001/26 (Gaceta 28-feb-2026), que aplica el Decreto 75-2024.",
+          "fuente": "https://files.conatel.gob.hn/eb9a2f2d-297b-4db3-a385-e827e180e79b.pdf",
+          "anio": 2026
+        },
+        "usu_reclamos": {
+          "estado": "si",
+          "nota": "Tras reclamar al operador, el usuario acude a CONATEL en segunda instancia (conciliación o denuncia), por la línea gratuita 185 o en línea (NR001/26, art. 49).",
+          "fuente": "https://files.conatel.gob.hn/eb9a2f2d-297b-4db3-a385-e827e180e79b.pdf",
+          "anio": 2026
+        },
+        "usu_portabilidad": {
+          "estado": "si",
+          "nota": "Portabilidad móvil disponible desde abril de 2014 (NR012/13, reformado por NR010/17); NR001/26 la mantiene como derecho del usuario.",
+          "fuente": "https://cms.conatel.gob.hn/assets/c76d3bc6-3a21-4ed3-8322-5a3aa3b6fb7d",
+          "anio": 2014
+        },
+        "usu_calidad": {
+          "estado": "parcial",
+          "nota": "NR009/22 fija metas de calidad móvil y su verificación; CONATEL publica velocidades promedio nacionales, pero no se hallaron mediciones públicas por operador.",
+          "fuente": "https://cms.conatel.gob.hn/assets/8a0b5e59-a3a0-4309-a27c-cfd2e7e44a24",
+          "anio": 2026
+        },
+        "usu_nomolestar": {
+          "estado": "parcial",
+          "nota": "NR008/11 obliga a los móviles a bloquear por defecto SMS/MMS spam y a llevar base de remitentes denunciados; no se halló registro 'No Molestar'.",
+          "fuente": "https://files.conatel.gob.hn/a1984094-8d8d-4eb3-9dc8-ae11707972e2.pdf",
+          "anio": 2011
+        }
+      }
+    },
+    "emergentes": {
+      "resumen": "No hay 5G comercial: la banda ancha móvil funciona en 3G/4G y el 5G depende de nuevas asignaciones de espectro. Starlink opera registrado ante CONATEL, que en 2026 fijó criterios para autorizar satélites no geoestacionarios. No se hallaron sandbox, marco IoT ni estrategia de IA.",
+      "instrumentos": [
+        {
+          "nombre": "Resolución NR003/26 (redes IMT privadas, servicio móvil por satélite y sistemas satelitales no geoestacionarios)",
+          "anio": 2026,
+          "tipo": "resolucion",
+          "url": "https://files.conatel.gob.hn/4933f6dc-681e-4fa6-92f2-a57f725872a6.pdf"
+        },
+        {
+          "nombre": "Informe trimestral de indicadores del sector de telecomunicaciones, 2.º trimestre de 2026",
+          "anio": 2026,
+          "tipo": "otro",
+          "url": "https://cms.conatel.gob.hn/assets/8a0b5e59-a3a0-4309-a27c-cfd2e7e44a24"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-09",
+        "texto": "NR003/26 fijó criterios para autorizar constelaciones satelitales no geoestacionarias y habilitó redes IMT privadas en la banda de 2,5 GHz."
+      },
+      "indicadores": {
+        "tec_sandbox": {
+          "estado": "sin_dato",
+          "nota": "No se identificó un sandbox regulatorio para el sector TIC."
+        },
+        "tec_5g": {
+          "estado": "no",
+          "nota": "Sin 5G comercial: el informe de CONATEL del 2.º trimestre de 2026 registra la banda ancha móvil solo en 3G/4G; el 5G depende de nuevas licitaciones.",
+          "fuente": "https://cms.conatel.gob.hn/assets/8a0b5e59-a3a0-4309-a27c-cfd2e7e44a24",
+          "anio": 2026
+        },
+        "tec_iot": {
+          "estado": "sin_dato",
+          "nota": "No se identificó un marco específico para IoT/M2M; NR003/26 habilita redes IMT privadas en 2,5 GHz."
+        },
+        "tec_satelital": {
+          "estado": "si",
+          "nota": "Starlink Honduras figura como operador de Internet y capacidad satelital en avisos de CONATEL de 2026; NR003/26 fijó criterios para autorizar sistemas NGSO.",
+          "fuente": "https://cms.conatel.gob.hn/assets/5bed7043-de26-4067-91e8-5283311df054",
+          "anio": 2026
+        },
+        "tec_ia": {
+          "estado": "sin_dato",
+          "nota": "No se identificó una estrategia ni una ley nacional de inteligencia artificial vigentes."
+        }
+      }
+    },
+    "infraestructura": {
+      "resumen": "El Reglamento de Acceso y Uso Compartido de Redes (2022) regula la compartición de torres, ductos y postes, con intervención de CONATEL si no hay acuerdo. El roaming nacional y el acceso de operadores virtuales solo pueden imponerse a operadores dominantes.",
+      "instrumentos": [
+        {
+          "nombre": "Reglamento de Acceso y Uso Compartido de Redes (NR006/22)",
+          "anio": 2022,
+          "tipo": "reglamento",
+          "url": "https://files.conatel.gob.hn/51468c3a-d116-4399-84c1-e180b9b45932.pdf"
+        },
+        {
+          "nombre": "Ley Marco del Sector de Telecomunicaciones (art. 36: derecho de servidumbre para redes)",
+          "anio": 1995,
+          "tipo": "ley",
+          "url": "https://www.conatel.gob.hn/informacion?categoria=marco_regulatorio"
+        }
+      ],
+      "novedad": null,
+      "indicadores": {
+        "inf_pasiva": {
+          "estado": "si",
+          "nota": "Reglamento de Acceso y Uso Compartido de Redes (NR006/22): torres, ductos y postes; CONATEL dirime y puede ordenar el acceso si no hay acuerdo.",
+          "fuente": "https://files.conatel.gob.hn/51468c3a-d116-4399-84c1-e180b9b45932.pdf",
+          "anio": 2022
+        },
+        "inf_electrica": {
+          "estado": "parcial",
+          "nota": "NR006/22 (art. 23) pide a entidades públicas facilitar su infraestructura (electricidad, agua, vías) y prever ductos en obras públicas, sin obligación firme.",
+          "fuente": "https://files.conatel.gob.hn/51468c3a-d116-4399-84c1-e180b9b45932.pdf",
+          "anio": 2022
+        },
+        "inf_permisos": {
+          "estado": "sin_dato",
+          "nota": "La Ley Marco (art. 36) da derecho de servidumbre y NR006/22 (art. 24) exhorta a los municipios; no se halló norma que agilice permisos."
+        },
+        "inf_roaming": {
+          "estado": "parcial",
+          "nota": "NR006/22 (art. 19 f) permite imponer roaming nacional a operadores dominantes tras un análisis de mercado; falta la norma específica.",
+          "fuente": "https://files.conatel.gob.hn/51468c3a-d116-4399-84c1-e180b9b45932.pdf",
+          "anio": 2022
+        },
+        "inf_edificios": {
+          "estado": "sin_dato",
+          "nota": "No se identificó norma técnica de telecomunicaciones en edificaciones; NR006/22 solo regula el acceso compartido en edificios."
+        }
+      }
+    },
+    "emergencia": {
+      "resumen": "El 911 es el número único nacional (ley de 2015) y la llamada es gratuita aun sin saldo. Los proveedores de Internet deben tener planes de contingencia y reponer el servicio tras desastres. No se halló un sistema de alertas a celulares. Honduras firmó el Convenio de Tampere en 1999 sin ratificarlo.",
+      "instrumentos": [
+        {
+          "nombre": "Código de numeración corta 911 (NR012/16), en aplicación de la Ley del Sistema Nacional de Emergencias (Decreto 58-2015)",
+          "anio": 2016,
+          "tipo": "resolucion",
+          "url": "https://files.conatel.gob.hn/e6bfbc66-2c11-470c-b484-4d90f7151293.pdf"
+        },
+        {
+          "nombre": "Reglamento del Servicio de Internet NR004/22 (planes de contingencia y reposición del servicio)",
+          "anio": 2022,
+          "tipo": "reglamento",
+          "url": "https://files.conatel.gob.hn/038d2378-714e-40d1-9440-4fdc793560c6.pdf"
+        }
+      ],
+      "novedad": null,
+      "indicadores": {
+        "eme_alerta": {
+          "estado": "sin_dato",
+          "nota": "No se identificó un sistema nacional de alertas a celulares (Cell Broadcast o SMS masivo) operativo."
+        },
+        "eme_numero": {
+          "estado": "si",
+          "nota": "911 es el número único nacional: Ley del Sistema Nacional de Emergencias (Decreto 58-2015); CONATEL lo regula en NR012/16.",
+          "fuente": "https://files.conatel.gob.hn/e6bfbc66-2c11-470c-b484-4d90f7151293.pdf",
+          "anio": 2015
+        },
+        "eme_plan": {
+          "estado": "parcial",
+          "nota": "NR004/22 exige a los proveedores de Internet planes de emergencia y reponer el servicio en 24 h (urbano) o 72 h (rural); no se halló plan nacional.",
+          "fuente": "https://files.conatel.gob.hn/038d2378-714e-40d1-9440-4fdc793560c6.pdf",
+          "anio": 2022
+        },
+        "eme_prioridad": {
+          "estado": "si",
+          "nota": "Llamadas al 911 gratuitas aun sin saldo (Decreto 58-2015); NR001/26 garantiza el acceso gratuito a los servicios de emergencia.",
+          "fuente": "https://files.conatel.gob.hn/e6bfbc66-2c11-470c-b484-4d90f7151293.pdf",
+          "anio": 2015
+        },
+        "eme_tampere": {
+          "estado": "parcial",
+          "nota": "Firmó el Convenio de Tampere el 25-feb-1999, pero no lo ha ratificado según la UN Treaty Collection.",
+          "fuente": "https://treaties.un.org/Pages/ViewDetails.aspx?src=TREATY&mtdsg_no=XXV-4&chapter=25&clang=_en",
+          "anio": 1999
+        }
+      }
+    },
+    "homologacion": {
+      "resumen": "La homologación es obligatoria y desde enero de 2024 rige un nuevo reglamento que acepta certificados de la FCC (EE. UU.), ISED (Canadá) e IFT (México). La lista de equipos homologados es pública y está al día, pero el trámite sigue siendo presencial. Existe lista negra de IMEI robados.",
+      "instrumentos": [
+        {
+          "nombre": "Reglamento de Homologación de Equipos y Aparatos de Telecomunicaciones (NR006/23)",
+          "anio": 2024,
+          "tipo": "reglamento",
+          "url": "https://files.conatel.gob.hn/e302223e-6973-4aa2-af53-6234c5ccd1a7.pdf"
+        },
+        {
+          "nombre": "Lista negra de IMEI de equipos robados (NR009/14)",
+          "anio": 2014,
+          "tipo": "resolucion",
+          "url": "https://files.conatel.gob.hn/779d63b2-a051-4dd2-8c1e-e2fcd836b191.pdf"
+        }
+      ],
+      "novedad": {
+        "fecha": "2024-01",
+        "texto": "Entró en vigor el Reglamento de Homologación NR006/23, que acepta certificados de la FCC (EE. UU.), ISED (Canadá) e IFT (México)."
+      },
+      "indicadores": {
+        "hom_obligatoria": {
+          "estado": "si",
+          "nota": "Todo equipo que se conecte a una red pública debe homologarse (Reglamento General, art. 213); rige el Reglamento NR006/23 (Gaceta 17-ene-2024).",
+          "fuente": "https://files.conatel.gob.hn/e302223e-6973-4aa2-af53-6234c5ccd1a7.pdf",
+          "anio": 2024
+        },
+        "hom_reconocimiento": {
+          "estado": "si",
+          "nota": "NR006/23 (art. 6) reconoce reportes de prueba y certificados de la FCC (EE. UU.), ISED (Canadá) e IFT (México), entre otros.",
+          "fuente": "https://files.conatel.gob.hn/e302223e-6973-4aa2-af53-6234c5ccd1a7.pdf",
+          "anio": 2024
+        },
+        "hom_imei": {
+          "estado": "si",
+          "nota": "NR009/14 creó la lista negra de IMEI de equipos robados; NR042/05 obliga a registrar los terminales denunciados como robados.",
+          "fuente": "https://files.conatel.gob.hn/779d63b2-a051-4dd2-8c1e-e2fcd836b191.pdf",
+          "anio": 2014
+        },
+        "hom_enlinea": {
+          "estado": "no",
+          "nota": "Trámite presencial: los requisitos se entregan y el certificado se retira en CONATEL; en línea solo se consultan los equipos homologados.",
+          "fuente": "https://www.conatel.gob.hn/servicios/homologacion"
+        },
+        "hom_lista": {
+          "estado": "si",
+          "nota": "Listado público en el sistema SHMG de CONATEL, con más de 4.700 certificados y altas hasta nov-2026.",
+          "fuente": "https://www.conatel.gob.hn/servicios/homologacion",
+          "anio": 2026
+        }
+      }
+    }
+  },
+  "cambiosDetectados": [
+    "No existía perfil de Honduras en el Observatorio anterior: se elaboró desde cero con fuentes oficiales.",
+    "Catálogo regulatel.org: el PNAF de 2021 (NR003/21) fue derogado por el PNAF NR004/24 (dic-2024).",
+    "Catálogo: 'Bandas de uso libre' (NR013/21) fue derogada por NR005/24; la banda de 6 GHz se amplió a 1200 MHz con NR003/26 (2026).",
+    "Catálogo: el Reglamento de Homologación figuraba como anteproyecto (2023); está vigente desde ene-2024 (NR006/23).",
+    "Catálogo: el archivo titulado 'Reglamento de tarifas' es la NR004/21, reforma al Reglamento de Protección al Usuario, que volvió a reformarse en feb-2026 (NR001/26).",
+    "Catálogo: el enlace de la NR008/22 está roto (URL duplicada)."
+  ],
+  "verificadoEn": "2026-11-11",
+  "confianza": "media"
+}

@@ -60,6 +60,10 @@ import BuscarDocumentos from '@/pages/BuscarDocumentos';
 import AccesoDocumentos from '@/pages/AccesoDocumentos';
 import AccesoSolicitud from '@/pages/AccesoSolicitud';
 import MicrositioBuenasPracticas from '@/pages/MicrositioBuenasPracticas';
+import ObservatorioRegulatorio from '@/pages/ObservatorioRegulatorio';
+import ObservatorioInforme from '@/pages/ObservatorioInforme';
+import ObservatorioPanel2 from '@/pages/ObservatorioPanel2';
+import AccesoObservatorio from '@/components/observatorio/AccesoObservatorio';
 import EstudiosInvestigacion from '@/pages/EstudiosInvestigacion';
 import Galeria from '@/pages/Galeria';
 import GaleriaAlbum from '@/pages/GaleriaAlbum';
@@ -128,6 +132,9 @@ function App() {
           <Route path="/acceso-documentos" element={<AccesoDocumentos />} />
           <Route path="/acceso-solicitud" element={<AccesoSolicitud />} />
           <Route path="/micrositio-buenas-practicas" element={<MicrositioBuenasPracticas />} />
+          <Route path="/observatorio-regulatorio" element={<AccesoObservatorio><ObservatorioRegulatorio /></AccesoObservatorio>} />
+          <Route path="/observatorio-regulatorio/informe" element={<AccesoObservatorio><ObservatorioInforme /></AccesoObservatorio>} />
+          <Route path="/observatorio-regulatorio/panel-2" element={<AccesoObservatorio><ObservatorioPanel2 /></AccesoObservatorio>} />
           <Route path="/estudios-e-investigacion" element={<EstudiosInvestigacion />} />
           <Route path="/galeria" element={<Galeria />} />
           <Route path="/galeria/:slug" element={<GaleriaAlbum />} />

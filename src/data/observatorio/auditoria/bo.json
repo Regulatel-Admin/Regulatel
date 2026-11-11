@@ -1,0 +1,413 @@
+{
+  "iso": "bo",
+  "pais": "Bolivia",
+  "revisado": "2026-11-11",
+  "documentos": [
+    {
+      "titulo": "Reglamento para el otorgamiento de Licencias en Telecomunicaciones",
+      "url": "https://www.oopp.gob.bo/wp-content/uploads/2021/07/2012-RM323-MOPSV-Reglamento-de-Otorgacion.pdf",
+      "categoriaOriginal": "Espectro radioeléctrico",
+      "origen": "catalogo",
+      "tema": "espectro",
+      "estado": "actualizado",
+      "nota": "La RM 323/2012 sigue vigente, pero el PDF es el texto original: la modificaron la RM 305/2015 (art. 7) y la RM 105 de 28/07/2026 (licencia satelital que incluye frecuencias; requisitos simplificados).",
+      "urlNueva": "https://www.oopp.gob.bo/wp-content/uploads/2026/11/RM_105_28_JULIO_2026.pdf",
+      "tituloNuevo": "Resolución Ministerial N° 105/2026 (MOPSV): modifica el Reglamento para el Otorgamiento de Licencias en Telecomunicaciones (servicios satelitales)",
+      "anioNuevo": 2026
+    },
+    {
+      "titulo": "Plan Nacional de Frecuencias",
+      "url": "https://www.att.gob.bo/sites/default/files/archivos_listados_pdf/2023-05-17/Plan%20Nacional%20de%20Frecuencias%20-%2008%20-%2011%20-%202012.pdf",
+      "categoriaOriginal": "Espectro radioeléctrico",
+      "origen": "catalogo",
+      "tema": "espectro",
+      "estado": "vigente",
+      "nota": "Texto base del PNF (RM 294/2012), vigente con sus modificaciones. La última conocida es la RM 203 de 02/09/2025, citada por la ATT en la RAR 23/2026; no figura en los portales del MOPSV ni de la ATT."
+    },
+    {
+      "titulo": "Modificaciones al Plan Nacional de Frecuencias- 2013",
+      "url": "https://www.oopp.gob.bo/wp-content/uploads/2021/07/2013-RM157-MOPSV-Modificacion-Art-3-RM-294.pdf",
+      "categoriaOriginal": "Espectro radioeléctrico",
+      "origen": "catalogo",
+      "tema": "espectro",
+      "estado": "vigente",
+      "nota": "RM 157/2013 (modifica el art. 3 de la RM 294/2012). Sigue vigente como parte del PNF; el PDF oficial del MOPSV responde."
+    },
+    {
+      "titulo": "Modificaciones al Plan Nacional de Frecuencias- 2016",
+      "url": "https://www.oopp.gob.bo/wp-content/uploads/2021/07/2016-RM223-MOPSV-Modificacion-Plan-Nacional-de-Frecuencias.pdf",
+      "categoriaOriginal": "Espectro radioeléctrico",
+      "origen": "catalogo",
+      "tema": "espectro",
+      "estado": "vigente",
+      "nota": "RM 223/2016, modificación del PNF vigente; el PDF oficial del MOPSV responde."
+    },
+    {
+      "titulo": "Modificaciones al Plan Nacional de Frecuencias- 2017",
+      "url": "https://www.oopp.gob.bo/wp-content/uploads/2021/07/2017-RM235-MOPSV-Modificacion-Plan-Nacional-de-Frecuencias-Radiodifusion.pdf",
+      "categoriaOriginal": "Espectro radioeléctrico",
+      "origen": "catalogo",
+      "tema": "espectro",
+      "estado": "vigente",
+      "nota": "RM 235/2017 (bandas de radiodifusión), vigente; la ATT la mantiene en su normativa sectorial publicada en 2025."
+    },
+    {
+      "titulo": "Modificaciones al Plan Nacional de Frecuencias- 2019",
+      "url": "https://www.oopp.gob.bo/wp-content/uploads/2021/07/2019-RM072-MOPSV-Modificacion-PNF.pdf",
+      "categoriaOriginal": "Espectro radioeléctrico",
+      "origen": "catalogo",
+      "tema": "espectro",
+      "estado": "vigente",
+      "nota": "RM 072/2019, modificación del PNF vigente; el PDF oficial del MOPSV responde."
+    },
+    {
+      "titulo": "Modificaciones al Plan Nacional de Frecuencias- 2020",
+      "url": "https://www.oopp.gob.bo/wp-content/uploads/2021/07/2020-RM152-MOPSV-Modificacion-PNF-IoT.pdf",
+      "categoriaOriginal": "Espectro radioeléctrico",
+      "origen": "catalogo",
+      "tema": "espectro",
+      "estado": "vigente",
+      "nota": "RM 152/2020: banda de uso libre de 915 a 928 MHz para Internet de las Cosas, sujeta a registro ante la ATT; vigente."
+    },
+    {
+      "titulo": "Modificaciones al Plan Nacional de Frecuencias- 2022",
+      "url": "https://www.oopp.gob.bo/wp-content/uploads/2022/10/2022-RM-174-Modificacion-al-Plan-Nacional-de-Frecuencia.pdf",
+      "categoriaOriginal": "Espectro radioeléctrico",
+      "origen": "catalogo",
+      "tema": "espectro",
+      "estado": "vigente",
+      "nota": "RM 174/2022, vigente, pero ya no es la última modificación del PNF: la ATT cita la RM 203 de 02/09/2025 (RAR 23/2026), que no figura en los portales del MOPSV ni de la ATT."
+    },
+    {
+      "titulo": "Reglamento para la Autorización de Prestación de Servicio de Estación Espacial",
+      "url": "https://www.oopp.gob.bo/wp-content/uploads/2021/07/2016-RM038-MOPSV-Autorizacion-Servicios-Espaciales.pdf",
+      "categoriaOriginal": "Espectro radioeléctrico",
+      "origen": "catalogo",
+      "tema": "espectro",
+      "estado": "vigente",
+      "nota": "Vigente (mod. RM 145/2020). El DS 5666/2026 confirma que el Servicio de Estación Espacial solo requiere autorización de la ATT según RM del MOPSV."
+    },
+    {
+      "titulo": "Modificación al Reglamento para la Autorización de Prestación de Servicio de Estación Espacial",
+      "url": "https://www.oopp.gob.bo/wp-content/uploads/2021/07/2020-RM145-MOPSV-Modificacion-RM038-Servicio-Estacion-Espacial.pdf",
+      "categoriaOriginal": "Espectro radioeléctrico",
+      "origen": "catalogo",
+      "tema": "espectro",
+      "estado": "vigente",
+      "nota": "Vigente; modifica la RM 038/2016. Sin reformas posteriores halladas (la RM 105/2026 regula aparte la licencia de servicios satelitales)."
+    },
+    {
+      "titulo": "Reglamento General a la Ley No 164 de 08 de agosto de 2011 Ley General de Telecomunicaciones",
+      "url": "https://www.att.gob.bo/sites/default/files/archivos_listados_pdf/2021-07-20/Decreto%20Supremo%201391%20Reglamento%20General%20a%20la%20Ley%20164%20de%20Telecomunicaciones%20y%20Tecnologias%20de%20Inforacion%20y%20Comunicacion..pdf",
+      "categoriaOriginal": "Competencia Económica",
+      "origen": "catalogo",
+      "tema": "competencia",
+      "estado": "actualizado",
+      "nota": "El DS 1391 sigue vigente, pero el PDF es el texto de 2012. Tiene varias reformas; la última, el DS 5666 de 27/07/2026, cambia el art. 53 (servicios satelitales) y el art. 179.",
+      "urlNueva": "http://www.gacetaoficialdebolivia.gob.bo/normas/verGratis_gob/281297",
+      "tituloNuevo": "Decreto Supremo N° 5666 (27/07/2026): modifica el Reglamento General a la Ley 164 aprobado por DS 1391",
+      "anioNuevo": 2026
+    },
+    {
+      "titulo": "Reglamento del Régimen de Regulación Tarifaria de los Servicios Públicos de Telecomunicaciones y Tecnologías de Información y Comunicación",
+      "url": "https://www.oopp.gob.bo/wp-content/uploads/2021/07/2013-RM088-MOPSV-Reglamento-Regulacion-Tarifaria.pdf",
+      "categoriaOriginal": "Competencia Económica",
+      "origen": "catalogo",
+      "tema": "competencia",
+      "estado": "vigente",
+      "nota": "Vigente (modificada por la RM 005/2019); la ATT la mantiene en su normativa (2025). Sin reformas 2024-2026 halladas."
+    },
+    {
+      "titulo": "Reglamento de Interconexión y Acceso y Uso compartido de Infraestructura",
+      "url": "http://www.pit.bo/documentos/RM062_Reglamento_de_Interconexion.pdf",
+      "categoriaOriginal": "Competencia Económica",
+      "origen": "catalogo",
+      "tema": "competencia",
+      "estado": "enlace_roto",
+      "nota": "pit.bo no responde (HTTP rechazado; HTTPS con certificado ajeno y 404). La RM 062/2013 sigue vigente y el MOPSV publica el PDF oficial.",
+      "urlNueva": "https://www.oopp.gob.bo/wp-content/uploads/2021/07/2013-RM062-MOPSV-Reglamento-de-Interconexion.pdf",
+      "tituloNuevo": "Resolución Ministerial N° 062/2013 (MOPSV): Reglamento de Interconexión y de Acceso y Uso Compartido de Infraestructura",
+      "anioNuevo": 2013
+    },
+    {
+      "titulo": "Situación de las telecomunicaciones en Bolivia",
+      "url": "https://www.att.gob.bo/situacion-de-las-telecomunicaciones-en-bolivia",
+      "categoriaOriginal": "Competencia Económica",
+      "origen": "catalogo",
+      "tema": "competencia",
+      "estado": "vigente",
+      "nota": "Página activa y al día: incluye el Estado de Situación de las Telecomunicaciones 2025 (anual auditado, publicado en sep-2026)."
+    },
+    {
+      "titulo": "Plataforma digital de Tarifas Online",
+      "url": "https://tarifas.att.gob.bo/",
+      "categoriaOriginal": "Competencia Económica",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "vigente",
+      "nota": "Plataforma de consulta de tarifas de la ATT activa (el catálogo también la lista en Protección del usuario)."
+    },
+    {
+      "titulo": "Firma Digital",
+      "url": "https://ecrb.att.gob.bo/index.php",
+      "categoriaOriginal": "Tecnologías de la Información y la Comunicación (TIC)",
+      "origen": "catalogo",
+      "tema": "ciberseguridad",
+      "estado": "vigente",
+      "nota": "Portal de la ECRB activo (certificado raíz renovado en 2026). La ECA pública es ahora AGETIC: el DS 5519/2026 cerró la ADSIB y le transfirió la certificación digital."
+    },
+    {
+      "titulo": "Proyecto: Warmis TIC",
+      "url": "https://www.att.gob.bo/el-proyecto-de-las-warmi-tic",
+      "categoriaOriginal": "Tecnologías de la Información y la Comunicación (TIC)",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "vigente",
+      "nota": "Página activa, pero solo describe la edición 2023 (webinars de mayo-junio de 2023) y su formulario de inscripción (formtest.att.gob.bo) no responde."
+    },
+    {
+      "titulo": "Plan Institucional de Implementación de Software Libre y Estándares Abiertos",
+      "url": "https://www.att.gob.bo/plan-institucional-de-implementacion-de-software-libre-y-estandares-abiertos",
+      "categoriaOriginal": "Tecnologías de la Información y la Comunicación (TIC)",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "vigente",
+      "nota": "Página y PDF de la resolución (2021) operativos; no se halló un plan posterior publicado por la ATT."
+    },
+    {
+      "titulo": "Sistema de Información Sectorial - Internet",
+      "url": "https://sis.att.gob.bo/index.php/estado-del-internet",
+      "categoriaOriginal": "Tecnologías de la Información y la Comunicación (TIC)",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "enlace_roto",
+      "nota": "La sección 'estado-del-internet' del SIS da 404; el SIS rediseñado muestra el boletín del 1er semestre 2025 y mediciones de calidad. Se enlaza el último informe ATT dedicado a Internet (datos 2023).",
+      "urlNueva": "https://www.att.gob.bo/sites/default/files/archivos_listados_pdf/2024-08-20/Estado%20de%20Situaci%C3%B3n%20Actual%20del%20Internet%20en%20Bolivia%202023.pdf",
+      "tituloNuevo": "Estado de Situación Actual del Internet en Bolivia 2023 (ATT)",
+      "anioNuevo": 2023
+    },
+    {
+      "titulo": "Reglamento de la Ley de Telecomunicaciones Decreto Supremo 1391, Decreto Supremo 27172 Reglamento de Ley del Procedimiento Administrativo para el Sistema de Regulación Sectorial y Ley 2341 Ley del Procedimiento Administrativo.",
+      "url": "https://www.att.gob.bo/normas",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "vigente",
+      "nota": "Página de normas de la ATT activa: enlaza DS 1391, DS 27172 y Ley 2341. El DS 1391 enlazado es el texto de 2012, sin la reforma del DS 5666/2026."
+    },
+    {
+      "titulo": "Mi Reclamo",
+      "url": "https://www.att.gob.bo/denuncias-reclamos-y-sugerencias",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "actualizado",
+      "nota": "La página de la ATT ahora solo recibe denuncias de transparencia y deriva los reclamos de usuarios a la plataforma Mi Reclamo (mireclamo.bo).",
+      "urlNueva": "https://mireclamo.bo/",
+      "tituloNuevo": "Mi Reclamo: plataforma de reclamos de usuarios de la ATT"
+    },
+    {
+      "titulo": "chATT Bot",
+      "url": "https://api.whatsapp.com/send/?phone=59171533208&text=Hola",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "no_verificable",
+      "nota": "No se pudo confirmar que el chATT Bot siga activo: api.whatsapp.com abre cualquier número, la ATT ya no lo lista en sus servicios digitales y retiró el enlace en Bloquea la Estafa."
+    },
+    {
+      "titulo": "Verifica tu IMEI",
+      "url": "https://plataformas.att.gob.bo/index.php/verificacion",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "vigente",
+      "nota": "Plataforma de verificación de IMEI de la ATT activa."
+    },
+    {
+      "titulo": "Plataforma de Denuncias \"Bloquea la Estafa\"",
+      "url": "https://bloquealaestafa.att.gob.bo/",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "vigente",
+      "nota": "Plataforma activa de la ATT para denunciar en línea llamadas y mensajes fraudulentos, con código de seguimiento; también se puede denunciar ante el operador móvil."
+    },
+    {
+      "titulo": "Seguimiento de Trámite",
+      "url": "https://www.att.gob.bo/seguimiento-de-tramite",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "vigente",
+      "nota": "Página activa; embebe el sistema de gestión documental (siscor) de la ATT, que responde."
+    },
+    {
+      "titulo": "Reglamento para el Programa Nacional de Telecomunicaciones de Inclusión Digital PRONTIS",
+      "url": "https://www.oopp.gob.bo/wp-content/uploads/2021/07/2013-RM013-MOPSV-Reglamento-PRONTIS.pdf",
+      "categoriaOriginal": "Accesibilidad",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "vigente",
+      "nota": "Vigente (fórmula modificada por la RM 325/2018); el PRONTIS sigue operando (entrega de radiobases, MOPSV, nov-2026). Su nombre oficial es 'de Inclusión Social', no 'Digital'."
+    },
+    {
+      "titulo": "Sistema de Información Sectorial TIC, énfasis en Internet y estándares de calidad",
+      "url": "https://sis.att.gob.bo/index.php",
+      "categoriaOriginal": "Asuntos relacionados con Internet",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "vigente",
+      "nota": "Portal activo, pero su sección Normativa enlaza a pit.bo (caído) y cita la RAR 299/2018, dejada sin efecto por la RAR 700/2025 (Reglamento de Calidad del Servicio de Acceso a Internet)."
+    },
+    {
+      "titulo": "Punto de Intercambio de Trafico",
+      "url": "https://www.pitbolivia.org.bo",
+      "categoriaOriginal": "Asuntos relacionados con Internet",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "enlace_roto",
+      "nota": "pitbolivia.org.bo y pit.bo no responden (nov-2026) y la página PIT de la ATT embebe pit.bo. El PIT opera (unos 70 Gbps en 2025, según la ATT); se enlaza su instructivo oficial.",
+      "urlNueva": "https://www.att.gob.bo/sites/default/files/archivos_listados_pdf/2021-07-27/Instrictuvo%20para%20la%20implementaci%C3%B3n%20del%20PIT%20Bolivia.PDF",
+      "tituloNuevo": "RAR ATT-DJ-RAR-TL LP 210/2016: Instructivo para la Implementación del PIT Bolivia",
+      "anioNuevo": 2016
+    },
+    {
+      "titulo": "Instructivo para la Emisión de Certificados de Homologación de Equipos de Telecomunicaciones",
+      "url": "https://plataformas.att.gob.bo/index.php/homoregistro/",
+      "categoriaOriginal": "Homologación de productos y dispositivos",
+      "origen": "catalogo",
+      "tema": "homologacion",
+      "estado": "sustituido",
+      "nota": "La RAR 539/2024 (06/11/2024) dejó sin efecto la RAR 443/2023, que aprobó este instructivo. La plataforma está en mantenimiento; trámites vía homologaciones@att.gob.bo.",
+      "urlNueva": "https://plataformas.att.gob.bo/files/homologaciones/ATT-DJ-RAR-TL_LP_539_2024.pdf",
+      "tituloNuevo": "Instructivo para el Registro y Homologación de Equipos de Telecomunicaciones y TIC (RAR ATT-DJ-RAR-TL LP 539/2024)",
+      "anioNuevo": 2024
+    },
+    {
+      "titulo": "Listado de equipos homologados",
+      "url": "https://www.att.gob.bo/homologados",
+      "categoriaOriginal": "Homologación de productos y dispositivos",
+      "origen": "catalogo",
+      "tema": "homologacion",
+      "estado": "vigente",
+      "nota": "Página activa; embebe el listado de equipos homologados (api.att.gob.bo), que responde."
+    },
+    {
+      "titulo": "Procedimientos de evaluación de la conformidad en materia de telecomunicaciones",
+      "url": "https://ecrb.att.gob.bo/images/PDF/Homologacion/ATT-DJ-RA%201022-2013.pdf",
+      "categoriaOriginal": "Homologación de productos y dispositivos",
+      "origen": "catalogo",
+      "tema": "homologacion",
+      "estado": "actualizado",
+      "nota": "RA 1022/2013: instructivo de homologación y registro de fabricantes de 2013. Hoy rige el de la RAR 539/2024 (registro y homologación, certificado de 10 años); no se halló derogación expresa.",
+      "urlNueva": "https://plataformas.att.gob.bo/files/homologaciones/ATT-DJ-RAR-TL_LP_539_2024.pdf",
+      "tituloNuevo": "Instructivo para el Registro y Homologación de Equipos de Telecomunicaciones y TIC (RAR ATT-DJ-RAR-TL LP 539/2024)",
+      "anioNuevo": 2024
+    },
+    {
+      "titulo": "Consultar portal institucional del INDOTEL",
+      "url": "https://indotel.gob.do/",
+      "categoriaOriginal": "Contáctanos",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "vigente",
+      "nota": "Enlace genérico de la plantilla REGULATEL: lleva al portal de INDOTEL (R. Dominicana), no a la ATT. Para contacto en Bolivia, usar la página de contacto de la ATT.",
+      "urlNueva": "https://www.att.gob.bo/contactanos",
+      "tituloNuevo": "Contáctanos: Autoridad de Regulación y Fiscalización de Telecomunicaciones y Transportes (ATT)"
+    },
+    {
+      "titulo": "Ley N.º 164 General de Telecomunicaciones, Tecnologías de Información y Comunicación",
+      "url": "https://www.lexivox.org/norms/BO-L-N164.html",
+      "categoriaOriginal": "Espectro radioeléctrico",
+      "origen": "observatorio-anterior",
+      "tema": "espectro",
+      "estado": "vigente",
+      "nota": "Vigente (reformada, entre otras, por la Ley 1099/2018); sin reformas 2024-2026 en la Gaceta Oficial. Lexivox no es fuente oficial."
+    },
+    {
+      "titulo": "Decreto Supremo N.º 1391 – Reglamento General a la Ley N.º 164",
+      "url": "https://www.lexivox.org/norms/BO-DS-N1391.html",
+      "categoriaOriginal": "Espectro radioeléctrico",
+      "origen": "observatorio-anterior",
+      "tema": "espectro",
+      "estado": "actualizado",
+      "nota": "Vigente pero reformado: el DS 5666 de 27/07/2026 cambió el art. 53 (una sola licencia para servicios satelitales y sus frecuencias) y el art. 179. Lexivox no es fuente oficial.",
+      "urlNueva": "http://www.gacetaoficialdebolivia.gob.bo/normas/verGratis_gob/281297",
+      "tituloNuevo": "Decreto Supremo N° 5666 (27/07/2026): modifica el Reglamento General a la Ley 164 aprobado por DS 1391",
+      "anioNuevo": 2026
+    },
+    {
+      "titulo": "Reglamento para el Otorgamiento de Licencias en Telecomunicaciones (RM MOPSV 323/2012)",
+      "url": "https://www.lexivox.org/norms/BO-RBM-323.html",
+      "categoriaOriginal": "Espectro radioeléctrico",
+      "origen": "observatorio-anterior",
+      "tema": "espectro",
+      "estado": "actualizado",
+      "nota": "Vigente, pero la RM 105 de 28/07/2026 modificó sus arts. 4, 5, 10, 12, 18, 19 y 20 (licencia de servicios satelitales y requisitos). Lexivox no es fuente oficial.",
+      "urlNueva": "https://www.oopp.gob.bo/wp-content/uploads/2026/11/RM_105_28_JULIO_2026.pdf",
+      "tituloNuevo": "Resolución Ministerial N° 105/2026 (MOPSV): modifica el Reglamento para el Otorgamiento de Licencias en Telecomunicaciones (servicios satelitales)",
+      "anioNuevo": 2026
+    },
+    {
+      "titulo": "Reglamento para la Autorización de Prestadores de Servicio de Estación Espacial (RM 38/2016)",
+      "url": "https://www.lexivox.org/norms/BO-RM-38-2016.html",
+      "categoriaOriginal": "Espectro radioeléctrico",
+      "origen": "observatorio-anterior",
+      "tema": "espectro",
+      "estado": "vigente",
+      "nota": "Vigente (mod. RM 145/2020); el DS 5666/2026 mantiene para el Servicio de Estación Espacial solo la autorización de la ATT."
+    },
+    {
+      "titulo": "Reglamento del Régimen de Regulación Tarifaria de los Servicios Públicos de Telecomunicaciones y de TIC (RM MOPSV 088/2013)",
+      "url": "https://www.lexivox.org/norms/BO-RM-MOPSV088-2013.html",
+      "categoriaOriginal": "Competencia Económica",
+      "origen": "observatorio-anterior",
+      "tema": "competencia",
+      "estado": "vigente",
+      "nota": "Vigente (modificada por la RM 005/2019); sin reformas 2024-2026 halladas en MOPSV ni ATT."
+    },
+    {
+      "titulo": "Decreto Supremo N.º 1793 – Reglamento para el Acceso, Uso y Desarrollo de las TIC",
+      "url": "https://www.lexivox.org/norms/BO-DS-N1793.html",
+      "categoriaOriginal": "Ciberseguridad",
+      "origen": "observatorio-anterior",
+      "tema": "ciberseguridad",
+      "estado": "vigente",
+      "nota": "Vigente (mod. DS 3527/2018). El DS 5519/2026 cerró la ADSIB y pasó a AGETIC sus funciones (certificación digital, dominio .bo, repositorio de software libre)."
+    },
+    {
+      "titulo": "Decreto Supremo N.º 4669 – Mejora del servicio de acceso a Internet y acumulación de saldo y crédito",
+      "url": "https://www.lexivox.org/norms/BO-DS-N4669.html",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "observatorio-anterior",
+      "tema": "usuario",
+      "estado": "vigente",
+      "nota": "Vigente: el DS 4669 (16/02/2022) modificó el art. 120 del DS 1391 (acumulación de datos no consumidos; uso del saldo solo con consentimiento). Sin reformas posteriores halladas."
+    },
+    {
+      "titulo": "Reglamento de las Telecomunicaciones (RT) – disposiciones sobre Puntos de Interconexión de Tráfico (PIT)",
+      "url": "https://www.lexivox.org/norms/BO-DGTLT-RT.html",
+      "categoriaOriginal": "Compartición de la infraestructura",
+      "origen": "observatorio-anterior",
+      "tema": "infraestructura",
+      "estado": "sustituido",
+      "nota": "Enlace inválido: lexivox no tiene la norma 'RT'. El reglamento previo (DS 24132/1995) fue abrogado por el DS 1391, cuyos arts. 153-154 regulan el PIT (con la RAR 210/2016).",
+      "urlNueva": "https://www.att.gob.bo/sites/default/files/archivos_listados_pdf/2021-07-20/Decreto%20Supremo%201391%20Reglamento%20General%20a%20la%20Ley%20164%20de%20Telecomunicaciones%20y%20Tecnologias%20de%20Inforacion%20y%20Comunicacion..pdf",
+      "tituloNuevo": "DS 1391: Reglamento General a la Ley 164 (arts. 153-154, Punto de Intercambio de Tráfico)",
+      "anioNuevo": 2012
+    },
+    {
+      "titulo": "Resolución ATT-DJ-RAR-TL 539/2024 – Instructivo para el registro y homologación de equipos de telecomunicaciones y TIC",
+      "url": "https://www.lexivox.org/norms/BO-ATT-DJ-RAR-TL-539-2024.html",
+      "categoriaOriginal": "Homologación de productos y dispositivos",
+      "origen": "observatorio-anterior",
+      "tema": "homologacion",
+      "estado": "enlace_roto",
+      "nota": "Lexivox responde 200 pero muestra 'Norma inexistente en la base de datos'. La RAR 539/2024 (06/11/2024) existe y está vigente; PDF oficial en la plataforma de la ATT.",
+      "urlNueva": "https://plataformas.att.gob.bo/files/homologaciones/ATT-DJ-RAR-TL_LP_539_2024.pdf",
+      "tituloNuevo": "RAR ATT-DJ-RAR-TL LP 539/2024: Instructivo para el Registro y Homologación de Equipos de Telecomunicaciones y TIC",
+      "anioNuevo": 2024
+    }
+  ]
+}

@@ -1,0 +1,330 @@
+{
+  "iso": "ar",
+  "pais": "Argentina",
+  "revisado": "2026-11-11",
+  "documentos": [
+    {
+      "titulo": "Cuadro de Atribución de Bandas de Frecuencias de la República Argentina (CABFRA)",
+      "url": "https://www.enacom.gob.ar/cuadro-de-atribucion-de-bandas-de-frecuencias-de-la-republica-argentina-cabfra-_p1588",
+      "categoriaOriginal": "Espectro radioeléctrico",
+      "origen": "catalogo",
+      "tema": "espectro",
+      "estado": "vigente",
+      "nota": "Página vigente: ofrece el CABFRA y las Notas Nacionales de octubre 2025. El PDF se basa en el RR UIT-R2 ed. 2024, aunque el texto de la página aún cita la ed. 2020."
+    },
+    {
+      "titulo": "Administración del espectro - Bandas",
+      "url": "https://www.enacom.gob.ar/bandas_p1589",
+      "categoriaOriginal": "Espectro radioeléctrico",
+      "origen": "catalogo",
+      "tema": "espectro",
+      "estado": "actualizado",
+      "nota": "La tabla de conectores sigue referida al RR UIT-R2 ed. 2016 (C0-C66); el CABFRA vigente es la edición octubre 2025, basada en el RR ed. 2024 (C1-C54 y C57-C59).",
+      "urlNueva": "https://www.enacom.gob.ar/multimedia/noticias/archivos/202511/archivo_20251104082327_1428.pdf",
+      "tituloNuevo": "CABFRA - Cuadro de Atribución de Bandas de Frecuencias de la República Argentina, edición octubre 2025",
+      "anioNuevo": 2025
+    },
+    {
+      "titulo": "Modalidad compartida",
+      "url": "https://www.enacom.gob.ar/modalidad-compartida_p549",
+      "categoriaOriginal": "Espectro radioeléctrico",
+      "origen": "catalogo",
+      "tema": "espectro",
+      "estado": "vigente",
+      "nota": "Página operativa sobre sistemas en modalidad compartida; sin cambios normativos detectados en 2024-2026."
+    },
+    {
+      "titulo": "Asuntos Satelitales",
+      "url": "https://www.enacom.gob.ar/la-actividad-espacial-en-argentina_p540",
+      "categoriaOriginal": "Espectro radioeléctrico",
+      "origen": "catalogo",
+      "tema": "espectro",
+      "estado": "vigente",
+      "nota": "Vigente (registro de facilidades satelitales, Res. SICyT 12/2024). Complementan: Res. SICyT 58/2025 (Reglamento General de Gestión y Servicios Satelitales) y Res. ENACOM 608/2025."
+    },
+    {
+      "titulo": "Reglamento Sobre Administración, Gestión y Control del Espectro Radioeléctrico",
+      "url": "https://www.boletinoficial.gob.ar/detalleAviso/primera/286358/20230515",
+      "categoriaOriginal": "Espectro radioeléctrico",
+      "origen": "catalogo",
+      "tema": "espectro",
+      "estado": "vigente",
+      "nota": "Res. ENACOM 682/2023 vigente, sin derogación registrada. El BO no responde desde la red de auditoría (bloqueo); copia oficial: enacom.gob.ar/multimedia/normativas/2023/res682.pdf"
+    },
+    {
+      "titulo": "Problemas de Interferencias",
+      "url": "https://www.enacom.gob.ar/problemas-de-interferencias_p114",
+      "categoriaOriginal": "Espectro radioeléctrico",
+      "origen": "catalogo",
+      "tema": "espectro",
+      "estado": "vigente",
+      "nota": "Página operativa. Desde jul-2026 rige un nuevo protocolo para interferencias en servicios esenciales (Res. ENACOM 468/2026, que dejó sin efecto la Res. 1235/2020)."
+    },
+    {
+      "titulo": "Radioaficionados, Estaciones Repetidoras y Señales Distintivas Especiales",
+      "url": "https://www.enacom.gob.ar/radioaficionados_p127",
+      "categoriaOriginal": "Espectro radioeléctrico",
+      "origen": "catalogo",
+      "tema": "espectro",
+      "estado": "vigente",
+      "nota": "Página activa (avisos hasta nov-2026). Reglamento General de Radioaficionados: Res. 3635/2017, modificada por Res. ENACOM 1186/2024."
+    },
+    {
+      "titulo": "Hertz: Sistema de Gestión del Espectro Radioeléctrico",
+      "url": "https://www.enacom.gob.ar/hertz-sistema-de-gestion-del-espectro-radioelectrico_p2891",
+      "categoriaOriginal": "Espectro radioeléctrico",
+      "origen": "catalogo",
+      "tema": "espectro",
+      "estado": "vigente",
+      "nota": "Sistema y página activos; guías de 2025 y formulario de representante legal de feb-2026."
+    },
+    {
+      "titulo": "Indicadores de Mercado",
+      "url": "https://www.enacom.gob.ar/indicadores-de-mercado_p2877",
+      "categoriaOriginal": "Competencia Económica",
+      "origen": "catalogo",
+      "tema": "competencia",
+      "estado": "enlace_roto",
+      "nota": "p2877 da 404. Los datos están en indicadores.enacom.gob.ar (menú 'Informes de mercado'), que no responde desde fuera de AR (11/11/2026, posible bloqueo); esta página oficial lo enlaza.",
+      "urlNueva": "https://www.enacom.gob.ar/datosabiertos",
+      "tituloNuevo": "Datos Abiertos ENACOM: indicadores de mercado (TV por suscripción, Internet fija, telefonía y mercado postal)"
+    },
+    {
+      "titulo": "Normativa Fundamental",
+      "url": "https://www.enacom.gob.ar/normativas/grupos",
+      "categoriaOriginal": "Tecnologías de la Información y Comunicación (TIC)",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "vigente",
+      "nota": "Compilación oficial operativa y actualizada (incluye normas hasta oct-2026, p. ej. Dto. 1149/2026)."
+    },
+    {
+      "titulo": "Servicio Universal",
+      "url": "https://www.enacom.gob.ar/su",
+      "categoriaOriginal": "Tecnologías de la Información y Comunicación (TIC)",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "vigente",
+      "nota": "Portal vigente: publica el nuevo Reglamento General de Servicio Universal (Res. ENACOM 1182/2025) y programas 2025-2026. El Fondo Fiduciario fue disuelto (Dto. 6/2025)."
+    },
+    {
+      "titulo": "Conversatorio sobre ciberseguridad",
+      "url": "https://www.enacom.gob.ar/institucional/conversatorio-sobre-ciberseguridad_n4323",
+      "categoriaOriginal": "Ciberseguridad",
+      "origen": "catalogo",
+      "tema": "ciberseguridad",
+      "estado": "vigente",
+      "nota": "Noticia institucional del 10/04/2023 sobre un evento; no es una norma. Enlace operativo."
+    },
+    {
+      "titulo": "Reglamento de Clientes de los Servicios TIC",
+      "url": "https://www.argentina.gob.ar/normativa/nacional/resoluci%C3%B3n-733-2017-305484/texto",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "actualizado",
+      "nota": "Res. 733/2017 sigue vigente (mod. Res. 363/2018, 1150/2019 y 1522/2019). El enlace es el texto original (p. ej. el art. 30 aún exige 60 días de preaviso, hoy 30).",
+      "urlNueva": "https://www.argentina.gob.ar/normativa/nacional/resoluci%C3%B3n-733-2017-305484/actualizacion",
+      "tituloNuevo": "Reglamento de Clientes de los Servicios TIC (Res. 733/2017), texto actualizado con modificaciones hasta la Res. SGM 1522/2019",
+      "anioNuevo": 2019
+    },
+    {
+      "titulo": "Programa de Alfabetización en Medios y Tecnologías de la Información y la Comunicación",
+      "url": "https://www.enacom.gob.ar/programa-de-alfabetizacion",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "actualizado",
+      "nota": "La página del programa da 404. El programa (Res. ENACOM 1705/2021) fue renombrado 'Programa de Alfabetización Digital y Nuevas Tecnologías' por la Res. ENACOM 259/2025.",
+      "urlNueva": "https://www.enacom.gob.ar/multimedia/normativas/2025/res259.pdf",
+      "tituloNuevo": "Res. ENACOM 259/2025 - Programa de Alfabetización Digital y Nuevas Tecnologías",
+      "anioNuevo": 2025
+    },
+    {
+      "titulo": "IMEI",
+      "url": "https://www.enacom.gob.ar/denuncia-al-910_p4034",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "vigente",
+      "nota": "Página operativa. La Res. 2459/2016 (bloqueo de terminales e IMEI) sigue vigente, mod. por Res. ENACOM 300/2026 y 734/2026. Aún cita la Res. 8507/16, cuyo reglamento sustituyó la Res. 263/2023."
+    },
+    {
+      "titulo": "Tu Línea es Tuya",
+      "url": "https://www.enacom.gob.ar/tu-linea-es-tuya_p3874",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "sustituido",
+      "nota": "Campaña de nominación de prepagas de la Res. 8507/2016 (proceso cerrado el 31/05/2019). Su reglamento fue sustituido por la Res. ENACOM 263/2023, modificada por la Res. 1391/2024.",
+      "urlNueva": "https://www.enacom.gob.ar/multimedia/normativas/2023/res263.pdf",
+      "tituloNuevo": "Res. ENACOM 263/2023 - Reglamento para la Nominatividad y Validación de Identidad de los Usuarios Titulares de los Servicios de Comunicaciones Móviles",
+      "anioNuevo": 2023
+    },
+    {
+      "titulo": "Adquisición de Equipos",
+      "url": "https://www.enacom.gob.ar/adquisicion-de-equipos_p374",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "vigente",
+      "nota": "Página informativa operativa; sin cambios normativos detectados."
+    },
+    {
+      "titulo": "Portabilidad Numérica",
+      "url": "https://www.enacom.gob.ar/portabilidad-numerica_p160",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "vigente",
+      "nota": "Página operativa sobre portabilidad numérica móvil; sin cambios normativos 2024-2026 detectados."
+    },
+    {
+      "titulo": "Atención a Usuarios y Reclamos",
+      "url": "https://www.enacom.gob.ar/problemas-con-el-servicio-reclamos-por-telefonia-movil_p89",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "vigente",
+      "nota": "Página operativa; los reclamos ante ENACOM se presentan en segunda instancia vía TAD."
+    },
+    {
+      "titulo": "Consejos para usuarios",
+      "url": "https://www.enacom.gob.ar/banner/113/0f269ef6a7a358f862deb76563e1ab88",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "vigente",
+      "nota": "El enlace (banner) redirige a 'Consejos útiles para usuarios' (enacom.gob.ar/consejos-utiles-para-usuarios_p3565), operativa."
+    },
+    {
+      "titulo": "Programa Nacional de Prevención y Concientización del Grooming o Ciberacoso contra Niñas, Niños y Adolescentes",
+      "url": "https://www.enacom.gob.ar/multimedia/normativas/2022/Decreto%20407_22.pdf",
+      "categoriaOriginal": "Protección del usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "vigente",
+      "nota": "PDF operativo del Dto. 407/2022, que reglamenta la Ley 27.590 'Mica Ortega'; sin derogación ni reemplazo registrados."
+    },
+    {
+      "titulo": "Reglamento General del Servicio de Telecomunicaciones Fiables e Inteligentes (STeFI)",
+      "url": "https://www.boletinoficial.gob.ar/detalleAviso/primera/278444/20221228?busqueda=1",
+      "categoriaOriginal": "Tecnologías emergentes",
+      "origen": "catalogo",
+      "tema": "emergentes",
+      "estado": "vigente",
+      "nota": "Res. ENACOM 2385/2022 vigente; la Res. 611/2025 bajó a 150 MHz el tope STeFI de la Res. 1285/2023. BO no accesible en la auditoría; copia: enacom.gob.ar/multimedia/normativas/2022/res2385.pdf"
+    },
+    {
+      "titulo": "Muestra 5G",
+      "url": "https://www.enacom.gob.ar/muestra5g",
+      "categoriaOriginal": "Tecnologías emergentes",
+      "origen": "catalogo",
+      "tema": "emergentes",
+      "estado": "vigente",
+      "nota": "Micrositio informativo operativo, sin fecha. El marco regulatorio 5G vigente es el STeFI (Res. ENACOM 2385/2022)."
+    },
+    {
+      "titulo": "Compartición de Infraestructura Pasiva",
+      "url": "https://www.enacom.gob.ar/comparticion-de-infraestructura-pasiva_p5668",
+      "categoriaOriginal": "Compartición de la infraestructura",
+      "origen": "catalogo",
+      "tema": "infraestructura",
+      "estado": "vigente",
+      "nota": "Página operativa; el Reglamento de Compartición de Infraestructura Pasiva (Res. SIP 105/2020) sigue vigente."
+    },
+    {
+      "titulo": "Buscador de Convenios de Interconexión",
+      "url": "https://www.enacom.gob.ar/convenios",
+      "categoriaOriginal": "Compartición de la infraestructura",
+      "origen": "catalogo",
+      "tema": "infraestructura",
+      "estado": "vigente",
+      "nota": "Buscador operativo, con convenios publicados hasta oct-2026."
+    },
+    {
+      "titulo": "Interconexión y Acceso",
+      "url": "https://www.enacom.gob.ar/interconexion_p135",
+      "categoriaOriginal": "Compartición de la infraestructura",
+      "origen": "catalogo",
+      "tema": "infraestructura",
+      "estado": "vigente",
+      "nota": "Página operativa y actualizada (archivos de abr-2026); el Reglamento General de Interconexión y Acceso (Res. MM 286/2018) sigue vigente."
+    },
+    {
+      "titulo": "Reglamento Nacional de Contingencia",
+      "url": "https://www.argentina.gob.ar/normativa/nacional/resoluci%C3%B3n-51-2018-316087/texto",
+      "categoriaOriginal": "Telecomunicaciones de emergencia",
+      "origen": "catalogo",
+      "tema": "emergencia",
+      "estado": "vigente",
+      "nota": "Res. SGM 51/2018 vigente; sin modificaciones ni derogación registradas en ENACOM ni en Argentina.gob.ar."
+    },
+    {
+      "titulo": "Programa de Asistencia a Prestadores de Servicios TIC ante emergencias y catástrofes",
+      "url": "https://www.enacom.gob.ar/programa-de-asistencia-a-prestadores-de-servicios-tic-ante-emergencias-y-catastrofes_p5480",
+      "categoriaOriginal": "Telecomunicaciones de emergencia",
+      "origen": "catalogo",
+      "tema": "emergencia",
+      "estado": "sustituido",
+      "nota": "La página p5480 da 404. La Res. ENACOM 323/2025 sustituyó el programa (Res. 449/2021) y lo prorrogó 2 años desde el 22/04/2025.",
+      "urlNueva": "https://www.enacom.gob.ar/programa-de-emergencias_p6614",
+      "tituloNuevo": "Programa de Asistencia ante Emergencias y Catástrofes (Res. ENACOM 323/2025)",
+      "anioNuevo": 2025
+    },
+    {
+      "titulo": "Suspensión de cortes de servicios esenciales a clientes vulnerables por falta de pago",
+      "url": "https://www.enacom.gob.ar/institucional/suspension-de-cortes-de-servicios-esenciales-a-clientes-vulnerables-por-falta-de-pago_n2310",
+      "categoriaOriginal": "Telecomunicaciones de emergencia",
+      "origen": "catalogo",
+      "tema": "emergencia",
+      "estado": "derogado",
+      "nota": "Noticia del 30/04/2020 sobre una medida transitoria (DNU 311/2020 y Res. MDP 173/2020, emergencia COVID-19) ya vencida; no tiene reemplazo directo."
+    },
+    {
+      "titulo": "Convenio entre ENACOM y Ministerio de Seguridad para implementar el servicio gratuito de localización de llamadas de emergencia",
+      "url": "https://www.enacom.gob.ar/institucional/enacom-y-el-ministerio-de-seguridad-firmaron-un-convenio-para-implementar-el-servicio-gratuito-de-localizacion-de-llamadas-de-emergencia_n3258",
+      "categoriaOriginal": "Telecomunicaciones de emergencia",
+      "origen": "catalogo",
+      "tema": "emergencia",
+      "estado": "vigente",
+      "nota": "Noticia del convenio (14/06/2021) operativa; no se detectó una norma posterior que lo reemplace."
+    },
+    {
+      "titulo": "Homologación de Equipos",
+      "url": "https://www.enacom.gob.ar/homologacion-de-equipos_p347",
+      "categoriaOriginal": "Homologación de productos y dispositivos",
+      "origen": "catalogo",
+      "tema": "homologacion",
+      "estado": "vigente",
+      "nota": "Página actualizada: el nuevo marco RAMATEL (Res. ENACOM 57/2026, mod. Res. 843/2026) entra en plena vigencia el 01/12/2026; hasta entonces aplica la Res. SC 729/80."
+    },
+    {
+      "titulo": "Inscripción de equipos y procedimientos",
+      "url": "https://www.enacom.gob.ar/inscripcion-de-equipos_p3076",
+      "categoriaOriginal": "Homologación de productos y dispositivos",
+      "origen": "catalogo",
+      "tema": "homologacion",
+      "estado": "vigente",
+      "nota": "Página operativa con aviso del nuevo marco RAMATEL (Res. ENACOM 57/2026 y 843/2026, vigencia plena el 01/12/2026)."
+    },
+    {
+      "titulo": "Novedades",
+      "url": "https://www.enacom.gob.ar/novedades_p1673",
+      "categoriaOriginal": "Homologación de productos y dispositivos",
+      "origen": "catalogo",
+      "tema": "homologacion",
+      "estado": "vigente",
+      "nota": "Novedades de homologación actualizadas (oct-2026): Res. 57/2026, Res. 843/2026 y guía para agencias de certificación."
+    },
+    {
+      "titulo": "Consultar portal institucional del INDOTEL",
+      "url": "https://indotel.gob.do/",
+      "categoriaOriginal": "Contáctanos",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "vigente",
+      "nota": "Enlace genérico del portal REGULATEL al regulador de R. Dominicana; no es documento argentino. Contacto de ENACOM: https://www.enacom.gob.ar/contacto_c1"
+    }
+  ]
+}

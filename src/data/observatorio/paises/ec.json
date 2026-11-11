@@ -1,0 +1,521 @@
+{
+  "iso": "ec",
+  "pais": "Ecuador",
+  "regulador": {
+    "sigla": "ARCOTEL",
+    "nombre": "Agencia de Regulación y Control de las Telecomunicaciones",
+    "url": "https://www.arcotel.gob.ec",
+    "naturaleza": "Persona jurídica de derecho público con autonomía administrativa, técnica, económica y financiera (LOT, art. 142), adscrita al ministerio rector del sector: desde junio de 2026, el Ministerio de Infraestructura y Tecnología"
+  },
+  "otrasAutoridades": [
+    {
+      "sigla": "MIT",
+      "nombre": "Ministerio de Infraestructura y Tecnología",
+      "rol": "Ministerio rector de telecomunicaciones, transformación digital y ciberseguridad; absorbió al MINTEL por el Decreto Ejecutivo 426 (18-jun-2026).",
+      "url": "https://www.mit.gob.ec"
+    },
+    {
+      "sigla": "EcuCERT",
+      "nombre": "Centro de Respuesta a Incidentes Informáticos de ARCOTEL",
+      "rol": "CSIRT de telecomunicaciones: coordina incidentes y vulnerabilidades con los operadores mientras se organiza el CSIRT Nacional.",
+      "url": "https://www.ecucert.gob.ec"
+    },
+    {
+      "sigla": "ECU 911",
+      "nombre": "Servicio Integrado de Seguridad ECU 911",
+      "rol": "Opera el número único de emergencias 9-1-1.",
+      "url": "https://www.ecu911.gob.ec"
+    },
+    {
+      "sigla": "SNGR",
+      "nombre": "Secretaría Nacional de Gestión de Riesgos",
+      "rol": "Emite las alertas a la población que las operadoras móviles difunden a los celulares.",
+      "url": "https://www.gestionderiesgos.gob.ec"
+    }
+  ],
+  "marcoLegal": {
+    "nombre": "Ley Orgánica de Telecomunicaciones (RO 439, Tercer Suplemento, 18-feb-2015; última reforma en mayo de 2026)",
+    "anio": 2015,
+    "url": "https://www.telecomunicaciones.gob.ec/wp-content/uploads/2026/06/Ley-organica-de-Telecomunicaciones.pdf"
+  },
+  "resumenPais": "Ecuador regula el sector con la Ley Orgánica de Telecomunicaciones de 2015. ARCOTEL regula y controla, adscrita desde 2026 al Ministerio de Infraestructura y Tecnología, que absorbió al MINTEL. En 2025 renovó las concesiones móviles con espectro 5G y en 2026 publicó una ley de ciberseguridad y una estrategia de IA.",
+  "categorias": {
+    "espectro": {
+      "resumen": "ARCOTEL planifica el espectro con el Plan Nacional de Frecuencias 2026. El espectro 5G se adjudicó en 2025 en forma directa, sin subasta, al renovar las concesiones de Claro y Tigo (ex Movistar). La banda de 6 GHz sigue reservada a enlaces fijos, pero ARCOTEL consulta abrirla al Wi-Fi.",
+      "instrumentos": [
+        {
+          "nombre": "Plan Nacional de Frecuencias 2026, versión 7.0 (Res. 03-02SO-ARCOTEL-2026)",
+          "anio": 2026,
+          "tipo": "plan",
+          "url": "https://www.arcotel.gob.ec/wp-content/uploads/2026/03/anexo_1_res_03-02so-arcotel-2026_-1.pdf"
+        },
+        {
+          "nombre": "Norma Técnica de Espectro de Uso Libre y de Espectro para Uso Determinado en Bandas Libres (Res. ARCOTEL-2018-0661)",
+          "anio": 2018,
+          "tipo": "norma",
+          "url": "https://www.arcotel.gob.ec/wp-content/uploads/downloads/2018/08/ARCOTEL-2018-0661-2018-08-01-RADIOCOMUNICACIONES-MDBA-MATRIZ.pdf"
+        },
+        {
+          "nombre": "Reglamento para otorgar títulos habilitantes y frecuencias (ROTH), última reforma Res. 01-03SE-ARCOTEL-2025",
+          "anio": 2025,
+          "tipo": "reglamento",
+          "url": "https://www.arcotel.gob.ec/wp-content/uploads/2018/12/resolucion01-03se-arcotel-2025.pdf"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-03",
+        "texto": "Rige el nuevo Plan Nacional de Frecuencias (Res. 03-02SO-ARCOTEL-2026, RO 253), alineado con la CMR-23; reemplazó al plan de 2021."
+      },
+      "indicadores": {
+        "esp_cuadro": {
+          "estado": "si",
+          "nota": "Plan Nacional de Frecuencias 2026, versión 7.0 (Res. 03-02SO-ARCOTEL-2026, RO 253, mar-2026); incluye el Cuadro Nacional de Atribución de Bandas.",
+          "fuente": "https://www.arcotel.gob.ec/wp-content/uploads/2026/03/anexo_1_res_03-02so-arcotel-2026_-1.pdf",
+          "anio": 2026
+        },
+        "esp_5g": {
+          "estado": "si",
+          "nota": "Nov-2025: ARCOTEL adjudicó en forma directa espectro para 5G a Claro y Tigo (ex Movistar), Res. ARCOTEL-2025-0271 y 0270, como adendas a sus concesiones.",
+          "fuente": "https://www.arcotel.gob.ec/wp-content/uploads/2026/04/Informe-Narrativo-RC-2025-ARCOTEL-signed-signed-signed-signed.pdf",
+          "anio": 2025
+        },
+        "esp_licitacion": {
+          "estado": "no",
+          "nota": "Sin subasta IMT desde 2020: el espectro 5G se adjudicó en forma directa en 2025; los concursos públicos de ARCOTEL de 2025 fueron de radio FM y TV.",
+          "fuente": "https://www.arcotel.gob.ec/wp-content/uploads/2026/04/Informe-Narrativo-RC-2025-ARCOTEL-signed-signed-signed-signed.pdf"
+        },
+        "esp_6ghz": {
+          "estado": "parcial",
+          "nota": "El PNF 2026 reserva 5925–7100 MHz a enlaces fijos; ARCOTEL consulta (audiencia el 11-nov-2026) abrir los 1200 MHz (5925–7125 MHz) al uso libre.",
+          "fuente": "https://www.arcotel.gob.ec/wp-content/uploads/2026/10/Informe-Tecnico-Nro.-IT-CRDE-2026-023-Actualizacion_norma_UL-UDBL-V.116-oct-2026_Publicar.pdf",
+          "anio": 2026
+        },
+        "esp_secundario": {
+          "estado": "si",
+          "nota": "LOT art. 44: los títulos habilitantes, incluidos los de espectro, pueden cederse, transferirse o arrendarse con autorización previa de ARCOTEL.",
+          "fuente": "https://www.telecomunicaciones.gob.ec/wp-content/uploads/2026/06/Ley-organica-de-Telecomunicaciones.pdf",
+          "anio": 2015
+        }
+      }
+    },
+    "competencia": {
+      "resumen": "La LOT permite imponer obligaciones a operadores con poder de mercado: Claro tiene el 58% de las líneas móviles y Movistar pasó a Millicom (Tigo) en 2025. Hay interconexión regulada y neutralidad de red por ley; el aporte del 1% financia el servicio universal. Se permiten OMV, pero ninguno opera.",
+      "instrumentos": [
+        {
+          "nombre": "Ley Orgánica de Telecomunicaciones (arts. 31–33, poder de mercado y preponderancia)",
+          "anio": 2015,
+          "tipo": "ley",
+          "url": "https://www.telecomunicaciones.gob.ec/wp-content/uploads/2026/06/Ley-organica-de-Telecomunicaciones.pdf"
+        },
+        {
+          "nombre": "Ley Orgánica Reformatoria a la Ley Orgánica de Telecomunicaciones (RO 59, Quinto Suplemento)",
+          "anio": 2025,
+          "tipo": "ley",
+          "url": "https://www.asambleanacional.gob.ec/es/system/files/ro_7.pdf"
+        },
+        {
+          "nombre": "Reglamento para la prestación de servicios de telecomunicaciones y de radiodifusión por suscripción, incluye OMV (Res. 05-03-ARCOTEL-2016, reformado en 2024)",
+          "anio": 2016,
+          "tipo": "reglamento",
+          "url": "https://www.arcotel.gob.ec/wp-content/uploads/2015/06/RESOLUCI%C3%93N-05-03-ARCOTEL-2016-pdf-1.pdf"
+        },
+        {
+          "nombre": "Reglamento General a la Ley Orgánica de Telecomunicaciones (Decreto Ejecutivo 864, con reformas hasta 2023)",
+          "anio": 2016,
+          "tipo": "reglamento",
+          "url": "https://www.telecomunicaciones.gob.ec/wp-content/uploads/2024/12/REGLAMENTO-GENERAL-A-LA-LEY-ORGANICA-DE-TELECOMUNICACIONES.pdf"
+        }
+      ],
+      "novedad": {
+        "fecha": "2025-06",
+        "texto": "Reforma a la LOT (RO 59, 13-jun-2025): el aporte del 1% de los operadores se destina a proyectos de servicio universal y brecha digital."
+      },
+      "indicadores": {
+        "comp_psm": {
+          "estado": "si",
+          "nota": "LOT arts. 31–33: ARCOTEL puede imponer obligaciones asimétricas a operadores con poder de mercado o con más del 50% del mercado (Claro: 58% de las líneas).",
+          "fuente": "https://www.telecomunicaciones.gob.ec/wp-content/uploads/2026/06/Ley-organica-de-Telecomunicaciones.pdf",
+          "anio": 2015
+        },
+        "comp_omv": {
+          "estado": "si",
+          "nota": "Res. 05-03-ARCOTEL-2016 prevé el servicio móvil mediante OMV (completo o intermedio); ARCOTEL no reporta ningún OMV en operación.",
+          "fuente": "https://www.arcotel.gob.ec/wp-content/uploads/2015/06/RESOLUCI%C3%93N-05-03-ARCOTEL-2016-pdf-1.pdf",
+          "anio": 2016
+        },
+        "comp_interconexion": {
+          "estado": "si",
+          "nota": "Reglamento de Interconexión (2006, reformado en 2012) vigente; ARCOTEL fija los cargos de interconexión (últimos registrados: Res. ARCOTEL-2018-0377).",
+          "fuente": "https://www.arcotel.gob.ec/wp-content/uploads/2026/11/catastro_regulatorio_institucional_de_la_arcotel0761272001792083616-1.xls",
+          "anio": 2018
+        },
+        "comp_fondo": {
+          "estado": "parcial",
+          "nota": "Sin fondo separado: el aporte del 1% de ingresos (LOT art. 92) financia proyectos de servicio universal y brecha digital desde la reforma de jun-2025.",
+          "fuente": "https://www.asambleanacional.gob.ec/es/system/files/ro_7.pdf",
+          "anio": 2025
+        },
+        "comp_neutralidad": {
+          "estado": "si",
+          "nota": "LOT 2015 (arts. 4, 22.18 y 24.17) prohíbe a los prestadores bloquear, priorizar o discriminar contenidos, aplicaciones o servicios legales.",
+          "fuente": "https://www.telecomunicaciones.gob.ec/wp-content/uploads/2026/06/Ley-organica-de-Telecomunicaciones.pdf",
+          "anio": 2015
+        }
+      }
+    },
+    "ciberseguridad": {
+      "resumen": "En mayo de 2026 se publicó la ley de ciberseguridad: crea un CSIRT Nacional y obliga a notificar incidentes en 72 horas. Mientras se organiza, EcuCERT (ARCOTEL) atiende a los operadores. La estrategia nacional de 2022 está en actualización y Ecuador es parte del Convenio de Budapest desde 2025.",
+      "instrumentos": [
+        {
+          "nombre": "Ley Orgánica para el Fortalecimiento de la Ciberseguridad (RO 290, Quinto Suplemento)",
+          "anio": 2026,
+          "tipo": "ley",
+          "url": "https://www.asambleanacional.gob.ec/es/system/files/ro_29.pdf"
+        },
+        {
+          "nombre": "Norma Técnica para coordinar la gestión de incidentes y vulnerabilidades que afecten a la seguridad de las redes y servicios de telecomunicaciones (Res. ARCOTEL-2018-0652)",
+          "anio": 2018,
+          "tipo": "norma",
+          "url": "https://www.arcotel.gob.ec/wp-content/uploads/downloads/2018/08/ARCOTEL-2018-0652-2018-07-31-TELECOMUNICACIONES-MATRIZ.pdf"
+        },
+        {
+          "nombre": "Convenio sobre la Ciberdelincuencia de Budapest (adhesión de Ecuador)",
+          "anio": 2024,
+          "tipo": "otro",
+          "url": "https://www.coe.int/en/web/conventions/full-list?module=signatures-by-treaty&treatynum=185"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-05",
+        "texto": "Ley Orgánica para el Fortalecimiento de la Ciberseguridad (RO 290, 22-may-2026): crea el CSIRT Nacional y la notificación de incidentes en 72 h."
+      },
+      "indicadores": {
+        "ciber_estrategia": {
+          "estado": "si",
+          "nota": "Estrategia Nacional de Ciberseguridad vigente desde ago-2022 (Comité Nacional de Ciberseguridad); en feb-2026 el MINTEL informó que está en actualización.",
+          "fuente": "https://www.telecomunicaciones.gob.ec/asamblea-nacional-aprueba-el-proyecto-de-ley-para-el-fortalecimiento-de-la-ciberseguridad-protegiendo-el-entorno-digital-del-pais/",
+          "anio": 2022
+        },
+        "ciber_ley": {
+          "estado": "si",
+          "nota": "Ley Orgánica para el Fortalecimiento de la Ciberseguridad (RO 290, 22-may-2026): rectoría, CSIRT Nacional y aviso de incidentes en 72 horas.",
+          "fuente": "https://www.asambleanacional.gob.ec/es/system/files/ro_29.pdf",
+          "anio": 2026
+        },
+        "ciber_csirt": {
+          "estado": "parcial",
+          "nota": "La ley de may-2026 crea el CSIRT Nacional, a organizarse hasta may-2027; mientras, EcuCERT (ARCOTEL) atiende incidentes y representa al país en redes de CSIRT.",
+          "fuente": "https://www.asambleanacional.gob.ec/es/system/files/ro_29.pdf",
+          "anio": 2026
+        },
+        "ciber_reporte": {
+          "estado": "si",
+          "nota": "Norma ARCOTEL-2018-0652: los operadores reportan a ARCOTEL sus incidentes y, cada mes, sus vulnerabilidades; la ley de 2026 fija además aviso en 72 h.",
+          "fuente": "https://www.arcotel.gob.ec/gestion-de-incidentes-y-vulnerabilidades-2/",
+          "anio": 2018
+        },
+        "ciber_budapest": {
+          "estado": "si",
+          "nota": "Instrumento depositado en Estrasburgo el 12-dic-2024 (Decreto Ejecutivo 332 de 2024); el Convenio rige para Ecuador desde el 1-abr-2025.",
+          "fuente": "https://www.coe.int/en/web/conventions/full-list?module=signatures-by-treaty&treatynum=185",
+          "anio": 2024
+        }
+      }
+    },
+    "usuario": {
+      "resumen": "Los derechos de los usuarios están en la LOT y en la norma de contratos de adhesión. ARCOTEL atiende reclamos (5.171 en 2025) y hay portabilidad móvil. Las llamadas comerciales requieren consentimiento previo, sin registro «No molestar», y las mediciones públicas de calidad llegan solo a 2023.",
+      "instrumentos": [
+        {
+          "nombre": "Ley Orgánica de Telecomunicaciones (art. 22, derechos de abonados y usuarios)",
+          "anio": 2015,
+          "tipo": "ley",
+          "url": "https://www.telecomunicaciones.gob.ec/wp-content/uploads/2026/06/Ley-organica-de-Telecomunicaciones.pdf"
+        },
+        {
+          "nombre": "Norma técnica que regula las condiciones generales de los contratos de adhesión, del contrato negociado y del empadronamiento (Res. ARCOTEL-2018-0716, reformada en 2022 y 2025)",
+          "anio": 2018,
+          "tipo": "norma",
+          "url": "https://www.arcotel.gob.ec/wp-content/uploads/downloads/2018/08/Resolucion-ARCOTEL-2018-0716.pdf"
+        },
+        {
+          "nombre": "Norma Técnica de Calidad para la Prestación del Servicio Móvil Avanzado (Res. ARCOTEL-2026-0102)",
+          "anio": 2026,
+          "tipo": "norma"
+        },
+        {
+          "nombre": "Procedimiento para transparentar la identificación del remitente en las llamadas del servicio móvil (Res. ARCOTEL-2020-0074)",
+          "anio": 2020,
+          "tipo": "resolucion",
+          "url": "https://www.arcotel.gob.ec/enmascaramiento-de-llamadas-comerciales-del-servicio-movil-avanzado/"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-05",
+        "texto": "ARCOTEL expidió la Norma Técnica de Calidad del Servicio Móvil Avanzado (Res. ARCOTEL-2026-0102), publicada en el Registro Oficial 287 (mayo de 2026)."
+      },
+      "indicadores": {
+        "usu_reglamento": {
+          "estado": "si",
+          "nota": "Sin reglamento único: la LOT 2015 (art. 22) fija los derechos y la Norma de contratos de adhesión (ARCOTEL-2018-0716, reformada en 2025) los desarrolla.",
+          "fuente": "https://www.telecomunicaciones.gob.ec/wp-content/uploads/2026/06/Ley-organica-de-Telecomunicaciones.pdf",
+          "anio": 2015
+        },
+        "usu_reclamos": {
+          "estado": "si",
+          "nota": "ARCOTEL atiende reclamos de usuarios por la plataforma gob.ec: 5.171 en 2025, sobre todo de internet (2.899) y telefonía móvil (1.778).",
+          "fuente": "https://www.arcotel.gob.ec/wp-content/uploads/2026/04/Informe-Narrativo-RC-2025-ARCOTEL-signed-signed-signed-signed.pdf",
+          "anio": 2025
+        },
+        "usu_portabilidad": {
+          "estado": "si",
+          "nota": "Portabilidad numérica móvil regulada (Norma técnica ARCOTEL-2019-0006); ARCOTEL publica cada mes los números portados (último: sep-2026).",
+          "fuente": "https://www.arcotel.gob.ec/portabilidad-numerica/",
+          "anio": 2019
+        },
+        "usu_calidad": {
+          "estado": "parcial",
+          "nota": "Rige la Norma Técnica de Calidad del SMA (Res. ARCOTEL-2026-0102), pero los comparativos públicos de calidad del servicio móvil solo llegan a 2023.",
+          "fuente": "https://www.arcotel.gob.ec/comparativo-de-calidad-sma/",
+          "anio": 2026
+        },
+        "usu_nomolestar": {
+          "estado": "parcial",
+          "nota": "Sin registro «No molestar»: la LOT (art. 22.24) prohíbe llamadas y SMS comerciales no autorizados y la Res. ARCOTEL-2020-0074 obliga a identificarlos.",
+          "fuente": "https://www.arcotel.gob.ec/enmascaramiento-de-llamadas-comerciales-del-servicio-movil-avanzado/",
+          "anio": 2020
+        }
+      }
+    },
+    "emergentes": {
+      "resumen": "El 5G comercial arrancó a fines de 2025 y suma 1,35 millones de líneas, el 94% de Claro. Starlink presta internet satelital registrado en ARCOTEL y hay un servicio IoT desde 2023. En 2026 se publicó la estrategia nacional de IA (2025–2029); un sandbox de IA está en diseño.",
+      "instrumentos": [
+        {
+          "nombre": "Servicio de Conectividad de Internet de los Objetos, IoT (Res. 05-05-ARCOTEL-2023)",
+          "anio": 2023,
+          "tipo": "resolucion",
+          "url": "https://www.arcotel.gob.ec/wp-content/uploads/2023/09/RESOLUCION-05-05-ARCOTEL-2023_IoT_13Sept2023.pdf"
+        },
+        {
+          "nombre": "Estrategia para el Fomento del Desarrollo y Uso Ético y Responsable de la Inteligencia Artificial en el Ecuador (A.M. MINTEL-MINTEL-2025-0030, RO 206)",
+          "anio": 2026,
+          "tipo": "estrategia",
+          "url": "https://www.telecomunicaciones.gob.ec/wp-content/uploads/2026/02/Registro_Oficial_Ano_l_Primer_Suplemento_No_206_del_19_de_enero_de_2026.pdf"
+        }
+      ],
+      "novedad": {
+        "fecha": "2025-12",
+        "texto": "Arrancó el 5G comercial: a sep-2026 hay 1,35 millones de líneas 5G, el 94% de Claro, según datos de ARCOTEL."
+      },
+      "indicadores": {
+        "tec_sandbox": {
+          "estado": "parcial",
+          "nota": "La Ley de Transformación Digital (2023) prevé sandbox regulatorios; en 2026 el MINTEL diseña con el PNUD un sandbox de IA, aún sin convocatoria.",
+          "fuente": "https://www.telecomunicaciones.gob.ec/gobierno-de-daniel-noboa-impulsa-un-sandbox-regulatorio-para-el-desarrollo-responsable-de-la-inteligencia-artificial-en-el-ecuador/",
+          "anio": 2023
+        },
+        "tec_5g": {
+          "estado": "si",
+          "nota": "ARCOTEL registra 1,35 millones de líneas 5G a sep-2026 (Claro 1,27 M; CNT 74 mil; Tigo 5 mil); las primeras aparecen en dic-2025.",
+          "fuente": "https://www.arcotel.gob.ec/wp-content/uploads/2026/10/1.1.3-Lineas-activas-por-tecnologia_septiembre_2026.xlsx",
+          "anio": 2025
+        },
+        "tec_iot": {
+          "estado": "si",
+          "nota": "Res. 05-05-ARCOTEL-2023 creó el servicio de Conectividad de Internet de los Objetos (IoT), con título de registro y uso de bandas libres.",
+          "fuente": "https://www.arcotel.gob.ec/wp-content/uploads/2023/09/RESOLUCION-05-05-ARCOTEL-2023_IoT_13Sept2023.pdf",
+          "anio": 2023
+        },
+        "tec_satelital": {
+          "estado": "si",
+          "nota": "Starlink Ecuador (STAREC) está registrada como prestador de internet: 31.822 cuentas a jun-2026. La ley de may-2026 creó un título para internet satelital.",
+          "fuente": "https://www.arcotel.gob.ec/wp-content/uploads/2026/11/3-1-1-Cuentas-internet-fijos-y-moviles_jun_2026_V2-1.xlsx",
+          "anio": 2026
+        },
+        "tec_ia": {
+          "estado": "si",
+          "nota": "Estrategia para el fomento del desarrollo y uso ético y responsable de la IA (A.M. MINTEL-MINTEL-2025-0030, RO 206 de 19-ene-2026), con visión 2025–2029.",
+          "fuente": "https://www.telecomunicaciones.gob.ec/wp-content/uploads/2026/02/Registro_Oficial_Ano_l_Primer_Suplemento_No_206_del_19_de_enero_de_2026.pdf",
+          "anio": 2026
+        }
+      }
+    },
+    "infraestructura": {
+      "resumen": "La compartición de infraestructura es obligatoria y ARCOTEL la impone si no hay acuerdo en 30 días. La ley da acceso a bienes públicos y derechos de vía, limita las tasas municipales y el roaming nacional está regulado desde 2014. En 2026 se emitió una nueva norma de redes aéreas.",
+      "instrumentos": [
+        {
+          "nombre": "Ley Orgánica de Telecomunicaciones (arts. 101–106: ocupación de bienes, servidumbres y compartición)",
+          "anio": 2015,
+          "tipo": "ley",
+          "url": "https://www.telecomunicaciones.gob.ec/wp-content/uploads/2026/06/Ley-organica-de-Telecomunicaciones.pdf"
+        },
+        {
+          "nombre": "Reglamento General a la LOT (arts. 96–108, compartición de infraestructura)",
+          "anio": 2016,
+          "tipo": "reglamento",
+          "url": "https://www.telecomunicaciones.gob.ec/wp-content/uploads/2024/12/REGLAMENTO-GENERAL-A-LA-LEY-ORGANICA-DE-TELECOMUNICACIONES.pdf"
+        },
+        {
+          "nombre": "Norma Técnica para el Despliegue, Ordenamiento y Mantenimiento de Redes Físicas Aéreas (Res. ARCOTEL-2026-0086)",
+          "anio": 2026,
+          "tipo": "norma"
+        },
+        {
+          "nombre": "Reglamento para la prestación de roaming nacional automático (Res. TEL-628-20-CONATEL-2014)",
+          "anio": 2014,
+          "tipo": "reglamento"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-05",
+        "texto": "Nueva Norma Técnica para el despliegue, ordenamiento y mantenimiento de redes físicas aéreas (Res. ARCOTEL-2026-0086, RO 283 de 13-may-2026)."
+      },
+      "indicadores": {
+        "inf_pasiva": {
+          "estado": "si",
+          "nota": "Compartición obligatoria para redes públicas (Reglamento de la LOT, arts. 96–108; Norma ARCOTEL-2017-0807); sin acuerdo en 30 días, ARCOTEL la ordena.",
+          "fuente": "https://www.telecomunicaciones.gob.ec/wp-content/uploads/2024/12/REGLAMENTO-GENERAL-A-LA-LEY-ORGANICA-DE-TELECOMUNICACIONES.pdf",
+          "anio": 2017
+        },
+        "inf_electrica": {
+          "estado": "si",
+          "nota": "LOT arts. 101 y 105: acceso a bienes públicos, derecho de vía de carreteras e infraestructura de terceros; la Res. ARCOTEL-2026-0086 ordena las redes aéreas.",
+          "fuente": "https://www.telecomunicaciones.gob.ec/wp-content/uploads/2026/06/Ley-organica-de-Telecomunicaciones.pdf",
+          "anio": 2015
+        },
+        "inf_permisos": {
+          "estado": "parcial",
+          "nota": "LOT (arts. 9, 11 y 104) obliga a los municipios a aplicar la política nacional de despliegue y limita sus tasas; no fija plazos ni silencio positivo.",
+          "fuente": "https://www.telecomunicaciones.gob.ec/wp-content/uploads/2026/06/Ley-organica-de-Telecomunicaciones.pdf",
+          "anio": 2015
+        },
+        "inf_roaming": {
+          "estado": "si",
+          "nota": "Reglamento de roaming nacional automático (Res. TEL-628-20-CONATEL-2014) figura como vigente en el catastro regulatorio de ARCOTEL (oct-2026).",
+          "fuente": "https://www.arcotel.gob.ec/wp-content/uploads/2026/11/catastro_regulatorio_institucional_de_la_arcotel0761272001792083616-1.xls",
+          "anio": 2014
+        },
+        "inf_edificios": {
+          "estado": "sin_dato",
+          "nota": "No se identificó una norma nacional de infraestructura de telecomunicaciones en edificaciones."
+        }
+      }
+    },
+    "emergencia": {
+      "resumen": "El ECU 911 opera el número único de emergencias y las llamadas son gratuitas aun sin saldo. Los operadores presentan cada enero planes de contingencia y difunden gratis a los celulares las alertas de la Secretaría de Gestión de Riesgos. Ecuador no es parte del Convenio de Tampere.",
+      "instrumentos": [
+        {
+          "nombre": "Norma de planes de contingencia (Res. ARCOTEL-2017-0858)",
+          "anio": 2017,
+          "tipo": "norma",
+          "url": "https://www.arcotel.gob.ec/wp-content/plugins/download-monitor/download.php?id=14739"
+        },
+        {
+          "nombre": "Norma técnica de prestación de servicios de telecomunicaciones para emergencias (Res. ARCOTEL-2021-0393)",
+          "anio": 2021,
+          "tipo": "norma"
+        },
+        {
+          "nombre": "Plan Técnico Fundamental de Numeración (Res. TEL-068-04-CONATEL-2013)",
+          "anio": 2013,
+          "tipo": "plan",
+          "url": "https://www.arcotel.gob.ec/wp-content/uploads/2016/03/plan-tecnico-fundamental-de-numeracion-ptfn.pdf"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-06",
+        "texto": "Ecuador inició el proyecto «Alertas Tempranas para Todos» (5 años, USD 12 millones, con el Fondo Verde para el Clima y agencias de la ONU)."
+      },
+      "indicadores": {
+        "eme_alerta": {
+          "estado": "si",
+          "nota": "Las operadoras móviles difunden gratis las alertas de la Secretaría de Gestión de Riesgos (LOT art. 8; Reglamento, art. 59); en 2025 hubo 34 pedidos de envío.",
+          "fuente": "https://www.arcotel.gob.ec/wp-content/uploads/2026/04/Informe-Narrativo-RC-2025-ARCOTEL-signed-signed-signed-signed.pdf",
+          "anio": 2025
+        },
+        "eme_numero": {
+          "estado": "si",
+          "nota": "El Servicio Integrado de Seguridad ECU 911 atiende el número único de emergencias 9-1-1 en todo el país.",
+          "fuente": "https://www.ecu911.gob.ec/"
+        },
+        "eme_plan": {
+          "estado": "si",
+          "nota": "Los operadores presentan hasta el 31 de enero de cada año planes de contingencia (LOT art. 24.24; Norma ARCOTEL-2017-0858); en 2025 hubo 1.665.",
+          "fuente": "https://www.arcotel.gob.ec/wp-content/uploads/2026/04/Informe-Narrativo-RC-2025-ARCOTEL-signed-signed-signed-signed.pdf",
+          "anio": 2017
+        },
+        "eme_prioridad": {
+          "estado": "si",
+          "nota": "Llamadas de emergencia gratuitas aun sin saldo y con localización (LOT arts. 22.6 y 24.11; Reglamento General, art. 59); Norma ARCOTEL-2021-0393.",
+          "fuente": "https://www.telecomunicaciones.gob.ec/wp-content/uploads/2024/12/REGLAMENTO-GENERAL-A-LA-LEY-ORGANICA-DE-TELECOMUNICACIONES.pdf",
+          "anio": 2015
+        },
+        "eme_tampere": {
+          "estado": "no",
+          "nota": "Ecuador no figura como signatario ni parte del Convenio de Tampere en la UN Treaty Collection (cap. XXV-4, estado al 11-nov-2026).",
+          "fuente": "https://treaties.un.org/Pages/ViewDetails.aspx?src=TREATY&mtdsg_no=XXV-4&chapter=25&clang=_en"
+        }
+      }
+    },
+    "homologacion": {
+      "resumen": "La homologación de terminales es obligatoria por ley y se tramita gratis en línea con certificados extranjeros reconocidos (FCC, CE, Anatel, entre otros). ARCOTEL publica los equipos homologados y bloquea los IMEI robados o no homologados.",
+      "instrumentos": [
+        {
+          "nombre": "Reglamento para homologación y certificación de equipos terminales de telecomunicaciones (Res. 03-03-ARCOTEL-2017)",
+          "anio": 2017,
+          "tipo": "reglamento",
+          "url": "https://www.arcotel.gob.ec/wp-content/uploads/2019/05/RESOLUCION-03-03-ARCOTEL-2017-Regl-Homologacion-ocr.pdf"
+        },
+        {
+          "nombre": "Norma de empadronamiento de abonados del SMA y registro de terminales perdidos, robados o hurtados (Res. 191-07-CONATEL-2009, con reformas)",
+          "anio": 2009,
+          "tipo": "norma"
+        },
+        {
+          "nombre": "Procedimiento de homologación simplificado de equipos terminales del Servicio Móvil Avanzado (Res. ARCOTEL-2017-1244)",
+          "anio": 2017,
+          "tipo": "resolucion"
+        }
+      ],
+      "novedad": null,
+      "indicadores": {
+        "hom_obligatoria": {
+          "estado": "si",
+          "nota": "LOT (arts. 86–87) exige homologar los terminales que usan espectro y prohíbe vender equipos no homologados; reglamento: Res. 03-03-ARCOTEL-2017.",
+          "fuente": "https://www.telecomunicaciones.gob.ec/wp-content/uploads/2026/06/Ley-organica-de-Telecomunicaciones.pdf",
+          "anio": 2015
+        },
+        "hom_reconocimiento": {
+          "estado": "si",
+          "nota": "ARCOTEL homologa con certificados de organismos extranjeros reconocidos: FCC, CE/ETSI, Anatel, Canadá, BIS, CMIIT, KATS y NCC.",
+          "fuente": "https://www.arcotel.gob.ec/homologacion-informacion2/"
+        },
+        "hom_imei": {
+          "estado": "si",
+          "nota": "Listas negativas de IMEI (Decisión 786 de la CAN): en 2025 ARCOTEL bloqueó 2,74 millones de IMEI robados (en Ecuador, Perú y Colombia) y 405.129 no homologados.",
+          "fuente": "https://www.arcotel.gob.ec/wp-content/uploads/2026/04/Informe-Narrativo-RC-2025-ARCOTEL-signed-signed-signed-signed.pdf",
+          "anio": 2025
+        },
+        "hom_enlinea": {
+          "estado": "si",
+          "nota": "Trámite gratuito de homologación en línea en el portal de ARCOTEL, con respuesta en un máximo de 16 días laborables.",
+          "fuente": "https://www.arcotel.gob.ec/tramite-gratuito-de-homologacion-en-linea/"
+        },
+        "hom_lista": {
+          "estado": "si",
+          "nota": "ARCOTEL publica la consulta de equipos homologados con sus certificados, estadísticas de terminales homologados y la consulta «Tu celular legal».",
+          "fuente": "https://www.arcotel.gob.ec/homologacion2/"
+        }
+      }
+    }
+  },
+  "cambiosDetectados": [
+    "Rectoría: el MINTEL fue absorbido por el Ministerio de Infraestructura y Tecnología (Decreto Ejecutivo 426, 18-jun-2026); ARCOTEL queda adscrita a ese ministerio.",
+    "Espectro: el catálogo citaba el Plan Nacional de Frecuencias 2021, reemplazado por el PNF 2026 (Res. 03-02SO-ARCOTEL-2026); la apertura de la banda de 6 GHz está en consulta.",
+    "Ciberseguridad: el texto era genérico y enlazaba una política de 2018 hoy inexistente; se agregan la ley de 2026, la estrategia nacional de 2022, EcuCERT y la adhesión a Budapest (2024).",
+    "Tecnologías emergentes: el 5G figuraba como objetivo futuro; hay 5G comercial desde dic-2025 y una estrategia nacional de IA publicada en ene-2026.",
+    "Competencia y servicio universal: Movistar pasó a Millicom (Tigo) en 2025 y la reforma de la LOT de 2025 destina el aporte del 1% a proyectos de servicio universal.",
+    "Emergencias: solo se describían las sirenas del ECU 911; se agregan las alertas a celulares, los planes de contingencia y que Ecuador no es parte de Tampere."
+  ],
+  "verificadoEn": "2026-11-11",
+  "confianza": "alta"
+}

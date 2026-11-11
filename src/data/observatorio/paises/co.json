@@ -1,0 +1,557 @@
+{
+  "iso": "co",
+  "pais": "Colombia",
+  "regulador": {
+    "sigla": "CRC",
+    "nombre": "Comisión de Regulación de Comunicaciones",
+    "url": "https://www.crcom.gov.co",
+    "naturaleza": "Unidad administrativa especial del orden nacional, con independencia administrativa, técnica, patrimonial y presupuestal, sin control jerárquico (Ley 1341 de 2009, art. 19, reformado por la Ley 1978 de 2019)"
+  },
+  "otrasAutoridades": [
+    {
+      "sigla": "MinTIC",
+      "nombre": "Ministerio de Tecnologías de la Información y las Comunicaciones",
+      "rol": "Ministerio rector: política sectorial, registro TIC, asignación y cesión de espectro; administra el Fondo Único de TIC (FUTIC)",
+      "url": "https://www.mintic.gov.co"
+    },
+    {
+      "sigla": "ANE",
+      "nombre": "Agencia Nacional del Espectro",
+      "rol": "Planeación y atribución del espectro (CNABF) y vigilancia técnica",
+      "url": "https://www.ane.gov.co"
+    },
+    {
+      "sigla": "SIC",
+      "nombre": "Superintendencia de Industria y Comercio",
+      "rol": "Vigila la protección de usuarios de comunicaciones (resuelve apelaciones de PQR) y la libre competencia (integraciones)",
+      "url": "https://www.sic.gov.co"
+    },
+    {
+      "sigla": "colCERT",
+      "nombre": "Grupo de Respuesta a Emergencias Cibernéticas de Colombia",
+      "rol": "CERT nacional, coordinado por el MinTIC (Decreto 338 de 2022)",
+      "url": "https://www.colcert.gov.co"
+    }
+  ],
+  "marcoLegal": {
+    "nombre": "Ley 1341 de 2009 (Ley de TIC), modificada por la Ley 1978 de 2019",
+    "anio": 2009,
+    "url": "https://normograma.mintic.gov.co/mintic/compilacion/docs/ley_1341_2009.htm"
+  },
+  "resumenPais": "Modelo convergente: el MinTIC fija la política y asigna el espectro, la ANE lo planifica y la CRC, con autonomía técnica y presupuestal, regula mercados, calidad, derechos de usuarios y contenidos audiovisuales (Ley 1341 de 2009, reformada en 2019). La SIC protege al usuario y la competencia.",
+  "categorias": {
+    "espectro": {
+      "resumen": "El MinTIC asigna el espectro y la ANE lo planifica. Colombia subastó 5G en 2023 (3,5 GHz), abrió toda la banda de 6 GHz para Wi-Fi en interiores y permite ceder espectro; desde 2026 también compartirlo en zonas rurales.",
+      "instrumentos": [
+        {
+          "nombre": "Cuadro Nacional de Atribución de Bandas de Frecuencias (Resolución ANE 105 de 2020; actualizado a la CMR-23 por la Resolución ANE 809 de 2025)",
+          "anio": 2020,
+          "tipo": "plan",
+          "url": "https://normograma.mintic.gov.co/mintic/compilacion/docs/resolucion_ane_0105_2020.htm"
+        },
+        {
+          "nombre": "Resolución MinTIC 3214 de 2026 (subasta de reloj ascendente para el espectro IMT remanente)",
+          "anio": 2026,
+          "tipo": "resolucion",
+          "url": "https://normograma.mintic.gov.co/mintic/compilacion/docs/resolucion_mintic_3214_2026.htm"
+        },
+        {
+          "nombre": "Resolución ANE 737 de 2022 (banda de 6 GHz de uso libre)",
+          "anio": 2022,
+          "tipo": "resolucion",
+          "url": "https://normograma.mintic.gov.co/mintic/compilacion/docs/resolucion_ane_0737_2022.htm"
+        },
+        {
+          "nombre": "Decreto 1078 de 2015, Título 2, caps. 7 y 8: cesión de permisos (Decreto 821 de 2022) y uso compartido del espectro IMT (Decreto 1017 de 2026)",
+          "anio": 2026,
+          "tipo": "decreto",
+          "url": "https://normograma.mintic.gov.co/mintic/compilacion/docs/decreto_1078_2015.htm#2.2.2.7.1"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-08",
+        "texto": "La Res. MinTIC 3214 de 2026 fijó la subasta de reloj ascendente como mecanismo estándar para asignar el espectro IMT remanente."
+      },
+      "indicadores": {
+        "esp_cuadro": {
+          "estado": "si",
+          "nota": "CNABF de la ANE (Res. 105 de 2020), actualizado a la CMR-23 por la Res. ANE 809 de 2025; la Res. 105 tuvo ajustes en 2026 (Res. 028 y 399).",
+          "fuente": "https://normograma.mintic.gov.co/mintic/compilacion/docs/resolucion_ane_0809_2025.htm",
+          "anio": 2025
+        },
+        "esp_5g": {
+          "estado": "si",
+          "nota": "La subasta de dic-2023 adjudicó 4 bloques de 80 MHz en 3,5 GHz (320 MHz), uno por operador; permisos otorgados en 2024 (Res. MinTIC 0495 a 0499).",
+          "fuente": "https://mintic.gov.co/micrositios/asignacion-espectro-imt-2023/828/w3-channel.html",
+          "anio": 2023
+        },
+        "esp_licitacion": {
+          "estado": "si",
+          "nota": "Subasta IMT concluida el 20-dic-2023: 3,5 GHz por $1,37 billones y un bloque de 2,5 GHz (Claro), con obligaciones de conectividad.",
+          "fuente": "https://mintic.gov.co/micrositios/asignacion-espectro-imt-2023/828/w3-channel.html",
+          "anio": 2023
+        },
+        "esp_6ghz": {
+          "estado": "si",
+          "nota": "Res. ANE 737 de 2022: 1200 MHz (5925–7125 MHz) de uso libre para Wi-Fi, solo en interiores y con baja potencia.",
+          "fuente": "https://normograma.mintic.gov.co/mintic/compilacion/docs/resolucion_ane_0737_2022.htm",
+          "anio": 2022
+        },
+        "esp_secundario": {
+          "estado": "si",
+          "nota": "Cesión total o parcial de permisos con aval del MinTIC (Decreto 821 de 2022) y, desde ago-2026, uso compartido del espectro IMT en zonas rurales (Decreto 1017).",
+          "fuente": "https://normograma.mintic.gov.co/mintic/compilacion/docs/decreto_1078_2015.htm#2.2.2.8.2.2",
+          "anio": 2026
+        }
+      }
+    },
+    "competencia": {
+      "resumen": "La CRC regula por mercados: Claro (Comcel) es operador dominante en servicios móviles y tiene obligaciones asimétricas. La CRC fija cargos de interconexión, roaming nacional y OMV. En 2026 Millicom integró Tigo y Movistar, y la CRC mantuvo la regulación ex ante del mercado móvil.",
+      "instrumentos": [
+        {
+          "nombre": "Resolución CRC 5050 de 2016 (compilación regulatoria: mercados relevantes, acceso e interconexión)",
+          "anio": 2016,
+          "tipo": "resolucion",
+          "url": "https://normograma.com/crc/compilacion/docs/resolucion_crc_5050_2016.htm"
+        },
+        {
+          "nombre": "Resolución CRC 8286 de 2026 (evaluación del mercado de Servicios Móviles)",
+          "anio": 2026,
+          "tipo": "resolucion",
+          "url": "https://www.crcom.gov.co/sites/default/files/normatividad/00008286.pdf"
+        },
+        {
+          "nombre": "Resolución CRC 8183 de 2026 (remuneración de servicios móviles: terminación, RAN y OMV)",
+          "anio": 2026,
+          "tipo": "resolucion",
+          "url": "https://normograma.com/crc/compilacion/docs/resolucion_crc_8183_2026.htm"
+        },
+        {
+          "nombre": "Ley 1341 de 2009, art. 34 (Fondo Único de TIC, reformado por la Ley 1978 de 2019)",
+          "anio": 2009,
+          "tipo": "ley",
+          "url": "https://normograma.mintic.gov.co/mintic/compilacion/docs/ley_1341_2009.htm#34"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-07",
+        "texto": "La Res. CRC 8286 mantuvo la regulación ex ante del mercado móvil tras la integración Tigo–Movistar (Millicom controla Movistar desde feb-2026)."
+      },
+      "indicadores": {
+        "comp_psm": {
+          "estado": "si",
+          "nota": "Comcel (Claro) es dominante en Servicios Móviles (Res. CRC 6146 de 2021) y debe ofrecer sus torres (Res. 7285 de 2024); el mercado sigue regulado ex ante.",
+          "fuente": "https://www.crcom.gov.co/sites/default/files/normatividad/00008286.pdf",
+          "anio": 2021
+        },
+        "comp_omv": {
+          "estado": "si",
+          "nota": "Los operadores de red deben dar acceso a OMV (Res. CRC 5050, Tít. IV, Cap. 16); topes de remuneración actualizados desde abr-2026 (Res. CRC 8183).",
+          "fuente": "https://normograma.com/crc/compilacion/docs/resolucion_crc_5050_2016.htm#4.16.1.1",
+          "anio": 2026
+        },
+        "comp_interconexion": {
+          "estado": "si",
+          "nota": "La CRC fija los cargos de acceso: terminación en redes móviles a $1,08/min desde abr-2026 (Res. 8183); entre móviles, cada red conserva lo que recauda.",
+          "fuente": "https://normograma.com/crc/compilacion/docs/resolucion_crc_5050_2016.htm#4.3.2.8",
+          "anio": 2026
+        },
+        "comp_fondo": {
+          "estado": "si",
+          "nota": "Fondo Único de TIC (FUTIC), adscrito al MinTIC, financia el acceso universal (art. 34 Ley 1341, reformado por la Ley 1978 de 2019).",
+          "fuente": "https://normograma.mintic.gov.co/mintic/compilacion/docs/ley_1341_2009.htm#34",
+          "anio": 2019
+        },
+        "comp_neutralidad": {
+          "estado": "si",
+          "nota": "Ley 1450 de 2011 (art. 56) y Res. CRC 3502 de 2011 (Res. 5050, Tít. II, Cap. 9): no discriminación y solo gestión de tráfico razonable.",
+          "fuente": "https://normograma.com/crc/compilacion/docs/resolucion_crc_5050_2016.htm#2.9.1.1",
+          "anio": 2011
+        }
+      }
+    },
+    "ciberseguridad": {
+      "resumen": "La gobernanza se fija por decreto (Decreto 338 de 2022) y una nueva estrategia 2025–2027; no hay ley marco. colCERT es el CERT nacional y los operadores deben reportarle incidentes. Colombia es parte del Convenio de Budapest.",
+      "instrumentos": [
+        {
+          "nombre": "Estrategia Nacional de Seguridad Digital de Colombia 2025–2027",
+          "anio": 2025,
+          "tipo": "estrategia",
+          "url": "https://mintic.gov.co/portal/715/articles-403023_recurso_2.pdf"
+        },
+        {
+          "nombre": "Decreto 338 de 2022 (gobernanza de la seguridad digital; colCERT y CSIRT Gobierno)",
+          "anio": 2022,
+          "tipo": "decreto",
+          "url": "https://normograma.mintic.gov.co/mintic/compilacion/docs/decreto_0338_2022.htm"
+        },
+        {
+          "nombre": "Resolución CRC 5050 de 2016, art. 5.1.2.3 (seguridad de la información y reporte de incidentes; texto de la Res. CRC 6890 de 2022)",
+          "anio": 2022,
+          "tipo": "resolucion",
+          "url": "https://normograma.com/crc/compilacion/docs/resolucion_crc_5050_2016.htm#5.1.2.3"
+        },
+        {
+          "nombre": "Ley 1928 de 2018 (aprueba el Convenio sobre la Ciberdelincuencia)",
+          "anio": 2018,
+          "tipo": "ley",
+          "url": "https://normograma.mintic.gov.co/mintic/compilacion/docs/ley_1928_2018.htm"
+        }
+      ],
+      "novedad": {
+        "fecha": "2025-03",
+        "texto": "Presidencia publicó la Estrategia Nacional de Seguridad Digital 2025–2027: prevé una entidad nacional especializada y actualizar el marco legal."
+      },
+      "indicadores": {
+        "ciber_estrategia": {
+          "estado": "si",
+          "nota": "Estrategia Nacional de Seguridad Digital 2025–2027 (Presidencia, mar-2025), construida sobre los CONPES 3854 de 2016 y 3995 de 2020.",
+          "fuente": "https://mintic.gov.co/portal/715/articles-403023_recurso_2.pdf",
+          "anio": 2025
+        },
+        "ciber_ley": {
+          "estado": "no",
+          "nota": "Sin ley marco: rige el Decreto 338 de 2022 (gobernanza) y la Ley 1273 de 2009 (delitos informáticos). La CRC (dic-2025) recomienda una ley.",
+          "fuente": "https://www.crcom.gov.co/system/files/Biblioteca%20Virtual/An%C3%A1lisis%20prospectivo%20en%20materia%20de%20ciberseguridad/analisis-prospectivo-ciberseguridad-261225.pdf"
+        },
+        "ciber_csirt": {
+          "estado": "si",
+          "nota": "colCERT, coordinado por el MinTIC, es el punto nacional de respuesta (Decreto 338 de 2022); hay además CSIRT Gobierno y CSIRT sectoriales.",
+          "fuente": "https://www.colcert.gov.co",
+          "anio": 2022
+        },
+        "ciber_reporte": {
+          "estado": "si",
+          "nota": "Los operadores reportan incidentes a colCERT; los graves en 24 horas hábiles (Res. CRC 5050, art. 5.1.2.3; Res. 5569 de 2018 y 6890 de 2022).",
+          "fuente": "https://normograma.com/crc/compilacion/docs/resolucion_crc_5050_2016.htm#5.1.2.3",
+          "anio": 2022
+        },
+        "ciber_budapest": {
+          "estado": "si",
+          "nota": "Adhesión el 16-mar-2020, en vigor desde el 1-jul-2020 (aprobado por la Ley 1928 de 2018); firmó el Segundo Protocolo adicional en 2022.",
+          "fuente": "https://www.coe.int/en/web/conventions/full-list?module=signatures-by-treaty&treatynum=185",
+          "anio": 2020
+        }
+      }
+    },
+    "usuario": {
+      "resumen": "La CRC fija el régimen de derechos de los usuarios, la calidad y la portabilidad; la SIC vigila y resuelve las apelaciones. Existe el registro «No molestar» (RNE) y en 2026 se adoptaron medidas contra el fraude por SMS y llamadas.",
+      "instrumentos": [
+        {
+          "nombre": "Régimen de Protección de los Derechos de los Usuarios (Resolución CRC 5111 de 2017, compilada en el Título II de la Resolución CRC 5050 de 2016)",
+          "anio": 2017,
+          "tipo": "reglamento",
+          "url": "https://normograma.com/crc/compilacion/docs/resolucion_crc_5050_2016.htm#2.1.1.1"
+        },
+        {
+          "nombre": "Resolución CRC 7811 de 2025 (simplificación del marco regulatorio)",
+          "anio": 2025,
+          "tipo": "resolucion",
+          "url": "https://normograma.com/crc/compilacion/docs/resolucion_crc_7811_2025.htm"
+        },
+        {
+          "nombre": "Resolución CRC 8308 de 2026 (medidas contra el fraude por servicios móviles)",
+          "anio": 2026,
+          "tipo": "resolucion",
+          "url": "https://normograma.com/crc/compilacion/docs/resolucion_crc_8308_2026.htm"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-07",
+        "texto": "La Res. CRC 8308 de 2026 contra el fraude prohíbe suplantar el número que llama, crea el Sender ID para SMS y exige monitorear tráfico sospechoso."
+      },
+      "indicadores": {
+        "usu_reglamento": {
+          "estado": "si",
+          "nota": "Régimen de Protección de los Derechos de los Usuarios (Res. CRC 5050, Tít. II), simplificado por la Res. 7811 de 2025 y ajustado en 2026.",
+          "fuente": "https://normograma.com/crc/compilacion/docs/resolucion_crc_5050_2016.htm#2.1.1.1",
+          "anio": 2025
+        },
+        "usu_reclamos": {
+          "estado": "no",
+          "nota": "La CRC no tramita quejas: el usuario reclama ante el operador y la apelación la resuelve la SIC (Res. CRC 5050, art. 2.1.24.5).",
+          "fuente": "https://normograma.com/crc/compilacion/docs/resolucion_crc_5050_2016.htm#2.1.24.5"
+        },
+        "usu_portabilidad": {
+          "estado": "si",
+          "nota": "Portabilidad numérica móvil operativa desde 2011 (Ley 1245 de 2008; Res. CRC 5050, Tít. II, Cap. 6); la CRC publica sus cifras. No existe en telefonía fija.",
+          "fuente": "https://www.postdata.gov.co/dataflash/data-flash-2026-013-portabilidad-numerica-movil",
+          "anio": 2011
+        },
+        "usu_calidad": {
+          "estado": "si",
+          "nota": "La CRC publica la calidad 4G de voz y datos por operador y municipio en una herramienta interactiva (Res. 7363 de 2024), además de mediciones de experiencia.",
+          "fuente": "https://normograma.com/crc/compilacion/docs/resolucion_crc_5050_2016.htm#5.1.3.11",
+          "anio": 2024
+        },
+        "usu_nomolestar": {
+          "estado": "si",
+          "nota": "Registro de Números Excluidos (RNE) de la CRC contra llamadas, SMS y mensajes comerciales; ajustado a la Ley 2300 de 2023 (Res. 7356 de 2024) y en 2026.",
+          "fuente": "https://normograma.com/crc/compilacion/docs/resolucion_crc_5050_2016.htm#2.1.18.1",
+          "anio": 2024
+        }
+      }
+    },
+    "emergentes": {
+      "resumen": "5G comercial desde 2024, con unos 10 millones de accesos en 2026, e Internet satelital de órbita baja en expansión. La CRC tiene sandbox regulatorio desde 2020 y hay política nacional de IA (CONPES 4144 de 2025). Para IoT solo hay reglas puntuales.",
+      "instrumentos": [
+        {
+          "nombre": "CONPES 4144 de 2025 – Política Nacional de Inteligencia Artificial",
+          "anio": 2025,
+          "tipo": "estrategia",
+          "url": "https://colaboracion.dnp.gov.co/CDT/Conpes/Econ%C3%B3micos/4144.pdf"
+        },
+        {
+          "nombre": "Sandbox Regulatorio Convergente (Res. CRC 5050, Título XII; creado por la Res. CRC 5980 de 2020 y reformado por la Res. 7811 de 2025)",
+          "anio": 2020,
+          "tipo": "resolucion",
+          "url": "https://normograma.com/crc/compilacion/docs/resolucion_crc_5050_2016.htm#12.1.1.1"
+        },
+        {
+          "nombre": "Resolución CRC 5968 de 2020 (códigos MNC para redes M2M/IoT)",
+          "anio": 2020,
+          "tipo": "resolucion",
+          "url": "https://normograma.com/crc/compilacion/docs/resolucion_crc_5050_2016.htm#6.5.1.3"
+        }
+      ],
+      "novedad": {
+        "fecha": "2025-02",
+        "texto": "El CONPES 4144 aprobó la Política Nacional de Inteligencia Artificial, con 106 acciones hasta 2030."
+      },
+      "indicadores": {
+        "tec_sandbox": {
+          "estado": "si",
+          "nota": "Sandbox regulatorio de la CRC desde 2020 (Res. 5980); hoy «Sandbox Regulatorio Convergente», que abarca redes, servicios y contenidos (Res. 7811 de 2025).",
+          "fuente": "https://normograma.com/crc/compilacion/docs/resolucion_crc_5050_2016.htm#12.1.1.1",
+          "anio": 2020
+        },
+        "tec_5g": {
+          "estado": "si",
+          "nota": "5G comercial desde feb-2024; 9,9 millones de accesos 5G en mar-2026 (20% del internet móvil), según la CRC.",
+          "fuente": "https://www.postdata.gov.co/dataflash/data-flash-2026-008-servicios-moviles",
+          "anio": 2024
+        },
+        "tec_iot": {
+          "estado": "parcial",
+          "nota": "Solo reglas puntuales: desde 2020 la CRC asigna códigos MNC a redes que prestan M2M/IoT (Res. 5968 de 2020). No se halló un plan nacional de IoT.",
+          "fuente": "https://normograma.com/crc/compilacion/docs/resolucion_crc_5050_2016.htm#6.5.1.3",
+          "anio": 2020
+        },
+        "tec_satelital": {
+          "estado": "si",
+          "nota": "Starlink (LEO) presta Internet fijo y reporta a la CRC desde 2022: unos 160.000 accesos a dic-2025 (Data Flash 2026-003).",
+          "fuente": "https://www.postdata.gov.co/dataflash/data-flash-2026-003-servicios-fijos",
+          "anio": 2022
+        },
+        "tec_ia": {
+          "estado": "si",
+          "nota": "CONPES 4144 de 2025: Política Nacional de Inteligencia Artificial, con 106 acciones hasta 2030.",
+          "fuente": "https://colaboracion.dnp.gov.co/CDT/Conpes/Econ%C3%B3micos/4144.pdf",
+          "anio": 2025
+        }
+      }
+    },
+    "infraestructura": {
+      "resumen": "Regulación amplia de compartición: postes, ductos y torres, e infraestructura eléctrica, vial y de transporte. Trámite único de permisos con silencio positivo (2024), roaming nacional regulado y RITEL obligatorio en edificios residenciales nuevos.",
+      "instrumentos": [
+        {
+          "nombre": "Decreto 1031 de 2024 (procedimiento único para el despliegue de redes e infraestructura)",
+          "anio": 2024,
+          "tipo": "decreto",
+          "url": "https://normograma.mintic.gov.co/mintic/compilacion/docs/decreto_1031_2024.htm"
+        },
+        {
+          "nombre": "Resolución CRC 7120 de 2023 (acceso a postes, ductos e infraestructura elegible de otros sectores)",
+          "anio": 2023,
+          "tipo": "resolucion",
+          "url": "https://normograma.com/crc/compilacion/docs/resolucion_crc_5050_2016.htm#4.10.1.1"
+        },
+        {
+          "nombre": "Reglamento Técnico para Redes Internas de Telecomunicaciones – RITEL (Resolución CRC 5405 de 2018)",
+          "anio": 2018,
+          "tipo": "reglamento",
+          "url": "https://normograma.com/crc/compilacion/docs/resolucion_crc_5050_2016.htm#8.2.1.1"
+        },
+        {
+          "nombre": "Roaming automático nacional (Resolución CRC 5050 de 2016, Título IV, Capítulo 7)",
+          "anio": 2016,
+          "tipo": "resolucion",
+          "url": "https://normograma.com/crc/compilacion/docs/resolucion_crc_5050_2016.htm#4.7.1.1"
+        }
+      ],
+      "novedad": {
+        "fecha": "2024-08",
+        "texto": "El Decreto 1031 de 2024 creó un trámite único nacional para desplegar redes: respuesta en un mes y silencio administrativo positivo."
+      },
+      "indicadores": {
+        "inf_pasiva": {
+          "estado": "si",
+          "nota": "Acceso y precio regulados de postes y ductos (Res. CRC 7120 de 2023) y oferta de referencia de torres del operador dominante (Res. 7285 de 2024).",
+          "fuente": "https://normograma.com/crc/compilacion/docs/resolucion_crc_5050_2016.htm#4.10.1.1",
+          "anio": 2023
+        },
+        "inf_electrica": {
+          "estado": "si",
+          "nota": "Res. CRC 7120 de 2023: postes, torres y ductos eléctricos, vías, transporte masivo y mobiliario urbano pueden compartirse para telecom.",
+          "fuente": "https://normograma.com/crc/compilacion/docs/resolucion_crc_5050_2016.htm#4.10.1.3",
+          "anio": 2023
+        },
+        "inf_permisos": {
+          "estado": "si",
+          "nota": "Decreto 1031 de 2024 (ajustado por el Decreto 1192 de 2025): formulario único; el municipio decide en un mes o aplica el silencio positivo.",
+          "fuente": "https://normograma.mintic.gov.co/mintic/compilacion/docs/decreto_1078_2015.htm#2.2.30.13",
+          "anio": 2024
+        },
+        "inf_roaming": {
+          "estado": "si",
+          "nota": "Roaming automático nacional como instalación esencial (Res. CRC 4112 de 2013); topes de remuneración vigentes desde abr-2026 (Res. 8183).",
+          "fuente": "https://normograma.com/crc/compilacion/docs/resolucion_crc_5050_2016.htm#4.7.1.1",
+          "anio": 2013
+        },
+        "inf_edificios": {
+          "estado": "si",
+          "nota": "RITEL (Res. CRC 5405 de 2018) obligatorio desde 2019 en vivienda nueva en propiedad horizontal; actualizado por la Res. 7930 de 2025.",
+          "fuente": "https://normograma.com/crc/compilacion/docs/resolucion_crc_5050_2016.htm#8.2.1.1",
+          "anio": 2018
+        }
+      }
+    },
+    "emergencia": {
+      "resumen": "El 123 es el número único de emergencias; la ley obliga a priorizar y dar gratuidad a las comunicaciones de emergencia y exige planes de contingencia a los operadores. La Alerta Rosa por Cell Broadcast está en implementación. Colombia es parte del Convenio de Tampere.",
+      "instrumentos": [
+        {
+          "nombre": "Ley 1341 de 2009, art. 8 (telecomunicaciones en casos de emergencia)",
+          "anio": 2009,
+          "tipo": "ley",
+          "url": "https://normograma.mintic.gov.co/mintic/compilacion/docs/ley_1341_2009.htm#8"
+        },
+        {
+          "nombre": "Decreto 2434 de 2015 (Sistema Nacional de Telecomunicaciones de Emergencias; Decreto 1078 de 2015, Título 14)",
+          "anio": 2015,
+          "tipo": "decreto",
+          "url": "https://normograma.mintic.gov.co/mintic/compilacion/docs/decreto_1078_2015.htm#2.2.14.1.1"
+        },
+        {
+          "nombre": "Obligaciones de los PRST en el Sistema Nacional de Telecomunicaciones de Emergencias (Resolución CRC 5050 de 2016, Título IV, Capítulo 14)",
+          "anio": 2016,
+          "tipo": "resolucion",
+          "url": "https://normograma.com/crc/compilacion/docs/resolucion_crc_5050_2016.htm#4.14.1.1"
+        },
+        {
+          "nombre": "Resolución CRC 8030 de 2025 (Sistema de Emergencia Nacional Alerta Rosa)",
+          "anio": 2025,
+          "tipo": "resolucion",
+          "url": "https://normograma.com/crc/compilacion/docs/resolucion_crc_8030_2025.htm"
+        }
+      ],
+      "novedad": {
+        "fecha": "2025-11",
+        "texto": "La Res. CRC 8030 de 2025 reglamentó la Alerta Rosa (niñas, niños y mujeres desaparecidos): los móviles deberán difundirla por Cell Broadcast en 2 minutos."
+      },
+      "indicadores": {
+        "eme_alerta": {
+          "estado": "parcial",
+          "nota": "Alerta Rosa por Cell Broadcast en implementación (Ley 2326 de 2023; Res. CRC 8030 de 2025). No se confirmó un sistema general de alertas operativo.",
+          "fuente": "https://normograma.com/crc/compilacion/docs/resolucion_crc_5050_2016.htm#14.1.4.1",
+          "anio": 2025
+        },
+        "eme_numero": {
+          "estado": "si",
+          "nota": "123 es el número único nacional de emergencias (Decreto 25 de 2002; Res. CRC 5050, art. 4.14.2.4); lo habilita cada entidad territorial.",
+          "fuente": "https://normograma.com/crc/compilacion/docs/resolucion_crc_5050_2016.htm#4.14.2.4",
+          "anio": 2002
+        },
+        "eme_plan": {
+          "estado": "si",
+          "nota": "Decreto 2434 de 2015 (D. 1078, art. 2.2.14.7.3): los operadores deben analizar la vulnerabilidad de sus redes y tener planes de contingencia ante desastres.",
+          "fuente": "https://normograma.mintic.gov.co/mintic/compilacion/docs/decreto_1078_2015.htm#2.2.14.7.3",
+          "anio": 2015
+        },
+        "eme_prioridad": {
+          "estado": "si",
+          "nota": "Ley 1341 (art. 8) y Res. CRC 5050: prelación y gratuidad para comunicaciones de autoridades en emergencias y acceso permanente al 123.",
+          "fuente": "https://normograma.com/crc/compilacion/docs/resolucion_crc_5050_2016.htm#4.14.2.1",
+          "anio": 2009
+        },
+        "eme_tampere": {
+          "estado": "si",
+          "nota": "Adhesión al Convenio de Tampere el 12-jun-2008 (UN Treaty Collection, cap. XXV-4).",
+          "fuente": "https://treaties.un.org/Pages/ViewDetails.aspx?src=TREATY&mtdsg_no=XXV-4&chapter=25&clang=_en",
+          "anio": 2008
+        }
+      }
+    },
+    "homologacion": {
+      "resumen": "La CRC homologa en línea los celulares, que solo pueden venderse homologados, y acepta certificados extranjeros de organismos acreditados. Publica la lista de equipos homologados y regula las bases de datos de IMEI para bloquear equipos hurtados.",
+      "instrumentos": [
+        {
+          "nombre": "Resolución CRC 6129 de 2020 (homologación de equipos terminales móviles; Título VII de la Res. 5050)",
+          "anio": 2020,
+          "tipo": "resolucion",
+          "url": "https://normograma.com/crc/compilacion/docs/resolucion_crc_5050_2016.htm#7.1.1.1"
+        },
+        {
+          "nombre": "Resolución CRC 3128 de 2011 (control de equipos hurtados e IMEI; Título II, Capítulo 7 de la Res. 5050)",
+          "anio": 2011,
+          "tipo": "resolucion",
+          "url": "https://normograma.com/crc/compilacion/docs/resolucion_crc_5050_2016.htm#2.7.1.1"
+        },
+        {
+          "nombre": "Decreto 1630 de 2011 (venta de equipos terminales móviles homologados y bases de datos de IMEI; Decreto 1078 de 2015, Título 11)",
+          "anio": 2011,
+          "tipo": "decreto",
+          "url": "https://normograma.mintic.gov.co/mintic/compilacion/docs/decreto_1078_2015.htm#2.2.11.4"
+        }
+      ],
+      "novedad": {
+        "fecha": "2025-06",
+        "texto": "La Res. CRC 7811 de 2025 simplificó el control de IMEI: el usuario solo registra el equipo si lo trajo como viajero o por envío postal."
+      },
+      "indicadores": {
+        "hom_obligatoria": {
+          "estado": "si",
+          "nota": "Los celulares deben homologarse ante la CRC (Res. 6129 de 2020) y solo pueden venderse homologados (Decreto 1630 de 2011); fijos y satelitales, exentos.",
+          "fuente": "https://normograma.com/crc/compilacion/docs/resolucion_crc_5050_2016.htm#7.1.1.1",
+          "anio": 2020
+        },
+        "hom_reconocimiento": {
+          "estado": "si",
+          "nota": "Acepta certificados de organismos acreditados nacionales o extranjeros y homologaciones de autoridades de otros países (Res. CRC 6129 de 2020).",
+          "fuente": "https://normograma.com/crc/compilacion/docs/resolucion_crc_5050_2016.htm#7.1.1.2",
+          "anio": 2020
+        },
+        "hom_imei": {
+          "estado": "si",
+          "nota": "Bases de datos positiva y negativa de IMEI y bloqueo de equipos hurtados (Res. CRC 3128 de 2011; Ley 1453 de 2011).",
+          "fuente": "https://normograma.com/crc/compilacion/docs/resolucion_crc_5050_2016.htm#2.7.1.1",
+          "anio": 2011
+        },
+        "hom_enlinea": {
+          "estado": "si",
+          "nota": "Solicitud en línea en el sitio web de la CRC; respuesta en 15 días hábiles (Res. CRC 5050, num. 7.1.1.2.4).",
+          "fuente": "https://normograma.com/crc/compilacion/docs/resolucion_crc_5050_2016.htm#7.1.1.2",
+          "anio": 2020
+        },
+        "hom_lista": {
+          "estado": "si",
+          "nota": "La CRC publica la base de datos de terminales homologados: marca, modelo, código y bandas (Res. CRC 5050, num. 7.1.1.2.3).",
+          "fuente": "https://normograma.com/crc/compilacion/docs/resolucion_crc_5050_2016.htm#7.1.1.2",
+          "anio": 2020
+        }
+      }
+    }
+  },
+  "cambiosDetectados": [
+    "La ficha anterior era un resumen de ejemplo, sin normas ni fuentes; se reemplazó por 40 indicadores verificados con fuentes oficiales.",
+    "No mencionaba la subasta 5G de dic-2023 (3,5 GHz) ni el 5G comercial desde 2024 (unos 10 millones de accesos en 2026).",
+    "Afirmaba portabilidad numérica fija: la vigente es solo móvil (Res. CRC 5050, Tít. II, Cap. 6).",
+    "Omitía que las apelaciones de los usuarios las resuelve la SIC, no la CRC.",
+    "Ciberseguridad: citaba una política genérica; hoy rige la Estrategia Nacional de Seguridad Digital 2025–2027 y no hay ley marco.",
+    "Emergencias: hablaba de alertas por SMS 'en avance'; la Alerta Rosa por Cell Broadcast (Res. CRC 8030 de 2025) sigue en implementación.",
+    "Faltaban reformas 2024–2026: trámite único de despliegue (Decreto 1031 de 2024), simplificación (Res. CRC 7811 de 2025), cargos móviles (Res. 8183 de 2026) y antifraude (Res. 8308 de 2026).",
+    "Faltaba el cambio de mercado: integración Tigo–Movistar bajo Millicom (2026) y la revisión del mercado móvil (Res. CRC 8286 de 2026).",
+    "Faltaban las novedades de espectro de 2026: subasta de reloj ascendente (Res. MinTIC 3214) y uso compartido del espectro IMT en zonas rurales (Decreto 1017)."
+  ],
+  "verificadoEn": "2026-11-11",
+  "confianza": "alta"
+}

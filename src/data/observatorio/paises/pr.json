@@ -1,0 +1,544 @@
+{
+  "iso": "pr",
+  "pais": "Puerto Rico",
+  "regulador": {
+    "sigla": "NET",
+    "nombre": "Negociado de Telecomunicaciones de Puerto Rico",
+    "url": "https://www.net.pr.gov",
+    "naturaleza": "Negociado adscrito a la Junta Reglamentadora de Servicio Público (JRSP), con 3 comisionados nombrados por el Gobernador con consentimiento del Senado por 6 años (Ley 211-2018). Sustituyó a la antigua Junta Reglamentadora de Telecomunicaciones (JRT)."
+  },
+  "otrasAutoridades": [
+    {
+      "sigla": "FCC",
+      "nombre": "Comisión Federal de Comunicaciones de EE. UU.",
+      "rol": "Regulador federal: espectro y subastas, autorización de equipos, roaming, servicio universal federal y reglas de consumidor aplicables en Puerto Rico.",
+      "url": "https://www.fcc.gov"
+    },
+    {
+      "sigla": "NTIA",
+      "nombre": "Administración Nacional de Telecomunicaciones e Información (Depto. de Comercio de EE. UU.)",
+      "rol": "Gestiona el espectro de uso federal y el programa federal de banda ancha BEAD.",
+      "url": "https://www.ntia.gov"
+    },
+    {
+      "sigla": "JRSP",
+      "nombre": "Junta Reglamentadora de Servicio Público de Puerto Rico",
+      "rol": "Junta a la que está adscrito el NET; sus decisiones pueden revisarse ante la JRSP o el Tribunal de Apelaciones.",
+      "url": "https://jrsp.pr.gov"
+    },
+    {
+      "sigla": "PRITS",
+      "nombre": "Puerto Rico Innovation and Technology Service",
+      "rol": "Aplica la Ley 40-2024 de Ciberseguridad en el Gobierno; su Oficina para la Evaluación de Incidentes Cibernéticos opera el CSIRT-PRITS.",
+      "url": "https://www.prits.pr.gov"
+    },
+    {
+      "sigla": "CISA",
+      "nombre": "Agencia de Ciberseguridad y Seguridad de Infraestructura de EE. UU.",
+      "rol": "Agencia federal de ciberseguridad y de los servicios de prioridad en emergencias (WPS, GETS y TSP).",
+      "url": "https://www.cisa.gov"
+    },
+    {
+      "sigla": "NSE 9-1-1",
+      "nombre": "Negociado de Sistemas de Emergencias 9-1-1 (Departamento de Seguridad Pública)",
+      "rol": "Opera el número de emergencias 9-1-1 en Puerto Rico.",
+      "url": "https://911.pr.gov"
+    },
+    {
+      "sigla": "PRBP",
+      "nombre": "Programa de Banda Ancha de Puerto Rico (Smart Island)",
+      "rol": "Administra fondos de banda ancha (BEAD, Capital Projects Fund y fondo local de infraestructura); el NET integra su comité ejecutivo.",
+      "url": "https://www.smartisland.pr.gov"
+    }
+  ],
+  "marcoLegal": {
+    "nombre": "Ley de Telecomunicaciones de Puerto Rico de 1996 (Ley 213-1996), según enmendada, junto con la Ley Federal de Comunicaciones de 1934",
+    "anio": 1996,
+    "url": "https://bvirtualogp.pr.gov/ogp/Bvirtual/leyesreferencia/PDF/Telecomunicaciones/213-1996.pdf"
+  },
+  "resumenPais": "Territorio de EE. UU. con regulación dual: la FCC gestiona espectro, subastas, equipos y reglas federales, y el NET (adscrito a la JRSP) regula lo local: certificaciones, interconexión, querellas, servicio universal y postes. Tiene Ley de Ciberseguridad (2024) para el Gobierno.",
+  "categorias": {
+    "espectro": {
+      "resumen": "El espectro lo gestiona la FCC (y la NTIA en el uso federal) con las mismas reglas que en todo EE. UU.: tabla de atribución, subastas, arrendamiento y uso compartido. En Puerto Rico se subastaron licencias de 3,5 GHz en 2020 y la banda de 6 GHz está abierta al Wi-Fi.",
+      "instrumentos": [
+        {
+          "nombre": "Tabla de Atribución de Frecuencias de EE. UU. (47 CFR §2.106)",
+          "tipo": "plan",
+          "url": "https://transition.fcc.gov/oet/spectrum/table/fcctable.pdf"
+        },
+        {
+          "nombre": "Orden FCC 20-51: uso libre de la banda de 6 GHz",
+          "anio": 2020,
+          "tipo": "resolucion",
+          "url": "https://docs.fcc.gov/public/attachments/FCC-20-51A1.pdf"
+        },
+        {
+          "nombre": "Subasta 105 de la FCC: licencias de acceso prioritario de 3,5 GHz (CBRS) por condado",
+          "anio": 2020,
+          "tipo": "otro",
+          "url": "https://docs.fcc.gov/public/attachments/DA-20-1009A1.pdf"
+        },
+        {
+          "nombre": "Reglas FCC de mercado secundario y arrendamiento de espectro (Orden 04-167)",
+          "anio": 2004,
+          "tipo": "resolucion",
+          "url": "https://docs.fcc.gov/public/attachments/FCC-04-167A1.pdf"
+        }
+      ],
+      "novedad": {
+        "fecha": "2025-07",
+        "texto": "Una ley federal de julio de 2025 restableció hasta 2034 la facultad de la FCC para subastar espectro, vencida desde marzo de 2023."
+      },
+      "indicadores": {
+        "esp_cuadro": {
+          "estado": "si",
+          "nota": "Tabla de Atribución de Frecuencias de EE. UU. (47 CFR §2.106), administrada por la FCC y la NTIA; rige también en Puerto Rico.",
+          "fuente": "https://transition.fcc.gov/oet/spectrum/table/fcctable.pdf"
+        },
+        "esp_5g": {
+          "estado": "si",
+          "nota": "Licencias FCC de uso flexible, aptas para 5G; en la subasta 105 (3,5 GHz, 2020) Puerto Rico Telephone (Claro) figura entre los ganadores.",
+          "fuente": "https://docs.fcc.gov/public/attachments/DA-20-1009A2.pdf",
+          "anio": 2020
+        },
+        "esp_licitacion": {
+          "estado": "si",
+          "nota": "Subasta 105 de la FCC (3,5 GHz, licencias por condado en todo EE. UU., incluido PR); la puja concluyó el 25-ago-2020.",
+          "fuente": "https://docs.fcc.gov/public/attachments/DA-20-1009A1.pdf",
+          "anio": 2020
+        },
+        "esp_6ghz": {
+          "estado": "si",
+          "nota": "1200 MHz (5925–7125 MHz) abiertos al uso libre por la FCC (Orden 20-51, abril de 2020), en todo EE. UU., incluido PR.",
+          "fuente": "https://docs.fcc.gov/public/attachments/FCC-20-51A1.pdf",
+          "anio": 2020
+        },
+        "esp_secundario": {
+          "estado": "si",
+          "nota": "Reglas FCC de mercado secundario (2003–2004) permiten arrendar y ceder espectro; además hay uso compartido en la banda CBRS de 3,5 GHz.",
+          "fuente": "https://docs.fcc.gov/public/attachments/FCC-04-167A1.pdf",
+          "anio": 2004
+        }
+      }
+    },
+    "competencia": {
+      "resumen": "La Ley 213-1996 presume dominante a la telefónica incumbente (PRTC, hoy Claro) y le impone desagregación y reventa; el NET aprueba los acuerdos de interconexión y administra el Fondo de Servicio Universal local. No rige la neutralidad de red: la orden federal de 2024 fue anulada en 2025.",
+      "instrumentos": [
+        {
+          "nombre": "Ley 213-1996, cap. III: salvaguardas competitivas, interconexión y servicio universal",
+          "anio": 1996,
+          "tipo": "ley",
+          "url": "https://bvirtualogp.pr.gov/ogp/Bvirtual/leyesreferencia/PDF/Telecomunicaciones/213-1996.pdf"
+        },
+        {
+          "nombre": "Orden FCC 19-95: Fondo Uniendo a Puerto Rico (Etapa 2)",
+          "anio": 2019,
+          "tipo": "resolucion",
+          "url": "https://docs.fcc.gov/public/attachments/FCC-19-95A1.pdf"
+        },
+        {
+          "nombre": "Sentencia Ohio Telecom Association v. FCC (6.º Circuito) que anuló la orden de neutralidad de red",
+          "anio": 2025,
+          "tipo": "otro",
+          "url": "https://www.opn.ca6.uscourts.gov/opinions.pdf/25a0002p-06.pdf"
+        }
+      ],
+      "novedad": {
+        "fecha": "2025-01",
+        "texto": "La Corte de Apelaciones del 6.º Circuito anuló la orden de neutralidad de red de la FCC (2024); desde entonces no hay reglas federales de neutralidad."
+      },
+      "indicadores": {
+        "comp_psm": {
+          "estado": "si",
+          "nota": "Ley 213 (cap. III, arts. 1 y 4): presume dominio de PRTC (Claro) en telefonía local y le impone desagregación, reventa mayorista e interconexión a costo.",
+          "fuente": "https://bvirtualogp.pr.gov/ogp/Bvirtual/leyesreferencia/PDF/Telecomunicaciones/213-1996.pdf",
+          "anio": 1996
+        },
+        "comp_omv": {
+          "estado": "si",
+          "nota": "La reventa se permite con registro ante el NET; figuran OMV como Mint Mobile, Lycamobile y Red Pocket (lista de compañías CMRS, abril de 2026).",
+          "fuente": "https://docs.pr.gov/files/NET/Nuevos%20Documentos/LISTADO%20DE%20COMPA%C3%91%C3%8DAS%20CERTIFICADAS%20Y%20REGISTRADAS%20EN%20EL%20NET.pdf"
+        },
+        "comp_interconexion": {
+          "estado": "si",
+          "nota": "Ley 213 (arts. III-4 y III-6) y Ley federal (secc. 251-252): el NET media, arbitra y aprueba acuerdos de interconexión con cargos basados en costos.",
+          "fuente": "https://bvirtualogp.pr.gov/ogp/Bvirtual/leyesreferencia/PDF/Telecomunicaciones/213-1996.pdf",
+          "anio": 1996
+        },
+        "comp_fondo": {
+          "estado": "si",
+          "nota": "Fondo de Servicio Universal de PR (Ley 213; Reglamento 7795), administrado por el NET: financia Lifeline y el relevo 7-1-1. Hay además un fondo federal para PR.",
+          "fuente": "https://www.net.pr.gov/servicios"
+        },
+        "comp_neutralidad": {
+          "estado": "no",
+          "nota": "Sin reglas: en enero de 2025 el 6.º Circuito anuló la orden de neutralidad de la FCC (2024), y la Ley 213 de Puerto Rico no la regula.",
+          "fuente": "https://www.opn.ca6.uscourts.gov/opinions.pdf/25a0002p-06.pdf",
+          "anio": 2025
+        }
+      }
+    },
+    "ciberseguridad": {
+      "resumen": "Puerto Rico tiene una Ley de Ciberseguridad (Ley 40-2024) para el Gobierno y sus contratistas, que aplica PRITS con un CSIRT y multas desde 2026. Rigen además la estrategia nacional de EE. UU. (2026) y la regla de la FCC que obliga a los operadores a notificar brechas de datos.",
+      "instrumentos": [
+        {
+          "nombre": "Ley 40-2024, Ley de Ciberseguridad del Estado Libre Asociado de Puerto Rico",
+          "anio": 2024,
+          "tipo": "ley",
+          "url": "https://www.lexjuris.com/lexlex/Leyes2024/lexl2024040.htm"
+        },
+        {
+          "nombre": "Reglamento PRITS-REG-001 para la imposición de multas por violaciones a los estándares de ciberseguridad",
+          "anio": 2026,
+          "tipo": "reglamento",
+          "url": "https://docs.pr.gov/files/prits/Reglamentos/PRITS-REG-001-Reglamento_para_la_Imposicion_de_Multas_por_Violaciones_a_Estandares_de_Ciberseguridad.pdf"
+        },
+        {
+          "nombre": "Estrategia Cibernética de EE. UU. (President Trump's Cyber Strategy for America)",
+          "anio": 2026,
+          "tipo": "estrategia",
+          "url": "https://www.whitehouse.gov/wp-content/uploads/2026/03/President-Trumps-Cyber-Strategy-for-America.pdf"
+        },
+        {
+          "nombre": "Orden FCC 23-111: notificación de brechas de datos por los operadores",
+          "anio": 2023,
+          "tipo": "resolucion",
+          "url": "https://docs.fcc.gov/public/attachments/FCC-23-111A1.pdf"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-05",
+        "texto": "PRITS aprobó el reglamento PRITS-REG-001 (26-may-2026), que permite multar a entidades públicas y contratistas que violen los estándares de la Ley 40-2024."
+      },
+      "indicadores": {
+        "ciber_estrategia": {
+          "estado": "si",
+          "nota": "Estrategia Cibernética de EE. UU. (Casa Blanca, marzo de 2026), con seis pilares; aplica a Puerto Rico. No se halló una estrategia propia de PR.",
+          "fuente": "https://www.whitehouse.gov/wp-content/uploads/2026/03/President-Trumps-Cyber-Strategy-for-America.pdf",
+          "anio": 2026
+        },
+        "ciber_ley": {
+          "estado": "parcial",
+          "nota": "Ley 40-2024 de Ciberseguridad de PR: fija estándares, CSIRT y multas, pero solo para el Gobierno y sus contratistas; no abarca al resto del sector privado.",
+          "fuente": "https://www.lexjuris.com/lexlex/Leyes2024/lexl2024040.htm",
+          "anio": 2024
+        },
+        "ciber_csirt": {
+          "estado": "si",
+          "nota": "La Oficina para la Evaluación de Incidentes Cibernéticos de PRITS opera el CSIRT-PRITS (5 incidentes en abr–jun 2026); en lo federal actúa CISA.",
+          "fuente": "https://docs.pr.gov/files/prits/Informes_Ciberseguridad/Informe_Trimestral_Q2_2026.pdf",
+          "anio": 2024
+        },
+        "ciber_reporte": {
+          "estado": "si",
+          "nota": "Regla FCC de 2023 (Orden 23-111): los operadores deben notificar brechas de datos a la FCC, el FBI y el Servicio Secreto en un máximo de 7 días hábiles.",
+          "fuente": "https://docs.fcc.gov/public/attachments/FCC-23-111A1.pdf",
+          "anio": 2023
+        },
+        "ciber_budapest": {
+          "estado": "si",
+          "nota": "EE. UU. ratificó el Convenio en 2006 (en vigor desde el 1-ene-2007); rige en Puerto Rico como territorio estadounidense.",
+          "fuente": "https://www.coe.int/en/web/conventions/full-list?module=signatures-by-treaty&treatynum=185",
+          "anio": 2006
+        }
+      }
+    },
+    "usuario": {
+      "resumen": "La Ley 213 fija derechos del usuario y el NET revisa en segunda instancia las querellas que las compañías no resuelven; la Ley 185-2024 le dio además la privacidad de menores en redes sociales. Rigen el Registro No Llame y la portabilidad de la FCC.",
+      "instrumentos": [
+        {
+          "nombre": "Ley 213-1996, cap. III, arts. 11 a 16: suspensión, querellas, daños y privacidad de los usuarios",
+          "anio": 1996,
+          "tipo": "ley",
+          "url": "https://bvirtualogp.pr.gov/ogp/Bvirtual/leyesreferencia/PDF/Telecomunicaciones/213-1996.pdf"
+        },
+        {
+          "nombre": "Ley 185-2024 para la Protección de la Privacidad Cibernética de los Niños y Jóvenes",
+          "anio": 2024,
+          "tipo": "ley",
+          "url": "https://www.lexjuris.com/lexlex/Leyes2024/lexl2024185.htm"
+        },
+        {
+          "nombre": "Reglamento propuesto sobre el procedimiento para objeción de facturas y suspensión de servicios (NET-2025-ARP-0001), que derogaría el Reglamento 8065",
+          "anio": 2025,
+          "tipo": "reglamento",
+          "url": "https://docs.pr.gov/files/NET/Comunicados/2025/NET-2025-ARP-0001%20%20REGLAMENTO%20PROPUESTO%20SOBRE%20EL%20PROCEDIMIENTO%20PARA%20OBJECI%C3%93N%20DE%20FACTURAS%20Y%20SUSPENSI%C3%93N%20DE%20SERVICIOS%20DE%20TELECOMUNI.pdf"
+        },
+        {
+          "nombre": "Registro Nacional No Llame (FTC)",
+          "anio": 2003,
+          "tipo": "otro",
+          "url": "https://www.donotcall.gov/"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-05",
+        "texto": "El NET propuso el reglamento de la Ley 185-2024, que le da jurisdicción sobre querellas por la privacidad de menores en redes sociales."
+      },
+      "indicadores": {
+        "usu_reglamento": {
+          "estado": "si",
+          "nota": "Ley 213 (arts. III-11 a III-16) y Reglamento 8065 regulan disputas, suspensión, daños y privacidad; en oct-2025 el NET propuso sustituir el 8065.",
+          "fuente": "https://bvirtualogp.pr.gov/ogp/Bvirtual/leyesreferencia/PDF/Telecomunicaciones/213-1996.pdf"
+        },
+        "usu_reclamos": {
+          "estado": "si",
+          "nota": "El NET revisa en 2.ª instancia (30 días tras la respuesta de la compañía) y adjudica daños de hasta US$5.000 (Ley 213, arts. III-12 y 12-A).",
+          "fuente": "https://www.net.pr.gov/querellas"
+        },
+        "usu_portabilidad": {
+          "estado": "si",
+          "nota": "Portabilidad fija y móvil bajo reglas de la FCC y la Ley 213 (art. III-4 i); el NET atiende querellas por portabilidad numérica.",
+          "fuente": "https://docs.pr.gov/files/NET/Querellas/PROCESO%20DE%20RECLAMACION%20y%20SOLICITUD%20DE%20REVISI%C3%93N%202026.pdf"
+        },
+        "usu_calidad": {
+          "estado": "parcial",
+          "nota": "No se hallaron mediciones públicas del NET; la FCC exige pruebas de velocidad y latencia a los receptores del Fondo Uniendo a PR (desde 2024).",
+          "fuente": "https://docs.fcc.gov/public/attachments/DA-23-472A1_Rcd.pdf"
+        },
+        "usu_nomolestar": {
+          "estado": "si",
+          "nota": "Rige el Registro Nacional No Llame de la FTC (gratuito); la Ley 213 (art. III-7-A) prevé además un registro del NET contra promociones telefónicas.",
+          "fuente": "https://www.net.pr.gov/consumidores"
+        }
+      }
+    },
+    "emergentes": {
+      "resumen": "Claro y T-Mobile ofrecen 5G, cuyo despliegue apoyó la FCC tras el huracán María; la FCC autorizó el internet satelital de órbita baja y creó un sello de ciberseguridad IoT. La IA se guía por el Plan de Acción de EE. UU. (2025); no hay sandbox, solo licencias experimentales.",
+      "instrumentos": [
+        {
+          "nombre": "Aviso FCC DA 20-625: apoyo del Fondo Uniendo a Puerto Rico para 4G LTE y 5G",
+          "anio": 2020,
+          "tipo": "resolucion",
+          "url": "https://docs.fcc.gov/public/attachments/DA-20-625A1.pdf"
+        },
+        {
+          "nombre": "Orden FCC 18-38: autorización del sistema satelital de SpaceX (Starlink)",
+          "anio": 2018,
+          "tipo": "resolucion",
+          "url": "https://docs.fcc.gov/public/attachments/FCC-18-38A1.pdf"
+        },
+        {
+          "nombre": "Orden FCC 24-26: etiquetado de ciberseguridad para IoT (Cyber Trust Mark)",
+          "anio": 2024,
+          "tipo": "resolucion",
+          "url": "https://docs.fcc.gov/public/attachments/FCC-24-26A1.pdf"
+        },
+        {
+          "nombre": "Plan de Acción de IA de EE. UU. (America's AI Action Plan)",
+          "anio": 2025,
+          "tipo": "plan",
+          "url": "https://www.whitehouse.gov/wp-content/uploads/2025/07/Americas-AI-Action-Plan.pdf"
+        }
+      ],
+      "novedad": {
+        "fecha": "2025-07",
+        "texto": "La Casa Blanca publicó el Plan de Acción de IA de EE. UU., con tres pilares: innovación, infraestructura y diplomacia y seguridad internacional en IA."
+      },
+      "indicadores": {
+        "tec_sandbox": {
+          "estado": "parcial",
+          "nota": "No hay sandbox regulatorio formal; la FCC ofrece licencias experimentales de 'programa' y 'zonas de innovación' para probar tecnologías (Orden 13-15).",
+          "fuente": "https://docs.fcc.gov/public/attachments/FCC-13-15A1.pdf",
+          "anio": 2013
+        },
+        "tec_5g": {
+          "estado": "si",
+          "nota": "Claro y T-Mobile ofrecen 5G comercial; en 2020 la FCC asignó US$58,5 millones del Fondo Uniendo a PR a AT&T (hoy Liberty), Claro y T-Mobile para 5G.",
+          "fuente": "https://www.t-mobilepr.com/"
+        },
+        "tec_iot": {
+          "estado": "si",
+          "nota": "Ley federal de ciberseguridad IoT (2020) para equipos del Gobierno y sello voluntario Cyber Trust Mark de la FCC para dispositivos IoT (Orden 24-26, 2024).",
+          "fuente": "https://docs.fcc.gov/public/attachments/FCC-24-26A1.pdf",
+          "anio": 2024
+        },
+        "tec_satelital": {
+          "estado": "si",
+          "nota": "La FCC autorizó en 2018 la constelación de órbita baja de SpaceX (Starlink) para banda ancha en EE. UU.; la autorización cubre a Puerto Rico.",
+          "fuente": "https://docs.fcc.gov/public/attachments/FCC-18-38A1.pdf",
+          "anio": 2018
+        },
+        "tec_ia": {
+          "estado": "si",
+          "nota": "Plan de Acción de IA de EE. UU. (Casa Blanca, julio de 2025), con tres pilares; aplica a PR. No se halló una estrategia propia de Puerto Rico.",
+          "fuente": "https://www.whitehouse.gov/wp-content/uploads/2025/07/Americas-AI-Action-Plan.pdf",
+          "anio": 2025
+        }
+      }
+    },
+    "infraestructura": {
+      "resumen": "La Ley 213 obliga a compartir postes, ductos y servidumbres, incluidos los de entidades públicas como la eléctrica, al precio de la fórmula de la FCC; la Ley 89-2000 exige torres aptas para coubicación. El NET endosa la infraestructura de telecom en obras nuevas y la FCC regula el roaming.",
+      "instrumentos": [
+        {
+          "nombre": "Ley 213-1996, arts. III-4(g) y III-9: acceso a servidumbres, postes y propiedad pública",
+          "anio": 1996,
+          "tipo": "ley",
+          "url": "https://bvirtualogp.pr.gov/ogp/Bvirtual/leyesreferencia/PDF/Telecomunicaciones/213-1996.pdf"
+        },
+        {
+          "nombre": "Ley 89-2000 sobre construcción, instalación y ubicación de torres de telecomunicaciones",
+          "anio": 2000,
+          "tipo": "ley",
+          "url": "https://bvirtualogp.pr.gov/ogp/Bvirtual/leyesreferencia/PDF/Telecomunicaciones/89-2000.pdf"
+        },
+        {
+          "nombre": "Endoso del NET a planos de infraestructura de telecomunicaciones en proyectos de construcción (formulario NET-101)",
+          "anio": 2026,
+          "tipo": "otro",
+          "url": "https://docs.pr.gov/files/NET/Formularios/Infraestructura/NET101_Solicitud%20de%20Servicios_Rev%2006-2026.pdf"
+        },
+        {
+          "nombre": "Orden FCC 11-52: obligación de roaming de datos",
+          "anio": 2011,
+          "tipo": "resolucion",
+          "url": "https://docs.fcc.gov/public/attachments/FCC-11-52A1.pdf"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-02",
+        "texto": "El NET hizo audiencias públicas sobre 'Red Segura de Telecomunicaciones', un plan para reparar o retirar cables abandonados y postes en mal estado."
+      },
+      "indicadores": {
+        "inf_pasiva": {
+          "estado": "si",
+          "nota": "Ley 213 (art. III-4 g) obliga a dar acceso no discriminatorio a postes, ductos y servidumbres; la Ley 89-2000 exige construir torres para coubicación.",
+          "fuente": "https://bvirtualogp.pr.gov/ogp/Bvirtual/leyesreferencia/PDF/Telecomunicaciones/213-1996.pdf",
+          "anio": 1996
+        },
+        "inf_electrica": {
+          "estado": "si",
+          "nota": "Ley 213 (art. III-9): entes públicos, incluida la eléctrica, deben dar acceso a sus postes y ductos a las telecom; renta por fórmula FCC y disputas ante el NET.",
+          "fuente": "https://bvirtualogp.pr.gov/ogp/Bvirtual/leyesreferencia/PDF/Telecomunicaciones/213-1996.pdf"
+        },
+        "inf_permisos": {
+          "estado": "si",
+          "nota": "Permiso único en la Oficina de Gerencia de Permisos (Ley 161-2009) y trámite acelerado para torres compartidas (Ley 89-2000); persisten demoras municipales.",
+          "fuente": "https://docs.pr.gov/files/Broadband/Documentos/BEAD%20IP%20Volume%20II_06.04.2024_Rev.%2008.23.2024.pdf",
+          "anio": 2009
+        },
+        "inf_roaming": {
+          "estado": "si",
+          "nota": "La FCC obliga a los operadores móviles a ofrecer roaming automático de voz (2007) y de datos (Orden 11-52, 2011) en condiciones comercialmente razonables.",
+          "fuente": "https://docs.fcc.gov/public/attachments/FCC-11-52A1.pdf",
+          "anio": 2011
+        },
+        "inf_edificios": {
+          "estado": "si",
+          "nota": "El NET endosa en el permiso de construcción los planos de telecom y TV por cable de obras nuevas, incluida la red interior de proyectos residenciales.",
+          "fuente": "https://docs.pr.gov/files/NET/Formularios/Infraestructura/NET101_Solicitud%20de%20Servicios_Rev%2006-2026.pdf"
+        }
+      }
+    },
+    "emergencia": {
+      "resumen": "Puerto Rico usa el 9-1-1 y las alertas WEA a celulares. Desde 2019 la ley exige a cada compañía certificar un plan de contingencia ante desastres, y el NET pide copia de los informes de daños que van a la FCC (DIRS). EE. UU. firmó el Convenio de Tampere en 1998, pero no lo ratificó.",
+      "instrumentos": [
+        {
+          "nombre": "Ley 22-2019 (art. III-8A de la Ley 213): planes de contingencia y continuidad ante emergencias",
+          "anio": 2019,
+          "tipo": "ley",
+          "url": "https://bvirtualogp.pr.gov/ogp/Bvirtual/leyesreferencia/PDF/Telecomunicaciones/213-1996.pdf"
+        },
+        {
+          "nombre": "Guías de Cumplimiento del NET (incluye órdenes sobre reportes DIRS y respaldo eléctrico de sitios)",
+          "anio": 2022,
+          "tipo": "otro",
+          "url": "https://docs.pr.gov/files/NET/Gu%C3%ADas%20de%20Cumplimiento/Guias%20de%20Cumplimiento%20NET.pdf"
+        },
+        {
+          "nombre": "Alertas Inalámbricas de Emergencia (WEA)",
+          "tipo": "otro",
+          "url": "https://www.weather.gov/wrn/wea"
+        }
+      ],
+      "novedad": {
+        "fecha": "2025-07",
+        "texto": "El NET amplió su Banco de Radioaficionados (más de 200 voluntarios) con un acuerdo de colaboración para activarlo en emergencias y huracanes."
+      },
+      "indicadores": {
+        "eme_alerta": {
+          "estado": "si",
+          "nota": "Las alertas WEA de EE. UU. (gratuitas, sin registro) llegan a celulares en PR; la Ley 213 (art. III-7-B) prevé además alertas locales por mensaje de texto.",
+          "fuente": "https://www.weather.gov/wrn/wea"
+        },
+        "eme_numero": {
+          "estado": "si",
+          "nota": "9-1-1 operado por el Negociado de Sistemas de Emergencias 9-1-1 del Departamento de Seguridad Pública (Ley 20-2017).",
+          "fuente": "https://911.pr.gov/"
+        },
+        "eme_plan": {
+          "estado": "si",
+          "nota": "Ley 22-2019 (art. III-8A de la Ley 213): cada compañía debe certificar al NET un plan de contingencia ante desastres; multas de hasta US$5.000.",
+          "fuente": "https://bvirtualogp.pr.gov/ogp/Bvirtual/leyesreferencia/PDF/Telecomunicaciones/213-1996.pdf",
+          "anio": 2019
+        },
+        "eme_prioridad": {
+          "estado": "si",
+          "nota": "WPS, GETS y TSP (CISA) dan prioridad de llamadas y de reparación al personal de emergencia; la Ley 213 exige que los avisos oficiales por SMS sean gratuitos.",
+          "fuente": "https://www.cisa.gov/topics/emergency-communications/priority-services"
+        },
+        "eme_tampere": {
+          "estado": "parcial",
+          "nota": "EE. UU. firmó el Convenio de Tampere el 17-nov-1998, pero no lo ha ratificado (UN Treaty Collection, cap. XXV-4, al 11-11-2026).",
+          "fuente": "https://treaties.un.org/Pages/ViewDetails.aspx?src=TREATY&mtdsg_no=XXV-4&chapter=25&clang=_en"
+        }
+      }
+    },
+    "homologacion": {
+      "resumen": "La FCC exige autorizar los equipos de radiofrecuencia antes de venderlos o importarlos; los certifican organismos (TCB) y laboratorios reconocidos, también extranjeros gracias a ocho acuerdos de reconocimiento mutuo. Las autorizaciones se publican en línea. No se halló norma de bloqueo de IMEI.",
+      "instrumentos": [
+        {
+          "nombre": "Orden FCC 25-27 sobre la integridad del programa de autorización de equipos (TCB y laboratorios)",
+          "anio": 2025,
+          "tipo": "resolucion",
+          "url": "https://docs.fcc.gov/public/attachments/FCC-25-27A1.pdf"
+        },
+        {
+          "nombre": "Buscador de autorizaciones de equipos de la FCC (FCC ID)",
+          "tipo": "otro",
+          "url": "https://apps.fcc.gov/oetcf/eas/reports/GenericSearch.cfm"
+        }
+      ],
+      "novedad": {
+        "fecha": "2025-05",
+        "texto": "La FCC prohibió reconocer TCB y laboratorios de ensayo controlados por entidades de países considerados adversarios (Orden 25-27)."
+      },
+      "indicadores": {
+        "hom_obligatoria": {
+          "estado": "si",
+          "nota": "Todo equipo de radiofrecuencia requiere autorización de la FCC (47 CFR parte 2) para venderse o importarse en EE. UU., incluido Puerto Rico.",
+          "fuente": "https://docs.fcc.gov/public/attachments/FCC-25-27A1.pdf"
+        },
+        "hom_reconocimiento": {
+          "estado": "si",
+          "nota": "La FCC aplica 8 acuerdos de reconocimiento mutuo (APEC, CITEL, UE, EFTA, Japón, Israel, México y Reino Unido) y reconoce laboratorios o TCB de esos países.",
+          "fuente": "https://docs.fcc.gov/public/attachments/FCC-25-27A1.pdf"
+        },
+        "hom_imei": {
+          "estado": "sin_dato",
+          "nota": "No se halló norma federal ni de Puerto Rico que obligue a registrar IMEI o a bloquear celulares robados."
+        },
+        "hom_enlinea": {
+          "estado": "si",
+          "nota": "La certificación la otorgan TCB reconocidos y se registra en el sistema electrónico de autorización de equipos de la FCC.",
+          "fuente": "https://docs.fcc.gov/public/attachments/FCC-25-27A1.pdf"
+        },
+        "hom_lista": {
+          "estado": "si",
+          "nota": "Las autorizaciones y sus informes de ensayo se publican en el buscador FCC ID (Equipment Authorization Search).",
+          "fuente": "https://apps.fcc.gov/oetcf/eas/reports/GenericSearch.cfm"
+        }
+      }
+    }
+  },
+  "cambiosDetectados": [
+    "No había perfil de Puerto Rico en el Observatorio anterior: este es el primero.",
+    "El sitio del NET pasó a net.pr.gov; los enlaces del catálogo (net.jrsp.pr.gov) redirigen y conviene actualizarlos.",
+    "El catálogo remite el contacto al portal del INDOTEL (República Dominicana); debe enlazar al NET.",
+    "El catálogo presenta la Ley 213-1996 como ley creadora de la JRT; desde 2018 la JRT fue sustituida por el NET, adscrito a la JRSP (Ley 211-2018).",
+    "La página de servicios del NET (enlazada en el catálogo) aún promueve el subsidio federal ACP, que terminó en 2024.",
+    "El catálogo no refleja cambios 2024–2026: Ley 40-2024 de ciberseguridad, Ley 185-2024 de privacidad de menores, reglamento propuesto de facturación (2025) y plan 'Red Segura' (2026)."
+  ],
+  "verificadoEn": "2026-11-11",
+  "confianza": "media"
+}

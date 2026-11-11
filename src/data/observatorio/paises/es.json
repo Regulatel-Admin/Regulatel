@@ -1,0 +1,530 @@
+{
+  "iso": "es",
+  "pais": "España",
+  "regulador": {
+    "sigla": "CNMC",
+    "nombre": "Comisión Nacional de los Mercados y la Competencia",
+    "url": "https://www.cnmc.es",
+    "naturaleza": "Organismo público con plena independencia del Gobierno (Ley 3/2013) que regula varios sectores y la competencia; en telecom analiza mercados, resuelve conflictos y asigna numeración."
+  },
+  "otrasAutoridades": [
+    {
+      "sigla": "MTDFP-SETID",
+      "nombre": "Ministerio para la Transformación Digital y de la Función Pública (Secretaría de Estado de Telecomunicaciones e Infraestructuras Digitales)",
+      "rol": "Ministerio rector: planifica y asigna el espectro (CNAF), propone el plan de numeración, resuelve los reclamos de usuarios y vigila los equipos y la seguridad 5G.",
+      "url": "https://digital.gob.es"
+    },
+    {
+      "sigla": "INCIBE",
+      "nombre": "Instituto Nacional de Ciberseguridad",
+      "rol": "Opera INCIBE-CERT, CSIRT de referencia para ciudadanos y empresas.",
+      "url": "https://www.incibe.es/incibe-cert"
+    },
+    {
+      "sigla": "DSN",
+      "nombre": "Departamento de Seguridad Nacional",
+      "rol": "Órgano de apoyo al Consejo de Seguridad Nacional; difunde la Estrategia Nacional de Ciberseguridad 2019.",
+      "url": "https://www.dsn.gob.es"
+    },
+    {
+      "sigla": "Protección Civil",
+      "nombre": "Secretaría General de Protección Civil y Emergencias (Ministerio del Interior)",
+      "rol": "Gestiona la Red de Alerta Nacional (CENEM) y, con las comunidades autónomas, emite las alertas ES-Alert a móviles.",
+      "url": "https://www.proteccioncivil.es"
+    },
+    {
+      "sigla": "AESIA",
+      "nombre": "Agencia Española de Supervisión de la Inteligencia Artificial",
+      "rol": "Supervisa el uso ético y seguro de la IA y el cumplimiento de las normas nacionales y europeas, incluido el Reglamento de IA.",
+      "url": "https://aesia.digital.gob.es/es"
+    }
+  ],
+  "marcoLegal": {
+    "nombre": "Ley 11/2022, de 28 de junio, General de Telecomunicaciones",
+    "anio": 2022,
+    "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2022-10757"
+  },
+  "resumenPais": "Modelo dual: la CNMC, independiente y multisectorial, analiza mercados, resuelve conflictos y asigna numeración; el Ministerio para la Transformación Digital gestiona el espectro y los reclamos. Aplica el marco de la UE (Ley 11/2022). Con las Cortes disueltas (elecciones el 29-nov-2026), la ley NIS2 sigue pendiente.",
+  "categorias": {
+    "espectro": {
+      "resumen": "El Ministerio planifica y asigna el espectro y la CNMC informa. Un nuevo Cuadro Nacional (CNAF) rige desde julio de 2026, con topes de espectro por operador. Las bandas 5G de 700 MHz y 3,4–3,8 GHz están adjudicadas, y 480 MHz de la banda de 6 GHz son de uso libre para Wi-Fi.",
+      "instrumentos": [
+        {
+          "nombre": "Orden TDF/732/2026: Cuadro Nacional de Atribución de Frecuencias (CNAF)",
+          "anio": 2026,
+          "tipo": "plan",
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2026-15661"
+        },
+        {
+          "nombre": "Reglamento sobre el uso del dominio público radioeléctrico (Real Decreto 123/2017)",
+          "anio": 2017,
+          "tipo": "reglamento",
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2017-2460"
+        },
+        {
+          "nombre": "Informe CNMC IPN/CNMC/040/22 sobre la subasta de 26 GHz (confirma adjudicadas 700 MHz y 3,4–3,8 GHz)",
+          "anio": 2022,
+          "tipo": "otro",
+          "url": "https://www.cnmc.es/expedientes/ipncnmc04022"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-07",
+        "texto": "Nuevo CNAF (Orden TDF/732/2026): incorpora la CMR-23, fija topes de espectro por operador y abre 3,8–4,2 GHz a redes locales y privadas."
+      },
+      "indicadores": {
+        "esp_cuadro": {
+          "estado": "si",
+          "nota": "Orden TDF/732/2026: nuevo CNAF vigente desde el 18-jul-2026; incorpora la CMR-23, topes de espectro (nota UN-168) y redes locales en 3,8–4,2 GHz (UN-169).",
+          "fuente": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2026-15661",
+          "anio": 2026
+        },
+        "esp_5g": {
+          "estado": "si",
+          "nota": "700 MHz (subasta de 2021) y 3,4–3,8 GHz (la parte 3,6–3,8 GHz se subastó en 2018) están adjudicadas y en uso para 5G, según la CNMC.",
+          "fuente": "https://www.cnmc.es/sites/default/files/4398154.pdf",
+          "anio": 2021
+        },
+        "esp_licitacion": {
+          "estado": "si",
+          "nota": "Subasta de la banda de 700 MHz (Orden ETD/534/2021) concluida y adjudicada en 2021; en 2022 la CNMC informó el pliego de la subasta de 26 GHz.",
+          "fuente": "https://www.cnmc.es/sites/default/files/4398154.pdf",
+          "anio": 2021
+        },
+        "esp_6ghz": {
+          "estado": "si",
+          "nota": "480 MHz (5945–6425 MHz) de uso común para Wi-Fi (nota UN-167 del CNAF, Decisión UE 2021/1067); la parte alta 6425–7125 MHz no se abrió a Wi-Fi.",
+          "fuente": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2026-15661"
+        },
+        "esp_secundario": {
+          "estado": "si",
+          "nota": "Ley 11/2022 (art. 97) y RD 123/2017 (título VI): transferencia, cesión y mutualización de derechos de espectro, con autorización previa del Ministerio.",
+          "fuente": "https://digital.gob.es/telecomunicaciones-infraestructuras-digitales/areas-interes/espectro-radioelectrico/informacion-general/mercado-secundario-espectro",
+          "anio": 2022
+        }
+      }
+    },
+    "competencia": {
+      "resumen": "La CNMC analiza los mercados mayoristas y resuelve conflictos. Desde febrero de 2026 Telefónica ya no tiene obligaciones mayoristas en banda ancha residencial; siguen reguladas sus conductos y postes y la banda ancha empresarial. El servicio universal se financia con un fondo que gestiona la CNMC.",
+      "instrumentos": [
+        {
+          "nombre": "Ley 11/2022 General de Telecomunicaciones (mercados, interconexión, servicio universal y acceso abierto a internet)",
+          "anio": 2022,
+          "tipo": "ley",
+          "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2022-10757"
+        },
+        {
+          "nombre": "Resolución CNMC ANME/DTSA/002/24: desregulación del acceso mayorista de banda ancha residencial",
+          "anio": 2025,
+          "tipo": "resolucion",
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2025-16824"
+        },
+        {
+          "nombre": "Ofertas mayoristas reguladas de Telefónica (MARCo, NEBA empresas, ORLA)",
+          "anio": 2026,
+          "tipo": "otro",
+          "url": "https://www.cnmc.es/sectores-que-regulamos/telecomunicaciones/ofertas-mayoristas-reguladas"
+        },
+        {
+          "nombre": "Fondo Nacional del Servicio Universal (resoluciones de la CNMC)",
+          "anio": 2025,
+          "tipo": "otro",
+          "url": "https://www.cnmc.es/sectores-que-regulamos/telecomunicaciones/resoluciones-del-fondo-nacional-del-servicio-universal-en-el-ambito-telecomunicaciones"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-02",
+        "texto": "Desde el 14-feb-2026 Telefónica ya no debe dar acceso mayorista a su banda ancha residencial (NEBA); siguen reguladas sus conductos y postes."
+      },
+      "indicadores": {
+        "comp_psm": {
+          "estado": "si",
+          "nota": "Telefónica mantiene obligaciones de PSM en acceso mayorista de alta calidad y en conductos y postes; las de banda ancha residencial se suprimieron en feb-2026.",
+          "fuente": "https://www.cnmc.es/sectores-que-regulamos/telecomunicaciones/analisis-de-mercados",
+          "anio": 2025
+        },
+        "comp_omv": {
+          "estado": "si",
+          "nota": "Los OMV operan con autorización general e inscripción en el Registro de Operadores de la CNMC; el OMV Finetwork figura entre los 5 principales móviles (2026).",
+          "fuente": "https://www.cnmc.es/prensa/operadores-principales-telefonia-movil-fija-20261028",
+          "anio": 2026
+        },
+        "comp_interconexion": {
+          "estado": "si",
+          "nota": "Tope único de la UE a la terminación de voz (Reglamento Delegado 2021/654), que la CNMC supervisa (art. 23 Ley 11/2022); también resuelve conflictos (art. 28).",
+          "fuente": "https://www.boe.es/buscar/act.php?id=BOE-A-2022-10757",
+          "anio": 2022
+        },
+        "comp_fondo": {
+          "estado": "si",
+          "nota": "Fondo Nacional del Servicio Universal: lo gestiona la CNMC y lo pagan operadores con ingresos > 100 M€ (art. 42); aportes fijados hasta el ejercicio 2022.",
+          "fuente": "https://www.cnmc.es/sectores-que-regulamos/telecomunicaciones/resoluciones-del-fondo-nacional-del-servicio-universal-en-el-ambito-telecomunicaciones",
+          "anio": 2025
+        },
+        "comp_neutralidad": {
+          "estado": "si",
+          "nota": "Art. 76 Ley 11/2022 y Reglamento UE 2015/2120: trato equitativo del tráfico; el Ministerio verifica su cumplimiento y la CNMC, los aspectos de competencia.",
+          "fuente": "https://www.boe.es/buscar/act.php?id=BOE-A-2022-10757",
+          "anio": 2022
+        }
+      }
+    },
+    "ciberseguridad": {
+      "resumen": "Rigen la Estrategia Nacional de Ciberseguridad 2019 y el Real Decreto-ley 12/2018 (NIS). La ley que transpone NIS2 no se ha aprobado y las Cortes están disueltas. Los operadores deben notificar incidentes al Ministerio y las redes 5G tienen un régimen de seguridad propio (2022 y 2024).",
+      "instrumentos": [
+        {
+          "nombre": "Real Decreto-ley 12/2018 de seguridad de las redes y sistemas de información",
+          "anio": 2018,
+          "tipo": "decreto",
+          "url": "https://www.boe.es/eli/es/rdl/2018/09/07/12/con"
+        },
+        {
+          "nombre": "Estrategia Nacional de Ciberseguridad 2019 (Orden PCI/487/2019)",
+          "anio": 2019,
+          "tipo": "estrategia",
+          "url": "https://www.boe.es/eli/es/o/2019/04/26/pci487"
+        },
+        {
+          "nombre": "Real Decreto-ley 7/2022 sobre seguridad de las redes y servicios 5G",
+          "anio": 2022,
+          "tipo": "decreto",
+          "url": "https://www.boe.es/eli/es/rdl/2022/03/29/7/con"
+        },
+        {
+          "nombre": "Real Decreto 443/2024: Esquema Nacional de Seguridad de redes y servicios 5G",
+          "anio": 2024,
+          "tipo": "decreto",
+          "url": "https://www.boe.es/eli/es/rd/2024/04/30/443"
+        }
+      ],
+      "novedad": {
+        "fecha": "2025-01",
+        "texto": "El Gobierno aprobó el anteproyecto de ley que transpone NIS2 y crea un Centro Nacional de Ciberseguridad; no está en vigor y las Cortes están disueltas."
+      },
+      "indicadores": {
+        "ciber_estrategia": {
+          "estado": "si",
+          "nota": "Estrategia Nacional de Ciberseguridad 2019 (Orden PCI/487/2019), aprobada por el Consejo de Seguridad Nacional; el DSN la presenta como la vigente.",
+          "fuente": "https://www.dsn.gob.es/es/nuestras-areas-de-actuacion/riesgos-y-amenazas/vulnerabilidad-del-ciberespacio",
+          "anio": 2019
+        },
+        "ciber_ley": {
+          "estado": "si",
+          "nota": "Real Decreto-ley 12/2018 (NIS) sigue vigente; la transposición de NIS2 está pendiente (anteproyecto de ene-2025). La seguridad 5G se rige por el RDL 7/2022.",
+          "fuente": "https://www.boe.es/eli/es/rdl/2018/09/07/12/con",
+          "anio": 2018
+        },
+        "ciber_csirt": {
+          "estado": "si",
+          "nota": "CSIRT de referencia (art. 11 RDL 12/2018): INCIBE-CERT (ciudadanos y empresas), CCN-CERT (sector público) y ESPDEF-CERT (defensa).",
+          "fuente": "https://www.boe.es/eli/es/rdl/2018/09/07/12/con",
+          "anio": 2018
+        },
+        "ciber_reporte": {
+          "estado": "si",
+          "nota": "Art. 63 Ley 11/2022: los operadores deben notificar al Ministerio los incidentes de seguridad con impacto significativo en redes o servicios.",
+          "fuente": "https://www.boe.es/buscar/act.php?id=BOE-A-2022-10757",
+          "anio": 2022
+        },
+        "ciber_budapest": {
+          "estado": "si",
+          "nota": "Ratificado el 3-jun-2010; en vigor para España desde el 1-oct-2010 (instrumento de ratificación publicado en el BOE).",
+          "fuente": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2010-14221",
+          "anio": 2010
+        }
+      }
+    },
+    "usuario": {
+      "resumen": "Los derechos están en la Ley 11/2022 y en la Carta de derechos (RD 899/2009), y la Ley 10/2025 fija estándares de atención al cliente. El Ministerio resuelve los reclamos y la CNMC regula la portabilidad y la calidad. Desde sep-2026 se bloquean los SMS con alias de remitente no registrado.",
+      "instrumentos": [
+        {
+          "nombre": "Real Decreto 899/2009: Carta de derechos del usuario de servicios de comunicaciones electrónicas",
+          "anio": 2009,
+          "tipo": "reglamento",
+          "url": "https://www.boe.es/buscar/doc.php?id=BOE-A-2009-8961"
+        },
+        {
+          "nombre": "Ley 10/2025 de servicios de atención a la clientela",
+          "anio": 2025,
+          "tipo": "ley",
+          "url": "https://www.boe.es/eli/es/l/2025/12/26/10"
+        },
+        {
+          "nombre": "Orden TDF/149/2025 contra la suplantación de números en llamadas y SMS",
+          "anio": 2025,
+          "tipo": "norma",
+          "url": "https://digital.gob.es/telecomunicaciones-infraestructuras-digitales/servicios/numeracion/Medidas-suplatantacion-identidad-tlf-sms"
+        },
+        {
+          "nombre": "Resolución CNMC CAL/DTSA/001/24 sobre parámetros de calidad de servicio",
+          "anio": 2025,
+          "tipo": "resolucion",
+          "url": "https://www.cnmc.es/expedientes/caldtsa00124"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-09",
+        "texto": "Desde el 15-sep-2026 deben bloquearse los SMS que usen un alias de remitente no inscrito en el Registro de Alias de la CNMC (Orden TDF/149/2025)."
+      },
+      "indicadores": {
+        "usu_reglamento": {
+          "estado": "si",
+          "nota": "Carta de derechos del usuario (RD 899/2009) y derechos de la Ley 11/2022 (arts. 64–78); la Ley 10/2025 fija estándares de atención al cliente.",
+          "fuente": "https://usuariosteleco.digital.gob.es/te-interesa/legislacion",
+          "anio": 2009
+        },
+        "usu_reclamos": {
+          "estado": "si",
+          "nota": "La Secretaría de Estado de Telecomunicaciones (Oficina de Atención al Usuario) resuelve reclamos contra operadores, en línea (Orden ITC/1030/2007).",
+          "fuente": "https://digital.gob.es/ministerio/servicios-a-la-ciudadania/procedimientos-y-servicios/telecomunicaciones-e-infraestructuras-digitales/recursos-reclamaciones/reclamaciones_usuarios_telecomunicaciones"
+        },
+        "usu_portabilidad": {
+          "estado": "si",
+          "nota": "Portabilidad fija y móvil; el número se activa en un día hábil (art. 70 Ley 11/2022) y la CNMC fija las reglas (Circular 1/2008 y especificaciones).",
+          "fuente": "https://www.cnmc.es/sectores-que-regulamos/telecomunicaciones/condiciones-para-la-portabilidad"
+        },
+        "usu_calidad": {
+          "estado": "si",
+          "nota": "Resolución CNMC de 23-ene-2025: operadores con más de 20 M€ publican cada trimestre velocidad, latencia y pérdidas; la CNMC ofrece informe y test de velocidad.",
+          "fuente": "https://www.cnmc.es/sectores-que-regulamos/telecomunicaciones/calidad-servicios",
+          "anio": 2025
+        },
+        "usu_nomolestar": {
+          "estado": "si",
+          "nota": "Lista Robinson (Adigital, gratuita), de consulta obligatoria para la publicidad; la Ley 11/2022 (art. 66) exige consentimiento previo para llamadas comerciales.",
+          "fuente": "https://www.listarobinson.es/"
+        }
+      }
+    },
+    "emergentes": {
+      "resumen": "El 5G cubre al 99 % de la población y el 5G SA al 98 % (junio de 2025). Rige la Estrategia de IA 2024, con la agencia AESIA y el Reglamento europeo de IA. Hubo un sandbox piloto de IA, ya concluido, pero no uno de telecomunicaciones. El CNAF habilita terminales de satélites no geoestacionarios.",
+      "instrumentos": [
+        {
+          "nombre": "Estrategia de Inteligencia Artificial 2024",
+          "anio": 2024,
+          "tipo": "estrategia",
+          "url": "https://www.lamoncloa.gob.es/consejodeministros/referencias/Paginas/2024/20240514-referencia-rueda-de-prensa-ministros.aspx"
+        },
+        {
+          "nombre": "Sandbox piloto de IA (Real Decreto 817/2023)",
+          "anio": 2023,
+          "tipo": "decreto",
+          "url": "https://digital.gob.es/digitalizacion/areas-interes/sandbox-ia"
+        },
+        {
+          "nombre": "Informe de cobertura de banda ancha en España 2025 (resumen ejecutivo)",
+          "anio": 2025,
+          "tipo": "otro",
+          "url": "https://digital.gob.es/content/dam/portal-mtdfp/avance-digital/telecomunicacion-e-infraestructuras-digitales/areas_interes/banda-ancha/cobertura/documents/informe-de-cobertura-2025/Informe_de_Cobertura_2025_resumen_ejecutivo.pdf"
+        }
+      ],
+      "novedad": {
+        "fecha": "2024-05",
+        "texto": "El Gobierno aprobó la Estrategia de IA 2024 (1.500 M€), que refuerza la de 2020; el Ministerio la sigue citando como referencia en 2026."
+      },
+      "indicadores": {
+        "tec_sandbox": {
+          "estado": "parcial",
+          "nota": "Hubo un sandbox piloto de IA (RD 817/2023; convocatoria de dic-2024) que ya concluyó; la Ley 11/2022 no prevé un sandbox de telecomunicaciones.",
+          "fuente": "https://digital.gob.es/digitalizacion/areas-interes/sandbox-ia",
+          "anio": 2023
+        },
+        "tec_5g": {
+          "estado": "si",
+          "nota": "Cobertura 5G del 99,27 % de la población, 90 % en la banda de 3,5 GHz y 98 % con 5G SA (30-jun-2025, informe del Ministerio).",
+          "fuente": "https://digital.gob.es/content/dam/portal-mtdfp/avance-digital/telecomunicacion-e-infraestructuras-digitales/areas_interes/banda-ancha/cobertura/documents/informe-de-cobertura-2025/Informe_de_Cobertura_2025_resumen_ejecutivo.pdf",
+          "anio": 2025
+        },
+        "tec_iot": {
+          "estado": "si",
+          "nota": "La CNMC asigna numeración específica para servicios M2M; el CNAF 2026 (nota UN-169) destina 3,8–4,2 GHz a redes locales de banda ancha, incluidas las privadas.",
+          "fuente": "https://www.cnmc.es/sectores-que-regulamos/telecomunicaciones/registros-de-numeracion"
+        },
+        "tec_satelital": {
+          "estado": "si",
+          "nota": "El CNAF adopta la ECC/DEC(18)05 y la (17)04: terminales de sistemas satelitales, incluidos los no geoestacionarios (LEO), exentos de licencia individual.",
+          "fuente": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2026-15661",
+          "anio": 2026
+        },
+        "tec_ia": {
+          "estado": "si",
+          "nota": "Estrategia de IA 2024 (más de 1.500 M€), que el Ministerio sigue citando en sep-2026; la AESIA supervisa y rige el Reglamento europeo de IA.",
+          "fuente": "https://digital.gob.es/comunicacion/notas-prensa/mtdfp/2026/09/atlas-de-la-ia--una-radiografia-de-una-apuesta-historica-por-la-",
+          "anio": 2024
+        }
+      }
+    },
+    "infraestructura": {
+      "resumen": "La Ley 11/2022 obliga a dar acceso a infraestructuras aptas para redes (también de energía, agua y transporte), con la CNMC como árbitro, y agiliza permisos con declaración responsable y silencio positivo. Los edificios deben tener ICT. El roaming nacional puede imponerse en las licencias.",
+      "instrumentos": [
+        {
+          "nombre": "Ley 11/2022, arts. 44–55: despliegue de redes y acceso a infraestructuras",
+          "anio": 2022,
+          "tipo": "ley",
+          "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2022-10757"
+        },
+        {
+          "nombre": "Real Decreto-ley 1/1998 sobre infraestructuras comunes de telecomunicaciones (ICT)",
+          "anio": 1998,
+          "tipo": "decreto",
+          "url": "https://digital.gob.es/telecomunicaciones-infraestructuras-digitales/areas-interes/infraestructuras-comunes-telecomunicaciones-interior-edificios"
+        },
+        {
+          "nombre": "Proyecto de orden del Punto de Información Único (Reglamento UE 2024/1309)",
+          "anio": 2026,
+          "tipo": "otro",
+          "url": "https://digital.gob.es/comunicacion/notas-prensa/secretaria-estado-telecomunicaciones-e-infraestructuras-digitales/2026/08/el-gobierno-pondra-en-marcha-un-punto-de-informacion-unico-con-i"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-08",
+        "texto": "El Ministerio sometió a audiencia (hasta el 18-sep-2026) la orden del Punto de Información Único de infraestructuras y permisos (Reglamento UE 2024/1309)."
+      },
+      "indicadores": {
+        "inf_pasiva": {
+          "estado": "si",
+          "nota": "Ley 11/2022 (arts. 46 y 52): acceso a conductos, postes y torres aptos para redes, con la CNMC como árbitro; Telefónica debe ofrecer sus conductos (MARCo).",
+          "fuente": "https://www.boe.es/buscar/act.php?id=BOE-A-2022-10757",
+          "anio": 2022
+        },
+        "inf_electrica": {
+          "estado": "si",
+          "nota": "Art. 52 Ley 11/2022: las empresas de energía, agua y transporte deben dar acceso a su infraestructura física; la CNMC resuelve los conflictos.",
+          "fuente": "https://www.boe.es/buscar/act.php?id=BOE-A-2022-10757",
+          "anio": 2022
+        },
+        "inf_permisos": {
+          "estado": "si",
+          "nota": "Art. 49 Ley 11/2022: declaración responsable en lugar de licencia para muchas instalaciones y silencio positivo a los 3 meses para planes de despliegue.",
+          "fuente": "https://www.boe.es/buscar/act.php?id=BOE-A-2022-10757",
+          "anio": 2022
+        },
+        "inf_roaming": {
+          "estado": "parcial",
+          "nota": "La Ley 11/2022 (arts. 91 y 92) permite imponer itinerancia nacional o localizada como condición del espectro; no hay una obligación general.",
+          "fuente": "https://www.boe.es/buscar/act.php?id=BOE-A-2022-10757",
+          "anio": 2022
+        },
+        "inf_edificios": {
+          "estado": "si",
+          "nota": "ICT en edificios desde 1998 (Real Decreto-ley 1/1998); el art. 55 de la Ley 11/2022 regula también la red de última milla en edificios existentes.",
+          "fuente": "https://digital.gob.es/telecomunicaciones-infraestructuras-digitales/areas-interes/infraestructuras-comunes-telecomunicaciones-interior-edificios",
+          "anio": 1998
+        }
+      }
+    },
+    "emergencia": {
+      "resumen": "El 112 es gratuito y la ley obliga a mantener la máxima disponibilidad de voz e internet en catástrofes. ES-Alert envía alertas por Cell Broadcast a los móviles 4G y 5G; las emiten las comunidades autónomas y el Ministerio del Interior. España es parte del Convenio de Tampere desde 2006.",
+      "instrumentos": [
+        {
+          "nombre": "Ley 11/2022, arts. 63, 74 y 75: continuidad, número 112 y alertas públicas",
+          "anio": 2022,
+          "tipo": "ley",
+          "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2022-10757"
+        },
+        {
+          "nombre": "Real Decreto 903/1997 sobre el número de urgencia 112",
+          "anio": 1997,
+          "tipo": "decreto",
+          "url": "https://www.boe.es/eli/es/rd/1997/06/16/903"
+        },
+        {
+          "nombre": "ES-Alert: sistema de alertas a móviles (Red de Alerta Nacional)",
+          "tipo": "otro",
+          "url": "https://www.proteccioncivil.es/coordinacion/redes/ran/public-warning-system"
+        }
+      ],
+      "novedad": null,
+      "indicadores": {
+        "eme_alerta": {
+          "estado": "si",
+          "nota": "ES-Alert (Interior y Transformación Digital) envía alertas por Cell Broadcast a móviles 4G/5G; las emiten las comunidades autónomas y el CENEM.",
+          "fuente": "https://www.proteccioncivil.es/coordinacion/redes/ran/public-warning-system"
+        },
+        "eme_numero": {
+          "estado": "si",
+          "nota": "112 regulado desde 1997 (RD 903/1997); el art. 74 de la Ley 11/2022 garantiza su acceso gratuito desde cualquier teléfono.",
+          "fuente": "https://www.boe.es/eli/es/rd/1997/06/16/903",
+          "anio": 1997
+        },
+        "eme_plan": {
+          "estado": "si",
+          "nota": "Art. 63.6 Ley 11/2022: los operadores deben garantizar la mayor disponibilidad posible de voz e internet ante fallos catastróficos o fuerza mayor.",
+          "fuente": "https://www.boe.es/buscar/act.php?id=BOE-A-2022-10757",
+          "anio": 2022
+        },
+        "eme_prioridad": {
+          "estado": "si",
+          "nota": "Llamadas al 112 gratuitas y sin necesidad de medio de pago (art. 74 Ley 11/2022); las alertas públicas también son gratuitas (art. 75).",
+          "fuente": "https://www.boe.es/buscar/act.php?id=BOE-A-2022-10757",
+          "anio": 2022
+        },
+        "eme_tampere": {
+          "estado": "si",
+          "nota": "España se adhirió al Convenio el 27-feb-2006 (UN Treaty Collection, capítulo XXV-4).",
+          "fuente": "https://treaties.un.org/Pages/ViewDetails.aspx?src=TREATY&mtdsg_no=XXV-4&chapter=25&clang=_en",
+          "anio": 2006
+        }
+      }
+    },
+    "homologacion": {
+      "resumen": "No hay homologación estatal: como en toda la UE, el fabricante evalúa la conformidad y pone el marcado CE antes de vender (RD 188/2016). Se aceptan evaluaciones de otros países de la UE y de acuerdos de reconocimiento mutuo. Los operadores bloquean móviles robados a pedido del usuario.",
+      "instrumentos": [
+        {
+          "nombre": "Real Decreto 188/2016 sobre equipos radioeléctricos (Directiva 2014/53/UE)",
+          "anio": 2016,
+          "tipo": "decreto",
+          "url": "https://www.boe.es/eli/es/rd/2016/05/06/188/con"
+        },
+        {
+          "nombre": "Ley 11/2022, arts. 80–83: evaluación de conformidad, reconocimiento mutuo y vigilancia del mercado",
+          "anio": 2022,
+          "tipo": "ley",
+          "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2022-10757"
+        }
+      ],
+      "novedad": {
+        "fecha": "2025-08",
+        "texto": "Los equipos radio conectados a internet deben cumplir requisitos de ciberseguridad (Reglamento Delegado UE 2022/30) para llevar el marcado CE."
+      },
+      "indicadores": {
+        "hom_obligatoria": {
+          "estado": "si",
+          "nota": "Sin homologación estatal: el fabricante debe evaluar la conformidad, emitir la declaración UE y poner el marcado CE antes de vender (RD 188/2016).",
+          "fuente": "https://digital.gob.es/telecomunicaciones-infraestructuras-digitales/areas-interes/equipos-telecomunicacion/fabricacion-comercializacion/requisitos-comercializacion-equipos-radioelectricos",
+          "anio": 2016
+        },
+        "hom_reconocimiento": {
+          "estado": "si",
+          "nota": "Se aceptan equipos evaluados en cualquier país de la UE (art. 81 Ley 11/2022) y resultados de acuerdos de reconocimiento mutuo de la UE con terceros países.",
+          "fuente": "https://digital.gob.es/telecomunicaciones-infraestructuras-digitales/areas-interes/equipos-telecomunicacion/organismos-notificados-acuerdos-reconocimiento-mutuo-MRA"
+        },
+        "hom_imei": {
+          "estado": "parcial",
+          "nota": "El usuario puede pedir a su operador que bloquee por IMEI un móvil robado en España; es una práctica de los operadores, no un registro regulado por ley.",
+          "fuente": "https://www.ocu.org/tecnologia/telefono/noticias/perdida-o-robo-del-movil"
+        },
+        "hom_enlinea": {
+          "estado": "no",
+          "nota": "No existe trámite de homologación ante la Administración: la conformidad la declara el propio fabricante (módulos A, B+C o H).",
+          "fuente": "https://digital.gob.es/telecomunicaciones-infraestructuras-digitales/areas-interes/equipos-telecomunicacion/fabricacion-comercializacion/requisitos-comercializacion-equipos-radioelectricos"
+        },
+        "hom_lista": {
+          "estado": "no",
+          "nota": "Al no haber homologación no hay lista oficial de equipos homologados; el control se hace por vigilancia del mercado.",
+          "fuente": "https://digital.gob.es/telecomunicaciones-infraestructuras-digitales/areas-interes/equipos-telecomunicacion/fabricacion-comercializacion/requisitos-comercializacion-equipos-radioelectricos"
+        }
+      }
+    }
+  },
+  "cambiosDetectados": [
+    "No existía perfil de España en el Observatorio anterior: se construyó desde cero.",
+    "El catálogo cita el CNAF de la Orden ETD/1449/2021, derogada el 18-jul-2026 por el nuevo CNAF (Orden TDF/732/2026).",
+    "El anteproyecto de ley de seguridad 5G del catálogo ya es norma: Real Decreto-ley 7/2022, desarrollado por el Esquema Nacional de Seguridad 5G (RD 443/2024).",
+    "La lista de cierre de centrales de cobre (2022) del catálogo está superada: avanzó el apagado del cobre y la AMLT dejó de ser obligatoria el 27-ene-2025.",
+    "Las ofertas mayoristas cambiaron: NEBA residencial y NEBA local dejaron de ser obligatorias el 14-feb-2026; MARCo sigue vigente.",
+    "Sobre el 112 sigue vigente el RD 903/1997: no consta aprobado el real decreto proyectado en 2021 que cita el catálogo."
+  ],
+  "verificadoEn": "2026-11-11",
+  "confianza": "alta"
+}

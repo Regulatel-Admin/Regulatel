@@ -1,0 +1,519 @@
+{
+  "iso": "mx",
+  "pais": "México",
+  "regulador": {
+    "sigla": "CRT",
+    "nombre": "Comisión Reguladora de Telecomunicaciones",
+    "url": "https://www.gob.mx/crt",
+    "naturaleza": "Órgano administrativo desconcentrado de la ATDT, con independencia técnica, operativa y de gestión (LMTR, art. 7); sustituyó al IFT en octubre de 2025"
+  },
+  "otrasAutoridades": [
+    {
+      "sigla": "ATDT",
+      "nombre": "Agencia de Transformación Digital y Telecomunicaciones",
+      "rol": "Dependencia del Ejecutivo federal rectora de la política digital y de telecomunicaciones, de los programas de cobertura y de la ciberseguridad de la administración federal; la CRT es su órgano desconcentrado",
+      "url": "https://www.gob.mx/atdt"
+    },
+    {
+      "sigla": "CNA",
+      "nombre": "Comisión Nacional Antimonopolio",
+      "rol": "Autoridad de competencia: determina los agentes económicos preponderantes en telecomunicaciones y radiodifusión y sus medidas asimétricas",
+      "url": "https://www.gob.mx/antimonopolio"
+    },
+    {
+      "sigla": "PROFECO",
+      "nombre": "Procuraduría Federal del Consumidor",
+      "rol": "Atiende y concilia quejas de usuarios, registra contratos de adhesión y administra el registro REPEP",
+      "url": "https://www.gob.mx/profeco"
+    },
+    {
+      "sigla": "CERT-MX",
+      "nombre": "Centro Nacional de Respuesta a Incidentes Cibernéticos (Guardia Nacional)",
+      "rol": "CSIRT nacional",
+      "url": "https://www.gob.mx/gncertmx"
+    }
+  ],
+  "marcoLegal": {
+    "nombre": "Ley en Materia de Telecomunicaciones y Radiodifusión (LMTR)",
+    "anio": 2025,
+    "url": "https://dof.gob.mx/nota_detalle.php?codigo=5763167&fecha=16/07/2025"
+  },
+  "resumenPais": "Desde octubre de 2025 regula la CRT, órgano desconcentrado de la ATDT que reemplazó al IFT autónomo, bajo la nueva LMTR (2025). La preponderancia de América Móvil la determina ahora la Comisión Nacional Antimonopolio. Prioridades 2026: registro de líneas móviles con CURP, alertas por celular y licitaciones de espectro.",
+  "categorias": {
+    "espectro": {
+      "resumen": "La CRT gestiona el espectro con el CNAF (modificado en 2024) y el Programa Nacional de Espectro 2026-2030 de la ATDT. Hay 5G en la banda de 3,5 GHz desde 2022, 500 MHz de la banda de 6 GHz para Wi-Fi y la ley permite arrendar espectro. La última licitación IMT concluida fue la IFT-10 (2021).",
+      "instrumentos": [
+        {
+          "nombre": "Cuadro Nacional de Atribución de Frecuencias (modificación 2024)",
+          "anio": 2024,
+          "tipo": "plan",
+          "url": "https://dof.gob.mx/nota_detalle.php?codigo=5738653&fecha=10/09/2024"
+        },
+        {
+          "nombre": "Programa Nacional de Espectro Radioeléctrico 2026-2030",
+          "anio": 2026,
+          "tipo": "plan",
+          "url": "https://dof.gob.mx/nota_detalle.php?codigo=5787695&fecha=18/05/2026"
+        },
+        {
+          "nombre": "Programa Anual de Uso y Aprovechamiento de Bandas de Frecuencias 2026",
+          "anio": 2026,
+          "tipo": "plan",
+          "url": "https://dof.gob.mx/nota_detalle.php?codigo=5777914&fecha=06/01/2026"
+        },
+        {
+          "nombre": "Convocatoria y bases de la Licitación CRT-RRI-01-2026 (2,3 GHz)",
+          "anio": 2026,
+          "tipo": "resolucion",
+          "url": "https://dof.gob.mx/nota_detalle.php?codigo=5800551&fecha=07/10/2026"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-10",
+        "texto": "La CRT convocó la licitación CRT-RRI-01-2026: hasta 60 MHz en 2,3 GHz para redes industriales en 72 regiones, la primera de este tipo en México."
+      },
+      "indicadores": {
+        "esp_cuadro": {
+          "estado": "si",
+          "nota": "CNAF expedido en 2015, actualizado en 2021 y modificado en 2024; la CRT lo aplica en el Programa Anual de Bandas 2026.",
+          "fuente": "https://dof.gob.mx/nota_detalle.php?codigo=5738653&fecha=10/09/2024",
+          "anio": 2024
+        },
+        "esp_5g": {
+          "estado": "si",
+          "nota": "En 2022 el IFT autorizó a Telcel usar 3350–3450 MHz para 5G móvil; el PABF 2026 confirma otros segmentos concesionados en 3400–3600 MHz.",
+          "fuente": "https://www.ift.org.mx/sites/default/files/comunicacion-y-medios/comunicados-ift/comunicado8ift_1.pdf",
+          "anio": 2022
+        },
+        "esp_licitacion": {
+          "estado": "si",
+          "nota": "Licitación IFT-10 (fallo en oct-2021): AT&T y Telcel ganaron bloques. La IFT-12 (móvil) se canceló en ene-2025; la CRT convocó la CRT-RRI-01-2026.",
+          "fuente": "https://www.ift.org.mx/sites/default/files/comunicacion-y-medios/comunicados-ift/comunicado95ift_3.pdf",
+          "anio": 2021
+        },
+        "esp_6ghz": {
+          "estado": "si",
+          "nota": "500 MHz (5925–6425 MHz) clasificados como espectro libre por el IFT en 2023 para Wi-Fi 6E.",
+          "fuente": "https://www.ift.org.mx/sites/default/files/comunicacion-y-medios/comunicados-ift/comunicado13ift_1.pdf",
+          "anio": 2023
+        },
+        "esp_secundario": {
+          "estado": "si",
+          "nota": "LMTR 2025: arrendamiento de espectro comercial con autorización de la CRT (art. 86); prevé además acceso dinámico y uso compartido (art. 166).",
+          "fuente": "https://dof.gob.mx/nota_detalle.php?codigo=5763167&fecha=16/07/2025",
+          "anio": 2025
+        }
+      }
+    },
+    "competencia": {
+      "resumen": "La regulación asimétrica a América Móvil, Agente Económico Preponderante desde 2014, sigue vigente; hoy la determina la Comisión Nacional Antimonopolio, en coordinación con la CRT. La CRT fija tarifas de interconexión y la ley protege la neutralidad de red. No existe un fondo de servicio universal.",
+      "instrumentos": [
+        {
+          "nombre": "Ley en Materia de Telecomunicaciones y Radiodifusión (regulación asimétrica y neutralidad de red)",
+          "anio": 2025,
+          "tipo": "ley",
+          "url": "https://dof.gob.mx/nota_detalle.php?codigo=5763167&fecha=16/07/2025"
+        },
+        {
+          "nombre": "Condiciones Técnicas Mínimas y Tarifas de Interconexión 2027-2029",
+          "anio": 2026,
+          "tipo": "resolucion",
+          "url": "https://dof.gob.mx/nota_detalle.php?codigo=5792298&fecha=30/06/2026"
+        },
+        {
+          "nombre": "Lineamientos para la gestión de tráfico y administración de red (neutralidad de la red)",
+          "anio": 2021,
+          "tipo": "reglamento",
+          "url": "https://www.ift.org.mx/sites/default/files/comunicacion-y-medios/comunicados-ift/comunicado59ift.pdf"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-06",
+        "texto": "La CRT fijó tarifas de interconexión 2027-2029 con modelo de costos; en marzo firmó con la CNA un convenio para la revisión bienal de la preponderancia."
+      },
+      "indicadores": {
+        "comp_psm": {
+          "estado": "si",
+          "nota": "América Móvil es Agente Económico Preponderante desde 2014 y sus medidas siguen vigentes; en 2026 la CNA y la CRT iniciaron su revisión bienal.",
+          "fuente": "https://www.gob.mx/crt/prensa/crt-y-cna-firman-convenio-rumbo-a-la-revision-bienal-de-medidas-de-preponderancia",
+          "anio": 2014
+        },
+        "comp_omv": {
+          "estado": "si",
+          "nota": "La LMTR regula a las comercializadoras (OMV). Bait (Walmart), el mayor OMV, tenía 7% de las líneas móviles activas en el 3T-2025.",
+          "fuente": "https://www.gob.mx/crt/prensa/reporta-crt-144-5-millones-de-lineas-celulares-activas-en-mexico",
+          "anio": 2025
+        },
+        "comp_interconexion": {
+          "estado": "si",
+          "nota": "La CRT fijó en 2026 las condiciones técnicas mínimas y tarifas de interconexión 2027–2029 con modelo de costos.",
+          "fuente": "https://dof.gob.mx/nota_detalle.php?codigo=5792298&fecha=30/06/2026",
+          "anio": 2026
+        },
+        "comp_fondo": {
+          "estado": "no",
+          "nota": "La LMTR 2025 no crea un fondo de servicio universal; la cobertura se impulsa con programas de la ATDT (art. 207) y obligaciones a concesionarios.",
+          "fuente": "https://dof.gob.mx/nota_detalle.php?codigo=5763167&fecha=16/07/2025",
+          "anio": 2025
+        },
+        "comp_neutralidad": {
+          "estado": "si",
+          "nota": "LMTR 2025 (arts. 131–132) consagra la neutralidad de red; siguen aplicando los lineamientos de gestión de tráfico del IFT (2021).",
+          "fuente": "https://dof.gob.mx/nota_detalle.php?codigo=5763167&fecha=16/07/2025",
+          "anio": 2025
+        }
+      }
+    },
+    "ciberseguridad": {
+      "resumen": "La ATDT lidera el tema con el Plan Nacional de Ciberseguridad (2025) y una Política General para la administración federal. El CERT-MX de la Guardia Nacional es el CSIRT nacional. No hay ley marco ni obligación de reporte para operadores, y México, invitado al Convenio de Budapest, aún no es Parte.",
+      "instrumentos": [
+        {
+          "nombre": "Plan Nacional de Ciberseguridad (ATDT)",
+          "anio": 2025,
+          "tipo": "plan",
+          "url": "https://www.gob.mx/atdt/agendas/2030/ciberseguridad"
+        },
+        {
+          "nombre": "Política General de Ciberseguridad para la Administración Pública Federal",
+          "anio": 2025,
+          "tipo": "estrategia",
+          "url": "https://dof.gob.mx/nota_detalle.php?codigo=5776454&fecha=17/12/2025"
+        }
+      ],
+      "novedad": {
+        "fecha": "2025-12",
+        "texto": "La ATDT presentó el Plan Nacional de Ciberseguridad y emitió la política para la administración federal; prevé Estrategia Nacional y Ley General."
+      },
+      "indicadores": {
+        "ciber_estrategia": {
+          "estado": "parcial",
+          "nota": "Plan Nacional de Ciberseguridad (ATDT, dic-2025) y Política General (DOF 17-12-2025), centrados en la APF; la Estrategia Nacional sigue pendiente.",
+          "fuente": "https://www.gob.mx/atdt/comunicacion/liderara-mexico-ciberresiliencia-en-la-region-con-plan-nacional-de-ciberseguridad",
+          "anio": 2025
+        },
+        "ciber_ley": {
+          "estado": "no",
+          "nota": "Sin ley marco; el Plan Nacional de Ciberseguridad (2025) prevé una Ley General. Los delitos informáticos están en el Código Penal Federal.",
+          "fuente": "https://www.gob.mx/atdt/comunicacion/liderara-mexico-ciberresiliencia-en-la-region-con-plan-nacional-de-ciberseguridad",
+          "anio": 2025
+        },
+        "ciber_csirt": {
+          "estado": "si",
+          "nota": "CERT-MX (Centro Nacional de Respuesta a Incidentes Cibernéticos) de la Guardia Nacional: punto único de contacto, atención 24/7 (RFC 2350, 2025).",
+          "fuente": "https://www.gob.mx/gncertmx/documentos/rfc-2350-de-centro-nacional-de-respuesta-a-incidentes-ciberneticos",
+          "anio": 2025
+        },
+        "ciber_reporte": {
+          "estado": "no",
+          "nota": "La LMTR 2025 no regula la ciberseguridad ni el reporte de incidentes (solo fallas satelitales, art. 141); la política de la ATDT aplica solo a la APF.",
+          "fuente": "https://dof.gob.mx/nota_detalle.php?codigo=5763167&fecha=16/07/2025",
+          "anio": 2025
+        },
+        "ciber_budapest": {
+          "estado": "parcial",
+          "nota": "Invitado a adherirse según la lista oficial del Consejo de Europa (consulta del 11-nov-2026); no ha firmado ni depositado su adhesión.",
+          "fuente": "https://www.coe.int/en/web/conventions/full-list?module=signatures-by-treaty&treatynum=185"
+        }
+      }
+    },
+    "usuario": {
+      "resumen": "La LMTR (art. 185) reconoce 23 derechos de los usuarios y PROFECO atiende y concilia sus quejas. Hay portabilidad gratuita en 24 horas, el registro REPEP contra publicidad y un mapa oficial de cobertura y calidad móvil. Desde 2026 cada línea móvil debe vincularse a una identificación con CURP.",
+      "instrumentos": [
+        {
+          "nombre": "Ley en Materia de Telecomunicaciones y Radiodifusión, Título Octavo (derechos de los usuarios)",
+          "anio": 2025,
+          "tipo": "ley",
+          "url": "https://dof.gob.mx/nota_detalle.php?codigo=5763167&fecha=16/07/2025"
+        },
+        {
+          "nombre": "Lineamientos para la Identificación de Líneas Telefónicas Móviles (modificados en 2026)",
+          "anio": 2025,
+          "tipo": "reglamento",
+          "url": "https://dof.gob.mx/nota_detalle.php?codigo=5775677&fecha=09/12/2025"
+        },
+        {
+          "nombre": "Carta de Derechos Mínimos de los Usuarios de los Servicios Públicos de Telecomunicaciones",
+          "anio": 2023,
+          "tipo": "otro",
+          "url": "https://www.ift.org.mx/sites/default/files/contenidogeneral/usuarios-y-audiencias/cartaderechostelecom23.pdf"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-11",
+        "texto": "Registro de líneas móviles con CURP: más de 100 millones vinculadas a nov-2026; las no vinculadas se suspenden por terminación hasta el 31-dic-2026."
+      },
+      "indicadores": {
+        "usu_reglamento": {
+          "estado": "si",
+          "nota": "La LMTR 2025 (art. 185) reconoce 23 derechos de los usuarios; la Carta de Derechos Mínimos (2023) los resume y debe entregarse al contratar.",
+          "fuente": "https://dof.gob.mx/nota_detalle.php?codigo=5763167&fecha=16/07/2025",
+          "anio": 2025
+        },
+        "usu_reclamos": {
+          "estado": "no",
+          "nota": "Con la LMTR 2025, PROFECO atiende, concilia y registra las quejas de los usuarios (art. 185); la CRT no tramita reclamos individuales.",
+          "fuente": "https://dof.gob.mx/nota_detalle.php?codigo=5763167&fecha=16/07/2025",
+          "anio": 2025
+        },
+        "usu_portabilidad": {
+          "estado": "si",
+          "nota": "Operativa desde 2008, gratuita y en 24 horas (LMTR, arts. 102 y 201); Mediafon de México administra la base de datos de 2024 a 2029.",
+          "fuente": "https://www.ift.org.mx/sites/default/files/comunicacion-y-medios/comunicados-ift/comunicado16ift_2.pdf",
+          "anio": 2008
+        },
+        "usu_calidad": {
+          "estado": "si",
+          "nota": "La LMTR (art. 185) faculta a la CRT a regular la calidad; su Mapa de Conectividad (oct-2026) publica la cobertura por operador y datos de calidad móvil.",
+          "fuente": "https://www.gob.mx/crt/prensa/la-crt-presenta-el-mapa-de-conectividad-en-mexico",
+          "anio": 2026
+        },
+        "usu_nomolestar": {
+          "estado": "si",
+          "nota": "Registro Público para Evitar Publicidad (REPEP) de PROFECO; la LMTR (art. 185) prohíbe además llamadas y mensajes promocionales no solicitados del operador.",
+          "fuente": "https://www.gob.mx/profeco/documentos/registro-publico-para-evitar-publicidad-repep"
+        }
+      }
+    },
+    "emergentes": {
+      "resumen": "Hay 5G comercial desde 2022 y constelaciones de órbita baja (Starlink, OneWeb, Kuiper) registradas. La CRT prepara un sandbox regulatorio (en consulta en 2026) y licita espectro para redes industriales. La ATDT tiene un Plan Nacional de IA centrado en formación, supercómputo y gobierno.",
+      "instrumentos": [
+        {
+          "nombre": "Proyecto de Lineamientos Generales para la Autorización de Entornos de Prueba y Experimentación Controlados (sandbox)",
+          "anio": 2026,
+          "tipo": "otro",
+          "url": "https://www.gob.mx/crt/prensa/crt-inicia-consulta-publica-sobre-los-lineamientos-para-entornos-de-prueba-y-experimentacion-controlados-sandboxes"
+        },
+        {
+          "nombre": "Plan Nacional de Inteligencia Artificial (ATDT, Planes Nacionales 2030)",
+          "anio": 2026,
+          "tipo": "plan",
+          "url": "https://www.gob.mx/atdt/agendas/2030/inteligencia-artificial"
+        },
+        {
+          "nombre": "Código de Mejores Prácticas para la Ciberseguridad de los Dispositivos del Internet de las Cosas",
+          "anio": 2023,
+          "tipo": "otro",
+          "url": "https://www.ift.org.mx/sites/default/files/comunicacion-y-medios/comunicados-ift/comunicado11ift_2.pdf"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-08",
+        "texto": "La CRT puso en consulta (24-ago a 22-sep) lineamientos de sandbox para probar Open RAN, IoT, servicios satelitales y uso compartido de espectro."
+      },
+      "indicadores": {
+        "tec_sandbox": {
+          "estado": "parcial",
+          "nota": "Lineamientos de entornos de prueba (sandbox) en consulta pública de ago–sep 2026, con base en el art. 166 de la LMTR; aún no aprobados.",
+          "fuente": "https://www.gob.mx/crt/prensa/crt-inicia-consulta-publica-sobre-los-lineamientos-para-entornos-de-prueba-y-experimentacion-controlados-sandboxes",
+          "anio": 2026
+        },
+        "tec_5g": {
+          "estado": "si",
+          "nota": "Redes 5G comerciales desde 2022 (Telcel); en 2026 la CRT midió 4G y 5G en las sedes del Mundial, con más de 102 sectores 5G en estadios.",
+          "fuente": "https://www.gob.mx/crt/prensa/conectividad-en-el-mundial-2026-alcanza-niveles-historicos",
+          "anio": 2022
+        },
+        "tec_iot": {
+          "estado": "parcial",
+          "nota": "Licitación CRT-RRI-01-2026 (60 MHz en 2,3 GHz) para redes de máquinas y sensores, en curso; el código IoT del IFT (2023) es voluntario.",
+          "fuente": "https://www.gob.mx/crt/prensa/publica-la-crt-convocatoria-y-bases-de-licitacion-para-redes-de-radiocomunicaciones-inteligentes",
+          "anio": 2026
+        },
+        "tec_satelital": {
+          "estado": "si",
+          "nota": "Starlink, OneWeb y Kuiper (Amazon) figuran como sistemas satelitales en el Registro Público de Concesiones de la CRT.",
+          "fuente": "https://rpc.crt.gob.mx/vrpc/"
+        },
+        "tec_ia": {
+          "estado": "si",
+          "nota": "Plan Nacional de IA de la ATDT (2026): certificar a 100 mil personas, supercómputo público y soluciones de IA para problemas públicos.",
+          "fuente": "https://www.gob.mx/atdt/agendas/2030/inteligencia-artificial",
+          "anio": 2026
+        }
+      }
+    },
+    "infraestructura": {
+      "resumen": "La LMTR declara de utilidad pública el despliegue de redes, faculta a la CRT a imponer la compartición de infraestructura y regula el roaming nacional. El Estado debe abrir postes, torres eléctricas y derechos de vía a los operadores. En 2026 la CRT consultó una ventanilla digital de permisos.",
+      "instrumentos": [
+        {
+          "nombre": "Ley en Materia de Telecomunicaciones y Radiodifusión (arts. 5, 104-105, 125 y 133)",
+          "anio": 2025,
+          "tipo": "ley",
+          "url": "https://dof.gob.mx/nota_detalle.php?codigo=5763167&fecha=16/07/2025"
+        },
+        {
+          "nombre": "Lineamientos para el Despliegue, Acceso y Uso Compartido de Infraestructura de Telecomunicaciones y Radiodifusión",
+          "anio": 2020,
+          "tipo": "reglamento",
+          "url": "https://www.ift.org.mx/sites/default/files/comunicacion-y-medios/comunicados-ift/comunicadoift004.pdf"
+        },
+        {
+          "nombre": "Guía práctica para el despliegue de infraestructura de telecomunicaciones (estados y municipios)",
+          "anio": 2024,
+          "tipo": "otro",
+          "url": "https://www.ift.org.mx/sites/default/files/comunicacion-y-medios/comunicados-ift/comunicado88ift_5.pdf"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-09",
+        "texto": "La CRT puso en consulta la Ventanilla Digital Nacional (VDNTR) con trámites federales estándar para desplegar, mantener y retirar redes."
+      },
+      "indicadores": {
+        "inf_pasiva": {
+          "estado": "si",
+          "nota": "Lineamientos de compartición de infraestructura (IFT, 2020) y ofertas de referencia del preponderante; la LMTR (art. 125) faculta a la CRT a imponerla.",
+          "fuente": "https://dof.gob.mx/nota_detalle.php?codigo=5763167&fecha=16/07/2025",
+          "anio": 2025
+        },
+        "inf_electrica": {
+          "estado": "si",
+          "nota": "LMTR (art. 133): postes, ductos, torres eléctricas y derechos de vía disponibles para operadores; la CFE debe compartir su infraestructura (art. 80).",
+          "fuente": "https://dof.gob.mx/nota_detalle.php?codigo=5763167&fecha=16/07/2025",
+          "anio": 2025
+        },
+        "inf_permisos": {
+          "estado": "si",
+          "nota": "LMTR (art. 5): despliegue de utilidad pública, sin cobros adicionales a lo pactado con el dueño del inmueble; guía municipal (2024) y ventanilla en consulta.",
+          "fuente": "https://dof.gob.mx/nota_detalle.php?codigo=5763167&fecha=16/07/2025",
+          "anio": 2025
+        },
+        "inf_roaming": {
+          "estado": "si",
+          "nota": "LMTR (arts. 104–105): acuerdos obligatorios de usuario visitante con tarifas fijadas por la CRT; oferta de referencia del preponderante.",
+          "fuente": "https://dof.gob.mx/nota_detalle.php?codigo=5763167&fecha=16/07/2025",
+          "anio": 2025
+        },
+        "inf_edificios": {
+          "estado": "parcial",
+          "nota": "No se identificó norma técnica tipo ICT; la LMTR (art. 102, fr. IX) prohíbe barreras que impidan a otros operadores instalar o acceder a redes en edificios.",
+          "fuente": "https://dof.gob.mx/nota_detalle.php?codigo=5763167&fecha=16/07/2025",
+          "anio": 2025
+        }
+      }
+    },
+    "emergencia": {
+      "resumen": "México opera el 911 y envía la alerta sísmica a celulares por Cell Broadcast; en 2026 la CRT sumó alertas por otros fenómenos y avisos preventivos. Las llamadas de emergencia son gratuitas y prioritarias. No es parte del Convenio de Tampere y no se identificó un reglamento de continuidad de redes.",
+      "instrumentos": [
+        {
+          "nombre": "Lineamientos que establecen el Protocolo de Alerta Común (modificación 2026)",
+          "anio": 2026,
+          "tipo": "reglamento",
+          "url": "https://dof.gob.mx/nota_detalle.php?codigo=5797462&fecha=28/08/2026"
+        },
+        {
+          "nombre": "Disposición Técnica IFT-011-2022, Parte 3: radiodifusión celular para alertas (modificación 2026)",
+          "anio": 2026,
+          "tipo": "norma",
+          "url": "https://dof.gob.mx/nota_detalle.php?codigo=5797463&fecha=28/08/2026"
+        },
+        {
+          "nombre": "Ley en Materia de Telecomunicaciones y Radiodifusión (arts. 102 y 183)",
+          "anio": 2025,
+          "tipo": "ley",
+          "url": "https://dof.gob.mx/nota_detalle.php?codigo=5763167&fecha=16/07/2025"
+        }
+      ],
+      "novedad": {
+        "fecha": "2026-08",
+        "texto": "La CRT amplió la alerta celular: además del sismo, alerta máxima por huracanes, inundaciones o incendios y avisos preventivos (implementación en el 4T-2026)."
+      },
+      "indicadores": {
+        "eme_alerta": {
+          "estado": "si",
+          "nota": "La alerta sísmica llega a celulares por Cell Broadcast (Protocolo de Alerta Común); en 2026 la CRT añadió alertas por otros fenómenos y avisos preventivos.",
+          "fuente": "https://www.gob.mx/crt/prensa/se-fortalece-el-sistema-de-alertamiento-celular-para-proteger-a-la-poblacion-ante-fenomenos-naturales"
+        },
+        "eme_numero": {
+          "estado": "si",
+          "nota": "911 es el número nacional de emergencias; las líneas suspendidas por no vincularse conservan acceso al 911 (CRT, 2025).",
+          "fuente": "https://dof.gob.mx/nota_detalle.php?codigo=5775677&fecha=09/12/2025"
+        },
+        "eme_plan": {
+          "estado": "parcial",
+          "nota": "Sin reglamento general de continuidad de redes; la LMTR exige plan de contingencia a operadores satelitales (art. 142) y prevé requisa (art. 100).",
+          "fuente": "https://dof.gob.mx/nota_detalle.php?codigo=5763167&fecha=16/07/2025",
+          "anio": 2025
+        },
+        "eme_prioridad": {
+          "estado": "si",
+          "nota": "LMTR (arts. 102 y 183): llamadas de emergencia y alertas gratuitas para el usuario, y prioridad a las comunicaciones en situaciones de emergencia.",
+          "fuente": "https://dof.gob.mx/nota_detalle.php?codigo=5763167&fecha=16/07/2025",
+          "anio": 2025
+        },
+        "eme_tampere": {
+          "estado": "no",
+          "nota": "México no figura entre los firmantes ni las partes del Convenio de Tampere (ONU, cap. XXV-4, estado a nov-2026).",
+          "fuente": "https://treaties.un.org/Pages/ViewDetails.aspx?src=TREATY&mtdsg_no=XXV-4&chapter=25&clang=_en"
+        }
+      }
+    },
+    "homologacion": {
+      "resumen": "Todo equipo que se conecte a redes o use espectro debe homologarse ante la CRT, con trámite en línea y lista pública de equipos. México acepta reportes de laboratorios de EE.UU. por un acuerdo de reconocimiento mutuo (ARM) y la ley obliga a suspender el servicio a celulares reportados como robados.",
+      "instrumentos": [
+        {
+          "nombre": "Lineamientos para la homologación de productos, equipos, dispositivos o aparatos destinados a telecomunicaciones o radiodifusión",
+          "anio": 2021,
+          "tipo": "reglamento",
+          "url": "https://dof.gob.mx/nota_detalle.php?codigo=5639645&fecha=29/12/2021"
+        },
+        {
+          "nombre": "Acuerdo de Reconocimiento Mutuo México–EE.UU. para equipos de telecomunicaciones (modificación 2025)",
+          "anio": 2025,
+          "tipo": "otro",
+          "url": "https://dof.gob.mx/nota_detalle.php?codigo=5771085&fecha=28/10/2025"
+        },
+        {
+          "nombre": "Ley en Materia de Telecomunicaciones y Radiodifusión (arts. 183 y 271-272)",
+          "anio": 2025,
+          "tipo": "ley",
+          "url": "https://dof.gob.mx/nota_detalle.php?codigo=5763167&fecha=16/07/2025"
+        }
+      ],
+      "novedad": {
+        "fecha": "2025-10",
+        "texto": "México amplió el ARM con EE.UU.: acepta reportes de laboratorios estadounidenses para SAR, equipos de baja potencia y Wi-Fi en 5 y 6 GHz."
+      },
+      "indicadores": {
+        "hom_obligatoria": {
+          "estado": "si",
+          "nota": "LMTR 2025 (art. 271) y Lineamientos de homologación (2021): todo equipo conectable a redes o que use espectro requiere certificado.",
+          "fuente": "https://dof.gob.mx/nota_detalle.php?codigo=5639645&fecha=29/12/2021",
+          "anio": 2021
+        },
+        "hom_reconocimiento": {
+          "estado": "si",
+          "nota": "ARM México–EE.UU. (2011): se aceptan reportes de laboratorios designados por EE.UU.; ampliado en 2025 a SAR, baja potencia y Wi-Fi.",
+          "fuente": "https://dof.gob.mx/nota_detalle.php?codigo=5771085&fecha=28/10/2025",
+          "anio": 2025
+        },
+        "hom_imei": {
+          "estado": "si",
+          "nota": "LMTR (art. 183): los operadores deben suspender equipos reportados como robados e intercambiar listas de equipos robados.",
+          "fuente": "https://dof.gob.mx/nota_detalle.php?codigo=5763167&fecha=16/07/2025",
+          "anio": 2025
+        },
+        "hom_enlinea": {
+          "estado": "si",
+          "nota": "La homologación se tramita en la Ventanilla Electrónica (Lineamientos 2021), que la CRT renovó en octubre de 2026.",
+          "fuente": "https://dof.gob.mx/nota_detalle.php?codigo=5639645&fecha=29/12/2021",
+          "anio": 2021
+        },
+        "hom_lista": {
+          "estado": "si",
+          "nota": "Buscador público de certificados de homologación (marca, modelo, titular) en el portal de la CRT; antes sitio ehomologados del IFT.",
+          "fuente": "https://portal.crt.gob.mx/equipos-homologados"
+        }
+      }
+    }
+  },
+  "cambiosDetectados": [
+    "El perfil anterior eran 'datos de ejemplo' sin fuentes; se reemplazó por datos verificados en fuentes oficiales.",
+    "Regulador desactualizado: el IFT se extinguió en octubre de 2025; hoy regula la CRT, desconcentrada de la ATDT.",
+    "Marco legal: la Ley Federal de Telecomunicaciones y Radiodifusión (2014) fue abrogada por la LMTR (DOF 16-07-2025).",
+    "Competencia: la preponderancia ya no la decide el regulador sino la Comisión Nacional Antimonopolio; el texto citaba IFT y COFECE.",
+    "Usuarios: citaba el portal 'Soy Usuario' del IFT, hoy fuera de línea; con la LMTR las quejas las atiende y concilia PROFECO (art. 185).",
+    "Se añadieron hechos omitidos: alerta sísmica por celular, 6 GHz (500 MHz), licitación IFT-10, Plan Nacional de Ciberseguridad y registro de líneas con CURP."
+  ],
+  "verificadoEn": "2026-11-11",
+  "confianza": "alta"
+}

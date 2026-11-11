@@ -1,0 +1,127 @@
+{
+  "iso": "pr",
+  "pais": "Puerto Rico",
+  "revisado": "2026-11-11",
+  "documentos": [
+    {
+      "titulo": "Ley 213 Para crear la Junta Reglamentadora de Telecomunicaciones de Puerto Rico, establecer sus poderes y prerrogativas y proveer para su organización; para derogar ley 64 de 23 de agosto de 1990",
+      "url": "https://bvirtualogp.pr.gov/ogp/Bvirtual/leyesreferencia/PDF/Telecomunicaciones/213-1996.pdf",
+      "categoriaOriginal": "Competencia Económica",
+      "origen": "catalogo",
+      "tema": "competencia",
+      "estado": "vigente",
+      "nota": "Ley marco vigente. El PDF es la compilación de OGP (rev. 16-abr-2024) con enmiendas hasta la Ley 22-2019. La JRT que crea fue sustituida por el NET (Ley 211-2018).",
+      "urlNueva": null,
+      "tituloNuevo": null,
+      "anioNuevo": null
+    },
+    {
+      "titulo": "Conozca sus derechos",
+      "url": "https://www.net.jrsp.pr.gov/consumidores",
+      "categoriaOriginal": "Protección del Usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "vigente",
+      "nota": "Página activa; el dominio net.jrsp.pr.gov redirige (301) a net.pr.gov. Explica el reclamo ante la empresa, la revisión ante el NET en 30 días y el registro No Llame.",
+      "urlNueva": "https://www.net.pr.gov/consumidores",
+      "tituloNuevo": "Conozca sus derechos – Consumidores (NET)",
+      "anioNuevo": null
+    },
+    {
+      "titulo": "Radica una querella",
+      "url": "https://www.net.jrsp.pr.gov/querellas",
+      "categoriaOriginal": "Protección del Usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "vigente",
+      "nota": "Activa (redirige a net.pr.gov); guía PDF rev. 7/2026. El formulario en línea pide contraseña (401). El Reglamento 9784 de objeción de facturas (radicado 2-jul-2026) derogó el 8065.",
+      "urlNueva": "https://www.net.pr.gov/querellas",
+      "tituloNuevo": "Proceso para radicar una querella (NET)",
+      "anioNuevo": null
+    },
+    {
+      "titulo": "Tarifas por compañía",
+      "url": "https://www.net.jrsp.pr.gov/companias",
+      "categoriaOriginal": "Protección del Usuario",
+      "origen": "catalogo",
+      "tema": "usuario",
+      "estado": "vigente",
+      "nota": "Activa (redirige a net.pr.gov). La pestaña 'Tarifas de Compañías' lista tarifas sin fecha (00/00/00), varias históricas, como las de AT&T Mobility (operación vendida a Liberty en 2020).",
+      "urlNueva": "https://www.net.pr.gov/companias",
+      "tituloNuevo": "Tarifas de Compañías (NET)",
+      "anioNuevo": null
+    },
+    {
+      "titulo": "Prevención de hurto de metales",
+      "url": "https://www.net.jrsp.pr.gov/hurto-de-cobre",
+      "categoriaOriginal": "Protección del Usuario",
+      "origen": "catalogo",
+      "tema": "infraestructura",
+      "estado": "vigente",
+      "nota": "Activa (redirige a net.pr.gov). El NET preside el Comité Interagencial contra el hurto de cobre (Ley 213, art. II-7(b)(15)); el último informe publicado es de ago-dic 2022.",
+      "urlNueva": "https://www.net.pr.gov/hurto-de-cobre",
+      "tituloNuevo": "Comité Interagencial: Hurto de Cobre (NET)",
+      "anioNuevo": null
+    },
+    {
+      "titulo": "Programa de Banda Ancha de Puerto Rico",
+      "url": "https://www.smartisland.pr.gov/",
+      "categoriaOriginal": "Accesibilidad",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "vigente",
+      "nota": "Sitio oficial activo (OGP); publica BEAD y su Propuesta Final. Su portada no refleja la OE-2025-031 (4-jun-2025), que derogó la OE-2024-008 y eliminó el Comité Ejecutivo del Programa.",
+      "urlNueva": null,
+      "tituloNuevo": null,
+      "anioNuevo": null
+    },
+    {
+      "titulo": "Servicio Universal - Subsidios para población de bajos ingresos",
+      "url": "https://www.net.jrsp.pr.gov/servicios",
+      "categoriaOriginal": "Accesibilidad",
+      "origen": "catalogo",
+      "tema": "competencia",
+      "estado": "vigente",
+      "nota": "Activa (redirige a net.pr.gov): Fondo de Servicio Universal, Lifeline y relevo TRS 7-1-1. Aún promueve el ACP, que terminó el 1-jun-2024, y enlaza AffordableConnectivity.gov, ya fuera de línea.",
+      "urlNueva": "https://www.net.pr.gov/servicios",
+      "tituloNuevo": "Fondo de Servicio Universal de Puerto Rico – Lifeline y Servicio de Relevo (NET)",
+      "anioNuevo": null
+    },
+    {
+      "titulo": "Informe sobre Libertad de Expresión y acceso a la Información en la era de la Telecomunicaciones e Internet",
+      "url": "https://www.amedi.org.mx/wp-content/uploads/2016/07/libertad-expresion-acceso-informacion-era-telecomunicaciones-internet-regulatel.pdf",
+      "categoriaOriginal": "Asuntos relacionados con Internet",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "no_verificable",
+      "nota": "Enlace caído: el dominio amedi.org.mx ya no resuelve (sin DNS). Era una copia de 2016 en el sitio de una ONG mexicana; no se localizó copia oficial alternativa. Retirar o reemplazar.",
+      "urlNueva": null,
+      "tituloNuevo": null,
+      "anioNuevo": null
+    },
+    {
+      "titulo": "Estadísticas de Telecomunicaciones",
+      "url": "https://www.net.jrsp.pr.gov/cumplimiento",
+      "categoriaOriginal": "Asuntos relacionados con Internet",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "vigente",
+      "nota": "Activa (redirige a net.pr.gov) y al día: informe mensual de la industria a agosto de 2026 y abonados de TV por cable a septiembre de 2026, publicados en octubre de 2026.",
+      "urlNueva": "https://www.net.pr.gov/cumplimiento",
+      "tituloNuevo": "Estadísticas de Telecomunicaciones (NET)",
+      "anioNuevo": null
+    },
+    {
+      "titulo": "Consultar portal institucional del INDOTEL",
+      "url": "https://indotel.gob.do/",
+      "categoriaOriginal": "Contáctanos",
+      "origen": "catalogo",
+      "tema": "otro",
+      "estado": "vigente",
+      "nota": "Funciona, pero no es documento de Puerto Rico: es el enlace al portal de INDOTEL (Rep. Dominicana) del pie de página de REGULATEL. No hubo sustitución; el portal del regulador es el del NET.",
+      "urlNueva": "https://www.net.pr.gov/",
+      "tituloNuevo": "Portal institucional del Negociado de Telecomunicaciones de Puerto Rico (NET)",
+      "anioNuevo": null
+    }
+  ]
+}
