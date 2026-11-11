@@ -75,8 +75,8 @@ export default function ConvenioDetail({ convenio, allConvenios }: ConvenioDetai
               />
             </div>
 
-            {/* Info */}
-            <div className="flex-1 min-w-0">
+            {/* Info. En móviles nunca más ancha que la tarjeta: una palabra larga del título baja partida en vez de quedar cortada. */}
+            <div className="flex-1 min-w-0 max-sm:w-full max-sm:break-words">
               <span
                 className="mb-2 inline-block rounded-sm px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.12em]"
                 style={{ backgroundColor: "rgba(68,137,198,0.10)", color: "var(--regu-blue)" }}
@@ -192,7 +192,7 @@ export default function ConvenioDetail({ convenio, allConvenios }: ConvenioDetai
               />
               {t("convenios.detail.otherAgreements")}
             </h2>
-            <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3">
               {otherConvenios.map((c) => (
                 <Link
                   key={c.slug}
