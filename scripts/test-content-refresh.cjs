@@ -54,6 +54,7 @@ const fail = { ok: false, error: 'temporary network failure' };
   });
   const hiddenEvent = { id: 'hidden-event', published: false, startDate: '2026-10-16' };
   const visibleEvent = { id: 'visible-event', published: true, startDate: '2026-10-15' };
+  const publicAddition = { id: 'source-published-event', title: 'Source original', published: true };
   const hiddenNews = { id: 'hidden-news', slug: 'hidden-news', title: 'Unpublished', date: '2026-10-16', published: false };
   const visibleNews = { id: 'visible-news', slug: 'visible-news', title: 'Published', date: '2026-10-15', published: true };
   const document = { id: 'document', title: 'Retained file', category: 'memoria', coverImage: '/keep.png' };
@@ -62,6 +63,7 @@ const fail = { ok: false, error: 'temporary network failure' };
     ...common, normalizeEvent: value => value,
     EVENTS_SEED: [{ id: hiddenEvent.id, published: true }],
     SEMANA_RESOURCE_EVENTS: [{ id: hiddenEvent.id, published: true }, { id: 'static-materials', published: true }],
+    PUBLIC_EVENT_ADDITIONS: [publicAddition],
   });
   const news = extract('useMergedNews', {
     ...common, homeNews: [{ slug: hiddenNews.slug, title: 'Static original', date: '2026-10-16' }], noticiasData: [],
@@ -71,6 +73,7 @@ const fail = { ok: false, error: 'temporary network failure' };
     revistaEditionToGestionDocument: value => value, gestionDocuments: [],
   });
 
+  check(events(), [], 'Initial loading cannot reveal source-published additions before a complete CMS snapshot');
   await refresh();
   check([state.newsLoaded, state.eventsLoaded, state.documentsLoaded], [false,false,false], 'Initial errors cannot mark content confirmed');
   check([events(),news(),documents()], [[],[],[]], 'Initial errors cannot restore public static content');
@@ -85,16 +88,27 @@ const fail = { ok: false, error: 'temporary network failure' };
   response = { news: ok([hiddenNews,visibleNews]), events: ok([hiddenEvent,visibleEvent]), documents: ok([document]), cifras: ok({}), settings: ok({}) };
   await refresh();
   check([state.newsLoaded,state.eventsLoaded,state.documentsLoaded], [true,true,true], 'Only complete valid lists prime content');
-  check(events().map(value => value.id), ['visible-event','static-materials'], 'Confirmed tombstone suppresses matching static event');
+  check(events().map(value => value.id), ['visible-event','static-materials',publicAddition.id], 'Confirmed snapshot supplements missing public additions and suppresses matching static tombstones');
+  check(events().filter(value => value.id === publicAddition.id), [publicAddition], 'A source-published event is included once when its CMS record is absent');
   check(news().map(value => value.slug), ['visible-news'], 'Confirmed tombstone suppresses matching static news');
   check(documents(), [document], 'Confirmed document data is available');
   check(state.contentError, null, 'Successful recovery clears the error');
+
+  const cmsAddition = { ...publicAddition, title: 'CMS edition', description: 'Retained CMS content' };
+  response.events = ok([hiddenEvent,visibleEvent,cmsAddition]);
+  await refresh();
+  check(events().filter(value => value.id === publicAddition.id), [cmsAddition], 'A matching CMS event overrides the source addition without duplication or content loss');
+
+  const hiddenAddition = { ...cmsAddition, published: false };
+  response.events = ok([hiddenEvent,visibleEvent,hiddenAddition]);
+  await refresh();
+  check(events().some(value => value.id === publicAddition.id), false, 'An unpublished CMS addition suppresses its source version');
   const snapshot = clean(state);
   response = { news: fail, events: fail, documents: fail, cifras: fail, settings: fail };
   await refresh();
   check([state.adminNews,state.events,state.adminDocuments], [snapshot.adminNews,snapshot.events,snapshot.adminDocuments], 'Later errors preserve all previous arrays');
   check([state.newsLoaded,state.eventsLoaded,state.documentsLoaded,state.contentSource], [true,true,true,'database'], 'Later errors preserve loaded status and source');
-  check(events().map(value => value.id), ['visible-event','static-materials'], 'No event resurrection after total outage');
+  check(events().map(value => value.id), ['visible-event','static-materials'], 'No event or source-addition resurrection after total outage');
   check(news().map(value => value.slug), ['visible-news'], 'No news resurrection after total outage');
   check(documents(), [document], 'No document loss after total outage');
 
@@ -106,12 +120,13 @@ const fail = { ok: false, error: 'temporary network failure' };
   const pending = deferred();
   response = { news: ok([]), events: pending.promise, documents: ok([]), cifras: fail, settings: ok({}) };
   const oldRefresh = refresh();
-  response = { news: ok([hiddenNews,visibleNews]), events: ok([hiddenEvent,visibleEvent]), documents: ok([document]), cifras: fail, settings: ok({}) };
+  response = { news: ok([hiddenNews,visibleNews]), events: ok([hiddenEvent,visibleEvent,hiddenAddition]), documents: ok([document]), cifras: fail, settings: ok({}) };
   await refresh();
   pending.resolve(ok([]));
   await oldRefresh;
   check([state.adminNews,state.events,state.adminDocuments], [snapshot.adminNews,snapshot.events,snapshot.adminDocuments], 'Delayed older request cannot overwrite a newer publication snapshot');
   check(events().some(value => value.id === hiddenEvent.id), false, 'Out-of-order completion cannot revive hidden event');
+  check(events().some(value => value.id === publicAddition.id), false, 'Out-of-order completion cannot revive a hidden source addition');
 
   const gate = deferred();
   const recheck = extract('recheckContentSource', { setContentSource: update('contentSource'), checkContentSource: () => gate.promise });
@@ -123,5 +138,6 @@ const fail = { ok: false, error: 'temporary network failure' };
   await refresh();
   check([state.adminNews,state.events,state.adminDocuments], [[],[],[]], 'A successful empty list remains a real empty snapshot');
   check([state.newsLoaded,state.eventsLoaded,state.documentsLoaded], [true,true,true], 'Empty successful lists are confirmed');
+  check(events().filter(value => value.id === publicAddition.id), [publicAddition], 'A confirmed empty CMS snapshot includes source additions absent from it');
   console.log(`PASS: ${checks} content refresh/publication checks; all API results mocked, no real requests.`);
 })().catch(error => { console.error(error); process.exitCode = 1; });
