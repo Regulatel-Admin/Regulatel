@@ -17,7 +17,8 @@ import ImageCarousel from "@/components/ImageCarousel";
 import { noticiasData, type NoticiaData } from "./noticiasData";
 import { useAdminData, type AdminNewsItem } from "@/contexts/AdminDataContext";
 import type { EventAttachment } from "@/types/event";
-import { localizeNoticiaData } from "@/hooks/useLocalizedNews";
+import { localizeNewsFields, localizeNoticiaData } from "@/hooks/useLocalizedNews";
+import { localizePublishedText } from "@/lib/publishedContent";
 import { EditableSpot } from "@/components/site-edit/EditableSpot";
 import EventDocumentsSection from "@/components/events/EventDocumentsSection";
 import { SEMANA_REGULATEL_2026_NEWS_SLUG, SEMANA_REGULATEL_2026_IMAGE, SEMANA_REGULATEL_2026_NEWS_IMAGE, resolveNewsAttachments } from "@/data/semanaRegulatel2026";
@@ -1032,7 +1033,7 @@ export default function NoticiaIndividual() {
   const { adminNews, contentSource, newsLoaded, contentError, recheckContentSource } = useAdminData();
   const { enabled: editing } = useSiteEdit();
   if (contentSource === "loading") return null;
-  if (!newsLoaded) return <ArticleWrapper><p role="status" className="text-sm text-slate-600">{contentError ? "No se pudo cargar esta noticia. Reintenta para ver su estado actual." : "Cargando noticia…"}</p>{contentError && <button type="button" onClick={() => void recheckContentSource()} className="mt-4 rounded-lg border px-4 py-2 text-sm font-semibold">Reintentar</button>}</ArticleWrapper>;
+  if (!newsLoaded) return <ArticleWrapper><p role="status" className="text-sm text-slate-600">{localizePublishedText(contentError ? "No se pudo cargar esta noticia. Reintenta para ver su estado actual." : "Cargando noticia…", i18n.language)}</p>{contentError && <button type="button" onClick={() => void recheckContentSource()} className="mt-4 rounded-lg border px-4 py-2 text-sm font-semibold">{localizePublishedText("Reintentar", i18n.language)}</button>}</ArticleWrapper>;
 
   const routeSlug = (slug ?? "").toLowerCase();
   const adminNoticia = adminNews.find(
@@ -1051,7 +1052,7 @@ export default function NoticiaIndividual() {
   }
 
   if (adminNoticia?.published) {
-    const payload = normalizeAdminNoticia(adminNoticia);
+    const payload = normalizeAdminNoticia(localizeNewsFields(adminNoticia, t, i18n.language));
     return (
       <ArticleWrapper>
         <ArticleLayout payload={payload} isStaticCumbre />

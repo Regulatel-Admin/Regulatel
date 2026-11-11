@@ -22,6 +22,7 @@ import {
 } from "@/hooks/useLocalizedBuenasPracticas";
 import { Globe, ChevronDown, ChevronUp, LayoutList } from "lucide-react";
 import { EditableSpot } from "@/components/site-edit/EditableSpot";
+import { localizePublishedText, localizePublishedValue } from "@/lib/publishedContent";
 
 function getUniqueCategoryNamesFromData(data: CountryPracticesData[]): string[] {
   const set = new Set<string>();
@@ -131,9 +132,9 @@ export default function MicrositioBuenasPracticas() {
 
   const filteredCountries = useMemo(() => {
     return searchQuery.trim()
-      ? dataList.filter((c) => countryMatchesSearch(c, searchQuery))
+      ? dataList.filter((c) => countryMatchesSearch(c, searchQuery) || countryMatchesSearch(localizePublishedValue(c, language), searchQuery))
       : [...dataList];
-  }, [dataList, searchQuery]);
+  }, [dataList, searchQuery, language]);
 
   const selectedCountry = selectedSlug ? bySlug.get(selectedSlug) ?? null : null;
 
@@ -161,16 +162,16 @@ export default function MicrositioBuenasPracticas() {
       const n = normalizeForSearch(searchQuery);
       cats = cats
         .map((cat) => {
-          const categoryMatch = normalizeForSearch(cat.name).includes(n);
+          const categoryMatch = normalizeForSearch(cat.name).includes(n) || normalizeForSearch(localizePublishedText(cat.name, language)).includes(n);
           const matchingLinks = categoryMatch
             ? cat.links
-            : cat.links.filter((l) => normalizeForSearch(l.title).includes(n));
+            : cat.links.filter((l) => normalizeForSearch(l.title).includes(n) || normalizeForSearch(localizePublishedText(l.title, language)).includes(n));
           return { ...cat, links: matchingLinks };
         })
-        .filter((cat) => cat.links.length > 0 || normalizeForSearch(cat.name).includes(n));
+        .filter((cat) => cat.links.length > 0 || normalizeForSearch(cat.name).includes(n) || normalizeForSearch(localizePublishedText(cat.name, language)).includes(n));
     }
     return cats;
-  }, [selectedCountry, categoryFilter, searchQuery]);
+  }, [selectedCountry, categoryFilter, searchQuery, language]);
 
   const searchNorm = searchQuery.trim() ? normalizeForSearch(searchQuery) : "";
 

@@ -63,8 +63,8 @@ export default function Home() {
       quickLinksSetting.length === 0
         ? staticQuickLinks
         : quickLinkItemsFromSetting(quickLinksSetting);
-    return localizeQuickLinkItems(items, t, i18n.language);
-  }, [quickLinksSetting, t, i18n.language]);
+    return localizeQuickLinkItems(items, t, siteEditEnabled ? "es" : i18n.language);
+  }, [quickLinksSetting, t, i18n.language, siteEditEnabled]);
 
   const featuredItems = useMemo<FeaturedCarouselItem[]>(() =>
     carouselSettings
@@ -86,8 +86,8 @@ export default function Home() {
 
   const carouselItems = useMemo(() => {
     const raw = featuredItems.length > 0 ? featuredItems : (fallbackCarouselItems as FeaturedCarouselItem[]);
-    return localizeFeaturedCarouselItems(raw, t, i18n.language);
-  }, [featuredItems, t, i18n.language]);
+    return localizeFeaturedCarouselItems(raw, t, siteEditEnabled ? "es" : i18n.language);
+  }, [featuredItems, t, i18n.language, siteEditEnabled]);
 
   return (
     <>

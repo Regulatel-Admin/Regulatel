@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo, useRef } from "react";
 import { useSearchParams, Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { localizePublishedValue } from "@/lib/publishedContent";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   FileText,
@@ -92,10 +93,10 @@ const CATEGORY_BADGE: Record<string, { bg: string; color: string }> = {
 };
 
 export default function Gestion() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const rawDocuments = useMergedGestionDocuments();
   const { enabled: siteEditEnabled, open: openSiteEdit, preview: siteEditPreview } = useSiteEdit();
-  const allDocuments = Array.isArray(rawDocuments) ? rawDocuments : [];
+  const allDocuments = Array.isArray(rawDocuments) ? siteEditEnabled ? rawDocuments : localizePublishedValue(rawDocuments, i18n.language) : [];
   const [searchParams, setSearchParams] = useSearchParams();
   const tipo = (searchParams.get("tipo") ?? "todo") as GestionTipo;
   const docId = searchParams.get("id") ?? null;

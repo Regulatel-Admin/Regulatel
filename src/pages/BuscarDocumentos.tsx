@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useSearchParams, Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { localizePublishedValue } from "@/lib/publishedContent";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   FileText,
@@ -41,10 +42,10 @@ function getCategoryLabel(category: string, t: (key: string) => string) {
 }
 
 export default function BuscarDocumentos() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [searchParams] = useSearchParams();
   const q = searchParams.get("q") ?? "";
-  const mergedDocuments = useMergedGestionDocuments();
+  const mergedDocuments = localizePublishedValue(useMergedGestionDocuments(), i18n.language);
   const categoryResults = resolveDocumentSearch(q);
   const docResults = sortGestionDocuments(searchDocumentsInList(mergedDocuments, q));
   const [previewDoc, setPreviewDoc] = useState<DocumentPreviewTarget | null>(null);
