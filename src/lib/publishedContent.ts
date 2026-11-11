@@ -82,7 +82,7 @@ export function localizePublishedValue<T>(value: T, language: string): T {
 
 export function formatPublishedDate(date: string | undefined, language: string, fallback = ""): string {
   if (!date || publishedLanguage(language) === "es") return fallback || date || "";
-  const parsed = new Date(/^\d{4}-\d{2}-\d{2}$/.test(date) ? `${date}T12:00:00` : date);
+  const parsed = new Date(/^\d{4}-\d{2}-\d{2}(?:T.*)?$/.test(date) ? `${date.slice(0, 10)}T12:00:00` : date);
   if (Number.isNaN(parsed.getTime())) return fallback || date;
   const locale = ({ en: "en-GB", pt: "pt-PT", it: "it-IT" } as Record<string, string>)[publishedLanguage(language)] ?? "es-ES";
   return parsed.toLocaleDateString(locale, { day: "numeric", month: "long", year: "numeric" });
