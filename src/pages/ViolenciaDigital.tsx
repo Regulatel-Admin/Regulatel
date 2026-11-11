@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
@@ -76,7 +76,6 @@ function OrganizationLink({
 
 export default function ViolenciaDigital() {
   const { t } = useTranslation();
-  const videoRef = useRef<HTMLVideoElement | null>(null);
   const playerRef = useRef<HTMLDivElement | null>(null);
   const [playing, setPlaying] = useState(false);
   const [previewAgenda, setPreviewAgenda] = useState(false);
@@ -93,11 +92,6 @@ export default function ViolenciaDigital() {
       playerRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
     }
   }, []);
-
-  useEffect(() => {
-    if (!playing) return;
-    void videoRef.current?.play();
-  }, [playing]);
 
   const speakerLookup = useMemo(
     () => Object.fromEntries(violenciaDigitalSpeakers.map((speaker) => [speaker.id, speaker])),
@@ -218,18 +212,13 @@ export default function ViolenciaDigital() {
             <div ref={playerRef} id="webinar-player" className="relative w-full min-w-0">
               <div className="overflow-hidden rounded-[22px] border border-white/15 bg-[#071622] shadow-[0_30px_80px_rgba(2,16,28,0.38)] md:rounded-[28px]">
                 {playing ? (
-                  <video
-                    ref={videoRef}
-                    className="aspect-video w-full bg-black object-contain"
-                    src={violenciaDigitalMedia.videoSrc}
-                    poster={violenciaDigitalMedia.poster}
-                    controls
-                    autoPlay
-                    playsInline
-                    preload="metadata"
-                    controlsList="nodownload"
-                    lang="es"
-                    aria-label={t("pages.violenciaDigital.playerTitle")}
+                  <iframe
+                    className="block aspect-video w-full bg-black"
+                    src={`https://www.youtube-nocookie.com/embed/${violenciaDigitalMedia.youtubeId}?autoplay=1&rel=0&modestbranding=1&playsinline=1`}
+                    title={t("pages.violenciaDigital.playerTitle")}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerPolicy="strict-origin-when-cross-origin"
+                    allowFullScreen
                   />
                 ) : (
                   <button

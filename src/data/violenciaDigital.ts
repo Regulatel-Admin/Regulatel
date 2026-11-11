@@ -1,7 +1,10 @@
 export const VIOLENCIA_DIGITAL_PATH = "/violencia-digital";
 
 export const violenciaDigitalMedia = {
-  videoSrc: "/videos/violencia-digital/webinar-violencia-digital.mp4",
+  // Grabación oficial en el canal de YouTube de REGULATEL (@ForoRegulatel).
+  // El MP4 original (~1 GB) no se publica: public/videos/ está en .gitignore,
+  // así que en producción esa ruta devolvía index.html y el reproductor no arrancaba.
+  youtubeId: "7NqjxI2khrA",
   poster: "/images/violencia-digital/webinar-poster-uhd.jpg",
   agendaPdf: "/documents/violencia-digital/Agenda_Webinar_REGULATEL_Violencia_Digital.pdf",
   newsPath: "/noticias/webinar-violencia-digital-rol-entes-reguladores",
