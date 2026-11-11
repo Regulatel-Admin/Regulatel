@@ -501,6 +501,35 @@
   flex-shrink: 1;
   min-width: 460px;
 }
+/* Cada buscador (sitio / documentos) */
+.topbarSearchBox {
+  min-width: 210px;
+  flex-shrink: 0;
+}
+/* Header de escritorio por debajo de 1366px (portátiles y tablets en horizontal): el idioma ya es un
+   desplegable (ES ▾) y, por debajo de 1280px, no hay iconos de redes; además, los buscadores se estrechan
+   si hace falta para que no haya scroll horizontal. Desde 1366px, igual que siempre (460px mínimo). */
+@media (width < 1366px) {
+  .topbarCenter,
+  .topbarSearchBox {
+    min-width: 0;
+    flex-shrink: 1;
+  }
+  .topbarSearchBox input {
+    text-overflow: ellipsis;
+  }
+}
+/* 1024–1279px (entre los breakpoints lg y xl): la fila del menú cabe en una línea. La separación crece
+   con el ancho y, con letra grande, cada ítem lleva menos relleno lateral. Desde 1280px, igual que siempre. */
+@media (min-width: 64rem) and (max-width: 79.99rem) {
+  .headerNavList {
+    --header-nav-item-gap: clamp(16px, calc(11vw - 97px), 48px);
+  }
+  html[data-font="lg"] .headerNavList .nav-item-underline {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+}
 .topbarSearchForm {
   max-width: 100%;
   min-width: 218px;

@@ -23,6 +23,11 @@ const SCROLL_THRESHOLD_SHOW = 8; // px — solo volver a mostrar cuando scroll e
 const NAV_STABILIZE_MS = 450;
 const DESKTOP_MENU_OPEN_DELAY_MS = 200;
 const DESKTOP_MENU_CLOSE_DELAY_MS = 350;
+/** Header de escritorio (fila de menú) desde el breakpoint `lg` de Tailwind (64rem = 1024px); por debajo,
+ *  el de móvil (hamburguesa). Misma media query que las clases `lg:` del header, para que JS y CSS coincidan. */
+const DESKTOP_HEADER_MQ = "(min-width: 64rem)";
+const isDesktopHeader = () =>
+  typeof window !== "undefined" && window.matchMedia(DESKTOP_HEADER_MQ).matches;
 
 function isPathActive(currentPath: string, href?: string): boolean {
   if (!href) return false;
@@ -143,6 +148,18 @@ export default function HeaderMegaMenu() {
     return () => clearTimeout(t);
   }, [location.pathname, location.search, closeDesktopMenu]);
 
+  // Al cruzar el corte móvil/escritorio (p. ej. al girar un iPad), cerrar los menús abiertos: el menú móvil
+  // bloquea el scroll de la página y en escritorio queda oculto, así que la página no se podría desplazar.
+  useEffect(() => {
+    const mq = window.matchMedia(DESKTOP_HEADER_MQ);
+    const onBreakpointChange = () => {
+      setMobileMenuOpen(false);
+      closeDesktopMenu();
+    };
+    mq.addEventListener("change", onBreakpointChange);
+    return () => mq.removeEventListener("change", onBreakpointChange);
+  }, [closeDesktopMenu]);
+
   useEffect(() => {
     if (!mobileMenuOpen) {
       document.body.style.overflow = "";
@@ -179,8 +196,15 @@ export default function HeaderMegaMenu() {
 
   // BEREC-like: TopBar se oculta al bajar (solo desktop). Histéresis para evitar flicker al scroll cerca del umbral.
   const onScroll = useCallback(() => {
-    const isDesktop = typeof window !== "undefined" && window.innerWidth >= 768;
-    if (!isDesktop) return;
+    if (!isDesktopHeader()) {
+      // Header móvil: la barra superior (logo, búsqueda, menú) siempre visible. Si se estrecha la ventana
+      // con la barra plegada (scroll en escritorio), se vuelve a mostrar.
+      if (lastCompactRef.current) {
+        lastCompactRef.current = false;
+        setIsCompact(false);
+      }
+      return;
+    }
     // Mantener el panel en su sitio mientras se está usando.
     if (openDesktopMenu) return;
     if (Date.now() < ignoreScrollUntilRef.current) return;
@@ -269,9 +293,9 @@ export default function HeaderMegaMenu() {
           />
         </div>
 
-        {/* Fila nav + línea fina (solo desktop); menú Quiénes somos, Recursos, etc. */}
+        {/* Fila nav + línea fina (solo desktop, ≥1024px); menú Quiénes somos, Recursos, etc. */}
         <div
-          className="hidden md:block"
+          className="hidden lg:block"
           onMouseEnter={clearDesktopMenuTimeouts}
           onMouseLeave={() => {
             clearDesktopMenuTimeouts();
@@ -285,7 +309,7 @@ export default function HeaderMegaMenu() {
             style={{ maxWidth: "var(--token-container-max)" }}
           >
             <ul
-              className="flex flex-nowrap items-stretch justify-center"
+              className="headerNavList flex flex-nowrap items-stretch justify-center"
               style={{
                 gap: "var(--header-nav-item-gap)",
                 paddingTop: "var(--header-nav-row-padding-top)",
@@ -440,7 +464,7 @@ export default function HeaderMegaMenu() {
 
       <div
         className={[
-          "border-t bg-white px-4 py-4 md:hidden",
+          "border-t bg-white px-4 py-4 lg:hidden",
           mobileMenuOpen ? "block" : "hidden",
         ].join(" ")}
         style={{ borderColor: "var(--token-border)" }}

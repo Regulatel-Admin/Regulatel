@@ -148,26 +148,24 @@ export default function TopBarBerecLike({
           </Link>
           {/* Divider */}
           <div
-            className="hidden md:block shrink-0"
+            className="hidden lg:block shrink-0"
             style={{ width: "1px", height: "28px", backgroundColor: "rgba(22,61,89,0.10)" }}
             aria-hidden
           />
         </div>
 
-        {/* ── (2) Search ── */}
+        {/* ── (2) Search ── (ancho mínimo en index.css: 460px desde 1366px; flexible por debajo) */}
         <div
-          className="topbarCenter hidden md:flex items-center min-w-0 flex-1"
-          style={{ gap: "10px", flexBasis: 0, minWidth: "460px", justifyContent: "center" }}
+          className="topbarCenter hidden lg:flex items-center min-w-0 flex-1"
+          style={{ gap: "10px", flexBasis: 0, justifyContent: "center" }}
         >
           {/* Site search */}
           <form
             onSubmit={handleSearchWebsite}
             role="search"
             aria-label={t("common.topbar.searchSiteAria")}
-            className="flex items-center flex-1 rounded-xl bg-[#F4F6F8] transition-all focus-within:bg-white focus-within:ring-2 focus-within:ring-[var(--regu-blue)]/30"
+            className="topbarSearchBox flex items-center flex-1 rounded-xl bg-[#F4F6F8] transition-all focus-within:bg-white focus-within:ring-2 focus-within:ring-[var(--regu-blue)]/30"
             style={{
-              minWidth: "210px",
-              flexShrink: 0,
               height: "40px",
               border: "1px solid transparent",
               paddingLeft: "12px",
@@ -191,10 +189,8 @@ export default function TopBarBerecLike({
             onSubmit={handleSearchDocuments}
             role="search"
             aria-label={t("common.topbar.searchDocumentsAria")}
-            className="flex items-center flex-1 rounded-xl bg-[#F4F6F8] transition-all focus-within:bg-white focus-within:ring-2 focus-within:ring-[var(--regu-blue)]/30"
+            className="topbarSearchBox flex items-center flex-1 rounded-xl bg-[#F4F6F8] transition-all focus-within:bg-white focus-within:ring-2 focus-within:ring-[var(--regu-blue)]/30"
             style={{
-              minWidth: "210px",
-              flexShrink: 0,
               height: "40px",
               border: "1px solid transparent",
               paddingLeft: "12px",
@@ -222,7 +218,7 @@ export default function TopBarBerecLike({
 
           {/* Font size controls */}
           <div
-            className="a11yControls hidden md:flex items-center rounded-lg overflow-hidden"
+            className="a11yControls hidden lg:flex items-center rounded-lg overflow-hidden"
             role="group"
             aria-label={t("common.topbar.fontSize")}
             style={{ border: "1px solid rgba(22,61,89,0.12)", backgroundColor: "#F4F6F8", gap: 0 }}
@@ -251,15 +247,15 @@ export default function TopBarBerecLike({
             ))}
           </div>
 
-          {/* Divider */}
+          {/* Divider (va con las redes: ambos se ocultan por debajo de 1280px) */}
           <div
-            className="hidden md:block shrink-0"
+            className="hidden xl:block shrink-0"
             style={{ width: "1px", height: "22px", backgroundColor: "rgba(22,61,89,0.09)" }}
             aria-hidden
           />
 
-          {/* Social icons */}
-          <div className="hidden md:flex items-center shrink-0" style={{ gap: "2px" }}>
+          {/* Social icons: desde 1280px (de 1024 a 1279 no caben junto a los buscadores) */}
+          <div className="hidden xl:flex items-center shrink-0" style={{ gap: "2px" }}>
             <a
               href="https://www.youtube.com/@ForoRegulatel"
               target="_blank"
@@ -314,7 +310,7 @@ export default function TopBarBerecLike({
 
           {/* Divider */}
           <div
-            className="hidden md:block shrink-0"
+            className="hidden lg:block shrink-0"
             style={{ width: "1px", height: "22px", backgroundColor: "rgba(22,61,89,0.09)" }}
             aria-hidden
           />
@@ -324,7 +320,7 @@ export default function TopBarBerecLike({
             to="/login"
             rel="nofollow"
             aria-label={t("common.topbar.login")}
-            className="hidden md:inline-flex items-center justify-center rounded-md p-1.5 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-1 shrink-0"
+            className="hidden lg:inline-flex items-center justify-center rounded-md p-1.5 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-1 shrink-0"
             style={{ color: iconColor }}
           >
             <User style={{ width: "17px", height: "17px" }} />
@@ -333,7 +329,7 @@ export default function TopBarBerecLike({
           {/* Subscribe CTA */}
           <Link
             to="/subscribe"
-            className="subscribeBtn hidden md:inline-flex shrink-0 items-center justify-center rounded-xl font-bold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2 hover:brightness-110"
+            className="subscribeBtn hidden lg:inline-flex shrink-0 items-center justify-center rounded-xl font-bold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] focus-visible:ring-offset-2 hover:brightness-110"
             style={{
               height: "38px",
               paddingLeft: "18px",
@@ -350,26 +346,26 @@ export default function TopBarBerecLike({
             {t("common.topbar.subscribe")}
           </Link>
 
-          {/* Mobile: search toggle (40px fijos: no crece con a-/a/a+) */}
+          {/* Móvil y tablet (<1024px): search toggle (40px fijos: no crece con a-/a/a+) */}
           <button
             type="button"
             aria-label={mobileSearchOpen ? t("common.topbar.closeSearch") : t("common.topbar.openSearch")}
             aria-expanded={mobileSearchOpen}
             onClick={() => setMobileSearchOpen((v) => !v)}
-            className="inline-flex shrink-0 items-center justify-center rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] md:hidden"
+            className="inline-flex shrink-0 items-center justify-center rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] lg:hidden"
             style={{ color: "#1C1C1C", width: "40px", height: "40px" }}
           >
             <Search style={{ width: "22px", height: "22px" }} />
           </button>
 
-          {/* Mobile: hamburger */}
+          {/* Móvil y tablet (<1024px): hamburger */}
           {onMobileMenuToggle ? (
             <button
               type="button"
               aria-label={mobileMenuOpen ? t("common.topbar.closeMenu") : t("common.topbar.openMenu")}
               aria-expanded={mobileMenuOpen}
               onClick={onMobileMenuToggle}
-              className="inline-flex shrink-0 items-center justify-center rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] md:hidden"
+              className="inline-flex shrink-0 items-center justify-center rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--regu-blue)] lg:hidden"
               style={{ color: "#1C1C1C", width: "40px", height: "40px" }}
             >
               {mobileMenuOpen ? <X style={{ width: "24px", height: "24px" }} /> : <Menu style={{ width: "24px", height: "24px" }} />}
@@ -378,10 +374,10 @@ export default function TopBarBerecLike({
         </div>
       </div>
 
-      {/* Mobile: collapsible search panel */}
+      {/* Móvil y tablet (<1024px): collapsible search panel */}
       {mobileSearchOpen && (
         <div
-          className="md:hidden absolute left-0 right-0 top-full z-50 border-b bg-white p-4 shadow-md"
+          className="lg:hidden absolute left-0 right-0 top-full z-50 border-b bg-white p-4 shadow-md"
           style={{ borderColor: "#E8ECF0" }}
         >
           <form onSubmit={handleSearchWebsite} className="mb-3">

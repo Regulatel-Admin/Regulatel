@@ -29,9 +29,9 @@ export default function LanguageSwitcher() {
 
   return (
     <>
-    {/* Escritorio (≥768px): botones ES | EN | PT | IT */}
+    {/* Escritorio ancho (≥1366px): botones ES | EN | PT | IT */}
     <div
-      className="langSwitcher hidden md:flex items-center rounded-lg overflow-hidden"
+      className="langSwitcher hidden min-[1366px]:flex items-center rounded-lg overflow-hidden"
       role="group"
       aria-label="Language"
       style={{ border: "1px solid rgba(22,61,89,0.12)", backgroundColor: "#F4F6F8" }}
@@ -62,11 +62,12 @@ export default function LanguageSwitcher() {
       ))}
     </div>
 
-    {/* Móvil (<768px): selector compacto (ES ▾) para que logo, idioma, búsqueda y menú
-        quepan desde 320px. El <select> nativo va invisible encima del rótulo: abre el
-        selector del sistema y, con 16px, iOS no hace zoom al tocarlo. */}
+    {/* Hasta 1365px: selector compacto (ES ▾). En móvil, para que logo, idioma, búsqueda y menú
+        quepan desde 320px; en tablets y portátiles, para dejar sitio a los buscadores.
+        El <select> nativo va invisible encima del rótulo: abre el selector del sistema
+        y, con 16px, iOS no hace zoom al tocarlo. */}
     <div
-      className="langSwitcherCompact relative inline-flex shrink-0 items-center justify-center rounded-lg md:hidden has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-[var(--regu-blue)]"
+      className="langSwitcherCompact relative inline-flex shrink-0 items-center justify-center rounded-lg min-[1366px]:hidden has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-[var(--regu-blue)]"
       style={{
         height: "32px",
         minWidth: "54px",
