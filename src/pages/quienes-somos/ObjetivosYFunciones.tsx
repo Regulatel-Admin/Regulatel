@@ -75,7 +75,7 @@ export default function ObjetivosYFunciones() {
           </div>
         </div>
         <div
-          className="rounded-2xl border p-8 md:p-10 lg:p-12"
+          className="rounded-2xl border p-8 max-sm:px-6 md:p-10 lg:p-12"
           style={{
             backgroundColor: "var(--regu-white)",
             borderColor: "var(--regu-gray-100)",
@@ -86,7 +86,7 @@ export default function ObjetivosYFunciones() {
             {functions.map((text, index) => (
               <motion.li key={`funcion-${index}`} variants={fadeIn} className="flex items-start gap-4 text-base md:text-lg leading-[1.75]" style={{ color: "var(--regu-gray-700)" }}>
                 <CheckCircle2 className="w-5 h-5 flex-shrink-0 mt-1.5 opacity-90" style={{ color: "var(--regu-blue)" }} />
-                <span>{text}</span>
+                <span className="max-sm:min-w-0 max-sm:break-words">{text}</span>
               </motion.li>
             ))}
           </motion.ul>
