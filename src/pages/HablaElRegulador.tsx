@@ -176,20 +176,22 @@ export default function HablaElRegulador() {
                 </button>
               </div>
 
-              <dl className="mt-9 grid max-w-xl grid-cols-3 gap-3 border-t border-white/12 pt-6">
-                <div>
+              {/* En móviles las cifras pasan a flex con salto de línea: si las etiquetas no caben en tres columnas iguales,
+                  la que no cabe baja de línea en vez de pisar a la de al lado o cortarse en el borde. */}
+              <dl className="mt-9 grid max-w-xl grid-cols-3 gap-3 border-t border-white/12 pt-6 max-sm:flex max-sm:flex-wrap">
+                <div className="max-sm:flex-1">
                   <dt className="text-[0.62rem] font-semibold uppercase tracking-[0.12em] text-white/45">
                     {t("pages.hablaRegulador.statsInterviews")}
                   </dt>
                   <dd className="mt-1 text-2xl font-bold text-white">{String(interviews.length).padStart(2, "0")}</dd>
                 </div>
-                <div>
+                <div className="max-sm:flex-1">
                   <dt className="text-[0.62rem] font-semibold uppercase tracking-[0.12em] text-white/45">
                     {t("pages.hablaRegulador.statsCountries")}
                   </dt>
                   <dd className="mt-1 text-2xl font-bold text-white">{String(countryCount).padStart(2, "0")}</dd>
                 </div>
-                <div>
+                <div className="max-sm:flex-1">
                   <dt className="text-[0.62rem] font-semibold uppercase tracking-[0.12em] text-white/45">
                     {t("pages.hablaRegulador.statsConversation")}
                   </dt>
@@ -217,8 +219,8 @@ export default function HablaElRegulador() {
                   </span>
                 </span>
               </span>
-              <span className="flex items-center justify-between gap-4 px-5 py-4 md:px-6 md:py-5">
-                <span>
+              <span className="flex items-center justify-between gap-4 px-5 py-4 max-md:flex-wrap md:px-6 md:py-5">
+                <span className="max-md:flex-1">
                   <span className="block text-base font-bold text-white md:text-lg">
                     {t("pages.hablaRegulador.teaserTitle")}
                   </span>
@@ -226,7 +228,7 @@ export default function HablaElRegulador() {
                     {t("pages.hablaRegulador.featuredDescription")}
                   </span>
                 </span>
-                <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-white/10 px-3 py-2 text-xs font-semibold text-white/70">
+                <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-white/10 px-3 py-2 text-xs font-semibold text-white/70 max-md:ml-auto">
                   <Clock3 className="h-3.5 w-3.5" aria-hidden />
                   {hablaElReguladorTeaser.duration}
                 </span>
@@ -274,9 +276,10 @@ export default function HablaElRegulador() {
             <p className="m-0 text-[0.68rem] font-bold uppercase tracking-[0.18em] text-[var(--regu-blue)]">
               {t("pages.hablaRegulador.collectionEyebrow")}
             </p>
+            {/* En móviles el título no pasa de 9vw: así «regolamentazione» (italiano) cabe con la letra grande. */}
             <h2
               id="interviews-title"
-              className="mt-3 text-3xl font-bold tracking-tight text-[var(--regu-navy)] md:text-4xl"
+              className="mt-3 text-3xl font-bold tracking-tight text-[var(--regu-navy)] max-sm:text-[length:min(1.875rem,9vw)] md:text-4xl"
               style={{ fontFamily: "var(--token-font-heading)" }}
             >
               {t("pages.hablaRegulador.collectionTitle")}
