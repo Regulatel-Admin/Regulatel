@@ -1,4 +1,5 @@
 import { SEMANA_RESOURCE_EVENTS } from "@/data/semanaRegulatelResources";
+import { PUBLIC_EVENT_ADDITIONS } from "@/data/publicEventAdditions";
 import {
   createContext,
   useCallback,
@@ -488,9 +489,10 @@ export function useEvents(): Event[] {
   if (ctx && !ctx.eventsLoaded) return [];
   const seedNormalized = EVENTS_SEED.map(normalizeEvent);
   const source = !ctx ? seedNormalized : (ctx.events ?? []).map(normalizeEvent);
-  // Fill events documented by AECID without replacing any CMS record.
+  // Complete source-published events without replacing any CMS record.
   const ids = new Set(source.map((event) => event.id));
-  return [...source, ...SEMANA_RESOURCE_EVENTS.filter((event) => !ids.has(event.id)).map(normalizeEvent)]
+  const supplements = [...SEMANA_RESOURCE_EVENTS, ...PUBLIC_EVENT_ADDITIONS];
+  return [...source, ...supplements.filter((event) => !ids.has(event.id)).map(normalizeEvent)]
     .filter((event) => event.published !== false);
 }
 
