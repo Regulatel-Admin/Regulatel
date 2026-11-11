@@ -21,6 +21,7 @@ import {
 import { useHablaElReguladorInterviews } from "@/contexts/SiteSettingsContext";
 import { useSiteEdit } from "@/contexts/SiteEditContext";
 import { EditableSpot } from "@/components/site-edit/EditableSpot";
+import { localizePublishedValue } from "@/lib/publishedContent";
 
 type PlayerSelection =
   | { kind: "interview"; interview: HablaElReguladorInterview }
@@ -47,9 +48,13 @@ function formatDate(date: string, language: string): string {
 export default function HablaElRegulador() {
   const { t, i18n } = useTranslation();
   const [player, setPlayer] = useState<PlayerSelection>(null);
-  const interviews = useHablaElReguladorInterviews();
+  const sourceInterviews = useHablaElReguladorInterviews();
   const { enabled: siteEditEnabled, open: openSiteEdit, preview: siteEditPreview, target: siteEditTarget } =
     useSiteEdit();
+  const interviews = useMemo(
+    () => siteEditEnabled ? sourceInterviews : localizePublishedValue(sourceInterviews, i18n.language),
+    [sourceInterviews, siteEditEnabled, i18n.language],
+  );
   const draftingNew = Boolean(
     siteEditEnabled &&
       ((siteEditTarget?.kind === "entrevista" && !siteEditTarget.slug) ||

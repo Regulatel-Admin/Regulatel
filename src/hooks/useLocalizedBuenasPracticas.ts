@@ -1,5 +1,6 @@
 import type { TFunction } from "i18next";
 import { localizeCountryName } from "@/hooks/useLocalizedMiembros";
+import { hasPublishedTextTranslation, localizePublishedText } from "@/lib/publishedContent";
 
 function languageBase(language: string): string {
   return language.split("-")[0] || language;
@@ -45,6 +46,7 @@ export function localizeBuenasPracticasCategory(
   language: string
 ): string {
   if (languageBase(language) === "es" || !name) return name;
+  if (hasPublishedTextTranslation(name, language)) return localizePublishedText(name, language);
   const key = resolveCategoryKey(name);
   if (!key) return name;
   return t(`buenasPracticasCategories.${key}`, { defaultValue: name });

@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { ChevronDown, ChevronRight, ExternalLink, FileText } from "lucide-react";
 import type { CategoryWithLinks } from "@/data/mejoresPracticas";
 import { localizeBuenasPracticasCategory } from "@/hooks/useLocalizedBuenasPracticas";
+import { localizePublishedText } from "@/lib/publishedContent";
 
 interface CategoryAccordionProps {
   category: CategoryWithLinks;
@@ -35,10 +36,10 @@ export default function CategoryAccordion({
   const language = i18n.resolvedLanguage ?? i18n.language;
   const [open, setOpen] = useState(defaultOpen);
   const filteredLinks = searchNorm
-    ? category.links.filter((l) => linkMatchesSearch(l.title, l.url, searchNorm))
+    ? category.links.filter((l) => linkMatchesSearch(l.title, l.url, searchNorm) || linkMatchesSearch(localizePublishedText(l.title, language), l.url, searchNorm))
     : category.links;
   const categoryMatchesSearch =
-    !searchNorm || normalizeForSearch(category.name).includes(searchNorm);
+    !searchNorm || normalizeForSearch(category.name).includes(searchNorm) || normalizeForSearch(localizePublishedText(category.name, language)).includes(searchNorm);
   const showCategory = categoryMatchesSearch || filteredLinks.length > 0;
   const displayLinks = categoryMatchesSearch ? category.links : filteredLinks;
   const categoryLabel = localizeBuenasPracticasCategory(category.name, t, language);
@@ -95,7 +96,7 @@ export default function CategoryAccordion({
                     style={{ color: "var(--regu-gray-800)" }}
                   >
                     <FileText className="mt-0.5 h-4 w-4 shrink-0" style={{ color: "var(--regu-blue)" }} />
-                    <span className="min-w-0 flex-1 break-words">{link.title}</span>
+                    <span className="min-w-0 flex-1 break-words">{localizePublishedText(link.title, language)}</span>
                     <ExternalLink className="h-3.5 w-3.5 shrink-0 mt-0.5 opacity-60" aria-hidden />
                   </a>
                 </li>

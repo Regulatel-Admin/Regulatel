@@ -11,7 +11,8 @@ import { formatEventDateRange } from "@/types/event";
 import type { Event } from "@/types/event";
 import { Calendar, MapPin, Building2, ArrowRight, ArrowLeft, ExternalLink } from "lucide-react";
 import { normalizeEvent } from "@/types/event";
-import { useLocalizedEvents, useLocalizedEvent } from "@/hooks/useLocalizedEvents";
+import { useLocalizedEvent } from "@/hooks/useLocalizedEvents";
+import { localizePublishedText } from "@/lib/publishedContent";
 import { api } from "@/lib/api";
 import RegistrationOpenHint from "@/components/events/RegistrationOpenHint";
 import {
@@ -48,8 +49,7 @@ export default function EventoDetalle() {
   const eventsRaw = useEvents();
   const { events: storedEvents, eventsLoaded, contentError } = useAdminData();
   const { enabled: editing } = useSiteEdit();
-  const events = useLocalizedEvents(eventsRaw);
-  const eventFromList = id ? (editing ? storedEvents.find(e => e.id === id) : undefined) ?? events.find((e) => e.id === id) : null;
+  const eventFromList = id ? (editing ? storedEvents.find(e => e.id === id) : undefined) ?? eventsRaw.find((e) => e.id === id) : null;
   const [fetchedEvent, setFetchedEvent] = useState<Event | null>(null);
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
@@ -88,7 +88,7 @@ export default function EventoDetalle() {
   if (!id) {
     return <Navigate to="/eventos" replace />;
   }
-  if (!eventsLoaded) return <div className="mx-auto max-w-3xl px-4 py-12" role="status">{contentError ? "No se pudo cargar el evento. Recarga la página para reintentar." : "Cargando evento…"}</div>;
+  if (!eventsLoaded) return <div className="mx-auto max-w-3xl px-4 py-12" role="status">{localizePublishedText(contentError ? "No se pudo cargar el evento. Recarga la página para reintentar." : "Cargando evento…", i18n.language)}</div>;
   if (notFound || (!event && !loading)) {
     return <Navigate to="/eventos" replace />;
   }
@@ -278,5 +278,5 @@ export default function EventoDetalle() {
     </div>
   );
   };
-  return <EventPageEditor key={event.id} event={editing ? eventRaw ?? event : event}>{(draft, editor) => renderEvent(draft, editor)}</EventPageEditor>;
+  return <EventPageEditor key={event.id} event={eventRaw ?? event}>{(draft, editor) => renderEvent(editing ? draft : event, editor)}</EventPageEditor>;
 }

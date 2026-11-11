@@ -3,6 +3,7 @@
  */
 import { useEffect, useMemo, useState, type CSSProperties, type ReactNode } from "react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { motion, useReducedMotion } from "framer-motion";
 import { ChevronDown, ChevronUp, Plus, X } from "lucide-react";
 import { SiteEditBadge } from "@/components/site-edit/EditableSpot";
@@ -41,6 +42,7 @@ import { flagSrcFromCountryName, logoSrcForAcronym } from "@/data/miembrosVisual
 import type { RevistaEdition } from "@/data/revistaDigital";
 import type { HomeNewsItemLike } from "@/contexts/AdminDataContext";
 import type { Event } from "@/types/event";
+import { localizePublishedText, localizePublishedValue, publishedLanguage } from "@/lib/publishedContent";
 
 const ANIM_EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -73,6 +75,7 @@ const CARD_STYLE: CSSProperties = {
 };
 
 type EpisodeAvisoMeta = {
+  number: number;
   label: string;
   role: string;
   organization: string;
@@ -97,6 +100,18 @@ type ResolvedAviso = {
 };
 
 function TypographicCover({ kicker, line, sub }: { kicker: string; line: string; sub: string }) {
+  const { t, i18n } = useTranslation();
+  const { enabled: siteEditEnabled } = useSiteEdit();
+  const language = siteEditEnabled ? "es" : i18n.language;
+  const publicLocale = publishedLanguage(language) !== "es";
+  const episode = /^Episodio (\d+)$/.exec(line);
+  const displayKicker = publicLocale && kicker === "Nota" ? t("homeSections.newsTitle")
+    : publicLocale && kicker === "Revista" ? t("homeSections.revistaCoverLabel")
+      : localizePublishedText(kicker, language);
+  const displayLine = publicLocale && episode ? t("pages.hablaRegulador.episodeLabel", { number: episode[1] })
+    : publicLocale && line === "Tráiler" ? t("pages.hablaRegulador.teaserLabel")
+      : publicLocale && line === "NEWS" ? t("homeSections.newsTitle").toLocaleUpperCase(language)
+        : localizePublishedText(line, language);
   return (
     <div
       className="relative shrink-0 overflow-hidden rounded-[2px] select-none"
@@ -114,10 +129,10 @@ function TypographicCover({ kicker, line, sub }: { kicker: string; line: string;
         style={{ background: "linear-gradient(180deg, rgba(196,214,140,0.95) 0%, rgba(196,214,140,0.45) 100%)" }}
       />
       <div className="relative flex h-full flex-col justify-between p-[0.4rem] pl-[0.45rem]">
-        <p className="text-[5px] font-bold uppercase leading-tight tracking-[0.18em] text-white/85">{kicker}</p>
+        <p className="text-[5px] font-bold uppercase leading-tight tracking-[0.18em] text-white/85">{displayKicker}</p>
         <div>
-          <p className="text-[0.72rem] font-semibold leading-none tracking-tight text-white">{line}</p>
-          <p className="mt-[0.15rem] text-[6px] font-medium uppercase tracking-[0.12em] text-white/45">{sub}</p>
+          <p className="text-[0.72rem] font-semibold leading-none tracking-tight text-white">{displayLine}</p>
+          <p className="mt-[0.15rem] text-[6px] font-medium uppercase tracking-[0.12em] text-white/45">{localizePublishedText(sub, language)}</p>
         </div>
       </div>
     </div>
@@ -194,6 +209,7 @@ function resolveAviso(
   revistas: RevistaEdition[],
   boletines: BoletinGtaiSerialized[],
   allowDrafts = false,
+  language = "es",
 ): ResolvedAviso | null {
   if (slot.kind === "noticia") {
     const item = news.find((n) => n.slug.toLowerCase() === slot.refId.toLowerCase());
@@ -226,6 +242,7 @@ function resolveAviso(
       moreHref: "/habla-el-regulador",
       meta: epLabel,
       episode: {
+        number: item.episode,
         label: epLabel,
         role: item.role,
         organization: item.organization,
@@ -285,7 +302,7 @@ function resolveAviso(
   return {
     kind: "evento",
     title: item.title,
-    description: [item.location, item.startDate].filter(Boolean).join(" · "),
+    description: [localizePublishedText(item.location, language), item.startDate].filter(Boolean).join(" · "),
     href: `/eventos/${item.id}`,
     moreHref: "/eventos",
     meta: item.startDate,
@@ -337,13 +354,16 @@ function GlassCard({ children }: { children: ReactNode }) {
 }
 
 function HomeAvisoCard({ slot }: { slot: HomeAvisoSlot }) {
+  const { t, i18n } = useTranslation();
   const { enabled: siteEditEnabled } = useSiteEdit();
+  const language = siteEditEnabled ? "es" : i18n.language;
+  const publicLocale = publishedLanguage(language) !== "es";
   const news = useMergedNews();
   const events = useEvents();
   const interviews = useHablaElReguladorInterviews();
   const revistas = useRevistaDigitalEditions();
   const { entries: boletines } = useBoletinesGtai();
-  const resolved = resolveAviso(
+  const rawResolved = resolveAviso(
     slot,
     news,
     events,
@@ -351,7 +371,20 @@ function HomeAvisoCard({ slot }: { slot: HomeAvisoSlot }) {
     revistas,
     boletines,
     siteEditEnabled,
+    language,
   );
+  const resolved = rawResolved && publicLocale ? {
+    ...rawResolved,
+    title: localizePublishedText(rawResolved.title, language),
+    description: localizePublishedText(rawResolved.description, language),
+    episode: rawResolved.episode ? {
+      ...localizePublishedValue(rawResolved.episode, language),
+      organization: localizePublishedText(rawResolved.episode.organization, language),
+      label: rawResolved.episode.number <= 0
+        ? t("pages.hablaRegulador.teaserLabel")
+        : t("pages.hablaRegulador.episodeLabel", { number: rawResolved.episode.number }),
+    } : undefined,
+  } : rawResolved;
   const [visible, setVisible] = useState(true);
 
   useEffect(() => {
@@ -367,7 +400,20 @@ function HomeAvisoCard({ slot }: { slot: HomeAvisoSlot }) {
   }, [slot.id, siteEditEnabled]);
 
   if (!resolved || !visible) return null;
-  const meta = HOME_AVISO_KIND_META[resolved.kind];
+  const rawMeta = HOME_AVISO_KIND_META[resolved.kind];
+  const copyKeys = {
+    noticia: ["homeSections.newsTitle", "pages.shared.readArticle", "homeSections.viewAllNews"],
+    episodio: ["pages.hablaRegulador.title", "pages.hablaRegulador.watchInterview", "pages.hablaRegulador.viewAll"],
+    evento: ["pages.eventos.title", "common.readMore", "homeSections.viewAllEvents"],
+    revista: ["nav.links.digitalMagazine", "homeSections.revistaReadEdition", "homeSections.revistaAllEditions"],
+    boletin: ["homeSections.bulletinLabel", "pages.boletinesGtai.viewBulletin", "homeSections.allGtaiBulletins"],
+  }[resolved.kind];
+  const meta = publicLocale ? {
+    ...rawMeta,
+    badge: t(copyKeys[0]) + (resolved.kind === "boletin" ? " GTAI" : ""),
+    cta: t(copyKeys[1]),
+    more: t(copyKeys[2]),
+  } : rawMeta;
 
   return (
     <GlassCard>
@@ -387,7 +433,7 @@ function HomeAvisoCard({ slot }: { slot: HomeAvisoSlot }) {
           if (!siteEditEnabled) setVisible(false);
         }}
         className="group absolute right-[7px] top-[7px] z-10 flex h-[18px] w-[18px] items-center justify-center rounded-full text-[rgba(58,54,50,0.32)] hover:bg-[rgba(90,82,74,0.08)]"
-        aria-label="Cerrar aviso"
+        aria-label={publicLocale ? t("common.close") : "Cerrar aviso"}
       >
         <X className="h-2.5 w-2.5" strokeWidth={1} aria-hidden />
       </button>
@@ -418,7 +464,7 @@ function HomeAvisoCard({ slot }: { slot: HomeAvisoSlot }) {
                     className="rounded-[3px] px-[5px] py-[2px] text-[6.5px] font-bold uppercase leading-none tracking-[0.16em] text-white"
                     style={{ backgroundColor: "var(--regu-navy)", fontFamily: "var(--token-font-body)" }}
                   >
-                    Último
+                    {publicLocale ? t("pages.boletinesGtai.latestPublication") : "Último"}
                   </span>
                 ) : null}
               </div>

@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo, useRef } from "react";
 import { useSearchParams, Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { localizePublishedValue } from "@/lib/publishedContent";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   FileText,
@@ -28,7 +29,6 @@ import {
   sortGestionDocuments,
   GESTION_TIPO_VALUES,
   GESTION_TAB_LABELS,
-  getCategoryDisplayLabel,
   type GestionTipo,
   type GestionDocument,
   type GestionSortOrder,
@@ -92,10 +92,10 @@ const CATEGORY_BADGE: Record<string, { bg: string; color: string }> = {
 };
 
 export default function Gestion() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const rawDocuments = useMergedGestionDocuments();
   const { enabled: siteEditEnabled, open: openSiteEdit, preview: siteEditPreview } = useSiteEdit();
-  const allDocuments = Array.isArray(rawDocuments) ? rawDocuments : [];
+  const allDocuments = Array.isArray(rawDocuments) ? siteEditEnabled ? rawDocuments : localizePublishedValue(rawDocuments, i18n.language) : [];
   const [searchParams, setSearchParams] = useSearchParams();
   const tipo = (searchParams.get("tipo") ?? "todo") as GestionTipo;
   const docId = searchParams.get("id") ?? null;
@@ -444,7 +444,7 @@ export default function Gestion() {
                       {blockTitle}
                     </Link>
                     <p className="mt-0.5 text-sm" style={{ color: "var(--regu-gray-500)" }}>
-                      {t("pages.gestion.documentCount", { count: displayList.length })}
+                      {t(displayList.length === 1 ? "pages.gestion.documentCount" : "pages.gestion.documentCount_plural", { count: displayList.length })}
                     </p>
                   </div>
                 </div>
@@ -511,6 +511,7 @@ function DocCard({
   onPreview: () => void;
 }) {
   const { t } = useTranslation();
+  const categoryLabelKey = GESTION_TIPO_VALUES.includes(doc.category as GestionTipo) ? doc.category : "otros";
   const isRestrictedDoc = getRestrictedDocument(doc.id) !== null;
   const isUnlocked = isRestrictedDoc && isRestrictedUnlocked(doc.id);
   const isRestricted = isRestrictedDoc && !isUnlocked;
@@ -709,7 +710,7 @@ function DocCard({
 
         {/* Categoría */}
         <p className="mt-1 text-xs font-medium uppercase tracking-[0.08em]" style={{ color: "var(--regu-gray-500)" }}>
-          {getCategoryDisplayLabel(doc.category)}
+          {t(`pages.gestion.tabs.${categoryLabelKey}`)}
         </p>
 
         {/* Acceso restringido aviso */}

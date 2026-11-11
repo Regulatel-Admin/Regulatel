@@ -9,6 +9,8 @@ import {
   type DocumentPreviewTarget,
 } from "@/lib/documentPreview";
 import type { EventAttachment } from "@/types/event";
+import { useEventInlineEditor } from "@/contexts/EventInlineEditContext";
+import { localizePublishedText, localizePublishedValue } from "@/lib/publishedContent";
 
 export default function EventDocumentsSection({
   documents,
@@ -17,9 +19,13 @@ export default function EventDocumentsSection({
   documents: EventAttachment[];
   hint?: string;
 }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const inline = useEventInlineEditor();
+  const language = i18n.resolvedLanguage ?? i18n.language;
   const [preview, setPreview] = useState<DocumentPreviewTarget | null>(null);
-  const usable = documents.filter((doc) => doc.url?.trim());
+  const displayDocuments = inline ? documents : localizePublishedValue(documents, language);
+  const usable = displayDocuments.filter((doc) => doc.url?.trim());
+  const displayPreview = preview ? { ...preview, title: usable.find(doc => doc.url === preview.url)?.title ?? localizePublishedText(preview.title, language) } : null;
   if (usable.length === 0) return null;
 
   return (
@@ -32,7 +38,7 @@ export default function EventDocumentsSection({
           {t("pages.eventos.documentsLabel")}
         </h2>
         <p className="mb-5 text-sm" style={{ color: "var(--regu-gray-600)" }}>
-          {hint ?? t("pages.eventos.documentsHint")}
+          {hint ? inline ? hint : localizePublishedText(hint, language) : t("pages.eventos.documentsHint")}
         </p>
         <div className="space-y-6">
           {usable.map((doc) => {
@@ -109,7 +115,7 @@ export default function EventDocumentsSection({
           })}
         </div>
       </div>
-      <DocumentPreviewModal doc={preview} onClose={() => setPreview(null)} />
+      <DocumentPreviewModal doc={displayPreview} onClose={() => setPreview(null)} />
     </>
   );
 }

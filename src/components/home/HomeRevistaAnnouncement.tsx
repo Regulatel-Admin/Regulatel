@@ -8,11 +8,12 @@ import { useTranslation } from "react-i18next";
 import { motion, useReducedMotion } from "framer-motion";
 import { X } from "lucide-react";
 import { GESTION_REVISTA_ARCHIVE_PATH } from "@/data/gestion";
-import { getFeaturedRevistaEdition } from "@/data/revistaDigital";
+import { defaultRevistaEditions, getFeaturedRevistaEdition } from "@/data/revistaDigital";
 import { useRevistaDigitalEditions } from "@/contexts/SiteSettingsContext";
 import { useSiteEdit } from "@/contexts/SiteEditContext";
 import { SiteEditBadge } from "@/components/site-edit/EditableSpot";
 import CoverPreviewTrigger from "@/components/home/CoverPreviewTrigger";
+import { hasPublishedTextTranslation, localizePublishedText, publishedLanguage } from "@/lib/publishedContent";
 
 /** Nueva clave al cambiar la edición destacada (vuelve a mostrarse el aviso a quien la cerró). */
 const SHOW_AGAIN_AFTER_DAYS = 14;
@@ -139,7 +140,7 @@ export interface HomeRevistaAnnouncementProps {
 }
 
 export default function HomeRevistaAnnouncement({ variant = "floating" }: HomeRevistaAnnouncementProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const reduceMotion = useReducedMotion();
   const { enabled: siteEditEnabled } = useSiteEdit();
   const [visible, setVisible] = useState(false);
@@ -166,17 +167,24 @@ export default function HomeRevistaAnnouncement({ variant = "floating" }: HomeRe
     const description =
       featured?.description ?? featured?.title ?? "Ya está disponible una nueva edición de la Revista REGULATEL.";
     const coverEdition = featured?.coverEdition ?? featured?.year ?? "";
-    if (siteEditEnabled) {
+    if (siteEditEnabled || publishedLanguage(i18n.language) === "es") {
       return { title, description, coverEdition };
     }
+    const defaults = defaultRevistaEditions.find((edition) => edition.id === editionId);
+    const text = (source: string, defaultSource: string | undefined, key: string) => {
+      if (hasPublishedTextTranslation(source, i18n.language)) return localizePublishedText(source, i18n.language);
+      return source === defaultSource ? t(`${editionPrefix}.${key}`, { defaultValue: source }) : source;
+    };
     return {
-      title: t(`${editionPrefix}.title`, { defaultValue: title }),
-      description: t(`${editionPrefix}.description`, { defaultValue: description }),
-      coverEdition: t(`${editionPrefix}.coverEdition`, { defaultValue: coverEdition }),
+      title: text(title, defaults?.title, "title"),
+      description: text(description, defaults?.description, "description"),
+      coverEdition: text(coverEdition, defaults?.coverEdition, "coverEdition"),
     };
   }, [
     siteEditEnabled,
     t,
+    i18n.language,
+    editionId,
     editionPrefix,
     featured?.title,
     featured?.description,

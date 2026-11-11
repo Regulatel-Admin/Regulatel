@@ -198,6 +198,7 @@ const LOCALE_MAP: Record<string, string> = {
   es: "es-ES",
   en: "en-GB",
   pt: "pt-PT",
+  it: "it-IT",
 };
 
 function monthLabel(date: Date, language: string): string {

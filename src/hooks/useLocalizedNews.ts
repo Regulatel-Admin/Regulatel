@@ -1,13 +1,16 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import type { TFunction } from "i18next";
-import type { NoticiaData } from "@/pages/noticiasData";
+import { noticiasData, type NoticiaData } from "@/pages/noticiasData";
+import { formatPublishedDate, hasPublishedTextTranslation, localizePublishedText, localizePublishedValue, publishedLanguage } from "@/lib/publishedContent";
 
 export interface LocalizableNewsFields {
   slug: string;
   title: string;
   excerpt?: string;
   category?: string;
+  date?: string;
+  dateFormatted?: string;
 }
 
 function newsPrefix(slug: string): string {
@@ -15,13 +18,15 @@ function newsPrefix(slug: string): string {
 }
 
 export function hasNewsTranslation(slug: string, t: TFunction, language: string): boolean {
-  if (language === "es") return true;
-  return Boolean(t(`${newsPrefix(slug)}.title`, { defaultValue: "" }));
+  if (publishedLanguage(language) === "es") return true;
+  const original = noticiasData.find(item => item.slug === slug);
+  return Boolean(t(`${newsPrefix(slug)}.title`, { defaultValue: "" })) || Boolean(original && hasPublishedTextTranslation(original.title, language));
 }
 
 export function localizeNewsCategory(category: string, t: TFunction, language: string): string {
-  if (language === "es") return category;
-  return t(`newsCategories.${category}`, { defaultValue: category });
+  if (publishedLanguage(language) === "es") return category;
+  return hasPublishedTextTranslation(category, language) ? localizePublishedText(category, language)
+    : t(`newsCategories.${category}`, { defaultValue: category });
 }
 
 export function localizeNewsFields<T extends LocalizableNewsFields>(
@@ -29,15 +34,19 @@ export function localizeNewsFields<T extends LocalizableNewsFields>(
   t: TFunction,
   language: string
 ): T {
-  if (language === "es") return item;
+  if (publishedLanguage(language) === "es") return item;
   const prefix = newsPrefix(item.slug);
-  const title = t(`${prefix}.title`, { defaultValue: "" });
-  if (!title) return item;
+  const localized = localizePublishedValue(item, language);
+  const original = noticiasData.find(article => article.slug === item.slug);
+  const title = hasPublishedTextTranslation(item.title, language) ? localized.title
+    : original?.title === item.title ? t(`${prefix}.title`, { defaultValue: item.title }) : item.title;
   return {
-    ...item,
+    ...localized,
     title,
-    excerpt: item.excerpt ? t(`${prefix}.excerpt`, { defaultValue: item.excerpt }) : item.excerpt,
+    excerpt: item.excerpt ? hasPublishedTextTranslation(item.excerpt, language) ? localized.excerpt
+      : original?.excerpt === item.excerpt ? t(`${prefix}.excerpt`, { defaultValue: localized.excerpt }) : item.excerpt : item.excerpt,
     category: item.category ? localizeNewsCategory(item.category, t, language) : item.category,
+    ...(item.dateFormatted !== undefined ? { dateFormatted: formatPublishedDate(item.date, language, item.dateFormatted) } : {}),
   };
 }
 
@@ -46,10 +55,9 @@ export function localizeNoticiaData(
   t: TFunction,
   language: string
 ): NoticiaData {
-  if (language === "es") return noticia;
+  if (publishedLanguage(language) === "es") return noticia;
   const prefix = newsPrefix(noticia.slug);
-  const title = t(`${prefix}.title`, { defaultValue: "" });
-  if (!title) return noticia;
+  const localized = localizeNewsFields(noticia, t, language);
 
   const contentRaw = t(`${prefix}.content`, { returnObjects: true, defaultValue: noticia.content });
   const quotesRaw = t(`${prefix}.quotes`, { returnObjects: true, defaultValue: noticia.quotes ?? [] });
@@ -59,15 +67,15 @@ export function localizeNoticiaData(
   });
 
   return {
-    ...noticia,
-    title,
-    excerpt: t(`${prefix}.excerpt`, { defaultValue: noticia.excerpt }),
-    category: localizeNewsCategory(noticia.category, t, language),
-    content: Array.isArray(contentRaw) ? (contentRaw as string[]) : noticia.content,
-    quotes: Array.isArray(quotesRaw) ? (quotesRaw as NoticiaData["quotes"]) : noticia.quotes,
-    highlights: Array.isArray(highlightsRaw)
+    ...localized,
+    content: noticia.content.every(text => hasPublishedTextTranslation(text, language))
+      ? localized.content : Array.isArray(contentRaw) ? (contentRaw as string[]) : localized.content,
+    quotes: noticia.quotes?.some(quote => hasPublishedTextTranslation(quote.text, language)) ? localized.quotes
+      : Array.isArray(quotesRaw) ? (quotesRaw as NoticiaData["quotes"]) : localized.quotes,
+    highlights: noticia.highlights?.some(highlight => hasPublishedTextTranslation(highlight.text, language)) ? localized.highlights
+      : Array.isArray(highlightsRaw)
       ? (highlightsRaw as NoticiaData["highlights"])
-      : noticia.highlights,
+      : localized.highlights,
   };
 }
 
