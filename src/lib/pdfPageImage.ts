@@ -1,3 +1,4 @@
+import { resolveBlobDocument } from "@/lib/blobImageFallback";
 import type { PDFDocumentProxy } from "pdfjs-dist";
 
 let workerReady = false;
@@ -38,7 +39,7 @@ export async function openPdfDocument(url: string): Promise<PDFDocumentProxy> {
   await configurePdfWorker();
   const { getDocument } = await import("pdfjs-dist/build/pdf.mjs");
   const task = getDocument({
-    url: toAbsolutePdfUrl(url),
+    url: toAbsolutePdfUrl(resolveBlobDocument(url)),
     withCredentials: false,
   });
   return task.promise;
