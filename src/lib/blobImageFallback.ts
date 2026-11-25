@@ -31,6 +31,10 @@ const DOCUMENTS: ReadonlyArray<readonly [fragment: string, src: string]> = [
   ["1793278114474-", `${SEMANA_DOCS}/boletin-informativo-semana-regulatel-uruguay.pdf`],
   ["1793278136034-", `${SEMANA_DOCS}/regulatel-reunira-en-montevideo-a-reguladores.docx`],
   ["1792764045755-", "/documents/respaldo/agenda-regulatel-gt-ce-2026.pdf"],
+  ["1793281329518-", "/documents/respaldo/informe-sistematizacion-xviii-cumbre-2026.pdf"],
+  ["1793215958094-", "/documents/respaldo/conclusiones-cumbre-regulatel-berec-2026.pdf"],
+  ["1793117055446-", "/documents/respaldo/personeria-juridica-regulatel-2026.pdf"],
+  ["1793116670500-", "/documents/respaldo/regulatel-sg12sat.pdf"],
   ["1791996227058-", "/documents/respaldo/programa-xviii-cumbre-regulatel-asiet-comtelca-2026.docx"],
 ];
 
