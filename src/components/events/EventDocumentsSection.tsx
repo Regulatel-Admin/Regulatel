@@ -1,3 +1,4 @@
+import { resolveBlobDocument } from "@/lib/blobImageFallback";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Download, FileText, Maximize2 } from "lucide-react";
@@ -104,7 +105,7 @@ export default function EventDocumentsSection({
                     </div>
                   ) : (
                     <iframe
-                      src={`${doc.url}#toolbar=1&navpanes=0&scrollbar=1`}
+                      src={`${resolveBlobDocument(doc.url)}#toolbar=1&navpanes=0&scrollbar=1`}
                       title={doc.title}
                       className="h-[70vh] w-full border-0"
                     />
