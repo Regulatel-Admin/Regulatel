@@ -1,3 +1,4 @@
+import { resolveBlobDocument } from "@/lib/blobImageFallback";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FileText } from "lucide-react";
@@ -20,7 +21,7 @@ export default function DocxPreview({ url }: { url: string }) {
     (async () => {
       try {
         const [response, { renderAsync }] = await Promise.all([
-          fetch(url),
+          fetch(resolveBlobDocument(url)),
           import("docx-preview"),
         ]);
         if (!response.ok) throw new Error(`HTTP ${response.status}`);

@@ -1,3 +1,4 @@
+import { resolveBlobDocument } from "@/lib/blobImageFallback";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { motion, AnimatePresence } from "framer-motion";
@@ -102,7 +103,7 @@ export default function DocumentPreviewModal({
                 <DocxPreview url={doc.url} />
               ) : (
                 <iframe
-                  src={`${doc.url}#toolbar=1&navpanes=1&scrollbar=1`}
+                  src={`${resolveBlobDocument(doc.url)}#toolbar=1&navpanes=1&scrollbar=1`}
                   className="h-full w-full border-0"
                   title={doc.title}
                   style={{ minHeight: "400px" }}
@@ -120,7 +121,7 @@ export default function DocumentPreviewModal({
               {isPdf && (
                 <button
                   type="button"
-                  onClick={() => window.open(doc.url, "_blank")}
+                  onClick={() => window.open(resolveBlobDocument(doc.url), "_blank")}
                   className="inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-semibold transition hover:bg-white"
                   style={{ color: "var(--regu-blue)" }}
                 >
