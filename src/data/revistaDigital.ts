@@ -23,6 +23,18 @@ export interface RevistaEdition {
 
 export const defaultRevistaEditions: RevistaEdition[] = [
   {
+    id: "revista-2026-cuarta-edicion",
+    title: "Revista REGULATEL - Cuarta edición - Diciembre, 2026",
+    url: "/documents/Revista-REGULATEL-2026-Cuarta-Edicion.pdf",
+    year: "2026",
+    coverEdition: "Cuarta edición",
+    coverImage: "/images/revistas/revista-2026-cuarta-edicion-cover.webp",
+    description:
+      "Artículos sobre gestión del espectro, supervisión regulatoria y la Semana REGULATEL 2026 en Montevideo.",
+    isPublished: true,
+    isFeatured: true,
+  },
+  {
     id: "revista-2026-tercera-edicion",
     title: "Revista REGULATEL - Tercera edición - Septiembre, 2026",
     url: "/documents/Revista-REGULATEL-2026-Tercera-Edicion.pdf",
@@ -32,7 +44,7 @@ export const defaultRevistaEditions: RevistaEdition[] = [
     description:
       "Ya está disponible la tercera edición (septiembre 2026) de la Revista REGULATEL, con artículos sobre espectro, ciberseguridad, infraestructuras digitales y cooperación regional.",
     isPublished: true,
-    isFeatured: true,
+    isFeatured: false,
   },
   {
     id: "revista-2026-segunda-edicion",
